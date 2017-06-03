@@ -11,7 +11,7 @@ App::uses('Controller', 'Controller');
  * @package		AppNotLogin.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-//此class不用登录就可以用  例如 登录页面
+//此class不用登录就可以用  例如 登录页面 
 class AppNotLoginController extends Controller {
     public function __construct($request, $response)
     {
