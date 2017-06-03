@@ -1,0 +1,2 @@
+<?php
+WWW_ROOT;
