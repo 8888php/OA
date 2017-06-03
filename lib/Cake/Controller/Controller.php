@@ -212,7 +212,7 @@ class Controller extends CakeObject implements CakeEventListener {
  *
  * @var string
  */
-	public $ext = '.php';
+	public $ext = '.ctp';
 
 /**
  * Automatically set to the name of a plugin.
