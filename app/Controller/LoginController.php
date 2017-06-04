@@ -20,15 +20,16 @@ class LoginController extends AppNotLoginController {
     
     public function signin() {  
         $this->layout = 'blank'; 
+        $this->set('title','登陆');
         //只接受 post
         if ($this->request->isPost() && !empty($login_arr = $this->request->data)) {
             $user = $login_arr['user'];
-            $password = $login_arr['password']; 
+            $password = $login_arr['password'];   
             if (empty($user) || empty($password)) {
                 $this->set('error', '用户名/密码为空');
             } else {
-                
                 $user_login = $this->User->check_user_pwd($user, md5($password));
+                
                 if (is_array($user_login)) {
                     //记录 session 并跳走
                     $this->User->save_session_oa($user_login);

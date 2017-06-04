@@ -32,8 +32,10 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     public $uses = array('User');
+    public $userInfo = array();
     public function beforeFilter() {
         parent::beforeFilter();
+        
         if (!$this->User->get_session_oa()) {
             //ajax
             if ($this->request->is('ajax')) {
@@ -47,6 +49,9 @@ class AppController extends Controller {
             //普通请求
             $this->redirect(array('controller'=>'login', 'action'=>'signin'));
         }
+        
+        $this->userInfo = json_decode(base64_decode($this->User->get_session_oa()));
+       
     }
      /**
      * 退出登录

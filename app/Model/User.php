@@ -45,13 +45,13 @@ class User extends Model {
      * @return number or array()
      */
     public function check_user_pwd($user, $pwd) {
-       
+
         if (empty($user) || empty($pwd)) {
             //帐号密码为空
             return -1;
         }
-        $user_arr = $this->find('first', array('user' => $user));
-       
+        $user_arr = $this->findByUser($user);
+        
         if (empty($user_arr)) {
             //用户不存在
             return -2;
