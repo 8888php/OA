@@ -35,6 +35,16 @@ class AppController extends Controller {
     public function beforeFilter() {
         parent::beforeFilter();
         if (!$this->User->get_session_oa()) {
+            //ajax
+            if ($this->request->is('ajax')) {
+                echo json_encode(array(
+                        'code' => -1,
+                        'msg' => 'Please login in'
+                    ));
+                exit;
+               
+            }
+            //普通请求
             $this->redirect(array('controller'=>'login', 'action'=>'signin'));
         }
     }

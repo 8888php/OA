@@ -111,7 +111,7 @@
                                             <span class="bigger-110">  </span>
                                         </div>
 
-                                        <div class="social-login center">
+                                        <div class="social-login center text-danger">
                                             <span><?php echo @$error; ?></span>
                                             <!--a class="btn btn-primary">
                                                 <i class="icon-facebook"></i>
@@ -271,7 +271,7 @@
 
     <!--[if !IE]> -->
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
 
     <!-- <![endif]-->
 

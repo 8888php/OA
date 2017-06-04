@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Static content controller.
  *
@@ -17,7 +18,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('AppController', 'Controller');
 
 /**
@@ -28,53 +28,76 @@ App::uses('AppController', 'Controller');
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
-class PagesController extends AppController {
+class UserController extends AppController {
 
-/**
- * This controller does not use a model
- *
- * @var array
- */
-	public $uses = array();
+    /**
+     * This controller does not use a model
+     *
+     * @var array
+     */
+    public $uses = array('User');
+    public $layout = 'blank';
 
-/**
- * Displays a view
- *
- * @return CakeResponse|null
- * @throws ForbiddenException When a directory traversal attempt.
- * @throws NotFoundException When the view file could not be found
- *   or MissingViewException in debug mode.
- */
-	public function display() {
-		$path = func_get_args();
+    /**
+     * 列表页
+     */
+    public function index() {
+        $this->render();
+    }
 
-		$count = count($path);
-		if (!$count) {
-			return $this->redirect('/');
-		}
-		if (in_array('..', $path, true) || in_array('.', $path, true)) {
-			throw new ForbiddenException();
-		}
-		$page = $subpage = $title_for_layout = null;
+    /**
+     * 添加/修改页面
+     */
+    public function edit() {
+        $this->render();
+    }
 
-		if (!empty($path[0])) {
-			$page = $path[0];
-		}
-		if (!empty($path[1])) {
-			$subpage = $path[1];
-		}
-		if (!empty($path[$count - 1])) {
-			$title_for_layout = Inflector::humanize($path[$count - 1]);
-		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
+    /**
+     * ajax 保存添加/修改
+     */
+    public function ajax_edit() {
+        $ret_arr = array();
+        if ($this->request->is('ajax')) {
+            $id = $this->request->data('id');
+            if ($id < 1 || !is_numeric($id)) {
+                //add
+            } else {
+                //edit
+            }
+        } else {
+            $ret_arr = array(
+                'code' => 1,
+                'msg' => '参数有误'
+            );
+        }
+        echo json_encode($ret_arr);
+        exit;
+    }
 
-		try {
-			$this->render(implode('/', $path));
-		} catch (MissingViewException $e) {
-			if (Configure::read('debug')) {
-				throw $e;
-			}
-			throw new NotFoundException();
-		}
-	}
+    /**
+     * ajax 启用/停用
+     */
+    public function ajax_del() {
+        $ret_arr = array();
+        if ($this->request->is('ajax')) {
+            $id = $this->request->data('id');
+            if ($id < 1 || !is_numeric($id)) {
+                //参数有误
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '参数有误'
+                );
+            } else {
+                //edit
+            }
+        } else {
+            $ret_arr = array(
+                'code' => 1,
+                'msg' => '参数有误'
+            );
+        }
+        echo json_encode($ret_arr);
+        exit;
+    }
+
 }
