@@ -11,7 +11,7 @@
             <a href="#" class="navbar-brand">
                 <small>
                     <i class="icon-leaf"></i>
-                    ACE后台管理系统
+                    OA办公管理系统
                 </small>
             </a><!-- /.brand -->
         </div><!-- /.navbar-header -->
@@ -231,8 +231,8 @@
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo" src="/assets/avatars/user.jpg" alt="Jason's Photo" />
                         <span class="user-info">
-                            <small>欢迎光临,</small>
-                            Jason
+                            <small>欢迎您,</small>
+                            <?php echo 'admin'; ?>
                         </span>
 
                         <i class="icon-caret-down"></i>

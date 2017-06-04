@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 控制台 - 管理系统   登录</title>
+        <title> <?php echo empty($title) ? '控制台 - 管理系统' : $title ;  ?> </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
