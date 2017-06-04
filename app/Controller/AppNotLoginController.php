@@ -16,7 +16,7 @@ class AppNotLoginController extends Controller {
     public $uses = array('User');
     public function beforeFilter() {
         parent::beforeFilter();
-        if (!$this->User->get_session_oa()) {
+        if ($this->User->get_session_oa()) {
             $this->redirect(array('controller'=>'homes', 'action'=>'index'));
         }
     }

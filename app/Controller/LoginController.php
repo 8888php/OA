@@ -14,7 +14,7 @@ App::uses('AppNotLoginController', 'Controller');
 //此class不用登录就可以用  例如 登录页面
 class LoginController extends AppNotLoginController {
     public $name = 'Login';
-    public $layout = 'default';
+    public $layout = 'empty';
     public $uses = array('User');
     //所传参数数组
     public $login_data = array('user', 'password');
@@ -42,12 +42,5 @@ class LoginController extends AppNotLoginController {
             }
         }
         $this->render();
-    }
-    /**
-     * 退出登录
-     */
-    public function logout() {
-        $this->User->del_session_oa();
-        $this->redirect(array('controller'=>'login', 'action'=>'signin'));
     }
 }
