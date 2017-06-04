@@ -51,14 +51,14 @@
 
             <ul class="nav nav-list">
                 <li class="active">
-                    <a href="/home/index">
+                    <a href="/homes/index">
                         <i class="icon-dashboard"></i>
                         <span class="menu-text"> 控制台 </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/home/typography">
+                    <a href="/homes/typography">
                         <i class="icon-text-width"></i>
                         <span class="menu-text"> 文字排版 </span>
                     </a>
@@ -74,35 +74,35 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/home/elements">
+                            <a href="/homes/elements">
                                 <i class="icon-double-angle-right"></i>
                                 组件
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/buttons">
+                            <a href="/homes/buttons">
                                 <i class="icon-double-angle-right"></i>
                                 按钮 &amp; 图表
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/treeview">
+                            <a href="/homes/treeview">
                                 <i class="icon-double-angle-right"></i>
                                 树菜单
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/jquery-ui">
+                            <a href="/homes/jquery-ui">
                                 <i class="icon-double-angle-right"></i>
                                 jQuery UI
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/nestable-list">
+                            <a href="/homes/nestable-list">
                                 <i class="icon-double-angle-right"></i>
                                 可拖拽列表
                             </a>
@@ -163,14 +163,14 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/home/tables">
+                            <a href="/homes/tables">
                                 <i class="icon-double-angle-right"></i>
                                 简单 &amp; 动态
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/jqgrid">
+                            <a href="/homes/jqgrid">
                                 <i class="icon-double-angle-right"></i>
                                 jqGrid plugin
                             </a>
@@ -188,28 +188,28 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/home/form-elements">
+                            <a href="/homes/form-elements">
                                 <i class="icon-double-angle-right"></i>
                                 表单组件
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/form-wizard">
+                            <a href="/homes/form-wizard">
                                 <i class="icon-double-angle-right"></i>
                                 向导提示 &amp; 验证
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/wysiwyg">
+                            <a href="/homes/wysiwyg">
                                 <i class="icon-double-angle-right"></i>
                                 编辑器
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/dropzone">
+                            <a href="/homes/dropzone">
                                 <i class="icon-double-angle-right"></i>
                                 文件上传
                             </a>
@@ -218,14 +218,14 @@
                 </li>
 
                 <li>
-                    <a href="/home/widgets">
+                    <a href="/homes/widgets">
                         <i class="icon-list-alt"></i>
                         <span class="menu-text"> 插件 </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/home/calendar">
+                    <a href="/homes/calendar">
                         <i class="icon-calendar"></i>
 
                         <span class="menu-text">
@@ -238,7 +238,7 @@
                 </li>
 
                 <li>
-                    <a href="/home/gallery">
+                    <a href="/homes/gallery">
                         <i class="icon-picture"></i>
                         <span class="menu-text"> 相册 </span>
                     </a>
@@ -254,42 +254,42 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/home/profile">
+                            <a href="/homes/profile">
                                 <i class="icon-double-angle-right"></i>
                                 用户信息
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/inbox">
+                            <a href="/homes/inbox">
                                 <i class="icon-double-angle-right"></i>
                                 收件箱
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/pricing">
+                            <a href="/homes/pricing">
                                 <i class="icon-double-angle-right"></i>
                                 售价单
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/invoice">
+                            <a href="/homes/invoice">
                                 <i class="icon-double-angle-right"></i>
                                 购物车
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/timeline">
+                            <a href="/homes/timeline">
                                 <i class="icon-double-angle-right"></i>
                                 时间轴
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/login">
+                            <a href="/homes/login">
                                 <i class="icon-double-angle-right"></i>
                                 登录 &amp; 注册
                             </a>
@@ -311,35 +311,35 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/home/faq">
+                            <a href="/homes/faq">
                                 <i class="icon-double-angle-right"></i>
                                 帮助
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/error-404">
+                            <a href="/homes/error-404">
                                 <i class="icon-double-angle-right"></i>
                                 404错误页面
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/error-500">
+                            <a href="/homes/error-500">
                                 <i class="icon-double-angle-right"></i>
                                 500错误页面
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/grid">
+                            <a href="/homes/grid">
                                 <i class="icon-double-angle-right"></i>
                                 网格
                             </a>
                         </li>
 
                         <li>
-                            <a href="/home/blank">
+                            <a href="/homes/blank">
                                 <i class="icon-double-angle-right"></i>
                                 空白页面
                             </a>
