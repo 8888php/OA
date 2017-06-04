@@ -3,7 +3,7 @@
 App::uses('AppController', 'Controller');
 
 class HomesController extends AppController {
-    public $layout = 'default';
+
     var $name = 'Homes';
     //var $uses=array('SysMenus'); 
     /* 左 */
