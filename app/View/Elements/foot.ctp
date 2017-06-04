@@ -67,7 +67,7 @@
 <!--[if !IE]> -->
 
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "script>");
+    window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>" + "<" + "script>");
 </script>
 
 <!-- <![endif]-->
@@ -131,6 +131,9 @@ window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"
             $(this).sparkline('html', {tagValuesAttribute: 'data-values', type: 'bar', barColor: barColor, chartRangeMin: $(this).data('min') || 0});
         });
 
+
+
+
         var placeholder = $('#piechart-placeholder').css({'width': '90%', 'min-height': '150px'});
         var data = [
             {label: "social networks", data: 38.7, color: "#68BC31"},
@@ -177,6 +180,8 @@ window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"
         placeholder.data('chart', data);
         placeholder.data('draw', drawPieChart);
 
+
+
         var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
         var previousPoint = null;
 
@@ -194,6 +199,10 @@ window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"
             }
 
         });
+
+
+
+
 
 
         var d1 = [];
@@ -301,3 +310,4 @@ window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"
 
 </body>
 </html>
+

@@ -13,8 +13,11 @@ App::uses('Controller', 'Controller');
  */
 //此class不用登录就可以用  例如 登录页面
 class AppNotLoginController extends Controller {
-    public function __construct($request, $response)
-    {
-        parent::__construct($request, $response);
+    public $uses = array('User');
+    public function beforeFilter() {
+        parent::beforeFilter();
+        if (!$this->User->get_session_oa()) {
+            $this->redirect(array('controller'=>'homes', 'action'=>'index'));
+        }
     }
 }
