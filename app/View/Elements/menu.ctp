@@ -1,452 +1,361 @@
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
 
-    <!-- menu -->
-    <div class="app-aside hidden-xs bg-dark">
-      <div class="aside-wrap">
-        <div class="navi-wrap">
-          <!-- user -->
-          <div class="clearfix hidden-xs text-center hide" id="aside-user">
-            <div class="dropdown wrapper">
-              <a ui-sref="app.page.profile">
-                <span class="thumb-lg w-auto-folded avatar m-t-sm">
-                  <img src="img/a0.jpg" class="img-full" alt="...">
-                </span>
-              </a>
-              <a href="#" data-toggle="dropdown" class="dropdown-toggle hidden-folded">
-                <span class="clear">
-                  <span class="block m-t-sm">
-                    <strong class="font-bold text-lt">John.Smith</strong> 
-                    <b class="caret"></b>
-                  </span>
-                  <span class="text-muted text-xs block">Art Director</span>
-                </span>
-              </a>
-              <!-- dropdown -->
-              <ul class="dropdown-menu animated fadeInRight w hidden-folded">
-                <li class="wrapper b-b m-b-sm bg-info m-t-n-xs">
-                  <span class="arrow top hidden-folded arrow-info"></span>
-                  <div>
-                    <p>300mb of 500mb used</p>
-                  </div>
-                  <progressbar value="60" type="white" class="progress-xs m-b-none dker"></progressbar>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'fixed')
+                } catch (e) {
+                }
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <button class="btn btn-success">
+                        <i class="icon-signal"></i>
+                    </button>
+
+                    <button class="btn btn-info">
+                        <i class="icon-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-warning">
+                        <i class="icon-group"></i>
+                    </button>
+
+                    <button class="btn btn-danger">
+                        <i class="icon-cogs"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- #sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+                <li class="active">
+                    <a href="index.html">
+                        <i class="icon-dashboard"></i>
+                        <span class="menu-text"> 控制台 </span>
+                    </a>
                 </li>
+
                 <li>
-                  <a href>Settings</a>
+                    <a href="typography.html">
+                        <i class="icon-text-width"></i>
+                        <span class="menu-text"> 文字排版 </span>
+                    </a>
                 </li>
+
                 <li>
-                  <a ui-sref="app.page.profile">Profile</a>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-desktop"></i>
+                        <span class="menu-text"> UI 组件 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="elements.html">
+                                <i class="icon-double-angle-right"></i>
+                                组件
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="buttons.html">
+                                <i class="icon-double-angle-right"></i>
+                                按钮 &amp; 图表
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="treeview.html">
+                                <i class="icon-double-angle-right"></i>
+                                树菜单
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="jquery-ui.html">
+                                <i class="icon-double-angle-right"></i>
+                                jQuery UI
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="nestable-list.html">
+                                <i class="icon-double-angle-right"></i>
+                                可拖拽列表
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+
+                                三级菜单
+                                <b class="arrow icon-angle-down"></b>
+                            </a>
+
+                            <ul class="submenu">
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-leaf"></i>
+                                        第一级
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="icon-pencil"></i>
+
+                                        第四级
+                                        <b class="arrow icon-angle-down"></b>
+                                    </a>
+
+                                    <ul class="submenu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-plus"></i>
+                                                添加产品
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-eye-open"></i>
+                                                查看商品
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
+
                 <li>
-                  <a href>
-                    <span class="badge bg-danger pull-right">3</span>
-                    Notifications
-                  </a>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 表格 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="tables.html">
+                                <i class="icon-double-angle-right"></i>
+                                简单 &amp; 动态
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="jqgrid.html">
+                                <i class="icon-double-angle-right"></i>
+                                jqGrid plugin
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="divider"></li>
+
                 <li>
-                  <a ui-sref="access.signin">Logout</a>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-edit"></i>
+                        <span class="menu-text"> 表单 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="form-elements.html">
+                                <i class="icon-double-angle-right"></i>
+                                表单组件
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="form-wizard.html">
+                                <i class="icon-double-angle-right"></i>
+                                向导提示 &amp; 验证
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="wysiwyg.html">
+                                <i class="icon-double-angle-right"></i>
+                                编辑器
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="dropzone.html">
+                                <i class="icon-double-angle-right"></i>
+                                文件上传
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-              </ul>
-              <!-- / dropdown -->
+
+                <li>
+                    <a href="widgets.html">
+                        <i class="icon-list-alt"></i>
+                        <span class="menu-text"> 插件 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="calendar.html">
+                        <i class="icon-calendar"></i>
+
+                        <span class="menu-text">
+                            日历
+                            <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
+                                <i class="icon-warning-sign red bigger-130"></i>
+                            </span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="gallery.html">
+                        <i class="icon-picture"></i>
+                        <span class="menu-text"> 相册 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-tag"></i>
+                        <span class="menu-text"> 更多页面 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="profile.html">
+                                <i class="icon-double-angle-right"></i>
+                                用户信息
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="inbox.html">
+                                <i class="icon-double-angle-right"></i>
+                                收件箱
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="pricing.html">
+                                <i class="icon-double-angle-right"></i>
+                                售价单
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="invoice.html">
+                                <i class="icon-double-angle-right"></i>
+                                购物车
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="timeline.html">
+                                <i class="icon-double-angle-right"></i>
+                                时间轴
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="login.html">
+                                <i class="icon-double-angle-right"></i>
+                                登录 &amp; 注册
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-file-alt"></i>
+
+                        <span class="menu-text">
+                            其他页面
+                            <span class="badge badge-primary ">5</span>
+                        </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="faq.html">
+                                <i class="icon-double-angle-right"></i>
+                                帮助
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="error-404.html">
+                                <i class="icon-double-angle-right"></i>
+                                404错误页面
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="error-500.html">
+                                <i class="icon-double-angle-right"></i>
+                                500错误页面
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="grid.html">
+                                <i class="icon-double-angle-right"></i>
+                                网格
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="blank.html">
+                                <i class="icon-double-angle-right"></i>
+                                空白页面
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.nav-list -->
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
             </div>
-            <div class="line dk hidden-folded"></div>
-          </div>
-          <!-- / user -->
 
-          <!-- nav -->
-          <nav ui-nav class="navi">
-            <ul class="nav">
-              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span translate="aside.nav.HEADER">Navigation</span>
-              </li>
-              <li>
-                <a href class="auto">      
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
-                  <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span translate="aside.nav.DASHBOARD">Dashboard</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.dashboard-v1">
-                      <span>Dashboard v1</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.dashboard-v2">
-                      <b class="label bg-info pull-right">N</b>
-                      <span>Dashboard v2</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li ui-sref-active="active">
-                <a ui-sref="app.calendar">
-                  <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
-                  <span class="font-bold" translate="aside.nav.CALENDAR">Calendar</span>
-                </a>
-              </li>
-              <li ui-sref-active="active">
-                <a ui-sref="app.mail.list">
-                  <b class="badge bg-info pull-right">9</b>
-                  <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
-                  <span class="font-bold" translate="aside.nav.EMAIL">Email</span>
-                </a>
-              </li>
-              <li>
-                <a href class="auto">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i class="glyphicon glyphicon-th-large icon text-success"></i>
-                  <span class="font-bold">Apps</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span>Apps</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="apps.note">
-                      <span>Note</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="apps.contact">
-                      <span>Contacts</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.weather">
-                      <span>Weather</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="line dk"></li>
-
-              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span translate="aside.nav.components.COMPONENTS">Components</span>
-              </li>
-              <li>
-                <a href class="auto">      
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <b class="badge bg-info pull-right">3</b>
-                  <i class="glyphicon glyphicon-th"></i>
-                  <span>Layout</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span>Layout</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="layout.app">
-                      <span>Application</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="layout.fullwidth">
-                      <span>Full width</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="layout.mobile">
-                      <span>Mobile</span>
-                    </a>
-                  </li>      
-                </ul>
-              </li>
-              <li ng-class="{active:$state.includes('app.ui')}">
-                <a href class="auto">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i class="glyphicon glyphicon-briefcase icon"></i>
-                  <span translate="aside.nav.components.ui_kits.UI_KITS">UI Kits</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span translate="aside.nav.components.ui_kits.UI_KITS">UI Kits</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.buttons">
-                      <span translate="aside.nav.components.ui_kits.BUTTONS">Buttons</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.icons">
-                      <b class="badge bg-info pull-right">3</b>
-                      <span translate="aside.nav.components.ui_kits.ICONS">Icons</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.grid">
-                      <span translate="aside.nav.components.ui_kits.GRID">Grid</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.widgets">
-                      <b class="badge bg-success pull-right">13</b>
-                      <span translate="aside.nav.WIDGETS">Widgets</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.bootstrap">
-                      <b class="badge bg-primary pull-right">16</b>
-                      <span translate="aside.nav.components.ui_kits.BOOTSTRAP">Bootstrap</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.sortable">
-                      <span translate="aside.nav.components.ui_kits.SORTABLE">Sortable</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.portlet">
-                      <span translate="aside.nav.components.ui_kits.PORTLET">Portlet</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.timeline">
-                      <span translate="aside.nav.components.ui_kits.TIMELINE">Timeline</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.tree">
-                      <span>Tree</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.toaster">
-                      <span>Toaster</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.jvectormap">
-                      <span translate="aside.nav.components.ui_kits.VECTOR_MAP">Vector Map</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.ui.googlemap">
-                      <span>Google Map</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li ng-class="{active:$state.includes('app.table')}">
-                <a href class="auto">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <b class="label bg-primary pull-right">2</b>
-                  <i class="glyphicon glyphicon-list"></i>
-                  <span translate="aside.nav.components.table.TABLE">Table</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span translate="aside.nav.components.table.TABLE">Table</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.table.static">
-                      <span translate="aside.nav.components.table.TABLE_STATIC">Table static</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.table.datatable">
-                      <span translate="aside.nav.components.table.DATATABLE">Datatable</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.table.footable">
-                      <span translate="aside.nav.components.table.FOOTABLE">Footable</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.table.grid">
-                      <span>ngGrid</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li ng-class="{active:$state.includes('app.form')}">
-                <a href class="auto">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i class="glyphicon glyphicon-edit"></i>
-                  <span translate="aside.nav.components.form.FORM">Form</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span translate="aside.nav.components.form.FORM">Form</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.form.elements">
-                      <span translate="aside.nav.components.form.FORM_ELEMENTS">Form elements</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.form.validation">
-                      <span translate="aside.nav.components.form.FORM_VALIDATION">Form validation</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.form.wizard">
-                      <span translate="aside.nav.components.form.FORM_WIZARD">Form wizard</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.form.fileupload">
-                      <span>File upload</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.form.imagecrop">
-                      <span>Image crop</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li ui-sref-active="active">
-                <a ui-sref="app.chart">
-                  <i class="glyphicon glyphicon-signal"></i>
-                  <span translate="aside.nav.components.CHART">Chart</span>
-                </a>
-              </li>
-              <li ng-class="{active:$state.includes('app.page')}">
-                <a href class="auto">
-                  <span class="pull-right text-muted">
-                    <i class="fa fa-fw fa-angle-right text"></i>
-                    <i class="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i class="glyphicon glyphicon-file icon"></i>
-                  <span translate="aside.nav.components.pages.PAGES">Pages</span>
-                </a>
-                <ul class="nav nav-sub dk">
-                  <li class="nav-sub-header">
-                    <a href>
-                      <span translate="aside.nav.components.pages.PAGES">Pages</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.page.profile">
-                      <span translate="aside.nav.components.pages.PROFILE">Profile</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.page.post">
-                      <span translate="aside.nav.components.pages.POST">Post</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.page.search">
-                      <span translate="aside.nav.components.pages.SEARCH">Search</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.page.invoice">
-                      <span translate="aside.nav.components.pages.INVOICE">Invoice</span>
-                    </a>
-                  </li>
-                  <li ui-sref-active="active">
-                    <a ui-sref="app.page.price">
-                      <span>Price</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a ui-sref="lockme">
-                      <span translate="aside.nav.components.pages.LOCK_SCREEN">Lock screen</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a ui-sref="access.signin">
-                      <span translate="aside.nav.components.pages.SIGNIN">Signin</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a ui-sref="access.signup">
-                      <span translate="aside.nav.components.pages.SIGNUP">Signup</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a ui-sref="access.forgotpwd">
-                      <span translate="aside.nav.components.pages.FORGOT_PASSWORD">Forgot password</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a ui-sref="access.404">
-                      <span translate="aside.nav.components.pages.404">404</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="line dk hidden-folded"></li>
-
-              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">          
-                <span translate="aside.nav.your_stuff.YOUR_STUFF">Your Stuff</span>
-              </li>  
-              <li>
-                <a ui-sref="app.page.profile">
-                  <i class="icon-user icon text-success-lter"></i>
-                  <b class="badge bg-success pull-right">30%</b>
-                  <span translate="aside.nav.your_stuff.PROFILE">Profile</span>
-                </a>
-              </li>
-              <li>
-                <a ui-sref="app.docs">
-                  <i class="icon-question icon"></i>
-                  <span translate="aside.nav.your_stuff.DOCUMENTS">Documents</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <!-- nav -->
-
-          <!-- aside footer -->
-          <div class="wrapper m-t">
-            <div class="text-center-folded">
-              <span class="pull-right pull-none-folded">60%</span>
-              <span class="hidden-folded" translate="aside.MILESTONE">Milestone</span>
-            </div>
-            <div class="progress progress-xxs m-t-sm dk">
-              <div class="progress-bar progress-bar-info" style="width: 60%;">
-              </div>
-            </div>
-            <div class="text-center-folded">
-              <span class="pull-right pull-none-folded">35%</span>
-              <span class="hidden-folded" translate="aside.RELEASE">Release</span>
-            </div>
-            <div class="progress progress-xxs m-t-sm dk">
-              <div class="progress-bar progress-bar-primary" style="width: 35%;">
-              </div>
-            </div>
-          </div>
-          <!-- / aside footer -->
-        </div>msm
-      </div>
-    </div>
-    <!-- / menu -->
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {
+                }
+            </script>
+        </div>
