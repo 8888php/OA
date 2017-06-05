@@ -122,7 +122,7 @@ class UserController extends AppController {
                 if ($this->User->findByUser($user)) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '用户名被点用',
+                        'msg' => '用户名被战占用',
                         'class' => '.username'
                     );
                     echo json_encode($ret_arr);
@@ -151,6 +151,17 @@ class UserController extends AppController {
                 if (!($user_arr = $this->User->findById($id))) {
                     //如果找不到此用户就让他添加
                     goto ADD;
+                }
+                //先查看用户是否被占用
+                $name_user_arr = $this->User->findByUser($user);
+                if ($name_user_arr['User']['id'] != $user_arr['User']['id']) {
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '用户名被好占用',
+                        'class' => '.username'
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
                 }
                 if ($user_arr['User']['password'] == $password) {
                     unset($save_arr['password']);
