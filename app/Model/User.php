@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application model for CakePHP.
  *
@@ -18,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('UserModel', 'Model');
 
 /**
@@ -30,14 +30,19 @@ App::uses('UserModel', 'Model');
  * @package       app.Model
  */
 class User extends Model {
+
     var $name = 'User';
     var $useTable = 'user';
-    var $is_del = 1;//删除
-    const SESSINO_OA_NAME = 'OA';//oa session name
+    var $is_del = 1; //删除
+
+    const SESSINO_OA_NAME = 'OA'; //oa session name
+
     public $components = array('Session');
+
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
     }
+
     /**
      * 判断用户名与密码
      * @param type $user
@@ -51,7 +56,7 @@ class User extends Model {
             return -1;
         }
         $user_arr = $this->findByUser($user);
-        
+
         if (empty($user_arr)) {
             //用户不存在
             return -2;
@@ -66,6 +71,7 @@ class User extends Model {
         }
         return $user_arr[$this->name];
     }
+
     /**
      * 记录session
      * @param type $user_arr
@@ -74,6 +80,7 @@ class User extends Model {
         unset($user_arr['password']);
         CakeSession::write(SESSINO_OA_NAME, base64_encode(json_encode($user_arr)));
     }
+
     /**
      * 检测session是否存在
      * @return boolean
@@ -81,11 +88,35 @@ class User extends Model {
     public function get_session_oa() {
         return CakeSession::read(SESSINO_OA_NAME);
     }
-     /**
+
+    /**
      * 检测session是否存在
      * @return boolean
      */
     public function del_session_oa() {
-         CakeSession::delete(SESSINO_OA_NAME);
+        CakeSession::delete(SESSINO_OA_NAME);
     }
+    
+    /**
+     * 添加数据
+     * @param type $data
+     * @return type
+     */
+    public function add($data) {
+        $this->setDataSource('write');
+        $this->create();
+        return $this->save($data);
+    }
+    /**
+     * 修改数据
+     * @param type $id
+     * @param type $data
+     * @return type
+     */
+    public function edit($id, $data) {
+        $this->setDataSource('write');
+        $this->id = $id;
+        return $this->save($data);
+    }
+
 }

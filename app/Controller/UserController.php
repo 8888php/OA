@@ -48,8 +48,13 @@ class UserController extends AppController {
     /**
      * 添加/修改页面
      */
-    public function edit() {
-        $this->render();
+    public function edit($id=0) {
+        if ($id > 0 && is_numeric($id)) {
+            $user_arr = $this->User->findById($id);
+            $this->set('user', $user_arr['User']);
+        }
+            
+        $this->render('add');
     }
 
     /**
@@ -58,16 +63,117 @@ class UserController extends AppController {
     public function ajax_edit() {
         $ret_arr = array();
         if ($this->request->is('ajax')) {
-            $id = $this->request->data('id');
+            $id = $this->request->data('user_id');
+            $user = $this->request->data('username');
+            $password = $this->request->data('password');
+            $name = $this->request->data('name');
+            $pid = $this->request->data('pid');
+            $position = $this->request->data('position');
+            $tel = $this->request->data('tel');
+            $sex = $this->request->data('sex');
+            $email = $this->request->data('email');
+            $del = $this->request->data('del');
+            $save_arr = array(
+                'user' => $user,
+                'password' => md5($password),
+                'pid' => $pid,
+                'name' => $name,
+                'position' => $position,
+                'tel' => $tel ? $tel : '',
+                'sex' => $sex ? (in_array($sex, array(1,2)) ? $sex : 1) : 1,
+                'email' => $email ? $email : '',
+                'del' => $del ? (in_array($del, array(0,1)) ? $del : 1) : 1
+            );
+            if (empty($user)) {
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '用户名为空',
+                    'class' => '.username'
+                );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            if (empty($password)) {
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '密码为空',
+                    'class' => '.pwd'
+                );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            if (empty($name)) {
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '呢称为空',
+                    'class' => '.nname'
+                );
+                echo json_encode($ret_arr);
+                exit;
+            }
             if ($id < 1 || !is_numeric($id)) {
+                ADD:
                 //add
+                //先查看用户是否被占用
+                if ($this->User->findByUser($user)) {
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '用户名被点用',
+                        'class' => '.username'
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+                //save
+                if ($this->User->add($save_arr)) {
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '添加成功',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+                //保存失败
+                $ret_arr = array(
+                    'code' => 2,
+                    'msg' => '添加失败',
+                    'class' => ''
+                );
+                echo json_encode($ret_arr);
+                exit;
             } else {
                 //edit
+                if (!($user_arr = $this->User->findById($id))) {
+                    //如果找不到此用户就让他添加
+                    goto ADD;
+                }
+                if ($user_arr['User']['password'] == $password) {
+                    unset($save_arr['password']);
+                } 
+                if ($this->User->edit($id,$save_arr)) {
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '修改成功',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+                //失败
+                $ret_arr = array(
+                    'code' => 2,
+                    'msg' => '修改失败',
+                    'class' => ''
+                );
+                echo json_encode($ret_arr);
+                exit;
             }
         } else {
             $ret_arr = array(
                 'code' => 1,
-                'msg' => '参数有误'
+                'msg' => '参数有误',
+                'class' => ''
             );
         }
         echo json_encode($ret_arr);
