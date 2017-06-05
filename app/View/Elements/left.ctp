@@ -58,74 +58,114 @@
                 </li>
 
                 <li>
-                    <a href="/homes/typography">
-                        <i class="icon-text-width"></i>
-                        <span class="menu-text"> 文字排版 </span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="#" class="dropdown-toggle">
-                        <i class="icon-desktop"></i>
-                        <span class="menu-text"> UI 组件 </span>
+                        <i class="icon-text-width"></i>
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 行政办公 </span>
 
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
                     <ul class="submenu">
                         <li>
-                            <a href="/homes/elements">
+                            <a href="/office/index">
                                 <i class="icon-double-angle-right"></i>
-                                组件
+                                起草申请
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/buttons">
+                            <a href="/office/index">
                                 <i class="icon-double-angle-right"></i>
-                                按钮 &amp; 图表
+                                我的申请
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/treeview">
+                            <a href="/office/index">
                                 <i class="icon-double-angle-right"></i>
-                                树菜单
+                                待我审批
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/jquery-ui">
+                            <a href="/office/index">
                                 <i class="icon-double-angle-right"></i>
-                                jQuery UI
+                                经我审批
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/nestable-list">
+                            <a href="/office/index">
                                 <i class="icon-double-angle-right"></i>
-                                可拖拽列表
+                                系统消息
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-desktop"></i>
+                        <span class="menu-text"> 党政部门 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="/department/index">
+                                <i class="icon-double-angle-right"></i>
+                                办公室
                             </a>
                         </li>
 
                         <li>
-                            <a href="#" class="dropdown-toggle">
+                            <a href="/department/index">
                                 <i class="icon-double-angle-right"></i>
+                                财务科
+                            </a>
+                        </li>
 
-                                三级菜单
+                        <li>
+                            <a href="/department/index">
+                                <i class="icon-double-angle-right"></i>
+                                采后室
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/department/index">
+                                <i class="icon-double-angle-right"></i>
+                                病理室
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/department/index">
+                                <i class="icon-double-angle-right"></i>
+                                技术开发室
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/department/index" class="dropdown-toggle">
+                                <i class="icon-double-angle-right"></i>
+                                加工研究室
                                 <b class="arrow icon-angle-down"></b>
                             </a>
 
                             <ul class="submenu">
                                 <li>
-                                    <a href="#">
+                                    <a href="/department/index">
                                         <i class="icon-leaf"></i>
                                         第一级
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="/department/index" class="dropdown-toggle">
                                         <i class="icon-pencil"></i>
 
                                         第四级
@@ -134,14 +174,14 @@
 
                                     <ul class="submenu">
                                         <li>
-                                            <a href="#">
+                                            <a href="/department/index">
                                                 <i class="icon-plus"></i>
                                                 添加产品
                                             </a>
                                         </li>
 
                                         <li>
-                                            <a href="#">
+                                            <a href="/department/index">
                                                 <i class="icon-eye-open"></i>
                                                 查看商品
                                             </a>
@@ -153,63 +193,40 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-list"></i>
-                        <span class="menu-text"> 表格 </span>
-
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li>
-                            <a href="/homes/tables">
-                                <i class="icon-double-angle-right"></i>
-                                简单 &amp; 动态
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/jqgrid">
-                                <i class="icon-double-angle-right"></i>
-                                jqGrid plugin
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
                 <li>
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-edit"></i>
-                        <span class="menu-text"> 表单 </span>
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 科研项目 </span>
 
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
                     <ul class="submenu">
                         <li>
-                            <a href="/homes/form-elements">
+                            <a href="/project/index">
                                 <i class="icon-double-angle-right"></i>
                                 表单组件
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/form-wizard">
+                            <a href="/project/index">
                                 <i class="icon-double-angle-right"></i>
                                 向导提示 &amp; 验证
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/wysiwyg">
+                            <a href="/project/index">
                                 <i class="icon-double-angle-right"></i>
                                 编辑器
                             </a>
                         </li>
 
                         <li>
-                            <a href="/homes/dropzone">
+                            <a href="/project/index">
                                 <i class="icon-double-angle-right"></i>
                                 文件上传
                             </a>
@@ -218,33 +235,81 @@
                 </li>
 
                 <li>
-                    <a href="/homes/widgets">
+                    <a href="#" class="dropdown-toggle">
                         <i class="icon-list-alt"></i>
-                        <span class="menu-text"> 插件 </span>
+                        <span class="menu-text"> 汇总报表 </span>
+
+                        <b class="arrow icon-angle-down"></b>
                     </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="/reportforms/index">
+                                <i class="icon-double-angle-right"></i>
+                                汇总报表
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
+
                 <li>
-                    <a href="/homes/calendar">
+                    <a href="#" class="dropdown-toggle">
                         <i class="icon-calendar"></i>
-
-                        <span class="menu-text">
-                            日历
-                            <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-                                <i class="icon-warning-sign red bigger-130"></i>
-                            </span>
+                        <span class="menu-text"> 固定资产 </span>
+                        <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
+                            <i class="icon-warning-sign red bigger-130"></i>
                         </span>
+                        <b class="arrow icon-angle-down"></b>
                     </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="/fixedassets/index">
+                                <i class="icon-double-angle-right"></i>
+                                固定资产
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
+
+
                 <li>
-                    <a href="/homes/gallery">
+                    <a href="#" class="dropdown-toggle">
                         <i class="icon-picture"></i>
-                        <span class="menu-text"> 相册 </span>
+                        <span class="menu-text"> 系统设置 </span>
+                        <b class="arrow icon-angle-down"></b>
                     </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="/user/index">
+                                <i class="icon-double-angle-right"></i>
+                                用户管理
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/user/info">
+                                <i class="icon-double-angle-right"></i>
+                                个人信息
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/setting/index">
+                                <i class="icon-double-angle-right"></i>
+                                档案项管理
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
-                <li>
+                <!--li>
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-tag"></i>
                         <span class="menu-text"> 更多页面 </span>
@@ -345,7 +410,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li-->
             </ul><!-- /.nav-list -->
 
             <div class="sidebar-collapse" id="sidebar-collapse">
@@ -359,4 +424,3 @@
                 }
             </script>
         </div>
- 

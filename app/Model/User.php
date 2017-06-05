@@ -107,6 +107,7 @@ class User extends Model {
         $this->create();
         return $this->save($data);
     }
+
     /**
      * 修改数据
      * @param type $id
@@ -119,4 +120,15 @@ class User extends Model {
         return $this->save($data);
     }
 
+
+    
+    # 获取全部数据
+    public function getAlluser($page = 0 ,$num = 20){
+        $userArr = $fields = array();
+        $fields = array('id','user','position','name','tel','ctime');
+        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
+        return $userArr;
+    }
+    
+    
 }
