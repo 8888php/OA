@@ -43,6 +43,10 @@ class UserController extends AppController {
      */
     public function index() {
         $this->render();
+        $userArr = array();
+        $pages = empty($_GET['page']) ? 0 : $_GET['page'];
+        $userArr = $this->User->getAlluser($pages,20);
+        $this->set('userArr',$userArr);
     }
 
     /**

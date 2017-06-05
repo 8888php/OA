@@ -88,4 +88,14 @@ class User extends Model {
     public function del_session_oa() {
          CakeSession::delete(SESSINO_OA_NAME);
     }
+    
+    # 获取全部数据
+    public function getAlluser($page = 0 ,$num = 20){
+        $userArr = $fields = array();
+        $fields = array('id','user','position','name','tel','ctime');
+        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
+        return $userArr;
+    }
+    
+    
 }
