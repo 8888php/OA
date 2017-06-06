@@ -80,9 +80,9 @@ class UserController extends AppController {
             $save_arr = array(
                 'user' => $user,
                 'password' => md5($password),
-                'pid' => $pid,
+                'department_id' => $pid,
                 'name' => $name,
-                'position' => $position,
+                'position_id' => $position,
                 'tel' => $tel ? $tel : '',
                 'sex' => $sex ? (in_array($sex, array(1,2)) ? $sex : 1) : 1,
                 'email' => $email ? $email : '',
