@@ -774,8 +774,8 @@
                                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                                             <select style="float: left;" name="pid" class="pid" id="form-field-1">
                                                 <option value="0">请选择</option>
-                                                <option value="1" <?php echo @$user['pid'] == 1 ? 'selected' : '';?> >办公室</option>
-                                                <option value="2" <?php echo @$user['pid'] == 2 ? 'selected' : '';?>>党委办公室</option>
+                                                <option value="1" <?php echo @$user['department_id'] == 1 ? 'selected' : '';?> >办公室</option>
+                                                <option value="2" <?php echo @$user['department_id'] == 2 ? 'selected' : '';?>>党委办公室</option>
                                             </select>
                                             <span class="help-inline col-xs-12 col-sm-7">
                                                 <span class="middle"></span>
@@ -789,8 +789,8 @@
                                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                                             <select style="float: left;" name="position" class="position" id="form-field-1">
                                                 <option value="0">请选择</option>
-                                                <option value="1" <?php echo @$user['position'] == 1 ? 'selected' : '';?> >局长</option>
-                                                <option value="2" <?php echo @$user['position'] == 2 ? 'selected' : '';?> >项目负责人</option>
+                                                <option value="1" <?php echo @$user['position_id'] == 1 ? 'selected' : '';?> >局长</option>
+                                                <option value="2" <?php echo @$user['position_id'] == 2 ? 'selected' : '';?> >项目负责人</option>
                                             </select>
                                             <span class="help-inline col-xs-12 col-sm-7">
                                                 <span class="middle"></span>
