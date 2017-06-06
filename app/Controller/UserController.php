@@ -38,14 +38,23 @@ class UserController extends AppController {
     public $uses = array('User');
     public $layout = 'blank';
 
+
     /**
      * 列表页
      */
     public function index() {
-        $this->render();
+       // $this->render();
         $userArr = array();
         $pages = empty($_GET['page']) ? 0 : $_GET['page'];
-        $userArr = $this->User->getAlluser($pages,20);
+        
+        $conditions = array();
+        # 总数
+        $nums = $this->User->find('count',array('conditions'=>$conditions));  
+        # 分页
+
+        
+        # 列表
+        $userArr = $this->User->getAlluser($pages,20,$conditions);
         $this->set('userArr',$userArr);
     }
 

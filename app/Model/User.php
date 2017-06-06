@@ -123,10 +123,10 @@ class User extends Model {
 
     
     # 获取全部数据
-    public function getAlluser($page = 0 ,$num = 20){
+    public function getAlluser($page = 0 ,$num = 20 , $conditions = array()){
         $userArr = $fields = array();
-        $fields = array('id','user','position','name','tel','ctime');
-        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
+        $fields = array('id','user','department_id','position_id','name','tel','ctime','status');
+        $userArr = $this->find('all',array('conditions'=>$conditions,'fields'=>$fields,'limit'=>$num,'page'=>$page));
         return $userArr;
     }
     
