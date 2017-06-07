@@ -38,16 +38,19 @@ class UserController extends AppController {
     public $uses = array('User', 'Department');
     public $layout = 'blank';
 
+
     /**
      * 列表页
      */
     public function index() {
+
 
         $userArr = array();
         $pages = empty($_GET['page']) ? 0 : $_GET['page'];
         $userArr = $this->User->getAlluser($pages, 1);
         $this->set('userArr', $userArr);
         $this->render();
+
     }
 
     /**
