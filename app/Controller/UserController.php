@@ -35,29 +35,30 @@ class UserController extends AppController {
      *
      * @var array
      */
-    public $uses = array('User');
+    public $uses = array('User', 'Department');
     public $layout = 'blank';
 
     /**
      * 列表页
      */
     public function index() {
-        $this->render();
+
         $userArr = array();
         $pages = empty($_GET['page']) ? 0 : $_GET['page'];
-        $userArr = $this->User->getAlluser($pages,20);
-        $this->set('userArr',$userArr);
+        $userArr = $this->User->getAlluser($pages, 1);
+        $this->set('userArr', $userArr);
+        $this->render();
     }
 
     /**
      * 添加/修改页面
      */
-    public function edit($id=0) {
+    public function edit($id = 0) {
         if ($id > 0 && is_numeric($id)) {
             $user_arr = $this->User->findById($id);
             $this->set('user', $user_arr['User']);
         }
-            
+
         $this->render('add');
     }
 
@@ -84,9 +85,9 @@ class UserController extends AppController {
                 'name' => $name,
                 'position_id' => $position,
                 'tel' => $tel ? $tel : '',
-                'sex' => $sex ? (in_array($sex, array(1,2)) ? $sex : 1) : 1,
+                'sex' => $sex ? (in_array($sex, array(1, 2)) ? $sex : 1) : 1,
                 'email' => $email ? $email : '',
-                'del' => $del ? (in_array($del, array(0,1)) ? $del : 1) : 1
+                'del' => $del ? (in_array($del, array(0, 1)) ? $del : 1) : 1
             );
             if (empty($user)) {
                 $ret_arr = array(
@@ -153,11 +154,11 @@ class UserController extends AppController {
                     goto ADD;
                 }
                 //先查看用户是否被占用
-                $name_user_arr = $this->User->findByUser($user);
-                if ($name_user_arr['User']['id'] != $user_arr['User']['id']) {
+                $name_user_arr = $this->User->query('select * from t_user where `name`=' . $user);
+                if (count($name_user_arr) > 1) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '用户名被好占用',
+                        'msg' => '用户名被占用',
                         'class' => '.username'
                     );
                     echo json_encode($ret_arr);
@@ -165,8 +166,8 @@ class UserController extends AppController {
                 }
                 if ($user_arr['User']['password'] == $password) {
                     unset($save_arr['password']);
-                } 
-                if ($this->User->edit($id,$save_arr)) {
+                }
+                if ($this->User->edit($id, $save_arr)) {
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
@@ -215,6 +216,145 @@ class UserController extends AppController {
             $ret_arr = array(
                 'code' => 1,
                 'msg' => '参数有误'
+            );
+        }
+        echo json_encode($ret_arr);
+        exit;
+    }
+
+    /**
+     * 部门列表
+     */
+    public function bumen_index() {
+        $this->render();
+    }
+
+    /**
+     * 部门添加/修改页面
+     * @param type $id
+     */
+    public function bumen_edit($id = 0) {
+        if ($id > 0 && is_numeric($id)) {
+            $department_arr = $this->Department->findById($id);
+            if ($department_arr) {
+                $this->set('department', $department_arr['Department']);
+            }
+        }
+        $this->render();
+    }
+
+    /**
+     * ajax添加/修改部门
+     */
+    public function ajax_bumen_edit() {
+        $ret_arr = array();
+        if ($this->request->is('ajax')) {
+            $id = $this->request->data('d_id');
+            $name = $this->request->data('d_name');
+            $description = $this->request->data('d_desc');
+            $del = $this->request->data('del');
+            if (empty($name)) {
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '部门名称为空',
+                    'class' => '.d_name'
+                );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            if (empty($description)) {
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => '部门介绍为空',
+                    'class' => '.description'
+                );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            $save_arr = array(
+                'name' => $name,
+                'description' => $description,
+                'del' => in_array($del, array(0, 1)) ? $del : 1
+            );
+            if ($id < 1 || !is_numeric($id)) {
+                //添加
+                ADD:
+                $save_arr['ctime'] = (string) time(); //创建时间
+                //查看数据库里看有没有一样名字
+
+                if ($this->Department->findByName($name)) {
+                    //说明有重名
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '部门名称重复',
+                        'class' => '.d_name'
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+                if ($this->Department->add($save_arr)) {
+                    //添加成功
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '部门添加成功',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                } else {
+                    //添加失败
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '部门添加失败',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+            } else {
+                //修改
+                $department_arr = $this->Department->findById($id);
+                if (!$department_arr) {
+                    //不存在让他添加
+                    goto ADD;
+                }
+                //查看是否重名
+                $all_department_arr = $this->Department->query('select * from t_department where `name`=' . $name);
+
+                if (count($all_department_arr) > 1) {
+                    //说明有重名
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '部门名称重复',
+                        'class' => '.d_name'
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+                if ($this->Department->edit($id, $save_arr)) {
+                    //添加成功
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '部门修改成功',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                } else {
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '部门修改失败',
+                        'class' => ''
+                    );
+                    echo json_encode($ret_arr);
+                    exit;
+                }
+            }
+        } else {
+            $ret_arr = array(
+                'code' => 1,
+                'msg' => '参数有误',
+                'class' => ''
             );
         }
         echo json_encode($ret_arr);
