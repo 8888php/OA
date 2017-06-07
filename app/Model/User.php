@@ -96,7 +96,7 @@ class User extends Model {
     public function del_session_oa() {
         CakeSession::delete(SESSINO_OA_NAME);
     }
-    
+
     /**
      * 添加数据
      * @param type $data
@@ -120,17 +120,25 @@ class User extends Model {
         return $this->save($data);
     }
 
-
-    
     # 获取全部数据
-    public function getAlluser($page = 0 ,$num = 20 , $conditions = array()){
+
+    public function getAlluser($page = 0, $num = 20, $conditions = array()) {
         $userArr = $fields = array();
-        
-        $fields = array('id','user','department_id','position_id','name','tel','ctime','status');
-        $userArr = $this->find('all',array('conditions'=>$conditions,'fields'=>$fields,'limit'=>$num,'page'=>$page));
+
+        $fields = array('id', 'user', 'department_id', 'position_id', 'name', 'tel', 'ctime', 'status');
+        $userArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields, 'limit' => $num, 'page' => $page));
 
         return $userArr;
     }
-    
-    
+
+    # 获取全部负责人
+
+    public function getAllfuzeren($conditions = array()) {
+        $userArr = $fields = array();
+        $conditions = array('del' => 0, 'status' => 0, 'position_id >' => 0);
+        $fields = array('id', 'position_id', 'name');
+        $userArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields));
+        return $userArr;
+    }
+
 }

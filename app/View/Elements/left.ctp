@@ -288,7 +288,21 @@
                         <li>
                             <a href="/user/index">
                                 <i class="icon-double-angle-right"></i>
-                                用户管理
+                                成员管理
+                            </a>
+                        </li>
+                        
+                         <li>
+                            <a href="/user/edit">
+                                <i class="icon-double-angle-right"></i>
+                                成员添加
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a href="/user/bumen_edit">
+                                <i class="icon-double-angle-right"></i>
+                                部门职务添加
                             </a>
                         </li>
 
@@ -298,7 +312,7 @@
                                 个人信息
                             </a>
                         </li>
-
+                        
                         <li>
                             <a href="/setting/index">
                                 <i class="icon-double-angle-right"></i>
