@@ -37,18 +37,43 @@ class UserController extends AppController {
      */
     public $uses = array('User', 'Department');
     public $layout = 'blank';
+    public $helper = array('Page');
 
 
     /**
      * 列表页
      */
-    public function index() {
-
-
+    public function index($pages=1) {
+        
         $userArr = array();
-        $pages = empty($_GET['page']) ? 0 : $_GET['page'];
-        $userArr = $this->User->getAlluser($pages, 1);
-        $this->set('userArr', $userArr);
+        if ((int)$pages < 1) {
+            $pages = 1;
+        }
+        $limit = 1;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $u_count = $this->User->query('select count(*) as c from t_user');
+        $total = $u_count[0][0]['c'];
+        
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            
+            $userArr = $this->User->query('select * from t_user as User order by id desc limit '.(($pages-1) * $limit) . ',' . $limit);
+//            var_dump($userArr);die;
+            $this->set('userArr', $userArr);
+       }
+        //$userArr = $this->User->getAlluser($pages, 1);
+        
+
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
         $this->render();
 
     }

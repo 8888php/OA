@@ -232,6 +232,9 @@
                                                     </a>
                                                 </li>
                                             </ul>
+                                            
+                                             <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/user/index/",2 ); ?>
+</div>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
