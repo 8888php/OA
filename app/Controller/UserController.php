@@ -38,7 +38,6 @@ class UserController extends AppController {
     public $uses = array('User', 'Department');
     public $layout = 'blank';
 
-
     /**
      * 列表页
      */
@@ -50,7 +49,6 @@ class UserController extends AppController {
         $userArr = $this->User->getAlluser($pages, 1);
         $this->set('userArr', $userArr);
         $this->render();
-
     }
 
     /**
@@ -229,6 +227,7 @@ class UserController extends AppController {
      * 部门列表
      */
     public function bumen_index() {
+
         $this->render();
     }
 
@@ -243,6 +242,8 @@ class UserController extends AppController {
                 $this->set('department', $department_arr['Department']);
             }
         }
+
+        $this->set('fuzeren',$this->User->getAllfuzeren());  // 可成为负责人成员
         $this->render();
     }
 
@@ -362,6 +363,11 @@ class UserController extends AppController {
         }
         echo json_encode($ret_arr);
         exit;
+    }
+
+    public function info() {
+
+        $this->render();
     }
 
 }
