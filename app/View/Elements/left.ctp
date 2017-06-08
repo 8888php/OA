@@ -293,16 +293,16 @@
                         </li>
                         
                          <li>
-                            <a href="/user/edit">
+                            <a href="/user/department">
                                 <i class="icon-double-angle-right"></i>
-                                成员添加
+                                部门管理
                             </a>
                         </li>
                         
                         <li>
-                            <a href="/user/bumen_edit">
+                            <a href="/user/position">
                                 <i class="icon-double-angle-right"></i>
-                                部门职务添加
+                                职务管理
                             </a>
                         </li>
 

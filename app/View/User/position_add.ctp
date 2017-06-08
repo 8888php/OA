@@ -39,7 +39,7 @@
     </head>
 
     <body>
-        <p class="btn btn-info btn-block" > <span style="font-size:16px;">添加成员</span> </p>
+        <p class="btn btn-info btn-block" > <span style="font-size:16px;">添加职务</span> </p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 管理员列表 </title>
+        <title> 部门管理 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +60,7 @@
                         <li>
                             <a href="#"> 系统设置 </a>
                         </li>
-                        <li class="active"> 用户管理 </li>
+                        <li class="active"> 部门管理 </li>
                     </ul><!-- .breadcrumb -->
 
                     <div class="nav-search" id="nav-search">
@@ -82,7 +82,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        成员列表信息
+                                        部门列表信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -187,16 +187,16 @@
                                     </div>
 
                                     <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal" >
+                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/department_add" data-target="#modal" >
                                             <i class="icon-plus"></i>
-                                            添加成员
+                                            添加部门
                                         </button>
 
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow:hidden; margin:30px auto; border-radius:4px;'>
+                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;  margin:30px auto; overflow: hidden;border-radius:4px;'>
                                             <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
-                                                        //remote.html内容会被加载到这里
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
