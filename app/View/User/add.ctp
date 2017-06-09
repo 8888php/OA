@@ -1,5 +1,5 @@
 
-        <p class="btn btn-info btn-block" > <span style="font-size:16px;">添加成员</span> </p>
+<p class="btn btn-info btn-block" > <span style="font-size:16px;">添加成员</span> <a class="close" data-dismiss="modal">×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>
@@ -107,7 +107,7 @@
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
 
                         <div class="col-sm-9">
-                            <select style="float: left;" name="status" class="del" id="form-field-1">         
+                            <select style="float: left;" name="status" class="status" id="form-field-1">         
                                 <option value="0" <?php echo @$user['status'] == 0 ? 'selected' : '';?> >启用</option>
                                 <option value="1" <?php echo @$user['status'] == 1 ? 'selected' : '';?> >停用</option>
                             </select>
@@ -154,7 +154,7 @@
             var sex = $('.sex option:selected').val();
             var email = $('.email').val();
             var status = $('.status option:selected').val();
-
+           
             if (!username) {
                 show_error($('.username'), '用户名为空');
                 $('.username').focus();

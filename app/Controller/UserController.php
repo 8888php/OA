@@ -240,7 +240,7 @@ class UserController extends AppController {
     }
 
     /**
-     * ajax 启用/停用
+     * ajax 删除
      */
     public function ajax_del() {
         $ret_arr = array();
@@ -276,6 +276,42 @@ class UserController extends AppController {
         exit;
     }
 
+    /**
+     * ajax 恢复
+     */
+    public function ajax_recovery() {
+        $ret_arr = array();
+        if ($this->request->is('ajax')) {
+            $id = $this->request->data('did');
+            if ($id < 1 || !is_numeric($id)) {
+                //参数有误
+                $ret_arr = array(
+                    'code' => 1,
+                    'msg' => $id
+                );
+            } else {
+                $delArr['del'] = 0;
+                if ($this->User->edit($id, $delArr)) {
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '恢复成功'
+                    );
+                } else {
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '恢复失败'
+                    );
+                }
+            }
+        } else {
+            $ret_arr = array(
+                'code' => 1,
+                'msg' => $this->request->is('ajax')
+            );
+        }
+        echo json_encode($ret_arr);
+        exit;
+    }
     /**
      * 部门列表
      */
