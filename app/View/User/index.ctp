@@ -208,35 +208,8 @@
                                                 </div>
                                             </div>
                                         </div>   
-
-
-                                        <ul class="pagination pull-right no-margin">
-                                            <li class="prev disabled">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-left"></i>
-                                                </a>
-                                            </li>
-
-                                            <li class="active">
-                                                <a href="#">1</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-
-                                            <li class="next">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-
-                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/user/index/",2 ); ?>
+                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/user/index/",5 ); ?>                                        
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -331,7 +304,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 return 'right';
             return 'left';
         }
-    //})
+    })
 </script>
 
 
@@ -418,6 +391,11 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 }
             });
         }
+        $('#modal').on('hidden.bs.modal',function(){
+            //关闭模态框时，清除数据，防止下次加雷有，缓存
+            $(this).removeData("bs.modal");  
+        });
+
 </script>
 
 </body>

@@ -100,6 +100,8 @@ class PageHelper extends AppHelper {
             $this->subPageCss3();
         } elseif ($subPage_type == 4) {
             $this->subPageCss4();
+        } elseif ($subPage_type == 5) {
+            $this->subPageCss5();
         }
     }
 
@@ -118,6 +120,19 @@ class PageHelper extends AppHelper {
      * 即使：[1][2][3][4][5][6][7][8][9][10]
      * */
     function construct_num_Page() {
+        /**
+         * __construct是SubPages的构造函数，用来在创建类的时候自动运行.
+         * @$each_disNums   每页显示的条目数
+         * @nums          总条目数
+         * @current_num     当前被选中的页
+         * @sub_pages       每次显示的页数
+         * @subPage_link    每个分页的链接
+         * @subPage_type    显示分页的类型
+         * 当@subPage_type=1的时候为普通分页模式
+         * example：   共4523条记录,每页显示10条,当前第1/453页 [首页] [上页] [下页] [尾页]
+         * 当@subPage_type=2的时候为经典分页样式
+         * example：   当前第1/453页 [首页] [上页] 1 2 3 4 5 6 7 8 9 10 [下页] [尾页]
+         */
         if ($this->pageNums < $this->sub_pages) {
             $current_array = array();
             for ($i = 0; $i < $this->pageNums; $i++) {
@@ -297,6 +312,83 @@ class PageHelper extends AppHelper {
         }
 
         echo $subPageCss4Str;
+    }
+
+    /**
+     * 第5种分页方法
+     */
+    function subPageCss5() {
+        $subPageCss2Str = '<ul class="pagination no-margin">';
+        if ($this->current_page > $this->pageNums) {
+            $this->current_page = $this->pageNums;
+        }
+        if ($this->current_page > 1) {
+            $firstPageUrl = $this->subPage_link . "1" . '/pageTotal:' . $this->pageNums;
+            $prewPageUrl = $this->subPage_link . ($this->current_page - 1) . '/pageTotal:' . $this->pageNums;
+//            $subPageCss2Str .= "<a class='y-width' href='$firstPageUrl'>首页</a> ";
+            $subPageCss2Str .= '<li class="">
+                <a href="' . $prewPageUrl . '">上一页
+                                                </a>
+                                            </li>';
+        } else {
+//            $subPageCss2Str .= "<span class='y-width y-act-c'>首页</span>";
+            $subPageCss2Str .= '<li class="prev disabled">
+                <a href="#"><i class="icon-double-angle-left"></i>
+                                                </a>
+                                            </li>';
+        }
+
+//        $a = $this->construct_num_Page();
+//
+//        for ($i = 0; $i < count($a); $i++) {
+//            $s = $a[$i];
+//            if ($s == $this->current_page) {
+//                $subPageCss2Str .= '<li class="active">
+//                                                <a href="#">' . $s . '</a>
+//                                            </li>';
+//            } else {
+//                $url = $this->subPage_link . $s . '/pageTotal:' . $this->pageNums;
+////                $subPageCss2Str .= ' <li>
+////                                                <a href="' . $url . '">' . $s . '</a>
+////                                            </li>';
+//            }
+//        }
+          $ul_select = '<ul class="pagination pull-right no-margin"><li><select onchange="if(this.value){window.location=this.value;}"><option>select page</option>';
+        for ($i = 1; $i <= $this->pageNums; $i++) {
+            if ($i == $this->current_page) {
+                $ul_select .= '<option selected>第' . $i . '页</option>';
+                $subPageCss2Str .= '<li class="active">
+                                                <a href="#">' . $i . '</a>
+                                            </li>';
+            } else {
+                $url = $this->subPage_link . $i . '/pageTotal:' . $this->pageNums;
+                $ul_select .= '<option value="' . $url . '">第' . $i . '页</option>';
+            }
+        }
+        $ul_select .= '</li></select></ul>';
+        if ($this->current_page < $this->pageNums) {
+            $lastPageUrl = $this->subPage_link . $this->pageNums . '/pageTotal:' . $this->pageNums;
+            $nextPageUrl = $this->subPage_link . ($this->current_page + 1) . '/pageTotal:' . $this->pageNums;
+            $subPageCss2Str .= '<li class="next">
+                                                <a href="' . $nextPageUrl . '">
+                                                    下一页
+                                                </a>
+                                            </li>';
+//            $subPageCss2Str .= "<a class='y-width' href='$lastPageUrl'>尾页</a> ";
+        } else {
+            $subPageCss2Str .= '<li class="next disabled">
+                                                <a href="#">
+                                                    下一页
+                                                </a>
+                                            </li>';
+//            $subPageCss2Str .= "<span class='y-width y-act-c'>尾页</span>";
+        }
+//        $subPageCss2Str .= "共" . $this->nums . "条记录，";
+//        $subPageCss2Str .= "当前第" . $this->current_page . "/" . $this->pageNums . "页 ";
+        $ul_first = '<ul class="pagination  no-margin"><li><a>共' . $this->nums . '条记录，当前第' . $this->current_page . '/' . $this->pageNums . '页</a></li></ul>';
+        $subPageCss2Str .= '</ul>';
+      
+        echo $ul_first . $subPageCss2Str . $ul_select;
     }
 
 }
