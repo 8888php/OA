@@ -141,10 +141,15 @@
                                                             <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
                                                                 <i class="icon-pencil bigger-130"></i>
                                                             </a>
-
-                                                            <a class="red" onclick="ajax_del(<?php echo $v['User']['id']; ?>);">
-                                                                <i class="icon-trash bigger-130"></i>
-                                                            </a>
+                                                             <?php if ($v['User']['del'] == 0) {?>   
+                                                                <a class="red" onclick="ajax_del(<?php echo $v['User']['id']; ?>);">
+                                                                    <i title='删除' class="icon-trash bigger-130"></i>
+                                                                </a>
+                                                             <?php }else {?>
+                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
+                                                                   <i title='恢复' class="icon-trash bigger-130"></i>
+                                                               </a>
+                                                             <?php }?>
                                                         </div>
 
                                                         <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -194,7 +199,8 @@
                                             添加成员
                                         </button>
 
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow:hidden; margin:5% auto 0px; border-radius:4px;'>
+                                        
+                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto; width:500px;overflow:hidden; margin:10% auto 0px; border-radius:4px;'>
                                             <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -326,7 +332,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 return 'right';
             return 'left';
         }
-    })
+    //})
 </script>
 
 
@@ -340,6 +346,47 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             var data = {did: did}; 
             $.ajax({
                 url: '/user/ajax_del',
+                type: 'post',
+                data: data,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == -1) {
+                        //登录过期
+                        window.location.href = '/homes/index';
+                        return;
+                    }
+                    if (res.code == -2) {
+                        //权限不足
+                        alert('权限不足');
+                        return;
+                    }
+                    if (res.code == 1) {
+                        //说明有错误
+                        alert(res.msg);
+                        return;
+                    }
+                    if (res.code == 0) {
+                        //说明添加或修改成功
+                        location.href = '/user/index';
+                        return;
+                    }
+                    if (res.code == 2) {
+                        //失败
+                        alert(res.msg);
+                        return;
+                    }
+                }
+            });
+        }
+         function ajax_recovery(did) {
+            if (!did) {
+                alert('恢复失败');
+                return;
+            }
+           
+            var data = {did: did}; 
+            $.ajax({
+                url: '/user/ajax_recovery',
                 type: 'post',
                 data: data,
                 dataType: 'json',
