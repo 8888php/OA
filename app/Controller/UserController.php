@@ -454,36 +454,6 @@ class UserController extends AppController {
         exit;
     }
 
-    /**
-     * 部门管理
-     */
-    public function department() {
-
-        $this->render();
-    }
-
-    /**
-     * 部门编辑
-     */
-    public function department_add() {
-
-        $this->render();
-    }
-
-    /**
-     * 职务管理
-     */
-    public function position() {
-
-        $this->render();
-    }
-
-    /**
-     * 职务编辑
-     */
-    public function position_add() {
-
-        $this->render();
-    }
+  
 
 }

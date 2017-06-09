@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 部门管理 </title>
+        <title> 职务管理 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +60,7 @@
                         <li>
                             <a href="#"> 系统设置 </a>
                         </li>
-                        <li class="active"> 部门管理 </li>
+                        <li class="active"> 职务管理 </li>
                     </ul><!-- .breadcrumb -->
 
                     <div class="nav-search" id="nav-search">
@@ -82,7 +82,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        部门列表信息
+                                        职务列表信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -96,51 +96,42 @@
                                                         </label>
                                                     </th>
                                                     <th>ID</th>
-                                                    <th>用户名</th>
-                                                    <th class="hidden-480">部门</th>
-
-                                                    <th>姓名</th>
-                                                    <th class="hidden-480">职务</th>
-                                                    <th class="hidden-480">电话</th>
-                                                    <th class="hidden-480">状态</th>
+                                                    <th>职务名</th>
+                                                    <th>简介</th>
                                                     <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
+                                                    <th class="hidden-480">删除</th>
                                                     <th class="hidden-480"> 操作 </th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
-                                                <?php  foreach($userArr as $v){  ?>
+                                                <?php  foreach($posiArr as $v){  ?>
                                                 <tr>
                                                     <td class="center">
                                                         <label>
-                                                            <input type="checkbox" class="ace" value="<?php echo $v['User']['id']; ?>" />
+                                                            <input type="checkbox" class="ace" value="<?php echo $v['pos']['id']; ?>" />
                                                             <span class="lbl"></span>
                                                         </label>
                                                     </td>
 
                                                     <td>
-                                                        <a href="#"> <?php  echo $v['User']['id']; ?> </a>
+                                                        <a href="#"> <?php  echo $v['pos']['id']; ?> </a>
                                                     </td>
-                                                    <td><?php  echo $v['User']['user']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['User']['position_id']; ?></td>
-                                                    <td><?php  echo $v['User']['name']; ?></td>
-                                                    <td><?php  echo $v['User']['department_id']; ?></td>
-
-                                                    <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
-                                                    <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
-                                                    <td><?php  echo date('Y-m-d H:i',$v['User']['ctime']); ?></td>
-
+                                                    <td><?php  echo $v['pos']['name']; ?></td>
+                                                    <td class="hidden-480"><?php  echo $v['pos']['description']; ?></td>
+                                                    <td><?php  echo date('Y-m-d H:i',$v['pos']['ctime']); ?></td>
+                                                    <td><?php  echo $v['pos']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
                                                     <td>
                                                         <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                                                             <a class="blue" href="#">
                                                                 <i class="icon-zoom-in bigger-130"></i>
                                                             </a>
 
-                                                            <a class="green" href="#">
+                                                            <a class="green" data-toggle="modal" href="/position/add/<?php echo $v['pos']['id']; ?>" data-target="#modal">
                                                                 <i class="icon-pencil bigger-130"></i>
                                                             </a>
 
-                                                            <a class="red" href="#">
+                                                            <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>);">
                                                                 <i class="icon-trash bigger-130"></i>
                                                             </a>
                                                         </div>
@@ -187,16 +178,16 @@
                                     </div>
 
                                     <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/department_add" data-target="#modal" >
+                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/position/add" data-target="#modal" >
                                             <i class="icon-plus"></i>
-                                            添加部门
+                                            添加职务
                                         </button>
 
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;  margin:10% auto 0px; overflow: hidden;border-radius:4px;'>
+                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow: hidden;border-radius:4px;  margin:10% auto 0px;'>
                                             <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
-                                                        
+                                                        //add 内容会被加载这里
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,9 +231,12 @@
         </div><!-- /.page-content -->
     </div><!-- /.main-content -->
 
+
         <?php echo $this->element('acebox'); ?>
-        
+
 </div><!-- /.main-container-inner -->
+
+
 
 <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
     <i class="icon-double-angle-up icon-only bigger-110"></i>
@@ -252,7 +246,6 @@
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
-
 <script src="/js/jquery-2.0.3.min.js"></script>
 
 <!-- <![endif]-->
@@ -298,9 +291,9 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     jQuery(function ($) {
         var oTable1 = $('#sample-table-2').dataTable({
             "aoColumns": [
-                {"bSortable": false},
+               /* {"bSortable": false},
                 null, null, null, null, null,
-                {"bSortable": false}
+                {"bSortable": false}*/
             ]});
 
 
@@ -331,6 +324,52 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         }
     })
 </script>
+
+
+<script>
+ function ajax_del(did) {
+            if (!did) {
+                alert('删除失败');
+                return;
+            }
+           
+            var data = {did: did}; 
+            $.ajax({
+                url: '/position/ajax_del',
+                type: 'post',
+                data: data,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == -1) {
+                        //登录过期
+                        window.location.href = '/homes/index';
+                        return;
+                    }
+                    if (res.code == -2) {
+                        //权限不足
+                        alert('权限不足');
+                        return;
+                    }
+                    if (res.code == 1) {
+                        //说明有错误
+                        alert(res.msg);
+                        return;
+                    }
+                    if (res.code == 0) {
+                        //说明添加或修改成功
+                        location.href = '/position/index';
+                        return;
+                    }
+                    if (res.code == 2) {
+                        //失败
+                        alert(res.msg);
+                        return;
+                    }
+                }
+            });
+        }
+</script>
+
 
 </body>
 </html>

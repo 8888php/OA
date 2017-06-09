@@ -6,12 +6,27 @@ App::uses('AppController', 'Controller');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    //var $uses=array('SysMenus'); 
+    public $uses=array('User'); 
+    public $layout = 'blank';
     /* 左 */
     
+    
+    /**
+     * 部门管理
+     */
     public function index() {
- 
+
+        $this->render();
     }
+
+    /**
+     * 部门编辑
+     */
+    public function add() {
+
+        $this->render();
+    }
+
 
    
 

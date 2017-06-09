@@ -293,14 +293,14 @@
                         </li>
                         
                          <li>
-                            <a href="/user/department">
+                            <a href="/department/index">
                                 <i class="icon-double-angle-right"></i>
                                 部门管理
                             </a>
                         </li>
                         
                         <li>
-                            <a href="/user/position">
+                            <a href="/position/index">
                                 <i class="icon-double-angle-right"></i>
                                 职务管理
                             </a>
