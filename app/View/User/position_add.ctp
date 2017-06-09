@@ -7,10 +7,10 @@
                     <form class="form-horizontal" role="form">
                         <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user['id'];?>" />
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名</label>
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">职务名</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5 username" value="<?php echo @$user['user'];?>" />
+                                <input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5 username" value="<?php echo @$user['name'];?>" />
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle"></span>
                                 </span>
@@ -20,20 +20,10 @@
                         <div class="space-4"></div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-2">密码</label>
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">职务简介</label>
 
                             <div class="col-sm-9">
-                                <input type="password" id="form-field-2" placeholder="Password" class="col-xs-10 col-sm-5 pwd" value="<?php echo @$user['password'];?>" />
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1">昵称</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 nname" value="<?php echo @$user['name'];?>" />
+                                <input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5 nname" value="<?php echo @$user['description'];?>" />
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle"></span>
                                 </span>

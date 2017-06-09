@@ -107,10 +107,9 @@
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
 
                         <div class="col-sm-9">
-                            <!--<input type="text" id="form-field-1" placeholder="Sex" class="col-xs-10 col-sm-5 sex" />-->
-                            <select style="float: left;" name="del" class="del" id="form-field-1">                                              
-                                <option value="0" <?php echo @$user['del'] == 0 ? 'selected' : '';?> >启用</option>
-                                <option value="1" <?php echo @$user['del'] == 1 ? 'selected' : '';?> >停用</option>
+                            <select style="float: left;" name="status" class="del" id="form-field-1">         
+                                <option value="0" <?php echo @$user['status'] == 0 ? 'selected' : '';?> >启用</option>
+                                <option value="1" <?php echo @$user['status'] == 1 ? 'selected' : '';?> >停用</option>
                             </select>
                             <span class="help-inline col-xs-12 col-sm-7">
                                 <span class="middle"></span>
@@ -118,9 +117,6 @@
                         </div>
                     </div>
 
-
-
-                    <div class="space-4"></div>
                     <div class="space-4"></div>
 
 
@@ -157,7 +153,7 @@
             var tel = $('.tel').val();
             var sex = $('.sex option:selected').val();
             var email = $('.email').val();
-            var del = $('.del option:selected').val();
+            var status = $('.status option:selected').val();
 
             if (!username) {
                 show_error($('.username'), '用户名为空');
@@ -182,7 +178,7 @@
                 show_error($('.position'), '职务未选择');
                 return;
             }
-            var data = {user_id: user_id, username: username, password: password, name: name, pid: pid, position: position, tel: tel, sex: sex, email: email, del: del};
+            var data = {user_id: user_id, username: username, password: password, name: name, pid: pid, position: position, tel: tel, sex: sex, email: email, status: status};
             $.ajax({
                 url: '/user/ajax_edit',
                 type: 'post',
@@ -209,7 +205,7 @@
                     }
                     if (res.code == 0) {
                         //说明添加或修改成功
-                        alert(res.msg);
+                        location.href = '/user/index';
                         return;
                     }
                     if (res.code == 2) {

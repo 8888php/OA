@@ -63,7 +63,6 @@
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">部门负责人</label>
 
                                                 <div class="col-sm-9">
-                                                    <!--<input type="text" id="form-field-1" placeholder="Sex" class="col-xs-10 col-sm-5 sex" />-->
                                                     <select style="float: left;" name="del" class="del" id="form-field-1">                                     
                                                         <?php foreach($fuzeren as $fk=>$fv){  ?>
                                                         <option value="<?php echo @$fv['User']['id'];?>" <?php echo @$fv['User']['id'] == @$department['user_id'] ? 'selected' : '';?> > <?php echo @$fv['User']['name'];?> </option>
@@ -81,7 +80,6 @@
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2">部门介绍</label>
 
                                                 <div class="col-sm-9">
-                                                    <!--<input type="t" id="form-field-2" placeholder="部门介绍" class="col-xs-10 col-sm-5 pwd" value="<?php echo @$user['password'];?>" />-->
                                                     <textarea style="float: left;" placeholder="部门介绍" class="d_desc"><?php echo @$department['description'];?></textarea>
                                                     <span class="help-inline col-xs-12 col-sm-7">
                                                         <span class="middle"></span>
@@ -93,7 +91,6 @@
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
 
                                                 <div class="col-sm-9">
-                                                    <!--<input type="text" id="form-field-1" placeholder="Sex" class="col-xs-10 col-sm-5 sex" />-->
                                                     <select style="float: left;" name="del" class="del" id="form-field-1">                                              
                                                         <option value="0" <?php echo @$department['del'] == 0 ? 'selected' : '';?> >启用</option>
                                                         <option value="1" <?php echo @$department['del'] == 1 ? 'selected' : '';?> >停用</option>
@@ -104,9 +101,6 @@
                                                 </div>
                                             </div>
 
-
-
-                                            <div class="space-4"></div>
                                             <div class="space-4"></div>
 
                                             <div class="hr hr-24"></div>
@@ -130,48 +124,37 @@
                                         <form class="form-horizontal" role="form">
                                             <input type="hidden" id="d_id" name="d_id" value="<?php echo @$department['id'];?>" />
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">部门名称</label>
+                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">部门</label>
 
                                                 <div class="col-sm-9">
-                                                    <input type="text" id="form-field-1" placeholder="部门名称" class="col-xs-10 col-sm-5 d_name" value="<?php echo @$department['name'];?>" />
-                                                    <span class="help-inline col-xs-12 col-sm-7">
-                                                        <span class="middle"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="space-4"></div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-2">部门介绍</label>
-
-                                                <div class="col-sm-9">
-                                                    <!--<input type="t" id="form-field-2" placeholder="部门介绍" class="col-xs-10 col-sm-5 pwd" value="<?php echo @$user['password'];?>" />-->
-                                                    <textarea style="float: left;" placeholder="部门介绍" class="d_desc"><?php echo @$department['description'];?></textarea>
-                                                    <span class="help-inline col-xs-12 col-sm-7">
-                                                        <span class="middle"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
-
-                                                <div class="col-sm-9">
-                                                    <!--<input type="text" id="form-field-1" placeholder="Sex" class="col-xs-10 col-sm-5 sex" />-->
-                                                    <select style="float: left;" name="del" class="del" id="form-field-1">                                              
-                                                        <option value="0" <?php echo @$department['del'] == 0 ? 'selected' : '';?> >启用</option>
-                                                        <option value="1" <?php echo @$department['del'] == 1 ? 'selected' : '';?> >停用</option>
+                                                    <select style="float: left;" name="did" class="del" id="form-field-1">                                             <?php foreach($department as $dk => $dv){ ?>
+                                                        <option value="<?php echo @$dv['type']; ?>" > <?php echo @$dv['type']; ?> </option>
+                                           <?php } ?>
                                                     </select>
+                                                   
                                                     <span class="help-inline col-xs-12 col-sm-7">
                                                         <span class="middle"></span>
                                                     </span>
                                                 </div>
                                             </div>
 
-
-
                                             <div class="space-4"></div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-2">选择成员</label>
+
+                                                <div class="col-sm-9">
+                                                       <select style="float: left;" name="uid" class="del" id="form-field-1">                                             <?php foreach($user as $uk => $uv){ ?>
+                                                        <option value="<?php echo @$uv['type']; ?>" > <?php echo @$uv['type']; ?> </option>
+                                             <?php } ?>
+                                                    </select>
+                                                    
+                                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                        <span class="middle"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+
                                             <div class="space-4"></div>
 
                                             <div class="hr hr-24"></div>

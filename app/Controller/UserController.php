@@ -40,34 +40,34 @@ class UserController extends AppController {
     public $helper = array('Page');
 
     /**
-     * 列表页
+     * 成员列表页
      */
-    public function index($pages=1) {
-        
+    public function index($pages = 1) {
+
         $userArr = array();
-        if ((int)$pages < 1) {
+        if ((int) $pages < 1) {
             $pages = 1;
         }
-        $limit = 1;
+        $limit = 2;
         $total = 0;
         $curpage = 0;
         $all_page = 0;
         $u_count = $this->User->query('select count(*) as c from t_user');
         $total = $u_count[0][0]['c'];
-        
+
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            
-            $userArr = $this->User->query('select * from t_user as User order by id desc limit '.(($pages-1) * $limit) . ',' . $limit);
+
+            $userArr = $this->User->query('select * from t_user as User order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
 //            var_dump($userArr);die;
             $this->set('userArr', $userArr);
-       }
+        }
         //$userArr = $this->User->getAlluser($pages, 1);
-        
+
 
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -88,7 +88,6 @@ class UserController extends AppController {
         $this->render('add');
     }
 
-    
     /**
      * 添加成员
      */
@@ -96,7 +95,7 @@ class UserController extends AppController {
 
         $this->render();
     }
-  
+
     /**
      * 个人信息
      */
@@ -104,8 +103,7 @@ class UserController extends AppController {
 
         $this->render();
     }
-    
-    
+
     /**
      * ajax 保存添加/修改
      */
@@ -121,7 +119,7 @@ class UserController extends AppController {
             $tel = $this->request->data('tel');
             $sex = $this->request->data('sex');
             $email = $this->request->data('email');
-            $del = $this->request->data('del');
+            $status = $this->request->data('status');
             $save_arr = array(
                 'user' => $user,
                 'password' => md5($password),
@@ -131,7 +129,8 @@ class UserController extends AppController {
                 'tel' => $tel ? $tel : '',
                 'sex' => $sex ? (in_array($sex, array(1, 2)) ? $sex : 1) : 1,
                 'email' => $email ? $email : '',
-                'del' => $del ? (in_array($del, array(0, 1)) ? $del : 1) : 1
+                'status' => $status ? (in_array($status, array(0, 1)) ? $status : 1) : 1,
+                'ctime' => time(),
             );
             if (empty($user)) {
                 $ret_arr = array(
@@ -167,7 +166,7 @@ class UserController extends AppController {
                 if ($this->User->findByUser($user)) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '用户名被战占用',
+                        'msg' => '用户名被占用',
                         'class' => '.username'
                     );
                     echo json_encode($ret_arr);
@@ -246,20 +245,31 @@ class UserController extends AppController {
     public function ajax_del() {
         $ret_arr = array();
         if ($this->request->is('ajax')) {
-            $id = $this->request->data('id');
+            $id = $this->request->data('did');
             if ($id < 1 || !is_numeric($id)) {
                 //参数有误
                 $ret_arr = array(
                     'code' => 1,
-                    'msg' => '参数有误'
+                    'msg' => $id
                 );
             } else {
-                //edit
+                $delArr['del'] = 1;
+                if ($this->User->edit($id, $delArr)) {
+                    $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '删除成功'
+                    );
+                } else {
+                    $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '删除失败'
+                    );
+                }
             }
         } else {
             $ret_arr = array(
                 'code' => 1,
-                'msg' => '参数有误'
+                'msg' => $this->request->is('ajax')
             );
         }
         echo json_encode($ret_arr);
@@ -286,7 +296,7 @@ class UserController extends AppController {
             }
         }
 
-        $this->set('fuzeren',$this->User->getAllfuzeren());  // 可成为负责人成员
+        $this->set('fuzeren', $this->User->getAllfuzeren());  // 可成为负责人成员
         $this->render();
     }
 
@@ -408,7 +418,6 @@ class UserController extends AppController {
         exit;
     }
 
-    
     /**
      * 部门管理
      */
@@ -416,7 +425,7 @@ class UserController extends AppController {
 
         $this->render();
     }
-    
+
     /**
      * 部门编辑
      */
@@ -424,9 +433,7 @@ class UserController extends AppController {
 
         $this->render();
     }
-    
-    
-    
+
     /**
      * 职务管理
      */
@@ -434,7 +441,7 @@ class UserController extends AppController {
 
         $this->render();
     }
-    
+
     /**
      * 职务编辑
      */
@@ -442,8 +449,5 @@ class UserController extends AppController {
 
         $this->render();
     }
-    
-    
-    
-    
+
 }
