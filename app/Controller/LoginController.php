@@ -22,7 +22,8 @@ class LoginController extends AppNotLoginController {
         $this->layout = 'blank'; 
         $this->set('title','登陆');
         //只接受 post
-        if ($this->request->isPost() && !empty($login_arr = $this->request->data)) {
+		$login_arr = $this->request->data;
+        if ($this->request->isPost() && !empty($login_arr)) {
             $user = $login_arr['user'];
             $password = $login_arr['password'];   
             if (empty($user) || empty($password)) {

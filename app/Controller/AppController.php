@@ -33,6 +33,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $uses = array('User');
     public $userInfo = array();
+
     public function beforeFilter() {
         parent::beforeFilter();
         

@@ -9,34 +9,22 @@
         <!-- basic styles -->
         <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
-
         <!--[if IE 7]>
           <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
         <![endif]-->
-
         <!-- page specific plugin styles -->
-
         <!-- fonts -->
-
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
-
         <!-- ace styles -->
-
         <link rel="stylesheet" href="/assets/css/ace.min.css" />
         <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
-
         <!--[if lte IE 8]>
-          <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+          <link rel="stylesheet" href="/assets/css/ace-ie.min.css" />
         <![endif]-->
-
         <!-- inline styles related to this page -->
-
         <!-- ace settings handler -->
-
         <script src="/assets/js/ace-extra.min.js"></script>
-
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
         <!--[if lt IE 9]>
         <script src="/assets/js/html5shiv.js"></script>
         <script src="/assets/js/respond.min.js"></script>
@@ -46,7 +34,7 @@
 <body class="login-layout">
 
     <div class="main-container">
-        <div class="main-content">
+        <div class="main-content" style="margin-top:10%;">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="login-container">
@@ -54,7 +42,7 @@
                             <h1>
                                 <i class="icon-leaf green"></i>
                                 <span class="red">OA</span>
-                                <span class="white">Login</span>
+                                <span class="white">登录</span>
                             </h1>
                             <h4 class="blue"> <!--&copy; Company Name --> </h4>
                         </div>
@@ -67,7 +55,7 @@
                                     <div class="widget-main">
                                         <h4 class="header blue lighter bigger">
                                             <i class="icon-coffee green"></i>
-                                            Please Enter Your Information
+                                            请输入您的用户名密码
                                         </h4>
 
                                         <div class="space-6"></div>
@@ -77,14 +65,14 @@
                                             <fieldset>
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Username" name="data[user]" id="user" />
+                                                        <input type="text" class="form-control" placeholder="用户名" name="data[user]" id="user" />
                                                         <i class="icon-user"></i>
                                                     </span>
                                                 </label>
 
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="password" class="form-control" placeholder="Password" name="data[password]" id="password" />
+                                                        <input type="password" class="form-control" placeholder="密码" name="data[password]" id="password" />
                                                         <i class="icon-lock"></i>
                                                     </span>
                                                 </label>
@@ -92,14 +80,14 @@
                                                 <div class="space"></div>
 
                                                 <div class="clearfix">
-                                                    <label class="inline">
+                                                    <!--label class="inline">
                                                         <input type="checkbox" class="ace" />
                                                         <span class="lbl"> Remember Me</span>
-                                                    </label>
+                                                    </label-->
 
                                                     <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
                                                         <i class="icon-key"></i>
-                                                        Login
+                                                        登陆
                                                     </button>
                                                 </div>
                                             <?php echo $this->Form->end();?>
@@ -129,17 +117,17 @@
 
                                     <div class="toolbar clearfix">
                                         <div>
-                                            <a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+                                            <!--a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
                                                 <i class="icon-arrow-left"></i>
                                                 I forgot my password
-                                            </a>
+                                            </a-->
                                         </div>
 
                                         <div>
-                                            <a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+                                            <!--a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
                                                 I want to register
                                                 <i class="icon-arrow-right"></i>
-                                            </a>
+                                            </a-->
                                         </div>
                                     </div>
                                 </div><!-- /widget-body -->
@@ -270,32 +258,30 @@
     <!-- basic scripts -->
 
     <!--[if !IE]> -->
-
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
-
+<script src="/js/jquery-2.0.3.min.js"></script>
     <!-- <![endif]-->
 
     <!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/js/jquery-1.10.2.min.js"></script>
 <![endif]-->
 
     <!--[if !IE]> -->
 
     <script type="text/javascript">
-                                            window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+          window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
     </script>
 
     <!-- <![endif]-->
 
     <!--[if IE]>
 <script type="text/javascript">
-window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 
     <script type="text/javascript">
         if ("ontouchend" in document)
-            document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+            document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
 
     <!-- inline scripts related to this page -->

@@ -5,28 +5,23 @@
 </div><!-- /.main-container -->
 
 <!-- basic scripts -->
-
 <!--[if !IE]> -->
-
 <script src="/js/jquery.min.js"></script>
-
 <!-- <![endif]-->
 
 <!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/js/jquery-1.10.2.min.js"></script>
 <![endif]-->
 
 <!--[if !IE]> -->
-
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='/assets/js/jquery-2.0.3.min.js'>" + "<" + "script>");
+    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "script>");
 </script>
-
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script type="text/javascript">
-window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"+"<"+"script>");
+window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"script>");
 </script>
 <![endif]-->
 
@@ -53,10 +48,8 @@ window.jQuery || document.write("<script src='/assets/js/jquery-1.10.2.min.js'>"
 <script src="/assets/js/flot/jquery.flot.resize.min.js"></script>
 
 <!-- ace scripts -->
-
 <script src="/assets/js/ace-elements.min.js"></script>
 <script src="/assets/js/ace.min.js"></script>
-
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">

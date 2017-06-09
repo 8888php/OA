@@ -192,7 +192,7 @@
                                             添加职务
                                         </button>
 
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow: hidden;border-radius:4px;  margin:30px auto;'>
+                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow: hidden;border-radius:4px;  margin:10% auto 0px;'>
                                             <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -240,14 +240,9 @@
         </div><!-- /.page-content -->
     </div><!-- /.main-content -->
 
-    <div class="ace-settings-container" id="ace-settings-container">
-        <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-            <i class="icon-cog bigger-150"></i>
-        </div>
 
         <?php echo $this->element('acebox'); ?>
 
-    </div><!-- /#ace-settings-container -->
 </div><!-- /.main-container-inner -->
 
 
@@ -260,32 +255,31 @@
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery-2.0.3.min.js"></script>
 
 <!-- <![endif]-->
 
 <!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/js/jquery-1.10.2.min.js"></script>
 <![endif]-->
 
 <!--[if !IE]> -->
 
 <script type="text/javascript">
-                        window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script type="text/javascript">
-window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 
 <script type="text/javascript">
     if ("ontouchend" in document)
-        document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/typeahead-bs2.min.js"></script>
