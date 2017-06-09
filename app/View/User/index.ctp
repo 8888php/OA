@@ -194,7 +194,7 @@
                                             添加成员
                                         </button>
 
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow:hidden; margin:10% auto 0px; border-radius:4px;'>
+                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow:hidden; margin:5% auto 0px; border-radius:4px;'>
                                             <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">

@@ -80,7 +80,7 @@
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2">部门介绍</label>
 
                                                 <div class="col-sm-9">
-                                                    <textarea style="float: left;" placeholder="部门介绍" class="d_desc"><?php echo @$department['description'];?></textarea>
+                                                    <textarea style="float: left;"  cols="30" rows="5"  placeholder="部门介绍" class="d_desc"><?php echo @$department['description'];?></textarea>
                                                     <span class="help-inline col-xs-12 col-sm-7">
                                                         <span class="middle"></span>
                                                     </span>
