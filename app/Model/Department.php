@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-App::uses('DepartmentModel', 'Model');
+App::uses('DepartmentModel', 'AppModel');
 
 /**
  * Application model for Cake.
@@ -29,7 +29,7 @@ App::uses('DepartmentModel', 'Model');
  *
  * @package       app.Model
  */
-class Department extends Model {
+class Department extends AppModel {
 
     var $name = 'Department';
     var $useTable = 'department';
@@ -71,7 +71,7 @@ class Department extends Model {
     # 获取全部数据
     public function getAlluser($page = 0 ,$num = 20){
 //        $userArr = $fields = array();
-//        $fields = array('id','user','position_id','name','tel','ctime');
+//        $fields = array('id','name','ctime');
 //        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
 //        return $userArr;
     }

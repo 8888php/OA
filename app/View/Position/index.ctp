@@ -130,10 +130,16 @@
                                                             <a class="green" data-toggle="modal" href="/position/add/<?php echo $v['pos']['id']; ?>" data-target="#modal">
                                                                 <i class="icon-pencil bigger-130"></i>
                                                             </a>
+                                                            <?php  if($v['pos']['del'] == 0) { ?>
 
-                                                            <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>);">
+                                                            <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>,'del');">
                                                                 <i class="icon-trash bigger-130"></i>
                                                             </a>
+							<?php  }else{ ?>
+							   <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>,'rest');">
+                                                               <i class="icon-reply icon-only" alt='取消删除'></i>
+                                                            </a>
+							<?php  } ?>
                                                         </div>
 
                                                         <div class="visible-xs visible-sm hidden-md hidden-lg">
@@ -220,7 +226,7 @@
                                             </li>
                                         </ul>
 
-                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/user/index/",2 ); ?>
+                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",2 ); ?>
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -257,7 +263,7 @@
 <!--[if !IE]> -->
 
 <script type="text/javascript">
-                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 
 <!-- <![endif]-->
@@ -327,13 +333,13 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 
 <script>
- function ajax_del(did) {
+ function ajax_del(did,status) {
             if (!did) {
                 alert('删除失败');
                 return;
             }
            
-            var data = {did: did}; 
+            var data = {did: did,status:status}; 
             $.ajax({
                 url: '/position/ajax_del',
                 type: 'post',
@@ -357,7 +363,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                     }
                     if (res.code == 0) {
                         //说明添加或修改成功
-                        location.href = '/position/index';
+                        location.href = location.pathname;
                         return;
                     }
                     if (res.code == 2) {

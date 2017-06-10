@@ -1,6 +1,6 @@
 <?php
 
-App::uses('AppController', 'Controller');
+App::uses('PositionController', 'AppController');
 /* 科研项目 */
 
 class PositionController extends AppController {
@@ -10,11 +10,11 @@ class PositionController extends AppController {
     public $layout = 'blank';
     /* 左 */
     
-      /**
+    /**
      * 职务管理
      */
     public function index($pages = 1) {
-        
+      //  var_dump($_SERVER);
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -56,13 +56,14 @@ class PositionController extends AppController {
         $this->render();
     }
     
-       /**
+   /**
      * ajax 启用/停用
      */
     public function ajax_del() {
         $ret_arr = array();
         if ($this->request->is('ajax')) {
             $id = $this->request->data('did');
+            $del = $this->request->data('status');
             if ($id < 1 || !is_numeric($id)) {
                 //参数有误
                 $ret_arr = array(
@@ -70,7 +71,7 @@ class PositionController extends AppController {
                     'msg' => $id
                 );
             } else {
-                $delArr['del'] = 1;
+                $delArr['del'] = ($del == 'del') ? 1 : 0;
                 if ($this->Position->edit($id, $delArr)) {
                     $ret_arr = array(
                         'code' => 0,
@@ -105,7 +106,7 @@ class PositionController extends AppController {
             $desc = $this->request->data('desc');
             $save_arr = array(
                 'name' => $name,
-                'desc' => $desc,
+                'description' => $desc,
                 'ctime' => time(),
             );
             if (empty($name)) {
@@ -167,7 +168,7 @@ class PositionController extends AppController {
                     exit;
                 }
 
-                if ($this->User->edit($id, $save_arr)) {
+                if ($this->Position->edit($id, $save_arr)) {
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',

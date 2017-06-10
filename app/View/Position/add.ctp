@@ -66,7 +66,7 @@
                 $('.name').focus();
                 return;
             }
-            var data = {id: id,name: name, description: desc};
+            var data = {id: id,name: name, desc: desc};
             $.ajax({
                 url: '/position/ajax_edit',
                 type: 'post',
