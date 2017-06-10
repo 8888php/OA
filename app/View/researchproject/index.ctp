@@ -146,7 +146,7 @@
                                                                     <i title='删除' class="icon-trash bigger-130"></i>
                                                                 </a>
                                                              <?php }else {?>
-                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
+                                                                <a class="red" onclick="ajax_recovery("<?php echo $v['User']['id']; ?>);">
                                                                    <i title='恢复' class="icon-trash bigger-130"></i>
                                                                </a>
                                                              <?php }?>
@@ -194,7 +194,7 @@
                                     </div>
 
                                     <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal" >
+                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal">
                                             <i class="icon-plus"></i>
                                             添加成员
                                         </button>
@@ -305,11 +305,11 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 return 'right';
             return 'left';
         }
-    })
+    //})
 </script>
 
 
-<script>
+<script type="text/javascript">
  function ajax_del(did) {
             if (!did) {
                 alert('删除失败');
@@ -401,21 +401,3 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 </body>
 </html>
- <script type="text/javascript">
-    /**
-    * 左侧栏选中
-    * f_li_class 左侧大栏的class 
-    * s_li_class 大栏下面li的class
-    * @returns {undefined}
-    */
-    function show_left_select(f_li_class, s_li_class) {
-        if (f_li_class) {
-            $('.' + f_li_class).addClass('active').siblings().removeClass('active')
-        }
-        if (s_li_class) {
-            $('.' + f_li_class).addClass('open')
-            $('.' + s_li_class).addClass('active')
-        }
-    }
-  show_left_select('system_set', 'set_user');                              
-</script>

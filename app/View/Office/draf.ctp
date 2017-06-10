@@ -417,5 +417,5 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $('.' + s_li_class).addClass('active')
         }
     }
-  show_left_select('system_set', 'set_user');                              
+  show_left_select('office', 'draf');                              
 </script>

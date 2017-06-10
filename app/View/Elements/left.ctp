@@ -57,7 +57,7 @@
                     </a>
                 </li>
 
-                <li>
+                <li class="office">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-text-width"></i>
                         <i class="icon-list"></i>
@@ -67,36 +67,36 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
-                            <a href="/office/index">
+                        <li class="draf">
+                            <a href="/office/draf">
                                 <i class="icon-double-angle-right"></i>
                                 起草申请
                             </a>
                         </li>
 
-                        <li>
-                            <a href="/office/index">
+                        <li class="apply">
+                            <a href="/office/apply">
                                 <i class="icon-double-angle-right"></i>
                                 我的申请
                             </a>
                         </li>
 
-                        <li>
-                            <a href="/office/index">
+                        <li class="wait_approval">
+                            <a href="/office/wait_approval">
                                 <i class="icon-double-angle-right"></i>
                                 待我审批
                             </a>
                         </li>
 
-                        <li>
-                            <a href="/office/index">
+                        <li class="my_approval">
+                            <a href="/office/my_approval">
                                 <i class="icon-double-angle-right"></i>
                                 经我审批
                             </a>
                         </li>
 
-                        <li>
-                            <a href="/office/index">
+                        <li class="system_message">
+                            <a href="/office/system_message">
                                 <i class="icon-double-angle-right"></i>
                                 系统消息
                             </a>
@@ -277,7 +277,7 @@
 
 
 
-                <li>
+                <li class="system_set">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-picture"></i>
                         <span class="menu-text"> 系统设置 </span>
@@ -285,21 +285,21 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li class="set_user">
                             <a href="/user/index">
                                 <i class="icon-double-angle-right"></i>
                                 成员管理
                             </a>
                         </li>
                         
-                         <li>
+                        <li class="set_department">
                             <a href="/department/index">
                                 <i class="icon-double-angle-right"></i>
                                 部门管理
                             </a>
                         </li>
                         
-                        <li>
+                        <li class="set_position">
                             <a href="/position/index">
                                 <i class="icon-double-angle-right"></i>
                                 职务管理
