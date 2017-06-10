@@ -147,7 +147,7 @@
                                                                 </a>
                                                              <?php }else {?>
                                                                 <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
-                                                                   <i title='恢复' class="icon-trash bigger-130"></i>
+                                                                   <i title='恢复' class="icon-reply icon-only"></i>
                                                                </a>
                                                              <?php }?>
                                                         </div>
