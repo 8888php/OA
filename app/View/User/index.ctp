@@ -123,9 +123,30 @@
                                                         <a href="#"> <?php  echo $v['User']['id']; ?> </a>
                                                     </td>
                                                     <td><?php  echo $v['User']['user']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['User']['position_id']; ?></td>
+                                                    <td class="hidden-480">
+                                                        <?php $departemt_name = '';
+                                                        foreach($department as $d){
+                                                            if ($d['Department']['id'] == $v['User']['department_id']) {
+                                                                $departemt_name = $d['Department']['name'];
+                                                                break;
+                                                            }
+                                                        }
+                                                        echo $departemt_name;
+                                                        ?>
+                                                    </td>
                                                     <td><?php  echo $v['User']['name']; ?></td>
-                                                    <td><?php  echo $v['User']['department_id']; ?></td>
+                                                    <td>
+                                                        <?php
+                                                            $position_name = '';
+                                                            foreach($position as $p) {
+                                                                if ($p['Position']['id'] == $v['User']['position_id']) {
+                                                                    $position_name = $p['Position']['name'];
+                                                                    break;
+                                                                }
+                                                            }
+                                                            echo $position_name;
+                                                        ?>
+                                                    </td>
 
                                                     <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
                                                     <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>

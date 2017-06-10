@@ -35,7 +35,7 @@ class UserController extends AppController {
      *
      * @var array
      */
-    public $uses = array('User', 'Department');
+    public $uses = array('User', 'Department', 'Position');
     public $layout = 'blank';
     public $helper = array('Page');
 
@@ -54,7 +54,8 @@ class UserController extends AppController {
         $all_page = 0;
         $u_count = $this->User->query('select count(*) as c from t_user');
         $total = $u_count[0][0]['c'];
-
+        
+        $userArr = array();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
@@ -63,16 +64,21 @@ class UserController extends AppController {
             }
 
             $userArr = $this->User->query('select * from t_user as User order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
-//            var_dump($userArr);die;
-            $this->set('userArr', $userArr);
+  
         }
-        //$userArr = $this->User->getAlluser($pages, 1);
+        $this->set('userArr', $userArr);
 
 
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
         $this->set('curpage', $pages);      //curpage    当前页
         $this->set('all_page', $all_page);
+        $department = $this->Department->query('select * from t_department Department  where del =0');
+        $position = $this->Position->query('select * from t_position Position where del =0');
+//        var_dump($position);die;
+        $this->set('department', $department);
+        $this->set('position', $position);
+        
         $this->render();
     }
 
@@ -84,7 +90,10 @@ class UserController extends AppController {
             $user_arr = $this->User->findById($id);
             $this->set('user', $user_arr['User']);
         }
-
+        $department = $this->Department->query('select * from t_department Department  where del =0');
+        $position = $this->Position->query('select * from t_position Position where del =0');
+        $this->set('department', $department);
+        $this->set('position', $position);
         $this->render('add');
     }
 
@@ -197,7 +206,7 @@ class UserController extends AppController {
                     goto ADD;
                 }
                 //先查看用户是否被占用
-                $name_user_arr = $this->User->query('select * from t_user where `name`=' . $user);
+                $name_user_arr = $this->User->query('select * from t_user as User where `name`=' . "'$user'");
                 if (count($name_user_arr) > 1) {
                     $ret_arr = array(
                         'code' => 1,
@@ -207,6 +216,7 @@ class UserController extends AppController {
                     echo json_encode($ret_arr);
                     exit;
                 }
+                
                 if ($user_arr['User']['password'] == $password) {
                     unset($save_arr['password']);
                 }

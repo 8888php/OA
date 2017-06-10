@@ -25,7 +25,8 @@ class DepartmentController extends AppController {
         $all_page = 0;
         $conditions = array(); //获取条件
         $total = $this->Department->find('count',array('conditions'=>$conditions));
-
+         
+        $depArr = array();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
@@ -35,9 +36,10 @@ class DepartmentController extends AppController {
 
             $depArr = array();
             $depArr = $this->Department->query('select dep.*,u.name from t_department as dep left join t_user u on dep.user_id = u.id order by dep.id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
-            $this->set('depArr', $depArr);
+            
         }
-
+        $this->set('depArr', $depArr);
+        
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
         $this->set('curpage', $pages);      //curpage    当前页

@@ -333,9 +333,7 @@ class PageHelper extends AppHelper {
         } else {
 //            $subPageCss2Str .= "<span class='y-width y-act-c'>首页</span>";
             $subPageCss2Str .= '<li class="prev disabled">
-                <a href="#"><i class="icon-double-angle-left"></i>
-                                                </a>
-                                            </li>';
+                <a href="#">上一页 </a></li>';
         }
 
 //        $a = $this->construct_num_Page();

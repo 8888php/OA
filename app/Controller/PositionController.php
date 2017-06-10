@@ -24,7 +24,8 @@ class PositionController extends AppController {
         $all_page = 0;
         $conditions = array(); //获取条件
         $total = $this->Position->find('count',array('conditions'=>$conditions));
-
+        
+        $posiArr = array();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
@@ -34,8 +35,8 @@ class PositionController extends AppController {
 
             $posiArr = array();
             $posiArr = $this->Position->query('select * from t_position as pos order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
-            $this->set('posiArr', $posiArr);
         }
+        $this->set('posiArr', $posiArr);
 
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       

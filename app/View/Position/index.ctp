@@ -199,34 +199,7 @@
                                             </div>
                                         </div>   
 
-
-                                        <ul class="pagination pull-right no-margin">
-                                            <li class="prev disabled">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-left"></i>
-                                                </a>
-                                            </li>
-
-                                            <li class="active">
-                                                <a href="#">1</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-
-                                            <li class="next">
-                                                <a href="#">
-                                                    <i class="icon-double-angle-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-
-                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",2 ); ?>
+                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",5 ); ?>
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -379,3 +352,25 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 </body>
 </html>
+ <script type="text/javascript">
+        $('#modal').on('hidden.bs.modal',function(){
+            //关闭模态框时，清除数据，防止下次加雷有，缓存
+            $(this).removeData("bs.modal");  
+        });
+    /**
+    * 左侧栏选中
+    * f_li_class 左侧大栏的class 
+    * s_li_class 大栏下面li的class
+    * @returns {undefined}
+    */
+    function show_left_select(f_li_class, s_li_class) {
+        if (f_li_class) {
+            $('.' + f_li_class).addClass('active').siblings().removeClass('active')
+        }
+        if (s_li_class) {
+            $('.' + f_li_class).addClass('open')
+            $('.' + s_li_class).addClass('active')
+        }
+    }
+  show_left_select('system_set', 'set_position');                              
+</script>

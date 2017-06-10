@@ -1,5 +1,5 @@
 
-<p class="btn btn-info btn-block" > <span style="font-size:16px;">添加成员</span> <a class="close" data-dismiss="modal">×</a></p>
+<p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>成员</span> <a class="close" data-dismiss="modal">×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>
@@ -46,8 +46,9 @@
                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                             <select style="float: left;" name="pid" class="pid" id="form-field-1">
                                 <option value="0">请选择</option>
-                                <option value="1" <?php echo @$user['department_id'] == 1 ? 'selected' : '';?> >办公室</option>
-                                <option value="2" <?php echo @$user['department_id'] == 2 ? 'selected' : '';?>>党委办公室</option>
+                                <?php foreach($department as $d) {?>
+                                    <option value="<?php echo $d['Department']['id'];?>" <?php echo @$user['department_id'] == $d['Department']['id'] ? 'selected' : '';?> ><?php echo $d['Department']['name'];?></option>
+                                <?php }?>
                             </select>
                             <span class="help-inline col-xs-12 col-sm-7">
                                 <span class="middle"></span>
@@ -61,8 +62,9 @@
                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                             <select style="float: left;" name="position" class="position" id="form-field-1">
                                 <option value="0">请选择</option>
-                                <option value="1" <?php echo @$user['position_id'] == 1 ? 'selected' : '';?> >局长</option>
-                                <option value="2" <?php echo @$user['position_id'] == 2 ? 'selected' : '';?> >项目负责人</option>
+                                <?php foreach($position as $p) {?>
+                                <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                <?php }?>
                             </select>
                             <span class="help-inline col-xs-12 col-sm-7">
                                 <span class="middle"></span>
@@ -124,7 +126,7 @@
                         <div class=" col-md-9">
                             <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                 <i class="icon-ok bigger-110"></i>
-                                添加
+                                <?php echo !empty($user) ? '修改':'添加';?>
                             </button>
                             &nbsp; &nbsp; &nbsp;
                             <button class="btn" type="reset">

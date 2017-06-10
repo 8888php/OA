@@ -1,5 +1,5 @@
 
-        <p class="btn btn-info btn-block" > <span style="font-size:16px;">添加职务</span> </p>
+        <p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($posiArr) ? '修改':'添加'?>职务</span> <a class="close" data-dismiss="modal">×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
 
             <div class="row" style='padding:20px 0;'>
@@ -38,7 +38,7 @@
                             <div class=" col-md-9">
                                 <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                     <i class="icon-ok bigger-110"></i>
-                                    添加
+                                    <?php echo !empty($posiArr) ? '修改':'添加'?>
                                 </button>
                                 &nbsp; &nbsp; &nbsp;
                                 <button class="btn" type="reset">
