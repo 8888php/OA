@@ -47,6 +47,25 @@ class DepartmentController extends AppController {
         $this->render();
     }
 
+   /**
+     * 部门详情
+     */
+     public function infos($id = 0) {
+         
+        if(!$id && !is_numeric($id)){
+            header("Location:/homes/index");
+        }
+        
+        $depInfo = $this->Department->findById($id);
+        $this->set('depInfo',$depInfo);
+
+        # 该部门所属成员
+        $conditions = array('del'=>0,'status'=>0,'department_id'=>$id); 
+        $depMember = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
+        $this->set('depMember',$depMember);
+        $this->render();
+    }
+  
 
     /**
      * 部门编辑

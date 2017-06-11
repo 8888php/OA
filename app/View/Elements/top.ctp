@@ -232,7 +232,7 @@
                         <img class="nav-user-photo" src="/assets/avatars/user.jpg" alt="Jason's Photo" />
                         <span class="user-info">
                             <small>欢迎您,</small>
-                            <?php echo 'admin'; ?>
+                            <?php echo $userInfo->name; ?>
                         </span>
 
                         <i class="icon-caret-down"></i>
@@ -247,7 +247,7 @@
                         </li>
 
                         <li>
-                            <a href="#">
+                            <a href="/user/info">
                                 <i class="icon-user"></i>
                                 个人资料
                             </a>

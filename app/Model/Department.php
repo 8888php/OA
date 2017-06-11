@@ -69,11 +69,10 @@ class Department extends AppModel {
 
     
     # 获取全部数据
-    public function getAlluser($page = 0 ,$num = 20){
-//        $userArr = $fields = array();
-//        $fields = array('id','name','ctime');
-//        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
-//        return $userArr;
+    public function deplist(){
+        $conditions = array('del'=>0);
+        return $this->find('list',array('conditions'=>$conditions,'fields'=>array('id','name','type')));
+       
     }
     
     

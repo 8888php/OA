@@ -115,64 +115,43 @@
 
                     <ul class="submenu">
                         <li>
-                            <a href="/department/index">
-                                <i class="icon-double-angle-right"></i>
-                                办公室
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/department/index">
-                                <i class="icon-double-angle-right"></i>
-                                财务科
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/department/index">
-                                <i class="icon-double-angle-right"></i>
-                                采后室
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/department/index">
-                                <i class="icon-double-angle-right"></i>
-                                病理室
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/department/index">
-                                <i class="icon-double-angle-right"></i>
-                                技术开发室
-                            </a>
-                        </li>
-
-                        <li>
                             <a href="/department/index" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
-                                加工研究室
+                                行政部门
+                                <b class="arrow icon-angle-down"></b>
+                            </a>
+                            
+                            <ul class="submenu">
+                                <?php foreach($deplist[1] as $depk => $depv){ ?>
+                                <li>
+                                    <a href="/department/infos/<?php echo $depk; ?>">
+                                         <i class="icon-pencil"></i>
+                                         <?php echo $depv; ?>
+                                    </a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                            
+                        </li>
+
+                        <li>
+                            <a href="/department/index" class="dropdown-toggle"  >
+                                <i class="icon-double-angle-right"></i>
+                                科研部门
                                 <b class="arrow icon-angle-down"></b>
                             </a>
 
                             <ul class="submenu">
+                                 <?php foreach($deplist[2] as $depk => $depv){ ?>
                                 <li>
-                                    <a href="/department/index">
+                                    <a href="/department/infos/<?php echo $depk; ?>">
                                         <i class="icon-leaf"></i>
-                                        第一级
+                                        <?php echo $depv; ?>
                                     </a>
                                 </li>
+                                <?php } ?>
 
-                                <li>
-                                    <a href="/department/index" class="dropdown-toggle">
-                                        <i class="icon-pencil"></i>
-
-                                        第四级
-                                        <b class="arrow icon-angle-down"></b>
-                                    </a>
-
-                                    <ul class="submenu">
+                                    <!--ul class="submenu">
                                         <li>
                                             <a href="/department/index">
                                                 <i class="icon-plus"></i>
@@ -186,8 +165,8 @@
                                                 查看商品
                                             </a>
                                         </li>
-                                    </ul>
-                                </li>
+                                    </ul-->
+                               
                             </ul>
                         </li>
                     </ul>

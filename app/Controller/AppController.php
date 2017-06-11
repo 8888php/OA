@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -18,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -31,34 +31,42 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $uses = array('User');
+
+    public $uses = array('User','Department');
     public $userInfo = array();
+    public $appdata = array();
 
     public function beforeFilter() {
         parent::beforeFilter();
-        
+
         if (!$this->User->get_session_oa()) {
             //ajax
             if ($this->request->is('ajax')) {
                 echo json_encode(array(
-                        'code' => -1,
-                        'msg' => 'Please login in'
-                    ));
+                    'code' => -1,
+                    'msg' => 'Please login in'
+                ));
                 exit;
-               
             }
             //普通请求
-            $this->redirect(array('controller'=>'login', 'action'=>'signin'));
+            $this->redirect(array('controller' => 'login', 'action' => 'signin'));
         }
-        
+
         $this->userInfo = json_decode(base64_decode($this->User->get_session_oa()));
-       
+        $this->set('userInfo',$this->userInfo);
+        # 部门列表
+        $this->appdata['deplist'] = $this->Department->deplist();
+        $this->set('deplist',$this->appdata['deplist']);
     }
-     /**
+
+    /**
      * 退出登录
      */
     public function logout() {
         $this->User->del_session_oa();
-        $this->redirect(array('controller'=>'login', 'action'=>'signin'));
+        $this->redirect(array('controller' => 'login', 'action' => 'signin'));
     }
+
+
+
 }
