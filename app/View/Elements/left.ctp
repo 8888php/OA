@@ -122,14 +122,17 @@
                             </a>
                             
                             <ul class="submenu">
-                                <?php foreach($deplist[1] as $depk => $depv){ ?>
+                                <?php 
+				if(isset($deplist[1])){
+					foreach($deplist[1] as $depk => $depv){ 
+				?>
                                 <li>
                                     <a href="/department/infos/<?php echo $depk; ?>">
                                          <i class="icon-pencil"></i>
                                          <?php echo $depv; ?>
                                     </a>
                                 </li>
-                                <?php } ?>
+                                <?php  }  } ?>
                             </ul>
                             
                         </li>
@@ -142,14 +145,17 @@
                             </a>
 
                             <ul class="submenu">
-                                 <?php foreach($deplist[2] as $depk => $depv){ ?>
+                                 <?php 
+				 if(isset($deplist[1])){
+					foreach($deplist[2] as $depk => $depv){ 
+				?>
                                 <li>
                                     <a href="/department/infos/<?php echo $depk; ?>">
                                         <i class="icon-leaf"></i>
                                         <?php echo $depv; ?>
                                     </a>
                                 </li>
-                                <?php } ?>
+                                <?php }  } ?>
 
                                     <!--ul class="submenu">
                                         <li>
