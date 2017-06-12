@@ -105,7 +105,7 @@
                 </li>
 
 
-                <li>
+                <li class="government">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-desktop"></i>
                         <span class="menu-text"> 党政部门 </span>
@@ -114,7 +114,7 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li class="administration">
                             <a href="/department/index" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 行政部门
@@ -126,7 +126,7 @@
 				if(isset($deplist[1])){
 					foreach($deplist[1] as $depk => $depv){ 
 				?>
-                                <li>
+                                <li class="administration_<?php echo  $depk;?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
                                          <i class="icon-pencil"></i>
                                          <?php echo $depv; ?>
@@ -137,7 +137,7 @@
                             
                         </li>
 
-                        <li>
+                        <li class="research">
                             <a href="/department/index" class="dropdown-toggle"  >
                                 <i class="icon-double-angle-right"></i>
                                 科研部门
@@ -149,7 +149,7 @@
 				 if(isset($deplist[1])){
 					foreach($deplist[2] as $depk => $depv){ 
 				?>
-                                <li>
+                                <li class="research_<?php echo $depk; ?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
                                         <i class="icon-leaf"></i>
                                         <?php echo $depv; ?>
@@ -425,15 +425,21 @@
                 * 左侧栏选中
                 * f_li_class 左侧大栏的class 
                 * s_li_class 大栏下面li的class
+                * t_li_class 第三栏li的class
                 * @returns {undefined}
                 */
-                function show_left_select(f_li_class, s_li_class) {
+                function show_left_select(f_li_class, s_li_class, t_li_class) {
                     if (f_li_class) {
-                        $('.' + f_li_class).addClass('active').siblings().removeClass('active')
+                        $('.' + f_li_class).addClass('active').siblings().removeClass('active');
                     }
                     if (s_li_class) {
-                        $('.' + f_li_class).addClass('open')
-                        $('.' + s_li_class).addClass('active')
+                        $('.' + f_li_class).addClass('open');
+                        $('.' + s_li_class).addClass('active');
+                    }
+                    if (t_li_class) {
+                        $('.' + f_li_class).addClass('open');
+                        $('.' + s_li_class).addClass('open');
+                        $('.' + t_li_class).addClass('active');
                     }
                 }
             </script>

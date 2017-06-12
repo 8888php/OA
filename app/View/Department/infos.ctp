@@ -257,3 +257,21 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 </body>
 </html>
+<script type="text/javascript">
+    var f_class = 'government';
+    var s_class = '';
+    var t_class = '';
+    <?php if (@$depInfo['Department']['type'] == 1) {?>
+        //行政
+        s_class = 'administration';
+        t_class = s_class + "<?php echo '_'.$d_id;?>";
+    <?php } else if(@$depInfo['Department']['type'] == 2) {?>
+        //科研
+        s_class = 'research';
+        t_class = s_class + "<?php echo '_'.$d_id;?>";
+    <?php } else {?>
+            //有问题，暂时不处理
+            window.location = '/homes/index';
+    <?php }?>
+    show_left_select(f_class,s_class,t_class );
+</script>
