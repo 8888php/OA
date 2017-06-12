@@ -402,20 +402,5 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 </body>
 </html>
  <script type="text/javascript">
-    /**
-    * 左侧栏选中
-    * f_li_class 左侧大栏的class 
-    * s_li_class 大栏下面li的class
-    * @returns {undefined}
-    */
-    function show_left_select(f_li_class, s_li_class) {
-        if (f_li_class) {
-            $('.' + f_li_class).addClass('active').siblings().removeClass('active')
-        }
-        if (s_li_class) {
-            $('.' + f_li_class).addClass('open')
-            $('.' + s_li_class).addClass('active')
-        }
-    }
   show_left_select('office', 'system_message');                              
 </script>
