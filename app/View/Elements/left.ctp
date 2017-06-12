@@ -156,23 +156,7 @@
                                     </a>
                                 </li>
                                 <?php }  } ?>
-
-                                    <!--ul class="submenu">
-                                        <li>
-                                            <a href="/department/index">
-                                                <i class="icon-plus"></i>
-                                                添加产品
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="/department/index">
-                                                <i class="icon-eye-open"></i>
-                                                查看商品
-                                            </a>
-                                        </li>
-                                    </ul-->
-                               
+                             
                             </ul>
                         </li>
                     </ul>
@@ -184,38 +168,60 @@
                         <i class="icon-edit"></i>
                         <i class="icon-list"></i>
                         <span class="menu-text"> 科研项目 </span>
-
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
                     <ul class="submenu">
                         <li>
-                            <a href="/project/index">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
-                                表单组件
+                                <i class="icon-plus arrow blue"></i>
+                                添加项目
                             </a>
+                        </li>
+                            
+                        <li>
+                            <a href="#">
+                                <i class="icon-double-angle-right"></i>
+                                零余额项目
+                                <b class="arrow icon-angle-down"></b>
+                            </a>
+                             <ul class="submenu">
+                                <?php 
+				if(isset($project[1])){
+					foreach($project[1] as $depk => $depv){ 
+				?>
+                                <li>
+                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                         <i class="icon-pencil"></i>
+                                         <?php echo $depv; ?>
+                                    </a>
+                                </li>
+                                <?php  }  } ?>
+                            </ul>
                         </li>
 
                         <li>
-                            <a href="/project/index">
-                                <i class="icon-double-angle-right"></i>
-                                向导提示 &amp; 验证
+                            <a href="#">
+                                <i class="icon-double-angle-right"></i><!--i class="icon-eye-open"></i-->
+                                基本户项目
+                                <b class="arrow icon-angle-down"></b>
                             </a>
+                             <ul class="submenu">
+                                <?php 
+				if(isset($project[2])){
+					foreach($project[2] as $depk => $depv){ 
+				?>
+                                <li>
+                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                         <i class="icon-pencil"></i>
+                                         <?php echo $depv; ?>
+                                    </a>
+                                </li>
+                                <?php  }  } ?>
+                            </ul>
                         </li>
 
-                        <li>
-                            <a href="/project/index">
-                                <i class="icon-double-angle-right"></i>
-                                编辑器
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/project/index">
-                                <i class="icon-double-angle-right"></i>
-                                文件上传
-                            </a>
-                        </li>
                     </ul>
                 </li>
 
