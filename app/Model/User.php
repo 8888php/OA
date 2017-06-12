@@ -125,7 +125,7 @@ class User extends Model {
     public function getAlluser($page = 0, $num = 20, $conditions = array()) {
         $userArr = $fields = array();
 
-        $fields = array('id', 'user', 'department_id', 'position_id', 'name', 'tel', 'ctime', 'status');
+        $fields = array('id', 'user', 'department_id', 'position_id', 'name', 'tel','email', 'ctime', 'status');
         $userArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields, 'limit' => $num, 'page' => $page));
 
         return $userArr;

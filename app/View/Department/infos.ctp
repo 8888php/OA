@@ -86,65 +86,60 @@
                                         </h3>
 
                                         <div class="widget-toolbar no-border invoice-info">
-                                            <span class="invoice-info-label">Invoice:</span>
-                                            <span class="red">#121212</span>
-
                                             <br />
-                                            <span class="invoice-info-label">Date:</span>
-                                            <span class="blue">03/03/2013</span>
+                                            <span class="invoice-info-label blue">创建时间：</span>
+                                            <span class="blue"><?php echo date('Y-m-d',$depInfo['Department']['ctime']);?></span>
                                         </div>
 
-                                        <div class="widget-toolbar hidden-480">
+                                        <!--div class="widget-toolbar hidden-480">
                                             <a href="#">
                                                 <i class="icon-print"></i>
                                             </a>
-                                        </div>
+                                        </div-->
                                     </div>
 
                                     <div class="widget-body">
                                         <div class="widget-main padding-24">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <div class="row">
+                                                    <!--div class="row">
                                                         <div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-                                                            <b>Company Info</b>
+                                                            <b>详情</b>
                                                         </div>
-                                                    </div>
+                                                    </div-->
 
                                                     <div class="row">
                                                         <ul class="list-unstyled spaced">
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                Street, City
+                                                                总人数：<?php echo count($depMember);?>
                                                             </li>
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                Zip Code
+                                                                类型: <?php switch($depInfo['Department']['type']){   
+                                                                case 1: echo '行政';break;
+                                                                case 2: echo '科研';break;
+                                                                }
+                                                                ?>
                                                             </li>
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                State, Country
-                                                            </li>
-
-                                                            <li>
-                                                                <i class="icon-caret-right blue"></i>
-                                                                Phone:
-                                                                <b class="red">111-111-111</b>
+                                                                负责人：<b class="blue"> <?php echo $depMember[$depInfo['Department']['user_id']]['User']['name']; ?> </b>
                                                             </li>
 
                                                             <li class="divider"></li>
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                Paymant Info
+                                                                说明：<?php echo $depInfo['Department']['description'];?>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div><!-- /span -->
 
-                                                <div class="col-sm-6">
+                                                <!--div class="col-sm-6">
                                                     <div class="row">
                                                         <div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
                                                             <b>Customer Info</b>
@@ -157,26 +152,9 @@
                                                                 <i class="icon-caret-right green"></i>
                                                                 Street, City
                                                             </li>
-
-                                                            <li>
-                                                                <i class="icon-caret-right green"></i>
-                                                                Zip Code
-                                                            </li>
-
-                                                            <li>
-                                                                <i class="icon-caret-right green"></i>
-                                                                State, Country
-                                                            </li>
-
-                                                            <li class="divider"></li>
-
-                                                            <li>
-                                                                <i class="icon-caret-right green"></i>
-                                                                Contact Info
-                                                            </li>
                                                         </ul>
                                                     </div>
-                                                </div><!-- /span -->
+                                                </div--><!-- /span -->
                                             </div><!-- row -->
 
                                             <div class="space"></div>
@@ -188,57 +166,29 @@
                                                             <th class="center">编号</th>
                                                             <th>成员名</th>
                                                             <th class="hidden-xs">职务</th>
-                                                            <th class="hidden-480">使用状态</th>
-                                                            <th>删除</th>
+                                                            <th class="hidden-480">电话</th>
+                                                            <th class="hidden-480">邮箱</th>
+                                                            <th>使用状态</th>
                                                         </tr>
                                                     </thead>
 
                                                     <tbody>
+                                                        <?php foreach($depMember as $dk => $dv){ ?>
                                                         <tr>
-                                                            <td class="center">1</td>
+                                                            <td class="center"><?php  echo $dv['User']['id'] ; ?></td>
 
                                                             <td>
-                                                                <a href="#">google.com</a>
+                                                                <a href="#"><?php  echo $dv['User']['name'];  ?></a>
                                                             </td>
                                                             <td class="hidden-xs">
-                                                                1 year domain registration
+                                                                <?php  echo $posArr[$dv['User']['position_id']];  ?>
                                                             </td>
-                                                            <td class="hidden-480"> --- </td>
-                                                            <td>$10</td>
+                                                            <td class="hidden-480">  <?php  echo $dv['User']['tel'];  ?> </td>
+                                                            <td class="hidden-480">  <?php  echo $dv['User']['email'] ; ?> </td>
+                                                            <td>  <?php  echo $dv['User']['status'] == 1 ? '启用':'停用';  ?> </td>
                                                         </tr>
+                                                        <?php  }  ?>
 
-                                                        <tr>
-                                                            <td class="center">2</td>
-
-                                                            <td>
-                                                                <a href="#">yahoo.com</a>
-                                                            </td>
-                                                            <td class="hidden-xs">
-                                                                5 year domain registration
-                                                            </td>
-                                                            <td class="hidden-480"> 5% </td>
-                                                            <td>$45</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td class="center">3</td>
-                                                            <td>Hosting</td>
-                                                            <td class="hidden-xs">
-                                                                1 year basic hosting
-                                                            </td>
-                                                            <td class="hidden-480"> 10% </td>
-                                                            <td>$90</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td class="center">4</td>
-                                                            <td>Design</td>
-                                                            <td class="hidden-xs">
-                                                                Theme customization
-                                                            </td>
-                                                            <td class="hidden-480"> 50% </td>
-                                                            <td>$250</td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
