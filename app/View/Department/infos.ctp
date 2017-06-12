@@ -81,8 +81,14 @@
                                 <div class="widget-box transparent invoice-box">
                                     <div class="widget-header widget-header-large">
                                         <h3 class="grey lighter pull-left position-relative">
-                                            <i class="icon-leaf green"></i>
-                                            <?php echo $depInfo['Department']['name']; ?>
+                                            <?php
+                                                if($depInfo['Department']['type'] == 1){
+                                                    echo '<i class="icon-pencil blue"></i>';
+                                                }else{
+                                                    echo '<i class="icon-leaf green"></i>';
+                                                }
+                                             echo $depInfo['Department']['name'];
+                                             ?>
                                         </h3>
 
                                         <div class="widget-toolbar no-border invoice-info">
@@ -126,7 +132,7 @@
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                负责人：<b class="blue"> <?php echo $depMember[$depInfo['Department']['user_id']]['User']['name']; ?> </b>
+                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? '无':$depMember[$depInfo['Department']['user_id']]['User']['name']; ?> </b>
                                                             </li>
 
                                                             <li class="divider"></li>
@@ -181,11 +187,11 @@
                                                                 <a href="#"><?php  echo $dv['User']['name'];  ?></a>
                                                             </td>
                                                             <td class="hidden-xs">
-                                                                <?php  echo $posArr[$dv['User']['position_id']];  ?>
+                                                                <?php  echo isset($dv['User']['position_id']) ? '':$posArr[$dv['User']['position_id']];  ?>
                                                             </td>
                                                             <td class="hidden-480">  <?php  echo $dv['User']['tel'];  ?> </td>
                                                             <td class="hidden-480">  <?php  echo $dv['User']['email'] ; ?> </td>
-                                                            <td>  <?php  echo $dv['User']['status'] == 1 ? '启用':'停用';  ?> </td>
+                                                            <td>  <?php  echo $dv['User']['status'] == 1 ? '启用':'<font class="red">停用</font>';  ?> </td>
                                                         </tr>
                                                         <?php  }  ?>
 
