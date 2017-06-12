@@ -62,7 +62,7 @@ class DepartmentController extends AppController {
         # 该部门所属成员
         $conditions = array('del'=>0,'status'=>0,'department_id'=>$id); 
         $depMember = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
-        $this->set('depMember',$depMember);
+        $this->set('depMember',$depMember);//var_dump($depInfo,$depMember);
         $this->render();
     }
   
