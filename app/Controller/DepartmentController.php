@@ -6,7 +6,7 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department','User'); 
+    public $uses = array('Department','User','Position'); 
     public $layout = 'blank';
     /* 左 */
     
@@ -60,9 +60,12 @@ class DepartmentController extends AppController {
         $this->set('depInfo',$depInfo);
 
         # 该部门所属成员
-        $conditions = array('del'=>0,'status'=>0,'department_id'=>$id); 
-        $depMember = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
-        $this->set('depMember',$depMember);//var_dump($depInfo,$depMember);
+        $conditions = array('del'=>0,'department_id'=>$id); 
+        $depMember = $this->User->getAlluser(0,100,$conditions);
+        $this->set('depMember',$depMember);
+        # 职务
+         $posArr = $this->Position->getList();
+         $this->set('posArr',$posArr);
         $this->render();
     }
   

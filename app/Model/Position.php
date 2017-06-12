@@ -68,12 +68,11 @@ class Position extends AppModel {
 
 
     
-    # 获取全部数据
-    public function getAlluser($page = 0 ,$num = 20){
+    # 获取全部部门
+    public function getList(){
         $userArr = $fields = array();
-        $fields = array('id','name','description');
-        $userArr = $this->find('all',array('conditions'=>array(),'fields'=>$fields,'limit'=>$num,'page'=>$page));
-        return $userArr;
+        $fields = array('id','name');
+        return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
     }
     
     
