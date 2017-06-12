@@ -65,6 +65,7 @@ class DepartmentController extends AppController {
         $this->set('depMember',$depMember);
         # 职务
          $posArr = $this->Position->getList();
+         $this->set('d_id', $id);
          $this->set('posArr',$posArr);
         $this->render();
     }
