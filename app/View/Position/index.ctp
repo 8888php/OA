@@ -35,183 +35,178 @@
     <body>
         <?php echo $this->element('top'); ?>
 
-        <div class="main-container-inner">
-            <a class="menu-toggler" id="menu-toggler" href="#">
-                <span class="menu-text"></span>
-            </a>
+        <?php echo $this->element('left'); ?>
 
-            <?php echo $this->element('left'); ?>
-
-            <div class="main-content">
-                <div class="breadcrumbs" id="breadcrumbs">
-                    <script type="text/javascript">
-                        try {
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                            try {
                             ace.settings.check('breadcrumbs', 'fixed')
-                        } catch (e) {
-                        }
-                    </script>
+                            } catch (e) {
+                    }
+                </script>
 
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="icon-home home-icon"></i>
-                            <a href="#">Home</a>
-                        </li>
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">Home</a>
+                    </li>
 
-                        <li>
-                            <a href="#"> 系统设置 </a>
-                        </li>
-                        <li class="active"> 职务管理 </li>
-                    </ul><!-- .breadcrumb -->
+                    <li>
+                        <a href="#"> 系统设置 </a>
+                    </li>
+                    <li class="active"> 职务管理 </li>
+                </ul><!-- .breadcrumb -->
 
-                    <div class="nav-search" id="nav-search">
-                        <form class="form-search">
-                            <span class="input-icon">
-                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                                <i class="icon-search nav-search-icon"></i>
-                            </span>
-                        </form>
-                    </div><!-- #nav-search -->
-                </div>
+                <div class="nav-search" id="nav-search">
+                    <form class="form-search">
+                        <span class="input-icon">
+                            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                            <i class="icon-search nav-search-icon"></i>
+                        </span>
+                    </form>
+                </div><!-- #nav-search -->
+            </div>
 
-                <div class="page-content">						
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <!-- PAGE CONTENT BEGINS -->
+            <div class="page-content">						
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
 
-                            <div class="row">
-                                <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-12">
 
-                                    <div class="table-header">
-                                        职务列表信息
-                                    </div>
+                                <div class="table-header">
+                                    职务列表信息
+                                </div>
 
-                                    <div class="table-responsive">
-                                        <table id="sample-table-2" class="table table-striped table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </th>
-                                                    <th>ID</th>
-                                                    <th>职务名</th>
-                                                    <th>简介</th>
-                                                    <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
-                                                    <th class="hidden-480">删除</th>
-                                                    <th class="hidden-480"> 操作 </th>
-                                                </tr>
-                                            </thead>
+                                <div class="table-responsive">
+                                    <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="center">
+                                                    <label>
+                                                        <input type="checkbox" class="ace" />
+                                                        <span class="lbl"></span>
+                                                    </label>
+                                                </th>
+                                                <th>ID</th>
+                                                <th>职务名</th>
+                                                <th>简介</th>
+                                                <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
+                                                <th class="hidden-480">删除</th>
+                                                <th class="hidden-480"> 操作 </th>
+                                            </tr>
+                                        </thead>
 
-                                            <tbody>
-                                                <?php  foreach($posiArr as $v){  ?>
-                                                <tr>
-                                                    <td class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" value="<?php echo $v['pos']['id']; ?>" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </td>
+                                        <tbody>
+                                            <?php  foreach($posiArr as $v){  ?>
+                                            <tr>
+                                                <td class="center">
+                                                    <label>
+                                                        <input type="checkbox" class="ace" value="<?php echo $v['pos']['id']; ?>" />
+                                                        <span class="lbl"></span>
+                                                    </label>
+                                                </td>
 
-                                                    <td>
-                                                        <a href="#"> <?php  echo $v['pos']['id']; ?> </a>
-                                                    </td>
-                                                    <td><?php  echo $v['pos']['name']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['pos']['description']; ?></td>
-                                                    <td><?php  echo date('Y-m-d H:i',$v['pos']['ctime']); ?></td>
-                                                    <td><?php  echo $v['pos']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
-                                                    <td>
-                                                        <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                            <a class="blue" href="#">
-                                                                <i class="icon-zoom-in bigger-130"></i>
-                                                            </a>
+                                                <td>
+                                                    <a href="#"> <?php  echo $v['pos']['id']; ?> </a>
+                                                </td>
+                                                <td><?php  echo $v['pos']['name']; ?></td>
+                                                <td class="hidden-480"><?php  echo $v['pos']['description']; ?></td>
+                                                <td><?php  echo date('Y-m-d H:i',$v['pos']['ctime']); ?></td>
+                                                <td><?php  echo $v['pos']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
+                                                <td>
+                                                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                                        <a class="blue" href="#">
+                                                            <i class="icon-zoom-in bigger-130"></i>
+                                                        </a>
 
-                                                            <a class="green" data-toggle="modal" href="/position/add/<?php echo $v['pos']['id']; ?>" data-target="#modal">
-                                                                <i class="icon-pencil bigger-130"></i>
-                                                            </a>
-                                                            <?php  if($v['pos']['del'] == 0) { ?>
+                                                        <a class="green" data-toggle="modal" href="/position/add/<?php echo $v['pos']['id']; ?>" data-target="#modal">
+                                                            <i class="icon-pencil bigger-130"></i>
+                                                        </a>
+                                                        <?php  if($v['pos']['del'] == 0) { ?>
 
-                                                            <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>,'del');">
-                                                                <i class="icon-trash bigger-130"></i>
-                                                            </a>
-							<?php  }else{ ?>
-							   <a class="red" onclick="ajax_del(<?php echo $v['pos']['id']; ?>,'rest');">
-                                                               <i class="icon-reply icon-only" alt='取消删除'></i>
-                                                            </a>
-							<?php  } ?>
-                                                        </div>
-
-                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                            <div class="inline position-relative">
-                                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                                    <i class="icon-caret-down icon-only bigger-120"></i>
-                                                                </button>
-
-                                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                                            <span class="blue">
-                                                                                <i class="icon-zoom-in bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                                            <span class="green">
-                                                                                <i class="icon-edit bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                                            <span class="red">
-                                                                                <i class="icon-trash bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <?php } ?>
-
-                                        </table>
-                                    </div>
-
-                                    <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/position/add" data-target="#modal" >
-                                            <i class="icon-plus"></i>
-                                            添加职务
-                                        </button>
-
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow: hidden;border-radius:4px;  margin:10% auto 0px;'>
-                                            <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        //add 内容会被加载这里
+                                                        <a class="red" onclick="ajax_del( < ?php echo $v['pos']['id']; ? > , 'del');">
+                                                            <i class="icon-trash bigger-130"></i>
+                                                        </a>
+                                                        <?php  }else{ ?>
+                                                        <a class="red" onclick="ajax_del( < ?php echo $v['pos']['id']; ? > , 'rest');">
+                                                            <i class="icon-reply icon-only" alt='取消删除'></i>
+                                                        </a>
+                                                        <?php  } ?>
                                                     </div>
+
+                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                        <div class="inline position-relative">
+                                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-caret-down icon-only bigger-120"></i>
+                                                            </button>
+
+                                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                                                <li>
+                                                                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                                                        <span class="blue">
+                                                                            <i class="icon-zoom-in bigger-120"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                                        <span class="green">
+                                                                            <i class="icon-edit bigger-120"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                                                        <span class="red">
+                                                                            <i class="icon-trash bigger-120"></i>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <?php } ?>
+
+                                    </table>
+                                </div>
+
+                                <div class="modal-footer no-margin-top">
+                                    <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/position/add" data-target="#modal" >
+                                        <i class="icon-plus"></i>
+                                        添加职务
+                                    </button>
+
+                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;overflow: hidden;border-radius:4px;  margin:10% auto 0px;'>
+                                        <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    //add 内容会被加载这里
                                                 </div>
                                             </div>
-                                        </div>   
+                                        </div>
+                                    </div>   
 
-                                        <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",5 ); ?>
-                                    </div>
+                                    <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",5 ); ?>
                                 </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- PAGE CONTENT ENDS -->
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.page-content -->
-    </div><!-- /.main-content -->
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div><!-- /.main-content -->
 
 
-        <?php echo $this->element('acebox'); ?>
+<?php echo $this->element('acebox'); ?>
 
 </div><!-- /.main-container-inner -->
 
@@ -236,8 +231,7 @@
 <!--[if !IE]> -->
 
 <script type="text/javascript">
-window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
-</script>
+                                                                       window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");</script>
 
 <!-- <![endif]-->
 
@@ -248,9 +242,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <![endif]-->
 
 <script type="text/javascript">
-    if ("ontouchend" in document)
-        document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-</script>
+            if ("ontouchend" in document)
+            document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");</script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/typeahead-bs2.min.js"></script>
 
@@ -267,95 +260,88 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
-    jQuery(function ($) {
-        var oTable1 = $('#sample-table-2').dataTable({
+            jQuery(function ($) {
+            var oTable1 = $('#sample-table-2').dataTable({
             "aoColumns": [
-               /* {"bSortable": false},
-                null, null, null, null, null,
-                {"bSortable": false}*/
+                    /* {"bSortable": false},
+                     null, null, null, null, null,
+                     {"bSortable": false}*/
             ]});
-
-
-        $('table th input:checkbox').on('click', function () {
+                    $('table th input:checkbox').on('click', function () {
             var that = this;
-            $(this).closest('table').find('tr > td:first-child input:checkbox')
+                    $(this).closest('table').find('tr > td:first-child input:checkbox')
                     .each(function () {
-                        this.checked = that.checked;
-                        $(this).closest('tr').toggleClass('selected');
+                    this.checked = that.checked;
+                            $(this).closest('tr').toggleClass('selected');
                     });
-
-        });
-
-
-        $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-        function tooltip_placement(context, source) {
-            var $source = $(source);
-            var $parent = $source.closest('table')
-            var off1 = $parent.offset();
-            var w1 = $parent.width();
-
-            var off2 = $source.offset();
-            var w2 = $source.width();
-
-            if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2))
-                return 'right';
-            return 'left';
-        }
-    })
+            });
+                    $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+                    function tooltip_placement(context, source) {
+                    var $source = $(source);
+                            var $parent = $source.closest('table')
+                            var off1 = $parent.offset();
+                            var w1 = $parent.width();
+                            var off2 = $source.offset();
+                            var w2 = $source.width();
+                            if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2))
+                            return 'right';
+                            return 'left';
+                    }
+            })
 </script>
 
 
 <script>
- function ajax_del(did,status) {
+            function ajax_del(did, status) {
             if (!did) {
-                alert('删除失败');
-                return;
+            alert('删除失败');
+                    return;
             }
-           
-            var data = {did: did,status:status}; 
-            $.ajax({
-                url: '/position/ajax_del',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        location.href = location.pathname;
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
-                }
-            });
-        }
+
+            var data = {did: did, status:status};
+                    $.ajax({
+                    url: '/position/ajax_del',
+                            type: 'post',
+                            data: data,
+                            dataType: 'json',
+                            success: function (res) {
+                            if (res.code == - 1) {
+                            //登录过期
+                            window.location.href = '/homes/index';
+                                    return;
+                            }
+                            if (res.code == - 2) {
+                            //权限不足
+                            alert('权限不足');
+                                    return;
+                            }
+                            if (res.code == 1) {
+                            //说明有错误
+                            alert(res.msg);
+                                    return;
+                            }
+                            if (res.code == 0) {
+                            //说明添加或修改成功
+                            location.href = location.pathname;
+                                    return;
+                            }
+                            if (res.code == 2) {
+                            //失败
+                            alert(res.msg);
+                                    return;
+                            }
+                            }
+                    });
+            }
 </script>
 
 
 </body>
 </html>
- <script type="text/javascript">
-        $('#modal').on('hidden.bs.modal',function(){
-            //关闭模态框时，清除数据，防止下次加雷有，缓存
-            $(this).removeData("bs.modal");  
-        });
-  show_left_select('system_set', 'set_position');                              
+<script type="text/javascript">
+    $('#modal').on('hidden.bs.modal', function(){
+    //关闭模态框时，清除数据，防止下次加雷有，缓存
+    $(this).removeData("bs.modal");
+    });
+            show_left_select('system_set', 'set_position');
 </script>
