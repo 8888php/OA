@@ -10,17 +10,43 @@ class ResearchProjectController extends AppController {
     public $layout = 'blank';
 
     /**
-     * 列表
+     * 详情
      */
     public function index() {
         $this->render();
     }
 
     /**
-     * 添加/修改
+     * 添加 项目详情
      */
-    public function add() {
+    public function step1() {
         $this->render();
     }
 
+    /**
+     * 添加 任务书
+     */
+    public function step2() {
+        $this->render();
+    }
+    
+    /**
+     * 添加 项目费用
+     */
+    public function step3() {
+        $this->render();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

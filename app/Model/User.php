@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-App::uses('UserModel', 'Model');
+App::uses('UserModel', 'AppModel');
 
 /**
  * Application model for Cake.
@@ -29,7 +29,7 @@ App::uses('UserModel', 'Model');
  *
  * @package       app.Model
  */
-class User extends Model {
+class User extends AppModel {
 
     var $name = 'User';
     var $useTable = 'user';

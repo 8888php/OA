@@ -19,7 +19,7 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-App::uses('PositionModel', 'Model');
+App::uses('PositionModel', 'AppModel');
 
 /**
  * Application model for Cake.

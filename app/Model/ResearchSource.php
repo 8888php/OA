@@ -1,14 +1,14 @@
 <?php
 
 /**
- * 科研项目
+ * 科研项目—— 资金来源
  */
-App::uses('ResearchProjectModel', 'AppModel');
+App::uses('ResearchSourceModel', 'AppModel');
 
-class ResearchProjectModel extends AppModel {
+class ResearchSourceModel extends AppModel {
 
-    public $name = 'ResearchProject';
-    public $useTable = 'research_project';
+    public $name = 'ResearchSource';
+    public $useTable = 'research_source';
     public $is_del = 1; //删除
     public $components = array('Session');
 
