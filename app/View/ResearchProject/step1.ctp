@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group qdly">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1">资金来源</label>
-                        <select style="float: left;" name="pid" class="col-sm-4 pid"  id="form-field-1">
+                        <select style="float: left;" name="pid" class="col-sm-4 "  id="form-field-1">
                                 <option value="0">来源渠道</option>
                         </select>
                         <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2 file_number" value="文号" />           

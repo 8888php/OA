@@ -6,7 +6,7 @@
 
 <!-- basic scripts -->
 <!--[if !IE]> -->
-<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 <!-- <![endif]-->
 
 <!--[if IE]>
