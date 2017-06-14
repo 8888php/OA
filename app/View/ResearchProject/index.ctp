@@ -102,7 +102,7 @@
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#faq-tab-3">
-                                        <i class="orange icon-credit-card bigger-120"></i>
+                                        <i class="green icon-list-alt bigger-120"></i>
                                         报表
                                     </a>
                                 </li>
@@ -114,7 +114,7 @@
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#faq-tab-3">
-                                        <i class="glyphicon glyphicon-edit"></i>
+                                        <i class="blue icon-list bigger-120"></i>
                                         出入库
                                     </a>
                                 </li>
@@ -534,7 +534,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 

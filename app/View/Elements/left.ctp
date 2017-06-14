@@ -163,16 +163,15 @@
                 </li>
 
 
-                <li>
-                    <a href="#" class="dropdown-toggle">
+                <li >
+                    <a href="#" class="dropdown-toggle" >
                         <i class="icon-edit"></i>
-                        <i class="icon-list"></i>
                         <span class="menu-text"> 科研项目 </span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li >
                             <a  data-toggle="modal" href="/ResearchProject/step2" data-target="#modalstep" >
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>
@@ -325,108 +324,6 @@
                     </ul>
                 </li>
 
-                <!--li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-tag"></i>
-                        <span class="menu-text"> 更多页面 </span>
-
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li>
-                            <a href="/homes/profile">
-                                <i class="icon-double-angle-right"></i>
-                                用户信息
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/inbox">
-                                <i class="icon-double-angle-right"></i>
-                                收件箱
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/pricing">
-                                <i class="icon-double-angle-right"></i>
-                                售价单
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/invoice">
-                                <i class="icon-double-angle-right"></i>
-                                购物车
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/timeline">
-                                <i class="icon-double-angle-right"></i>
-                                时间轴
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/login">
-                                <i class="icon-double-angle-right"></i>
-                                登录 &amp; 注册
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-file-alt"></i>
-
-                        <span class="menu-text">
-                            其他页面
-                            <span class="badge badge-primary ">5</span>
-                        </span>
-
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li>
-                            <a href="/homes/faq">
-                                <i class="icon-double-angle-right"></i>
-                                帮助
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/error-404">
-                                <i class="icon-double-angle-right"></i>
-                                404错误页面
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/error-500">
-                                <i class="icon-double-angle-right"></i>
-                                500错误页面
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/grid">
-                                <i class="icon-double-angle-right"></i>
-                                网格
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/homes/blank">
-                                <i class="icon-double-angle-right"></i>
-                                空白页面
-                            </a>
-                        </li>
-                    </ul>
-                </li-->
             </ul><!-- /.nav-list -->
 
             <div class="sidebar-collapse" id="sidebar-collapse">
@@ -438,6 +335,7 @@
                     ace.settings.check('sidebar', 'collapsed')
                 } catch (e) {
                 }
+                
                 /**
                 * 左侧栏选中
                 * f_li_class 左侧大栏的class 

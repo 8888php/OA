@@ -3,18 +3,13 @@
 
 
             <div class="main-container-inner">
-           
                 <div class="main-content">
-                    
                     <div class="page-content">
-
                         <div class="row">
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
-
-
                                 <div id="dropzone">
-                                    <form action="//dummy.html" class="dropzone">
+                                    <form action="/ResearchProject/dummy" class="dropzone">
                                         <div class="fallback">
                                             <input name="file" type="file" multiple="" />
                                         </div>
@@ -30,12 +25,11 @@
         </div><!-- /.main-container -->
 
         <!-- basic scripts -->
-
-        <script src="assets/js/dropzone.min.js"></script>
+<script src="/js/jquery-2.0.3.min.js"></script>
+        <script src="/assets/js/dropzone.min.js"></script>
 
         <script type="text/javascript">
             jQuery(function ($) {
-
                 try {
                     $(".dropzone").dropzone({
                         paramName: "file", // The name that will be used to transfer the file
