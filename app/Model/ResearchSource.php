@@ -3,9 +3,9 @@
 /**
  * 科研项目—— 资金来源
  */
-App::uses('ResearchSourceModel', 'AppModel');
+App::uses('ResearchSource', 'AppModel');
 
-class ResearchSourceModel extends AppModel {
+class ResearchSource extends AppModel {
 
     public $name = 'ResearchSource';
     public $useTable = 'research_source';

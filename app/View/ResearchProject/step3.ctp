@@ -1,138 +1,52 @@
-
-<p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal">×</a></p>
+<style type='text/css'>
+    .with-20{width:20%};
+    .with-25{width:25%};
+</style>
+<p class="btn btn-info btn-block" width='50px'> <span style="font-size:16px;">项目经费</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>
             <div class="col-xs-12">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user['id'];?>" />
+                   
+                    <?php  foreach($list as $lk => $lv){ ?>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">用户名</label>
-
-                        <div class="col-sm-9">
-                            <input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5 username" value="<?php echo @$user['user'];?>" />
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="space-4"></div>
-
+                        <?php  foreach($lv as $k => $v){ ?>
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > <?php echo $v; ?> </label >
+                        <div class="col-sm-9 with-20" > 
+                            <input type="text" id="form-field-1 <?php echo $k; ?> " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
+                        </div>  
+                        <?php } ?>  
+                    </div>  
+                    <?php } ?>
+                    
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-2">密码</label>
-
-                        <div class="col-sm-9">
-                            <input type="password" id="form-field-2" placeholder="Password" class="col-xs-10 col-sm-5 pwd" value="<?php echo @$user['password'];?>" />
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > 合计 </label >
+                        <div class="col-sm-9 with-20" > 
+                            <input type="text" id="form-field-1  " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
+                        </div>  
+                    </div>  
+                    
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">昵称</label>
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > 备注 </label >
+                        <div class="col-sm-9 with-20" > 
+                            <textarea style="float: left;" cols="40" rows="5" id='remarks' class="desc"></textarea>
+                        </div>  
+                    </div>  
 
-                        <div class="col-sm-9">
-                            <input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 nname" value="<?php echo @$user['name'];?>" />
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">部门</label>
-
-                        <div class="col-sm-9">
-                            <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
-                            <select style="float: left;" name="pid" class="pid" id="form-field-1">
-                                <option value="0">请选择</option>
-                                <?php foreach($department as $d) {?>
-                                    <option value="<?php echo $d['Department']['id'];?>" <?php echo @$user['department_id'] == $d['Department']['id'] ? 'selected' : '';?> ><?php echo $d['Department']['name'];?></option>
-                                <?php }?>
-                            </select>
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">职务</label>
-
-                        <div class="col-sm-9">
-                            <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
-                            <select style="float: left;" name="position" class="position" id="form-field-1">
-                                <option value="0">请选择</option>
-                                <?php foreach($position as $p) {?>
-                                <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
-                                <?php }?>
-                            </select>
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">电话</label>
-
-                        <div class="col-sm-9">
-                            <input type="text" id="form-field-1" placeholder="Tel" class="col-xs-10 col-sm-5 tel" value="<?php echo @$user['tel'];?>" />
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">性别</label>
-
-                        <div class="col-sm-9">
-                            <!--<input type="text" id="form-field-1" placeholder="Sex" class="col-xs-10 col-sm-5 sex" />-->
-                            <select style="float: left;" name="sex" class="sex" id="form-field-1">
-                                <option value="1" <?php echo @(int)$user['sex'] == 1 ? 'selected' : '';?> >男</option>
-                                <option value="2" <?php echo @(int)$user['sex'] == 2 ? 'selected' : '';?>>女</option>
-                            </select>
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">邮箱</label>
-
-                        <div class="col-sm-9">
-                            <input type="text" id="form-field-1" placeholder="Email" class="col-xs-10 col-sm-5 email" value="<?php echo @$user['email'];?>" />
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
-
-                        <div class="col-sm-9">
-                            <select style="float: left;" name="status" class="status" id="form-field-1">         
-                                <option value="0" <?php echo @$user['status'] == 0 ? 'selected' : '';?> >启用</option>
-                                <option value="1" <?php echo @$user['status'] == 1 ? 'selected' : '';?> >停用</option>
-                            </select>
-                            <span class="help-inline col-xs-12 col-sm-7">
-                                <span class="middle"></span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="space-4"></div>
-
-
-                    <div class="clearfix " >
+                    
+                    <div class="clearfix " style="text-align: right;" >
                         <div class=" col-md-9">
-                            <button class="btn btn-info" type="button"  onclick="ajax_submit();">
-                                <i class="icon-ok bigger-110"></i>
-                                <?php echo !empty($user) ? '修改':'添加';?>
+                            <button class="btn btn-primary" type="reset" onclick='upstep();' >
+                                <i class="icon-undo bigger-110"></i>
+                                上一步
                             </button>
                             &nbsp; &nbsp; &nbsp;
-                            <button class="btn" type="reset">
-                                <i class="icon-undo bigger-110"></i>
-                                重置
+                            <button class="btn btn-info" type="button"  onclick="ajax_submit();">
+                                <i class="icon-ok bigger-110"></i>
+                                提交
                             </button>
+                            
                         </div>
                     </div>
 
@@ -142,8 +56,18 @@
         </div><!-- /.row -->
         </div>
 
-
     <script type="text/javascript">
+        function upstep(){
+            console.log($('#movestep2'));
+            $('#closemodel').click();
+           /* $("#modal_left").modal({
+                remote: "/ResearchProject/step2"
+            });*/
+        $("#modal_left").on("hidden.bs.modal", function() {
+    $(this).removeData("bs.modal");
+});
+            $('#movestep2').click();
+        }
         //提交内容
         function ajax_submit() {
             var user_id = $('#user_id').val();

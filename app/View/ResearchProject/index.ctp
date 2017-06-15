@@ -103,7 +103,7 @@
                                 <li>
                                     <a data-toggle="tab" href="#faq-tab-3">
                                         <i class="green icon-list-alt bigger-120"></i>
-                                        报表
+                                        报&nbsp;&nbsp;表
                                     </a>
                                 </li>
                                 <li>

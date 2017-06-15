@@ -3,9 +3,9 @@
 /**
  * 科研项目
  */
-App::uses('ResearchProjectModel', 'AppModel');
+App::uses('ResearchProject', 'AppModel');
 
-class ResearchProjectModel extends AppModel {
+class ResearchProject extends AppModel {
 
     public $name = 'ResearchProject';
     public $useTable = 'research_project';
@@ -47,6 +47,6 @@ class ResearchProjectModel extends AppModel {
         $fields = array('id','name');
         return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
     }
-    
+
     
 }

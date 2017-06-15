@@ -18,6 +18,7 @@
                         <select style="float: left;" name="pid" class="col-sm-4 type" id="form-field-1">
                                 <option value="1">零余额</option>
                                 <option value="2">基本户</option>
+
                             </select>
                         <label class="col-sm-1 control-label no-padding-right" for="form-field-2">金额</label>
                         <input type="text" id="form-field-2" readonly="" placeholder="金额" class="col-xs-10 col-sm-4 amount" value="<?php echo @$user['password'];?>" />           
@@ -26,6 +27,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1">开始</label>
                         <input readonly="readonly" type="text" class="col-sm-4 form_datetime1 start_date">
+
                         <script type="text/javascript">
                             $(".form_datetime1").datetimepicker({
                                 format: 'yyyy-mm-dd',
@@ -59,6 +61,7 @@
                         <select style="float: left;" name="year" class="col-sm-2 year"  id="form-field-1">
                                 <option value="0">年度</option>
                         </select>
+
                         <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2 file_number" value="文号" />           
                         <input type="text" readonly="readonly" id="form-field-2" placeholder="金额" class="col-xs-10 col-sm-2 amount_2" value="金额" />           
                         <span title="添加" class="glyphicon glyphicon-plus" aria-hidden="true" onclick="add_qdly();"></span>
@@ -98,6 +101,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1">备注</label>
                         <textarea class="col-sm-9 remark" placeholder="备注"></textarea>
+
                     </div>
                     
                     <div class="space-4"></div>

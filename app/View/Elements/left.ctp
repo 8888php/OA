@@ -171,13 +171,8 @@
                     </a>
 
                     <ul class="submenu">
-<<<<<<< HEAD
-                        <li >
-                            <a  data-toggle="modal" href="/ResearchProject/step2" data-target="#modalstep" >
-=======
                         <li>
                             <a  data-toggle="modal" href="/ResearchProject/step1" data-target="#modal_left" >
->>>>>>> 352149e557b04c3fceafb244aeeb57658f31c598
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>
                                 添加项目
