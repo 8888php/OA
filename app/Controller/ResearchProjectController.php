@@ -8,6 +8,7 @@ class ResearchProjectController extends AppController {
     public $name = 'ResearchProject';
     public $uses = array('ResearchProject');
     public $layout = 'blank';
+    public $components = array('Cookie');  
 
     /**
      * 详情
@@ -38,7 +39,12 @@ class ResearchProjectController extends AppController {
     }
     
     
-    
+    /**
+     * 把数据存入到cookie里
+     */
+    public function ajax_cookie() {
+        
+    }
     
     
     
