@@ -3,9 +3,9 @@
 /**
  * 科研项目—— 费用
  */
-App::uses('ResearchCostModel', 'AppModel');
+App::uses('ResearchCost', 'AppModel');
 
-class ResearchCostModel extends AppModel {
+class ResearchCost extends AppModel {
 
     public $name = 'ResearchCost';
     public $useTable = 'research_cost';

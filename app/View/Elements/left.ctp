@@ -172,7 +172,7 @@
 
                     <ul class="submenu">
                         <li>
-                            <a  data-toggle="modal" href="/ResearchProject/step3" data-target="#modal_left" >
+                            <a  data-toggle="modal" href="/ResearchProject/step3" data-target="#modal_left" id='movestep1'>
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>
                                 添加项目

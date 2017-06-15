@@ -1,42 +1,52 @@
 <style type='text/css'>
-    .with-20{width:20%};.with-25{width:25%};.with-99{width:100px};
+    .with-20{width:20%};
+    .with-25{width:25%};
 </style>
-<p class="btn btn-info btn-block" > <span style="font-size:16px;">项目经费</span> <a class="close" data-dismiss="modal">×</a></p>
+<p class="btn btn-info btn-block" width='50px'> <span style="font-size:16px;">项目经费</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>
             <div class="col-xs-12">
                 <form class="form-horizontal" role="form">
+                   
+                    <?php  foreach($list as $lk => $lv){ ?>
+                    <div class="form-group">
+                        <?php  foreach($lv as $k => $v){ ?>
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > <?php echo $v; ?> </label >
+                        <div class="col-sm-9 with-20" > 
+                            <input type="text" id="form-field-1 <?php echo $k; ?> " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
+                        </div>  
+                        <?php } ?>  
+                    </div>  
+                    <?php } ?>
                     
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" >材料费</label >
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > 合计 </label >
                         <div class="col-sm-9 with-20" > 
-                            <input type="text" id="form-field-1" value='0.00' class="col-xs-10 col-sm-5 with-99 username"  />
-                        </div>
-                        
-                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" >材料费</label >
-                        <div class="col-sm-9 with-20">
-                            <input type="text" id="form-field-1" placeholder="Username" class="with-99 col-sm-5  username" value='0.00' />
-                        </div>
-                    </div>
-                    <div class="space-4"></div>
+                            <input type="text" id="form-field-1  " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
+                        </div>  
+                    </div>  
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > 备注 </label >
+                        <div class="col-sm-9 with-20" > 
+                            <textarea style="float: left;" cols="40" rows="5" id='remarks' class="desc"></textarea>
+                        </div>  
+                    </div>  
 
                     
-                    
-                    
-                    
-                    
-                    <div class="clearfix " >
+                    <div class="clearfix " style="text-align: right;" >
                         <div class=" col-md-9">
+                            <button class="btn btn-primary" type="reset" onclick='upstep();' >
+                                <i class="icon-undo bigger-110"></i>
+                                上一步
+                            </button>
+                            &nbsp; &nbsp; &nbsp;
                             <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                 <i class="icon-ok bigger-110"></i>
                                 提交
                             </button>
-                            &nbsp; &nbsp; &nbsp;
-                            <button class="btn" type="reset">
-                                <i class="icon-undo bigger-110"></i>
-                                重置
-                            </button>
+                            
                         </div>
                     </div>
 
@@ -46,8 +56,18 @@
         </div><!-- /.row -->
         </div>
 
-
     <script type="text/javascript">
+        function upstep(){
+            console.log($('#movestep2'));
+            $('#closemodel').click();
+           /* $("#modal_left").modal({
+                remote: "/ResearchProject/step2"
+            });*/
+        $("#modal_left").on("hidden.bs.modal", function() {
+    $(this).removeData("bs.modal");
+});
+            $('#movestep2').click();
+        }
         //提交内容
         function ajax_submit() {
             var user_id = $('#user_id').val();
