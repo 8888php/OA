@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right with-25" for="form-field-1" > 合计 </label >
                         <div class="col-sm-9 with-20" > 
-                            <input type="text" id="form-field-1  " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
+                            <input type="text" id="form-field-1 total " value='0.00' class="col-xs-10 col-sm-5 " style='width:100px;'/>
                         </div>  
                     </div>  
                     
@@ -70,45 +70,37 @@
         }
         //提交内容
         function ajax_submit() {
-            var user_id = $('#user_id').val();
-            var username = $('.username').val();
-            var password = $('.pwd').val();
-            var name = $('.nname').val();
-            var pid = $('.pid option:selected').val();
-            var position = $('.position option:selected').val();
-            var tel = $('.tel').val();
-            var sex = $('.sex option:selected').val();
-            var email = $('.email').val();
-            var status = $('.status option:selected').val();
-           
-            if (!username) {
-                show_error($('.username'), '用户名为空');
-                $('.username').focus();
-                return;
-            }
-            if (!password) {
-                show_error($('.pwd'), '密码为空');
-                $('.pwd').focus();
-                return;
-            }
-            if (!name) {
-                show_error($('.nname'), '昵称为空');
-                $('.nname').focus();
-                return;
-            }
-            if (!pid) {
-                show_error($('.pid'), '部门未选择');
-                return;
-            }
-            if (!position) {
-                show_error($('.position'), '职务未选择');
-                return;
-            }
-            var data = {user_id: user_id, username: username, password: password, name: name, pid: pid, position: position, tel: tel, sex: sex, email: email, status: status};
+            var data_json = {};
+            data_json.data_fee = $('.data_fee').val();
+            data_json.facility1 = $('.facility1').val();
+            data_json.facility2 = $('.facility2').val();
+            data_json.facility3 = $('.facility3').val();
+            data_json.material1 = $('.material1').val();
+            data_json.material2 = $('.material2').val();
+            data_json.material3 = $('.material3').val();
+            data_json.material4 = $('.material4').val();
+            data_json.assay = $('.assay').val();
+            data_json.elding = $('.elding').val();
+            data_json.publish = $('.publish').val();
+            data_json.property_right = $('.property_right').val();
+            data_json.travel = $('.travel').val();
+            data_json.meeting = $('.meeting').val();
+            data_json.cooperation = $('.cooperation').val();
+            data_json.labour = $('.labour').val();
+            data_json.consult = $('.consult').val();
+            data_json.other = $('.other').val();
+            data_json.indirect = $('.indirect').val();
+            data_json.train = $('.train').val();
+            data_json.vehicle = $('.vehicle').val();
+            data_json.collection = $('.collection').val();
+            data_json.total = $('.total').val();
+            data_json.remarks = $('.remarks').val();
+            data_json.upstep = 'step3';
+
             $.ajax({
-                url: '/user/ajax_edit',
+                url: '/ResearchProject/ajax_cookie',
                 type: 'post',
-                data: data,
+                data: data_json,
                 dataType: 'json',
                 success: function (res) {
                     if (res.code == -1) {

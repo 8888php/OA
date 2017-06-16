@@ -1,16 +1,16 @@
 
-<p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal">×</a></p>
+<p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
            
         <div class="row" style='padding:20px 0;'>
             <div class="col-xs-12">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user['id'];?>" />
+                    <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user_id; ?>" />
                     <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">简称</label>
-                        <input type="text" id="form-field-1" placeholder="简称" class="col-xs-10 col-sm-4 name" value="<?php echo @$user['user'];?>" />  
-                        <label class="col-sm-1 control-label no-padding-right" for="form-field-2">全称</label>
-                        <input type="text" id="form-field-2" placeholder="全称" class="col-xs-10 col-sm-4 alias" value="<?php echo @$user['password'];?>" />           
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">全称 </label>
+                        <input type="text" id="form-field-1" placeholder="全称" class="col-xs-10 col-sm-4 name" value="" />  &nbsp;&nbsp;
+                        <label class="col-sm-1 control-label no-padding-right " for="form-field-2">简称 </label>  &nbsp;&nbsp;
+                        <input type="text" id="form-field-2" placeholder="简称" class="col-xs-10 col-sm-4 alias" value="" />           
                     </div>
 
                     <div class="form-group">
@@ -21,7 +21,7 @@
 
                             </select>
                         <label class="col-sm-1 control-label no-padding-right" for="form-field-2">金额</label>
-                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="col-xs-10 col-sm-4 amount" value="<?php echo @$user['password'];?>" />           
+                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="col-xs-10 col-sm-4 amount" value="" />           
                     </div>
                     <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
                     <div class="form-group">
@@ -55,15 +55,10 @@
                     </div>
                     <div class="form-group qdly">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-1">资金来源</label>
-                        <select style="float: left;" name="source_channel" class="col-sm-3 source_channel"  id="form-field-1">
-                                <option value="0">来源渠道</option>
-                        </select>
-                        <select style="float: left;" name="year" class="col-sm-2 year"  id="form-field-1">
-                                <option value="0">年度</option>
-                        </select>
-
-                        <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2 file_number" value="文号" />           
-                        <input type="text" readonly="readonly" id="form-field-2" placeholder="金额" class="col-xs-10 col-sm-2 amount_2" value="金额" />           
+                        <input type="text" readonly="readonly" placeholder="来源渠道" style="float: left;" class="col-sm-3 "  id="form-field-1"/> 
+                        <input type="text" readonly="readonly" placeholder="年度" style="float: left;"  class="col-sm-2"  id="form-field-1" /> 
+                        <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2" value="文号" />           
+                        <input type="text" readonly="readonly" id="form-field-2" placeholder="金额" class="col-xs-10 col-sm-2 " value="金额" />           
                         <span title="添加" class="glyphicon glyphicon-plus" aria-hidden="true" onclick="add_qdly();"></span>
                     </div>
                     <script type="text/javascript">
@@ -114,7 +109,7 @@
                                 下一步
                             </button>
                             &nbsp; &nbsp; &nbsp;
-                            <button class="btn" type="reset">
+                            <button class="btn btn-primary" type="reset" onclick='upstep();' >
                                 <i class="icon-undo bigger-110"></i>
                                 取消
                             </button>
@@ -129,6 +124,9 @@
 
 
     <script type="text/javascript">
+        function upstep(){
+            $('#closemodel').click();
+        }
         //提交内容
         function ajax_submit() {
             var user_id = $('#user_id').val();
@@ -143,6 +141,12 @@
             var position = $('.position option:selected').val();
             var overview = $('.overview').val();
             var remark = $('.remark').val();
+            
+            if (user_id == '') {
+                $('.user_id').focus();
+                return;
+            }
+            data_json.user_id = user_id;
            
             if (name == '') {
                 $('.name').focus();
@@ -196,8 +200,9 @@
             }
             data_json.overview  = overview;
             data_json.remark = remark;
+            data_json.upstep = 'step1';
             
-            var data = data_json;
+            var data = data_json;  console.log(data);
             $.ajax({
                 url: '/ResearchProject/ajax_cookie',
                 type: 'post',

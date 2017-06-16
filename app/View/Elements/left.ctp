@@ -178,7 +178,7 @@
                                 添加项目
                             </a>
                             
-                                 <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;  margin:10% auto 0px; overflow: hidden;border-radius:4px; height: 500px;overflow-y:auto;top:auto;'>
+                                 <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:580px;  margin:10% auto 0px; overflow: hidden;border-radius:4px; height: 500px;overflow-y:auto;top:auto;'>
                                         <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">

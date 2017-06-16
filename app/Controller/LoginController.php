@@ -13,35 +13,36 @@ App::uses('AppNotLoginController', 'Controller');
  */
 //此class不用登录就可以用  例如 登录页面
 class LoginController extends AppNotLoginController {
+
     public $name = 'Login';
     public $uses = array('User');
     //所传参数数组
     public $login_data = array('user', 'password');
-    
-    public function signin() {  
-        $this->layout = 'blank'; 
-        $this->set('title','登陆');
+
+    public function signin() {
+        $this->layout = 'blank';
+        $this->set('title', '登陆');
         //只接受 post
-		$login_arr = $this->request->data;
+        $login_arr = $this->request->data;
         if ($this->request->isPost() && !empty($login_arr)) {
             $user = $login_arr['user'];
-            $password = $login_arr['password'];   
+            $password = $login_arr['password'];
             if (empty($user) || empty($password)) {
                 $this->set('error', '用户名/密码为空');
             } else {
                 $user_login = $this->User->check_user_pwd($user, md5($password));
-                
+
                 if (is_array($user_login)) {
                     //记录 session 并跳走
                     $this->User->save_session_oa($user_login);
-                    $this->redirect(array('controller'=>'pages', 'action'=>'display'));
+                    $this->redirect(array('controller' => 'pages', 'action' => 'display'));
                 } else {
                     //有错误
                     $this->set('error', '用户名/密码错误');
                 }
-                
             }
         }
         $this->render();
     }
+
 }
