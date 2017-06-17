@@ -62,8 +62,10 @@ class ResearchProjectController extends AppController {
     public function ajax_cookie() {
         $saveArr = array();
         if ($this->request->is('ajax')) {
+            $user_info  = json_decode(base64_decode($this->User->get_session_oa()));
+            
             if ($this->request->data('upstep') == 'step1') {
-                $saveArr['user_id'] = $this->request->data('user_id');
+                $saveArr['user_id'] = $user_info->id;
                 $saveArr['name'] = $this->request->data('name');
                 $saveArr['alias'] = $this->request->data('alias');
                 $saveArr['amount'] = $this->request->data('amount');
@@ -71,17 +73,21 @@ class ResearchProjectController extends AppController {
                 $saveArr['end_date'] = $this->request->data('end_date');
                 $saveArr['overview'] = $this->request->data('overview');
                 $saveArr['remark'] = $this->request->data('remark');
-
-                $saveArr['source_channel'] = $this->request->data('source_channel');
-                $saveArr['file_number'] = $this->request->data('file_number');
-                $saveArr['amount'] = $this->request->data('amount');
-                $saveArr['year'] = $this->request->data('year');
-                $cookiewrite = $this->Cookie->write('research_project', CookieEncode($saveArr), true, '7 day');
+                
+                $saveArr['qdly'] = $this->request->data('qdly');//这里放的是数组
+//                $saveArr['source_channel'] = $this->request->data('source_channel');
+//                $saveArr['file_number'] = $this->request->data('file_number');
+//                $saveArr['amount'] = $this->request->data('amount');
+//                $saveArr['year'] = $this->request->data('year');
+                //这里取出用户的  id，把id也存入到cookie里面
+                
+                $this->Cookie->write('research_project'. $user_info->id, CookieEncode($saveArr), true, '7 day');
+//                var_dump($this->Cookie->read('research_project'. $user_info->id));die;
             }
 
             if ($this->request->data('upstep') == 'step2') {
                 $saveArr['filename'] = $this->request->data('filename');
-                $cookiewrite = $this->Cookie->write('research_file', CookieEncode($saveArr), true, '7 day');
+                $this->Cookie->write('research_file'. $user_info->id, CookieEncode($saveArr), true, '7 day');
             }
 
             if ($this->request->data('upstep') == 'step3') {
@@ -110,19 +116,48 @@ class ResearchProjectController extends AppController {
 
                 $saveArr['total'] = array_sum($saveArr);  // 总额
                 $saveArr['remarks'] = $this->request->data('remarks');
-                $cookiewrite = $this->Cookie->write('research_cost', CookieEncode($saveArr), true, '7 day');
+                $this->Cookie->write('research_cost'. $user_info->id, CookieEncode($saveArr), true, '7 day');
             }
 
 
-            if ($cookiewrite) {
-                $this->ret_arr['code'] = 0;
-                $this->ret_arr['msg'] = $cookiewrite;
-            } else {
-                $this->ret_arr['msg'] = $cookiewrite;
-            }
-            echo json_encode($cookiewrite);
+            //cookie write没有返回值
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '存入成功';
+            
+            echo json_encode($this->ret_arr);
             die;
+        } else {
+           $this->ret_arr['code'] = 0;
+           $this->ret_arr['msg'] = '参数有误'; 
+           echo json_encode($this->ret_arr);
+           die;
         }
+    }
+    public function upload_file() {
+        $file_arr = $_FILES['file'];
+        $name = $file_arr['name'];
+        $tmp_name = $file_arr['tmp_name'];
+        $error = $file_arr['error'];
+        $size = $file_arr['size'];
+        
+        $new_file_name = WWW_ROOT . DS . 'files' . DS . $name;
+        //判断这个文件没有存在，如果存在就不上传
+        if (file_exists($new_file_name)) {            
+            $this->ret_arr['code'] = 1;
+            $this->ret_arr['msg'] = '文件名重复';
+            echo json_encode($this->ret_arr);
+            exit;
+        }
+        if (move_uploaded_file($tmp_name, $new_file_name))
+        {
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '上传成功';
+        } else {
+            $this->ret_arr['code'] = 2;
+            $this->ret_arr['msg'] = '上传失败';
+        }
+        echo json_encode($this->ret_arr);
+        exit;
     }
 
 }

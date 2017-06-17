@@ -142,11 +142,11 @@
             var overview = $('.overview').val();
             var remark = $('.remark').val();
             
-            if (user_id == '') {
-                $('.user_id').focus();
-                return;
-            }
-            data_json.user_id = user_id;
+//            if (user_id == '') {
+//                $('.user_id').focus();
+//                return;
+//            }
+//            data_json.user_id = user_id;
            
             if (name == '') {
                 $('.name').focus();
@@ -223,13 +223,16 @@
                         //说明有错误
                         alert(res.msg);
                         //清空之前的错误提示
-                        $('.middle').removeClass('text-danger').text('');
-                        show_error($(res.class), res.msg);
+//                        $('.middle').removeClass('text-danger').text('');
+//                        show_error($(res.class), res.msg);
                         return;
                     }
                     if (res.code == 0) {
                         //说明添加或修改成功
-                        location.href = '/user/index';
+                        //location.href = '/user/index';
+                        //如果成功，则调step2
+                        upstep();
+                        $('.step2_js').click();
                         return;
                     }
                     if (res.code == 2) {
