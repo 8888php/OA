@@ -1,261 +1,267 @@
+<?php echo $this->element('head_frame'); ?>
 
-<p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
-        <div class="container" style='background-color:#fff;border-radius:4px;'>
-           
-        <div class="row" style='padding:20px 0;'>
-            <div class="col-xs-12">
-                <form class="form-horizontal" role="form">
-                    <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user_id; ?>" />
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">全称 </label>
-                        <input type="text" id="form-field-1" placeholder="全称" class="col-xs-10 col-sm-4 name" value="" />  &nbsp;&nbsp;
-                        <label class="col-sm-1 control-label no-padding-right " for="form-field-2">简称 </label>  &nbsp;&nbsp;
-                        <input type="text" id="form-field-2" placeholder="简称" class="col-xs-10 col-sm-4 alias" value="" />           
-                    </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">资金性质</label>
-                        <select style="float: left;" name="pid" class="col-sm-4 type" id="form-field-1">
-                                <option value="1">零余额</option>
-                                <option value="2">基本户</option>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:560px;'>
 
-                            </select>
-                        <label class="col-sm-1 control-label no-padding-right" for="form-field-2">金额</label>
-                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="col-xs-10 col-sm-4 amount" value="" />           
-                    </div>
+    <p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
+
+
+    <div  style='padding:20px 0;'>
+        <div >
+            <form class="form-horizontal" role="form" id="formstep1" action="/ResearchProject/step2">
+                <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user_id; ?>" />
+                <ul class="form-ul">
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">全称 &nbsp;&nbsp;</label>
+                        <input type="text" id="form-field-1" placeholder="全称" class="name " value="" />  
+
+                        <label class="input-group-addon " for="form-field-2">简称  &nbsp;&nbsp;</label> 
+                        <input type="text" id="form-field-2" placeholder="简称" class="alias" value="" />           
+                    </li> 
+
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">资金性质 &nbsp;&nbsp;</label>
+                        <select  name="pid" class="type input-width" id="form-field-1" style="width:145px;">
+                            <option value="1">零余额</option>
+                            <option value="2">基本户</option>
+                        </select>  
+
+                        <label class="input-group-addon " for="form-field-2">金额 &nbsp;&nbsp;</label> 
+                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="amount" value="" />                
+                    </li> 
+
                     <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">开始</label>
-                        <input readonly="readonly" type="text" class="col-sm-4 form_datetime1 start_date">
-
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">开始 &nbsp;&nbsp;</label>
+                        <input readonly="readonly" type="text" class=" form_datetime1 start_date">  
                         <script type="text/javascript">
                             $(".form_datetime1").datetimepicker({
                                 format: 'yyyy-mm-dd',
                                 minView: "month", //选择日期后，不会再跳转去选择时分秒 
                             });
                         </script>
-<!--                        <div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                            <input class="span2" size="16" type="text" value="12-02-2012">
-                            <span class="add-on"><i class="icon-th"></i></span>
-                         </div> -->
-                        <!--<input type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-4 username" value="<?php echo @$user['user'];?>" />-->  
-                        <label class="col-sm-1 control-label no-padding-right" for="form-field-2">结束</label>
-                        <input readonly="readonly" type="text" class="col-sm-4 form_datetime2 end_date">
+
+                        <label class="input-group-addon " for="form-field-2">结束 &nbsp;&nbsp;</label>
+                        <input readonly="readonly" type="text" class="form_datetime2 end_date"> 
                         <script type="text/javascript">
                             $(".form_datetime2").datetimepicker({
                                 format: 'yyyy-mm-dd',
-                                 minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                minView: "month", //选择日期后，不会再跳转去选择时分秒 
                             });
                         </script>
-<!--                        <div class="input-append date" id="datetimepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                            <input class="span2" size="16" type="text" value="12-02-2012">
-                            <span class="add-on"><i class="icon-th"></i></span>
-                         </div> -->
-                        <!--<input type="password" id="form-field-2" placeholder="Password" class="col-xs-10 col-sm-4 pwd" value="<?php echo @$user['password'];?>" />-->           
-                    </div>
-                    <div class="form-group qdly">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">资金来源</label>
-                        <input type="text" readonly="readonly" placeholder="来源渠道" style="float: left;" class="col-sm-3 "  id="form-field-1"/> 
-                        <input type="text" readonly="readonly" placeholder="年度" style="float: left;"  class="col-sm-2"  id="form-field-1" /> 
-                        <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2" value="文号" />           
-                        <input type="text" readonly="readonly" id="form-field-2" placeholder="金额" class="col-xs-10 col-sm-2 " value="金额" />           
-                        <span title="添加" class="glyphicon glyphicon-plus" aria-hidden="true" onclick="add_qdly();"></span>
-                    </div>
-                    <script type="text/javascript">
-                        //添加渠道来源
-                        function add_qdly() {
-                            $('.qdly').last().after($('.demo_hide').clone().removeClass('demo_hide').addClass('qdly_add').css('display',''));
-                        }
-                        //删除当前接点
-                        function del_qbly(obj) {
-                            $(obj).parent().remove();
-                        }
-                    </script>
-                    <div class="form-group qdly demo_hide" style="display:none;">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1"></label>
-                        <select style="float: left;" name="source_channel" class="col-sm-3 source_channel" id="form-field-1">
+                    </li> 
+
+                    <li class="input-group  qdly" >
+                        <label class="input-group-addon " for="form-field-1">资金来源</label> 
+                        <input type="text" readonly="readonly" placeholder="来源渠道" style="float: left;width:105px;" /> 
+                        <input type="text" readonly="readonly" placeholder="年度" style="float: left;width:85px;"   /> 
+                        <input type="text" readonly="readonly" id="form-field-2" placeholder="文号" style="width:105px;"  value="文号" />           
+                        <input type="text" readonly="readonly" id="form-field-2" placeholder="金额" style="width:85px;" value="金额" />           
+                        &nbsp; <span title="添加" class="glyphicon glyphicon-plus blue" aria-hidden="true" onclick="add_qdly();"></span> 
+                        <script type="text/javascript">
+                            //添加渠道来源
+                            function add_qdly() {
+                                $('.qdly').last().after($('.demo_hide').clone().removeClass('demo_hide').addClass('qdly_add').css('display', ''));
+                            }
+                            //删除当前接点
+                            function del_qbly(obj) {
+                                $(obj).parent().remove();
+                            }
+                        </script>
+                    </li>     
+
+                    <li class="input-group qdly demo_hide" style="display:none;">
+                        <label  for="form-field-1" style="width:81px;float: left;"></label>
+                        <select style="float:left;width:105px;" name="source_channel" class="source_channel"  >
                             <?php $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
-                                foreach($qd_arr as $qd){?>
-                                <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
-                                <?php }?>
+                            foreach($qd_arr as $qd){?>
+                            <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
+                            <?php }?>
                         </select>
-                        <select style="float: left;" name="year" class="col-sm-2 year"  id="form-field-1">
+                        <select style="width:85px;" name="year" class="year col-sm-2" >
                             <?php foreach(range(2017,2030) as $n){?>
-                                <option value="<?php echo $n;?>"><?php echo $n;?></option>
+                            <option value="<?php echo $n;?>"><?php echo $n;?></option>
                             <?php } ?>
                         </select>
-                        <input type="text" id="form-field-2" placeholder="文号" class="col-xs-10 col-sm-2 file_number" value="<?php echo @$user['password'];?>" />           
-                        <input type="text" id="form-field-2" placeholder="金额" class="col-xs-10 col-sm-2 amount" value="<?php echo @$user['password'];?>" />
-                        <span title="删除" class="icon-trash bigger-130" onclick="del_qbly(this);"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">项目概述</label>
-                        <textarea class="col-sm-9 overview" placeholder="项目概述" ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">备注</label>
-                        <textarea class="col-sm-9 remark" placeholder="备注"></textarea>
+                        <input type="text" placeholder="文号" style="width:105px;" class="file_number " value="" />           
+                        <input type="text" placeholder="金额"  class="amount" style="width:85px;"  value="" />
+                        &nbsp;
+                        <span title="删除" class="icon-trash bigger-130 red" onclick="del_qbly(this);"></span>  
+                    </li>           
+                </ul>
+
+                <div class="form-group" style="margin:10px auto;width:490px;">
+                    <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">项目概述 &nbsp;&nbsp;</label>
+                    <textarea class="overview" style="width:350px;" placeholder="项目概述" ></textarea>
+                </div>
+                <div class="form-group" style="margin:10px auto;width:500px;">
+                    <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">备注 &nbsp;&nbsp;</label>
+                    <textarea class="remark" style="width:350px;" placeholder="备注"></textarea>
+
+                </div>
+
+                <div class="space-4"></div>
+
+
+                <div class="clearfix " style="text-align: center;">
+                    <div class=" col-md-9">
+                        <button class="btn btn-primary" type="reset" onclick='upstep();' >
+                            <i class="icon-undo bigger-110"></i>
+                            取消
+                        </button>
+                        &nbsp; &nbsp; &nbsp;
+                        <button class="btn btn-info" type="button"  onclick="ajax_submit();">
+                            <i class="icon-ok bigger-110"></i>
+                            下一步
+                        </button>
 
                     </div>
-                    
-                    <div class="space-4"></div>
+                </div>
 
 
-                    <div class="clearfix " style="text-align: right;">
-                        <div class=" /*col-md-9*/">
-                            <button class="btn btn-info" type="button"  onclick="ajax_submit();">
-                                <i class="icon-ok bigger-110"></i>
-                                下一步
-                            </button>
-                            &nbsp; &nbsp; &nbsp;
-                            <button class="btn btn-primary" type="reset" onclick='upstep();' >
-                                <i class="icon-undo bigger-110"></i>
-                                取消
-                            </button>
-                        </div>
-                    </div>
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
 
 
-                </form>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        </div>
 
 
-    <script type="text/javascript">
-        function upstep(){
-            $('#closemodel').click();
-        }
-        //提交内容
-        function ajax_submit() {
-            var user_id = $('#user_id').val();
-            var data_json = {};
-            var name = $('.name').val();
-            var alias = $('.alias').val();
-            var start_date = $('.start_date').val();
-            var end_date = $('.end_date').val();
-            var qdly_add_length = $('.qdly_add').length;
-            
-            
-            var position = $('.position option:selected').val();
-            var overview = $('.overview').val();
-            var remark = $('.remark').val();
-            
+<script type="text/javascript">
+    function upstep() {
+        $('#closemodel').click();
+    }
+    //提交内容
+    function ajax_submit() {
+        var user_id = $('#user_id').val();
+        var data_json = {};
+        var name = $('.name').val();
+        var alias = $('.alias').val();
+        var start_date = $('.start_date').val();
+        var end_date = $('.end_date').val();
+        var qdly_add_length = $('.qdly_add').length;
+
+
+        var position = $('.position option:selected').val();
+        var overview = $('.overview').val();
+        var remark = $('.remark').val();
+
 //            if (user_id == '') {
 //                $('.user_id').focus();
 //                return;
 //            }
 //            data_json.user_id = user_id;
-           
-            if (name == '') {
-                $('.name').focus();
+
+        if (name == '') {
+            $('.name').focus();
+            return;
+        }
+        data_json.name = name;
+        if (alias == '') {
+            $('.alias').focus();
+            return;
+        }
+        data_json.alias = alias;
+        if (start_date == '') {
+            $('.start_date').focus();
+            return;
+        }
+        data_json.start_date = start_date;
+        if (end_date == '') {
+            $('.end_date').focus();
+            return;
+        }
+        data_json.end_date = end_date;
+        //判断 资金来源
+        if (qdly_add_length < 1) {
+            alert('未添加资金来源');
+            return;
+        }
+        data_json.qdly = [{}];
+        for (var i = 0; i < qdly_add_length; i++) {
+            var data_i = data_json.qdly[i];
+            var obj = $('.qdly_add').eq(i);
+            var source_channel = obj.find('.source_channel option:selected').val();
+            data_i.source_channel = source_channel;
+            var year = obj.find('.year option:selected').val();
+            data_i.year = year;
+            var file_number = obj.find('.file_number').val();
+            if (file_number == '') {
+                obj.find('.file_number').focus();
                 return;
             }
-            data_json.name = name;
-            if (alias == '') {
-                $('.alias').focus();
+            data_i.file_number = file_number;
+            var amount = obj.find('.amount').val();
+            if (amount == '' || isNaN(amount) || amount < 0) {
+                obj.find('.amount').focus();
                 return;
             }
-            data_json.alias = alias;
-            if (start_date == '') {
-                $('.start_date').focus();
-                return;
-            }
-            data_json.start_date = start_date;
-            if (end_date == '') {
-                $('.end_date').focus();
-                return;
-            }
-            data_json.end_date = end_date;
-            //判断 资金来源
-            if (qdly_add_length < 1) {
-                alert('未添加资金来源');
-                return;
-            }
-            data_json.qdly = [{}];
-            for(var i=0;i<qdly_add_length;i++) {
-                var data_i = data_json.qdly[i];
-                var obj = $('.qdly_add').eq(i);
-                var source_channel = obj.find('.source_channel option:selected').val();
-                data_i.source_channel = source_channel;
-                var year = obj.find('.year option:selected').val();
-                data_i.year = year;
-                var file_number = obj.find('.file_number').val();
-                if (file_number == '') {
-                    obj.find('.file_number').focus();
+            data_i.amount = amount;
+        }
+        if (overview == '') {
+            $('.overview').focus();
+            return;
+        }
+        data_json.overview = overview;
+        data_json.remark = remark;
+        data_json.upstep = 'step1';
+
+        var data = data_json;
+        console.log(data);
+        $.ajax({
+            url: '/ResearchProject/ajax_cookie',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
                     return;
                 }
-                data_i.file_number = file_number;
-                var amount = obj.find('.amount').val();
-                if (amount == '' || isNaN(amount) || amount < 0) {
-                    obj.find('.amount').focus();
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
                     return;
                 }
-                data_i.amount = amount;
-            }
-            if (overview == '') {
-                $('.overview').focus();
-                return;
-            }
-            data_json.overview  = overview;
-            data_json.remark = remark;
-            data_json.upstep = 'step1';
-            
-            var data = data_json;  console.log(data);
-            $.ajax({
-                url: '/ResearchProject/ajax_cookie',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        //清空之前的错误提示
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    //清空之前的错误提示
 //                        $('.middle').removeClass('text-danger').text('');
 //                        show_error($(res.class), res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        //location.href = '/user/index';
-                        //如果成功，则调step2
-                        upstep();
-                        $('.step2_js').click();
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
+                    return;
                 }
-            });
-        }
-        //添加错误信息
-        function show_error(obj, msg) {
-            obj.parent().find('.middle').addClass('text-danger').text(msg);
-        }
-        //去掉错误信息
-        function hide_error(obj) {
-            obj.parent().find('.middle').removeClass('text-danger').text('');
-        }
-        //为input框加事件
-        $('input.col-xs-10').keyup(function () {
-            if ($(this).val() != '') {
-                hide_error($(this));
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    //location.href = '/user/index';
+                    //如果成功，则调step2
+                    upstep();
+                    $('.step2_js').click();
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
             }
         });
-    </script>
+    }
+    //添加错误信息
+    function show_error(obj, msg) {
+        obj.parent().find('.middle').addClass('text-danger').text(msg);
+    }
+    //去掉错误信息
+    function hide_error(obj) {
+        obj.parent().find('.middle').removeClass('text-danger').text('');
+    }
+    //为input框加事件
+    $('input.col-xs-10').keyup(function () {
+        if ($(this).val() != '') {
+            hide_error($(this));
+        }
+    });
+</script>
 
+<?php echo $this->element('foot_frame'); ?>
