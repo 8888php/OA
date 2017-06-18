@@ -163,7 +163,7 @@
                 </li>
 
 
-                <li >
+                <li class="research_project" onclick="if (typeof research_prject_flag != 'function'){window.location='/ResearchProject/index';};">
                     <a href="#" class="dropdown-toggle" >
                         <i class="icon-edit"></i>
                         <span class="menu-text"> 科研项目 </span>
@@ -171,7 +171,7 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li class="">
                             <a  data-toggle="modal" href="#" data-target="#modal_left" class="step1_js" >
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>

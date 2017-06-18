@@ -55,7 +55,11 @@
         $('#closemodel').click();
     }
     //提交内容
+    var click_flag = true;//是否可以点击
     function ajax_submit() {
+        if (!click_flag) {
+            return;
+        }
         var data_json = {};
         data_json.data_fee = $('.data_fee').val();
         data_json.facility1 = $('.facility1').val();
@@ -82,13 +86,14 @@
         data_json.total = $('.total').val();
         data_json.remarks = $('.remarks').val();
         data_json.upstep = 'step3';
-
+        click_flag = false;
         $.ajax({
             url: '/ResearchProject/substep3',
             type: 'post',
             data: data_json,
             dataType: 'json',
             success: function (res) {
+                click_flag = true;
                 if (res.code == -1) {
                     //登录过期
                     window.location.href = '/homes/index';
