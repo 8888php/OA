@@ -8,7 +8,7 @@
 
     <div  style='padding:20px 0;'>
         <div >
-            <form class="form-horizontal" role="form" id="formstep1" action="/ResearchProject/step2">
+            <form class="form-horizontal" role="form" id="formstep1" method="post" action="/ResearchProject/step2">
                 <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user_id; ?>" />
                 <ul class="form-ul">
                     <li class="input-group">

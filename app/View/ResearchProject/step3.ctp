@@ -7,7 +7,7 @@
 
     <div class="row" style='padding:20px 0;margin:0 auto;'>
         <div class="col-xs-12">
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal"  method="post" role="form">
                 <ul  class="form-ul">
                     <?php  foreach($list as $lk => $lv){ ?>
                     <li class="input-group">
