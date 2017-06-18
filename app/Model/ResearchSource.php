@@ -24,7 +24,8 @@ class ResearchSource extends AppModel {
     public function add($data) {
         $this->setDataSource('write');
         $this->create();
-        return $this->save($data);
+        $this->save($data);
+        return $this->id;
     }
 
     /**

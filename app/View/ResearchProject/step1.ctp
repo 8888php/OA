@@ -72,19 +72,19 @@
 
                     <li class="input-group qdly demo_hide" style="display:none;">
                         <label  for="form-field-1" style="width:81px;float: left;"></label>
-                        <select style="float:left;width:105px;" name="source['source_channel'][]" class="source_channel"  >
+                        <select style="float:left;width:105px;" name="source[source_channel][]" class="source_channel"  >
                             <?php $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
                             foreach($qd_arr as $qd){?>
                             <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
                             <?php }?>
                         </select>
-                        <select style="width:85px;" name="source['year'][]" class="year col-sm-2" >
+                        <select style="width:85px;" name="source[year][]" class="year col-sm-2" >
                             <?php foreach(range(2017,2030) as $n){?>
                             <option value="<?php echo $n;?>"><?php echo $n;?></option>
                             <?php } ?>
                         </select>
-                        <input type="text" placeholder="文号" style="width:105px;" class="file_number "  name="source['file_number'][]" value="" />           
-                        <input type="text" placeholder="金额"  class="amount" name="source['amount'][]" style="width:85px;"  value="" />
+                        <input type="text" placeholder="文号" style="width:105px;" class="file_number "  name="source[file_number][]" value="" />           
+                        <input type="text" placeholder="金额"  class="amount" name="source[amount][]" style="width:85px;"  value="" />
                         &nbsp;
                         <span title="删除" class="icon-trash bigger-130 red" onclick="del_qbly(this);"></span>  
                     </li>           

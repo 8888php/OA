@@ -14,13 +14,13 @@
                     <li class="input-group">
                         <?php  foreach($lv as $k => $v){ ?>
                         <label class="input-group-addon " for="form-field-1" style="width:108px;"> <?php echo $v; ?> </label > 
-                        <input type="text" id="form-field-1 <?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
+                        <input type="text" id="form-field-1" class="<?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
                         <?php } ?>  
                     </li>  
                     <?php } ?>
                     <li class="input-group">
                         <label class="input-group-addon" for="form-field-1" style="width:108px;"> 合计 </label >
-                        <input type="text" id="form-field-1 total " value='0.00' />
+                        <input type="text" id="form-field-1 " class=" total" value='0.00' />
                     </li>
                 </ul>     
                 <div class="form-group" style="margin:10px auto;width:500px;">

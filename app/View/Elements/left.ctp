@@ -120,21 +120,21 @@
                                 行政部门
                                 <b class="arrow icon-angle-down"></b>
                             </a>
-                            
+
                             <ul class="submenu">
                                 <?php 
-				if(isset($deplist[1])){
-					foreach($deplist[1] as $depk => $depv){ 
-				?>
+                                if(isset($deplist[1])){
+                                foreach($deplist[1] as $depk => $depv){ 
+                                ?>
                                 <li class="administration_<?php echo  $depk;?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
-                                         <i class="icon-pencil"></i>
-                                         <?php echo $depv; ?>
+                                        <i class="icon-pencil"></i>
+                                        <?php echo $depv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
                             </ul>
-                            
+
                         </li>
 
                         <li class="research">
@@ -145,10 +145,10 @@
                             </a>
 
                             <ul class="submenu">
-                                 <?php 
-				 if(isset($deplist[1])){
-					foreach($deplist[2] as $depk => $depv){ 
-				?>
+                                <?php 
+                                if(isset($deplist[1])){
+                                foreach($deplist[2] as $depk => $depv){ 
+                                ?>
                                 <li class="research_<?php echo $depk; ?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
                                         <i class="icon-leaf"></i>
@@ -156,14 +156,17 @@
                                     </a>
                                 </li>
                                 <?php }  } ?>
-                             
+
                             </ul>
                         </li>
                     </ul>
                 </li>
 
 
-                <li class="research_project" onclick="if (typeof research_prject_flag != 'function'){window.location='/ResearchProject/index';};">
+                <li class="research_project" onclick="if (typeof research_prject_flag != 'function') {
+                            window.location = '/ResearchProject/index';
+                        }
+                        ;">
                     <a href="#" class="dropdown-toggle" >
                         <i class="icon-edit"></i>
                         <span class="menu-text"> 科研项目 </span>
@@ -177,33 +180,33 @@
                                 <i class="icon-plus arrow blue"></i>
                                 添加项目
                             </a>
-                            
-                                 <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                     <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true">
-					
-				</button>
-                                     <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
-                                    </div>
-                          
-                        
-                            
+
+                            <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true">
+
+                                </button>
+                                <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
+                            </div>
+
+
+
                         </li>
-                            
+
                         <li>
                             <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 零余额项目
                                 <b class="arrow icon-angle-down"></b>
                             </a>
-                             <ul class="submenu">
+                            <ul class="submenu">
                                 <?php 
-				if(isset($project[1])){
-					foreach($project[1] as $depk => $depv){ 
-				?>
+                                if(isset($project[1])){
+                                foreach($project[1] as $depk => $depv){ 
+                                ?>
                                 <li>
                                     <a href="/project/infos/<?php echo $depk; ?>">
-                                         <i class="icon-pencil"></i>
-                                         <?php echo $depv; ?>
+                                        <i class="icon-pencil"></i>
+                                        <?php echo $depv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
@@ -216,15 +219,15 @@
                                 基本户项目
                                 <b class="arrow icon-angle-down"></b>
                             </a>
-                             <ul class="submenu">
+                            <ul class="submenu">
                                 <?php 
-				if(isset($project[2])){
-					foreach($project[2] as $depk => $depv){ 
-				?>
+                                if(isset($project[2])){
+                                foreach($project[2] as $depk => $depv){ 
+                                ?>
                                 <li>
                                     <a href="/project/infos/<?php echo $depk; ?>">
-                                         <i class="icon-pencil"></i>
-                                         <?php echo $depv; ?>
+                                        <i class="icon-pencil"></i>
+                                        <?php echo $depv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
@@ -291,14 +294,14 @@
                                 成员管理
                             </a>
                         </li>
-                        
+
                         <li class="set_department">
                             <a href="/department/index">
                                 <i class="icon-double-angle-right"></i>
                                 部门管理
                             </a>
                         </li>
-                        
+
                         <li class="set_position">
                             <a href="/position/index">
                                 <i class="icon-double-angle-right"></i>
@@ -312,7 +315,7 @@
                                 个人信息
                             </a>
                         </li>
-                        
+
                         <li>
                             <a href="/setting/index">
                                 <i class="icon-double-angle-right"></i>
@@ -330,39 +333,39 @@
             </div>
             <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
             <script type="text/javascript">
-                try {
-                    ace.settings.check('sidebar', 'collapsed')
-                } catch (e) {
-                }
-                //关闭添加项目的窗口
-                function step_close() {
-                    $('#step_close').click();
-                }
-                /**
-                * 左侧栏选中
-                * f_li_class 左侧大栏的class 
-                * s_li_class 大栏下面li的class
-                * t_li_class 第三栏li的class
-                * @returns {undefined}
-                */
-                function show_left_select(f_li_class, s_li_class, t_li_class) {
-                    if (f_li_class) {
-                        $('.' + f_li_class).addClass('active').siblings().removeClass('active');
+                    try {
+                        ace.settings.check('sidebar', 'collapsed')
+                    } catch (e) {
                     }
-                    if (s_li_class) {
-                        $('.' + f_li_class).addClass('open');
-                        $('.' + s_li_class).addClass('active');
+                    //关闭添加项目的窗口
+                    function step_close() {
+                        $('#step_close').click();
                     }
-                    if (t_li_class) {
-                        $('.' + f_li_class).addClass('open');
-                        $('.' + s_li_class).addClass('open');
-                        $('.' + t_li_class).addClass('active');
+                    /**
+                     * 左侧栏选中
+                     * f_li_class 左侧大栏的class 
+                     * s_li_class 大栏下面li的class
+                     * t_li_class 第三栏li的class
+                     * @returns {undefined}
+                     */
+                    function show_left_select(f_li_class, s_li_class, t_li_class) {
+                        if (f_li_class) {
+                            $('.' + f_li_class).addClass('active').siblings().removeClass('active');
+                        }
+                        if (s_li_class) {
+                            $('.' + f_li_class).addClass('open');
+                            $('.' + s_li_class).addClass('active');
+                        }
+                        if (t_li_class) {
+                            $('.' + f_li_class).addClass('open');
+                            $('.' + s_li_class).addClass('open');
+                            $('.' + t_li_class).addClass('active');
+                        }
                     }
-                }
-                $('#modal_left').on('hidden.bs.modal', function(){
-                    //关闭模态框时，清除数据，防止下次加雷有，缓存
-                    $('#modal_left').removeData("bs.modal");
-                    alert();
-                });
+                    $('#modal_left').on('hidden.bs.modal', function () {
+                        //关闭模态框时，清除数据，防止下次加雷有，缓存
+                        $('#modal_left').removeData("bs.modal");
+                        alert();
+                    });
             </script>
         </div>
