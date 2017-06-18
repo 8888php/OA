@@ -15,10 +15,6 @@ class ResearchProjectController extends AppController {
      * 详情
      */
     public function index() {
-        $saveArr = array(234, 'sdfsdf', '中国12');
-        // $this->Cookie->write('test', CookieEncode($saveArr), false, '7 day');
-        $this->Cookie->write('timess',date('Y-m-d H:i:s'), false, '7 day');
-       
         $this->render();
     }
 
@@ -26,8 +22,6 @@ class ResearchProjectController extends AppController {
      * 添加 项目详情
      */
     public function step1() {
-        $this->set('user_id', $this->userInfo->id);
-         var_dump($this->Cookie->read('timess'));
         $this->render();
     }
 
@@ -35,6 +29,23 @@ class ResearchProjectController extends AppController {
      * 添加 任务书
      */
     public function step2() {
+        if ($this->request->isPost() && $this->request->data('step1') != 'step1') {
+            header('Location:/ResearchProject/index');
+        }
+
+        $saveArr = array();
+        $saveArr['user_id'] = $this->userInfo->id;
+        $saveArr['name'] = $this->request->data('name');
+        $saveArr['alias'] = $this->request->data('alias');
+        $saveArr['amount'] = $this->request->data('amount');
+        $saveArr['start_date'] = $this->request->data('start_date');
+        $saveArr['end_date'] = $this->request->data('end_date');
+        $saveArr['overview'] = $this->request->data('overview');
+        $saveArr['remark'] = $this->request->data('remark');
+        $saveArr['source'] = $this->request->data('source');
+
+        $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
+        $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
         $this->render();
     }
 
@@ -42,6 +53,13 @@ class ResearchProjectController extends AppController {
      * 添加 项目费用
      */
     public function step3() {
+
+        if ($this->request->isPost() && $this->request->data('step2') != 'step2') {
+            header('Location:/ResearchProject/index');
+        }
+        $savefiles = $this->request->data('file_upload');
+        $this->Cookie->write('research_file' . $this->userInfo->id, CookieEncode($savefiles), false, '7 day');
+
         $list = array(
             array('data_fee' => '资料费', 'facility1' => '设备费1'),
             array('facility2' => '设备费2', 'facility3' => '设备费3'),
@@ -56,7 +74,17 @@ class ResearchProjectController extends AppController {
             array('vehicle' => '车辆使用费', 'collection' => '采集费'),
         );
         $this->set('list', $list);
+
         $this->render();
+    }
+ 
+    
+    /**
+     * 添加 项目 入库
+     */
+    public function step4() {
+        
+        
     }
 
     /**
@@ -64,14 +92,6 @@ class ResearchProjectController extends AppController {
      */
     public function ajax_cookie() {
         $saveArr = array();
-        $this->Cookie->write('time', date('Y-m-d H:i:s'), false, '7 day'); die;
-        
-        if (!isset($this->userInfo->id)) {
-            $this->ret_arr['code'] = 0;
-            $this->ret_arr['msg'] = '身份不合法';
-            echo json_encode($this->ret_arr);
-            die;
-        }
 
         if ($this->request->is('ajax')) {
             if ($this->request->data('upstep') == 'step1') {
@@ -91,7 +111,7 @@ class ResearchProjectController extends AppController {
 //                $saveArr['year'] = $this->request->data('year');
                 //这里取出用户的  id，把id也存入到cookie里面
 
-                $this->Cookie->write('testes', CookieEncode($saveArr), false, '7 day');
+                $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
 
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = json_encode($saveArr);
@@ -103,7 +123,7 @@ class ResearchProjectController extends AppController {
 
             if ($this->request->data('upstep') == 'step2') {
                 $saveArr['filename'] = $this->request->data('filename');
-                $this->Cookie->write('research_file' . $user_info->id, CookieEncode($saveArr), false, '7 day');
+                $this->Cookie->write('research_file' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
             }
 
             if ($this->request->data('upstep') == 'step3') {
@@ -132,7 +152,7 @@ class ResearchProjectController extends AppController {
 
                 $saveArr['total'] = array_sum($saveArr);  // 总额
                 $saveArr['remarks'] = $this->request->data('remarks');
-                $this->Cookie->write('research_cost' . $user_info->id, CookieEncode($saveArr), false, '7 day');
+                $this->Cookie->write('research_cost' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
             }
 
 

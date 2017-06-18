@@ -13,15 +13,17 @@
             <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
                 <div id="dropzone">
-                    <form action="/ResearchProject/step3" class="dropzone" id="upfiles" action="/ResearchProject/step3" >
+                    <form action="/ResearchProject/step3" class="dropzone" enctype="multipart/form-data" id="upfiles" action="/ResearchProject/step3" method="post" >
+                        <input type="hidden" name="step2" value="step2" />
                         <div class="fallback" >
                             <input name="file[]" type="file" multiple="" />
                         </div>
+                        
+                     <input type="hidden" id="file_upload" name="file_upload[]" value="" />  
                     </form>
                 </div><!-- PAGE CONTENT ENDS -->
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <input type="hidden" id="file_upload" value="" />
         <div class="space-4"></div>
         <div class="clearfix " style="text-align: center;">
             <div class=" col-md-9">

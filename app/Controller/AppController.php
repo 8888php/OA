@@ -1,5 +1,5 @@
 <?php
-
+header("charset='utf8';");
 /**
  * Application level Controller
  *

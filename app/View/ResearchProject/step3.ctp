@@ -7,13 +7,14 @@
 
     <div class="row" style='padding:20px 0;margin:0 auto;'>
         <div class="col-xs-12">
-            <form class="form-horizontal"  method="post" role="form">
+            <form class="form-horizontal"   role="form">
+                <input type="hidden" name="step3" value="step3" />
                 <ul  class="form-ul">
                     <?php  foreach($list as $lk => $lv){ ?>
                     <li class="input-group">
                         <?php  foreach($lv as $k => $v){ ?>
                         <label class="input-group-addon " for="form-field-1" style="width:108px;"> <?php echo $v; ?> </label > 
-                        <input type="text" id="form-field-1 <?php echo $k; ?> " value='0.00' style="width:100px;"/> 
+                        <input type="text" id="form-field-1 <?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
                         <?php } ?>  
                     </li>  
                     <?php } ?>
@@ -51,15 +52,7 @@
 
 <script type="text/javascript">
     function upstep() {
-        console.log($('#movestep2'));
         $('#closemodel').click();
-        /* $("#modal_left").modal({
-         remote: "/ResearchProject/step2"
-         });*/
-        $("#modal_left").on("hidden.bs.modal", function () {
-            $(this).removeData("bs.modal");
-        });
-        $('#movestep2').click();
     }
     //提交内容
     function ajax_submit() {
@@ -91,7 +84,7 @@
         data_json.upstep = 'step3';
 
         $.ajax({
-            url: '/ResearchProject/ajax_cookie',
+            url: '/ResearchProject/substep3',
             type: 'post',
             data: data_json,
             dataType: 'json',
@@ -116,6 +109,7 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
+                    alert('项目添加完成，请等待审核！');
                     upstep();
                     return;
                 }

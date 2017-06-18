@@ -9,14 +9,14 @@
     <div  style='padding:20px 0;'>
         <div >
             <form class="form-horizontal" role="form" id="formstep1" method="post" action="/ResearchProject/step2">
-                <input type="hidden" id="user_id" name="user_id" value="<?php echo @$user_id; ?>" />
+                <input type="hidden" name="step1" value="step1" />
                 <ul class="form-ul">
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">全称 &nbsp;&nbsp;</label>
-                        <input type="text" id="form-field-1" placeholder="全称" class="name " value="" />  
+                        <input type="text" id="form-field-1" placeholder="全称" class="name " name="name" value="" />  
 
                         <label class="input-group-addon " for="form-field-2">简称  &nbsp;&nbsp;</label> 
-                        <input type="text" id="form-field-2" placeholder="简称" class="alias" value="" />           
+                        <input type="text" id="form-field-2" placeholder="简称" class="alias" name="alias" value="" />           
                     </li> 
 
                     <li class="input-group">
@@ -27,13 +27,13 @@
                         </select>  
 
                         <label class="input-group-addon " for="form-field-2">金额 &nbsp;&nbsp;</label> 
-                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="amount" value="" />                
+                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="amount" name="amount" value="" />                
                     </li> 
 
                     <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">开始 &nbsp;&nbsp;</label>
-                        <input readonly="readonly" type="text" class=" form_datetime1 start_date">  
+                        <input readonly="readonly" type="text" class=" form_datetime1 start_date" name="start_date">  
                         <script type="text/javascript">
                             $(".form_datetime1").datetimepicker({
                                 format: 'yyyy-mm-dd',
@@ -42,7 +42,7 @@
                         </script>
 
                         <label class="input-group-addon " for="form-field-2">结束 &nbsp;&nbsp;</label>
-                        <input readonly="readonly" type="text" class="form_datetime2 end_date"> 
+                        <input readonly="readonly" type="text"  class="form_datetime2 end_date" name="end_date"> 
                         <script type="text/javascript">
                             $(".form_datetime2").datetimepicker({
                                 format: 'yyyy-mm-dd',
@@ -72,19 +72,19 @@
 
                     <li class="input-group qdly demo_hide" style="display:none;">
                         <label  for="form-field-1" style="width:81px;float: left;"></label>
-                        <select style="float:left;width:105px;" name="source_channel" class="source_channel"  >
+                        <select style="float:left;width:105px;" name="source['source_channel'][]" class="source_channel"  >
                             <?php $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
                             foreach($qd_arr as $qd){?>
                             <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
                             <?php }?>
                         </select>
-                        <select style="width:85px;" name="year" class="year col-sm-2" >
+                        <select style="width:85px;" name="source['year'][]" class="year col-sm-2" >
                             <?php foreach(range(2017,2030) as $n){?>
                             <option value="<?php echo $n;?>"><?php echo $n;?></option>
                             <?php } ?>
                         </select>
-                        <input type="text" placeholder="文号" style="width:105px;" class="file_number " value="" />           
-                        <input type="text" placeholder="金额"  class="amount" style="width:85px;"  value="" />
+                        <input type="text" placeholder="文号" style="width:105px;" class="file_number "  name="source['file_number'][]" value="" />           
+                        <input type="text" placeholder="金额"  class="amount" name="source['amount'][]" style="width:85px;"  value="" />
                         &nbsp;
                         <span title="删除" class="icon-trash bigger-130 red" onclick="del_qbly(this);"></span>  
                     </li>           
@@ -92,11 +92,11 @@
 
                 <div class="form-group" style="margin:10px auto;width:490px;">
                     <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">项目概述 &nbsp;&nbsp;</label>
-                    <textarea class="overview" style="width:350px;" placeholder="项目概述" ></textarea>
+                    <textarea class="overview" name="overview" style="width:350px;" placeholder="项目概述" ></textarea>
                 </div>
                 <div class="form-group" style="margin:10px auto;width:500px;">
                     <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">备注 &nbsp;&nbsp;</label>
-                    <textarea class="remark" style="width:350px;" placeholder="备注"></textarea>
+                    <textarea class="remark" name="remark" style="width:350px;" placeholder="备注"></textarea>
 
                 </div>
 
@@ -133,7 +133,6 @@
     }
     //提交内容
     function ajax_submit() {
-        var user_id = $('#user_id').val();
         var data_json = {};
         var name = $('.name').val();
         var alias = $('.alias').val();
@@ -145,12 +144,6 @@
         var position = $('.position option:selected').val();
         var overview = $('.overview').val();
         var remark = $('.remark').val();
-
-//            if (user_id == '') {
-//                $('.user_id').focus();
-//                return;
-//            }
-//            data_json.user_id = user_id;
 
         if (name == '') {
             $('.name').focus();
@@ -208,7 +201,6 @@
         data_json.upstep = 'step1';
 
         var data = data_json;
-        console.log(data);
         $.ajax({
             url: '/ResearchProject/ajax_cookie',
             type: 'post',
