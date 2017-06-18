@@ -6,7 +6,7 @@
 </style>
     
 <div class="main-container-inner" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:560px;margin:0 auto;'>
-    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 上传任务书</span> <a class="close" id="step2_close" data-dismiss="modal">×</a></p>
+    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 上传任务书</span> <a class="close" onclick="window.parent.step_close();" id="step2_close" data-dismiss="modal">×</a></p>
 
     <div class="page-content">
         <div class="row">
@@ -28,7 +28,7 @@
         <div class="clearfix " style="text-align: center;">
             <div class=" col-md-9">
                 
-                <button class="btn btn-primary" type="reset" class="close" data-dismiss="modal">
+                <button class="btn btn-primary" type="button" onclick="window.history.go(-1);"  data-dismiss="modal">
                     <i class="icon-undo bigger-110"></i>
                     上一步
                 </button>

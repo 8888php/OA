@@ -179,7 +179,10 @@
                             </a>
                             
                                  <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                     <iframe src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
+                                     <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true">
+					
+				</button>
+                                     <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                                     </div>
                           
                         
@@ -331,7 +334,10 @@
                     ace.settings.check('sidebar', 'collapsed')
                 } catch (e) {
                 }
-                
+                //关闭添加项目的窗口
+                function step_close() {
+                    $('#step_close').click();
+                }
                 /**
                 * 左侧栏选中
                 * f_li_class 左侧大栏的class 
