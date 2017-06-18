@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -15,6 +15,7 @@ class ResearchProjectController extends AppController {
      * 详情
      */
     public function index() {
+
         $this->render();
     }
 
@@ -77,14 +78,93 @@ class ResearchProjectController extends AppController {
 
         $this->render();
     }
- 
-    
+
     /**
      * 添加 项目 入库
      */
-    public function step4() {
-        
-        
+    public function substep3() {
+        $project = $this->Cookie->read('research_project' . $this->userInfo->id);
+        $files = $this->Cookie->read('research_file' . $this->userInfo->id);
+        if (empty($project) || empty($files)) {
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '数据不完整';
+            echo json_encode($this->ret_arr);
+            die;
+        }
+
+        $saveArr = array();
+        if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
+            $saveArr['data_fee'] = $this->request->data('data_fee');
+            $saveArr['facility1'] = $this->request->data('facility1');
+            $saveArr['facility2'] = $this->request->data('facility2');
+            $saveArr['facility3'] = $this->request->data('facility3');
+            $saveArr['material1'] = $this->request->data('material1');
+            $saveArr['material2'] = $this->request->data('material2');
+            $saveArr['material3'] = $this->request->data('material3');
+            $saveArr['material4'] = $this->request->data('material4');
+            $saveArr['assay'] = $this->request->data('assay');
+            $saveArr['elding'] = $this->request->data('elding');
+            $saveArr['publish'] = $this->request->data('publish');
+            $saveArr['property_right'] = $this->request->data('property_right');
+            $saveArr['travel'] = $this->request->data('travel');
+            $saveArr['meeting'] = $this->request->data('meeting');
+            $saveArr['cooperation'] = $this->request->data('cooperation');
+            $saveArr['labour'] = $this->request->data('labour');
+            $saveArr['consult'] = $this->request->data('consult');
+            $saveArr['other'] = $this->request->data('other');
+            $saveArr['indirect'] = $this->request->data('indirect');
+            $saveArr['train'] = $this->request->data('train');
+            $saveArr['vehicle'] = $this->request->data('vehicle');
+            $saveArr['collection'] = $this->request->data('collection');
+
+            $saveArr['total'] = array_sum($saveArr);  // 总额
+            $saveArr['remarks'] = $this->request->data('remarks');
+
+            $projectArr = CookieDecode($project);
+            $sourceArr = $projectArr['source'];
+            unset($projectArr['source']);
+            $filesArr = CookieDecode($files);
+            $projectArr['filename'] = $filesArr[0];
+
+            # 开始入库
+            $this->ResearchProject->begin();
+            $porijectId = $this->ResearchProject->add($projectArr);
+
+            if ($porijectId) {
+                $saveSourceArr = array();
+                foreach ($sourceArr['file_number'] as $k => $v) {
+                    if (!$v) {
+                        continue;
+                    }
+                    $saveSourceArr[]['project_id'] = $porijectId;
+                    $saveSourceArr[]['source_channel'] = $sourceArr['source_channel'][$k];
+                    $saveSourceArr[]['year'] = $sourceArr['year'][$k];
+                    $saveSourceArr[]['file_number'] = $sourceArr['file_number'][$k];
+                    $saveSourceArr[]['amount'] = $sourceArr['amount'][$k];
+                }
+                $sourceId = $this->ResearchSource->add($saveSourceArr);
+            } else {
+                $this->ResearchProject->rollback();
+            }
+
+            $sourceId ? $this->ResearchProject->rollback() : $costId = $this->ResearchCost->add($saveArr);
+
+            $costId ? $this->ResearchProject->rollback() : $commitId = $this->ResearchProject->commit();
+
+            if ($costId) {
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = $commitId . '添加项目成功！请等待审核';
+            } else {
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '添加项目失败！';
+            }
+        } else {
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '参数有误';
+        }
+
+        echo json_encode($this->ret_arr);
+        $this->render();
     }
 
     /**
