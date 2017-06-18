@@ -180,6 +180,7 @@
         data_json.qdly = [{}];
         for (var i = 0; i < qdly_add_length; i++) {
             var data_i = data_json.qdly[i];
+            data_i = {};
             var obj = $('.qdly_add').eq(i);
             var source_channel = obj.find('.source_channel option:selected').val();
             data_i.source_channel = source_channel;
@@ -236,8 +237,7 @@
                     //说明添加或修改成功
                     //location.href = '/user/index';
                     //如果成功，则调step2
-                    upstep();
-                    $('.step2_js').click();
+                    $('form').submit();
                     return;
                 }
                 if (res.code == 2) {
