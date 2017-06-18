@@ -137,7 +137,6 @@
 
                      //提交内容
                      function ajax_submit() {
-                         $('#step2_close').click();
                          var data = {};
                          data.filename = $('#file_upload').val();
                          if (data.filename == '') {
@@ -172,9 +171,7 @@
                                  if (res.code == 0) {
                                      //说明添加或修改成功
                                      //location.href = '/user/index';
-                                     //如果成功，则调step2
-                                     $('.close').click();
-                                     //$('.step3_js').click();
+                                     $('form').submit();
                                      return;
                                  }
                                  if (res.code == 2) {
