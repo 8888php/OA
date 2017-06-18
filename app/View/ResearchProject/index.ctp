@@ -560,6 +560,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    //left页面用与判断
+    function research_prject_flag() {
+        //do noting
+    }
     jQuery(function ($) {
         $('.accordion').on('hide', function (e) {
             $(e.target).prev().children(0).addClass('collapsed');
@@ -568,6 +572,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
     });
+    show_left_select('research_project', '无效');
 </script>
 
 </body>
