@@ -54,8 +54,8 @@ class ResearchProjectController extends AppController {
      * 添加 项目费用
      */
     public function step3() {
-        var_dump(CookieDecode($this->Cookie->read('research_project' . $this->userInfo->id)));
-         var_dump(CookieDecode($this->Cookie->read('research_file' . $this->userInfo->id)));die;
+//        var_dump(CookieDecode($this->Cookie->read('research_project' . $this->userInfo->id)));
+//         var_dump(CookieDecode($this->Cookie->read('research_file' . $this->userInfo->id)));die;
         if ($this->request->isPost() && $this->request->data('step2') != 'step2') {
             header('Location:/ResearchProject/index');
         }
@@ -130,24 +130,27 @@ class ResearchProjectController extends AppController {
             # 开始入库
             $this->ResearchProject->begin();
              $this->ResearchProject->add($projectArr);
-file_put_contents('log.log', $this->ResearchProject->id."\r\n",FILE_APPEND);
-            if ($this->ResearchProject->id) {
+
+            if ($porijectId = $this->ResearchProject->id) {
                 $saveSourceArr = array();
+                $key = 0;//定义一个下标
                 foreach ($sourceArr['file_number'] as $k => $v) {
                     if (!$v) {
                         continue;
                     }
-                    $saveSourceArr[]['project_id'] = $porijectId;
-                    $saveSourceArr[]['source_channel'] = $sourceArr['source_channel'][$k];
-                    $saveSourceArr[]['year'] = $sourceArr['year'][$k];
-                    $saveSourceArr[]['file_number'] = $sourceArr['file_number'][$k];
-                    $saveSourceArr[]['amount'] = $sourceArr['amount'][$k];
-                }file_put_contents('log.log', json_encode($saveSourceArr)."\r\n",FILE_APPEND);
-                $this->ResearchSource->add($saveSourceArr);
+                    
+                    $saveSourceArr[$key]['project_id'] = $porijectId;
+                    $saveSourceArr[$key]['source_channel'] = $sourceArr['source_channel'][$k];
+                    $saveSourceArr[$key]['year'] = $sourceArr['year'][$k];
+                    $saveSourceArr[$key]['file_number'] = $sourceArr['file_number'][$k];
+                    $saveSourceArr[$key]['amount'] = $sourceArr['amount'][$k];
+                    $this->ResearchSource->add($saveSourceArr[$key++]);
+                }
+                
             } else {
                 $this->ResearchProject->rollback();
             }
-file_put_contents('log.log', json_encode($saveArr)."\r\n",FILE_APPEND);
+
              $saveArr['project_id'] = $porijectId;
             !$this->ResearchSource->id ? $this->ResearchProject->rollback() : $costId = $this->ResearchCost->add($saveArr);
 
