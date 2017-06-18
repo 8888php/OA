@@ -3,7 +3,7 @@
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:560px;'>
 
-    <p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a class="close" data-dismiss="modal" id='closemodel'>×</a></p>
+    <p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"><?php echo !empty($user) ? '修改':'添加';?>项目</span> <a onclick="close_window();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
 
 
     <div  style='padding:20px 0;'>
@@ -105,7 +105,7 @@
 
                 <div class="clearfix " style="text-align: center;">
                     <div class=" col-md-9">
-                        <button class="btn btn-primary" type="reset" onclick='upstep();' >
+                        <button class="btn btn-primary" type="button" onclick='close_window();' >
                             <i class="icon-undo bigger-110"></i>
                             取消
                         </button>
@@ -128,8 +128,9 @@
 
 
 <script type="text/javascript">
-    function upstep() {
-        $('#closemodel').click();
+    //关闭窗口
+    function close_window() {
+        window.parent.step_close();
     }
     //提交内容
     function ajax_submit() {
