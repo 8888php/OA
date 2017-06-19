@@ -15,7 +15,7 @@ class ResearchProject extends AppModel {
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
     }
-    
+
     /**
      * 添加数据
      * @param type $data
@@ -40,14 +40,19 @@ class ResearchProject extends AppModel {
         return $this->save($data);
     }
 
-
-    
     # 获取全部项目
-    public function getList(){
+
+    public function getList() {
         $userArr = $fields = array();
-        $fields = array('id','name');
-        return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
+        $fields = array('id', 'name');
+        return $this->find('list', array('conditions' => array('del' => 0), 'fields' => $fields));
     }
 
-    
+    # 获取全部项目
+
+    public function getAll($conditions = array()) {
+        $conditions['del'] = 0;
+        return $this->find('all', array('conditions' => $conditions));
+    }
+
 }

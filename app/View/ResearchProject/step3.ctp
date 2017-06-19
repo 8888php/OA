@@ -25,7 +25,7 @@
                 </ul>     
                 <div class="form-group" style="margin:10px auto;width:500px;">
                     <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">备注 &nbsp;&nbsp;</label>
-                    <textarea cols="40" rows="5" id='remarks' class="desc"></textarea>
+                    <textarea cols="40" rows="5" id='remarks' name='remarks' class="desc"></textarea>
 
                 </div>
 

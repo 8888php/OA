@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 管理员列表 </title>
+        <title> 待我审批项目列表 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -58,19 +58,11 @@
                         </li>
 
                         <li>
-                            <a href="#"> 系统设置 </a>
+                            <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 用户管理 </li>
+                        <li class="active"> 待我审批 </li>
                     </ul><!-- .breadcrumb -->
 
-                    <div class="nav-search" id="nav-search">
-                        <form class="form-search">
-                            <span class="input-icon">
-                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                                <i class="icon-search nav-search-icon"></i>
-                            </span>
-                        </form>
-                    </div><!-- #nav-search -->
                 </div>
 
                 <div class="page-content">						
@@ -82,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        成员列表信息
+                                        待审项目信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -110,43 +102,43 @@
                                             </thead>
 
                                             <tbody>
-                                                <?php  foreach($userArr as $v){  ?>
+                                                <?php  foreach($lists as $v){  ?>
                                                 <tr>
                                                     <td class="center">
                                                         <label>
-                                                            <input type="checkbox" class="ace" value="<?php echo $v['User']['id']; ?>" />
+                                                            <input type="checkbox" class="ace" value="<?php echo $v['ResearchProject']['id']; ?>" />
                                                             <span class="lbl"></span>
                                                         </label>
                                                     </td>
 
                                                     <td>
-                                                        <a href="#"> <?php  echo $v['User']['id']; ?> </a>
+                                                        <a href="#"> <?php  echo $v['ResearchProject']['id']; ?> </a>
                                                     </td>
-                                                    <td><?php  echo $v['User']['user']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['User']['position_id']; ?></td>
-                                                    <td><?php  echo $v['User']['name']; ?></td>
-                                                    <td><?php  echo $v['User']['department_id']; ?></td>
+                                                    <td><?php  echo $v['ResearchProject']['name']; ?></td>
+                                                    <td class="hidden-480"><?php  echo $v['ResearchProject']['alias']; ?></td>
+                                                    <td><?php  echo $v['ResearchProject']['type']; ?></td>
+                                                    <td><?php  echo $v['ResearchProject']['start_date']; ?></td>
 
-                                                    <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
-                                                    <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
-                                                    <td><?php  echo date('Y-m-d H:i',$v['User']['ctime']); ?></td>
+                                                    <td class="hidden-480"><?php  echo $v['ResearchProject']['end_date']; ?> </td>
+                                                    <td><?php  echo $v['ResearchProject']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
+                                                    <td><?php  echo date('Y-m-d H:i',$v['ResearchProject']['ctime']); ?></td>
 
-                                                    <td><?php  echo $v['User']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
+                                                    <td><?php  echo $v['ResearchProject']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
                                                     <td>
                                                         <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                            <a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
+                                                            <a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['ResearchProject']['id']; ?>" data-target="#modal">
                                                                 <i class="icon-zoom-in bigger-130"></i>
                                                             </a>
 
-                                                            <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
+                                                            <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['ResearchProject']['id']; ?>" data-target="#modal" >
                                                                 <i class="icon-pencil bigger-130"></i>
                                                             </a>
-                                                             <?php if ($v['User']['del'] == 0) {?>   
-                                                                <a class="red" onclick="ajax_del(<?php echo $v['User']['id']; ?>);">
+                                                             <?php if ($v['ResearchProject']['del'] == 0) {?>   
+                                                                <a class="red" onclick="ajax_del(<?php echo $v['ResearchProject']['id']; ?>);">
                                                                     <i title='删除' class="icon-trash bigger-130"></i>
                                                                 </a>
                                                              <?php }else {?>
-                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
+                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['ResearchProject']['id']; ?>);">
                                                                    <i title='恢复' class="icon-trash bigger-130"></i>
                                                                </a>
                                                              <?php }?>

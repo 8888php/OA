@@ -6,10 +6,9 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource');
     public $layout = 'blank';
-
-    //var $uses=array('SysMenus'); 
-    /* 左 */
+    public $components = array('Cookie');
 
     public function index() {
         
@@ -33,6 +32,9 @@ class OfficeController extends AppController {
      * 待我审批
      */
     public function wait_approval() {
+
+        $lists = $this->ResearchProject->getAll($conditions = array('code' => 0));
+        $this->set('lists', $lists);
         $this->render();
     }
 
