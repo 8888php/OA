@@ -351,7 +351,7 @@ class PageHelper extends AppHelper {
 ////                                            </li>';
 //            }
 //        }
-          $ul_select = '<ul class="pagination pull-right no-margin"><li><select onchange="if(this.value){window.location=this.value;}"><option>select page</option>';
+          $ul_select = '<ul class="pagination pull-right no-margin"><li><select onchange="if(this.value){window.location=this.value;}">';
         for ($i = 1; $i <= $this->pageNums; $i++) {
             if ($i == $this->current_page) {
                 $ul_select .= '<option selected>第' . $i . '页</option>';

@@ -31,6 +31,9 @@
         <script src="/assets/js/html5shiv.js"></script>
         <script src="/assets/js/respond.min.js"></script>
         <![endif]-->
+        <style>
+            table{font-size:12px;}
+        </style>   
     </head>
 
     <body>
@@ -123,252 +126,160 @@
 
                             <div class="tab-content no-border padding-24">
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>名称</th>
-                                                <th>城市</th>
-                                                <th>邮编</th>
-                                                <th>邮编</th>
-                                            </tr>
-                                        </thead>
+
+                                    <table class="table table-striped table-bordered " >
                                         <tbody>
                                             <tr>
-                                                <td>Tanmay</td>
-                                                <td>Bangalore</td>
-                                                <td>560001</td>
-                                                <td>560001</td>
+                                                <td>全称</td>
+                                                <td><?php echo $pinfos['name'];  ?></td>
+                                                <td>简称</td>
+                                                <td><?php echo $pinfos['alias'];  ?></td>
                                             </tr>
-                                          
+                                            <tr>
+                                                <td>资金性质</td>
+                                                <td><?php 
+                                                    switch($pinfos['type']){
+                                                    case 1 : echo '零余额';break; 
+                                                    case 2 : echo '基本户';break; 
+                                                    }  ?> </td>
+                                                <td>金额</td>
+                                                <td><?php echo $pinfos['amount'];  ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>开始日期</td>
+                                                <td> <?php echo $pinfos['start_date'];  ?> </td>
+                                                <td>结束日期</td>
+                                                <td> <?php echo $pinfos['end_date'];  ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>任务书</td>
+                                                <td colspan="3"> 
+                                                    <?php 
+                                                    $filearr = explode('|',$pinfos['filename']);
+                                                    foreach($filearr as $fv){
+                                                    echo "<a href='/files/$fv' > $fv </a> <br/>";
+                                                    }
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>项目成员</td>
+                                                <td colspan='3'> 
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>NO.</th>
+                                                                <th>名称</th>
+                                                                <th>邮箱</th>
+                                                                <th>状态</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <tr>
+                                                                <td><?php echo $sk+1;  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                            </tr>
+                                                            <?php   } ?>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>资金来源</td>
+                                                <td colspan="3">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>NO.</th>
+                                                                <th>来源渠道</th>
+                                                                <th>文号</th>
+                                                                <th>金额</th>
+                                                                <th>年度</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <tr>
+                                                                <td><?php echo $sk+1;  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['year'];  ?></td>
+                                                            </tr>
+                                                            <?php   } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>项目概述</td>
+                                                <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>备注</td>
+                                                <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
                                 </div>
 
                                 <div id="faq-tab-2" class="tab-pane fade">
-                                    <h4 class="blue">
-                                        <i class="green icon-user bigger-110"></i>
-                                        Account Questions
-                                    </h4>
+                                    <table class="table table-bordered" style='width:40%;float:left;margin-right: 15px;'>
+                                        <thead>
+                                            <tr>
+                                                <th colspan="4" class='blue'> 预算 </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php  
+                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
+                                            <tr>
+                                                <?php foreach($ysv as $k => $v){ ?>
+                                                <td><?php echo $v;  ?></td>
+                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
+                                                 <?php   } ?>
+                                            </tr>
+                                            <?php   } ?>
+                                        </tbody>
+                                    </table>
 
-                                    <div class="space-8"></div>
+                                    <table class="table table-bordered" style='width:40%;float:left;margin-left:15px;'>
+                                        <thead>
+                                            <tr>
+                                                <th colspan='4' class='red'> 预算剩余 </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php  
+                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
+                                            <tr>
+                                                <?php foreach($ysv as $k => $v){ ?>
+                                                <td><?php echo $v;  ?></td>
+                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
+                                                 <?php   } ?>
+                                            </tr>
+                                            <?php   } ?>
+                                        </tbody>
+                                    </table>
 
-                                    <div id="faq-list-2" class="panel-group accordion-style1 accordion-style2">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-2-1" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-chevron-right smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
-                                                    &nbsp;
-                                                    Enim eiusmod high life accusamus terry richardson?
-                                                </a>
-                                            </div>
 
-                                            <div class="panel-collapse collapse" id="faq-2-1">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-2-2" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-chevron-right smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
-                                                    &nbsp;
-                                                    Single-origin coffee nulla assumenda shoreditch et?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-2-2">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-2-3" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-chevron-right middle smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
-                                                    &nbsp;
-                                                    Sunt aliqua put a bird on it squid?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-2-3">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-2-4" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-chevron-right smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
-                                                    &nbsp;
-                                                    Brunch 3 wolf moon tempor sunt aliqua put?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-2-4">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div id="faq-tab-3" class="tab-pane fade">
-                                    <h4 class="blue">
-                                        <i class="orange icon-credit-card bigger-110"></i>
-                                        Payment Questions
-                                    </h4>
 
-                                    <div class="space-8"></div>
 
-                                    <div id="faq-list-3" class="panel-group accordion-style1 accordion-style2">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-3-1" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Enim eiusmod high life accusamus terry richardson?
-                                                </a>
-                                            </div>
 
-                                            <div class="panel-collapse collapse" id="faq-3-1">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-3-2" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Single-origin coffee nulla assumenda shoreditch et?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-3-2">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-3-3" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Sunt aliqua put a bird on it squid?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-3-3">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-3-4" data-parent="#faq-list-3" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Brunch 3 wolf moon tempor sunt aliqua put?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-3-4">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div id="faq-tab-4" class="tab-pane fade">
-                                    <h4 class="blue">
-                                        <i class="purple icon-magic bigger-110"></i>
-                                        Miscellaneous Questions
-                                    </h4>
 
-                                    <div class="space-8"></div>
 
-                                    <div id="faq-list-4" class="panel-group accordion-style1 accordion-style2">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-4-1" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-hand-right" data-icon-hide="icon-hand-down" data-icon-show="icon-hand-right"></i>
-                                                    &nbsp;
-                                                    Enim eiusmod high life accusamus terry richardson?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-4-1">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-4-2" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-frown bigger-120" data-icon-hide="icon-smile" data-icon-show="icon-frown"></i>
-                                                    &nbsp;
-                                                    Single-origin coffee nulla assumenda shoreditch et?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-4-2">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-4-3" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Sunt aliqua put a bird on it squid?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-4-3">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <a href="#faq-4-4" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
-                                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
-                                                    &nbsp;
-                                                    Brunch 3 wolf moon tempor sunt aliqua put?
-                                                </a>
-                                            </div>
-
-                                            <div class="panel-collapse collapse" id="faq-4-4">
-                                                <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -14,8 +14,20 @@ class ResearchProjectController extends AppController {
     /**
      * 详情
      */
-    public function index() {
+    public function index($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
 
+        $pinfos = $this->ResearchProject->findById($pid);
+        $pinfos = $pinfos['ResearchProject'];
+        $cost = $this->ResearchCost->findByProjectId($pid);
+        $cost = $cost['ResearchCost'];
+        $source = $this->ResearchSource->getAll($pid);
+
+        $this->set('pinfos', $pinfos);
+        $this->set('cost', $cost);
+        $this->set('source', $source);
         $this->render();
     }
 
@@ -95,31 +107,31 @@ class ResearchProjectController extends AppController {
 
         $saveArr = array();
         if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
-           !empty($this->request->data('data_fee')) && $saveArr['data_fee'] = $this->request->data('data_fee');
-           !empty($this->request->data('facility1')) &&  $saveArr['facility1'] = $this->request->data('facility1');
-           !empty($this->request->data('facility2')) &&  $saveArr['facility2'] = $this->request->data('facility2');
-           !empty($this->request->data('facility3')) &&  $saveArr['facility3'] = $this->request->data('facility3');
-           !empty($this->request->data('material1')) &&  $saveArr['material1'] = $this->request->data('material1');
-           !empty($this->request->data('material2')) &&  $saveArr['material2'] = $this->request->data('material2');
-           !empty($this->request->data('material3')) &&  $saveArr['material3'] = $this->request->data('material3');
-           !empty($this->request->data('material4')) &&  $saveArr['material4'] = $this->request->data('material4');
-           !empty($this->request->data('assay')) &&  $saveArr['assay'] = $this->request->data('assay');
-           !empty($this->request->data('elding')) &&  $saveArr['elding'] = $this->request->data('elding');
-           !empty($this->request->data('publish')) &&  $saveArr['publish'] = $this->request->data('publish');
-           !empty($this->request->data('property_right')) &&  $saveArr['property_right'] = $this->request->data('property_right');
-           !empty($this->request->data('travel')) &&  $saveArr['travel'] = $this->request->data('travel');
-           !empty($this->request->data('meeting')) &&  $saveArr['meeting'] = $this->request->data('meeting');
-           !empty($this->request->data('cooperation')) &&  $saveArr['cooperation'] = $this->request->data('cooperation');
-           !empty($this->request->data('labour')) &&  $saveArr['labour'] = $this->request->data('labour');
-           !empty($this->request->data('consult')) &&  $saveArr['consult'] = $this->request->data('consult');
-           !empty($this->request->data('other')) &&  $saveArr['other'] = $this->request->data('other');
-           !empty($this->request->data('indirect')) &&  $saveArr['indirect'] = $this->request->data('indirect');
-           !empty($this->request->data('train')) &&  $saveArr['train'] = $this->request->data('train');
-           !empty($this->request->data('vehicle')) &&  $saveArr['vehicle'] = $this->request->data('vehicle');
-           !empty($this->request->data('collection')) &&  $saveArr['collection'] = $this->request->data('collection');
+            !empty($this->request->data('data_fee')) && $saveArr['data_fee'] = $this->request->data('data_fee');
+            !empty($this->request->data('facility1')) && $saveArr['facility1'] = $this->request->data('facility1');
+            !empty($this->request->data('facility2')) && $saveArr['facility2'] = $this->request->data('facility2');
+            !empty($this->request->data('facility3')) && $saveArr['facility3'] = $this->request->data('facility3');
+            !empty($this->request->data('material1')) && $saveArr['material1'] = $this->request->data('material1');
+            !empty($this->request->data('material2')) && $saveArr['material2'] = $this->request->data('material2');
+            !empty($this->request->data('material3')) && $saveArr['material3'] = $this->request->data('material3');
+            !empty($this->request->data('material4')) && $saveArr['material4'] = $this->request->data('material4');
+            !empty($this->request->data('assay')) && $saveArr['assay'] = $this->request->data('assay');
+            !empty($this->request->data('elding')) && $saveArr['elding'] = $this->request->data('elding');
+            !empty($this->request->data('publish')) && $saveArr['publish'] = $this->request->data('publish');
+            !empty($this->request->data('property_right')) && $saveArr['property_right'] = $this->request->data('property_right');
+            !empty($this->request->data('travel')) && $saveArr['travel'] = $this->request->data('travel');
+            !empty($this->request->data('meeting')) && $saveArr['meeting'] = $this->request->data('meeting');
+            !empty($this->request->data('cooperation')) && $saveArr['cooperation'] = $this->request->data('cooperation');
+            !empty($this->request->data('labour')) && $saveArr['labour'] = $this->request->data('labour');
+            !empty($this->request->data('consult')) && $saveArr['consult'] = $this->request->data('consult');
+            !empty($this->request->data('other')) && $saveArr['other'] = $this->request->data('other');
+            !empty($this->request->data('indirect')) && $saveArr['indirect'] = $this->request->data('indirect');
+            !empty($this->request->data('train')) && $saveArr['train'] = $this->request->data('train');
+            !empty($this->request->data('vehicle')) && $saveArr['vehicle'] = $this->request->data('vehicle');
+            !empty($this->request->data('collection')) && $saveArr['collection'] = $this->request->data('collection');
 
             $saveArr['total'] = array_sum($saveArr);  // 总额
-           !empty($this->request->data('remarks')) &&  $saveArr['remarks'] = $this->request->data('remarks');
+            !empty($this->request->data('remarks')) && $saveArr['remarks'] = $this->request->data('remarks');
 
             $projectArr = CookieDecode($project);
             $sourceArr = $projectArr['source'];
@@ -130,16 +142,16 @@ class ResearchProjectController extends AppController {
 
             # 开始入库
             $this->ResearchProject->begin();
-             $this->ResearchProject->add($projectArr);
+            $this->ResearchProject->add($projectArr);
 
             if ($porijectId = $this->ResearchProject->id) {
                 $saveSourceArr = array();
-                $key = 0;//定义一个下标
+                $key = 0; //定义一个下标
                 foreach ($sourceArr['file_number'] as $k => $v) {
                     if (!$v) {
                         continue;
                     }
-                    
+
                     $saveSourceArr[$key]['project_id'] = $porijectId;
                     $saveSourceArr[$key]['source_channel'] = $sourceArr['source_channel'][$k];
                     $saveSourceArr[$key]['year'] = $sourceArr['year'][$k];
@@ -147,12 +159,11 @@ class ResearchProjectController extends AppController {
                     $saveSourceArr[$key]['amount'] = $sourceArr['amount'][$k];
                     $this->ResearchSource->add($saveSourceArr[$key++]);
                 }
-                
             } else {
                 $this->ResearchProject->rollback();
             }
 
-             $saveArr['project_id'] = $porijectId;
+            $saveArr['project_id'] = $porijectId;
             !$this->ResearchSource->id ? $this->ResearchProject->rollback() : $costId = $this->ResearchCost->add($saveArr);
 
             !$this->ResearchCost->id ? $this->ResearchProject->rollback() : $commitId = $this->ResearchProject->commit();

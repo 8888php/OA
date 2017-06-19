@@ -50,9 +50,13 @@ class ResearchProject extends AppModel {
 
     # 获取全部项目
 
-    public function getAll($conditions = array()) {
+    public function getAll($conditions = array(), $limit = 0, $page = 0) {
+        $screen = array();
         $conditions['del'] = 0;
-        return $this->find('all', array('conditions' => $conditions));
+        $screen['conditions'] = $conditions;
+        $limit && $screen['limit'] = $limit;
+        $page && $screen['page'] = $page;
+        return $this->find('all', $screen);
     }
 
 }

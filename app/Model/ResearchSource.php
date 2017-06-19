@@ -48,6 +48,16 @@ class ResearchSource extends AppModel {
         $fields = array('id','name');
         return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
     }
+ 
+    
+    
+       # 获取相关来源
+    public function getAll($pid){
+        return  $this->find('all',array('conditions' => array('project_id'=>$pid)));
+    }
+     
+    
+    
     
     
 }

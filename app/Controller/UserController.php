@@ -44,7 +44,6 @@ class UserController extends AppController {
      */
     public function index($pages = 1) {
 
-        $userArr = array();
         if ((int) $pages < 1) {
             $pages = 1;
         }
