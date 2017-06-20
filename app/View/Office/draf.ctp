@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 管理员列表 </title>
+        <title> 起草申请 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -58,19 +58,11 @@
                         </li>
 
                         <li>
-                            <a href="#"> 系统设置 </a>
+                            <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 用户管理 </li>
+                        <li class="active"> 起草申请 </li>
                     </ul><!-- .breadcrumb -->
 
-                    <div class="nav-search" id="nav-search">
-                        <form class="form-search">
-                            <span class="input-icon">
-                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                                <i class="icon-search nav-search-icon"></i>
-                            </span>
-                        </form>
-                    </div><!-- #nav-search -->
                 </div>
 
                 <div class="page-content">						
@@ -82,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        成员列表信息
+                                        起草申请
                                     </div>
 
                                     <div class="table-responsive">
@@ -110,7 +102,6 @@
                                             </thead>
 
                                             <tbody>
-                                                <?php  foreach($userArr as $v){  ?>
                                                 <tr>
                                                     <td class="center">
                                                         <label>
@@ -188,7 +179,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <?php } ?>
+                                               
 
                                         </table>
                                     </div>
@@ -209,8 +200,7 @@
                                                 </div>
                                             </div>
                                         </div>   
-                                        
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/user/index/",5 ); ?>                                        
+                                              
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->

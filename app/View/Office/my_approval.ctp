@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 待我审批项目列表 </title>
+        <title> 经我审批项目列表 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +60,7 @@
                         <li>
                             <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 待我审批 </li>
+                        <li class="active"> 经我审批 </li>
                     </ul><!-- .breadcrumb -->
 
                 </div>
@@ -74,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        待审项目信息
+                                        经审项目信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -83,12 +83,8 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>项目名</th>
-                                                    <th>简称</th>
-                                                    <th>资金性质</th>
-                                                    <th>金额</th>
-                                                    <th>开始日期</th>
-                                                    <th>结束日期</th>
-                                                    <th>添加时间</th>
+                                                    <th>申请时间</th>
+                                                    <th>当前节点</th>
                                                     <th>项目审批备注</th>
                                                     <th>账务审批备注</th>
                                                     <th>操作</th>
@@ -99,16 +95,9 @@
                                                 <tr>
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['alias'];  ?></td>
-                                                    <td><?php 
-                                                    switch($sv['ResearchProject']['type']){
-                                                    case 1 : echo '零余额';break; 
-                                                    case 2 : echo '基本户';break; 
-                                                    }  ?> </td>
-                                                    <td><?php echo $sv['ResearchProject']['amount'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['start_date'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['end_date'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['code'];  ?></td>
+                                                    
                                                     <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
                                                     <td><a href='#'> <?php 

@@ -83,12 +83,8 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>项目名</th>
-                                                    <th>简称</th>
-                                                    <th>资金性质</th>
-                                                    <th>金额</th>
-                                                    <th>开始日期</th>
-                                                    <th>结束日期</th>
-                                                    <th>添加时间</th>
+                                                    <th>申请日期</th>
+                                                    <th>当前节点</th>
                                                     <th>操作</th>
                                                 </tr>
                                             </thead>
@@ -97,16 +93,9 @@
                                                 <tr>
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['alias'];  ?></td>
-                                                    <td><?php 
-                                                    switch($sv['ResearchProject']['type']){
-                                                    case 1 : echo '零余额';break; 
-                                                    case 2 : echo '基本户';break; 
-                                                    }  ?> </td>
-                                                    <td><?php echo $sv['ResearchProject']['amount'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['start_date'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['end_date'];  ?></td>
+                                                    
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['code'];  ?></td>
                                                     <td><a data-toggle="modal"  data-target="#modal" onclick="$('#myModalLabel').text(<?php echo $sv['ResearchProject']['name'];  ?> + ' 项目审批');$('#p_id').val(<?php echo $sv['ResearchProject']['id'];?>);"  href="#"> 审核 </a></td>
                                                 </tr>
                                                 <?php   } ?>
