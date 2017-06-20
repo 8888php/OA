@@ -109,7 +109,7 @@
                                                     <td><?php echo $sv['ResearchProject']['start_date'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['end_date'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['remark'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
                                                     <td><a href='#'> <?php 
                                                             $code = '';

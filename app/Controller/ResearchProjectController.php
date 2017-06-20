@@ -20,9 +20,9 @@ class ResearchProjectController extends AppController {
         }
 
         $pinfos = $this->ResearchProject->findById($pid);
-        $pinfos = $pinfos['ResearchProject'];
+        $pinfos = @$pinfos['ResearchProject'];
         $cost = $this->ResearchCost->findByProjectId($pid);
-        $cost = $cost['ResearchCost'];
+        $cost = @$cost['ResearchCost'];
         $source = $this->ResearchSource->getAll($pid);
 
         $this->set('pinfos', $pinfos);

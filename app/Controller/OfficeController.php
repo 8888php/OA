@@ -118,7 +118,7 @@ class OfficeController extends AppController {
                 exit;
             }
             $save_arr = array(
-                'remark' => $remarks,
+                'project_approver_remarks' => $remarks,
                 'project_approver_id' => $approve_id,
                 'code' => $type == 1 ? $type : 2
             );
