@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 管理员列表 </title>
+        <title> 待我审批项目列表 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -58,19 +58,11 @@
                         </li>
 
                         <li>
-                            <a href="#"> 系统设置 </a>
+                            <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 用户管理 </li>
+                        <li class="active"> 待我审批 </li>
                     </ul><!-- .breadcrumb -->
 
-                    <div class="nav-search" id="nav-search">
-                        <form class="form-search">
-                            <span class="input-icon">
-                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                                <i class="icon-search nav-search-icon"></i>
-                            </span>
-                        </form>
-                    </div><!-- #nav-search -->
                 </div>
 
                 <div class="page-content">						
@@ -82,135 +74,135 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        成员列表信息
+                                        待审项目信息
                                     </div>
 
                                     <div class="table-responsive">
-                                        <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                                        <table  class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </th>
                                                     <th>ID</th>
-                                                    <th>用户名</th>
-                                                    <th class="hidden-480">部门</th>
-
-                                                    <th>姓名</th>
-                                                    <th class="hidden-480">职务</th>
-                                                    <th class="hidden-480">电话</th>
-                                                    <th class="hidden-480">状态</th>
-                                                    <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
-                                                    <th class="hidden-480"> 删除 </th>
-                                                    <th class="hidden-480"> 操作 </th>
+                                                    <th>项目名</th>
+                                                    <th>简称</th>
+                                                    <th>资金性质</th>
+                                                    <th>金额</th>
+                                                    <th>开始日期</th>
+                                                    <th>结束日期</th>
+                                                    <th>添加时间</th>
+                                                    <th>项目审批备注</th>
+                                                    <th>账务审批备注</th>
+                                                    <th>操作</th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
-                                                <?php  foreach($userArr as $v){  ?>
+                                                <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
-                                                    <td class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" value="<?php echo $v['User']['id']; ?>" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </td>
-
-                                                    <td>
-                                                        <a href="#"> <?php  echo $v['User']['id']; ?> </a>
-                                                    </td>
-                                                    <td><?php  echo $v['User']['user']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['User']['position_id']; ?></td>
-                                                    <td><?php  echo $v['User']['name']; ?></td>
-                                                    <td><?php  echo $v['User']['department_id']; ?></td>
-
-                                                    <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
-                                                    <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
-                                                    <td><?php  echo date('Y-m-d H:i',$v['User']['ctime']); ?></td>
-
-                                                    <td><?php  echo $v['User']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
-                                                    <td>
-                                                        <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                            <a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
-                                                                <i class="icon-zoom-in bigger-130"></i>
-                                                            </a>
-
-                                                            <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
-                                                                <i class="icon-pencil bigger-130"></i>
-                                                            </a>
-                                                             <?php if ($v['User']['del'] == 0) {?>   
-                                                                <a class="red" onclick="ajax_del(<?php echo $v['User']['id']; ?>);">
-                                                                    <i title='删除' class="icon-trash bigger-130"></i>
-                                                                </a>
-                                                             <?php }else {?>
-                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
-                                                                   <i title='恢复' class="icon-trash bigger-130"></i>
-                                                               </a>
-                                                             <?php }?>
-                                                        </div>
-
-                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                            <div class="inline position-relative">
-                                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                                    <i class="icon-caret-down icon-only bigger-120"></i>
-                                                                </button>
-
-                                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                                            <span class="blue">
-                                                                                <i class="icon-zoom-in bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                                            <span class="green">
-                                                                                <i class="icon-edit bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                                            <span class="red">
-                                                                                <i class="icon-trash bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                                                    <td><?php echo $sv['ResearchProject']['id'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['name'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['alias'];  ?></td>
+                                                    <td><?php 
+                                                    switch($sv['ResearchProject']['type']){
+                                                    case 1 : echo '零余额';break; 
+                                                    case 2 : echo '基本户';break; 
+                                                    }  ?> </td>
+                                                    <td><?php echo $sv['ResearchProject']['amount'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['start_date'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['end_date'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['remark'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
+                                                    <td><a href='#'> <?php 
+                                                            $code = '';
+                                                            switch($sv['ResearchProject']['code'])
+                                                            {
+                                                                case 1:
+                                                                    $code = '项目审批通过';
+                                                                    break;
+                                                                case 2:
+                                                                    $code = '项目拒绝';
+                                                                    break;
+                                                                case 3:
+                                                                    $code = '财务审批通过';
+                                                                    break;
+                                                                case 4:
+                                                                    $code = '财务拒绝';
+                                                                    break;
+                                                            }
+                                                            echo $code;
+                                                             ?> </a></td>
                                                 </tr>
+                                                <?php   } ?>
+                                            </tbody>
 
-                                                <?php } ?>
 
                                         </table>
                                     </div>
 
+                                    <script type="text/javascript">
+                                        $(function(){
+                                            $('#modal').on('hidden.bs.modal', function(){
+                                                //关闭模态框时，清除数据，防止下次加雷有，缓存
+                                                $(this).removeData("bs.modal");
+                                            })
+                                        });
+                                        //审批
+                                        function approve(type) {
+                                            var remarks = $('#remarks').val();//备注
+                                            if (remarks == '') {
+                                                $('#remarks').focus();
+                                                return;
+                                            }
+                                            var text = '拒绝';
+                                            if (type == 2) {
+                                                text = '同意';
+                                            } else {
+                                                type = 1;
+                                            }
+                                            if (!confirm('您确认 ' +text+ ' 该项目？')) {
+                                                //取消
+                                                return;
+                                            }
+                                            var data = {p_id: $('#p_id').val(), remarks:remarks, type:type};
+                                            $.ajax({
+                                                url: '/Office/ajax_approve',
+                                                type: 'post',
+                                                data: data,
+                                                dataType: 'json',
+                                                success: function (res) {
+                                                    if (res.code == -1) {
+                                                        //登录过期
+                                                        window.location.href = '/homes/index';
+                                                        return;
+                                                    }
+                                                    if (res.code == -2) {
+                                                        //权限不足
+                                                        alert('权限不足');
+                                                        return;
+                                                    }
+                                                    if (res.code == 1) {
+                                                        //说明有错误
+                                                        alert(res.msg);
+                                                        
+                                                        return;
+                                                    }
+                                                    if (res.code == 0) {
+                                                        //说明添加或修改成功
+                                                        $('.close').click();
+                                                        window.location.reload();
+                                                        return;
+                                                    }
+                                                    if (res.code == 2) {
+                                                        //失败
+                                                        alert(res.msg);
+                                                        return;
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                    
                                     <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal" >
-                                            <i class="icon-plus"></i>
-                                            添加成员
-                                        </button>
-
-                                        
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto; width:500px;overflow:hidden; margin:10% auto 0px; border-radius:4px;'>
-                                            <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        //remote.html内容会被加载到这里
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>   
-                                        
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/user/index/",5 ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
@@ -310,97 +302,97 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 
 <script>
- function ajax_del(did) {
-            if (!did) {
-                alert('删除失败');
-                return;
-            }
-           
-            var data = {did: did}; 
-            $.ajax({
-                url: '/user/ajax_del',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        location.href = '/user/index';
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
-                }
-            });
+    function ajax_del(did) {
+        if (!did) {
+            alert('删除失败');
+            return;
         }
-         function ajax_recovery(did) {
-            if (!did) {
-                alert('恢复失败');
-                return;
-            }
-           
-            var data = {did: did}; 
-            $.ajax({
-                url: '/user/ajax_recovery',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        location.href = '/user/index';
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
+
+        var data = {did: did};
+        $.ajax({
+            url: '/user/ajax_del',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
                 }
-            });
-        }
-        $('#modal').on('hidden.bs.modal',function(){
-            //关闭模态框时，清除数据，防止下次加雷有，缓存
-            $(this).removeData("bs.modal");  
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    location.href = '/user/index';
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
         });
+    }
+    function ajax_recovery(did) {
+        if (!did) {
+            alert('恢复失败');
+            return;
+        }
 
+        var data = {did: did};
+        $.ajax({
+            url: '/user/ajax_recovery',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    location.href = '/user/index';
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
+        });
+    }
+    $('#modal').on('hidden.bs.modal', function () {
+        //关闭模态框时，清除数据，防止下次加雷有，缓存
+        $(this).removeData("bs.modal");
+    });
+    
 </script>
-
-</body>
-</html>
  <script type="text/javascript">
   show_left_select('office', 'my_approval');                              
 </script>
+</body>
+</html>
+
