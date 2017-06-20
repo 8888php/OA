@@ -107,7 +107,7 @@
                                                     <td><?php echo $sv['ResearchProject']['start_date'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['end_date'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><a href="<?php echo $sv['ResearchProject']['id'];  ?>"> 审核 </a></td>
+                                                    <td><a data-toggle="modal"  data-target="#modal" onclick="$('#myModalLabel').text(<?php echo $sv['ResearchProject']['name'];  ?> + ' 项目审批');$('#p_id').val(<?php echo $sv['ResearchProject']['id'];?>);"  href="#"> 审核 </a></td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -115,7 +115,90 @@
 
                                         </table>
                                     </div>
+                                    
 
+                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="myModalLabel">项目审批</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="p_id" id="p_id" />
+                                                    备注：<textarea id="remarks" placeholder="审核备注" style="width: 342px;height: 116px"></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                                                    <button type="button" class="btn btn-primary" onclick="approve(1);">拒绝</button>
+                                                    <button type="button" class="btn btn-primary" onclick="approve(2);">同意</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div>
+                                    <script type="text/javascript">
+                                        $(function(){
+                                            $('#modal').on('hidden.bs.modal', function(){
+                                                //关闭模态框时，清除数据，防止下次加雷有，缓存
+                                                $(this).removeData("bs.modal");
+                                            })
+                                        });
+                                        //审批
+                                        function approve(type) {
+                                            var remarks = $('#remarks').val();//备注
+                                            if (remarks == '') {
+                                                $('#remarks').focus();
+                                                return;
+                                            }
+                                            var text = '拒绝';
+                                            if (type == 2) {
+                                                text = '同意';
+                                            } else {
+                                                type = 1;
+                                            }
+                                            if (!confirm('您确认 ' +text+ ' 该项目？')) {
+                                                //取消
+                                                return;
+                                            }
+                                            var data = {p_id: $('#p_id').val(), remarks:remarks, type:type};
+                                            $.ajax({
+                                                url: '/Office/ajax_approve',
+                                                type: 'post',
+                                                data: data,
+                                                dataType: 'json',
+                                                success: function (res) {
+                                                    if (res.code == -1) {
+                                                        //登录过期
+                                                        window.location.href = '/homes/index';
+                                                        return;
+                                                    }
+                                                    if (res.code == -2) {
+                                                        //权限不足
+                                                        alert('权限不足');
+                                                        return;
+                                                    }
+                                                    if (res.code == 1) {
+                                                        //说明有错误
+                                                        alert(res.msg);
+                                                        
+                                                        return;
+                                                    }
+                                                    if (res.code == 0) {
+                                                        //说明添加或修改成功
+                                                        $('.close').click();
+                                                        window.location.reload();
+                                                        return;
+                                                    }
+                                                    if (res.code == 2) {
+                                                        //失败
+                                                        alert(res.msg);
+                                                        return;
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                    
                                     <div class="modal-footer no-margin-top">
                                         <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
                                     </div>
