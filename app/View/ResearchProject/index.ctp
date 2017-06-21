@@ -269,7 +269,7 @@
                                         </tbody>
                                     </table>
 
-
+                                    <div style="clear:both;"> </div>
                                 </div>
 
                                 <div id="faq-tab-3" class="tab-pane fade">
@@ -469,7 +469,8 @@
                                                 <td> 2017-04-26 11:30:32 </td>
                                                 <td> 已上传</td>
                                                 <td> 待审核 </td>
-                                                <td>  上传  查看</td>
+                                                <td>  <a class="badge badge-info">上传</a>  
+                                                    <a class="badge badge-success">查看</a> </td>
                                             </tr>
 
                                         </tbody>
@@ -514,7 +515,8 @@
                                                 <td> 3 </td>
                                                 <td> 60 </td>
                                                 <td> 待审核 </td>
-                                                <td>  修改  删除</td>
+                                                <td>  <a class="badge badge-info"> 修改 </a> 
+                                                    <a class="badge badge-danger"> 删除 </a> </td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
@@ -524,7 +526,7 @@
                                                 <td> 3 </td>
                                                 <td> 30 </td>
                                                 <td> 已通过 </td>
-                                                <td>   出库  </td>
+                                                <td>  <a class="badge badge-success"> 出库 </a> </td>
                                             </tr>
 
                                         </tbody>

@@ -73,135 +73,28 @@
                             <div class="row">
                                 <div class="col-xs-12">
 
-                                    <div class="table-header">
-                                        起草申请
-                                    </div>
-
                                     <div class="table-responsive">
-                                        <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                                        <?php  foreach(Configure::read('apply') as $k => $v){  ?>
+                                        <table  class="table  table-bordered ">
                                             <thead>
                                                 <tr>
-                                                    <th class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </th>
-                                                    <th>ID</th>
-                                                    <th>用户名</th>
-                                                    <th class="hidden-480">部门</th>
-
-                                                    <th>姓名</th>
-                                                    <th class="hidden-480">职务</th>
-                                                    <th class="hidden-480">电话</th>
-                                                    <th class="hidden-480">状态</th>
-                                                    <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
-                                                    <th class="hidden-480"> 删除 </th>
-                                                    <th class="hidden-480"> 操作 </th>
+                                                    <th> <?php echo $k;  ?> </th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
-                                                <tr>
-                                                    <td class="center">
-                                                        <label>
-                                                            <input type="checkbox" class="ace" value="<?php echo $v['User']['id']; ?>" />
-                                                            <span class="lbl"></span>
-                                                        </label>
-                                                    </td>
 
-                                                    <td>
-                                                        <a href="#"> <?php  echo $v['User']['id']; ?> </a>
-                                                    </td>
-                                                    <td><?php  echo $v['User']['user']; ?></td>
-                                                    <td class="hidden-480"><?php  echo $v['User']['position_id']; ?></td>
-                                                    <td><?php  echo $v['User']['name']; ?></td>
-                                                    <td><?php  echo $v['User']['department_id']; ?></td>
-
-                                                    <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
-                                                    <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
-                                                    <td><?php  echo date('Y-m-d H:i',$v['User']['ctime']); ?></td>
-
-                                                    <td><?php  echo $v['User']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
-                                                    <td>
-                                                        <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                            <a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
-                                                                <i class="icon-zoom-in bigger-130"></i>
-                                                            </a>
-
-                                                            <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
-                                                                <i class="icon-pencil bigger-130"></i>
-                                                            </a>
-                                                             <?php if ($v['User']['del'] == 0) {?>   
-                                                                <a class="red" onclick="ajax_del(<?php echo $v['User']['id']; ?>);">
-                                                                    <i title='删除' class="icon-trash bigger-130"></i>
-                                                                </a>
-                                                             <?php }else {?>
-                                                                <a class="red" onclick="ajax_recovery(<?php echo $v['User']['id']; ?>);">
-                                                                   <i title='恢复' class="icon-trash bigger-130"></i>
-                                                               </a>
-                                                             <?php }?>
-                                                        </div>
-
-                                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                            <div class="inline position-relative">
-                                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                                    <i class="icon-caret-down icon-only bigger-120"></i>
-                                                                </button>
-
-                                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                                            <span class="blue">
-                                                                                <i class="icon-zoom-in bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                                            <span class="green">
-                                                                                <i class="icon-edit bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-
-                                                                    <li>
-                                                                        <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                                            <span class="red">
-                                                                                <i class="icon-trash bigger-120"></i>
-                                                                            </span>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                               
-
+                                                <tr> <td >
+                                                        <ul>
+                                                            <?php  foreach($v as $ak => $av){  ?>
+                                                            <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a href="<?php echo $av;  ?>" style="text-decoration:none;"> <?php echo $ak;  ?> </a></li>
+                                                            <?php   } ?>
+                                                        </ul>
+                                                    </td></tr>
+                                            </tbody>
                                         </table>
+                                        <?php   } ?>
                                     </div>
 
-                                    <div class="modal-footer no-margin-top">
-                                        <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal" >
-                                            <i class="icon-plus"></i>
-                                            添加成员
-                                        </button>
-
-                                        
-                                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto; width:500px;overflow:hidden; margin:10% auto 0px; border-radius:4px;'>
-                                            <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        //remote.html内容会被加载到这里
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>   
-                                              
-                                    </div>
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -300,97 +193,94 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 
 <script>
- function ajax_del(did) {
-            if (!did) {
-                alert('删除失败');
-                return;
-            }
-           
-            var data = {did: did}; 
-            $.ajax({
-                url: '/user/ajax_del',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        location.href = '/user/index';
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
-                }
-            });
+    function ajax_del(did) {
+        if (!did) {
+            alert('删除失败');
+            return;
         }
-         function ajax_recovery(did) {
-            if (!did) {
-                alert('恢复失败');
-                return;
-            }
-           
-            var data = {did: did}; 
-            $.ajax({
-                url: '/user/ajax_recovery',
-                type: 'post',
-                data: data,
-                dataType: 'json',
-                success: function (res) {
-                    if (res.code == -1) {
-                        //登录过期
-                        window.location.href = '/homes/index';
-                        return;
-                    }
-                    if (res.code == -2) {
-                        //权限不足
-                        alert('权限不足');
-                        return;
-                    }
-                    if (res.code == 1) {
-                        //说明有错误
-                        alert(res.msg);
-                        return;
-                    }
-                    if (res.code == 0) {
-                        //说明添加或修改成功
-                        location.href = '/user/index';
-                        return;
-                    }
-                    if (res.code == 2) {
-                        //失败
-                        alert(res.msg);
-                        return;
-                    }
-                }
-            });
-        }
-        $('#modal').on('hidden.bs.modal',function(){
-            //关闭模态框时，清除数据，防止下次加雷有，缓存
-            $(this).removeData("bs.modal");  
-        });
 
+        var data = {did: did};
+        $.ajax({
+            url: '/user/ajax_del',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    location.href = '/user/index';
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
+        });
+    }
+    function ajax_recovery(did) {
+        if (!did) {
+            alert('恢复失败');
+            return;
+        }
+
+        var data = {did: did};
+        $.ajax({
+            url: '/user/ajax_recovery',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    location.href = '/user/index';
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
+        });
+    }
+    $('#modal').on('hidden.bs.modal', function () {
+        //关闭模态框时，清除数据，防止下次加雷有，缓存
+        $(this).removeData("bs.modal");
+    });
+    show_left_select('office', 'draf');
 </script>
 
 </body>
 </html>
- <script type="text/javascript">
-  show_left_select('office', 'draf');                              
-</script>

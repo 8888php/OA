@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is core configuration file.
  *
@@ -17,7 +18,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 //setLocale(LC_ALL, 'deu');
 //Configure::write('Config.language', 'deu');
 
@@ -34,7 +34,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+Configure::write('debug', 2);
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -51,11 +51,11 @@
  *
  * @see ErrorHandler for more information on error handling and configuration.
  */
-	Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED,
-		'trace' => true
-	));
+Configure::write('Error', array(
+    'handler' => 'ErrorHandler::handleError',
+    'level' => E_ALL & ~E_DEPRECATED,
+    'trace' => true
+));
 
 /**
  * Configure the Exception handler used for uncaught exceptions. By default,
@@ -79,16 +79,16 @@
  *
  * @see ErrorHandler for more information on exception handling and configuration.
  */
-	Configure::write('Exception', array(
-		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'ExceptionRenderer',
-		'log' => true
-	));
+Configure::write('Exception', array(
+    'handler' => 'ErrorHandler::handleException',
+    'renderer' => 'ExceptionRenderer',
+    'log' => true
+));
 
 /**
  * Application wide charset encoding
  */
-	Configure::write('App.encoding', 'UTF-8');
+Configure::write('App.encoding', 'UTF-8');
 
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
@@ -109,7 +109,7 @@
  * included primarily as a development convenience - and
  * thus not recommended for production applications.
  */
-	Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
 /**
  * To configure CakePHP to use a particular domain URL
@@ -119,31 +119,31 @@
  * useful when generating links from the CLI (e.g. sending emails).
  * If the application runs in a subfolder, you should also set App.base.
  */
-	//Configure::write('App.fullBaseUrl', 'http://example.com');
+//Configure::write('App.fullBaseUrl', 'http://example.com');
 
 /**
  * The base directory the app resides in. Should be used if the
  * application runs in a subfolder and App.fullBaseUrl is set.
  */
-	//Configure::write('App.base', '/my_app');
+//Configure::write('App.base', '/my_app');
 
 /**
  * Web path to the public images directory under webroot.
  * If not set defaults to 'img/'
  */
-	//Configure::write('App.imageBaseUrl', 'img/');
+//Configure::write('App.imageBaseUrl', 'img/');
 
 /**
  * Web path to the CSS files directory under webroot.
  * If not set defaults to 'css/'
  */
-	//Configure::write('App.cssBaseUrl', 'css/');
+//Configure::write('App.cssBaseUrl', 'css/');
 
 /**
  * Web path to the js files directory under webroot.
  * If not set defaults to 'js/'
  */
-	//Configure::write('App.jsBaseUrl', 'js/');
+//Configure::write('App.jsBaseUrl', 'js/');
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.
@@ -157,15 +157,15 @@
  * 	Routing.prefixes = array('admin', 'manager');
  *
  * Enables:
- *	`admin_index()` and `/admin/controller/index`
- *	`manager_index()` and `/manager/controller/index`
+ * 	`admin_index()` and `/admin/controller/index`
+ * 	`manager_index()` and `/manager/controller/index`
  */
-	//Configure::write('Routing.prefixes', array('admin'));
+//Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
  */
-	//Configure::write('Cache.disable', true);
+//Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -175,7 +175,7 @@
  * You can either set it controller-wide by setting public $cacheAction = true,
  * or in each action using $this->cacheAction = true.
  */
-	//Configure::write('Cache.check', true);
+//Configure::write('Cache.check', true);
 
 /**
  * Enable cache view prefixes.
@@ -185,7 +185,7 @@
  * for instance. Each version can then have its own view cache namespace.
  * Note: The final cache file name will then be `prefix_cachefilename`.
  */
-	//Configure::write('Cache.viewPrefix', 'prefix');
+//Configure::write('Cache.viewPrefix', 'prefix');
 
 /**
  * Session configuration.
@@ -225,19 +225,19 @@
  * To use database sessions, run the app/Config/Schema/sessions.php schema using
  * the cake shell command: cake schema create Sessions
  */
-	Configure::write('Session', array(
-		'defaults' => 'php'
-	));
+Configure::write('Session', array(
+    'defaults' => 'php'
+));
 
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi000');
+Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi000');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '76859309657453542496749683645000');
+Configure::write('Security.cipherSeed', '76859309657453542496749683645000');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -247,7 +247,7 @@
  * Set to `true` to apply timestamps when debug > 0. Set to 'force' to always enable
  * timestamping regardless of debug value.
  */
-	//Configure::write('Asset.timestamp', true);
+//Configure::write('Asset.timestamp', true);
 
 /**
  * Compress CSS output by removing comments, whitespace, repeating tags, etc.
@@ -256,7 +256,7 @@
  *
  * To use, prefix the CSS link URL with '/ccss/' instead of '/css/' or use HtmlHelper::css().
  */
-	//Configure::write('Asset.filter.css', 'css.php');
+//Configure::write('Asset.filter.css', 'css.php');
 
 /**
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
@@ -264,20 +264,20 @@
  *
  * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JsHelper::link().
  */
-	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
 
 /**
  * The class name and database used in CakePHP's
  * access control lists.
  */
-	Configure::write('Acl.classname', 'DbAcl');
-	Configure::write('Acl.database', 'default');
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
 
 /**
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+//date_default_timezone_set('UTC');
 
 /**
  * `Config.timezone` is available in which you can set users' timezone string.
@@ -285,7 +285,7 @@
  * then the value of `Config.timezone` will be used. This feature allows you to set users' timezone just
  * once instead of passing it each time in function calls.
  */
-	//Configure::write('Config.timezone', 'Europe/Paris');
+//Configure::write('Config.timezone', 'Europe/Paris');
 
 /**
  * Cache Engine Configuration
@@ -294,62 +294,61 @@
  * File storage engine.
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'File', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
+ * 		'engine' => 'File', //[required]
+ * 		'duration' => 3600, //[optional]
+ * 		'probability' => 100, //[optional]
  * 		'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
  * 		'prefix' => 'cake_', //[optional]  prefix every cache file with this string
  * 		'lock' => false, //[optional]  use file locking
  * 		'serialize' => true, //[optional]
  * 		'mask' => 0664, //[optional]
- *	));
+ * 	));
  *
  * APC (http://pecl.php.net/package/APC)
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'Apc', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
+ * 		'engine' => 'Apc', //[required]
+ * 		'duration' => 3600, //[optional]
+ * 		'probability' => 100, //[optional]
  * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
+ * 	));
  *
  * Xcache (http://xcache.lighttpd.net/)
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'Xcache', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
- *		'user' => 'user', //user from xcache.admin.user settings
- *		'password' => 'password', //plaintext password (xcache.admin.pass)
- *	));
+ * 		'engine' => 'Xcache', //[required]
+ * 		'duration' => 3600, //[optional]
+ * 		'probability' => 100, //[optional]
+ * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
+ * 		'user' => 'user', //user from xcache.admin.user settings
+ * 		'password' => 'password', //plaintext password (xcache.admin.pass)
+ * 	));
  *
  * Memcached (http://www.danga.com/memcached/)
  *
  * Uses the memcached extension. See http://php.net/memcached
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'Memcached', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
+ * 		'engine' => 'Memcached', //[required]
+ * 		'duration' => 3600, //[optional]
+ * 		'probability' => 100, //[optional]
  * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
  * 		'servers' => array(
  * 			'127.0.0.1:11211' // localhost, default port 11211
  * 		), //[optional]
  * 		'persistent' => 'my_connection', // [optional] The name of the persistent connection.
  * 		'compress' => false, // [optional] compress data in Memcached (slower, but uses less memory)
- *	));
+ * 	));
  *
  *  Wincache (http://php.net/wincache)
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'Wincache', //[required]
- *		'duration' => 3600, //[optional]
- *		'probability' => 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
+ * 		'engine' => 'Wincache', //[required]
+ * 		'duration' => 3600, //[optional]
+ * 		'probability' => 100, //[optional]
+ * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ * 	));
  */
-
 /**
  * Configure the cache handlers that CakePHP will use for internal
  * metadata like class maps, and model schema.
@@ -365,7 +364,7 @@ $engine = 'File';
 // In development mode, caches should expire quickly.
 $duration = '+999 days';
 if (Configure::read('debug') > 0) {
-	$duration = '+10 seconds';
+    $duration = '+10 seconds';
 }
 
 // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
@@ -376,11 +375,11 @@ $prefix = 'myapp_';
  * object listings, and translation cache files are stored with this configuration.
  */
 Cache::config('_cake_core_', array(
-	'engine' => $engine,
-	'prefix' => $prefix . 'cake_core_',
-	'path' => CACHE . 'persistent' . DS,
-	'serialize' => ($engine === 'File'),
-	'duration' => $duration
+    'engine' => $engine,
+    'prefix' => $prefix . 'cake_core_',
+    'path' => CACHE . 'persistent' . DS,
+    'serialize' => ($engine === 'File'),
+    'duration' => $duration
 ));
 
 /**
@@ -388,24 +387,51 @@ Cache::config('_cake_core_', array(
  * is used to store schema descriptions, and table listings in connections.
  */
 Cache::config('_cake_model_', array(
-	'engine' => $engine,
-	'prefix' => $prefix . 'cake_model_',
-	'path' => CACHE . 'models' . DS,
-	'serialize' => ($engine === 'File'),
-	'duration' => $duration
+    'engine' => $engine,
+    'prefix' => $prefix . 'cake_model_',
+    'path' => CACHE . 'models' . DS,
+    'serialize' => ($engine === 'File'),
+    'duration' => $duration
+));
+
+// 科研项目
+Configure::write('keyanlist', array(
+    array('data_fee' => '资料费', 'facility1' => '设备费1'),
+    array('facility2' => '设备费2', 'facility3' => '设备费3'),
+    array('material1' => '材料费1', 'material2' => '材料费2'),
+    array('material3' => '材料费3', 'material4' => '材料费4'),
+    array('assay' => '测试化验费', 'elding' => '燃料动力费'),
+    array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
+    array('travel' => '差旅费', 'meeting' => '会议、会务费'),
+    array('cooperation' => '国内协作费', 'labour' => '劳务费'),
+    array('consult' => '专家咨询费', 'other' => '其他费用'),
+    array('indirect' => '间接费', 'train' => '培训费'),
+    array('vehicle' => '车辆使用费', 'collection' => '采集费'),
+));
+
+// 行政项目
+Configure::write('xizhenglist', array(
+    array('data_fee' => '资料费', 'facility1' => '设备费1'),
+    array('facility2' => '设备费2', 'facility3' => '设备费3'),
+    array('material1' => '材料费1', 'material2' => '材料费2'),
+    array('material3' => '材料费3', 'material4' => '材料费4'),
+    array('assay' => '测试化验费', 'elding' => '燃料动力费'),
+    array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
+    array('travel' => '差旅费', 'meeting' => '会议、会务费'),
+    array('cooperation' => '国内协作费', 'labour' => '劳务费'),
+    array('consult' => '专家咨询费', 'other' => '其他费用'),
+    array('indirect' => '间接费', 'train' => '培训费'),
+    array('vehicle' => '车辆使用费', 'collection' => '采集费'),
 ));
 
 
-Configure::write('keyanlist',array(
-            array('data_fee' => '资料费', 'facility1' => '设备费1'),
-            array('facility2' => '设备费2', 'facility3' => '设备费3'),
-            array('material1' => '材料费1', 'material2' => '材料费2'),
-            array('material3' => '材料费3', 'material4' => '材料费4'),
-            array('assay' => '测试化验费', 'elding' => '燃料动力费'),
-            array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
-            array('travel' => '差旅费', 'meeting' => '会议、会务费'),
-            array('cooperation' => '国内协作费', 'labour' => '劳务费'),
-            array('consult' => '专家咨询费', 'other' => '其他费用'),
-            array('indirect' => '间接费', 'train' => '培训费'),
-            array('vehicle' => '车辆使用费', 'collection' => '采集费'),
-        ));
+// 起草申请
+Configure::write('applylist', array(
+    '人事科' => array('请假单' => '#', '差旅审批单' => '#', '调休申请表' => '#', '调整工作时间申请单' => '#',
+        '田间作业包工申请表' => '#', '所内调动申请表' => '#', '所内调动移交表' => '#', '工作调动移交表' => '#',
+        '职工离职移交表' => '#', '职工退休移交表' => '#', '年度考核登记表' => '#', '职工年休假安排计划' => '#',
+        '职工调整年休假安排表' => '#', '职工带薪年休假审批表' => '#', '因公不休或不全休带薪休假审批表' => '#',),
+    '财务科' => array('果树所借款单' => '#', '果树所领款单' => '#', '果树所差旅费报销单' => '#', '果树所报销汇总单' => '#'),
+    '所办公室' => array('印信使用签批单' => '#', '所内公文' => '#', '来文' => '#', '发文' => '#'),
+));
+

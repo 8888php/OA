@@ -163,10 +163,10 @@
                 </li>
 
 
-                <li class="research_project" onclick="if (typeof research_prject_flag != 'function') {
+                <li class="research_project" onclick="/*if (typeof research_prject_flag != 'function') {
                             window.location = '/ResearchProject/index';
                         }
-                        ;">
+                        ;*/">
                     <a href="#" class="dropdown-toggle" >
                         <i class="icon-edit"></i>
                         <span class="menu-text"> 科研项目 </span>
@@ -187,8 +187,6 @@
                                 </button>
                                 <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                             </div>
-
-
 
                         </li>
 

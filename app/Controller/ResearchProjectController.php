@@ -14,7 +14,7 @@ class ResearchProjectController extends AppController {
     /**
      * 详情
      */
-    public function index($pid = 0) {
+    public function index($pid = 0) {        var_dump($pid);die;
         if (empty($pid)) {
             //  header("Location:/home/index");
         }
