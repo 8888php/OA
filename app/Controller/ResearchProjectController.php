@@ -104,33 +104,32 @@ class ResearchProjectController extends AppController {
         }
 
         $saveArr = array();
-        $requesArr = $this->request->data ;
         if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
-            !empty($requesArr['data_fee']) && $saveArr['data_fee'] = $requesArr['data_fee'];
-            !empty($requesArr['facility1']) && $saveArr['facility1'] = $requesArr['facility1'];
-            !empty($requesArr['facility2']) && $saveArr['facility2'] = $requesArr['facility2'];
-            !empty($requesArr['facility3']) && $saveArr['facility3'] = $requesArr['facility3'];
-            !empty($requesArr['material1']) && $saveArr['material1'] = $requesArr['material1'];
-            !empty($requesArr['material2']) && $saveArr['material2'] = $requesArr['material2'];
-            !empty($requesArr['material3']) && $saveArr['material3'] = $requesArr['material3'];
-            !empty($requesArr['material4']) && $saveArr['material4'] = $requesArr['material4'];
-            !empty($requesArr['assay']) && $saveArr['assay'] = $requesArr['assay'];
-            !empty($requesArr['elding']) && $saveArr['elding'] = $requesArr['elding'];
-            !empty($requesArr['publish']) && $saveArr['publish'] = $requesArr['publish'];
-            !empty($requesArr['property_right']) && $saveArr['property_right'] = $requesArr['property_right'];
-            !empty($requesArr['travel']) && $saveArr['travel'] = $requesArr['travel'];
-            !empty($requesArr['meeting']) && $saveArr['meeting'] = $requesArr['meeting'];
-            !empty($requesArr['cooperation']) && $saveArr['cooperation'] = $requesArr['cooperation'];
-            !empty($requesArr['labour']) && $saveArr['labour'] = $requesArr['labour'];
-            !empty($requesArr['consult']) && $saveArr['consult'] = $requesArr['consult'];
-            !empty($requesArr['other']) && $saveArr['other'] = $requesArr['other'];
-            !empty($requesArr['indirect']) && $saveArr['indirect'] = $requesArr['indirect'];
-            !empty($requesArr['train']) && $saveArr['train'] = $requesArr['train'];
-            !empty($requesArr['vehicle']) && $saveArr['vehicle'] = $requesArr['vehicle'];
-            !empty($requesArr['collection']) && $saveArr['collection'] = $requesArr['collection'];
+            !empty($_POST['data_fee']) && $saveArr['data_fee'] = $_POST['data_fee'];
+            !empty($_POST['facility1']) && $saveArr['facility1'] = $_POST['facility1'];
+            !empty($_POST['facility2']) && $saveArr['facility2'] = $_POST['facility2'];
+            !empty($_POST['facility3']) && $saveArr['facility3'] = $_POST['facility3'];
+            !empty($_POST['material1']) && $saveArr['material1'] = $_POST['material1'];
+            !empty($_POST['material2']) && $saveArr['material2'] = $_POST['material2'];
+            !empty($_POST['material3']) && $saveArr['material3'] = $_POST['material3'];
+            !empty($_POST['material4']) && $saveArr['material4'] = $_POST['material4'];
+            !empty($_POST['assay']) && $saveArr['assay'] = $_POST['assay'];
+            !empty($_POST['elding']) && $saveArr['elding'] = $_POST['elding'];
+            !empty($_POST['publish']) && $saveArr['publish'] = $_POST['publish'];
+            !empty($_POST['property_right']) && $saveArr['property_right'] = $_POST['property_right'];
+            !empty($_POST['travel']) && $saveArr['travel'] = $_POST['travel'];
+            !empty($_POST['meeting']) && $saveArr['meeting'] = $_POST['meeting'];
+            !empty($_POST['cooperation']) && $saveArr['cooperation'] = $_POST['cooperation'];
+            !empty($_POST['labour']) && $saveArr['labour'] = $_POST['labour'];
+            !empty($_POST['consult']) && $saveArr['consult'] = $_POST['consult'];
+            !empty($_POST['other']) && $saveArr['other'] = $_POST['other'];
+            !empty($_POST['indirect']) && $saveArr['indirect'] = $_POST['indirect'];
+            !empty($_POST['train']) && $saveArr['train'] = $_POST['train'];
+            !empty($_POST['vehicle']) && $saveArr['vehicle'] = $_POST['vehicle'];
+            !empty($_POST['collection']) && $saveArr['collection'] = $_POST['collection'];
 
             $saveArr['total'] = array_sum($saveArr);  // 总额
-            !empty($requesArr['remarks']) && $saveArr['remarks'] = $requesArr['remarks'];
+            !empty($_POST['remarks']) && $saveArr['remarks'] = $_POST['remarks'];
 
             $projectArr = CookieDecode($project);
             $sourceArr = $projectArr['source'];
