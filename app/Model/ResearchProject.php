@@ -12,10 +12,6 @@ class ResearchProject extends AppModel {
     public $is_del = 1; //删除
     public $components = array('Session');
 
-    public function __construct($id = false, $table = null, $ds = null) {
-        parent::__construct($id, $table, $ds);
-    }
-
     /**
      * 添加数据
      * @param type $data
