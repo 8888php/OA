@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -14,11 +14,11 @@ class ResearchProjectController extends AppController {
     /**
      * 详情
      */
-    public function index($pid = 0) {        
+    public function index($pid = 0) {
         if (empty($pid)) {
             //  header("Location:/home/index");
         }
-//$this->log('ceshi');
+
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
         $cost = $this->ResearchCost->findByProjectId($pid);
@@ -32,7 +32,80 @@ class ResearchProjectController extends AppController {
     }
 
     /**
-     * 添加 项目详情
+     * 详情 预算
+     */
+    public function budget($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+
+        $cost = $this->ResearchCost->findByProjectId($pid);
+        $cost = @$cost['ResearchCost'];
+
+        $this->set('cost', $cost);
+        $this->render();
+    }
+
+    /**
+     * 添加 添加项目成员列表
+     */
+    public function add_member($pid = 0) {
+        if (empty($pid)) {
+            header("Location:/home/index");
+        }
+
+        # 非项目内成员
+        $notInMember = $this->User->not_project_member($pid);
+        $this->set('notInMember', $notInMember);
+
+        #项目内成员
+        $projectMember = $this->ProjectMember->getList($pid); 
+        $this->set('projectMember', $projectMember);
+        $this->set('pid', $pid);
+        $this->render();
+    }
+
+    /**
+     * 添加 添加项目成员
+     */
+    public function member_operation() {
+        if (empty($_POST['pid']) || empty($_POST['member']) || empty($_POST['type'])) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+            $editArr = array();
+            switch ($_POST['type']) {
+                case 'add' :
+                    $memberInfo = $this->User->findById($_POST['member']);
+                    $editArr['user_id'] = $_POST['member'];
+                    $editArr['project_id'] = $_POST['pid'];
+                    $editArr['user_name'] = $_POST[''];
+                    $editArr['name'] = $_POST[''];
+                    $editArr['tel'] = $_POST[''];
+                    $editArr['type'] = $_POST['types'];
+                    $editArr['ctime'] = date('Y-m-d');
+                    $editArr['remark'] = $_POST['remark'];
+                    $memberId = $this->ProjectMember->add($editArr);
+                    break;
+                case 'edit':
+                    $editArr['remark'] = $_POST['remark'];
+                    $memberId = $this->ProjectMember->edit($editArr);
+                    break;
+                case 'del':
+                    $memberId = $this->ProjectMember->del($_POST['pid'], $_POST['member']);
+                    break;
+            }
+
+            if ($memberId) {
+                $this->ret_arr['code'] = 0;
+            }
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+    /**
+     * 添加 添加项目
      */
     public function step1() {
         $this->render();
@@ -179,6 +252,7 @@ class ResearchProjectController extends AppController {
         }
 
         echo json_encode($this->ret_arr);
+        exit;
         $this->render();
     }
 

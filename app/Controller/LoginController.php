@@ -19,7 +19,7 @@ class LoginController extends AppNotLoginController {
     //所传参数数组
     public $login_data = array('user', 'password');
 
-    public function signin() {
+    public function signin() {        
         $this->layout = 'blank';
         $this->set('title', '登陆');
         //只接受 post

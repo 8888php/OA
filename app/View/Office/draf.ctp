@@ -74,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-responsive">
-                                        <?php  foreach(Configure::read('apply') as $k => $v){  ?>
+                                        <?php  foreach(Configure::read('applylist') as $k => $v){  ?>
                                         <table  class="table  table-bordered ">
                                             <thead>
                                                 <tr>

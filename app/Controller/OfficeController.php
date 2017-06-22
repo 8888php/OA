@@ -18,8 +18,9 @@ class OfficeController extends AppController {
     /**
      * 起草申请
      */
-    public function draf() {
-        $this->render();
+    public function draf() { 
+        
+       $this->render();
     }
 
     /**

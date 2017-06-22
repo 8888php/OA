@@ -140,5 +140,17 @@ class User extends AppModel {
         $userArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields));
         return $userArr;
     }
+    
+    
+     # 获取全部非项目内成员
+
+    public function not_project_member($pid = 0) {
+        $userArr = array();
+        $sql = 'select u.id,u.name from t_user u left join t_project_member m on m.project_id != '.$pid.' and u.del = 0 and u.status = 0  ';
+        $userArr = $this->query($sql);
+
+        return $userArr;
+    }
+    
 
 }
