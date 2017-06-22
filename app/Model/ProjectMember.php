@@ -34,7 +34,7 @@ class ProjectMember extends AppModel{
         $this->setDataSource('write');
         $fieldList = array('remark');
         $this->id = $id;
-        return $this->save($data,true,$fieldList);
+        return  $this->save($data,true,$fieldList);
     }
 
     /**
@@ -44,7 +44,8 @@ class ProjectMember extends AppModel{
      */
     public function del($pid,$mid) {
         $this->setDataSource('write');
-        return $this->query("delete from t_project_member where project_id = $pid and user_id = $mid ");
+        //$this->query("delete from t_project_member where project_id = $pid and id = $mid ");
+       return $this->deleteAll(array('project_id'=>$pid,'id'=>$mid));
     }
     
     
@@ -52,6 +53,12 @@ class ProjectMember extends AppModel{
     public function getList($pid){
         $fields = array('id','name','user_name','tel','type','ctime','remark');
         return  $this->find('all',array('conditions' => array('project_id'=>$pid),'fields'=>$fields));
+    }
+    
+      # 获取全部项目
+    public function getmember($pid,$uid){
+        $fields = array('id','name','user_name','tel','type','ctime','remark');
+        return  $this->find('all',array('conditions' => array('project_id'=>$pid,'user_id'=>$uid),'fields'=>$fields));
     }
     
     

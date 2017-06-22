@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -18,15 +18,13 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/home/index");
         }
+        $this->set('pid', $pid);
 
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
-        $cost = $this->ResearchCost->findByProjectId($pid);
-        $cost = @$cost['ResearchCost'];
         $source = $this->ResearchSource->getAll($pid);
 
         $this->set('pinfos', $pinfos);
-        $this->set('cost', $cost);
         $this->set('source', $source);
         $this->render();
     }
@@ -38,6 +36,7 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/home/index");
         }
+        $this->set('pid', $pid);
 
         $cost = $this->ResearchCost->findByProjectId($pid);
         $cost = @$cost['ResearchCost'];
@@ -45,6 +44,73 @@ class ResearchProjectController extends AppController {
         $this->set('cost', $cost);
         $this->render();
     }
+    
+    /**
+     * 详情 项目资产
+     */
+    public function assets($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+        $this->set('pid', $pid);
+
+        
+        $this->render();
+    }
+    
+    /**
+     * 详情 费用申报
+     */
+    public function declares($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+        $this->set('pid', $pid);
+
+        
+        $this->render();
+    }
+    
+    /**
+     * 详情 报表
+     */
+    public function report_form($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+        $this->set('pid', $pid);
+
+        
+        $this->render();
+    }
+    
+    /**
+     * 详情 档案
+     */
+    public function archives($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+        $this->set('pid', $pid);
+
+        
+        $this->render();
+    }
+    
+    /**
+     * 详情 出入库
+     */
+    public function storage($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/home/index");
+        }
+        $this->set('pid', $pid);
+
+        
+        $this->render();
+    }
+    
+    
 
     /**
      * 添加 添加项目成员列表
@@ -59,7 +125,7 @@ class ResearchProjectController extends AppController {
         $this->set('notInMember', $notInMember);
 
         #项目内成员
-        $projectMember = $this->ProjectMember->getList($pid); 
+        $projectMember = $this->ProjectMember->getList($pid);
         $this->set('projectMember', $projectMember);
         $this->set('pid', $pid);
         $this->render();
@@ -69,18 +135,27 @@ class ResearchProjectController extends AppController {
      * 添加 添加项目成员
      */
     public function member_operation() {
-        if (empty($_POST['pid']) || empty($_POST['member']) || empty($_POST['type'])) {
+        if (empty($_POST['pid']) || (empty($_POST['member']) && empty($_POST['mid'])) || empty($_POST['type'])) {
             $this->ret_arr['msg'] = '参数有误';
         } else {
             $editArr = array();
             switch ($_POST['type']) {
                 case 'add' :
                     $memberInfo = $this->User->findById($_POST['member']);
+                    if (!$memberInfo)
+                        exit(json_encode($this->ret_arr));
+                    
+                    $isAdd = $this->ProjectMember->getmember($_POST['pid'],$_POST['member']);
+                    if($isAdd){
+                        $this->ret_arr['msg'] = '该用户已是项目成员';
+                        exit(json_encode($this->ret_arr));
+                    }
+                   
                     $editArr['user_id'] = $_POST['member'];
                     $editArr['project_id'] = $_POST['pid'];
-                    $editArr['user_name'] = $_POST[''];
-                    $editArr['name'] = $_POST[''];
-                    $editArr['tel'] = $_POST[''];
+                    $editArr['user_name'] = $memberInfo['User']['user'];
+                    $editArr['name'] = $memberInfo['User']['name'];
+                    $editArr['tel'] = $memberInfo['User']['tel'];
                     $editArr['type'] = $_POST['types'];
                     $editArr['ctime'] = date('Y-m-d');
                     $editArr['remark'] = $_POST['remark'];
@@ -88,15 +163,17 @@ class ResearchProjectController extends AppController {
                     break;
                 case 'edit':
                     $editArr['remark'] = $_POST['remark'];
-                    $memberId = $this->ProjectMember->edit($editArr);
+                    $memberId = $this->ProjectMember->edit($_POST['mid'],$editArr);
                     break;
                 case 'del':
-                    $memberId = $this->ProjectMember->del($_POST['pid'], $_POST['member']);
+                    $memberId = $this->ProjectMember->del($_POST['pid'], $_POST['mid']);
                     break;
             }
 
             if ($memberId) {
                 $this->ret_arr['code'] = 0;
+            }else{
+                $this->ret_arr['msg'] = '操作失败';
             }
         }
 

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目详情 — 项目预算</title>		
+        <title> 项目详情 — 报表</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -83,8 +83,8 @@
                                     </a>
                                 </li>
 
-                                <li class="active">
-                                    <a data-toggle="tab" href="#faq-tab-1">
+                                <li >
+                                    <a href="/researchproject/budget/<?php echo $pid;?>">
                                         <i class="green icon-user bigger-120"></i>
                                         项目预算
                                     </a>
@@ -103,8 +103,8 @@
                                         费用申报
                                     </a>
                                 </li>
-                                <li>
-                                    <a  href="/researchproject/report_form/<?php echo $pid;?>">
+                                <li class="active">
+                                    <a  data-toggle="tab" href="#faq-tab-1">
                                         <i class="green icon-list-alt bigger-120"></i>
                                         报&nbsp;&nbsp;表
                                     </a>
@@ -128,45 +128,55 @@
                                 
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-right: 15px;'>
+                                    <table class="table table-bordered table-striped" style=''>
                                         <thead>
                                             <tr>
-                                                <th colspan="4" class='blue'> 预算 </th>
+                                                <th colspan="9" class='blue' style='border-right:0px;'> 报表 </th>
+
+                                                <th colspan="3" style='border-left:0px;' >
+                                                    <!--select  name="assets" class="type input-width" style="width:145px;">
+                                                        <option value="1">财务报销单</option>
+                                                    </select>  
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <i class="icon-plus arrow blue"></i-->
+                                                </th>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
+                                            <tr style='font-weight:600;' class="blue">
+                                                <td> 日期 </td>
+                                                <td>摘要</td>
+                                                <td>现金来源</td>
+                                                <td>文号</td>
+                                                <td>合计</td>
+                                                <td>资料费</td>
+                                                <td>设备费1</td>
+                                                <td>设备费2</td>
+                                                <td>设备费3</td>
+                                                <td>材料费1</td>
+                                                <td>材料费2</td>
+                                                <td>材料费3</td>
                                             </tr>
-                                            <?php   } ?>
+
+                                            
+                                            <tr>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 0.00 </td>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 0.00</td>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 0.00</td>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 0.00</td>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 0.00</td>
+                                                <td><?php echo 1;  ?></td>
+                                                <td> 删除 </td>
+                                            </tr>
+                                        
                                         </tbody>
                                     </table>
-
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-left:15px;'>
-                                        <thead>
-                                            <tr>
-                                                <th colspan='4' class='red'> 预算剩余 </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <div style="clear:both;"> </div>
                                 </div>
 
                             </div>

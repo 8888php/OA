@@ -1,7 +1,7 @@
 <?php echo $this->element('head_frame'); ?>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:660px;'>
-    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.step_close();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
+    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.addmember_close();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
 
     <div class="row" style='padding:20px 0;margin:0 auto;'>
         <div class="col-xs-12">
@@ -34,12 +34,12 @@
                             <td> <?php echo date('Y-m-d'); ?> </td>
                             <td>  </td>
                             <td> <input type='text' name='remark' id='remark' style='width:50px;height:28px;line-height: 28px;' /> </td>
-                            <td> &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="mem_edit(8, 'add')" ></i>  </td>
+                            <td> &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="mem_edit(<?php echo $pid; ?>, 'add')" ></i>  </td>
                         </tr>
 
                         <?php  foreach($projectMember as $pk => $pv){  ?>
                         <tr>
-                            <td><?php echo $pk;  ?></td>
+                            <td><?php echo $pk+1;  ?></td>
                             <td>  <?php echo $pv['ProjectMember']['name'];  ?> </td>
                             <td>  <?php echo $pv['ProjectMember']['tel'];  ?> </td>
                             <td> <?php echo $pv['ProjectMember']['type'] == 1 ? '负责人':'职员';  ?> </td>
@@ -80,18 +80,19 @@
             data_json.types = $('#types').val();
             data_json.remark = $('#remark').val();
         }else{
-            data_json.member = mid;
+            if(type == 'del' && !confirm('确定删除该成员？')){
+                return;
+            }
+            data_json.mid = mid;
             data_json.remark = $('#remark'+mid).val();
         }
 
-        click_flag = false;
         $.ajax({
             url: '/ResearchProject/member_operation',
             type: 'post',
             data: data_json,
             dataType: 'json',
             success: function (res) {
-                click_flag = true;
                 if (res.code == -1) {
                     //登录过期
                     window.location.href = '/homes/index';
@@ -112,7 +113,7 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                   // location.reload() ;
+                    location.reload() ;
                     return;
                 }
                 if (res.code == 2) {

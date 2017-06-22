@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目详情 — 项目预算</title>		
+        <title> 项目详情 -- 出入库</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -83,8 +83,8 @@
                                     </a>
                                 </li>
 
-                                <li class="active">
-                                    <a data-toggle="tab" href="#faq-tab-1">
+                                <li >
+                                    <a href="/researchproject/budget/<?php echo $pid;?>">
                                         <i class="green icon-user bigger-120"></i>
                                         项目预算
                                     </a>
@@ -115,8 +115,8 @@
                                         档&nbsp;&nbsp;案
                                     </a>
                                 </li>
-                                <li>
-                                    <a  href="/researchproject/storage/<?php echo $pid;?>">
+                                <li class="active">
+                                    <a  data-toggle="tab" href="#faq-tab-1">
                                         <i class="blue icon-list bigger-120"></i>
                                         出入库
                                     </a>
@@ -128,45 +128,58 @@
                                 
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-right: 15px;'>
+                                    <table class="table table-bordered table-striped" style=''>
                                         <thead>
                                             <tr>
-                                                <th colspan="4" class='blue'> 预算 </th>
+                                                <th colspan="6" class='blue' style='border-right:0px;'> 出入库 </th>
+
+                                                <th colspan="2" style='border-left:0px;text-align: center;' >
+                                                    <select  name="assets" class="type input-width" style="width:145px;">
+                                                        <option value="1">物资出库单</option>
+                                                    </select>  
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <i class="icon-plus arrow blue"></i>
+                                                </th>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
+                                            <tr style='font-weight:600;' class="blue">
+                                                <td> NO. </td>
+                                                <td>日期</td>
+                                                <td>摘要</td>
+                                                <td>规格</td>
+                                                <td>数量</td>
+                                                <td>金额</td>
+                                                <td>状态</td>
+                                                <td>操作</td>
                                             </tr>
-                                            <?php   } ?>
+
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td> 2017-05-25</td>
+                                                <td> 摘要…… </td>
+                                                <td> xxl </td>
+                                                <td> 3 </td>
+                                                <td> 60 </td>
+                                                <td> 待审核 </td>
+                                                <td>  <a class="badge badge-info"> 修改 </a> 
+                                                    <a class="badge badge-danger"> 删除 </a> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td> 2017-05-26</td>
+                                                <td> 摘要…… </td>
+                                                <td> xxl </td>
+                                                <td> 3 </td>
+                                                <td> 30 </td>
+                                                <td> 已通过 </td>
+                                                <td>  <a class="badge badge-success"> 出库 </a> </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
-
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-left:15px;'>
-                                        <thead>
-                                            <tr>
-                                                <th colspan='4' class='red'> 预算剩余 </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <div style="clear:both;"> </div>
                                 </div>
 
                             </div>

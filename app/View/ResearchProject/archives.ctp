@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目详情 — 项目预算</title>		
+        <title> 项目详情 —  档案</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -83,8 +83,8 @@
                                     </a>
                                 </li>
 
-                                <li class="active">
-                                    <a data-toggle="tab" href="#faq-tab-1">
+                                <li >
+                                    <a href="/researchproject/budget/<?php echo $pid;?>">
                                         <i class="green icon-user bigger-120"></i>
                                         项目预算
                                     </a>
@@ -109,8 +109,8 @@
                                         报&nbsp;&nbsp;表
                                     </a>
                                 </li>
-                                <li>
-                                    <a  href="/researchproject/archives/<?php echo $pid;?>">
+                                <li class="active">
+                                    <a  data-toggle="tab" href="#faq-tab-1">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         档&nbsp;&nbsp;案
                                     </a>
@@ -128,45 +128,41 @@
                                 
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-right: 15px;'>
+                                    <table class="table table-bordered table-striped" style=''>
                                         <thead>
                                             <tr>
-                                                <th colspan="4" class='blue'> 预算 </th>
+                                                <th colspan="5" class='blue' style='border-right:0px;'> 档案信息 </th>
+
+                                                <th colspan="1" style='border-left:0px;' >
+
+                                                    <i class="icon-plus arrow blue"></i>
+                                                </th>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
+                                            <tr style='font-weight:600;' class="blue">
+                                                <td> 内容 </td>
+                                                <td>填写人</td>
+                                                <td>填写时间</td>
+                                                <td>上传状态</td>
+                                                <td>审批状态</td>
+                                                <td>操作</td>
                                             </tr>
-                                            <?php   } ?>
+
+
+                                            <tr>
+                                                <td>任务书</td>
+                                                <td> 赵琳</td>
+                                                <td> 2017-04-26 11:30:32 </td>
+                                                <td> 已上传</td>
+                                                <td> 待审核 </td>
+                                                <td>  <a class="badge badge-info">上传</a>  
+                                                    <a class="badge badge-success">查看</a> </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
-
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-left:15px;'>
-                                        <thead>
-                                            <tr>
-                                                <th colspan='4' class='red'> 预算剩余 </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <div style="clear:both;"> </div>
                                 </div>
 
                             </div>

@@ -144,9 +144,9 @@ class User extends AppModel {
     
      # 获取全部非项目内成员
 
-    public function not_project_member($pid = 0) {
+    public function not_project_member($pid) {
         $userArr = array();
-        $sql = 'select u.id,u.name from t_user u left join t_project_member m on m.project_id != '.$pid.' and u.del = 0 and u.status = 0  ';
+        $sql = 'SELECT u.id,u.name FROM t_user u WHERE u.id NOT IN(SELECT m.user_id FROM t_project_member m WHERE m.project_id = '.$pid.' ) AND u.del = 0 AND u.status = 0  ';
         $userArr = $this->query($sql);
 
         return $userArr;

@@ -83,40 +83,40 @@
                                     </a>
                                 </li>
 
-                                <li>
-                                    <a data-toggle="tab" href="#faq-tab-2">
+                                <li >
+                                    <a href="/researchproject/budget/<?php echo $pid;?>">
                                         <i class="green icon-user bigger-120"></i>
                                         项目预算
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a data-toggle="tab" href="#faq-tab-3">
+                                    <a  href="/researchproject/assets/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         项目资产
                                     </a>
                                 </li>
 
-                                <li>
-                                    <a data-toggle="tab" href="#faq-tab-4">
+                              <li>
+                                    <a  href="/researchproject/declares/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         费用申报
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#faq-tab-5">
+                                    <a  href="/researchproject/report_form/<?php echo $pid;?>">
                                         <i class="green icon-list-alt bigger-120"></i>
                                         报&nbsp;&nbsp;表
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#faq-tab-6">
+                                    <a  href="/researchproject/archives/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         档&nbsp;&nbsp;案
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#faq-tab-7">
+                                    <a  href="/researchproject/storage/<?php echo $pid;?>">
                                         <i class="blue icon-list bigger-120"></i>
                                         出入库
                                     </a>
@@ -164,374 +164,77 @@
                                             </tr>
                                             <tr>
                                                 <td>项目成员 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i> </td>
-                                                <td colspan='3'> 
-                                                    <table class="table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>NO.</th>
-                                                                <th>名称</th>
-                                                                <th>邮箱</th>
-                                                                <th>状态</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php  foreach($source as $sk => $sv){  ?>
-                                                            <tr>
-                                                                <td><?php echo $sk+1;  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
-                                                            </tr>
-                                                            <?php   } ?>
-                                                        </tbody>
-                                                    </table>
+                                                    <a data-toggle="modal" href="" data-target="#modal_addmember" >  <i class="icon-plus arrow blue"></i> </a> </td>
+                                        <div class="modal fade" id="modal_addmember" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                            <button type="button" class="close" id="addmember_close" data-dismiss="modal" aria-hidden="true"></button>
+                                            <iframe id="iframe_1" src="/ResearchProject/add_member/<?php echo $pid;?>" style="width:660px;min-height:260px;border-radius:4px; "  frameborder="0"> </iframe>
+                                        </div>
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>资金来源</td>
-                                                <td colspan="3">
-                                                    <table class="table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>NO.</th>
-                                                                <th>来源渠道</th>
-                                                                <th>文号</th>
-                                                                <th>金额</th>
-                                                                <th>年度</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php  foreach($source as $sk => $sv){  ?>
-                                                            <tr>
-                                                                <td><?php echo $sk+1;  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['year'];  ?></td>
-                                                            </tr>
-                                                            <?php   } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
+                                        <td colspan='3'> 
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>NO.</th>
+                                                        <th>名称</th>
+                                                        <th>邮箱</th>
+                                                        <th>状态</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php  foreach($source as $sk => $sv){  ?>
+                                                    <tr>
+                                                        <td><?php echo $sk+1;  ?></td>
+                                                        <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                        <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                        <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                    </tr>
+                                                    <?php   } ?>
+                                                </tbody>
+                                            </table>
 
-                                            <tr>
-                                                <td>项目概述</td>
-                                                <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
-                                            </tr>
-                                            <tr>
-                                                <td>备注</td>
-                                                <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
-                                            </tr>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <td>资金来源</td>
+                                            <td colspan="3">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NO.</th>
+                                                            <th>来源渠道</th>
+                                                            <th>文号</th>
+                                                            <th>金额</th>
+                                                            <th>年度</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php  foreach($source as $sk => $sv){  ?>
+                                                        <tr>
+                                                            <td><?php echo $sk+1;  ?></td>
+                                                            <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                            <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                            <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                            <td><?php echo $sv['ResearchSource']['year'];  ?></td>
+                                                        </tr>
+                                                        <?php   } ?>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>项目概述</td>
+                                            <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>备注</td>
+                                            <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
+                                        </tr>
                                         </tbody>
                                     </table>
 
                                 </div>
-
-                                <div id="faq-tab-2" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-right: 15px;'>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="4" class='blue'> 预算 </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-left:15px;'>
-                                        <thead>
-                                            <tr>
-                                                <th colspan='4' class='red'> 预算剩余 </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                                                <?php   } ?>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                    <div style="clear:both;"> </div>
-                                </div>
-
-                                <div id="faq-tab-3" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="10" class='blue' style='border-right:0px;'> 项目资产 </th>
-
-                                                <th colspan="4" style='border-left:0px;' >
-                                                    <select  name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">固定资产减少</option>
-                                                        <option value="2">固定资产增加</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i>
-                                                </th>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td>序号</td>
-                                                <td>项目</td>
-                                                <td>资产名称</td>
-                                                <td>编号</td>
-                                                <td>购买日期</td>
-                                                <td>数量</td>
-                                                <td>单价</td>
-                                                <td>金额</td>
-                                                <td>分类</td>
-                                                <td>现况</td>
-                                                <td>管理人</td>
-                                                <td>政采</td>
-                                                <td>当前节点</td>
-                                                <td>操作</td>
-                                            </tr>
-
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <td><?php echo $v;  ?></td>
-                                                <td><?php echo  '0.00';  ?></td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 删除 </td>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <div id="faq-tab-4" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="9" class='blue' style='border-right:0px;'> 项目经费 </th>
-
-                                                <th colspan="3" style='border-left:0px;' >
-                                                    <select  name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">财务报销单</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i>
-                                                </th>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td> · </td>
-                                                <td>打印</td>
-                                                <td>日期</td>
-                                                <td>报销人</td>
-                                                <td>政府采购</td>
-                                                <td>来源渠道</td>
-                                                <td>文号</td>
-                                                <td>摘要</td>
-                                                <td>报销科目</td>
-                                                <td>报销费用</td>
-                                                <td>管理人</td>
-                                                <td>操作</td>
-                                            </tr>
-
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> <i class='glyphicon glyphicon-print blue'></i> </td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 删除 </td>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <div id="faq-tab-5" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="9" class='blue' style='border-right:0px;'> 报表 </th>
-
-                                                <th colspan="3" style='border-left:0px;' >
-                                                    <!--select  name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">财务报销单</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i-->
-                                                </th>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td> 日期 </td>
-                                                <td>摘要</td>
-                                                <td>现金来源</td>
-                                                <td>文号</td>
-                                                <td>合计</td>
-                                                <td>资料费</td>
-                                                <td>设备费1</td>
-                                                <td>设备费2</td>
-                                                <td>设备费3</td>
-                                                <td>材料费1</td>
-                                                <td>材料费2</td>
-                                                <td>材料费3</td>
-                                            </tr>
-
-                                            <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
-                                            <tr>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00 </td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $v;  ?></td>
-                                                <td> 删除 </td>
-                                            </tr>
-                                            <?php   } ?>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <div id="faq-tab-6" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class='blue' style='border-right:0px;'> 档案信息 </th>
-
-                                                <th colspan="1" style='border-left:0px;' >
-
-                                                    <i class="icon-plus arrow blue"></i>
-                                                </th>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td> 内容 </td>
-                                                <td>填写人</td>
-                                                <td>填写时间</td>
-                                                <td>上传状态</td>
-                                                <td>审批状态</td>
-                                                <td>操作</td>
-                                            </tr>
-
-
-                                            <tr>
-                                                <td>任务书</td>
-                                                <td> 赵琳</td>
-                                                <td> 2017-04-26 11:30:32 </td>
-                                                <td> 已上传</td>
-                                                <td> 待审核 </td>
-                                                <td>  <a class="badge badge-info">上传</a>  
-                                                    <a class="badge badge-success">查看</a> </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                                <div id="faq-tab-7" class="tab-pane fade">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="6" class='blue' style='border-right:0px;'> 出入库 </th>
-
-                                                <th colspan="2" style='border-left:0px;text-align: center;' >
-                                                    <select  name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">物资出库单</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i>
-                                                </th>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td> NO. </td>
-                                                <td>日期</td>
-                                                <td>摘要</td>
-                                                <td>规格</td>
-                                                <td>数量</td>
-                                                <td>金额</td>
-                                                <td>状态</td>
-                                                <td>操作</td>
-                                            </tr>
-
-
-                                            <tr>
-                                                <td>1</td>
-                                                <td> 2017-05-25</td>
-                                                <td> 摘要…… </td>
-                                                <td> xxl </td>
-                                                <td> 3 </td>
-                                                <td> 60 </td>
-                                                <td> 待审核 </td>
-                                                <td>  <a class="badge badge-info"> 修改 </a> 
-                                                    <a class="badge badge-danger"> 删除 </a> </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td> 2017-05-26</td>
-                                                <td> 摘要…… </td>
-                                                <td> xxl </td>
-                                                <td> 3 </td>
-                                                <td> 30 </td>
-                                                <td> 已通过 </td>
-                                                <td>  <a class="badge badge-success"> 出库 </a> </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
+ 
                             </div>
                         </div>
 
