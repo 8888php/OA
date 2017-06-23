@@ -14,9 +14,9 @@ class ResearchProjectController extends AppController {
     /**
      * 详情
      */
-    public function index($pid = 0) {
+    public function index($pid = 0) { 
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            // header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -34,7 +34,7 @@ class ResearchProjectController extends AppController {
      */
     public function budget($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            //  header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -50,7 +50,7 @@ class ResearchProjectController extends AppController {
      */
     public function assets($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            //  header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -63,7 +63,7 @@ class ResearchProjectController extends AppController {
      */
     public function declares($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            //  header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -76,7 +76,7 @@ class ResearchProjectController extends AppController {
      */
     public function report_form($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            //  header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -89,7 +89,7 @@ class ResearchProjectController extends AppController {
      */
     public function archives($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            // header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -102,7 +102,7 @@ class ResearchProjectController extends AppController {
      */
     public function storage($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/home/index");
+            //  header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -117,7 +117,7 @@ class ResearchProjectController extends AppController {
      */
     public function add_member($pid = 0) {
         if (empty($pid)) {
-            header("Location:/home/index");
+            header("Location:/homes/index");die;
         }
 
         # 非项目内成员
@@ -181,6 +181,7 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
+    
     /**
      * 添加 添加项目
      */
@@ -364,7 +365,6 @@ class ResearchProjectController extends AppController {
 
                 echo json_encode($this->ret_arr);
                 die;
-//                var_dump($this->Cookie->read('research_project'. $user_info->id));die;
             }
 
             if ($this->request->data('upstep') == 'step2') {
@@ -442,4 +442,33 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
+    
+    
+    
+    /**
+     * 添加 出入库
+     */
+    public function add_storage($pid = 0) {
+        if (empty($pid)) {
+            header("Location:/home/index");
+        }
+
+        # 非项目内成员
+        $notInMember = $this->User->not_project_member($pid);
+        $this->set('notInMember', $notInMember);
+
+        #项目内成员
+        $projectMember = $this->ProjectMember->getList($pid);
+        $this->set('projectMember', $projectMember);
+        $this->set('pid', $pid);
+        $this->render();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }

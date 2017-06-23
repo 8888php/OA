@@ -125,7 +125,7 @@
                             </ul>
 
                             <div class="tab-content no-border ">
-                                
+
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
                                     <table class="table table-bordered table-striped" style=''>
@@ -138,8 +138,9 @@
                                                         <option value="1">物资出库单</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i>
-                                                </th>
+                                                    <a  data-toggle="modal" href="#" data-target="#modal_storage" class="step1_js" >
+                                                        <i class="icon-plus arrow blue"></i>
+                                                    </a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -185,7 +186,12 @@
                             </div>
                         </div>
 
-                        <!-- PAGE CONTENT ENDS -->
+                        <!-- /.modal_storage -->
+                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                            <button type="button" class="close" id="storage_close" data-dismiss="modal" aria-hidden="true"> </button>
+                            <iframe  id="myFrame" frameborder="0" style="width:660px;min-height:300px;border-radius:4px; " src="/ResearchProject/add_storage" > </iframe>
+                        </div>
+
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
@@ -235,6 +241,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    //关闭添加的窗口
+    function storage_close() {
+        $('#storage_close').click();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting
@@ -248,7 +258,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         })
     });
     show_left_select('research_project', '无效');
-    
+
 </script>
 
 </body>

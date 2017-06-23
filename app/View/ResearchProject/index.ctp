@@ -97,7 +97,7 @@
                                     </a>
                                 </li>
 
-                              <li>
+                                <li>
                                     <a  href="/researchproject/declares/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         费用申报
@@ -164,81 +164,82 @@
                                             </tr>
                                             <tr>
                                                 <td>项目成员 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a data-toggle="modal" href="" data-target="#modal_addmember" >  <i class="icon-plus arrow blue"></i> </a> </td>
-                                        <div class="modal fade" id="modal_addmember" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                            <button type="button" class="close" id="addmember_close" data-dismiss="modal" aria-hidden="true"></button>
-                                            <iframe id="iframe_1" src="/ResearchProject/add_member/<?php echo $pid;?>" style="width:660px;min-height:260px;border-radius:4px; "  frameborder="0"> </iframe>
-                                        </div>
+                                                    <a data-toggle="modal" href="" data-target="#modal_member" >  <i class="icon-plus arrow blue"></i> </a> </td>
 
-                                        <td colspan='3'> 
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>NO.</th>
-                                                        <th>名称</th>
-                                                        <th>邮箱</th>
-                                                        <th>状态</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php  foreach($source as $sk => $sv){  ?>
-                                                    <tr>
-                                                        <td><?php echo $sk+1;  ?></td>
-                                                        <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                                        <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                                        <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
-                                                    </tr>
-                                                    <?php   } ?>
-                                                </tbody>
-                                            </table>
+                                                <td colspan='3'> 
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>NO.</th>
+                                                                <th>名称</th>
+                                                                <th>邮箱</th>
+                                                                <th>状态</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <tr>
+                                                                <td><?php echo $sk+1;  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                            </tr>
+                                                            <?php   } ?>
+                                                        </tbody>
+                                                    </table>
 
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                            <td>资金来源</td>
-                                            <td colspan="3">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>NO.</th>
-                                                            <th>来源渠道</th>
-                                                            <th>文号</th>
-                                                            <th>金额</th>
-                                                            <th>年度</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php  foreach($source as $sk => $sv){  ?>
-                                                        <tr>
-                                                            <td><?php echo $sk+1;  ?></td>
-                                                            <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                                            <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                                            <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
-                                                            <td><?php echo $sv['ResearchSource']['year'];  ?></td>
-                                                        </tr>
-                                                        <?php   } ?>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>资金来源</td>
+                                                <td colspan="3">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>NO.</th>
+                                                                <th>来源渠道</th>
+                                                                <th>文号</th>
+                                                                <th>金额</th>
+                                                                <th>年度</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <tr>
+                                                                <td><?php echo $sk+1;  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['year'];  ?></td>
+                                                            </tr>
+                                                            <?php   } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
 
-                                        <tr>
-                                            <td>项目概述</td>
-                                            <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>备注</td>
-                                            <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
-                                        </tr>
+                                            <tr>
+                                                <td>项目概述</td>
+                                                <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td>备注</td>
+                                                <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
                                 </div>
- 
+
                             </div>
                         </div>
 
-                        <!-- PAGE CONTENT ENDS -->
+                        <!-- /.modal_member -->
+                        <div class="modal fade" id="modal_member" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                            <button type="button" class="close" id="member_close" data-dismiss="modal" aria-hidden="true"></button>
+                            <iframe id="iframe_2" src="/ResearchProject/add_member/<?php echo $pid;?>" style="width:660px;min-height:260px;border-radius:4px; "  frameborder="0"> </iframe>
+                        </div>
+
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
@@ -288,6 +289,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    //关闭添加成员的窗口
+    function member_close() {
+        $('#member_close').click();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting

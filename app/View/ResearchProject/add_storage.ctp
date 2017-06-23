@@ -1,7 +1,7 @@
 <?php echo $this->element('head_frame'); ?>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:660px;'>
-    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.member_close();" class="close" data-dismiss="modal" >×</a></p>
+    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.storage_close();" class="close" data-dismiss="modal" >×</a></p>
 
     <div class="row" style='padding:20px 0;margin:0 auto;'>
         <div class="col-xs-12">
@@ -63,6 +63,9 @@
 </div>
 
 <script type="text/javascript">  
+    function upstep() {
+        $('#closemodel').click();
+    }
     //提交内容
     var click_flag = true;//是否可以点击
     function mem_edit(mid, type) {
