@@ -139,9 +139,11 @@
                                                         <option value="2">固定资产增加</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a data-toggle="modal" href="#" onclick="$('#iframe_fixed_assets').attr('src','/Fixedassets/add');" data-target="#fixed_assets">
                                                     <i class="icon-plus arrow blue"></i>
+                                                    </a>
                                                 </th>
-                                                </th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -149,7 +151,7 @@
                                                 <td>序号</td>
                                                 <td>项目</td>
                                                 <td>资产名称</td>
-                                                <td>编号</td>
+                                                <td>型号</td>
                                                 <td>购买日期</td>
                                                 <td>数量</td>
                                                 <td>单价</td>
@@ -162,24 +164,26 @@
                                                 <td>操作</td>
                                             </tr>
 
-                                            
+                                            <?php 
+                                            foreach($fixedassets as $f) {?>
                                             <tr>
-                                                <td><?php echo 1;  ?></td>
-                                                <td>0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
+                                                <td><?php echo $f['Fixedassets']['id'];  ?></td>
+                                                <td><?php echo $f['project']['name'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['asset_name'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['model'];  ?></td>
+                                                <td> <?php echo $f['Fixedassets']['purchase_date'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['number'];  ?></td>
+                                                <td> <?php echo $f['Fixedassets']['price'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['amount'];  ?></td>
+                                                <td> <?php echo $f['Fixedassets']['category'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['current_situation'];  ?></td>
+                                                <td> 管理人</td>
+                                                <td><?php echo $f['Fixedassets']['is_government'] == 1 ? '否':'是';  ?></td>
+                                                <td> <?php echo $f['project']['code'];  ?></td>
+                                                
                                                 <td> 删除 </td>
                                             </tr>
-                                            
+                                            <?php }?>
                                         </tbody>
                                     </table>
                                 </div>

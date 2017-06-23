@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -52,6 +52,9 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/homes/index");die;
         }
+        //根据项目id取出他的固定资产列表
+        $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id='."$pid");
+        $this->set('fixedassets', $fixedassets);
         $this->set('pid', $pid);
 
         
