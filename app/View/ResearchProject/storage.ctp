@@ -187,9 +187,9 @@
                         </div>
 
                         <!-- /.modal_storage -->
-                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:370px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                             <button type="button" class="close" id="storage_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" frameborder="0" style="width:660px;min-height:300px;border-radius:4px; " src="/ResearchProject/add_storage" > </iframe>
+                            <iframe  id="myFrame" frameborder="0" style="width:360px;min-height:300px;border-radius:4px; " src="/ResearchProject/add_storage" > </iframe>
                         </div>
 
                     </div><!-- /.col -->

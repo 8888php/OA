@@ -14,7 +14,7 @@ class ResearchProjectController extends AppController {
     /**
      * 详情
      */
-    public function index($pid = 0) { 
+    public function index($pid = 0) {
         if (empty($pid)) {
             // header("Location:/homes/index");die;
         }
@@ -24,7 +24,10 @@ class ResearchProjectController extends AppController {
         $pinfos = @$pinfos['ResearchProject'];
         $source = $this->ResearchSource->getAll($pid);
 
+        $members = $this->ProjectMember->getList($pid);
+
         $this->set('pinfos', $pinfos);
+        $this->set('members', $members);
         $this->set('source', $source);
         $this->render();
     }
@@ -44,7 +47,7 @@ class ResearchProjectController extends AppController {
         $this->set('cost', $cost);
         $this->render();
     }
-    
+
     /**
      * 详情 项目资产
      */
@@ -53,14 +56,14 @@ class ResearchProjectController extends AppController {
             //  header("Location:/homes/index");die;
         }
         //根据项目id取出他的固定资产列表
-        $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id='."$pid");
+        $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id=' . "$pid");
         $this->set('fixedassets', $fixedassets);
         $this->set('pid', $pid);
 
-        
+
         $this->render();
     }
-    
+
     /**
      * 详情 费用申报
      */
@@ -70,10 +73,10 @@ class ResearchProjectController extends AppController {
         }
         $this->set('pid', $pid);
 
-        
+
         $this->render();
     }
-    
+
     /**
      * 详情 报表
      */
@@ -83,10 +86,10 @@ class ResearchProjectController extends AppController {
         }
         $this->set('pid', $pid);
 
-        
+
         $this->render();
     }
-    
+
     /**
      * 详情 档案
      */
@@ -96,10 +99,10 @@ class ResearchProjectController extends AppController {
         }
         $this->set('pid', $pid);
 
-        
+
         $this->render();
     }
-    
+
     /**
      * 详情 出入库
      */
@@ -109,18 +112,17 @@ class ResearchProjectController extends AppController {
         }
         $this->set('pid', $pid);
 
-        
+
         $this->render();
     }
-    
-    
 
     /**
      * 添加 添加项目成员列表
      */
     public function add_member($pid = 0) {
         if (empty($pid)) {
-            header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
 
         # 非项目内成员
@@ -147,13 +149,13 @@ class ResearchProjectController extends AppController {
                     $memberInfo = $this->User->findById($_POST['member']);
                     if (!$memberInfo)
                         exit(json_encode($this->ret_arr));
-                    
-                    $isAdd = $this->ProjectMember->getmember($_POST['pid'],$_POST['member']);
-                    if($isAdd){
+
+                    $isAdd = $this->ProjectMember->getmember($_POST['pid'], $_POST['member']);
+                    if ($isAdd) {
                         $this->ret_arr['msg'] = '该用户已是项目成员';
                         exit(json_encode($this->ret_arr));
                     }
-                   
+
                     $editArr['user_id'] = $_POST['member'];
                     $editArr['project_id'] = $_POST['pid'];
                     $editArr['user_name'] = $memberInfo['User']['user'];
@@ -166,7 +168,7 @@ class ResearchProjectController extends AppController {
                     break;
                 case 'edit':
                     $editArr['remark'] = $_POST['remark'];
-                    $memberId = $this->ProjectMember->edit($_POST['mid'],$editArr);
+                    $memberId = $this->ProjectMember->edit($_POST['mid'], $editArr);
                     break;
                 case 'del':
                     $memberId = $this->ProjectMember->del($_POST['pid'], $_POST['mid']);
@@ -175,7 +177,7 @@ class ResearchProjectController extends AppController {
 
             if ($memberId) {
                 $this->ret_arr['code'] = 0;
-            }else{
+            } else {
                 $this->ret_arr['msg'] = '操作失败';
             }
         }
@@ -184,7 +186,6 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
-    
     /**
      * 添加 添加项目
      */
@@ -445,9 +446,6 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
-    
-    
-    
     /**
      * 添加 出入库
      */
@@ -456,22 +454,42 @@ class ResearchProjectController extends AppController {
             header("Location:/home/index");
         }
 
-        # 非项目内成员
-        $notInMember = $this->User->not_project_member($pid);
-        $this->set('notInMember', $notInMember);
-
-        #项目内成员
-        $projectMember = $this->ProjectMember->getList($pid);
-        $this->set('projectMember', $projectMember);
+        #项目详情
+        $pinfos = $this->ResearchProject->findById($pid);
+        $pinfos = @$pinfos['ResearchProject'];
+        $this->set('pinfos', $pinfos);
         $this->set('pid', $pid);
         $this->render();
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+    /**
+     * 提交 出入库
+     */
+    public function sub_storage() {
+        if (empty($_POST['pid']) || (empty($_POST['spec']) && empty($_POST['nums'])) || empty($_POST['amount'])) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+         /*   $editArr = array();
+            $editArr['user_id'] = $_POST['member'];
+            $editArr['project_id'] = $_POST['pid'];
+            $editArr['user_name'] = $memberInfo['User']['user'];
+            $editArr['name'] = $memberInfo['User']['name'];
+            $editArr['tel'] = $memberInfo['User']['tel'];
+            $editArr['type'] = $_POST['types'];
+            $editArr['ctime'] = date('Y-m-d');
+            $editArr['remark'] = $_POST['remark'];
+            $memberId = $this->ProjectMember->add($editArr);
+
+
+            if ($memberId) {
+                $this->ret_arr['code'] = 0;
+            } else {
+                $this->ret_arr['msg'] = '操作失败';
+            }*/
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
 }

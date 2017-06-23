@@ -49,13 +49,13 @@ class ProjectMember extends AppModel{
     }
     
     
-    # 获取全部项目
+    # 获取全部项目成员
     public function getList($pid){
         $fields = array('id','name','user_name','tel','type','ctime','remark');
         return  $this->find('all',array('conditions' => array('project_id'=>$pid),'fields'=>$fields));
     }
     
-      # 获取全部项目
+      # 获取某个项目成员
     public function getmember($pid,$uid){
         $fields = array('id','name','user_name','tel','type','ctime','remark');
         return  $this->find('all',array('conditions' => array('project_id'=>$pid,'user_id'=>$uid),'fields'=>$fields));

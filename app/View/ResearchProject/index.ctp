@@ -157,7 +157,7 @@
                                                     <?php 
                                                     $filearr = explode('|',$pinfos['filename']);
                                                     foreach($filearr as $fv){
-                                                    echo "<a href='/files/$fv' > $fv </a> <br/>";
+                                                    echo "<a href='/files/$fv' target='_blank' > $fv </a> <br/>";
                                                     }
                                                     ?>
                                                 </td>
@@ -171,18 +171,29 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>NO.</th>
-                                                                <th>名称</th>
-                                                                <th>邮箱</th>
-                                                                <th>状态</th>
+                                                                <th>姓名</th>
+                                                                <th>手机</th>
+                                                                <th>权限</th>
+                                                                <th>日期</th>
+                                                                <th>账号</th>
+                                                                <th>备注</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <?php  foreach($members as $mk => $mv){  ?>
                                                             <tr>
-                                                                <td><?php echo $sk+1;  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                                <td><?php echo $mk+1;  ?></td>
+                                                                <td><?php echo $mv['ProjectMember']['name'];  ?></td>
+                                                                <td><?php echo $mv['ProjectMember']['tel'];  ?></td>
+                                                                <td>
+                                                                    <?php switch($mv['ProjectMember']['type']){
+                                                                    case 1: echo '负责人';break;
+                                                                    case 2: echo '职员';break;
+                                                                    }   ?>
+                                                                </td>
+                                                                <td><?php echo $mv['ProjectMember']['ctime'];  ?></td>
+                                                                <td><?php echo $mv['ProjectMember']['user_name'];  ?></td>
+                                                                <td><?php echo $mv['ProjectMember']['remark'];  ?></td>
                                                             </tr>
                                                             <?php   } ?>
                                                         </tbody>

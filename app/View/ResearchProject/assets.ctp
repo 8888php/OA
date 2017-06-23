@@ -151,7 +151,7 @@
                                                 <td>序号</td>
                                                 <td>项目</td>
                                                 <td>资产名称</td>
-                                                <td>型号</td>
+                                                <td>编号</td>
                                                 <td>购买日期</td>
                                                 <td>数量</td>
                                                 <td>单价</td>
@@ -172,7 +172,7 @@
                                                 <td><?php echo $f['Fixedassets']['asset_name'];  ?></td>
                                                 <td><?php echo $f['Fixedassets']['model'];  ?></td>
                                                 <td> <?php echo $f['Fixedassets']['purchase_date'];  ?></td>
-                                                <td><?php echo $f['Fixedassets']['number'];  ?></td>
+                                                <td><?php echo $f['Fixedassets']['number'] . $f['Fixedassets']['company'];  ?></td>
                                                 <td> <?php echo $f['Fixedassets']['price'];  ?></td>
                                                 <td><?php echo $f['Fixedassets']['amount'];  ?></td>
                                                 <td> <?php echo $f['Fixedassets']['category'];  ?></td>

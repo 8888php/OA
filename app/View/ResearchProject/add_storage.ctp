@@ -1,94 +1,91 @@
 <?php echo $this->element('head_frame'); ?>
+<style>
+    .mgt-15{margin:10px auto;}
+    .col-xs-12 input{border-radius:4px;}
+</style>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:660px;'>
-    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.storage_close();" class="close" data-dismiss="modal" >×</a></p>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:360px;'>
+    <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目经费 </span> <a onclick="window.parent.storage_close();" class="close" data-dismiss="modal" >×</a></p>
 
     <div class="row" style='padding:20px 0;margin:0 auto;'>
         <div class="col-xs-12">
             <form class="form-horizontal"   role="form">
                 <input type="hidden" name="pid" id='pid' value="<?php echo $pid; ?>" />
-                <table class="table table-bordered table-striped" style=''>
-                    <tbody>
-                        <tr style='font-weight:600;' class="blue">
-                            <td> NO· </td>
-                            <td>姓名</td>
-                            <td>手机</td>
-                            <td>权限</td>
-                            <td>日期</td>
-                            <td>账号</td>
-                            <td>备注</td>
-                            <td>操作</td>
-                        </tr>
 
-                        <tr >
-                            <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130"></i> </td>
-                            <td> <select name="member" id='member' style='height:28px;line-height: 28px;' > 
-                                    <option value=""> 请选 </option> 
-                                <?php foreach($notInMember as $mk => $mv){  ?>
-                                    <option value="<?php echo $mv['u']['id']; ?>"> <?php echo $mv['u']['name']; ?> </option> 
-                                <?php } ?>
-                                </select> 
-                            </td>
-                            <td>  </td>
-                            <td> <select name="types"  id='types' style='height:28px;line-height: 28px;'> <option value="2"> 职员 </option> </select> </td>
-                            <td> <?php echo date('Y-m-d'); ?> </td>
-                            <td>  </td>
-                            <td> <input type='text' name='remark' id='remark' style='width:50px;height:28px;line-height: 28px;' /> </td>
-                            <td> &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="mem_edit(<?php echo $pid; ?>, 'add')" ></i>  </td>
-                        </tr>
+                <ul class="form-ul" style='overflow-x: hidden;'>
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">项目 &nbsp;&nbsp;</label>
+                        <input type="text"  id="pname" name="pname" value="<?php echo $pinfos['name']; ?>" disabled />  
+                    </li>
 
-                        <?php  foreach($projectMember as $pk => $pv){  ?>
-                        <tr>
-                            <td><?php echo $pk+1;  ?></td>
-                            <td>  <?php echo $pv['ProjectMember']['name'];  ?> </td>
-                            <td>  <?php echo $pv['ProjectMember']['tel'];  ?> </td>
-                            <td> <?php echo $pv['ProjectMember']['type'] == 1 ? '负责人':'职员';  ?> </td>
-                            <td> <?php echo $pv['ProjectMember']['ctime'];  ?> </td>
-                            <td> <?php echo $pv['ProjectMember']['user_name'];  ?> </td>
-                            <td> <input type='text' name='remark' id="remark<?php echo $pv['ProjectMember']['id'];?>" style='width:50px;height:28px;line-height: 28px;' value="<?php echo $pv['ProjectMember']['remark'];?>" /> </td>
-                            <td> <i class="glyphicon glyphicon-edit blue" title='修改' onclick="mem_edit(<?php echo $pv['ProjectMember']['id'];?>, 'edit')"></i>
-                                &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-trash red" title='删除' onclick="mem_edit(<?php echo $pv['ProjectMember']['id'];?>, 'del')" ></i> </td>
-                        </tr>
-                        <?php } ?>
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">规格 &nbsp;&nbsp;</label>
+                        <input type="text"  placeholder="规格" id="spec" name="spec" value="" />  
+                    </li>
 
-                    </tbody>
-                </table>   
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">数量 &nbsp;&nbsp;</label>
+                        <input type="text"  id="nums" name="nums" placeholder="数量" value="" />  
+                    </li>
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">金额 &nbsp;&nbsp;</label>
+                        <input type="text"  placeholder="金额" id="amount" name="amount" value="" />  
+                    </li>
+                    
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">摘要 &nbsp;&nbsp;</label>
+                        <textarea class="form-control"  id="abstract" name="abstract" placeholder="摘要" rows="2" style='width:180px;'></textarea>
+                    </li>
+                </ul>
 
-        </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="btn btn-primary" onclick="sub_storage();">
+                            <i class="icon-ok bigger-110"></i>
+                            确定
+                        </button>
+                        &nbsp; &nbsp; &nbsp;
+                        <button type="button" class="btn btn-info" onclick="window.parent.storage_close();" >
+                            <i class="icon-undo bigger-110"></i>
+                            取消
+                        </button>
+                    </div>
+                </div>
 
-        </form>
-    </div><!-- /.col -->
-</div><!-- /.row -->
+
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
 </div>
 
-<script type="text/javascript">  
-    function upstep() {
-        $('#closemodel').click();
-    }
+<script type="text/javascript">
     //提交内容
     var click_flag = true;//是否可以点击
-    function mem_edit(mid, type) {
+    function sub_storage() {
         if (!click_flag) {
             return;
         }
         var data_json = {};
         data_json.pid = $('#pid').val();
-        data_json.type = type;
-        if (type == 'add') {
-            data_json.member = $('#member').val();
-            data_json.types = $('#types').val();
-            data_json.remark = $('#remark').val();
-        }else{
-            if(type == 'del' && !confirm('确定删除该成员？')){
-                return;
-            }
-            data_json.mid = mid;
-            data_json.remark = $('#remark'+mid).val();
+         if ($('#spec').val() == '') {
+            $('#spec').focus();
+            return;
         }
-
+        data_json.spec = $('#spec').val();
+         if ($('#nums').val() == '') {
+            $('#nums').focus();
+            return;
+        }
+        data_json.nums = $('#nums').val();
+         if ($('#amount').val() == '') {
+            $('#amount').focus();
+            return;
+        }
+        data_json.amount = $('#amount').val();
+        data_json.abstract = $('#abstract').val();
+        
         $.ajax({
-            url: '/ResearchProject/member_operation',
+            url: '/ResearchProject/sub_storage',
             type: 'post',
             data: data_json,
             dataType: 'json',
@@ -113,7 +110,7 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    location.reload() ;
+                    location.reload();
                     return;
                 }
                 if (res.code == 2) {
