@@ -10,8 +10,38 @@ class FixedassetsController extends AppController {
     /* 左 */
     public $layout = 'blank';
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
-    public function index() {
+    public function index($pages = 1) {
+        //取出所有固定资产
         
+        
+        if ((int) $pages < 1) {
+            $pages = 1;
+        }
+        $limit = 2;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $u_count = $this->User->query('select count(*) as c from t_fixed_assets');
+        $total = $u_count[0][0]['c'];
+        
+        $userArr = array();
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            $fixedassets = $this->Fixedassets->query('select * from t_fixed_assets Fixedassets  order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
+  
+        }
+        $this->set('fixedassets', $fixedassets);
+
+
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
+        $this->render();
     }
     public function add() {
         //取出项目 未审核的，且未删除的
