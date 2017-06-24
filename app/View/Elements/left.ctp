@@ -195,19 +195,20 @@
                             </div>
                         </li>
 
-                        <li>
-                            <a href="#">
+                        <li class="lye">
+                            <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 零余额项目
                                 <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
                                 <?php 
-                                if(isset($project[1])){
-                                foreach($project[1] as $depk => $depv){ 
+                                if(isset($applyList[1])){
+                                foreach($applyList[1] as $depk => $depv){ 
+                                    
                                 ?>
-                                <li>
-                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                <li class="lye_<?php echo $depk;?>">
+                                    <a href="/ResearchProject/index/<?php echo $depk; ?>">
                                         <i class="icon-pencil"></i>
                                         <?php echo $depv; ?>
                                     </a>
@@ -216,19 +217,19 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="#">
+                        <li class="jbh">
+                            <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i><!--i class="icon-eye-open"></i-->
                                 基本户项目
                                 <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
                                 <?php 
-                                if(isset($project[2])){
-                                foreach($project[2] as $depk => $depv){ 
+                                if(isset($applyList[2])){
+                                foreach($applyList[2] as $depk => $depv){ 
                                 ?>
-                                <li>
-                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                <li class="jbh_<?php echo $depk;?>">
+                                    <a href="/ResearchProject/index/<?php echo $depk; ?>">
                                         <i class="icon-pencil"></i>
                                         <?php echo $depv; ?>
                                     </a>
@@ -370,5 +371,29 @@
                         $('#modal_left').removeData("bs.modal");
                         alert();
                     });
+            </script>
+            <script type="text/javascript">
+                //用于项目的七个选项卡，公共部分
+                <?php if (isset($left_show_arr) && !empty($left_show_arr)) {?>
+                    function project_left_show() {
+                        var f_class = 'research_project';
+                        var s_class = '';
+                        var t_class = '';
+                        <?php if (@$left_show_arr[0]['ResearchProject']['type'] == 1) {?>
+                            //行政
+                            s_class = 'lye';
+                            t_class = s_class + "<?php echo '_'.$left_show_arr[0]['ResearchProject']['id'];?>";
+                        <?php } else if(@$left_show_arr[0]['ResearchProject']['type'] == 2) {?>
+                            //科研
+                            s_class = 'jbh';
+                            t_class = s_class + "<?php echo '_'.$left_show_arr[0]['ResearchProject']['id'];?>";
+                        <?php } else {?>
+                                //有问题，暂时不处理
+
+                        <?php }?>
+                        show_left_select(f_class,s_class,t_class );
+                    }
+                    project_left_show();
+                <?php }?>
             </script>
         </div>
