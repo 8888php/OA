@@ -96,29 +96,11 @@
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['code'];  ?></td>
+                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
                                                     
                                                     <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
-                                                    <td><a href='#'> <?php 
-                                                            $code = '';
-                                                            switch($sv['ResearchProject']['code'])
-                                                            {
-                                                                case 1:
-                                                                    $code = '项目审批通过';
-                                                                    break;
-                                                                case 2:
-                                                                    $code = '项目拒绝';
-                                                                    break;
-                                                                case 3:
-                                                                    $code = '财务审批通过';
-                                                                    break;
-                                                                case 4:
-                                                                    $code = '财务拒绝';
-                                                                    break;
-                                                            }
-                                                            echo $code;
-                                                             ?> </a></td>
+                                                    <td><a href='#'> <?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></a></td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

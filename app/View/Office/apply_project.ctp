@@ -100,7 +100,7 @@
             </div>
 
             <div class="modal-body">
-                <input type="hidden" name="p_id" id="p_id"  />
+                <input type="hidden" name="p_id" id="p_id" value="<?php echo $pinfos['id'];?>" />
                 <textarea id="remarks" placeholder="审批意见" rows='6' cols='60' ></textarea>
             </div>
             <div class="modal-footer" style='background-color: #fff;'>
@@ -157,7 +157,7 @@
                 if (res.code == 0) {
                     //说明添加或修改成功
                     $('.close').click();
-                    window.location.reload();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

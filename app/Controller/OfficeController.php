@@ -10,7 +10,7 @@ class OfficeController extends AppController {
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
-
+           
     public function index() {
         
     }
