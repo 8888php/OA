@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -168,4 +168,37 @@ class OfficeController extends AppController {
         }
     }
 
+    
+    
+    /**
+     * 审核详情
+     */
+    public function apply_project($pid) {
+        if (empty($pid)) {
+            // header("Location:/homes/index");die;
+        }
+        $this->set('costList',Configure::read('keyanlist'));
+        $this->set('pid', $pid);
+
+        $pinfos = $this->ResearchProject->findById($pid);
+        $pinfos = @$pinfos['ResearchProject'];
+        $source = $this->ResearchSource->getAll($pid);
+
+        $members = $this->ProjectMember->getList($pid);
+        
+        $cost = $this->ResearchCost->findByProjectId($pid);
+        $cost = @$cost['ResearchCost'];
+
+        $this->set('cost', $cost);
+
+        $this->set('pinfos', $pinfos);
+        $this->set('members', $members);
+        $this->set('source', $source);
+        
+        $this->render();
+    }
+    
+    
+    
+    
 }
