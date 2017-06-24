@@ -32,7 +32,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User','Department');
+    public $uses = array('User','Department','ResearchProject');
     public $userInfo = array();
     public $appdata = array();
 
@@ -57,6 +57,12 @@ class AppController extends Controller {
         # 部门列表
         $this->appdata['deplist'] = $this->Department->deplist();
         $this->set('deplist',$this->appdata['deplist']);
+        
+        #所属项目
+       $applyList =  $this->ResearchProject->getApplyList(array('code'=>4));
+       $this->set('applyList',$applyList);
+       
+        
     }
 
     /**

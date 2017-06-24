@@ -187,7 +187,7 @@
                                 </button>
                                 <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                             </div>
-                             <div class="modal fade" id="fixed_assets" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto;width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                            <div class="modal fade" id="fixed_assets" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto;width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                                 <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">
 
                                 </button>
@@ -202,14 +202,14 @@
                                 <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
-                                <?php 
-                                if(isset($project[1])){
-                                foreach($project[1] as $depk => $depv){ 
+                                <?php   
+                                if(isset($applyList['1'])){
+                                foreach($applyList['1'] as $apk => $apv){ 
                                 ?>
                                 <li>
-                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                    <a href="/ResearchProject/index/<?php echo $apk; ?>">
                                         <i class="icon-pencil"></i>
-                                        <?php echo $depv; ?>
+                                        <?php echo $apv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
@@ -224,13 +224,13 @@
                             </a>
                             <ul class="submenu">
                                 <?php 
-                                if(isset($project[2])){
-                                foreach($project[2] as $depk => $depv){ 
+                                if(isset($applyList[2])){
+                                foreach($applyList[2] as $appk => $appv){ 
                                 ?>
                                 <li>
-                                    <a href="/project/infos/<?php echo $depk; ?>">
+                                    <a href="/ResearchProject/index/<?php echo $appk; ?>">
                                         <i class="icon-pencil"></i>
-                                        <?php echo $depv; ?>
+                                        <?php echo $appv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
