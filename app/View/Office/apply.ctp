@@ -105,16 +105,16 @@
                                                             switch($sv['ResearchProject']['code'])
                                                             {
                                                                 case 1:
-                                                                    $code = '项目审批通过';
+                                                                    $code = '行政审核未通过';
                                                                     break;
                                                                 case 2:
-                                                                    $code = '项目拒绝';
+                                                                    $code = '行审通过';
                                                                     break;
                                                                 case 3:
-                                                                    $code = '财务审批通过';
+                                                                    $code = '财务审核未通过';
                                                                     break;
                                                                 case 4:
-                                                                    $code = '财务拒绝';
+                                                                    $code = '财审通过';
                                                                     break;
                                                             }
                                                             echo $code;

@@ -260,7 +260,7 @@
                 </li>
 
 
-                <li>
+                <li class="guding">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-calendar"></i>
                         <span class="menu-text"> 固定资产 </span>
@@ -271,7 +271,7 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li class="guding_index">
                             <a href="/fixedassets/index">
                                 <i class="icon-double-angle-right"></i>
                                 固定资产
