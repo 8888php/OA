@@ -11,6 +11,32 @@ class ResearchProjectController extends AppController {
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        if ($this->request->is('get')) {
+            //获取参数
+            $action = $this->request->params['action'];
+            $left_use_show_actions = array(
+                '',//默认index
+                'index',
+                'archives',
+                'assets',
+                'budget',
+                'report_form',
+                'storage',
+                'declares'
+            );
+            //左侧栏 科研项目显示
+            if (in_array($action, $left_use_show_actions) || in_array(strtolower(substr($action, 0, 1)).substr($action, 1), $left_use_show_actions)) {
+                $pid = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : 0;
+                if ($pid > 0) {
+                    $left_show_arr = $this->ResearchProject->query("select * from t_research_project ResearchProject where id='$pid' and code=4 limit 1");
+                    $this->set('left_show_arr', $left_show_arr);
+                }
+            }
+        }
+    }
+
     /**
      * 详情
      */
@@ -25,7 +51,7 @@ class ResearchProjectController extends AppController {
         $source = $this->ResearchSource->getAll($pid);
 
         $members = $this->ProjectMember->getList($pid);
-
+        
         $this->set('pinfos', $pinfos);
         $this->set('members', $members);
         $this->set('source', $source);
@@ -551,5 +577,5 @@ class ResearchProjectController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
-
+    
 }
