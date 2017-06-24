@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -39,6 +39,7 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/homes/index");die;
         }
+        $this->set('costList',Configure::read('keyanlist'));
         $this->set('pid', $pid);
 
         $cost = $this->ResearchCost->findByProjectId($pid);
@@ -108,10 +109,13 @@ class ResearchProjectController extends AppController {
      */
     public function storage($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('pid', $pid);
 
+        $storagelist = $this->Storage->getList($pid);
+        $this->set('storagelist', $storagelist);
 
         $this->render();
     }
@@ -449,7 +453,7 @@ class ResearchProjectController extends AppController {
     /**
      * 添加 出入库
      */
-    public function add_storage($pid = 0) {
+    public function add_storage($pid = 0, $sid = 0) {
         if (empty($pid)) {
             header("Location:/home/index");
         }
@@ -458,6 +462,13 @@ class ResearchProjectController extends AppController {
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
         $this->set('pinfos', $pinfos);
+
+        $storageInfo = array();
+        if (!empty($sid) && $sid > 0) {
+            $storageInfo = $this->Storage->findById($sid);
+            $storageInfo = $storageInfo['Storage'];
+        }
+        $this->set('storageInfo', $storageInfo);
         $this->set('pid', $pid);
         $this->render();
     }
@@ -469,23 +480,51 @@ class ResearchProjectController extends AppController {
         if (empty($_POST['pid']) || (empty($_POST['spec']) && empty($_POST['nums'])) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
         } else {
-         /*   $editArr = array();
-            $editArr['user_id'] = $_POST['member'];
-            $editArr['project_id'] = $_POST['pid'];
-            $editArr['user_name'] = $memberInfo['User']['user'];
-            $editArr['name'] = $memberInfo['User']['name'];
-            $editArr['tel'] = $memberInfo['User']['tel'];
-            $editArr['type'] = $_POST['types'];
-            $editArr['ctime'] = date('Y-m-d');
-            $editArr['remark'] = $_POST['remark'];
-            $memberId = $this->ProjectMember->add($editArr);
+            $saveArr = array();
+            $saveArr['project_id'] = $_POST['pid'];
+            $saveArr['project_name'] = $_POST['pname'];
+            $saveArr['spec'] = $_POST['spec'];
+            $saveArr['nums'] = $_POST['nums'];
+            $saveArr['amount'] = $_POST['amount'];
+            $saveArr['abstract'] = $_POST['abstract'];
+            $saveArr['ctime'] = date('Y-m-d');
+            if ($_POST['sid']) {
+                $storageId = $this->Storage->edit($_POST['sid'], $saveArr);
+            } else {
+                $storageId = $this->Storage->add($saveArr);
+            }
 
 
-            if ($memberId) {
+            if ($storageId) {
                 $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '添加成功';
+                $_POST['sid'] && $this->ret_arr['class'] = 'edit';
             } else {
                 $this->ret_arr['msg'] = '操作失败';
-            }*/
+            }
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+    /**
+     * 删除 出入库
+     */
+    public function edit_storage() {
+        if (empty($_POST['sid'])) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+            $saveArr = array();
+            $saveArr['del'] = 1;
+            $storageId = $this->Storage->edit($_POST['sid'], $saveArr);
+
+            if ($storageId) {
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '删除成功';
+            } else {
+                $this->ret_arr['msg'] = '删除失败';
+            }
         }
 
         echo json_encode($this->ret_arr);

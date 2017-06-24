@@ -156,18 +156,27 @@
                                                 <td>操作</td>
                                             </tr>
 
-
+                                            <?php  foreach($storagelist as $sk => $sv){  
+                                            $sid = $sv['Storage']['id']; 
+                                            ?>
                                             <tr>
-                                                <td>1</td>
-                                                <td> 2017-05-25</td>
-                                                <td> 摘要…… </td>
-                                                <td> xxl </td>
-                                                <td> 3 </td>
-                                                <td> 60 </td>
-                                                <td> 待审核 </td>
-                                                <td>  <a class="badge badge-info"> 修改 </a> 
-                                                    <a class="badge badge-danger"> 删除 </a> </td>
+                                                <td> <?php echo $sid;  ?> </td>
+                                                <td> <?php echo $sv['Storage']['ctime'];  ?> </td>
+                                                <td>  <?php echo $sv['Storage']['abstract'];  ?>  </td>
+                                                <td>  <?php echo $sv['Storage']['spec'];  ?>   </td>
+                                                <td> <?php echo $sv['Storage']['nums'];  ?>  </td>
+                                                <td> <?php echo $sv['Storage']['amount'];  ?>  </td>
+                                                <td> <?php echo $sv['Storage']['code'] == 0 ? '待审核':'已通过' ;  ?>  </td>
+                                                <td> 
+                                                    <?php if($sv['Storage']['code'] == 0){  ?>
+                                                    <a class="badge badge-info" data-toggle="modal" href="#" data-target="#modal_storage" onclick="$('#myFrame').attr('src', '/ResearchProject/add_storage/<?php echo $pid;?>/<?php echo $sid;?>');"> 修改 </a>   <a class="badge badge-danger" onclick="edit_storage(<?php echo $sid;?> , 'del');" > 删除 </a> 
+                                                    <?php }else{ ?>
+                                                    <a class="badge badge-success"> 出库 </a> 
+                                                    <?php } ?>
+                                                </td>
                                             </tr>
+                                            <?php } ?>
+
                                             <tr>
                                                 <td>2</td>
                                                 <td> 2017-05-26</td>
@@ -187,9 +196,9 @@
                         </div>
 
                         <!-- /.modal_storage -->
-                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:370px;height:308px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:370px;height:348px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                             <button type="button" class="close" id="storage_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" frameborder="0" style="width:360px;min-height:300px;border-radius:4px; " src="/ResearchProject/add_storage" > </iframe>
+                            <iframe  id="myFrame" frameborder="0" style="width:360px;min-height:340px;border-radius:4px; " src="/ResearchProject/add_storage/<?php echo $pid;?>" > </iframe>
                         </div>
 
                     </div><!-- /.col -->
@@ -211,53 +220,95 @@
 <!-- <![endif]-->
 
 <!--[if IE]>
-<script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/jquery-1.10.2.min.js"></script>
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
                     window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
-<!-- <![endif]-->
+<!--<![endif]-->
 
 <!--[if IE]>
 <script type="text/javascript">
 window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
 </script>
-<![endif]-->
+<![end    if]-->
 
-<script type="text/javascript">
-    if ("ontouchend" in document)
-        document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+<script type="text/jav  ascript">
+    if ("ontouchend" in   document)
+    document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/typeahead-bs2.min.js"></script>
-<!-- page specific plugin scripts -->
+<!-- page specific plugin scri              pts -->
 <script src="/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="/assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/assets/js/jquery.slimscroll.min.js"></script>
 <!-- ace scripts -->
 <script src="/assets/js/ace-elements.min.js"></script>
 <script src="/assets/js/ace.min.js"></script>
-<!-- inline scripts related to this page -->
+<!-- inline scripts related to thispage -->
 
 <script type="text/javascript">
-    //关闭添加的窗口
-    function storage_close() {
-        $('#storage_close').click();
-    }
-    //left页面用与判断
-    function research_prject_flag() {
-        //do noting
-    }
-    jQuery(function ($) {
-        $('.accordion').on('hide', function (e) {
-            $(e.target).prev().children(0).addClass('collapsed');
-        })
-        $('.accordion').on('show', function (e) {
-            $(e.target).prev().children(0).removeClass('collapsed');
-        })
-    });
-    show_left_select('research_project', '无效');
+                //关闭添加的窗口
+                function storage_close() {
+                    $('#storage_close').click();
+                }
+                //left页面用与判断
+                function research_prject_flag() {
+                    //do noting
+                }
+                jQuery(function ($) {
+                    $('.accordion').on('hide', function (e) {
+                        $(e.target).prev().children(0).addClass('collapsed');
+                    })
+                    $('.accordion').on('show', function (e) {
+                        $(e.target).prev().children(0).removeClass('collapsed');
+                    })
+                });
+                show_left_select('research_project', '无效');
+
+                function edit_storage(sid) {
+                    var data_json = {};
+                    data_json.sid = sid;
+                    $.ajax({
+                        url: '/ResearchProject/edit_storage',
+                        type: 'post',
+                        data: data_json,
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code == -1) {
+                                //登录过期
+                                window.location.href = '/homes/index';
+                                return;
+                            }
+                            if (res.code == -2) {
+                                //权限不足
+                                alert('权限不足');
+                                return;
+                            }
+                            if (res.code == 1) {
+                                //说明有错误
+                                alert(res.msg);
+                                //清空之前的错误提示
+                                $('.middle').removeClass('text-danger').text('');
+                                show_error($(res.class), res.msg);
+                                return;
+                            }
+                            if (res.code == 0) {
+                                //说明添加或修改成功
+                                alert(res.msg);
+                                location.reload();
+                                return;
+                            }
+                            if (res.code == 2) {
+                                //失败
+                                alert(res.msg);
+                                return;
+                            }
+                        }
+                    });
+                }
 
 </script>
 

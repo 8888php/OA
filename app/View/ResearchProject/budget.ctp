@@ -136,7 +136,7 @@
                                         </thead>
                                         <tbody>
                                             <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
+                                            foreach($costList as $ysk => $ysv){  ?>
                                             <tr>
                                                 <?php foreach($ysv as $k => $v){ ?>
                                                 <td><?php echo $v;  ?></td>
@@ -155,7 +155,7 @@
                                         </thead>
                                         <tbody>
                                             <?php  
-                                            foreach(Configure::read('keyanlist') as $ysk => $ysv){  ?>
+                                            foreach($costList as $ysk => $ysv){  ?>
                                             <tr>
                                                 <?php foreach($ysv as $k => $v){ ?>
                                                 <td><?php echo $v;  ?></td>
