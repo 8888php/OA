@@ -65,14 +65,6 @@ class ResearchProject extends AppModel {
         $page && $screen['page'] = $page;
         return $this->find('all', $screen);
     }
-     # 获取全部项目
-
-    public function getApplyList($conditions = array()) {
-        $userArr = $fields = array();
-        $conditions['del'] = 0;
-        $fields = array('id', 'name','type');
-        return $this->find('list', array('conditions' => $conditions, 'fields' => $fields));
-    }
 
 
 }

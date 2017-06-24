@@ -195,14 +195,6 @@
                                 <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
-<<<<<<< HEAD
-                                <?php   
-                                if(isset($applyList['1'])){
-                                foreach($applyList['1'] as $apk => $apv){ 
-                                ?>
-                                <li>
-                                    <a href="/ResearchProject/index/<?php echo $apk; ?>">
-=======
                                 <?php 
                                 if(isset($applyList[1])){
                                 foreach($applyList[1] as $depk => $depv){ 
@@ -210,9 +202,8 @@
                                 ?>
                                 <li class="lye_<?php echo $depk;?>">
                                     <a href="/ResearchProject/index/<?php echo $depk; ?>">
->>>>>>> fdb4751095f32822ba010cfb5673688465d56a67
                                         <i class="icon-pencil"></i>
-                                        <?php echo $apv; ?>
+                                        <?php echo $depv; ?>
                                     </a>
                                 </li>
                                 <?php  }  } ?>
@@ -228,17 +219,10 @@
                             <ul class="submenu">
                                 <?php 
                                 if(isset($applyList[2])){
-<<<<<<< HEAD
                                 foreach($applyList[2] as $appk => $appv){ 
                                 ?>
-                                <li>
+                                <li class="jbh_<?php echo $appk;?>">
                                     <a href="/ResearchProject/index/<?php echo $appk; ?>">
-=======
-                                foreach($applyList[2] as $depk => $depv){ 
-                                ?>
-                                <li class="jbh_<?php echo $depk;?>">
-                                    <a href="/ResearchProject/index/<?php echo $depk; ?>">
->>>>>>> fdb4751095f32822ba010cfb5673688465d56a67
                                         <i class="icon-pencil"></i>
                                         <?php echo $appv; ?>
                                     </a>
