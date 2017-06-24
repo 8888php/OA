@@ -83,6 +83,21 @@ class ResearchProjectController extends AppController {
 
         $this->render(); 
     }
+    
+    /**
+     * 添加 费用申报
+     */
+    public function add_declares($pid = 0) {
+        if (empty($pid)) {
+            //  header("Location:/homes/index");die;
+        }
+        $this->set('pid', $pid);
+
+        $this->render();
+    }
+    
+    
+    
 
     /**
      * 详情 报表

@@ -24,7 +24,7 @@
                         <span class="badge badge-grey">4</span>
                     </a>
 
-                    <ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                    <!--ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
                         <li class="dropdown-header">
                             <i class="icon-ok"></i>
                             还有4个任务完成
@@ -88,7 +88,7 @@
                                 <i class="icon-arrow-right"></i>
                             </a>
                         </li>
-                    </ul>
+                    </ul-->
                 </li>
 
                 <li class="purple">
@@ -97,7 +97,7 @@
                         <span class="badge badge-important">8</span>
                     </a>
 
-                    <ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                    <!--ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
                         <li class="dropdown-header">
                             <i class="icon-warning-sign"></i>
                             8条通知
@@ -152,7 +152,7 @@
                                 <i class="icon-arrow-right"></i>
                             </a>
                         </li>
-                    </ul>
+                    </ul-->
                 </li>
 
                 <li class="green">
@@ -161,7 +161,7 @@
                         <span class="badge badge-success">5</span>
                     </a>
 
-                    <ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                    <!--ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
                         <li class="dropdown-header">
                             <i class="icon-envelope-alt"></i>
                             5条消息
@@ -224,7 +224,7 @@
                                 <i class="icon-arrow-right"></i>
                             </a>
                         </li>
-                    </ul>
+                    </ul-->
                 </li>
 
                 <li class="light-blue">
@@ -248,7 +248,7 @@
                         </li>
 
                         <li>
-                            <a href="/user/info">
+                            <a href="#">
                                 <i class="icon-user"></i>
                                 个人资料
                             </a>

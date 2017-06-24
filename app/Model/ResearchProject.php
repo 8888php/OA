@@ -44,7 +44,7 @@ class ResearchProject extends AppModel {
         return $this->find('list', array('conditions' => array('del' => 0), 'fields' => $fields));
     }
     
-    
+  
     # 获取全部项目
 
     public function getApplyList($conditions = array()) {

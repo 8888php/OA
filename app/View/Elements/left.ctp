@@ -182,17 +182,10 @@
                             </a>
 
                             <div class="modal fade" id="modal_left" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true">
-
-                                </button>
+                                <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true"></button>
                                 <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                             </div>
-                            <div class="modal fade" id="fixed_assets" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto;width:570px;height:408px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                <button type="button" class="close"  data-dismiss="modal" aria-hidden="true">
-
-                                </button>
-                                <iframe id="iframe_fixed_assets" src="" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
-                            </div>
+                        
                         </li>
 
                         <li>

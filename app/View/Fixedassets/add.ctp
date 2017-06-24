@@ -3,7 +3,7 @@
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:560px;'>
 
-    <p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;">固定资产</span> <a onclick="close_window();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
+    <p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;">固定资产</span> <a onclick="window.parent.fixed_close();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
 
 
     <div  style='padding:20px 0;'>
@@ -116,10 +116,6 @@
 
 
 <script type="text/javascript">
-    //关闭窗口
-    function close_window() {
-        window.parent.step_close();
-    }
     //提交内容
     function ajax_submit() {
         var data_json = {};
@@ -229,7 +225,7 @@
                     //说明添加或修改成功
                     //location.href = '/user/index';
                     //如果成功，则调step2
-                    close_window();
+                    window.parent.fixed_close();
                     window.location.reload();
                     return;
                 }

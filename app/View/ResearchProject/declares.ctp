@@ -138,7 +138,9 @@
                                                         <option value="1">财务报销单</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
+  <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
                                                     <i class="icon-plus arrow blue"></i>
+                                                    </a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -179,7 +181,11 @@
 
                             </div>
                         </div>
-
+           <!-- /.modal_declares -->
+                        <div class="modal fade" id="modal_declares" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:610px;height:448px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                            <button type="button" class="close" id="declares_close" data-dismiss="modal" aria-hidden="true"> </button>
+                            <iframe  id="myFrame" frameborder="0" style="width:610px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
+                        </div>
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -204,7 +210,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -230,6 +236,9 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    function declares_close() {
+        $('#declares_close').click();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting

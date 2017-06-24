@@ -10,10 +10,9 @@ class FixedassetsController extends AppController {
     /* 左 */
     public $layout = 'blank';
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
+    
     public function index($pages = 1) {
         //取出所有固定资产
-        
-        
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -43,9 +42,11 @@ class FixedassetsController extends AppController {
         $this->set('all_page', $all_page);
         $this->render();
     }
-    public function add() {
+    public function add($pid = 0) {
         //取出项目 未审核的，且未删除的
-        $project = $this->ResearchProject->query('select id,name from t_research_project ResearchProject where code=0 and del=0');
+       
+        $pidsql = ($pid > 0 && is_numeric($pid)) ?  " and id = $pid " : '';
+        $project = $this->ResearchProject->query("select id,name from t_research_project ResearchProject where code=4 $pidsql and del=0");
         $this->set('project', $project);
         $this->render();
     }

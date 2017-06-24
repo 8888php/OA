@@ -125,7 +125,7 @@
                             </ul>
 
                             <div class="tab-content no-border ">
-                                
+
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
                                     <table class="table table-bordered table-striped" style=''>
@@ -139,11 +139,11 @@
                                                         <option value="2">固定资产增加</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a data-toggle="modal" href="#" onclick="$('#iframe_fixed_assets').attr('src','/Fixedassets/add');" data-target="#fixed_assets">
-                                                    <i class="icon-plus arrow blue"></i>
-                                                    </a>
+                                                    <a data-toggle="modal" href="#" onclick="$('#myFrame').attr('src', '/Fixedassets/add/<?php echo $pid; ?>');" data-target="#add_assets">
+                                                        <i class="icon-plus arrow blue"></i>
+                                                    </a>                                  
                                                 </th>
-                                                
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -180,7 +180,7 @@
                                                 <td> 管理人</td>
                                                 <td><?php echo $f['Fixedassets']['is_government'] == 1 ? '否':'是';  ?></td>
                                                 <td> <?php echo $f['project']['code'];  ?></td>
-                                                
+
                                                 <td> 删除 </td>
                                             </tr>
                                             <?php }?>
@@ -191,6 +191,10 @@
                             </div>
                         </div>
 
+                        <div class="modal fade" id="add_assets" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto;width:580px;height:408px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                            <button type="button" class="close" id='fixed_close' data-dismiss="modal" aria-hidden="true"> </button>
+                            <iframe id="myFrame" src="" style="width:580px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
+                        </div>     
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -215,7 +219,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                                                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -241,6 +245,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    //关闭添加的窗口
+    function fixed_close() {
+        $('#fixed_close').click();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting
@@ -254,7 +262,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         })
     });
     show_left_select('research_project', '无效');
-    
+
 </script>
 
 </body>

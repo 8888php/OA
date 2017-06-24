@@ -73,29 +73,34 @@
                             <div class="row">
                                 <div class="col-xs-12">
 
-<!--                                    <div class="table-header">
-                                        固定资产列表
-                                    </div>-->
+                                    <!--                                    <div class="table-header">
+                                                                            固定资产列表
+                                                                        </div>-->
 
                                     <div class="table-responsive">
                                         <table  class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
-                                                <th colspan="10" class="blue" style="border-right:0px;"> 固定资产 </th>
+                                                    <th colspan="11" class="blue" style="border-right:0px;"> 固定资产 </th>
 
-                                                <th colspan="4" style="border-left:0px;">
-                                                    <select name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">固定资产减少</option>
-                                                        <option value="2">固定资产增加</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a data-toggle="modal" href="#" onclick="$('#iframe_fixed_assets').attr('src','/Fixedassets/add');" data-target="#fixed_assets">
-                                                    <i class="icon-plus arrow blue"></i>
-                                                    </a>
-                                                </th>
-                                                
-                                            </tr>
-                                                <tr>
+                                                    <th colspan="5" style="border-left:0px;">
+                                                        <select name="assets" class="type input-width" style="width:145px;">
+                                                            <option value="1">固定资产减少</option>
+                                                            <option value="2">固定资产增加</option>
+                                                        </select>  
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <a data-toggle="modal" href="#" data-target="#fixed_assets">
+                                                            <i class="icon-plus arrow blue"></i>
+                                                        </a>
+                                                        <div class="modal fade" id="fixed_assets" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto;width:580px;height:408px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                                            <button type="button" class="close" id='fixed_close' data-dismiss="modal" aria-hidden="true"> </button>
+                                                            <iframe id="iframe_fixed_assets" src="/Fixedassets/add" style="width:580px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
+                                                        </div>                                                   
+
+                                                    </th>
+
+                                                </tr>
+                                                <tr class="blue">
                                                     <th>序号</th>
                                                     <th>项目</th>
                                                     <th>资产名称</th>
@@ -105,7 +110,6 @@
                                                     <th>国际分类</th>
                                                     <th>型号</th>
                                                     <th>数量</th>
-                                                    <th>单位</th>
                                                     <th>单价</th>
                                                     <th>金额</th>
                                                     <th>政府采购</th>
@@ -125,15 +129,15 @@
                                                     <td><?php echo $sv['Fixedassets']['code'];  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['international_classification'];  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['model'];  ?></td>
-                                                    <td><?php echo $sv['Fixedassets']['number'];  ?></td>
-                                                    <td><?php echo $sv['Fixedassets']['company'];  ?></td>
+                                                    <td><?php echo $sv['Fixedassets']['number'].$sv['Fixedassets']['company'];  ?></td>
+
                                                     <td><?php echo $sv['Fixedassets']['price'];  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['amount'];  ?></td>
-                                                    <td><?php echo $sv['Fixedassets']['is_government'];  ?></td>
+                                                    <td><?php echo $sv['Fixedassets']['is_government'] == 1 ? '否':'是';  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['approval_number'];  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['current_situation'];  ?></td>
                                                     <td><?php echo $sv['Fixedassets']['remarks'];  ?></td>
-                                                    
+
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -143,12 +147,10 @@
                                     </div>
 
                                     <script type="text/javascript">
-                                        $(function(){
-                                            $('#modal').on('hidden.bs.modal', function(){
-                                                //关闭模态框时，清除数据，防止下次加雷有，缓存
-                                                $(this).removeData("bs.modal");
-                                            })
-                                        });
+                                        //关闭窗口
+                                        function fixed_close() {
+                                             $('#fixed_close').click();
+                                        }
                                         //审批
                                         function approve(type) {
                                             var remarks = $('#remarks').val();//备注
@@ -162,11 +164,11 @@
                                             } else {
                                                 type = 1;
                                             }
-                                            if (!confirm('您确认 ' +text+ ' 该项目？')) {
+                                            if (!confirm('您确认 ' + text + ' 该项目？')) {
                                                 //取消
                                                 return;
                                             }
-                                            var data = {p_id: $('#p_id').val(), remarks:remarks, type:type};
+                                            var data = {p_id: $('#p_id').val(), remarks: remarks, type: type};
                                             $.ajax({
                                                 url: '/Office/ajax_approve',
                                                 type: 'post',
@@ -186,7 +188,7 @@
                                                     if (res.code == 1) {
                                                         //说明有错误
                                                         alert(res.msg);
-                                                        
+
                                                         return;
                                                     }
                                                     if (res.code == 0) {
@@ -204,7 +206,7 @@
                                             });
                                         }
                                     </script>
-                                    
+
                                     <div class="modal-footer no-margin-top">
                                         <?php echo $this->Page->show($limit, $total, $curpage, 1, "/Fixedassets/index/",5 ); ?>                                        
                                     </div>
@@ -241,7 +243,7 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
-                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+ window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -392,10 +394,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         //关闭模态框时，清除数据，防止下次加雷有，缓存
         $(this).removeData("bs.modal");
     });
-    
+
 </script>
- <script type="text/javascript">
-  show_left_select('guding', 'guding_index');                              
+<script type="text/javascript">
+    show_left_select('guding', 'guding_index');
 </script>
 </body>
 </html>

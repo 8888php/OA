@@ -6,10 +6,12 @@ App::uses('AppController', 'Controller');
 class ReportformsController extends AppController {
 
     public $name = 'Reportforms';
-    //var $uses=array('SysMenus'); 
+    //var $uses=array('User'); 
     /* 左 */
     
     public function index() {
+        $this->layout = 'blank';
+        $this->render();
  
     }
 
