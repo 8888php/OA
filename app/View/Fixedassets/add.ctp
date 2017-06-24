@@ -69,8 +69,8 @@
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">政府采购 &nbsp;&nbsp;</label>
                         <select  name="is_government" class="is_government input-width" id="form-field-1" style="width:145px;">
-                            <option value="1">是</option>
-                            <option value="2">否</option>
+                            <option value="0">是</option>
+                            <option value="1">否</option>
                         </select> 
 
                         <label class="input-group-addon " for="form-field-2">批准文号  &nbsp;&nbsp;</label> 

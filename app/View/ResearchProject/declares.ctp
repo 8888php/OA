@@ -140,7 +140,6 @@
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                     <i class="icon-plus arrow blue"></i>
                                                 </th>
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -158,22 +157,22 @@
                                                 <td>管理人</td>
                                                 <td>操作</td>
                                             </tr>
-
+                                            <?php foreach($declares_arr as $d){?>        
                                             <tr>
-                                                <td><?php echo 1;  ?></td>
+                                                <td><?php echo $d['ResearchSource']['id'];  ?></td>
                                                 <td> <i class='glyphicon glyphicon-print blue'></i> </td>
-                                                <td><?php echo 1;  ?></td>
+                                                <td><?php echo $d['Fixedassets']['purchase_date'];  ?></td>
                                                 <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
+                                                <td><?php echo $d['Fixedassets']['is_government'] == 0 ? '是':'否';  ?></td>
+                                                <td> <?php echo $d['ResearchSource']['source_channel'];  ?></td>
+                                                <td><?php echo $d['ResearchSource']['file_number'];  ?></td>
+                                                <td> 暂时为空</td>
                                                 <td><?php echo 1;  ?></td>
                                                 <td> 0.00</td>
                                                 <td><?php echo 1;  ?></td>
                                                 <td> 删除 </td>
                                             </tr>
-                                           
+                                           <?php }?>
                                         </tbody>
                                     </table>
                                 </div>

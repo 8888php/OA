@@ -71,10 +71,16 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/homes/index");die;
         }
+        //费用申报的内容
+        $declares_arr = $this->ResearchSource->query("select ResearchSource.*,Fixedassets.*,ResearchCost.* from t_research_source ResearchSource left join "
+                . " t_fixed_assets Fixedassets on ResearchSource.project_id=Fixedassets.project_id "
+                . " left join  t_research_cost ResearchCost on ResearchCost.project_id = ResearchSource.project_id "
+                . " where ResearchSource.project_id ='$pid'");
+        $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
 
 
-        $this->render();
+        $this->render(); 
     }
 
     /**
