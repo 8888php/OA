@@ -395,7 +395,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     
 </script>
  <script type="text/javascript">
-//  show_left_select('office', 'my_approval');                              
+  show_left_select('guding', 'guding_index');                              
 </script>
 </body>
 </html>
