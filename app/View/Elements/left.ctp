@@ -75,24 +75,74 @@
                         </li>
 
                         <li class="apply">
-                            <a href="/office/apply">
+                            <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 我的申请
+                                 <b class="arrow icon-angle-down"></b>
                             </a>
+                            <ul class="submenu">
+                                <li class="administration">
+                                    <a href="/office/apply_project_list">
+                                        <i class="icon-pencil"></i>
+                                        项目
+                                    </a>
+                                </li>
+                                
+                                <li class="administration">
+                                    <a href="/office/apply">
+                                        <i class="icon-pencil"></i>
+                                        申请
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="wait_approval">
-                            <a href="/office/wait_approval">
+                            <a href="#"  class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 待我审批
+                                 <b class="arrow icon-angle-down"></b>
                             </a>
+                            
+                             <ul class="submenu">
+                                <li class="administration">
+                                    <a href="/office/wait_approval">
+                                        <i class="icon-pencil"></i>
+                                        待审项目
+                                    </a>
+                                </li>
+                                
+                                <li class="administration">
+                                    <a href="/office/wait_approval_apply">
+                                        <i class="icon-pencil"></i>
+                                        待审申请
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="my_approval">
-                            <a href="/office/my_approval">
+                            <a href="#"  class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 经我审批
+                                 <b class="arrow icon-angle-down"></b>
                             </a>
+                            
+                              <ul class="submenu">
+                                <li class="administration">
+                                    <a href="/office/my_approval">
+                                        <i class="icon-pencil"></i>
+                                        经审项目
+                                    </a>
+                                </li>
+                                
+                                <li class="administration">
+                                    <a href="/office/my_approval_apply">
+                                        <i class="icon-pencil"></i>
+                                        经审申请
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="system_message">
@@ -231,7 +281,7 @@
                     </ul>
                 </li>
 
-                <li>
+                <li class="reportforms">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-list-alt"></i>
                         <span class="menu-text"> 汇总报表 </span>
@@ -240,7 +290,7 @@
                     </a>
 
                     <ul class="submenu">
-                        <li>
+                        <li class="guding_index">
                             <a href="/reportforms/index">
                                 <i class="icon-double-angle-right"></i>
                                 汇总报表
@@ -304,14 +354,15 @@
                         </li>
 
                         <li>
-                            <a href="/user/info">
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 个人信息
                             </a>
                         </li>
 
                         <li>
-                            <a href="/setting/index">
+                            <!--a href="/setting/index"-->
+                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 档案项管理
                             </a>

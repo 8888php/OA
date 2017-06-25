@@ -47,7 +47,7 @@ class UserController extends AppController {
         if ((int) $pages < 1) {
             $pages = 1;
         }
-        $limit = 2;
+        $limit = 20;
         $total = 0;
         $curpage = 0;
         $all_page = 0;
@@ -100,6 +100,10 @@ class UserController extends AppController {
      * 添加成员
      */
     public function add() {
+        $department = $this->Department->query('select * from t_department Department  where del =0');
+        $position = $this->Position->query('select * from t_position Position where del =0');
+        $this->set('department', $department);
+        $this->set('position', $position);
 
         $this->render();
     }

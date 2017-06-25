@@ -24,7 +24,39 @@ class OfficeController extends AppController {
     }
 
     /**
-     * 我的申请
+     * 我的申请 项目
+     */
+    public function apply_project_list($pages = 1) {
+        if ((int) $pages < 1) {
+            $pages = 1;
+        }
+        $limit = 10;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $lists = array();
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        $total = $total[0][0]['count'];
+        $userArr = array();
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+        }
+
+        $this->set('lists', $lists);
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
+        $this->render();
+    }
+    
+     /**
+     * 我的申请 申请
      */
     public function apply($pages = 1) {
         if ((int) $pages < 1) {
@@ -56,7 +88,7 @@ class OfficeController extends AppController {
     }
 
     /**
-     * 待我审批
+     * 待我审批 项目
      */
     public function wait_approval($pages = 1) {
         if ((int) $pages < 1) {
@@ -87,8 +119,41 @@ class OfficeController extends AppController {
         $this->render();
     }
 
+   /**
+     * 待我审批 申请
+     */
+    public function wait_approval_apply($pages = 1) {
+        if ((int) $pages < 1) {
+            $pages = 1;
+        }
+        $limit = 10;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $lists = array();
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where code=0 and del=0');
+        $total = $total[0][0]['count'];
+        $userArr = array();
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            $lists = $this->ResearchProject->getAll(array('code' => 0, 'del' => 0), $limit, $pages);
+        }
+
+        $this->set('lists', $lists);
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
+        $this->render();
+    }
+
+    
     /**
-     * 经我审批
+     * 经我审批 项目
      */
     public function my_approval($pages = 1) {
         if ((int) $pages < 1) {
@@ -119,6 +184,42 @@ class OfficeController extends AppController {
         $this->render();
     }
 
+    
+      /**
+     * 经我审批 申请
+     */
+    public function my_approval_apply($pages = 1) {
+        if ((int) $pages < 1) {
+            $pages = 1;
+        }
+        $limit = 10;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $lists = array();
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        $total = $total[0][0]['count'];
+        $userArr = array();
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+        }
+
+        $this->set('lists', $lists);
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
+        $this->render();
+    }
+    
+    
+    
+    
     /**
      * 系统消息
      */

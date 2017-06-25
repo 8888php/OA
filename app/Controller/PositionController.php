@@ -18,7 +18,7 @@ class PositionController extends AppController {
         if ((int) $pages < 1) {
             $pages = 1;
         }
-        $limit = 2;
+        $limit = 20;
         $total = 0;
         $curpage = 0;
         $all_page = 0;

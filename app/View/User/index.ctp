@@ -150,14 +150,14 @@
                                                             <i class="icon-pencil bigger-130"></i>
                                                         </a>
                                                         <?php if ($v['User']['del'] == 0) {?>   
-                                                        <a class="red" onclick="ajax_del( < ?php echo $v['User']['id']; ? > );">
+                                                        <a class="red" onclick="ajax_del( <?php echo $v['User']['id']; ?> );">
                                                             <i title='删除' class="icon-trash bigger-130"></i>
                                                         </a>
-                                                        <?php }else {?>
-                                                        <a class="red" onclick="ajax_recovery( < ?php echo $v['User']['id']; ? > );">
+                                                        <?php }else { ?>
+                                                        <a class="red" onclick="ajax_recovery( <?php echo $v['User']['id']; ?> );">
                                                             <i title='恢复' class="icon-reply icon-only"></i>
                                                         </a>
-                                                        <?php }?>
+                                                        <?php } ?>
                                                     </div>
 
                                                     <div class="visible-xs visible-sm hidden-md hidden-lg">
