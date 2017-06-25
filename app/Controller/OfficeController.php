@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -198,7 +198,155 @@ class OfficeController extends AppController {
         $this->render();
     }
     
+    /**
+     * 报销单待审批
+     */
+    public function reimbursement($pages = 1) {
+        $type = 1;
+        //取出当前用户的职务
+        $code = $this->get_reimbursement_code();
+
+        if ((int) $pages < 1) {
+            $pages = 1;
+        }
+        $limit = 10;
+        $total = 0;
+        $curpage = 0;
+        $all_page = 0;
+        $lists = array();
+        $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where `type`='$type' and code='$code'");
+        $total = $total[0][0]['count'];
+        $userArr = array();
+        if ($total > 0) {
+            $all_page = ceil($total / $limit);
+            //如果大于最大页数，就让他等于最大页
+            if ($pages > $all_page) {
+                $pages = $all_page;
+            }
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where `type`='$type' and code='$code' limit ". ($pages -1) . "," . $limit);
+        }
+        
+        $this->set('lists', $lists);
+        $this->set('limit', $limit);       //limit      每页显示的条数
+        $this->set('total', $total);      //total      总条数       
+        $this->set('curpage', $pages);      //curpage    当前页
+        $this->set('all_page', $all_page);
+        $this->render();
+    }
     
-    
-    
+    /***
+     * 根据当前用户的角色 返回报销单所要审批的code 当$filed为true时，返回要更改的字段
+     */
+    private function get_reimbursement_code($filed = false) {
+        //根据当前帐号，返回不同的code
+        $position_id = $this->userInfo->position_id;
+        
+        $code = -1;//默认取不到数据
+        $return_filed = 0;//默认错误
+        switch ($position_id) {
+            case 11;
+                //财务科长
+                $code = 12;
+                $return_filed = 'financial_officer_id';
+                break;
+            case 7:
+                //财务
+                $code = 10;
+                $return_filed = 'charge_finance_id';
+                break;
+            case 6:
+                //所长
+                $code = 8;
+                $return_filed = 'director_id';
+                break;
+            case 5:
+                //分管副所长
+                $code = 6;
+                $return_filed = 'charge_id';
+                break;
+            case 4:
+                //科室主任
+                $code = 4;
+                $return_filed = 'head_department_id';
+                break;
+            case 2:
+                //项目负责人
+                $code = 0;
+                $return_filed = 'project_leader_id';
+                break;
+            default :
+                break;
+        }
+        if (!$filed){
+            return $code;
+        }
+        return $return_filed;
+        
+    }
+    /**
+     * 报销单审核详情
+     */
+    public function apply_project_reimbursement($main_id=0) {
+        if (empty($main_id)) {
+            // header("Location:/homes/index");die;
+        }
+        //根据main_id取出数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $attr_id = @$main_arr['ApplyMain']['attr_id'];
+        $attr_arr = $this->ApplyBaoxiaohuizong->findById($attr_id);
+        $this->set('main_arr', @$main_arr);
+        $this->set('attr_arr', @$attr_arr);
+        $this->render();
+    }
+    /**
+     * 报销单审批
+     */
+    public function ajax_approve_reimbursement() {
+        //code 1是审核通过，2是拒绝
+        if ($this->request->is('ajax')) {
+            $main_id = $this->request->data('main_id');
+            $remarks = $this->request->data('remarks');
+            $type = $this->request->data('type');
+            $approve_id = $this->userInfo->id;
+            $code = $this->request->data('code');
+            //$tmp_code 表示之前的code状态，
+            if ($type == 1) {
+                //拒绝
+                $tmp_code = $code -1;
+            } else {
+                $tmp_code = $code -2;
+            }
+            //先到表里查看一下，他之前的状态是否发生变化    $filed是取出应该改到哪个字段里
+        if (!$this->ApplyMain->findByCode($tmp_code) || !($filed = $this->get_reimbursement_code(true))) {
+                //有可能是不存在，也有可能是已经审批
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '参数有误，请重新再试';
+                echo json_encode($this->ret_arr);
+                exit;
+            }
+            //根据user_id获取当前审批所用的字段
+            
+            $save_arr = array(
+                $filed => $approve_id,
+                'code' => $code
+            );
+            if ($this->ApplyMain->edit($main_id, $save_arr)) {
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
+            } else {
+                //失败
+                $this->ret_arr['code'] = 2;
+                $this->ret_arr['msg'] = '审批失败';
+                echo json_encode($this->ret_arr);
+            }
+        } else {
+            $this->ret_arr['code'] = 1;
+            $this->ret_arr['msg'] = '参数有误';
+            echo json_encode($this->ret_arr);
+            exit;
+        }
+    }
 }
