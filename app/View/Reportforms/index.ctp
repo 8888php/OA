@@ -153,7 +153,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+  window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -191,7 +191,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
     });
-    show_left_select('research_project', '无效');
+    show_left_select('reportforms', '无效');
     
 </script>
 
