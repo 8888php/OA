@@ -96,13 +96,11 @@ class ResearchProjectController extends AppController {
      */
     public function declares($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+            header("Location:/homes/index");die;
         }
         //费用申报的内容
-        $declares_arr = $this->ResearchSource->query("select ResearchSource.*,Fixedassets.*,ResearchCost.* from t_research_source ResearchSource left join "
-                . " t_fixed_assets Fixedassets on ResearchSource.project_id=Fixedassets.project_id "
-                . " left join  t_research_cost ResearchCost on ResearchCost.project_id = ResearchSource.project_id "
-                . " where ResearchSource.project_id ='$pid'");
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id =  '$pid'");
+        
         $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
 
@@ -143,30 +141,31 @@ class ResearchProjectController extends AppController {
 
         #附表入库
         $attrArr = array();
-        $mainArr['ctime'] = $_POST['ctime'];
-        $mainArr['page_number'] = $_POST['page_number'];
-        $mainArr['department_id'] = $_POST['page_number'];
-        $mainArr['department_name'] = $_POST['page_number'];
-        $mainArr['project_id'] = $_POST['projectname'];
-        $mainArr['subject'] = $_POST['subject'];
-        $mainArr['rmb_capital'] = $_POST['rmb_capital'];
-        $mainArr['amount'] = $_POST['amount'];
-        $mainArr['description'] = $_POST['description'];
-        $mainArr['user_id'] = $this->userInfo->id;
+        $attrArr['ctime'] = $_POST['ctime'];
+        $attrArr['page_number'] = $_POST['page_number'];
+        $attrArr['department_id'] = $_POST['page_number'];
+        $attrArr['department_name'] = $_POST['page_number'];
+        $attrArr['project_id'] = $_POST['projectname'];
+        $attrArr['subject'] = $_POST['subject'];
+        $attrArr['rmb_capital'] = $_POST['rmb_capital'];
+        $attrArr['amount'] = $_POST['amount'];
+        $attrArr['description'] = $_POST['description'];
+        $attrArr['user_id'] = $this->userInfo->id;
 
         # 开始入库
         $this->ApplyBaoxiaohuizong->begin();
-        $attrId = $this->ApplyBaoxiaohuizong->add($mainArr);
+        $attrId = $this->ApplyBaoxiaohuizong->add($attrArr);
 
         # 主表入库
         $mainArr = array();
         $mainArr['type'] = 1;  // ?
         $mainArr['name'] = $_POST['declarename'];
+        $mainArr['project_id'] = $_POST['projectname'];
         $mainArr['table_name'] = 'apply_baoxiaohuizong';
         $mainArr['code'] = 0;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['attr_id'] = $attrId;
-        // $mainArr['ctime'] = $_POST['ctime'];
+        $mainArr['ctime'] = $_POST['ctime'];
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
@@ -205,9 +204,11 @@ class ResearchProjectController extends AppController {
      */
     public function archives($pid = 0) {
         if (empty($pid)) {
-            // header("Location:/homes/index");die;
+             header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
+        
+        $sourcelist = $this->ResearchSource->getAll($pid);
 
 
         $this->render();

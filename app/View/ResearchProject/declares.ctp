@@ -156,23 +156,23 @@
                                                 <td>摘要</td>
                                                 <td>报销科目</td>
                                                 <td>报销费用</td>
-                                                <td>管理人</td>
+                                                <td>审批进度</td>
                                                 <td>操作</td>
                                             </tr>
                                             <?php foreach($declares_arr as $d){?>        
                                             <tr>
-                                                <td><?php echo $d['ResearchSource']['id'];  ?></td>
+                                                <td><?php echo $d['m']['id'];  ?></td>
                                                 <td> <i class='glyphicon glyphicon-print blue'></i> </td>
-                                                <td><?php echo $d['Fixedassets']['purchase_date'];  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo $d['Fixedassets']['is_government'] == 0 ? '是':'否';  ?></td>
-                                                <td> <?php echo $d['ResearchSource']['source_channel'];  ?></td>
-                                                <td><?php echo $d['ResearchSource']['file_number'];  ?></td>
-                                                <td> 暂时为空</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 删除 </td>
+                                                <td><?php echo $d['m']['ctime'];  ?></td>
+                                                <td><?php echo $d['u']['name']; ?> </td>
+                                                <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                <td> <?php echo $d['b']['page_number'];  ?> </td>
+                                                <td> <?php echo $d['b']['page_number'];  ?> </td>
+                                                <td> <?php echo $d['b']['description']; ?> </td>
+                                                <td><?php echo $d['b']['subject'];  ?></td>
+                                                <td> <?php echo $d['b']['subject'];  ?> </td>
+                                                <td> <?php echo $d['m']['code'];  ?> </td>
+                                                <td>  </td>
                                             </tr>
                                            <?php }?>
                                         </tbody>

@@ -45,7 +45,7 @@ class ResearchSource extends AppModel {
     # 获取全部项目
     public function getList(){
         $userArr = $fields = array();
-        $fields = array('id','name');
+        $fields = array('id','project_id');
         return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
     }
  
