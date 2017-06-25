@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -17,7 +17,7 @@ class ResearchProjectController extends AppController {
             //获取参数
             $action = $this->request->params['action'];
             $left_use_show_actions = array(
-                '',//默认index
+                '', //默认index
                 'index',
                 'archives',
                 'assets',
@@ -27,7 +27,7 @@ class ResearchProjectController extends AppController {
                 'declares'
             );
             //左侧栏 科研项目显示
-            if (in_array($action, $left_use_show_actions) || in_array(strtolower(substr($action, 0, 1)).substr($action, 1), $left_use_show_actions)) {
+            if (in_array($action, $left_use_show_actions) || in_array(strtolower(substr($action, 0, 1)) . substr($action, 1), $left_use_show_actions)) {
                 $pid = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : 0;
                 if ($pid > 0) {
                     $left_show_arr = $this->ResearchProject->query("select * from t_research_project ResearchProject where id='$pid' and code=4 limit 1");
@@ -51,7 +51,7 @@ class ResearchProjectController extends AppController {
         $source = $this->ResearchSource->getAll($pid);
 
         $members = $this->ProjectMember->getList($pid);
-        
+
         $this->set('pinfos', $pinfos);
         $this->set('members', $members);
         $this->set('source', $source);
@@ -65,7 +65,7 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
             //  header("Location:/homes/index");die;
         }
-        $this->set('costList',Configure::read('keyanlist'));
+        $this->set('costList', Configure::read('keyanlist'));
         $this->set('pid', $pid);
 
         $cost = $this->ResearchCost->findByProjectId($pid);
@@ -107,9 +107,9 @@ class ResearchProjectController extends AppController {
         $this->set('pid', $pid);
 
 
-        $this->render(); 
+        $this->render();
     }
-    
+
     /**
      * 添加 费用申报
      */
@@ -119,11 +119,73 @@ class ResearchProjectController extends AppController {
         }
         $this->set('pid', $pid);
 
+        $projectInfo = $this->ResearchProject->findById($pid);
+        $source = $this->ResearchSource->getAll($pid);
+
+        $this->set('projectInfo', $projectInfo['ResearchProject']);
+        $this->set('source', $source);
         $this->render();
     }
-    
-    
-    
+
+    /**
+     * 添加 费用报销单
+     */
+    public function sub_declares() {
+        if (!$this->request->is('ajax')) {
+            $this->ret_arr['msg'] = '请求不合法';
+            exit(json_encode($this->ret_arr));
+        }
+
+        if (empty($_POST['ctime']) || empty($_POST['page_number']) || empty($_POST['projectname']) || empty($_POST['filenumber']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
+            $this->ret_arr['msg'] = '参数有误';
+            exit(json_encode($this->ret_arr));
+        }
+
+        #附表入库
+        $attrArr = array();
+        $mainArr['ctime'] = $_POST['ctime'];
+        $mainArr['page_number'] = $_POST['page_number'];
+        $mainArr['department_id'] = $_POST['page_number'];
+        $mainArr['department_name'] = $_POST['page_number'];
+        $mainArr['project_id'] = $_POST['projectname'];
+        $mainArr['subject'] = $_POST['subject'];
+        $mainArr['rmb_capital'] = $_POST['rmb_capital'];
+        $mainArr['amount'] = $_POST['amount'];
+        $mainArr['description'] = $_POST['description'];
+        $mainArr['user_id'] = $this->userInfo->id;
+
+        # 开始入库
+        $this->ApplyBaoxiaohuizong->begin();
+        $attrId = $this->ApplyBaoxiaohuizong->add($mainArr);
+
+        # 主表入库
+        $mainArr = array();
+        $mainArr['type'] = 1;  // ?
+        $mainArr['name'] = $_POST['declarename'];
+        $mainArr['table_name'] = 'apply_baoxiaohuizong';
+        $mainArr['code'] = 0;
+        $mainArr['user_id'] = $this->userInfo->id;
+        $mainArr['attr_id'] = $attrId;
+        // $mainArr['ctime'] = $_POST['ctime'];
+        if ($attrId) {
+            $mainId = $this->ApplyMain->add($mainArr);
+        } else {
+            $this->ApplyBaoxiaohuizong->rollback();
+        }
+        $mainId ? $commitId = $this->ApplyBaoxiaohuizong->rollback() : $commitId = $this->ApplyBaoxiaohuizong->commit();
+
+
+        if ($commitId) {
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '申请成功';
+        } else {
+            $this->ret_arr['msg'] = '申请失败';
+        }
+
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
 
     /**
      * 详情 报表
@@ -577,5 +639,5 @@ class ResearchProjectController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
-    
+
 }

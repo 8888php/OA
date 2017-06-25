@@ -73,7 +73,7 @@
                             <div class="row">
                                 <div class="col-xs-12">
 
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="font-size: 10px;">
                                         <?php  foreach(Configure::read('applylist') as $k => $v){  ?>
                                         <table  class="table  table-bordered ">
                                             <thead>

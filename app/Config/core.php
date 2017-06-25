@@ -443,3 +443,10 @@ Configure::write('applylist', array(
         3 => '财务审核未通过',
         4 => '财审通过',
         ));
+
+// 申请单 列表
+    Configure::write('declaresList', array(
+        '报销汇总单' => 'apply_baoxiaohuizong',
+        ));    
+    
+    

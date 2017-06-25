@@ -163,10 +163,7 @@
                 </li>
 
 
-                <li class="research_project" onclick="if (typeof research_prject_flag != 'function') {
-                            window.location = '/ResearchProject/index';
-                        }
-                        ;">
+                <li class="research_project" >
                     <a href="#" class="dropdown-toggle" >
                         <i class="icon-edit"></i>
                         <span class="menu-text"> 科研项目 </span>

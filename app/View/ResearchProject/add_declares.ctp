@@ -3,22 +3,24 @@
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:600px;'>
 
-    <!--p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 费用申报 </span> <a onclick="window.parent.declares_close();" class="close" data-dismiss="modal" >×</a></p-->
-
-
+<style>
+.table tr, .table td{border:1px solid #000;}
+</style>
+    
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <table class="table table-striped table-bordered table-condensed" style="text-align: center;" >
+                    <table class="table  table-condensed" style="text-align: center;border-color:#000;" >
+                        <input type="hidden" name='declarename' class='declarename' value='报销汇总单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;">  报销汇总单 </td>
+                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
                             </tr>
                             <tr>
                                 <td colspan='2'>填表日期</td>
                                 <td colspan='2'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 start_date" name="add_date"  style='height:25px;'>  
+                                    <input readonly="readonly" type="text" class=" form_datetime1 ctime" name="ctime"  style='height:25px;'>  
                                     <script type="text/javascript">
                                         $(".form_datetime1").datetimepicker({
                                             format: 'yyyy-mm-dd',
@@ -27,21 +29,17 @@
                                     </script>
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='pagenums' class="pagenums" style='width:60px;height:25px;'/>  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:60px;height:25px;'/>  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                <select style="width:235px;height:25px;" name="projectname" class="projectname"  >
-                            <?php $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
-                            foreach($qd_arr as $qd){?>
-                            <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
-                            <?php }?>
+                                <select style="width:235px;height:25px;" name="projectname" class="projectname"  >     
+                            <option value="<?php  echo $projectInfo['id'];?>"><?php  echo $projectInfo['name'];?></option>
                         </select>
                                     <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
-                            <?php $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
-                            foreach($qd_arr as $qd){?>
-                            <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
+                            <?php  foreach($source as $qd){?>
+                            <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo $qd['ResearchSource']['file_number'];?></option>
                             <?php }?>
                         </select>
                                 </td>
@@ -53,17 +51,17 @@
                             <tr>
                                 <td>金额</td>
                                 <td>人民币大写</td>
-                                <td colspan='2'>  <input type="text" name='bigrmb' class="bigrmb" style='width:150px;height:25px;'/>   </td>
+                                <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:150px;height:25px;'/>   </td>
                                 <td>￥</td>
                                 <td colspan='2'> <input type="text" name='amount' class="amount"   style='width:100px;height:25px;'/>   </td>
                             </tr>
                             <tr>
                                 <td>报销人<br/>简要说明</td>
-                                <td colspan='6'> <textarea  name="remark" class="remark"  style="width:430px;" ></textarea>
+                                <td colspan='6'> <textarea  name="description" class="description"  style="width:430px;" ></textarea>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="width:80px;">报销人</td>
+                                <td style="width:90px;">报销人</td>
                                 <td style="width:100px;">项目负责人</td>
                                 <td style="width:90px;">科室负责人</td>
                                 <td style="width:90px;">分管所领导</td>
@@ -86,10 +84,10 @@
             </div>
 
             <div class="modal-footer" style='background-color: #fff;'>
-                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-ok bigger-110"></i> 关闭</button>
+                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
                 
-                <button type="button" class="btn btn-primary" onclick=""> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick=""><i class="icon-undo bigger-110"></i> 打印</button>
+                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+                <button type="button" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
 
 
@@ -97,29 +95,50 @@
     </div><!-- /.row -->
 </div>
 
-
-
-
 <script type="text/javascript">
-    function approve(type) {
-        var remarks = $('#remarks').val();//备注
-        if (remarks == '') {
-            $('#remarks').focus();
+    function approve() {
+        var ctime = $('.ctime').val();
+        var page_number = $('.page_number').val();
+        var projectname = $('.projectname').val();
+        var filenumber = $('.filenumber').val();
+        var subject = $('.subject').val();
+        var rmb_capital = $('.rmb_capital').val();
+        var amount = $('.amount').val();
+        var description = $('.description').val();
+        var declarename = $('.declarename').val();
+        if (ctime == '') {
+            $('.ctime').focus();
             return;
         }
-        var text = '拒绝';
-        if (type == 2) {
-            text = '同意';
-        } else {
-            type = 1;
-        }
-        if (!confirm('您确认 ' + text + ' 该项目？')) {
-            //取消
+        if (page_number == '') {
+            $('.page_number').focus();
             return;
         }
-        var data = {p_id: $('#p_id').val(), remarks: remarks, type: type};
+        if (projectname == '') {
+            $('.projectname').focus();
+            return;
+        }
+      if (filenumber == '') {
+            $('.filenumber').focus();
+            return;
+        }
+        if (subject == '') {
+            $('.subject').focus();
+            return;
+        }
+        if (rmb_capital == '') {
+            $('.rmb_capital').focus();
+            return;
+        }
+        if (amount == '') {
+            $('.amount').focus();
+            return;
+        }
+      
+        var data = {declarename:declarename, ctime: ctime, page_number: page_number, projectname: projectname,filenumber: filenumber,subject: subject,rmb_capital: rmb_capital,amount: amount,description: description};
+        console.log(data);
         $.ajax({
-            url: '/Office/ajax_approve',
+            url: '/researchproject/sub_declares',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -142,7 +161,7 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    $('.close').click();
+                    window.parent.declares_close();
                     window.location.reload();
                     return;
                 }
