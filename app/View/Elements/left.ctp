@@ -120,7 +120,12 @@
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="wait_approval_reimbursement">
+                            <a href="/office/reimbursement">
+                                <i class="icon-double-angle-right"></i>
+                                待我审批报销单
+                            </a>
+                        </li>
                         <li class="my_approval">
                             <a href="#"  class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
