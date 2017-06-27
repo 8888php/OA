@@ -128,10 +128,10 @@
                                 
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-right: 15px;'>
+                                    <table class="table table-striped " style='width:40%;float:left;margin-right: 15px;border:1px solid #ccc;font-size:11px;'>
                                         <thead>
                                             <tr>
-                                                <th colspan="4" class='blue'> 预算 </th>
+                                                <th colspan="4" class='blue' style="text-align:center;"> 预算 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,7 +139,7 @@
                                             foreach($costList as $ysk => $ysv){  ?>
                                             <tr>
                                                 <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
+                                                <td style="text-align:right;"><?php echo $v;  ?></td>
                                                 <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
                                                 <?php   } ?>
                                             </tr>
@@ -147,10 +147,10 @@
                                         </tbody>
                                     </table>
 
-                                    <table class="table table-bordered table-striped" style='width:40%;float:left;margin-left:15px;'>
+                                    <table class="table table-striped" style='width:40%;float:left;margin-left:15px;border:1px solid #ccc;font-size:11px;'>
                                         <thead>
                                             <tr>
-                                                <th colspan='4' class='red'> 预算剩余 </th>
+                                                <th colspan='4' class='red' style="text-align:center;"> 预算剩余 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -158,7 +158,7 @@
                                             foreach($costList as $ysk => $ysv){  ?>
                                             <tr>
                                                 <?php foreach($ysv as $k => $v){ ?>
-                                                <td><?php echo $v;  ?></td>
+                                                <td style="text-align:right;"><?php echo $v;  ?></td>
                                                 <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
                                                 <?php   } ?>
                                             </tr>
