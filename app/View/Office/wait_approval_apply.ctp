@@ -74,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        待审项目信息
+                                        待审费用信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -82,9 +82,12 @@
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>项目名</th>
-                                                    <th>申请日期</th>
-                                                    <th>当前节点</th>
+                                                    <th>申请名</th>
+                                                    <th>申请时间</th>
+                                                    <th>类型</th>
+                                                    <th>申请人</th>
+                                                    <th>附件</th>
+                                                    <th>审核进度</th>
                                                     <th>操作</th>
                                                 </tr>
                                             </thead>
@@ -95,6 +98,9 @@
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
 
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
+                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
+                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
+                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
                                                     <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
                                                     <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project/<?php echo $sv['ResearchProject']['id'];?>');"  > 审核 </a></td>
                                                 </tr>

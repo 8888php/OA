@@ -74,7 +74,7 @@
                                 <div class="col-xs-12">
 
                                     <div class="table-header">
-                                        经审申请信息
+                                        经审费用信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -84,9 +84,10 @@
                                                     <th>ID</th>
                                                     <th>申请名</th>
                                                     <th>申请时间</th>
-                                                    <th>当前节点</th>
-                                                    <th>项目审批备注</th>
-                                                    <th>账务审批备注</th>
+                                                    <th>类型</th>
+                                                    <th>申请人</th>
+                                                    <th>附件</th>
+                                                    <th>审核进度</th>
                                                     <th>操作</th>
                                                 </tr>
                                             </thead>
@@ -99,6 +100,7 @@
                                                     <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
                                                     
                                                     <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
                                                     <td><a href='#'> <?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></a></td>
                                                 </tr>
