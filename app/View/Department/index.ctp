@@ -77,12 +77,6 @@
                                     <table id="sample-table-2" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="center">
-                                                    <label>
-                                                        <input type="checkbox" class="ace" />
-                                                        <span class="lbl"></span>
-                                                    </label>
-                                                </th>
                                                 <th>ID</th>
                                                 <th> 部门名</th>
                                                 <th class="hidden-480">部门简介</th>
@@ -99,12 +93,6 @@
                                         <tbody>
                                             <?php  foreach($depArr as $v){  ?>
                                             <tr>
-                                                <td class="center">
-                                                    <label>
-                                                        <input type="checkbox" class="ace" value="<?php echo $v['dep']['id']; ?>" />
-                                                        <span class="lbl"></span>
-                                                    </label>
-                                                </td>
 
                                                 <td>
                                                     <a href="#"> <?php  echo $v['dep']['id']; ?> </a>
@@ -122,10 +110,6 @@
 
                                                 <td>
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                        <a class="blue" href="#">
-                                                            <i class="icon-zoom-in bigger-130"></i>
-                                                        </a>
-
                                                         <a class="green" data-toggle="modal" href="/department/add/<?php echo $v['dep']['id']; ?>" data-target="#modal">
                                                             <i class="icon-pencil bigger-130"></i>
                                                         </a>
@@ -142,39 +126,6 @@
                                                         <?php  } ?>
                                                     </div>
 
-                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                        <div class="inline position-relative">
-                                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                                <i class="icon-caret-down icon-only bigger-120"></i>
-                                                            </button>
-
-                                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                                <li>
-                                                                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                                        <span class="blue">
-                                                                            <i class="icon-zoom-in bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                                        <span class="green">
-                                                                            <i class="icon-edit bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                                        <span class="red">
-                                                                            <i class="icon-trash bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             </tr>
 

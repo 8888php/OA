@@ -76,12 +76,12 @@
                                     <table id="sample-table-2" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="center">
+                                                <!--th class="center">
                                                     <label>
                                                         <input type="checkbox" class="ace" />
                                                         <span class="lbl"></span>
                                                     </label>
-                                                </th>
+                                                </th-->
                                                 <th>ID</th>
                                                 <th>用户名</th>
                                                 <th class="hidden-480">部门</th>
@@ -91,6 +91,7 @@
                                                 <th class="hidden-480">电话</th>
                                                 <th class="hidden-480">状态</th>
                                                 <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
+                                                <th class="hidden-480"> 审核权 </th>
                                                 <th class="hidden-480"> 删除 </th>
                                                 <th class="hidden-480"> 操作 </th>
                                             </tr>
@@ -99,12 +100,12 @@
                                         <tbody>
                                             <?php  foreach($userArr as $v){  ?>
                                             <tr>
-                                                <td class="center">
+                                                <!--td class="center">
                                                     <label>
                                                         <input type="checkbox" class="ace" value="<?php echo $v['User']['id']; ?>" />
                                                         <span class="lbl"></span>
                                                     </label>
-                                                </td>
+                                                </td-->
 
                                                 <td>
                                                     <a href="#"> <?php  echo $v['User']['id']; ?> </a>
@@ -138,13 +139,14 @@
                                                 <td class="hidden-480"><?php  echo $v['User']['tel']; ?> </td>
                                                 <td><?php  echo $v['User']['status'] == 0 ? '启用':' <span class="label label-sm label-warning">禁用</span>'; ?></td>
                                                 <td><?php  echo date('Y-m-d H:i',$v['User']['ctime']); ?></td>
+                                                 <td><?php  echo $v['User']['can_approval'] == 2 ? '有':'无 '; ?></td>
 
                                                 <td><?php  echo $v['User']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
                                                 <td>
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                        <a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
+                                                        <!--a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
                                                             <i class="icon-zoom-in bigger-130"></i>
-                                                        </a>
+                                                        </a-->
 
                                                         <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
                                                             <i class="icon-pencil bigger-130"></i>
@@ -160,39 +162,6 @@
                                                         <?php } ?>
                                                     </div>
 
-                                                    <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                                        <div class="inline position-relative">
-                                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                                <i class="icon-caret-down icon-only bigger-120"></i>
-                                                            </button>
-
-                                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                                <li>
-                                                                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                                                        <span class="blue">
-                                                                            <i class="icon-zoom-in bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                                        <span class="green">
-                                                                            <i class="icon-edit bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-
-                                                                <li>
-                                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                                                        <span class="red">
-                                                                            <i class="icon-trash bigger-120"></i>
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             </tr>
 

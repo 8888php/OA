@@ -83,6 +83,7 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>项目名</th>
+                                                    <th>类型</th>
                                                     <th>申请日期</th>
                                                     <th>当前节点</th>
                                                     <th>操作</th>
@@ -93,6 +94,7 @@
                                                 <tr>
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
+                                                    <td><?php echo $sv['ResearchProject']['type'] == 1 ? '零余额' : '基本户';  ?></td>
 
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
                                                     <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>

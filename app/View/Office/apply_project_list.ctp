@@ -83,11 +83,11 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>项目名</th>
+                                                    <th>类型</th>
                                                     <th>申请时间</th>
-                                                    <th>当前节点</th>
+                                                    <th>审批进度</th>
                                                     <th>项目审批备注</th>
                                                     <th>账务审批备注</th>
-                                                    <th>操作</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -95,30 +95,13 @@
                                                 <tr>
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
+                                                     <td><?php echo $sv['ResearchProject']['type'] == 1 ? '零余额' : '基本户';  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['code'];  ?></td>
+                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?> </td>
                                                     
                                                     <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
-                                                    <td><a href='#'> <?php 
-                                                            $code = '';
-                                                            switch($sv['ResearchProject']['code'])
-                                                            {
-                                                                case 1:
-                                                                    $code = '行政审核未通过';
-                                                                    break;
-                                                                case 2:
-                                                                    $code = '行审通过';
-                                                                    break;
-                                                                case 3:
-                                                                    $code = '财务审核未通过';
-                                                                    break;
-                                                                case 4:
-                                                                    $code = '财审通过';
-                                                                    break;
-                                                            }
-                                                            echo $code;
-                                                             ?> </a></td>
+                                                   
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

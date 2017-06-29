@@ -54,6 +54,7 @@ class AppController extends Controller {
 
         $this->userInfo = json_decode(base64_decode($this->User->get_session_oa()));
         $this->set('userInfo',$this->userInfo);
+        
         # 部门列表
         $this->appdata['deplist'] = $this->Department->deplist();
         $this->set('deplist',$this->appdata['deplist']);
@@ -70,6 +71,22 @@ class AppController extends Controller {
     public function logout() {
         $this->User->del_session_oa();
         $this->redirect(array('controller' => 'login', 'action' => 'signin'));
+    }
+    
+    
+    
+    /**
+     * 当前用户身份权限
+     */
+    public function is_who(){
+         //判断当前用户是 科研办公室 主任3 4、财务科 科长5 11
+            if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 4) {
+                // 科研办公室 主任
+                return  'keyanzhuren';
+            } else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 11) {
+                // 财务科 科长
+                return 'caiwukezhang';
+            }
     }
 
 
