@@ -138,7 +138,14 @@ class ResearchProjectController extends AppController {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
-
+        $table_name = 'apply_baoxiaohuizong';
+        $type = Configure::read('type_number')[0];//行政费用
+        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type);
+        
+        if ($ret_arr[$this->code] == 1) {
+            $this->ret_arr['msg'] = $ret_arr[$this->msg];
+            exit(json_encode($this->ret_arr));
+        }
         #附表入库
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
@@ -158,11 +165,14 @@ class ResearchProjectController extends AppController {
 
         # 主表入库
         $mainArr = array();
-        $mainArr['type'] = 1;  // ?
+        $mainArr['next_approver_id'] = $ret_arr[$this->res]['next_approver_id'];//下一个审批职务的id
+        $mainArr['code'] = $ret_arr[$this->res]['approve_code'];//当前单子审批的状态码
+        $mainArr['approval_process_id'] = $ret_arr[$this->res]['approval_process_id']; //审批流程id
+        $mainArr['type'] = $type; 
         $mainArr['name'] = $_POST['declarename'];
         $mainArr['project_id'] = $_POST['projectname'];
-        $mainArr['table_name'] = 'apply_baoxiaohuizong';
-        $mainArr['code'] = 0;
+        $mainArr['table_name'] = $table_name;
+        $mainArr['code'] = 0;//未审批
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['attr_id'] = $attrId;
         $mainArr['ctime'] = $_POST['ctime'];

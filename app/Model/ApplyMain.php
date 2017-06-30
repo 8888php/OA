@@ -32,9 +32,8 @@ class ApplyMain extends AppModel {
      */
     public function edit($id, $data) {
         $this->setDataSource('write');
-        $fieldList = array('code','project_leader_id','head_department_id','charge_id','director_id','charge_finance_id','financial_officer_id');
         $this->id = $id;
-        return $this->save($data, true, $fieldList);
+        return $this->save($data);
     }
 
     /**

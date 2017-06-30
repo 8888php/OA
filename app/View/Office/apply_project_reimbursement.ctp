@@ -8,104 +8,13 @@
 
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
-            <div id="faq-tab-1" class="tab-pane fade in active">
-
-                <table class="table table-striped table-bordered table-condensed" >
-                    <tbody>
-                        <tr>
-                            <td>全称</td>
-                            <td><?php echo $pinfos['name'];  ?></td>
-                            <td>简称</td>
-                            <td><?php echo $pinfos['alias'];  ?></td>
-                        </tr>
-                        <tr>
-                            <td>资金性质</td>
-                            <td><?php 
-                                switch($pinfos['type']){
-                                case 1 : echo '零余额';break; 
-                                case 2 : echo '基本户';break; 
-                                }  ?> </td>
-                            <td>金额</td>
-                            <td><?php echo $pinfos['amount'];  ?></td>
-                        </tr>
-                        <tr>
-                            <td>开始日期</td>
-                            <td> <?php echo $pinfos['start_date'];  ?> </td>
-                            <td>结束日期</td>
-                            <td> <?php echo $pinfos['end_date'];  ?> </td>
-                        </tr>
-                        <tr>
-                            <td>任务书</td>
-                            <td colspan="3"> 
-                                <?php 
-                                $filearr = explode('|',$pinfos['filename']);
-                                foreach($filearr as $fv){
-                                echo "<a href='/files/$fv' target='_blank' > $fv </a> <br/>";
-                                }
-                                ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>资金来源</td>
-                            <td colspan="3">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>来源渠道</th>
-                                            <th>文号</th>
-                                            <th>金额</th>
-                                            <th>年度</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php  foreach($source as $sk => $sv){  ?>
-                                        <tr>
-                                            <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
-                                            <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
-                                            <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
-                                            <td><?php echo $sv['ResearchSource']['year'];  ?></td>
-                                        </tr>
-                                        <?php   } ?>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>项目概述</td>
-                            <td colspan='3'> <?php echo $pinfos['overview'];  ?> </td>
-                        </tr>
-                        <tr>
-                            <td>备注</td>
-                            <td colspan='3'> <?php echo $pinfos['remark'];  ?> </td>
-                        </tr>
-                    </tbody>
-
-                    <tbody>
-                        <tr>  <th colspan="4" class='blue' style='text-align: center;font-size:14px;'> 项目预算 </th> </tr>
-
-
-                        <?php  
-                        foreach($costList as $ysk => $ysv){  ?>
-                        <tr>
-                            <?php foreach($ysv as $k => $v){ ?>
-                            <td><?php echo $v;  ?></td>
-                            <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
-                            <?php   } ?>
-                        </tr>
-                        <?php   } ?>
-                    </tbody>
-                </table>
-            </div>
-
             <div class="modal-body">
                 <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>" />
                 <textarea id="remarks" placeholder="审批意见" rows='6' cols='60' ></textarea>
             </div>
             <div class="modal-footer" style='background-color: #fff;'>
-                <button type="button" class="btn btn-primary" onclick="approve(1);"><i class="icon-undo bigger-110"></i> 拒绝</button>
-                <button type="button" class="btn btn-primary" onclick="approve(2);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
             </div>
         </div>
     </div><!-- /.row -->
@@ -117,19 +26,16 @@
 <script type="text/javascript">
     function approve(type) {
         var text = '拒绝';
-        var code = 0;
-        if (type == 2) {
-            code = "<?php echo $main_arr['ApplyMain']['code'] + 2;?>";
+        if (type == 1) {
             text = '同意';
         } else {
-            type =1;
-            code = "<?php echo $main_arr['ApplyMain']['code'] + 1;?>";
+            type =2;
         }
         if (!confirm('您确认 ' + text + ' 该项目？')) {
             //取消
             return;
         }
-        var data = {main_id: $('#main_id').val(), type: type, code:code};
+        var data = {main_id: $('#main_id').val(), type: type};
         $.ajax({
             url: '/Office/ajax_approve_reimbursement',
             type: 'post',

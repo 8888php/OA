@@ -94,33 +94,15 @@
                                             <tbody>
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
-                                                    <td><?php echo $sv['ResearchProject']['id'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['name'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['code'];  ?></td>
-                                                    
-                                                    <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>
-                                                    <td><a href='#'> <?php 
-                                                            $code = '';
-                                                            switch($sv['ResearchProject']['code'])
-                                                            {
-                                                                case 1:
-                                                                    $code = '行政审核未通过';
-                                                                    break;
-                                                                case 2:
-                                                                    $code = '行审通过';
-                                                                    break;
-                                                                case 3:
-                                                                    $code = '财务审核未通过';
-                                                                    break;
-                                                                case 4:
-                                                                    $code = '财审通过';
-                                                                    break;
-                                                            }
-                                                            echo $code;
-                                                             ?> </a></td>
+                                                    <td><?php echo $sv['ApplyMain']['id'];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
+
+                                                    <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
+                                                    <td><?php echo Configure::read('type_value')[$sv['ApplyMain']['type']];  ?></td>
+                                                    <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['attachment'];  ?></td>
+                                                    <td><?php echo Configure::read('new_appprove_code_arr')[$sv['ApplyMain']['code']];  ?></td>
+                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -193,7 +175,7 @@
                                     </script>
                                     
                                     <div class="modal-footer no-margin-top">
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 ); ?>                                        
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->

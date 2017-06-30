@@ -60,7 +60,8 @@
                         <li>
                             <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 待我审批 </li>
+                        <li> <a href="#"> 待我审批 </a> </li>
+                        <li class="active"> 待审申请 </li>
                     </ul><!-- .breadcrumb -->
 
                 </div>
@@ -94,15 +95,15 @@
                                             <tbody>
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
-                                                    <td><?php echo $sv['ResearchProject']['id'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['name'];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['id'];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
 
-                                                    <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
-                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
-                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
-                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
-                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project/<?php echo $sv['ResearchProject']['id'];?>');"  > 审核 </a></td>
+                                                    <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
+                                                    <td><?php echo Configure::read('type_value')[$sv['ApplyMain']['type']];  ?></td>
+                                                    <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['attachment'];  ?></td>
+                                                    <td><?php echo Configure::read('new_appprove_code_arr')[$sv['ApplyMain']['code']];  ?></td>
+                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -111,79 +112,17 @@
                                         </table>
                                     </div>
                                     <!-- /.modal_storage -->
-                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:580px;height:548px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:580px;height:293px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                                         <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
-                                        <iframe  id="myFrame" frameborder="0" style="width:580px;min-height:540px;border-radius:4px; " src="/office/apply_project" > </iframe>
+                                        <iframe  id="myFrame" frameborder="0" style="width:580px;min-height:288px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
                                     </div>      
 
                                
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div>
-                        <script type="text/javascript">
-                            //关闭添加的窗口
-                            function wait_close() {
-                                $('#wait_close').click();
-                            }
-                            //审批
-                            function approve(type) {
-                                alert($('#p_id').val());
-                                var remarks = $('#remarks').val();//备注
-                                if (remarks == '') {
-                                    $('#remarks').focus();
-                                    return;
-                                }
-                                var text = '拒绝';
-                                if (type == 2) {
-                                    text = '同意';
-                                } else {
-                                    type = 1;
-                                }
-                                if (!confirm('您确认 ' + text + ' 该项目？')) {
-                                    //取消
-                                    return;
-                                }
-                                var data = {p_id: $('#p_id').val(), remarks: remarks, type: type};
-                                $.ajax({
-                                    url: '/Office/ajax_approve',
-                                    type: 'post',
-                                    data: data,
-                                    dataType: 'json',
-                                    success: function (res) {
-                                        if (res.code == -1) {
-                                            //登录过期
-                                            window.location.href = '/homes/index';
-                                            return;
-                                        }
-                                        if (res.code == -2) {
-                                            //权限不足
-                                            alert('权限不足');
-                                            return;
-                                        }
-                                        if (res.code == 1) {
-                                            //说明有错误
-                                            alert(res.msg);
-
-                                            return;
-                                        }
-                                        if (res.code == 0) {
-                                            //说明添加或修改成功
-                                            $('.close').click();
-                                            window.location.reload();
-                                            return;
-                                        }
-                                        if (res.code == 2) {
-                                            //失败
-                                            alert(res.msg);
-                                            return;
-                                        }
-                                    }
-                                });
-                            }
-                        </script>
-
                         <div class="modal-footer no-margin-top">
-                            <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
+                            <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval_apply/",5 ); ?>                                        
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -283,87 +222,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 
 <script>
-    function ajax_del(did) {
-        if (!did) {
-            alert('删除失败');
-            return;
-        }
-
-        var data = {did: did};
-        $.ajax({
-            url: '/user/ajax_del',
-            type: 'post',
-            data: data,
-            dataType: 'json',
-            success: function (res) {
-                if (res.code == -1) {
-                    //登录过期
-                    window.location.href = '/homes/index';
-                    return;
-                }
-                if (res.code == -2) {
-                    //权限不足
-                    alert('权限不足');
-                    return;
-                }
-                if (res.code == 1) {
-                    //说明有错误
-                    alert(res.msg);
-                    return;
-                }
-                if (res.code == 0) {
-                    //说明添加或修改成功
-                    location.href = '/user/index';
-                    return;
-                }
-                if (res.code == 2) {
-                    //失败
-                    alert(res.msg);
-                    return;
-                }
-            }
-        });
-    }
-    function ajax_recovery(did) {
-        if (!did) {
-            alert('恢复失败');
-            return;
-        }
-
-        var data = {did: did};
-        $.ajax({
-            url: '/user/ajax_recovery',
-            type: 'post',
-            data: data,
-            dataType: 'json',
-            success: function (res) {
-                if (res.code == -1) {
-                    //登录过期
-                    window.location.href = '/homes/index';
-                    return;
-                }
-                if (res.code == -2) {
-                    //权限不足
-                    alert('权限不足');
-                    return;
-                }
-                if (res.code == 1) {
-                    //说明有错误
-                    alert(res.msg);
-                    return;
-                }
-                if (res.code == 0) {
-                    //说明添加或修改成功
-                    location.href = '/user/index';
-                    return;
-                }
-                if (res.code == 2) {
-                    //失败
-                    alert(res.msg);
-                    return;
-                }
-            }
-        });
+    function wait_close() {
+        $('#wait_close').click();
     }
     $('#modal').on('hidden.bs.modal', function () {
         //关闭模态框时，清除数据，防止下次加雷有，缓存

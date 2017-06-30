@@ -151,6 +151,22 @@ class User extends AppModel {
 
         return $userArr;
     }
-    
+    /**
+     * 获取所有用户的id,name，以id为下标，name为值的一维数组返回
+     * @return array()
+     */
+    public function get_all_user_id_name() {
+        $table_name = 'User';
+        $all_user_arr = array();
+        $sql = "select id,name from t_user {$table_name} where 1";
+        $tmp_arr = $this->query($sql);
+        if (!$tmp_arr) {
+            return $all_user_arr;
+        }
+        foreach ($tmp_arr as $t) {
+            $all_user_arr[$t[$table_name]['id']] = $t[$table_name]['name'];
+        }
+        return $all_user_arr;
+    }
 
 }
