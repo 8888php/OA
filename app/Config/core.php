@@ -401,12 +401,12 @@ Configure::write('keyanlist', array(
     array('elding' => '燃料动力费', 'publish' => '印刷、出版费'),
     array('property_right' => '知识产权事务费', 'office' => '办公费'),
     array('collection' => '数据或样本采集费', 'travel' => '差旅费'),
-    array('meeting' => '会议、会务费' , 'vehicle' => '车辆使用费'),
-    array('international' => '国际合作与交流费' , 'cooperation' => '国内协作费'),
-    array('labour' => '劳务费' , 'consult' => '专家咨询费' ),
-    array('indirect_manage' => '间接费(管理)' , 'indirect_performance' => '间接费(绩效)'),
-    array( 'indirect_other' => '间接费(其他)','other' => '其他费用'),
-    array( 'other2' => '其他费用2' , 'other3' => '其他费用3'),
+    array('meeting' => '会议、会务费', 'vehicle' => '车辆使用费'),
+    array('international' => '国际合作与交流费', 'cooperation' => '国内协作费'),
+    array('labour' => '劳务费', 'consult' => '专家咨询费'),
+    array('indirect_manage' => '间接费(管理)', 'indirect_performance' => '间接费(绩效)'),
+    array('indirect_other' => '间接费(其他)', 'other' => '其他费用'),
+    array('other2' => '其他费用2', 'other3' => '其他费用3'),
 ));
 
 // 行政项目
@@ -471,14 +471,14 @@ Configure::write('code_bxd_arr', array(
 ));
 //审核 类型
 Configure::write('type_number', array(
-    1 ,//行政费用
-    2,//科研费用
+    1, //行政费用
+    2, //科研费用
 ));
 
 //审核 类型
 Configure::write('type_value', array(
-    1 => '行政费用',//行政费用
-    2 => '科研费用',//科研费用
+    1 => '行政费用', //行政费用
+    2 => '科研费用', //科研费用
 ));
 //审批流 表名 => 对应的审批流
 Configure::write('approval_process', array(
@@ -486,18 +486,18 @@ Configure::write('approval_process', array(
 ));
 
 //最新的审核状态码 6月30号,0是未审核，10000 是完全审核成功，其它的同意是此职务id的 2倍，拒绝是此职务id的 2倍减1
-/***
-1   职员
-2   项目负责人
-3	项目组负责人
-4	科室主任
-5	分管副所长
-6	所长
-7	财务
-8	出入库管理员
-9	档案管理员
-10	系统管理员
-11	财务科长
+/* * *
+  1   职员
+  2   项目负责人
+  3	项目组负责人
+  4	科室主任
+  5	分管副所长
+  6	所长
+  7	财务
+  8	出入库管理员
+  9	档案管理员
+  10	系统管理员
+  11	财务科长
  */
 Configure::write('new_appprove_code_arr', array(
     0 => '未审核',
