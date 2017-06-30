@@ -86,7 +86,7 @@ class OfficeController extends AppController {
         //有审批权限
         $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' ");
         $total = $total[0][0]['count'];
-        
+        $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
@@ -95,7 +95,7 @@ class OfficeController extends AppController {
             }
             $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
-        
+        $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -186,7 +186,7 @@ class OfficeController extends AppController {
             //没有审批权限
             $total = 0;
         }
-        $userArr = array();
+        $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
@@ -195,7 +195,7 @@ class OfficeController extends AppController {
             }
             $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where {$type_str} and next_approver_id='$position_id'  and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
-        
+        $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
