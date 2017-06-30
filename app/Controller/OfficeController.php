@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -59,6 +59,20 @@ class OfficeController extends AppController {
      * 我的申请 申请
      */
     public function apply($pages = 1) {
+        $user_id = $this->userInfo->id;        
+//        $type_arr = Configure::read('type_number');
+//        //如果没有配制就是-1
+//        $type_str = " `type`='-1' ";
+//        $type_left_str = '(';
+//        $type_right_str = ')';
+//        $type_center_str = '';
+//        foreach ($type_arr as $t) {
+//            $type_center_str .= "`type`='$t' ||";
+//        }
+//        if (!empty($type_center_str)) {
+//            $type_center_str = rtrim($type_center_str, '||');
+//            $type_str = $type_left_str . $type_center_str . $type_right_str;
+//        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -67,18 +81,19 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        //有审批权限
+        $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' ");
         $total = $total[0][0]['count'];
-        $userArr = array();
+        
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
-
+        
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -123,6 +138,22 @@ class OfficeController extends AppController {
      * 待我审批 申请
      */
     public function wait_approval_apply($pages = 1) {
+        //取出当前用户职务id以及审批权限
+        $position_id = $this->userInfo->position_id;
+        $can_approval = $this->userInfo->can_approval;
+        $type_arr = Configure::read('type_number');
+        //如果没有配制就是-1
+        $type_str = " `type`='-1' ";
+        $type_left_str = '(';
+        $type_right_str = ')';
+        $type_center_str = '';
+        foreach ($type_arr as $t) {
+            $type_center_str .= "`type`='$t' ||";
+        }
+        if (!empty($type_center_str)) {
+            $type_center_str = rtrim($type_center_str, '||');
+            $type_str = $type_left_str . $type_center_str . $type_right_str;
+        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -131,8 +162,14 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where code=0 and del=0');
-        $total = $total[0][0]['count'];
+        if ($can_approval == 2) {
+            //有审批权限
+            $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where {$type_str} and next_approver_id='$position_id' and code%2=0 and code !='$this->succ_code'");
+            $total = $total[0][0]['count'];
+        } else {
+            //没有审批权限
+            $total = 0;
+        }
         $userArr = array();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
@@ -140,9 +177,9 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('code' => 0, 'del' => 0), $limit, $pages);
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where {$type_str} and next_approver_id='$position_id'  and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
-
+        
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -407,42 +444,73 @@ class OfficeController extends AppController {
         if ($this->request->is('ajax')) {
             $main_id = $this->request->data('main_id');
             $remarks = $this->request->data('remarks');
-            $type = $this->request->data('type');
+            $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
-            $code = $this->request->data('code');
-            //$tmp_code 表示之前的code状态，
-            if ($type == 1) {
-                //拒绝
-                $tmp_code = $code -1;
-            } else {
-                $tmp_code = $code -2;
-            }
-            //先到表里查看一下，他之前的状态是否发生变化    $filed是取出应该改到哪个字段里
-        if (!$this->ApplyMain->findByCode($tmp_code) || !($filed = $this->get_reimbursement_code(true))) {
+            
+            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
                 //有可能是不存在，也有可能是已经审批
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '参数有误，请重新再试';
                 echo json_encode($this->ret_arr);
                 exit;
             }
-            //根据user_id获取当前审批所用的字段
-            
-            $save_arr = array(
-                $filed => $approve_id,
-                'code' => $code
-            );
-            if ($this->ApplyMain->edit($main_id, $save_arr)) {
-                //成功
-                $this->ret_arr['code'] = 0;
-                $this->ret_arr['msg'] = '审批成功';
+            //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
+            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
+            $position_id = $this->userInfo->position_id;
+            $can_approval = $this->userInfo->can_approval;
+            //单子下个审批职务id与当前用户职务id不一样，不能审批
+            if ($next_approve_id != $position_id) {
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
                 echo json_encode($this->ret_arr);
                 exit;
-            } else {
-                //失败
-                $this->ret_arr['code'] = 2;
-                $this->ret_arr['msg'] = '审批失败';
-                echo json_encode($this->ret_arr);
             }
+            //没有审批权限
+            if ($can_approval != 2) {
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '您没有审批权限';
+                echo json_encode($this->ret_arr);
+                exit;
+            }
+            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status);
+            
+            if ($ret_arr[$this->code] == 1) {
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = $ret_arr[$this->msg];
+                echo json_encode($this->ret_arr);
+                exit;
+            }
+            //保存主表的数据
+            $save_main = array(
+                'code' => $ret_arr[$this->res]['approve_code'],
+                'next_approver_id' => $ret_arr[$this->res]['next_approver_id']
+            );
+            //保存审批的数据
+            $save_approve = array(
+                'main_id' => $main_id,
+                'approve_id' => $approve_id,
+                'remarks' => !$remarks ? '' : $remarks,
+                'status' => $ret_arr[$this->res]['status']
+            );
+            //开启事务
+            $this->ApplyMain->begin();
+            if ($this->ApplyMain->edit($main_id, $save_main)) {
+                if ($this->ApprovalInformation->add($save_approve)) {
+                    $this->ApplyMain->commit();
+                    //成功
+                    $this->ret_arr['code'] = 0;
+                    $this->ret_arr['msg'] = '审批成功';
+                    echo json_encode($this->ret_arr);
+                    exit;
+                }
+            }
+            $this->ApplyMain->rollback();
+            //失败
+            $this->ret_arr['code'] = 2;
+            $this->ret_arr['msg'] = '审批失败';
+            echo json_encode($this->ret_arr);
+            exit;
+            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';

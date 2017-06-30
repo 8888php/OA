@@ -171,7 +171,7 @@
                                                 <td> <?php echo $d['b']['description']; ?> </td>
                                                 <td><?php echo $d['b']['subject'];  ?></td>
                                                 <td> <?php echo $d['b']['subject'];  ?> </td>
-                                                <td> <?php echo $d['m']['code'];  ?> </td>
+                                                <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
                                                 <td>  </td>
                                             </tr>
                                            <?php }?>
