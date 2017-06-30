@@ -539,7 +539,7 @@ class OfficeController extends AppController {
                 echo json_encode($this->ret_arr);
                 exit;
             }
-            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status);
+            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
             
             if ($ret_arr[$this->code] == 1) {
                 $this->ret_arr['code'] = 1;
