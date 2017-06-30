@@ -511,28 +511,16 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
-<<<<<<< HEAD
+
             
             if (!($main_arr = $this->ApplyMain->findById($main_id))) {
-=======
-            $code = $this->request->data('code');
-            //$tmp_code 表示之前的code状态，
-            if ($type == 1) {
-                //拒绝
-                $tmp_code = $code - 1;
-            } else {
-                $tmp_code = $code - 2;
-            }
-            //先到表里查看一下，他之前的状态是否发生变化    $filed是取出应该改到哪个字段里
-            if (!$this->ApplyMain->findByCode($tmp_code) || !($filed = $this->get_reimbursement_code(true))) {
->>>>>>> 5ec31fb397c5e09d53ce06d80aad4a62d0d6a740
                 //有可能是不存在，也有可能是已经审批
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '参数有误，请重新再试';
                 echo json_encode($this->ret_arr);
                 exit;
             }
-<<<<<<< HEAD
+
             //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
             $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
             $position_id = $this->userInfo->position_id;
@@ -541,18 +529,6 @@ class OfficeController extends AppController {
             if ($next_approve_id != $position_id) {
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
-=======
-            //根据user_id获取当前审批所用的字段
-
-            $save_arr = array(
-                $filed => $approve_id,
-                'code' => $code
-            );
-            if ($this->ApplyMain->edit($main_id, $save_arr)) {
-                //成功
-                $this->ret_arr['code'] = 0;
-                $this->ret_arr['msg'] = '审批成功';
->>>>>>> 5ec31fb397c5e09d53ce06d80aad4a62d0d6a740
                 echo json_encode($this->ret_arr);
                 exit;
             }
