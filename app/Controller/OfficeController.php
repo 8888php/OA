@@ -6,11 +6,13 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
+
     public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation');
+
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
-           
+
     public function index() {
         
     }
@@ -18,9 +20,9 @@ class OfficeController extends AppController {
     /**
      * 起草申请
      */
-    public function draf() { 
-        
-       $this->render();
+    public function draf() {
+
+        $this->render();
     }
 
     /**
@@ -35,7 +37,7 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  user_id=' . $this->userInfo->id);
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -44,7 +46,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ResearchProject->getAll(array('del' => 0, 'user_id' => $this->userInfo->id), $limit, $pages);
         }
 
         $this->set('lists', $lists);
@@ -54,8 +56,8 @@ class OfficeController extends AppController {
         $this->set('all_page', $all_page);
         $this->render();
     }
-    
-     /**
+
+    /**
      * 我的申请 申请
      */
     public function apply($pages = 1) {
@@ -114,7 +116,21 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where code=0 and del=0');
+
+        // 行政审批 还是财务审批
+        $isWho = $this->is_who();
+        if ($isWho == 'keyanzhuren') {
+            $wherestr = ' and code = 0 ';
+            $conditions = array('code' => 0, 'del' => 0);
+        } else if ($isWho == 'caiwukezhang') {
+            $wherestr = ' and code = 2 ';
+            $conditions = array('code ' => 2, 'del' => 0);
+        }else{
+            $wherestr = ' and code = -1 ';
+            $conditions = array( 'code' => '-1', 'del' => 0);
+        }
+
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 ' . $wherestr); 
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -123,7 +139,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('code' => 0, 'del' => 0), $limit, $pages);
+            $lists = $this->ResearchProject->getAll($conditions, $limit, $pages);
         }
 
         $this->set('lists', $lists);
@@ -134,7 +150,7 @@ class OfficeController extends AppController {
         $this->render();
     }
 
-   /**
+    /**
      * 待我审批 申请
      */
     public function wait_approval_apply($pages = 1) {
@@ -188,7 +204,6 @@ class OfficeController extends AppController {
         $this->render();
     }
 
-    
     /**
      * 经我审批 项目
      */
@@ -201,7 +216,18 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        
+         // 行政审批 还是财务审批
+        $isWho = $this->is_who();
+        if ($isWho == 'keyanzhuren') {
+            $wherestr = 'project_approver_id';
+        } else if ($isWho == 'caiwukezhang') {
+            $wherestr = 'financial_approver_id';
+        }else{
+            $wherestr = 'del';
+        }
+ 
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and '.$wherestr. '=' . $this->userInfo->id);
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -210,7 +236,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ResearchProject->getAll(array('del' => 0, $wherestr => $this->userInfo->id), $limit, $pages);
         }
 
         $this->set('lists', $lists);
@@ -221,8 +247,7 @@ class OfficeController extends AppController {
         $this->render();
     }
 
-    
-      /**
+    /**
      * 经我审批 申请
      */
     public function my_approval_apply($pages = 1) {
@@ -253,10 +278,7 @@ class OfficeController extends AppController {
         $this->set('all_page', $all_page);
         $this->render();
     }
-    
-    
-    
-    
+
     /**
      * 系统消息
      */
@@ -274,20 +296,63 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $type = $this->request->data('type');
             $approve_id = $this->userInfo->id;
-            if (!$this->ResearchProject->query('select * from t_research_project where id=' . $pid . ' and code=0 and del=0')) {
+            
+            $isWho = $this->is_who();  // 当前用户身份
+            switch ($isWho){
+                case 'keyanzhuren' :  $codestatus = 0 ; break;
+                case 'caiwukezhang' : $codestatus = 2 ;  break;
+                default :
+                     $codestatus = '-1' ; 
+            }
+            $pinfos = $this->ResearchProject->query('select p.id,u.id,u.user,u.name,u.tel from t_research_project p left join t_user u on p.user_id = u.id  where p.id=' . $pid . ' and p.code='.$codestatus.' and p.del=0');
+            if (!$pinfos) {
                 //有可能是不存在，也有可能是已经审批
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '参数有误，请重新再试';
                 echo json_encode($this->ret_arr);
                 exit;
             }
-            $save_arr = array(
-                'project_approver_remarks' => $remarks,
-                'project_approver_id' => $approve_id,
-                'code' => $type == 1 ? $type : 2
-            );
-            if ($this->ResearchProject->edit($pid, $save_arr)) {
-                //成功
+            $approveStatus = 0;
+
+            //判断当前用户是 科研办公室 主任3 4、财务科 科长5 11
+            if ($isWho == 'keyanzhuren') {
+                // 科研办公室 主任
+                $save_arr = array(
+                    'project_approver_remarks' => $remarks,
+                    'project_approver_id' => $approve_id,
+                    'code' => $type == 2 ? 2 : 1,
+                );
+                $approveStatus = $this->ResearchProject->edit($pid, $save_arr);
+            } else if ($isWho == 'caiwukezhang') {
+                // 财务科 科长
+                $save_arr = array(
+                    'financial_remarks' => $remarks,
+                    'financial_approver_id' => $approve_id,
+                    'code' => $type == 2 ? 4 : 3,
+                );
+                $approveStatus = $this->ResearchProject->edit($pid, $save_arr);
+
+                // 财务科审批通过后  添加申请人为 项目负责人
+                if ($approveStatus) {
+                    $pMember = array(
+                        'user_id' => $pinfos[0]['u']['id'],
+                        'project_id' => $pid,
+                        'user_name' => $pinfos[0]['u']['user'],
+                        'name' => $pinfos[0]['u']['name'],
+                        'tel' => $pinfos[0]['u']['tel'],
+                        'type' => 1,
+                        'ctime' => date('Y-m-d'),
+                    );
+                    $this->ProjectMember->add($pMember);
+                }
+            } else {
+                $this->ret_arr['code'] = 2;
+                $this->ret_arr['msg'] = '无审批权限';
+                exit(json_encode($this->ret_arr));
+            }
+
+            if ($approveStatus) {
+                //成功 
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = '审批成功';
                 echo json_encode($this->ret_arr);
@@ -302,12 +367,10 @@ class OfficeController extends AppController {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
             echo json_encode($this->ret_arr);
-            exit;
         }
+        exit;
     }
 
-    
-    
     /**
      * 审核详情
      */
@@ -315,7 +378,7 @@ class OfficeController extends AppController {
         if (empty($pid)) {
             // header("Location:/homes/index");die;
         }
-        $this->set('costList',Configure::read('keyanlist'));
+        $this->set('costList', Configure::read('keyanlist'));
         $this->set('pid', $pid);
 
         $pinfos = $this->ResearchProject->findById($pid);
@@ -323,7 +386,7 @@ class OfficeController extends AppController {
         $source = $this->ResearchSource->getAll($pid);
 
         $members = $this->ProjectMember->getList($pid);
-        
+
         $cost = $this->ResearchCost->findByProjectId($pid);
         $cost = @$cost['ResearchCost'];
 
@@ -332,10 +395,10 @@ class OfficeController extends AppController {
         $this->set('pinfos', $pinfos);
         $this->set('members', $members);
         $this->set('source', $source);
-        
+
         $this->render();
     }
-    
+
     /**
      * 报销单待审批
      */
@@ -352,7 +415,7 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where `type`='$type' and code='$code'");
+        $total = $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where `type`='$type' and code='$code'");
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -361,9 +424,9 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where `type`='$type' and code='$code' limit ". ($pages -1) . "," . $limit);
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where `type`='$type' and code='$code' limit " . ($pages - 1) . "," . $limit);
         }
-        
+
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -371,16 +434,17 @@ class OfficeController extends AppController {
         $this->set('all_page', $all_page);
         $this->render();
     }
-    
-    /***
+
+    /*     * *
      * 根据当前用户的角色 返回报销单所要审批的code 当$filed为true时，返回要更改的字段
      */
+
     private function get_reimbursement_code($filed = false) {
         //根据当前帐号，返回不同的code
         $position_id = $this->userInfo->position_id;
-        
-        $code = -1;//默认取不到数据
-        $return_filed = 0;//默认错误
+
+        $code = -1; //默认取不到数据
+        $return_filed = 0; //默认错误
         switch ($position_id) {
             case 11;
                 //财务科长
@@ -415,16 +479,16 @@ class OfficeController extends AppController {
             default :
                 break;
         }
-        if (!$filed){
+        if (!$filed) {
             return $code;
         }
         return $return_filed;
-        
     }
+
     /**
      * 报销单审核详情
      */
-    public function apply_project_reimbursement($main_id=0) {
+    public function apply_project_reimbursement($main_id = 0) {
         if (empty($main_id)) {
             // header("Location:/homes/index");die;
         }
@@ -436,6 +500,7 @@ class OfficeController extends AppController {
         $this->set('attr_arr', @$attr_arr);
         $this->render();
     }
+
     /**
      * 报销单审批
      */
@@ -446,14 +511,28 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+<<<<<<< HEAD
             
             if (!($main_arr = $this->ApplyMain->findById($main_id))) {
+=======
+            $code = $this->request->data('code');
+            //$tmp_code 表示之前的code状态，
+            if ($type == 1) {
+                //拒绝
+                $tmp_code = $code - 1;
+            } else {
+                $tmp_code = $code - 2;
+            }
+            //先到表里查看一下，他之前的状态是否发生变化    $filed是取出应该改到哪个字段里
+            if (!$this->ApplyMain->findByCode($tmp_code) || !($filed = $this->get_reimbursement_code(true))) {
+>>>>>>> 5ec31fb397c5e09d53ce06d80aad4a62d0d6a740
                 //有可能是不存在，也有可能是已经审批
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '参数有误，请重新再试';
                 echo json_encode($this->ret_arr);
                 exit;
             }
+<<<<<<< HEAD
             //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
             $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
             $position_id = $this->userInfo->position_id;
@@ -462,6 +541,18 @@ class OfficeController extends AppController {
             if ($next_approve_id != $position_id) {
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
+=======
+            //根据user_id获取当前审批所用的字段
+
+            $save_arr = array(
+                $filed => $approve_id,
+                'code' => $code
+            );
+            if ($this->ApplyMain->edit($main_id, $save_arr)) {
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+>>>>>>> 5ec31fb397c5e09d53ce06d80aad4a62d0d6a740
                 echo json_encode($this->ret_arr);
                 exit;
             }
@@ -518,4 +609,5 @@ class OfficeController extends AppController {
             exit;
         }
     }
+
 }

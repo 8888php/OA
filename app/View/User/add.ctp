@@ -105,9 +105,22 @@
                             </span>
                         </div>
                     </div>
+                    
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-1">有无审核权</label>
+                        <div class="col-sm-9">
+                            <select style="float: left;" name="approval" class="approval" id="form-field-1">         
+                                <option value="1" <?php echo @$user['can_approval'] == 1 ? 'selected' : '';?> >无</option>
+                                <option value="2" <?php echo @$user['can_approval'] == 2 ? 'selected' : '';?> >有</option>
+                            </select>
+                            <span class="help-inline col-xs-12 col-sm-7">
+                                <span class="middle"></span>
+                            </span>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1">状态</label>
-
                         <div class="col-sm-9">
                             <select style="float: left;" name="status" class="status" id="form-field-1">         
                                 <option value="0" <?php echo @$user['status'] == 0 ? 'selected' : '';?> >启用</option>
@@ -128,11 +141,13 @@
                                 <i class="icon-ok bigger-110"></i>
                                 <?php echo !empty($user) ? '修改':'添加';?>
                             </button>
-                            &nbsp; &nbsp; &nbsp;
+                             &nbsp; &nbsp; &nbsp;
+                            <?php  if(!isset($user)){  ?>
                             <button class="btn" type="reset">
                                 <i class="icon-undo bigger-110"></i>
                                 重置
                             </button>
+                            <?php } ?>
                         </div>
                     </div>
 
@@ -155,6 +170,7 @@
             var tel = $('.tel').val();
             var sex = $('.sex option:selected').val();
             var email = $('.email').val();
+            var approval = $('.approval option:selected').val();
             var status = $('.status option:selected').val();
            
             if (!username) {
@@ -180,7 +196,7 @@
                 show_error($('.position'), '职务未选择');
                 return;
             }
-            var data = {user_id: user_id, username: username, password: password, name: name, pid: pid, position: position, tel: tel, sex: sex, email: email, status: status};
+            var data = {user_id: user_id, username: username, password: password, name: name, pid: pid, position: position, tel: tel, sex: sex, email: email,approval:approval, status: status};
             $.ajax({
                 url: '/user/ajax_edit',
                 type: 'post',

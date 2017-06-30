@@ -131,6 +131,7 @@ class UserController extends AppController {
             $tel = $this->request->data('tel');
             $sex = $this->request->data('sex');
             $email = $this->request->data('email');
+            $approval = $this->request->data('approval');
             $status = $this->request->data('status');
             $save_arr = array(
                 'user' => $user,
@@ -141,7 +142,8 @@ class UserController extends AppController {
                 'tel' => $tel ? $tel : '',
                 'sex' => $sex ? (in_array($sex, array(1, 2)) ? $sex : 1) : 1,
                 'email' => $email ? $email : '',
-                'status' => $status ? (in_array($status, array(0, 1)) ? $status : 1) : 1,
+                'can_approval' => $approval,
+                'status' => in_array($status, array(0, 1)) ? $status : 1,
                 'ctime' => time(),
             );
             if (empty($user)) {

@@ -175,7 +175,7 @@
                                     </script>
                                     
                                     <div class="modal-footer no-margin-top">
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 ); ?>                                        
                                     </div>
                                 </div>
                             </div><!-- /.modal-content -->
