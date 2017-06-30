@@ -396,32 +396,34 @@ Cache::config('_cake_model_', array(
 
 // 科研项目
 Configure::write('keyanlist', array(
-    array('data_fee' => '资料费', 'facility1' => '设备费1'),
-    array('facility2' => '设备费2', 'facility3' => '设备费3'),
-    array('material1' => '材料费1', 'material2' => '材料费2'),
-    array('material3' => '材料费3', 'material4' => '材料费4'),
-    array('assay' => '测试化验费', 'elding' => '燃料动力费'),
-    array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
-    array('travel' => '差旅费', 'meeting' => '会议、会务费'),
-    array('cooperation' => '国内协作费', 'labour' => '劳务费'),
-    array('consult' => '专家咨询费', 'other' => '其他费用'),
-    array('indirect' => '间接费', 'train' => '培训费'),
-    array('vehicle' => '车辆使用费', 'collection' => '采集费'),
+    array('data_fee' => '资料费', 'facility' => '设备费'),
+    array('material' => '材料费', 'assay' => '测试化验加工费'),
+    array('elding' => '燃料动力费', 'publish' => '印刷、出版费'),
+    array('property_right' => '知识产权事务费', 'office' => '办公费'),
+    array('collection' => '数据或样本采集费', 'travel' => '差旅费'),
+    array('meeting' => '会议、会务费' , 'vehicle' => '车辆使用费'),
+    array('international' => '国际合作与交流费' , 'cooperation' => '国内协作费'),
+    array('labour' => '劳务费' , 'consult' => '专家咨询费' ),
+    array('indirect_manage' => '间接费(管理)' , 'indirect_performance' => '间接费(绩效)'),
+    array( 'indirect_other' => '间接费(其他)','other' => '其他费用'),
+    array( 'other2' => '其他费用2' , 'other3' => '其他费用3'),
 ));
 
 // 行政项目
 Configure::write('xizhenglist', array(
-    array('data_fee' => '资料费', 'facility1' => '设备费1'),
-    array('facility2' => '设备费2', 'facility3' => '设备费3'),
-    array('material1' => '材料费1', 'material2' => '材料费2'),
-    array('material3' => '材料费3', 'material4' => '材料费4'),
-    array('assay' => '测试化验费', 'elding' => '燃料动力费'),
-    array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
-    array('travel' => '差旅费', 'meeting' => '会议、会务费'),
-    array('cooperation' => '国内协作费', 'labour' => '劳务费'),
-    array('consult' => '专家咨询费', 'other' => '其他费用'),
-    array('indirect' => '间接费', 'train' => '培训费'),
-    array('vehicle' => '车辆使用费', 'collection' => '采集费'),
+    array('office' => '办公费', 'printing' => '印刷费'),
+    array('consulting' => '咨询费', 'poundage' => '手续费'),
+    array('water_rent' => '水费', 'power_rate' => '电费'),
+    array('post_telephone' => '邮电费', 'heating' => '取暖费'),
+    array('property' => '物业管理费', 'travel' => '差旅费'),
+    array('go_abroad' => '因公出国（境）费', 'maintenance' => '维修（护）费'),
+    array('meeting' => '会议费', 'training' => '培训费'),
+    array('reception' => '公务接待费', 'material' => '专用材料费'),
+    array('fuel' => '专用燃料费', 'labour' => '劳务费'),
+    array('entrust' => '委托业务费', 'labour_union' => '工会经费'),
+    array('welfare' => '福利费', 'traffic' => '其他交通费用'),
+    array('tax' => '税金及附加费用', 'service_fee' => '其他商品和服务支出'),
+    array('other1' => '其他费用1', 'other2' => '其他费用2'),
 ));
 
 
