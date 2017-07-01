@@ -48,7 +48,10 @@
                             <td> <input type='text' name='remark' id="remark<?php echo $pv['ProjectMember']['id'];?>" style='width:50px;height:28px;line-height: 28px;' value="<?php echo $pv['ProjectMember']['remark'];?>" /> </td>
                             <td> <i class="glyphicon glyphicon-edit blue" title='修改' onclick="mem_edit(<?php echo $pv['ProjectMember']['id'];?>, 'edit')"></i>
                                 &nbsp;&nbsp;
-                                <i class="glyphicon glyphicon-trash red" title='删除' onclick="mem_edit(<?php echo $pv['ProjectMember']['id'];?>, 'del')" ></i> </td>
+                                <?php if($pv['ProjectMember']['type'] != 1){ ?>
+                                <i class="glyphicon glyphicon-trash red" title='删除' onclick="mem_edit(<?php echo $pv['ProjectMember']['id'];?>, 'del')" ></i> 
+                                <?php } ?>
+                                </td>
                         </tr>
                         <?php } ?>
 

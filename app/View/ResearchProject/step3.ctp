@@ -20,7 +20,7 @@
                     <?php } ?>
                     <li class="input-group">
                         <label class="input-group-addon" for="form-field-1" style="width:108px;"> 合计 </label >
-                        <input type="text" id="form-field-1 " class=" total" value='0.00' />
+                        <input type="text" id="form-field-t" class="total" placeholder='0.00' />
                     </li>
                 </ul>     
                 <div class="form-group" style="margin:10px auto;width:500px;">
