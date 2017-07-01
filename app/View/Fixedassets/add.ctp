@@ -93,7 +93,7 @@
 
                 <div class="clearfix " style="text-align: center;">
                     <div class=" col-md-9">
-                        <button class="btn btn-primary" type="button" onclick='close_window();' >
+                        <button class="btn btn-primary" type="button" onclick='window.parent.fixed_close();' >
                             <i class="icon-undo bigger-110"></i>
                             取消
                         </button>

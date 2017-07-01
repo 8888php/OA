@@ -139,7 +139,8 @@ class ResearchProjectController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_baoxiaohuizong';
-        $type = Configure::read('type_number')[0];//行政费用
+        $type = Configure::read('type_number');//行政费用
+        $type = $type[0];
         $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type);
         
         if ($ret_arr[$this->code] == 1) {
@@ -351,20 +352,7 @@ class ResearchProjectController extends AppController {
         $savefiles = $this->request->data('file_upload');
         $this->Cookie->write('research_file' . $this->userInfo->id, CookieEncode($savefiles), false, '7 day');
 
-        $list = array(
-            array('data_fee' => '资料费', 'facility1' => '设备费1'),
-            array('facility2' => '设备费2', 'facility3' => '设备费3'),
-            array('material1' => '材料费1', 'material2' => '材料费2'),
-            array('material3' => '材料费3', 'material4' => '材料费4'),
-            array('assay' => '测试化验费', 'elding' => '燃料动力费'),
-            array('publish' => '印刷、出版费', 'property_right' => '知识产权费'),
-            array('travel' => '差旅费', 'meeting' => '会议、会务费'),
-            array('cooperation' => '国内协作费', 'labour' => '劳务费'),
-            array('consult' => '专家咨询费', 'other' => '其他费用'),
-            array('indirect' => '间接费', 'train' => '培训费'),
-            array('vehicle' => '车辆使用费', 'collection' => '采集费'),
-        );
-        $this->set('list', $list);
+        $this->set('list', Configure::read('keyanlist'));
 
         $this->render();
     }
@@ -385,27 +373,28 @@ class ResearchProjectController extends AppController {
         $saveArr = array();
         if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
             !empty($_POST['data_fee']) && $saveArr['data_fee'] = $_POST['data_fee'];
-            !empty($_POST['facility1']) && $saveArr['facility1'] = $_POST['facility1'];
-            !empty($_POST['facility2']) && $saveArr['facility2'] = $_POST['facility2'];
-            !empty($_POST['facility3']) && $saveArr['facility3'] = $_POST['facility3'];
-            !empty($_POST['material1']) && $saveArr['material1'] = $_POST['material1'];
-            !empty($_POST['material2']) && $saveArr['material2'] = $_POST['material2'];
-            !empty($_POST['material3']) && $saveArr['material3'] = $_POST['material3'];
-            !empty($_POST['material4']) && $saveArr['material4'] = $_POST['material4'];
+            !empty($_POST['collection']) && $saveArr['collection'] = $_POST['collection'];
+            !empty($_POST['facility']) && $saveArr['facility'] = $_POST['facility'];
+            !empty($_POST['material']) && $saveArr['material'] = $_POST['material'];
             !empty($_POST['assay']) && $saveArr['assay'] = $_POST['assay'];
             !empty($_POST['elding']) && $saveArr['elding'] = $_POST['elding'];
             !empty($_POST['publish']) && $saveArr['publish'] = $_POST['publish'];
             !empty($_POST['property_right']) && $saveArr['property_right'] = $_POST['property_right'];
+            !empty($_POST['office']) && $saveArr['office'] = $_POST['office'];
+            !empty($_POST['vehicle']) && $saveArr['vehicle'] = $_POST['vehicle'];
             !empty($_POST['travel']) && $saveArr['travel'] = $_POST['travel'];
             !empty($_POST['meeting']) && $saveArr['meeting'] = $_POST['meeting'];
+            !empty($_POST['travel']) && $saveArr['travel'] = $_POST['travel'];
+            !empty($_POST['international']) && $saveArr['international'] = $_POST['international'];
             !empty($_POST['cooperation']) && $saveArr['cooperation'] = $_POST['cooperation'];
             !empty($_POST['labour']) && $saveArr['labour'] = $_POST['labour'];
             !empty($_POST['consult']) && $saveArr['consult'] = $_POST['consult'];
+            !empty($_POST['indirect_manage']) && $saveArr['indirect_manage'] = $_POST['indirect_manage'];
+            !empty($_POST['indirect_performance']) && $saveArr['indirect_performance'] = $_POST['indirect_performance'];
+            !empty($_POST['indirect_other']) && $saveArr['indirect_other'] = $_POST['indirect_other'];
             !empty($_POST['other']) && $saveArr['other'] = $_POST['other'];
-            !empty($_POST['indirect']) && $saveArr['indirect'] = $_POST['indirect'];
-            !empty($_POST['train']) && $saveArr['train'] = $_POST['train'];
-            !empty($_POST['vehicle']) && $saveArr['vehicle'] = $_POST['vehicle'];
-            !empty($_POST['collection']) && $saveArr['collection'] = $_POST['collection'];
+            !empty($_POST['other2']) && $saveArr['other2'] = $_POST['other2'];
+            !empty($_POST['other3']) && $saveArr['other3'] = $_POST['other3'];
 
             $saveArr['total'] = array_sum($saveArr);  // 总额
             !empty($_POST['remarks']) && $saveArr['remarks'] = $_POST['remarks'];

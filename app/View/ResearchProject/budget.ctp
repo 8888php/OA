@@ -128,7 +128,7 @@
                                 
 
                                 <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-striped " style='width:40%;float:left;margin-right: 15px;border:1px solid #ccc;font-size:11px;'>
+                                    <table class="table table-striped " style='width:42%;float:left;margin-right: 10px;border:1px solid #ccc;font-size:11px;'>
                                         <thead>
                                             <tr>
                                                 <th colspan="4" class='blue' style="text-align:center;"> 预算 </th>

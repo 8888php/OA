@@ -1,7 +1,7 @@
 <?php echo $this->element('head_frame'); ?>
   <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:600px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
 
 <style>
 .table tr, .table td{border:1px solid #000;}
@@ -29,35 +29,35 @@
                                     </script>
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:60px;height:25px;'/>  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:100px;height:25px;'/>  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                <select style="width:235px;height:25px;" name="projectname" class="projectname"  >     
+                                <select style="width:335px;height:25px;" name="projectname" class="projectname"  >     
                             <option value="<?php  echo $projectInfo['id'];?>"><?php  echo $projectInfo['name'];?></option>
                         </select>
-                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
+                                    <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
                             <?php  foreach($source as $qd){?>
-                            <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo $qd['ResearchSource']['file_number'];?></option>
+                            <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
                             <?php }?>
                         </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>科目</td>
-                                <td colspan='6'> <input type="text" name='subject' class="subject" style='width:380px;height:25px;'/>  </td>
+                                <td colspan='6'> <input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>  </td>
                             </tr>
                             <tr>
                                 <td>金额</td>
                                 <td>人民币大写</td>
-                                <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:150px;height:25px;'/>   </td>
+                                <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:190px;height:25px;'/>   </td>
                                 <td>￥</td>
-                                <td colspan='2'> <input type="text" name='amount' class="amount"   style='width:100px;height:25px;'/>   </td>
+                                <td colspan='2'> <input type="text" name='amount' class="amount"   style='width:200px;height:25px;'/>   </td>
                             </tr>
                             <tr>
                                 <td>报销人<br/>简要说明</td>
-                                <td colspan='6'> <textarea  name="description" class="description"  style="width:430px;" ></textarea>
+                                <td colspan='6'> <textarea  name="description" class="description"  style="width:600px;" ></textarea>
                                 </td>
                             </tr>
                             <tr>
