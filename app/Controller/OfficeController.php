@@ -158,6 +158,7 @@ class OfficeController extends AppController {
         $position_id = $this->userInfo->position_id;
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
+        $user_department_id = $this->userInfo->department_id;
         //如果没有配制就是-1
         $type_str = " `type`='-1' ";
         $type_left_str = '(';
@@ -178,9 +179,15 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
+        //在这里得加上部门的验证，如果是特殊职务，如所长，账务科长不验证部门
+        $department_str = "department_id ='$user_department_id' ";//默认找不到部门
         if ($can_approval == 2) {
+            if (in_array($position_id, $this->not_department_arr)) {
+                //所长，账务科长不验证部门
+                $department_str = ' 1 ';
+            }
             //有审批权限
-            $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where {$type_str} and next_approver_id='$position_id' and code%2=0 and code !='$this->succ_code'");
+            $total =  $this->ApplyMain->query($sql ="select count(*) count from t_apply_main ApplyMain where {$department_str} and {$type_str} and next_approver_id='$position_id' and code%2=0 and code !='$this->succ_code'"); 
             $total = $total[0][0]['count'];
         } else {
             //没有审批权限
@@ -193,7 +200,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where {$type_str} and next_approver_id='$position_id'  and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit");
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where {$department_str} and {$type_str} and next_approver_id='$position_id'  and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
@@ -251,6 +258,24 @@ class OfficeController extends AppController {
      * 经我审批 申请
      */
     public function my_approval_apply($pages = 1) {
+        //取出当前用户职务id以及审批权限
+        $user_id = $this->userInfo->id;
+        $position_id = $this->userInfo->position_id;
+        $can_approval = $this->userInfo->can_approval;
+        $type_arr = Configure::read('type_number');
+        $user_department_id = $this->userInfo->department_id;
+        //如果没有配制就是-1
+        $type_str = " `type`='-1' ";
+        $type_left_str = '(';
+        $type_right_str = ')';
+        $type_center_str = '';
+        foreach ($type_arr as $t) {
+            $type_center_str .= "`type`='$t' ||";
+        }
+        if (!empty($type_center_str)) {
+            $type_center_str = rtrim($type_center_str, '||');
+            $type_str = $type_left_str . $type_center_str . $type_right_str;
+        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -259,18 +284,19 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and  project_approver_id=' . $this->userInfo->id);
+        
+        $total =  $this->ApplyMain->query($sql ="select count(*) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' "); 
         $total = $total[0][0]['count'];
-        $userArr = array();
+        $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
             //如果大于最大页数，就让他等于最大页
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, 'project_approver_id' => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id'");
         }
-
+        $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
@@ -539,7 +565,7 @@ class OfficeController extends AppController {
                 echo json_encode($this->ret_arr);
                 exit;
             }
-            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status);
+            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
             
             if ($ret_arr[$this->code] == 1) {
                 $this->ret_arr['code'] = 1;

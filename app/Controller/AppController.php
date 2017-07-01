@@ -39,6 +39,11 @@ class AppController extends Controller {
     public $msg = 'msg';//返回信息
     public $res = 'res';//返回数据
     public $succ_code = '10000';//审批成功的状态
+    //定义不用部门的职务id,如所长，账务科长
+    public $not_department_arr = array(
+        6,//所长
+        11,//账务科长
+    );
     public function beforeFilter() {
         parent::beforeFilter();
 
@@ -94,10 +99,10 @@ class AppController extends Controller {
 
     /**
      * 创建表时 根据表名获取审批流，信息
-     * @param type $table_name 表名 $type 费用类型
+     * @param type $table_name 表名 $type 费用类型 $department_id 部门id
      * @return array();
      */
-    public function get_create_approval_process_by_table_name($table_name, $type) {
+    public function get_create_approval_process_by_table_name($table_name, $type, $department_id) {
         //code = 0;正常，1异常 msg正常或者错误信息，res返回数据
         $ret_arr = array(
             $this->code => 0,
@@ -126,6 +131,9 @@ class AppController extends Controller {
         $user_id = $this->userInfo->id;
         $position_id = $this->userInfo->position_id;
         $can_approval = $this->userInfo->can_approval;//是否有审批权限 1,无审批权限，2是有
+        $user_department_id = $this->userInfo->department_id;//用户的部门id
+        //创建的时间，自己的部门id,就是单子的部门id 所以说，创建时先不用做处理
+        
         //下一位审批人的职务id
         $next_approve_id = $approve_ids_arr[0];
         $approve_code = 0;//第一次
@@ -154,10 +162,10 @@ class AppController extends Controller {
     
      /**
      * 审批时 根据表名获取审批流，信息
-     * @param type $table_name 表名  $type 费用类型  $is_approve 1同意 2拒绝
+     * @param type $table_name 表名  $type 费用类型  $is_approve 1同意 2拒绝 $department_id单子的部门id
      * @return array();
      */
-    public function get_apporve_approval_process_by_table_name($table_name, $type, $is_approve) {
+    public function get_apporve_approval_process_by_table_name($table_name, $type, $is_approve, $department_id) {
         //code = 0;正常，1异常 msg正常或者错误信息，res返回数据
         $ret_arr = array(
             $this->code => 0,
@@ -185,6 +193,18 @@ class AppController extends Controller {
         $user_id = $this->userInfo->id;
         $position_id = $this->userInfo->position_id;
         $can_approval = $this->userInfo->can_approval;//是否有审批权限 1,无审批权限，2是有
+        $user_department_id = $this->userInfo->department_id;//用户部门id
+        //判断审批人的部门与单子的部门是否一样，不一样返回错误，但是除去像所长，账务科长的特殊职务
+        if (!in_array($position_id, $this->not_department_arr)) {
+            //不是特殊职务
+            if ($department_id != $user_department_id) {
+                //用户的职务与单子的职务不一样，不能审批
+                $ret_arr[$this->code] = 1;
+                $ret_arr[$this->msg] = '您不能审批其它部门的审批单';
+                return $ret_arr;
+            }
+        } 
+        
         $approve_ids_arr = explode(',', $approve_ids);
         if (($index = array_search($position_id, $approve_ids_arr)) === false) {
             //如果不存在，那么说明审批流发生变化

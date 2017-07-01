@@ -65,7 +65,7 @@ class User extends AppModel {
             //密码不对
             return -3;
         }
-        if ($user_arr[$this->name]['del'] == $this->is_del) {
+        if ($user_arr[$this->name]['del'] == $this->is_del || $user_arr[$this->name]['status'] == $this->is_del) {
             //已删除
             return -3;
         }
