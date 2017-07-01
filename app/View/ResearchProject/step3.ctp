@@ -14,7 +14,7 @@
                     <li class="input-group">
                         <?php  foreach($lv as $k => $v){ ?>
                         <label class="input-group-addon " for="form-field-1" style="width:108px;"> <?php echo $v; ?> </label > 
-                        <input type="text" id="form-field-1" class="<?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
+                        <input type="text"  class="<?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
                         <?php } ?>  
                     </li>  
                     <?php } ?>
@@ -54,6 +54,7 @@
     function upstep() {
         $('#closemodel').click();
     }
+
     //提交内容
     var click_flag = true;//是否可以点击
     function ajax_submit() {
@@ -62,27 +63,27 @@
         }
         var data_json = {};
         data_json.data_fee = $('.data_fee').val();
-        data_json.facility1 = $('.facility1').val();
-        data_json.facility2 = $('.facility2').val();
-        data_json.facility3 = $('.facility3').val();
-        data_json.material1 = $('.material1').val();
-        data_json.material2 = $('.material2').val();
-        data_json.material3 = $('.material3').val();
-        data_json.material4 = $('.material4').val();
+        data_json.collection = $('.collection').val();
+        data_json.facility = $('.facility').val();
+        data_json.material = $('.material').val();
         data_json.assay = $('.assay').val();
         data_json.elding = $('.elding').val();
         data_json.publish = $('.publish').val();
         data_json.property_right = $('.property_right').val();
+        data_json.office = $('.office').val();
+        data_json.vehicle = $('.vehicle').val();
         data_json.travel = $('.travel').val();
         data_json.meeting = $('.meeting').val();
+        data_json.international = $('.international').val();
         data_json.cooperation = $('.cooperation').val();
         data_json.labour = $('.labour').val();
         data_json.consult = $('.consult').val();
+        data_json.indirect_manage = $('.indirect_manage').val();
+        data_json.indirect_performance = $('.indirect_performance').val();
+        data_json.indirect_other = $('.indirect_other').val();
         data_json.other = $('.other').val();
-        data_json.indirect = $('.indirect').val();
-        data_json.train = $('.train').val();
-        data_json.vehicle = $('.vehicle').val();
-        data_json.collection = $('.collection').val();
+        data_json.other2 = $('.other2').val();
+        data_json.other3 = $('.other3').val();
         data_json.total = $('.total').val();
         data_json.remarks = $('.remarks').val();
         data_json.upstep = 'step3';
