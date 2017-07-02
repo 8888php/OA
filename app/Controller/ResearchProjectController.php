@@ -140,7 +140,8 @@ class ResearchProjectController extends AppController {
         }
         $table_name = 'apply_baoxiaohuizong';
 
-        $type = Configure::read('type_number')[0];//行政费用
+        $type = Configure::read('type_number');//行政费用
+        $type = $type[0];
         $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 
         if ($ret_arr[$this->code] == 1) {

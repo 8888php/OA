@@ -113,7 +113,7 @@
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? $depMember[$depInfo['Department']['user_id']]['User']['name'] : '无'; ?> </b>
+                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? (isset($depMember[$depInfo['Department']['user_id']]['User']['name']) ? $depMember[$depInfo['Department']['user_id']]['User']['name'] :'') : '无'; ?> </b>
                                                             </li>
 
                                                             <li class="divider"></li>
@@ -185,9 +185,9 @@
                                                     <div id="faq-tab-2" class="tab-pane fade  ">
                                                         <table class="table table-striped" style='width:80%;float:left;margin-left:15px;border:1px solid #ccc;font-size:11px;'>
                                                             <thead>
-                                                                <tr>
+                                                                <!--tr>
                                                                     <th colspan='4' class='red' style="text-align:center;"> 预算剩余 </th>
-                                                                </tr>
+                                                                </tr-->
                                                             </thead>
                                                             <tbody>
                                                                 <?php  
