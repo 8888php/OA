@@ -53,9 +53,9 @@ class RequestNoteController extends AppController {
         }else{
         //当前用户所属项目
         $conditions = array('user_id'=>$this->userInfo->id);
-        $projectArr = $this->Department->getlist($conditions);
-
-        $this->set('projectArr', $projectArr[1]);
+        $projectArr = $this->ResearchProject->getlist($conditions);
+        
+        $this->set('projectArr', $projectArr);
         $this->set('list', Configure::read('keyanlist'));
         
         $this->render();

@@ -63,15 +63,27 @@ class ResearchProjectController extends AppController {
      */
     public function budget($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+              header("Location:/homes/index");die;
         }
         $this->set('costList', Configure::read('keyanlist'));
         $this->set('pid', $pid);
 
         $cost = $this->ResearchCost->findByProjectId($pid);
         $cost = @$cost['ResearchCost'];
-
+        
+        $minus = array();
+        if(!empty($cost)){
+            $overplus = $this->ApplyMain->getSubject($pid);
+            foreach($overplus as $k => $v){
+                $units = json_decode($v,true);
+                foreach($units as $uk => $uv){
+                   !isset($minus[$uk]) && $minus[$uk] = 0;
+                   $minus[$uk]  += $uv;
+                }
+            }
+        }
         $this->set('cost', $cost);
+        $this->set('minus',$minus);
         $this->render();
     }
 
@@ -203,10 +215,9 @@ class ResearchProjectController extends AppController {
      */
     public function report_form($pid = 0) {
         if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+             header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
-
 
         $this->render();
     }
@@ -221,8 +232,7 @@ class ResearchProjectController extends AppController {
         $this->set('pid', $pid);
         
         $sourcelist = $this->ResearchSource->getAll($pid);
-
-
+        
         $this->render();
     }
 

@@ -50,10 +50,15 @@ class ApplyMain extends AppModel {
 
     public function getList($pid) {
         $fields = array();
-        return $this->find('all', array('conditions' => array('project_id' => $pid, 'del' => 0), 'fields' => $fields));
+        return $this->find('all', array('conditions' => array('project_id' => $pid, 'code' => 14), 'fields' => $fields));
     }
     
+    # 获取项目全部 费用信息
 
+    public function getSubject($pid) {
+        $fields = array('id','subject');
+        return $this->find('list', array('conditions' => array('project_id' => $pid,'code'=>14), 'fields' => $fields));
+    }
 
 
 }

@@ -34,9 +34,9 @@
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                    <select style="width:335px;height:25px;" name="projectname" class="projectname" onchange='getsources(this.value);' id='projectsources' >     <?php foreach(@$projectArr as $pk => $pv){ ?>
-                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
-                                        <?php } ?>
+                                    <select style="width:335px;height:25px;" name="projectname" class="projectname" onchange='getsources(this.value);' id='projectsources' >     <?php foreach(@$projectArr as $pk => $pv){  ?>
+                                        <option value="<?php  echo $pk;?>"  >  <?php  echo $pv;?> </option>
+                                        <?php   } ?>
                                     </select>
                                     <select style="width:255px;height:25px;" name="filenumber" class="filenumber" id='sourcess' >
                                         <?php  foreach($source as $qd){?>
@@ -147,7 +147,10 @@
             $('#sourcess').html(option_strr);
         }
     }
-getsources($('#projectsources option:selected').val());
+
+    if ($('#projectsources option:selected').val() != '') {
+        getsources($('#projectsources option:selected').val());
+    }
 
     function approve() {
         var ctime = $('.ctime').val();

@@ -159,7 +159,7 @@
                                             <tr>
                                                 <?php foreach($ysv as $k => $v){ ?>
                                                 <td style="text-align:right;"><?php echo $v;  ?></td>
-                                                <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
+                                                <td><?php echo $cost[$k] ? (isset($minus[$k]) ? $cost[$k] - $minus[$k] : $cost[$k] ) : '0.00';  ?></td>
                                                 <?php   } ?>
                                             </tr>
                                             <?php   } ?>
