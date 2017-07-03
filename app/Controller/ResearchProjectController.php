@@ -119,7 +119,8 @@ class ResearchProjectController extends AppController {
 
         $projectInfo = $this->ResearchProject->findById($pid);
         $source = $this->ResearchSource->getAll($pid);
-
+        
+        $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('projectInfo', $projectInfo['ResearchProject']);
         $this->set('source', $source);
         $this->render();
@@ -154,12 +155,12 @@ class ResearchProjectController extends AppController {
         $attrArr['department_id'] = $_POST['page_number'];
         $attrArr['department_name'] = $_POST['page_number'];
         $attrArr['project_id'] = $_POST['projectname'];
-        $attrArr['subject'] = $_POST['subject'];
+        $attrArr['subject'] = json_encode($_POST['subject']);
         $attrArr['rmb_capital'] = $_POST['rmb_capital'];
         $attrArr['amount'] = $_POST['amount'];
         $attrArr['description'] = $_POST['description'];
         $attrArr['user_id'] = $this->userInfo->id;
-
+                
         # 开始入库
         $this->ApplyBaoxiaohuizong->begin();
         $attrId = $this->ApplyBaoxiaohuizong->add($attrArr);

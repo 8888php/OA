@@ -46,14 +46,34 @@
                             </tr>
                             <tr>
                                 <td>科目</td>
-                                <td colspan='6'> <input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>  </td>
+                                <td colspan='6'> 
+                                    <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
+                                    <textarea style='width:600px;height:25px;' class="subject" disabled="disabled"></textarea>
+                                     <select id="multipleselect" multiple="multiple">
+                                        <?php foreach($keyanlist as $lk=>$lv){?>
+                                            <?php foreach($lv as $k=>$v){?>
+                                                <option  value="<?php echo $k;?>"><?php echo $v;?></option>
+                                            <?php }?>
+                                        <?php }?>
+                                    </select>
+                                    <script src="/assets/js/multiple-select_fy.js"></script>
+                                    <link href="/assets/js/multiple-select.css" rel="stylesheet">
+                                    <script>
+                                        $("#multipleselect").multipleSelect({
+                                            width: 440,
+                                            multiple: true,
+                                            multipleWidth: 200,
+                                            minimumCountSelected:3
+                                        });
+                                    </script>
+                                </td>
                             </tr>
                             <tr>
                                 <td>金额</td>
                                 <td>人民币大写</td>
                                 <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:190px;height:25px;'/>   </td>
                                 <td>￥</td>
-                                <td colspan='2'> <input type="text" name='amount' class="amount"   style='width:200px;height:25px;'/>   </td>
+                                <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
                             </tr>
                             <tr>
                                 <td>报销人<br/>简要说明</td>
@@ -96,12 +116,60 @@
 </div>
 
 <script type="text/javascript">
+    //计算科目的费用
+    var total = 0;//总数
+    var sub_str = '';//科目 
+    function sub_fy() {
+        total = 0;
+        sub_str = ''
+        $('div.ms-drop li.multiple').each(function(i){
+            var li_item = $('li.multiple').eq(i);
+            if (li_item.find('.first_inpuut').get(0).checked) {
+                //如果这个选中，则把他的金额取出，放到total里面
+                if ($.isNumeric(li_item.find('input.je').val())) {
+                    total += Number(li_item.find('input.je').val());
+                    var name = $('select#multipleselect option').eq(i).text();
+                    var money = li_item.find('input.je').val();
+                    sub_str += name + ": " + money + ',';
+                }
+            }
+        });
+        $('.subject').val(sub_str + '总额: ' + total);
+        $('input.amount').val(total);
+    }
+    //当输入框输入后，再改变一下总金额
+    $('input.je').keyup(function(){
+        var reg = /^[1-9]+[0-9]*/;
+        if (!reg.test(this.value)) {
+            this.value = 0;
+        }
+        sub_fy();
+    });
+    //获取下拉的，值和键
+    var option_json_tmp = {};
+    function option_josn() {
+        $('div.ms-drop li.multiple').each(function(i){
+            var li_item = $('li.multiple').eq(i);
+            var index = $('select#multipleselect option').eq(i).val();
+            var is_select = 0;
+            var money = li_item.find('input.je').val();
+            if (li_item.find('.first_inpuut').get(0).checked) {
+                is_select = 1;
+                option_json_tmp[index] = money;
+            }
+//            var tmp = {};
+//            tmp.is_select = is_select;
+//            tmp.money = money;
+//            option_json_tmp[index] = tmp;
+        });
+        return option_json_tmp;
+    }
     function approve() {
         var ctime = $('.ctime').val();
         var page_number = $('.page_number').val();
         var projectname = $('.projectname').val();
         var filenumber = $('.filenumber').val();
-        var subject = $('.subject').val();
+        var subject = option_josn();
         var rmb_capital = $('.rmb_capital').val();
         var amount = $('.amount').val();
         var description = $('.description').val();
@@ -122,10 +190,7 @@
             $('.filenumber').focus();
             return;
         }
-        if (subject == '') {
-            $('.subject').focus();
-            return;
-        }
+        
         if (rmb_capital == '') {
             $('.rmb_capital').focus();
             return;
