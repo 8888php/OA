@@ -161,7 +161,7 @@
                                             </tr>
                                             <?php foreach($declares_arr as $d){?>        
                                             <tr>
-                                                <td><?php echo $d['m']['id'];  ?></td>
+                                                <td><?php echo $d['b']['id'];  ?></td>
                                                 <td> <i class='glyphicon glyphicon-print blue'></i> </td>
                                                 <td><?php echo $d['m']['ctime'];  ?></td>
                                                 <td><?php echo $d['u']['name']; ?> </td>
@@ -169,8 +169,35 @@
                                                 <td> <?php echo $d['b']['page_number'];  ?> </td>
                                                 <td> <?php echo $d['b']['page_number'];  ?> </td>
                                                 <td> <?php echo $d['b']['description']; ?> </td>
-                                                <td><?php echo $d['b']['subject'];  ?></td>
-                                                <td> <?php echo $d['b']['subject'];  ?> </td>
+                                                <?php 
+                                                    $str = '';
+                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                    if (!is_null(json_decode($d['b']['subject'])) && is_array($json_data)) {
+                                                    
+                                                        foreach($json_data as $jk=>$jv) {
+                                                            foreach($keyanlist as $k) {
+                                                                $tmp = '';
+                                                                foreach($k as $kk=>$kv) {
+                                                                    if ($kk == $jk) {
+                                                                        $tmp = '<b style="color:black;">' . $kv . ': ' . $jv . '</b>';
+                                                                        $str .= $tmp . ',';
+                                                                        break;
+                                                                    }
+                                                                    
+                                                                }
+                                                                if ($tmp != '') {
+                                                                    $str .= $tmp . ',';
+                                                                }
+                                                            }
+                                                        }
+                                                        if ($str != '') {
+                                                            $str = rtrim($str, ',');
+                                                        }
+                                                    }
+                                                    
+                                                ?>
+                                                <td style="width: 250px;"><?php echo $str;  ?></td>
+                                                <td> <?php echo $d['b']['amount'];  ?> </td>
                                                 <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
                                                 <td>  </td>
                                             </tr>

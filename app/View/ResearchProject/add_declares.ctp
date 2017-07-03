@@ -136,7 +136,7 @@
         });
         $('.subject').val(sub_str + '总额: ' + total);
         $('input.amount').val(total);
-    }
+    }   
     //当输入框输入后，再改变一下总金额
     $('input.je').keyup(function(){
         var reg = /^[1-9]+[0-9]*/;
