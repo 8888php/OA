@@ -110,7 +110,8 @@ class AppController extends Controller {
             $this->res => array()
         );
         //获取审批流id
-        $p_id = Configure::read('approval_process')[$table_name];
+        $p_id = Configure::read('approval_process');
+        $p_id = $p_id[$table_name];
         $approval_process_arr = $this->ResearchProject->query("select * from t_approval_process approval_process where id='$p_id' limit 1");
         //如果未找到则返回空
         if (!$approval_process_arr)
@@ -173,7 +174,8 @@ class AppController extends Controller {
             $this->res => array()
         );
         //获取审批流id
-        $p_id = Configure::read('approval_process')[$table_name];
+        $p_id = Configure::read('approval_process');
+        $p_id = $p_id[$table_name];
         $approval_process_arr = $this->ResearchProject->query("select * from t_approval_process approval_process where id='$p_id' limit 1");
         //如果未找到则返回空
         if (!$approval_process_arr)

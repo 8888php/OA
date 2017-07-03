@@ -1,12 +1,12 @@
 <?php echo $this->element('head_frame'); ?>
-  <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
 
-<style>
-.table tr, .table td{border:1px solid #000;}
-</style>
-    
+    <style>
+        .table tr, .table td{border:1px solid #000;}
+    </style>
+
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
@@ -34,46 +34,27 @@
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                <select style="width:335px;height:25px;" name="projectname" class="projectname"  >     
-                            <option value="<?php  echo $projectInfo['id'];?>"><?php  echo $projectInfo['name'];?></option>
-                        </select>
-                                    <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
-                            <?php  foreach($source as $qd){?>
-                            <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
-                            <?php }?>
-                        </select>
+                                    <select style="width:335px;height:25px;" name="projectname" class="projectname" onchange='getsources(this.value);' id='projectsources' >     <?php foreach(@$projectArr as $pk => $pv){ ?>
+                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <select style="width:255px;height:25px;" name="filenumber" class="filenumber" id='sourcess' >
+                                        <?php  foreach($source as $qd){?>
+                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
+                                        <?php }?>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>科目</td>
-                                <td colspan='6'> 
-                                    <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
-                                    <textarea style='width:600px;height:25px;' class="subject" disabled="disabled"></textarea>
-                                     <select id="multipleselect" multiple="multiple">
-                                        <?php foreach($keyanlist as $lk=>$lv){?>
-                                            <?php foreach($lv as $k=>$v){?>
-                                                <option  value="<?php echo $k;?>"><?php echo $v;?></option>
-                                            <?php }?>
-                                        <?php }?>
-                                    </select>
-                                    <script src="/assets/js/multiple-select_fy.js"></script>
-                                    <link href="/assets/js/multiple-select.css" rel="stylesheet">
-                                    <script>
-                                        $("#multipleselect").multipleSelect({
-                                            width: 440,
-                                            multiple: true,
-                                            multipleWidth: 200,
-                                            minimumCountSelected:3
-                                        });
-                                    </script>
-                                </td>
+                                <td colspan='6'> <input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>  </td>
                             </tr>
                             <tr>
                                 <td>金额</td>
                                 <td>人民币大写</td>
                                 <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:190px;height:25px;'/>   </td>
                                 <td>￥</td>
-                                <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
+                                <td colspan='2'> <input type="text" name='amount' class="amount"   style='width:200px;height:25px;'/>   </td>
                             </tr>
                             <tr>
                                 <td>报销人<br/>简要说明</td>
@@ -104,8 +85,8 @@
             </div>
 
             <div class="modal-footer" style='background-color: #fff;'>
-                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
-                
+                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
+
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
                 <button type="button" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
@@ -116,60 +97,64 @@
 </div>
 
 <script type="text/javascript">
-    //计算科目的费用
-    var total = 0;//总数
-    var sub_str = '';//科目 
-    function sub_fy() {
-        total = 0;
-        sub_str = ''
-        $('div.ms-drop li.multiple').each(function(i){
-            var li_item = $('li.multiple').eq(i);
-            if (li_item.find('.first_inpuut').get(0).checked) {
-                //如果这个选中，则把他的金额取出，放到total里面
-                if ($.isNumeric(li_item.find('input.je').val())) {
-                    total += Number(li_item.find('input.je').val());
-                    var name = $('select#multipleselect option').eq(i).text();
-                    var money = li_item.find('input.je').val();
-                    sub_str += name + ": " + money + ',';
+    function getsources(pd) {
+        var dataJson = {};
+        dataJson.pd = pd;
+        if (dataJson.pd == '') {
+            alter('数据有误');
+            return;
+        }
+        $.ajax({
+            url: '/RequestNote/getsource',
+            type: 'post',
+            data: dataJson,
+            dataType: 'json',
+            success: function (slist) {
+                if (slist.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (slist.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (slist.code == 1) {
+                    //说明有错误
+                    alert(slist.msg);
+                    $('#sourcess').html('');
+                    return;
+                }
+                if (slist.code == 0) {
+                    //说明添加或修改成功
+                    editsource(slist.msg);
+                }
+                if (slist.code == 2) {
+                    //失败
+                    alert(slist.msg);
+                    return;
                 }
             }
         });
-        $('.subject').val(sub_str + '总额: ' + total);
-        $('input.amount').val(total);
     }
-    //当输入框输入后，再改变一下总金额
-    $('input.je').keyup(function(){
-        var reg = /^[1-9]+[0-9]*/;
-        if (!reg.test(this.value)) {
-            this.value = 0;
+
+    function editsource(sourcelist) {
+        var option_strr = '';
+        for (var i in sourcelist)
+        {
+            option_strr += '<option value= "' + sourcelist[i]['id'] + '" > 【' + sourcelist[i]['source_channel'] + '（' + sourcelist[i]['file_number'] + '）' + sourcelist[i]['year'] + '】 </option>';
+            $('#sourcess').html(option_strr);
         }
-        sub_fy();
-    });
-    //获取下拉的，值和键
-    var option_json_tmp = {};
-    function option_josn() {
-        $('div.ms-drop li.multiple').each(function(i){
-            var li_item = $('li.multiple').eq(i);
-            var index = $('select#multipleselect option').eq(i).val();
-            var is_select = 0;
-            var money = li_item.find('input.je').val();
-            if (li_item.find('.first_inpuut').get(0).checked) {
-                is_select = 1;
-                option_json_tmp[index] = money;
-            }
-//            var tmp = {};
-//            tmp.is_select = is_select;
-//            tmp.money = money;
-//            option_json_tmp[index] = tmp;
-        });
-        return option_json_tmp;
     }
+getsources($('#projectsources option:selected').val());
+
     function approve() {
         var ctime = $('.ctime').val();
         var page_number = $('.page_number').val();
         var projectname = $('.projectname').val();
         var filenumber = $('.filenumber').val();
-        var subject = option_josn();
+        var subject = $('.subject').val();
         var rmb_capital = $('.rmb_capital').val();
         var amount = $('.amount').val();
         var description = $('.description').val();
@@ -186,11 +171,14 @@
             $('.projectname').focus();
             return;
         }
-      if (filenumber == '') {
+        if (filenumber == '') {
             $('.filenumber').focus();
             return;
         }
-        
+        if (subject == '') {
+            $('.subject').focus();
+            return;
+        }
         if (rmb_capital == '') {
             $('.rmb_capital').focus();
             return;
@@ -199,11 +187,10 @@
             $('.amount').focus();
             return;
         }
-      
-        var data = {declarename:declarename, ctime: ctime, page_number: page_number, projectname: projectname,filenumber: filenumber,subject: subject,rmb_capital: rmb_capital,amount: amount,description: description};
-        
+
+        var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description};
         $.ajax({
-            url: '/researchproject/sub_declares',
+            url: '/RequestNote/huizongbaoxiao',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -255,3 +242,4 @@
 </script>
 
 <?php echo $this->element('foot_frame'); ?>
+

@@ -71,9 +71,18 @@ class Department extends AppModel {
     # 获取全部数据
     public function deplist(){
         $conditions = array('del'=>0);
-        return $this->find('list',array('conditions'=>$conditions,'fields'=>array('id','name','type')));
-       
+        return $this->find('list',array('conditions'=>$conditions,'fields'=>array('id','name','type')));  
     }
     
+
+    
+    # 获取全部数据
+    public function getlist($conditions = array()){
+        $conditions['del'] = 0;
+        return $this->find('list',array('conditions'=>$conditions,'fields'=>array('id','name')));  
+    }
+
+
+
     
 }

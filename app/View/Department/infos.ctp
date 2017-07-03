@@ -42,7 +42,7 @@
             <div class="breadcrumbs" id="breadcrumbs">
                 <script type="text/javascript">
                     try {
-                        ace.settings.check('breadcrumbs', 'fixed')
+                    ace.settings.check('breadcrumbs', 'fixed')
                     } catch (e) {
                     }
                 </script>
@@ -75,13 +75,13 @@
                                     <div class="widget-header widget-header-large">
                                         <h3 class="grey lighter pull-left position-relative">
                                             <?php
-                                                if($depInfo['Department']['type'] == 1){
-                                                    echo '<i class="icon-pencil blue"></i>';
-                                                }else{
-                                                    echo '<i class="icon-leaf green"></i>';
-                                                }
-                                             echo $depInfo['Department']['name'];
-                                             ?>
+                                            if($depInfo['Department']['type'] == 1){
+                                            echo '<i class="icon-pencil blue"></i>';
+                                            }else{
+                                            echo '<i class="icon-leaf green"></i>';
+                                            }
+                                            echo $depInfo['Department']['name'];
+                                            ?>
                                         </h3>
 
                                         <div class="widget-toolbar no-border invoice-info">
@@ -89,24 +89,12 @@
                                             <span class="invoice-info-label blue">创建时间：</span>
                                             <span class="blue"><?php echo date('Y-m-d',$depInfo['Department']['ctime']);?></span>
                                         </div>
-
-                                        <!--div class="widget-toolbar hidden-480">
-                                            <a href="#">
-                                                <i class="icon-print"></i>
-                                            </a>
-                                        </div-->
                                     </div>
 
                                     <div class="widget-body">
                                         <div class="widget-main padding-24">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <!--div class="row">
-                                                        <div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-                                                            <b>详情</b>
-                                                        </div>
-                                                    </div-->
-
                                                     <div class="row">
                                                         <ul class="list-unstyled spaced">
                                                             <li>
@@ -125,7 +113,7 @@
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? '无':$depMember[$depInfo['Department']['user_id']]['User']['name']; ?> </b>
+                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? (isset($depMember[$depInfo['Department']['user_id']]['User']['name']) ? $depMember[$depInfo['Department']['user_id']]['User']['name'] :'') : '无'; ?> </b>
                                                             </li>
 
                                                             <li class="divider"></li>
@@ -137,63 +125,94 @@
                                                         </ul>
                                                     </div>
                                                 </div><!-- /span -->
-
-                                                <!--div class="col-sm-6">
-                                                    <div class="row">
-                                                        <div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
-                                                            <b>Customer Info</b>
-                                                        </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <ul class="list-unstyled  spaced">
-                                                            <li>
-                                                                <i class="icon-caret-right green"></i>
-                                                                Street, City
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div--><!-- /span -->
                                             </div><!-- row -->
 
                                             <div class="space"></div>
 
-                                            <div>
-                                                <table class="table table-striped table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="center">编号</th>
-                                                            <th>成员名</th>
-                                                            <th class="hidden-xs">职务</th>
-                                                            <th class="hidden-480">电话</th>
-                                                            <th class="hidden-480">邮箱</th>
-                                                            <th>使用状态</th>
-                                                        </tr>
-                                                    </thead>
+                                            <div class="tabbable">
+                                                <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
+                                                    <li class="active">
+                                                        <a  data-toggle="tab" href="#faq-tab-1">
+                                                            <i class="green icon-user bigger-120"></i>
+                                                            部门成员
+                                                        </a>
+                                                    </li>
 
-                                                    <tbody>
-                                                        <?php foreach($depMember as $dk => $dv){ ?>
-                                                        <tr>
-                                                            <td class="center"><?php  echo $dv['User']['id'] ; ?></td>
+                                                    <li >
+                                                        <a data-toggle="tab" href="#faq-tab-2">
+                                                            <i class="blue icon-question-sign bigger-120"></i>
+                                                            部门预算
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content no-border ">
 
-                                                            <td>
-                                                                <a href="#"><?php  echo $dv['User']['name'];  ?></a>
-                                                            </td>
-                                                            <td class="hidden-xs">
-                                                                <?php  echo isset($dv['User']['position_id']) ? '':$posArr[$dv['User']['position_id']];  ?>
-                                                            </td>
-                                                            <td class="hidden-480">  <?php  echo $dv['User']['tel'];  ?> </td>
-                                                            <td class="hidden-480">  <?php  echo $dv['User']['email'] ; ?> </td>
-                                                            <td>  <?php  echo $dv['User']['status'] == 1 ? '启用':'<font class="red">停用</font>';  ?> </td>
-                                                        </tr>
-                                                        <?php  }  ?>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    <div id="faq-tab-1" class="tab-pane fade in active">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="center">编号</th>
+                                                                    <th>成员名</th>
+                                                                    <th class="hidden-xs">职务</th>
+                                                                    <th class="hidden-480">电话</th>
+                                                                    <th class="hidden-480">邮箱</th>
+                                                                    <th>使用状态</th>
+                                                                </tr>
+                                                            </thead>
 
-                                            <div class="hr hr8 hr-double hr-dotted"></div>
+                                                            <tbody>
+                                                                <?php foreach($depMember as $dk => $dv){ ?>
+                                                                <tr>
+                                                                    <td class="center"><?php  echo $dv['User']['id'] ; ?></td>
 
+                                                                    <td>
+                                                                        <a href="#"><?php  echo $dv['User']['name'];  ?></a>
+                                                                    </td>
+                                                                    <td class="hidden-xs">
+                                                                        <?php  echo isset($dv['User']['position_id']) ? $posArr[$dv['User']['position_id']] : '';  ?>
+                                                                    </td>
+                                                                    <td class="hidden-480">  <?php  echo $dv['User']['tel'];  ?> </td>
+                                                                    <td class="hidden-480">  <?php  echo $dv['User']['email'] ; ?> </td>
+                                                                    <td>  <?php  echo $dv['User']['status'] == 0 ? '启用':'<font class="red">停用</font>';  ?> </td>
+                                                                </tr>
+                                                                <?php  }  ?>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div id="faq-tab-2" class="tab-pane fade  ">
+                                                        <table class="table table-striped" style='width:80%;float:left;margin-left:15px;border:1px solid #ccc;font-size:11px;'>
+                                                            <thead>
+                                                                <!--tr>
+                                                                    <th colspan='4' class='red' style="text-align:center;"> 预算剩余 </th>
+                                                                </tr-->
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php  
+                                                                foreach($costList as $ysk => $ysv){  ?>
+                                                                <tr>
+                                                                    <?php foreach($ysv as $k => $v){ ?>
+                                                                    <td style="text-align:right;"><?php echo $v;  ?></td>
+                                                                    <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
+                                                                    <?php   } ?>
+                                                                </tr>
+                                                                <?php   } ?>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <div style="clear:both;"> </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                                <div class="hr hr8 hr-double hr-dotted"></div>
+
+                                            </div> <!--tabbable-->
                                         </div>
                                     </div>
                                 </div>
@@ -226,8 +245,7 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
-</script>
+                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");</script>
 <!-- <![endif]-->
 
 <!--[if IE]>
@@ -238,8 +256,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 <script type="text/javascript">
     if ("ontouchend" in document)
-        document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-</script>
+            document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");</script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/typeahead-bs2.min.js"></script>
 <!-- page specific plugin scripts -->
@@ -254,17 +271,27 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     var f_class = 'government';
     var s_class = '';
     var t_class = '';
-    <?php if (@$depInfo['Department']['type'] == 1) {?>
-        //行政
-        s_class = 'administration';
-        t_class = s_class + "<?php echo '_'.$d_id;?>";
-    <?php } else if(@$depInfo['Department']['type'] == 2) {?>
-        //科研
-        s_class = 'research';
-        t_class = s_class + "<?php echo '_'.$d_id;?>";
-    <?php } else {?>
+        <?php if (@$depInfo['Department']['type'] == 1){ ?>
+            //行政
+            s_class = 'administration';
+    t_class = s_class + "<?php echo '_'.$d_id;?>";
+        <?php } else if(@$depInfo['Department']['type'] == 2){  ?>
+            //科研
+            s_class = 'research';
+    t_class = s_class + "<?php echo '_'.$d_id;?>";
+        <?php } else {  ?>
             //有问题，暂时不处理
             window.location = '/homes/index';
-    <?php }?>
-    show_left_select(f_class,s_class,t_class );
+        <?php }  ?>
+
+        jQuery(function ($) {
+            $('.accordion').on('hide', function (e) {
+    $(e.target).prev().children(0).addClass('collapsed');
+        })
+        $('.accordion').on('show', function (e) {
+            $(e.target).prev().children(0).removeClass('collapsed');
+        })
+        });
+        
+        show_left_select(f_class,s_class,t_class );
 </script>

@@ -6,7 +6,7 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department','User','Position'); 
+    public $uses = array('Department','User','Position','DepartmentCost'); 
     public $layout = 'blank';
     /* 左 */
     
@@ -58,6 +58,7 @@ class DepartmentController extends AppController {
         
         $depInfo = $this->Department->findById($id);
         $this->set('depInfo',$depInfo);
+        $this->set('pid', $id);
 
         # 该部门所属成员
         $conditions = array('del'=>0,'department_id'=>$id); 
@@ -67,9 +68,17 @@ class DepartmentController extends AppController {
          $posArr = $this->Position->getList();
          $this->set('d_id', $id);
          $this->set('posArr',$posArr);
+         
+         // 预算
+        $this->set('costList', Configure::read('xizhenglist'));
+        $cost = $this->DepartmentCost->findByDepartmentId($id);
+        $cost = @$cost['DepartmentCost'];
+        $this->set('cost', $cost);
+
         $this->render();
     }
-  
+
+       
 
     /**
      * 部门编辑
