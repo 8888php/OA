@@ -1,7 +1,6 @@
 <?php echo $this->element('head_frame'); ?>
 
 
-
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:560px;'>
     <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;">项目经费</span> <a onclick="window.parent.step_close();" class="close" data-dismiss="modal" id='closemodel'>×</a></p>
 
@@ -14,19 +13,18 @@
                     <li class="input-group">
                         <?php  foreach($lv as $k => $v){ ?>
                         <label class="input-group-addon " for="form-field-1" style="width:108px;"> <?php echo $v; ?> </label > 
-                        <input type="text"  class="<?php echo $k; ?> " placeholder='0.00' style="width:100px;"/> 
+                        <input type="text"  class="<?php echo $k; ?> unit" value="" placeholder='0.00' style="width:100px;"/> 
                         <?php } ?>  
                     </li>  
                     <?php } ?>
                     <li class="input-group">
                         <label class="input-group-addon" for="form-field-1" style="width:108px;"> 合计 </label >
-                        <input type="text" id="form-field-t" class="total" placeholder='0.00' />
+                        <input type="text" id="form-field-t" class="total" placeholder='0.00' disabled />
                     </li>
                 </ul>     
                 <div class="form-group" style="margin:10px auto;width:500px;">
                     <label class="control-label no-padding-right" style="width:100px;text-align: right;" for="form-field-1">备注 &nbsp;&nbsp;</label>
                     <textarea cols="40" rows="5" id='remarks' name='remarks' class="desc"></textarea>
-
                 </div>
 
                 <div class="clearfix " style="text-align: center;" >
@@ -51,6 +49,18 @@
 </div>
 
 <script type="text/javascript">
+    
+    $('.unit').change(function(){
+        var totals = 0;
+       $('.unit').each(function(i){
+         if($.isNumeric($(this).val())){
+             totals = parseInt(totals) + parseInt($(this).val());
+         }
+        });
+        $('.total').val(totals);
+    });
+    
+    
     function upstep() {
         $('#closemodel').click();
     }
