@@ -180,7 +180,6 @@
                                                                 foreach($k as $kk=>$kv) {
                                                                     if ($kk == $jk) {
                                                                         $tmp = '<b style="color:black;">' . $kv . ': ' . $jv . '</b>';
-                                                                        $str .= $tmp . ',';
                                                                         break;
                                                                     }
                                                                     
