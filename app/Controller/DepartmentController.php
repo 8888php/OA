@@ -74,6 +74,12 @@ class DepartmentController extends AppController {
         $cost = $this->DepartmentCost->findByDepartmentId($id);
         $cost = @$cost['DepartmentCost'];
         $this->set('cost', $cost);
+        
+        // 费用申报
+        $pid = 8;
+        $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.project_id =  '$pid'");
+        $this->set('keyanlist', Configure::read('keyanlist'));
+        $this->set('declares_arr', $declares_arr);
 
         $this->render();
     }
