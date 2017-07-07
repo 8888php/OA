@@ -125,66 +125,123 @@
                             </ul>
 
                             <div class="tab-content no-border ">
-                                <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
-                                    <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;" >
-                                        <thead style='width:100%;'>
-                                            <tr >
-                                                <th colspan="32" class='blue' style='width:100%;border-right:0px;'> 项目经费 
-                                                    <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
-                                                        <option value="1">财务报销单</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-  <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
-                                                    <i class="icon-plus arrow blue"></i>
-                                                    </a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td width='50px'> · </td>
-                                                <td width='50px'>打印</td>
-                                                <td width='100px'>日期</td>
-                                                <td width='100px'>报销人</td>
-                                                <td width='80px'>政府采购</td>
-                                                <td width='80px'>来源渠道</td>
-                                                <td width='100px'>文号</td>
-                                                <td width='100px'>摘要</td>
-                                               <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                <div id="faq-tab-1" class="tab-pane fade in active" >
+                                    <div class="table-header">
+                                        项目经费 
+
+                                        <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
+                                            <option value="1">财务报销单</option>
+                                        </select>  
+                                    </div>
+                                    <div class="table-responsive" style='width:100%;overflow:auto;'>
+                                        <table class="table table-bordered " style="font-size:12px;text-align: center;table-layout: fixed;" >
+                                            <tbody>
+                                                <tr style='font-weight:600;' class="blue">
+                                                    <td width='100px'>日期</td>
+                                                    <td width='100px'>报销人</td>
+                                                    <td width='80px'>政府采购</td>
+                                                    <td width='80px'>来源渠道</td>
+                                                    <td width='100px'>文号</td>
+                                                    <td width='100px'>摘要</td>
+                                                    <td width='100px'>合计</td>
+                                                    <?php foreach(Configure::read('keyanlist') as $tdv){  
                                                     foreach($tdv as $lv){  
-                                                         echo  "<td width='120'>" . $lv . '</td>'; 
+                                                    echo  "<td width='120'>" . $lv . '</td>'; 
                                                     }
-                                                  }
-                                               ?>  
-                                               <td width='100'>申报总额</td>
-                                               <td width='100'>审批进度</td>
-                                            </tr>
-                                            <?php foreach($declares_arr as $d){?>        
-                                            <tr>
-                                                <td><?php echo $d['b']['id'];  ?></td>
-                                                <td> <i class='glyphicon glyphicon-print blue'></i> </td>
-                                                <td><?php echo $d['m']['ctime'];  ?></td>
-                                                <td><?php echo $d['u']['name']; ?> </td>
-                                                <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
-                                                <td> <?php echo $d['s']['source_channel'];  ?> </td>
-                                                <td> <?php echo $d['s']['file_number'];  ?> </td>
-                                                <td> <?php echo $d['b']['description']; ?> </td>
+                                                    }
+                                                    ?>  
+                                                    <td width='120'>审批进度</td>
+                                                </tr>
+                                                <tr style='background-color:#ADFEDC;'>
+                                                    <td> 预算 </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> <?php echo $pcost['total']; ?>  </td>
+                                                    <?php 
+                                                    foreach($keyanlist as $k) {
+                                                    foreach($k as $kk=>$kv) {
+                                                    echo  '<td>';
+                                                    echo isset($pcost[$kk]) ? $pcost[$kk] : 0;
+                                                    echo '</td>';
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <td> </td>
+                                                </tr>
+                                                
+                                                
                                                 <?php 
+                                                foreach($declares_arr as $d){  
                                                     $json_data = json_decode($d['b']['subject'],true);
-                                                            foreach($keyanlist as $k) {
-                                                                foreach($k as $kk=>$kv) {
-                                                              echo  '<td>';
-                                                              echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
-                                                              echo '</td>';
-                                                                }
-                                                            }
-                                                ?>
-                                                <td> <?php echo $d['b']['amount'];  ?> </td>
-                                                <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
-                                            </tr>
-                                           <?php }?>
-                                        </tbody>
-                                    </table>
+                                                ?>        
+                                                <tr>
+                                                    <td><?php echo $d['m']['ctime'];  ?></td>
+                                                    <td><?php echo $d['u']['name']; ?> </td>
+                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                    <td> <?php echo $d['s']['source_channel'];  ?> </td>
+                                                    <td> <?php echo $d['s']['file_number'];  ?> </td>
+                                                    <td> <?php echo $d['b']['description']; ?> </td>
+                                                    <td> <?php echo $d['b']['amount'];  ?>  </td>
+                                                    <?php 
+                                                    foreach($keyanlist as $k) {
+                                                    foreach($k as $kk=>$kv) {
+                                                    echo  '<td>';
+                                                    echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
+                                                    echo '</td>';
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
+                                                </tr>
+                                                <?php }?>
+                                                
+                                                <tr style='background-color:#fdf59a;'>
+                                                    <td> 支出合计 </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> <?php echo array_sum($expent); ?>  </td>
+                                                    <?php 
+                                                    foreach($keyanlist as $k) {
+                                                    foreach($k as $kk=>$kv) {
+                                                    echo  '<td>';
+                                                    echo isset($expent[$kk]) ? $expent[$kk] : 0;
+                                                    echo '</td>';
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <td> </td>
+                                                </tr>
+                                                
+                                                <tr style='background-color:#ADFEDC;'>
+                                                    <td> 结余 </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td> <?php echo $pcost['total'] - array_sum($expent); ?>  </td>
+                                                    <?php 
+                                                    foreach($keyanlist as $k) {
+                                                    foreach($k as $kk=>$kv) {
+                                                    echo  '<td>';
+                                                    echo isset($expent[$kk]) ? $pcost[$kk] - $expent[$kk] : (isset($pcost[$kk]) ? $pcost[$kk] : 0);
+                                                    echo '</td>';
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <td> </td>
+                                                </tr>
+                                                
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +309,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         })
     });
     show_left_select('research_project', '无效');
-    
+
 </script>
 
 </body>

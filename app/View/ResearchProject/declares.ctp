@@ -126,70 +126,73 @@
 
                             <div class="tab-content no-border ">
                                 <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
-                                    <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;" >
-                                        <thead>
-                                            <tr>
-                                                <th colspan="32" class='blue' style='border-right:0px;'> 项目经费 
-                                                    <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
-                                                        <option value="1">财务报销单</option>
-                                                    </select>  
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-  <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
-                                                    <i class="icon-plus arrow blue"></i>
-                                                    </a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td class="col-md-2"> · </td>
-                                                <td style='width:50px;'>打印</td>
-                                                <td style='width:50px;'>日期</td>
-                                                <td width='100px'>报销人</td>
-                                                <td width='100px'>政府采购</td>
-                                                <td width='100px'>来源渠道</td>
-                                                <td width='100px'>文号</td>
-                                                <td width='100px'>摘要</td>
-                                               <?php foreach(Configure::read('keyanlist') as $tdv){  
-                                                    foreach($tdv as $lv){  
-                                                         echo  "<td width='100'>" . $lv . '</td>'; 
-                                                    }
-                                                  }
-                                               ?>  
-                                               <td width='100'>申报总额</td>
-                                               <td width='100'>审批进度</td>
-                                            </tr>
-                                            <?php foreach($declares_arr as $d){?>        
-                                            <tr>
-                                                <td><?php echo $d['b']['id'];  ?></td>
-                                                <td> <i class='glyphicon glyphicon-print blue'></i> </td>
-                                                <td><?php echo $d['m']['ctime'];  ?></td>
-                                                <td><?php echo $d['u']['name']; ?> </td>
-                                                <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
-                                                <td> <?php echo $d['b']['page_number'];  ?> </td>
-                                                <td> <?php echo $d['b']['page_number'];  ?> </td>
-                                                <td> <?php echo $d['b']['description']; ?> </td>
-                                                <?php 
-                                                    $json_data = json_decode($d['b']['subject'],true);
-                                                            foreach($keyanlist as $k) {
-                                                                foreach($k as $kk=>$kv) {
-                                                              echo  '<td>';
-                                                              echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
-                                                              echo '</td>';
-                                                                }
-                                                            }
-                                                ?>
-                                                <td> <?php echo $d['b']['amount'];  ?> </td>
-                                                <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
-                                            </tr>
-                                           <?php }?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    <div class="table-header">
+                                        项目经费 
 
+                                        <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
+                                            <option value="1">财务报销单</option>
+                                        </select>  
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
+                                            <i class="icon-plus arrow white"></i>
+                                        </a>
+                                    </div>
+                                    <div class="table-responsive" style='width:100%;overflow:auto;'>
+                                        <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" >
+                                            <tbody>
+                                                <tr style='font-weight:600;' class="blue">
+                                                    <td  width='50px'> · </td>
+                                                    <td  width='50px'>打印</td>
+                                                    <td  width='100px'>日期</td>
+                                                    <td width='100px'>报销人</td>
+                                                    <td width='80px'>政府采购</td>
+                                                    <td width='80px'>来源渠道</td>
+                                                    <td width='100px'>文号</td>
+                                                    <td width='100px'>摘要</td>
+                                                    <td width='100px'>合计</td>
+                                                    <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                                    foreach($tdv as $lv){  
+                                                    echo  "<td width='120'>" . $lv . '</td>'; 
+                                                    }
+                                                    }
+                                                    ?>  
+                                                    <td width='100'>申报总额</td>
+                                                    <td width='100'>审批进度</td>
+                                                </tr>
+                                                <?php 
+                                                foreach($declares_arr as $d){
+                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                ?>        
+                                                <tr>
+                                                    <td><?php echo $d['b']['id'];  ?></td>
+                                                    <td> <i class='glyphicon glyphicon-print blue'></i> </td>
+                                                    <td><?php echo $d['m']['ctime'];  ?></td>
+                                                    <td><?php echo $d['u']['name']; ?> </td>
+                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                    <td> <?php echo $d['s']['source_channel'];  ?> </td>
+                                                    <td> <?php echo $d['s']['file_number'];  ?> </td>
+                                                    <td> <?php echo $d['b']['description']; ?> </td>
+                                                    <td> <?php echo array_sum($json_data);; ?> </td>
+                                                    <?php 
+                                                    foreach($keyanlist as $k) {
+                                                    foreach($k as $kk=>$kv) {
+                                                    echo  '<td>';
+                                                    echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
+                                                    echo '</td>';
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <td> <?php echo $d['b']['amount'];  ?> </td>
+                                                    <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']]; ?> </td>
+                                                </tr>
+                                                <?php }?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-           <!-- /.modal_declares -->
+                        <!-- /.modal_declares -->
                         <div class="modal fade" id="modal_declares" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:448px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                             <button type="button" class="close" id="declares_close" data-dismiss="modal" aria-hidden="true"> </button>
                             <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
@@ -218,7 +221,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -260,7 +263,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         })
     });
     show_left_select('research_project', '无效');
-    
+
 </script>
 
 </body>

@@ -111,11 +111,10 @@ class ResearchProjectController extends AppController {
             header("Location:/homes/index");die;
         }
         //费用申报的内容
-        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id =  '$pid'");
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid'");
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
-
 
         $this->render();
     }
@@ -165,9 +164,10 @@ class ResearchProjectController extends AppController {
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
         $attrArr['page_number'] = $_POST['page_number'];
-        $attrArr['department_id'] = $_POST['page_number'];
-        $attrArr['department_name'] = $_POST['page_number'];
+        $attrArr['department_id'] = $_POST['department_id'];
+        $attrArr['department_name'] = $_POST['department_name'];
         $attrArr['project_id'] = $_POST['projectname'];
+        $attrArr['source_id'] = $_POST['fielnumber'];
         $attrArr['subject'] = json_encode($_POST['subject']);
         $attrArr['rmb_capital'] = $_POST['rmb_capital'];
         $attrArr['amount'] = $_POST['amount'];
@@ -218,12 +218,26 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
              header("Location:/homes/index");die;
         }
-         $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s on m.project_id = s.project_id  WHERE m.project_id =  '$pid'");
+         $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid'");
+         
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
-
-
+        
+        $pcost = $this->ResearchCost->findByProjectId($pid);
+        $pcost = $pcost['ResearchCost'];
+        $this->set('pcost', $pcost);  // 预算费用
+        
+        $expent = array();  // 支出总计费用
+        foreach($declares_arr as $k => $v){
+            $zhichu = json_decode($v['b']['subject'],true);
+            foreach($zhichu as $zk => $zv){ 
+                $expent[$zk] = isset($expent[$zk]) ? $expent[$zk]+$zv : $zv;
+            }
+        }
+        $this->set('expent', $expent);  // 支出总计费用
+        
+        
         $this->render();
     }
 

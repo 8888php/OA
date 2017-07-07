@@ -88,7 +88,7 @@
                                                     <th>申请人</th>
                                                     <th>附件</th>
                                                     <th>审核进度</th>
-                                                    <th>操作</th>
+                                                    <!--th>操作</th-->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -102,7 +102,7 @@
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['attachment'];  ?></td>
                                                     <td><?php echo Configure::read('new_appprove_code_arr')[$sv['ApplyMain']['code']];  ?></td>
-                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td>
+                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

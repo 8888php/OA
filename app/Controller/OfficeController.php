@@ -7,7 +7,7 @@ class OfficeController extends AppController {
 
     public $name = 'Office';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost');
 
     public $layout = 'blank';
     public $components = array('Cookie');
@@ -520,10 +520,27 @@ class OfficeController extends AppController {
         }
         //根据main_id取出数据
         $main_arr = $this->ApplyMain->findById($main_id);
+        $main_arr['ApplyMain']['subject'] = json_decode($main_arr['ApplyMain']['subject'], true);
         $attr_id = @$main_arr['ApplyMain']['attr_id'];
         $attr_arr = $this->ApplyBaoxiaohuizong->findById($attr_id);
-        $this->set('main_arr', @$main_arr);
-        $this->set('attr_arr', @$attr_arr);
+        $create_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+        $this->set('main_arr', @$main_arr['ApplyMain']);
+        $this->set('createName', @$create_arr['User']['name']);
+        $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']);  
+        
+        $kemuStr =  '';
+        if($main_arr['ApplyMain']['department_id']){ // 部门
+            $kemuArr = $this->DepartmentCost->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['DepartmentCost']['name'];
+        }else if($main_arr['ApplyMain']['project_id']){ // 项目
+            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
+            $kemuStr = $kemuArr['ResearchProject']['name'];
+            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuStr .= ' 【'. $kemuSourceArr['ResearchSource']['source_channel'] .' ('.$kemuSourceArr['ResearchSource']['source_channel'] .') '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+        }
+        $this->set('kemuStr', $kemuStr);  
+
+      //  var_dump($main_arr,$attr_arr,$kemuStr);
         $this->render();
     }
 

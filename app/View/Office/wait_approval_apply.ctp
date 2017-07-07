@@ -112,9 +112,9 @@
                                         </table>
                                     </div>
                                     <!-- /.modal_storage -->
-                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:580px;height:293px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:600px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                                         <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
-                                        <iframe  id="myFrame" frameborder="0" style="width:580px;min-height:288px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
+                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:600px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
                                     </div>      
 
                                
