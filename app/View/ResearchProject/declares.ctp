@@ -157,7 +157,7 @@
                                                     }
                                                     ?>  
                                                     <td width='100'>申报总额</td>
-                                                    <td width='100'>审批进度</td>
+                                                    <td width='120'>审批进度</td>
                                                 </tr>
                                                 <?php 
                                                 foreach($declares_arr as $d){
@@ -188,14 +188,13 @@
                                                 <?php }?>
                                             </tbody>
                                         </table>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- /.modal_declares -->
                         <div class="modal fade" id="modal_declares" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:448px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                             <button type="button" class="close" id="declares_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
+                            <iframe  id="myFrame" name="childFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
                         </div>
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
@@ -247,6 +246,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+     $('#modal_declares').on('show.bs.modal', function () {
+        // 执行一些动作...
+        window.childFrame.bumeng_change(); 
+      })
     function declares_close() {
         $('#declares_close').click();
     }
