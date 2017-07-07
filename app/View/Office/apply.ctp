@@ -61,6 +61,7 @@
                             <a href="#"> 行政办公 </a>
                         </li>
                         <li class="active"> 我的申请 </li>
+                        <li class="active"> 申请 </li>
                     </ul><!-- .breadcrumb -->
 
                 </div>
@@ -369,7 +370,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 </script>
 
  <script type="text/javascript">
-  show_left_select('office', 'apply');                              
+  show_left_select('office', 'apply', 'shengqing');                              
 </script>
 </body>
 </html>

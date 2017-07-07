@@ -60,7 +60,7 @@
                         <li>
                             <a href="#"> 行政办公 </a>
                         </li>
-                        <li> <a href="#"> 待我审批 </a> </li>
+                        <li class="active"> 待我审批 </li>
                         <li class="active"> 待审申请 </li>
                     </ul><!-- .breadcrumb -->
 
@@ -237,5 +237,5 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 </body>
 </html>
 <script type="text/javascript">
-    show_left_select('office', 'wait_approval');
+    show_left_select('office', 'wait_approval', 'wait_approval_apply');
 </script>

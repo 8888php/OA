@@ -60,7 +60,8 @@
                         <li>
                             <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 经我审批申请 </li>
+                        <li class="active"> 经我审批 </li>
+                        <li class="active"> 经审申请 </li>
                     </ul><!-- .breadcrumb -->
 
                 </div>
@@ -366,7 +367,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     
 </script>
  <script type="text/javascript">
-  show_left_select('office', 'my_approval');                              
+  show_left_select('office', 'my_approval', 'my_approval_apply');                              
 </script>
 </body>
 </html>

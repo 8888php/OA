@@ -80,14 +80,14 @@
                                  <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
-                                <li class="administration">
+                                <li class="apply_project_list">
                                     <a href="/office/apply_project_list">
                                         <i class="icon-pencil"></i>
                                         项目
                                     </a>
                                 </li>
                                 
-                                <li class="administration">
+                                <li class="shengqing">
                                     <a href="/office/apply">
                                         <i class="icon-pencil"></i>
                                         申请
@@ -104,14 +104,14 @@
                             </a>
                             
                              <ul class="submenu">
-                                <li class="administration">
+                                <li class="wait_approval_project">
                                     <a href="/office/wait_approval">
                                         <i class="icon-pencil"></i>
                                         待审项目
                                     </a>
                                 </li>
                                 
-                                <li class="administration">
+                                <li class="wait_approval_apply">
                                     <a href="/office/wait_approval_apply">
                                         <i class="icon-pencil"></i>
                                         待审申请
@@ -128,14 +128,14 @@
                             </a>
                             
                               <ul class="submenu">
-                                <li class="administration">
+                                <li class="my_approval_project">
                                     <a href="/office/my_approval">
                                         <i class="icon-pencil"></i>
                                         经审项目
                                     </a>
                                 </li>
                                 
-                                <li class="administration">
+                                <li class="my_approval_apply">
                                     <a href="/office/my_approval_apply">
                                         <i class="icon-pencil"></i>
                                         经审申请
@@ -411,6 +411,9 @@
                         //关闭模态框时，清除数据，防止下次加雷有，缓存
                         $('#modal_left').removeData("bs.modal");
                         alert();
+                    });
+                    $('ul.nav-list').children('li').click(function(){
+                        $(this).siblings().removeClass('active');
                     });
             </script>
             <script type="text/javascript">
