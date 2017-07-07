@@ -198,7 +198,7 @@
                                                 ?>
                                                 <td style="width: 250px;"><?php echo $str;  ?></td>
                                                 <td> <?php echo $d['b']['amount'];  ?> </td>
-                                                <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
+                                                <td> <?php echo Configure::read('new_appprove_code_arr')[$d['m']['code']];  ?> </td>
                                                 <td>  </td>
                                             </tr>
                                            <?php }?>
@@ -211,7 +211,7 @@
            <!-- /.modal_declares -->
                         <div class="modal fade" id="modal_declares" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:448px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                             <button type="button" class="close" id="declares_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
+                            <iframe  id="myFrame" name="childFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
                         </div>
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
@@ -263,6 +263,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+     $('#modal_declares').on('show.bs.modal', function () {
+        // 执行一些动作...
+        window.childFrame.bumeng_change(); 
+      })
     function declares_close() {
         $('#declares_close').click();
     }

@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -131,7 +131,11 @@ class ResearchProjectController extends AppController {
 
         $projectInfo = $this->ResearchProject->findById($pid);
         $source = $this->ResearchSource->getAll($pid);
-        
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $this->set('department_arr', $department_arr);
+        $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
+        $this->set('xizhenglist', Configure::read('xizhenglist'));
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('projectInfo', $projectInfo['ResearchProject']);
         $this->set('source', $source);
@@ -146,8 +150,8 @@ class ResearchProjectController extends AppController {
             $this->ret_arr['msg'] = '请求不合法';
             exit(json_encode($this->ret_arr));
         }
-
-        if (empty($_POST['ctime']) || empty($_POST['page_number']) || empty($_POST['projectname']) || empty($_POST['filenumber']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
+        
+        if (empty($_POST['ctime']) || empty($_POST['page_number']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -162,12 +166,25 @@ class ResearchProjectController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         #附表入库
+        if ($_POST['projectname'] == 0) {
+            //是部门，取当前用户的部门信息
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+            $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
+            $project_id = 0;//让他为0
+        }else {
+            //项目
+            $department_id = 0;
+            $department_name = '';
+            $project_id = $_POST['projectname'];
+        }
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
         $attrArr['page_number'] = $_POST['page_number'];
-        $attrArr['department_id'] = $_POST['page_number'];
-        $attrArr['department_name'] = $_POST['page_number'];
-        $attrArr['project_id'] = $_POST['projectname'];
+        $attrArr['department_id'] = $department_id;
+        $attrArr['department_name'] = $department_name;
+        $attrArr['project_id'] = $project_id;
+        $attrArr['source'] = $_POST['filenumber'];
         $attrArr['subject'] = json_encode($_POST['subject']);
         $attrArr['rmb_capital'] = $_POST['rmb_capital'];
         $attrArr['amount'] = $_POST['amount'];
@@ -177,7 +194,7 @@ class ResearchProjectController extends AppController {
         # 开始入库
         $this->ApplyBaoxiaohuizong->begin();
         $attrId = $this->ApplyBaoxiaohuizong->add($attrArr);
-
+        
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr[$this->res]['next_approver_id'];//下一个审批职务的id
@@ -185,7 +202,8 @@ class ResearchProjectController extends AppController {
         $mainArr['approval_process_id'] = $ret_arr[$this->res]['approval_process_id']; //审批流程id
         $mainArr['type'] = $type; 
         $mainArr['name'] = $_POST['declarename'];
-        $mainArr['project_id'] = $_POST['projectname'];
+        $mainArr['project_id'] = $project_id;
+        $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['attr_id'] = $attrId;
@@ -651,5 +669,22 @@ class ResearchProjectController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
-
+    
+    /**
+     * 
+     * 根据部门或者项目id取出对用的费用
+     * @param type $type 类型 1为部门， 2为科研项目
+     * @param type $project_id 项目id
+     */
+    public function add_declares_department_project($type,$project_id=0) {
+        if ($type == 1) {
+            //部门费用
+            $feiyong  = Configure::read('xizhenglist');
+        } else {
+            //科研费用
+            $feiyong  = Configure::read('keyanlist');
+        }
+        $this->set('feiyong', $feiyong);
+        $this->render();
+    }
 }

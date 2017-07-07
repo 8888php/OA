@@ -1,12 +1,12 @@
 <?php echo $this->element('head_frame'); ?>
-  <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
 
-<style>
-.table tr, .table td{border:1px solid #000;}
-</style>
-    
+    <style>
+        .table tr, .table td{border:1px solid #000;}
+    </style>
+
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
@@ -34,78 +34,155 @@
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                <select style="width:335px;height:25px;" name="projectname" class="projectname"  >     
-                            <option value="<?php  echo $projectInfo['id'];?>"><?php  echo $projectInfo['name'];?></option>
-                        </select>
+                                    <select style="width:335px;height:25px;" name="projectname" class="projectname" onchange="change_filenumber($(this).val());" >
+                                        <?php if ($is_department == 1){?>
+                                        <option value="0"><?php echo $department_arr['Department']['name'];?></option>
+                                        <?php }?>
+                                        <option value="<?php  echo $projectInfo['id'];?>"><?php  echo $projectInfo['name'];?></option>
+                                    </select>
                                     <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
-                            <?php  foreach($source as $qd){?>
-                            <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
-                            <?php }?>
-                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>科目</td>
-                                <td colspan='6'> 
-                                    <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
-                                    <textarea style='width:600px;height:25px;' class="subject" disabled="disabled"></textarea>
-                                     <select id="multipleselect" multiple="multiple">
-                                        <?php foreach($keyanlist as $lk=>$lv){?>
-                                            <?php foreach($lv as $k=>$v){?>
-                                                <option  value="<?php echo $k;?>"><?php echo $v;?></option>
-                                            <?php }?>
+                                        <?php  foreach($source as $qd){?>
+                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
                                         <?php }?>
                                     </select>
-                                    <script src="/assets/js/multiple-select_fy.js"></script>
-                                    <link href="/assets/js/multiple-select.css" rel="stylesheet">
-                                    <script>
-                                        $("#multipleselect").multipleSelect({
-                                            width: 440,
-                                            multiple: true,
-                                            multipleWidth: 200,
-                                            minimumCountSelected:3
-                                        });
-                                    </script>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>金额</td>
-                                <td>人民币大写</td>
-                                <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" style='width:190px;height:25px;'/>   </td>
-                                <td>￥</td>
-                                <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
-                            </tr>
-                            <tr>
-                                <td>报销人<br/>简要说明</td>
-                                <td colspan='6'> <textarea  name="description" class="description"  style="width:600px;" ></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width:90px;">报销人</td>
-                                <td style="width:100px;">项目负责人</td>
-                                <td style="width:90px;">科室负责人</td>
-                                <td style="width:90px;">分管所领导</td>
-                                <td style="width:100px;">所长</td>
-                                <td style="width:130px;">分管财务所长</td>
-                                <td style="width:100px;">财务科长</td>
-                            </tr>
-                            <tr >
-                                <td style="height:40px;line-height: 40px;"> <?php echo $userInfo->name; ?> </td>
-                                <td > </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                            </tr>
+                        <script type="text/javascript">
+                            var class_name = 'multipleselect_bm';
+                            if ($('#multipleselect_bm option').eq(0).val() != 0) {
+                                class_name = 'multipleselect_ky';
+                            }
+                            var filenumber_option = '';
+                            <?php  foreach($source as $qd){?>
+                                  filenumber_option +='<option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>';
+                             <?php }?>
+                             
+                            function change_filenumber(type) {
+                                if (type ==0) {
+                                    //部门
+                                    $('.filenumber').html('<option></option>');
+                                    //部门 select显示
+                                    $('.multipleselect_bm').css('display', '');
+                                    //项目 select 隐藏
+                                    $('.multipleselect_ky').css('display', 'none');
+                                    class_name = 'multipleselect_bm';
+                                    //清空 之前所选
+                                    clear_class_info('multipleselect_ky');
+                                } else {
+                                    //项目
+                                    $('.filenumber').html(filenumber_option);
+                                    //部门 select 隐藏
+                                    $('.multipleselect_bm').css('display', 'none');
+                                    //项目 select 显示
+                                    $('.multipleselect_ky').css('display', '');
+                                    class_name = 'multipleselect_ky';
+                                    //清空 之前所选
+                                    clear_class_info('multipleselect_bm');
+                                }
+                                $('.subject').val('');
+                            }
+                            //清空 checkbox,清空input
+                            function clear_class_info(classname) {
+                                $('#'+classname+' option').each(function(){
+                                        $(this).removeAttr('selected')
+                                });
+                                $('.amount').val('');
+                                $('.rmb_capital').val('');
+                                $( '.'+ classname +' div.ms-drop li.multiple').each(function (i) {
+                                    var li_item = $('li.multiple').eq(i);
+                                    li_item.find('.first_inpuut').removeAttr('checked');
+                                    li_item.find('input.je').val('0')
+                                    
+                                });
+                            }
+                            //进来后，让他运行一次
+                            function bumeng_change() {
+                                $('.projectname').change();
+                            }
+                        </script>
+                        </tr>
+                        <tr>
+                            <td>科目</td>
+                            <td colspan='6'> 
+                                <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
+                                <textarea style='width:600px;height:25px;' class="subject" disabled="disabled"></textarea>
+                                <select id="multipleselect_ky" multiple="multiple">
+                                    <?php foreach($keyanlist as $lk=>$lv){?>
+                                    <?php foreach($lv as $k=>$v){?>
+                                    <option  value="<?php echo $k;?>"><?php echo $v;?></option>
+                                    <?php }?>
+                                    <?php }?>
+                                </select>
+                                <?php if($is_department == 1){?>
+                                <select id="multipleselect_bm" multiple="multiple">
+                                    <?php foreach($xizhenglist as $lk=>$lv){?>
+                                    <?php foreach($lv as $k=>$v){?>
+                                    <option  value="<?php echo $k;?>"><?php echo $v;?></option>
+                                    <?php }?>
+                                    <?php }?>
+                                </select>
+                                <?php }?>
+                                <script src="/assets/js/multiple-select_fy.js"></script>
+                                <link href="/assets/js/multiple-select.css" rel="stylesheet">
+                                <script>
+                        $("#multipleselect_ky").multipleSelect({
+                            class:'multipleselect_ky',
+                            width: 480,
+                            multiple: true,
+                            multipleWidth: 220,
+                            minimumCountSelected: 3
+                        });
+                                </script>
+                                <?php if($is_department == 1){?>
+                                <script>
+                                    $("#multipleselect_bm").multipleSelect({
+                                        class:'multipleselect_bm',
+                                        width: 480,
+                                        multiple: true,
+                                        multipleWidth: 220,
+                                        minimumCountSelected: 3
+                                    });
+                                </script>
+                                <?php }?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>金额</td>
+                            <td>人民币大写</td>
+                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:190px;height:25px;'/>   </td>
+                            <td>￥</td>
+                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
+                        </tr>
+                        <tr>
+                            <td>报销人<br/>简要说明</td>
+                            <td colspan='6'> <textarea  name="description" class="description"  style="width:600px;" ></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:90px;">报销人</td>
+                            <td style="width:100px;">项目负责人</td>
+                            <td style="width:90px;">科室负责人</td>
+                            <td style="width:90px;">分管所领导</td>
+                            <td style="width:100px;">所长</td>
+                            <td style="width:130px;">分管财务所长</td>
+                            <td style="width:100px;">财务科长</td>
+                        </tr>
+                        <tr >
+                            <td style="height:40px;line-height: 40px;"> <?php echo $userInfo->name; ?> </td>
+                            <td > </td>
+                            <td style="width:100px;"> </td>
+                            <td style="width:100px;"> </td>
+                            <td style="width:100px;"> </td>
+                            <td style="width:100px;"> </td>
+                            <td style="width:100px;"> </td>
+                        </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
 
             <div class="modal-footer" style='background-color: #fff;'>
-                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
-                
+                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
+
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
                 <button type="button" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
@@ -122,13 +199,13 @@
     function sub_fy() {
         total = 0;
         sub_str = ''
-        $('div.ms-drop li.multiple').each(function(i){
-            var li_item = $('li.multiple').eq(i);
+        $( '.'+ class_name +' div.ms-drop li.multiple').each(function (i) {
+            var li_item = $('.'+class_name+' li.multiple').eq(i);
             if (li_item.find('.first_inpuut').get(0).checked) {
                 //如果这个选中，则把他的金额取出，放到total里面
                 if ($.isNumeric(li_item.find('input.je').val())) {
                     total += Number(li_item.find('input.je').val());
-                    var name = $('select#multipleselect option').eq(i).text();
+                    var name = $('select#'+ class_name +' option').eq(i).text();
                     var money = li_item.find('input.je').val();
                     sub_str += name + ": " + money + ',';
                 }
@@ -136,9 +213,10 @@
         });
         $('.subject').val(sub_str + '总额: ' + total);
         $('input.amount').val(total);
-    }   
+        $('.rmb_capital').val(convertCurrency(total));
+    }
     //当输入框输入后，再改变一下总金额
-    $('input.je').keyup(function(){
+    $('input.je').keyup(function () {
         var reg = /^[1-9]+[0-9]*/;
         if (!reg.test(this.value)) {
             this.value = 0;
@@ -148,9 +226,9 @@
     //获取下拉的，值和键
     var option_json_tmp = {};
     function option_josn() {
-        $('div.ms-drop li.multiple').each(function(i){
-            var li_item = $('li.multiple').eq(i);
-            var index = $('select#multipleselect option').eq(i).val();
+        $('.'+ class_name +' div.ms-drop li.multiple').each(function (i) {
+            var li_item = $('.'+class_name+' li.multiple').eq(i);
+            var index = $('select#'+ class_name +' option').eq(i).val();
             var is_select = 0;
             var money = li_item.find('input.je').val();
             if (li_item.find('.first_inpuut').get(0).checked) {
@@ -170,6 +248,7 @@
         var projectname = $('.projectname').val();
         var filenumber = $('.filenumber').val();
         var subject = option_josn();
+        
         var rmb_capital = $('.rmb_capital').val();
         var amount = $('.amount').val();
         var description = $('.description').val();
@@ -186,11 +265,11 @@
             $('.projectname').focus();
             return;
         }
-      if (filenumber == '') {
-            $('.filenumber').focus();
-            return;
+        if (filenumber == '') {
+            //$('.filenumber').focus();
+            //return;
         }
-        
+
         if (rmb_capital == '') {
             $('.rmb_capital').focus();
             return;
@@ -199,9 +278,9 @@
             $('.amount').focus();
             return;
         }
-      
-        var data = {declarename:declarename, ctime: ctime, page_number: page_number, projectname: projectname,filenumber: filenumber,subject: subject,rmb_capital: rmb_capital,amount: amount,description: description};
-        
+
+        var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description};
+
         $.ajax({
             url: '/researchproject/sub_declares',
             type: 'post',
@@ -252,6 +331,91 @@
             hide_error($(this));
         }
     });
+    function convertCurrency(money) {
+        //汉字的数字
+        var cnNums = new Array('零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖');
+        //基本单位
+        var cnIntRadice = new Array('', '拾', '佰', '仟');
+        //对应整数部分扩展单位
+        var cnIntUnits = new Array('', '万', '亿', '兆');
+        //对应小数部分单位
+        var cnDecUnits = new Array('角', '分', '毫', '厘');
+        //整数金额时后面跟的字符
+        var cnInteger = '整';
+        //整型完以后的单位
+        var cnIntLast = '元';
+        //最大处理的数字
+        var maxNum = 999999999999999.9999;
+        //金额整数部分
+        var integerNum;
+        //金额小数部分
+        var decimalNum;
+        //输出的中文金额字符串
+        var chineseStr = '';
+        //分离金额后用的数组，预定义
+        var parts;
+        if (money == '') { return ''; }
+        money = parseFloat(money);
+        if (money >= maxNum) {
+          //超出最大处理数字
+          return '';
+        }
+        if (money == 0) {
+          chineseStr = cnNums[0] + cnIntLast + cnInteger;
+          return chineseStr;
+        }
+        //转换为字符串
+        money = money.toString();
+        if (money.indexOf('.') == -1) {
+          integerNum = money;
+          decimalNum = '';
+        } else {
+          parts = money.split('.');
+          integerNum = parts[0];
+          decimalNum = parts[1].substr(0, 4);
+        }
+        //获取整型部分转换
+        if (parseInt(integerNum, 10) > 0) {
+          var zeroCount = 0;
+          var IntLen = integerNum.length;
+          for (var i = 0; i < IntLen; i++) {
+            var n = integerNum.substr(i, 1);
+            var p = IntLen - i - 1;
+            var q = p / 4;
+            var m = p % 4;
+            if (n == '0') {
+              zeroCount++;
+            } else {
+              if (zeroCount > 0) {
+                chineseStr += cnNums[0];
+              }
+              //归零
+              zeroCount = 0;
+              chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+            }
+            if (m == 0 && zeroCount < 4) {
+              chineseStr += cnIntUnits[q];
+            }
+          }
+          chineseStr += cnIntLast;
+        }
+        //小数部分
+        if (decimalNum != '') {
+          var decLen = decimalNum.length;
+          for (var i = 0; i < decLen; i++) {
+            var n = decimalNum.substr(i, 1);
+            if (n != '0') {
+              chineseStr += cnNums[Number(n)] + cnDecUnits[i];
+            }
+          }
+        }
+        if (chineseStr == '') {
+          chineseStr += cnNums[0] + cnIntLast + cnInteger;
+        } else if (decimalNum == '') {
+          chineseStr += cnInteger;
+        }
+        return chineseStr;
+}
 </script>
 
 <?php echo $this->element('foot_frame'); ?>
