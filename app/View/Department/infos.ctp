@@ -144,9 +144,15 @@
                                                             部门预算
                                                         </a>
                                                     </li>
+
+                                                    <li >
+                                                        <a data-toggle="tab" href="#faq-tab-3">
+                                                            <i class="blue icon-question-sign bigger-120"></i>
+                                                            申报费用
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                                 <div class="tab-content no-border ">
-
 
                                                     <div id="faq-tab-1" class="tab-pane fade in active">
                                                         <table class="table table-striped table-bordered">
@@ -205,10 +211,53 @@
                                                         <div style="clear:both;"> </div>
                                                     </div>
 
+                                                    <div id="faq-tab-3" class="tab-pane fade " style='width:100%;overflow:auto;'>
+                                                        <table class="table table-bordered table-striped" style="table-layout: fixed;text-align:center;font-size: 12px;" >
+                                                            <tbody>
+                                                                <tr style='font-weight:600;' class="blue">
+                                                                    <td width='50px'> · </td>
+                                                                    <!--td width='50px'>打印</td-->
+                                                                    <td width='100px'>日期</td>
+                                                                    <td width='100px'>报销人</td>
+                                                                    <td width='100px'>政府采购</td>
+                                                                    <td width='100px'>摘要</td>
+                                                                    <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                                                    foreach($tdv as $lv){  
+                                                                    echo  "<td width='120'>" . $lv . '</td>'; 
+                                                                    }
+                                                                    }
+                                                                    ?>  
+                                                                    <td width='100'>申报总额</td>
+                                                                    <td width='100'>审批进度</td>
+                                                                </tr>
+                                                                <?php foreach($declares_arr as $d){?>        
+                                                                <tr>
+                                                                    <td><?php echo $d['b']['id'];  ?></td>
+                                                                    <!--td> <i class='glyphicon glyphicon-print blue'></i> </td-->
+                                                                    <td><?php echo $d['m']['ctime'];  ?></td>
+                                                                    <td><?php echo $d['u']['name']; ?> </td>
+                                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                                    
+                                                                    <td> <?php echo $d['b']['description']; ?> </td>
+                                                                    <?php 
+                                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                                    foreach($keyanlist as $k) {
+                                                                    foreach($k as $kk=>$kv) {
+                                                                    echo  '<td>';
+                                                                    echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
+                                                                    echo '</td>';
+                                                                    }
+                                                                    }
+                                                                    ?>
+                                                                    <td> <?php echo $d['b']['amount'];  ?> </td>
+                                                                    <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
+                                                                </tr>
+                                                                <?php }?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>                                                  
+
                                                 </div>
-
-
-
 
                                                 <div class="hr hr8 hr-double hr-dotted"></div>
 
@@ -256,7 +305,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 <script type="text/javascript">
     if ("ontouchend" in document)
-            document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");</script>
+            document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
 <script src="/assets/js/bootstrap.min.js"></script>
 <script src="/assets/js/typeahead-bs2.min.js"></script>
 <!-- page specific plugin scripts -->
@@ -271,19 +321,19 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     var f_class = 'government';
     var s_class = '';
     var t_class = '';
-        <?php if (@$depInfo['Department']['type'] == 1){ ?>
+        <?php if (@$depInfo['Department']['type'] == 1){  ?>
             //行政
             s_class = 'administration';
     t_class = s_class + "<?php echo '_'.$d_id;?>";
-        <?php } else if(@$depInfo['Department']['type'] == 2){  ?>
+        <?php } else if(@$depInfo['Department']['type'] == 2){   ?>
             //科研
             s_class = 'research';
     t_class = s_class + "<?php echo '_'.$d_id;?>";
-        <?php } else {  ?>
+        <?php } else {   ?>
             //有问题，暂时不处理
             window.location = '/homes/index';
         <?php }  ?>
-
+        
         jQuery(function ($) {
             $('.accordion').on('hide', function (e) {
     $(e.target).prev().children(0).addClass('collapsed');
@@ -292,6 +342,6 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
         });
-        
+
         show_left_select(f_class,s_class,t_class );
 </script>

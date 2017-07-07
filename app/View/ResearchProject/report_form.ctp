@@ -125,60 +125,67 @@
                             </ul>
 
                             <div class="tab-content no-border ">
-                                
-
-                                <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style=''>
-                                        <thead>
-                                            <tr>
-                                                <th colspan="9" class='blue' style='border-right:0px;'> 报表 </th>
-
-                                                <th colspan="3" style='border-left:0px;' >
-                                                    <!--select  name="assets" class="type input-width" style="width:145px;">
+                                <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
+                                    <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;" >
+                                        <thead style='width:100%;'>
+                                            <tr >
+                                                <th colspan="32" class='blue' style='width:100%;border-right:0px;'> 项目经费 
+                                                    <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
                                                         <option value="1">财务报销单</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i-->
-                                                </th>
+  <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
+                                                    <i class="icon-plus arrow blue"></i>
+                                                    </a>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr style='font-weight:600;' class="blue">
-                                                <td> 日期 </td>
-                                                <td>摘要</td>
-                                                <td>现金来源</td>
-                                                <td>文号</td>
-                                                <td>合计</td>
-                                                <td>资料费</td>
-                                                <td>设备费1</td>
-                                                <td>设备费2</td>
-                                                <td>设备费3</td>
-                                                <td>材料费1</td>
-                                                <td>材料费2</td>
-                                                <td>材料费3</td>
+                                                <td width='50px'> · </td>
+                                                <td width='50px'>打印</td>
+                                                <td width='100px'>日期</td>
+                                                <td width='100px'>报销人</td>
+                                                <td width='80px'>政府采购</td>
+                                                <td width='80px'>来源渠道</td>
+                                                <td width='100px'>文号</td>
+                                                <td width='100px'>摘要</td>
+                                               <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                                    foreach($tdv as $lv){  
+                                                         echo  "<td width='120'>" . $lv . '</td>'; 
+                                                    }
+                                                  }
+                                               ?>  
+                                               <td width='100'>申报总额</td>
+                                               <td width='100'>审批进度</td>
                                             </tr>
-
-                                            
+                                            <?php foreach($declares_arr as $d){?>        
                                             <tr>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00 </td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 删除 </td>
+                                                <td><?php echo $d['b']['id'];  ?></td>
+                                                <td> <i class='glyphicon glyphicon-print blue'></i> </td>
+                                                <td><?php echo $d['m']['ctime'];  ?></td>
+                                                <td><?php echo $d['u']['name']; ?> </td>
+                                                <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                <td> <?php echo $d['s']['source_channel'];  ?> </td>
+                                                <td> <?php echo $d['s']['file_number'];  ?> </td>
+                                                <td> <?php echo $d['b']['description']; ?> </td>
+                                                <?php 
+                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                            foreach($keyanlist as $k) {
+                                                                foreach($k as $kk=>$kv) {
+                                                              echo  '<td>';
+                                                              echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
+                                                              echo '</td>';
+                                                                }
+                                                            }
+                                                ?>
+                                                <td> <?php echo $d['b']['amount'];  ?> </td>
+                                                <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
                                             </tr>
-                                        
+                                           <?php }?>
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
 

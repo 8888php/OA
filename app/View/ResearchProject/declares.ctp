@@ -125,16 +125,12 @@
                             </ul>
 
                             <div class="tab-content no-border ">
-                                
-
-                                <div id="faq-tab-1" class="tab-pane fade in active">
-                                    <table class="table table-bordered table-striped" style=''>
+                                <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
+                                    <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;" >
                                         <thead>
                                             <tr>
-                                                <th colspan="9" class='blue' style='border-right:0px;'> 项目经费 </th>
-
-                                                <th colspan="3" style='border-left:0px;' >
-                                                    <select  name="assets" class="type input-width" style="width:145px;">
+                                                <th colspan="32" class='blue' style='border-right:0px;'> 项目经费 
+                                                    <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
                                                         <option value="1">财务报销单</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -146,18 +142,22 @@
                                         </thead>
                                         <tbody>
                                             <tr style='font-weight:600;' class="blue">
-                                                <td> · </td>
-                                                <td>打印</td>
-                                                <td>日期</td>
-                                                <td>报销人</td>
-                                                <td>政府采购</td>
-                                                <td>来源渠道</td>
-                                                <td>文号</td>
-                                                <td>摘要</td>
-                                                <td>报销科目</td>
-                                                <td>报销费用</td>
-                                                <td>审批进度</td>
-                                                <td>操作</td>
+                                                <td class="col-md-2"> · </td>
+                                                <td style='width:50px;'>打印</td>
+                                                <td style='width:50px;'>日期</td>
+                                                <td width='100px'>报销人</td>
+                                                <td width='100px'>政府采购</td>
+                                                <td width='100px'>来源渠道</td>
+                                                <td width='100px'>文号</td>
+                                                <td width='100px'>摘要</td>
+                                               <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                                    foreach($tdv as $lv){  
+                                                         echo  "<td width='100'>" . $lv . '</td>'; 
+                                                    }
+                                                  }
+                                               ?>  
+                                               <td width='100'>申报总额</td>
+                                               <td width='100'>审批进度</td>
                                             </tr>
                                             <?php foreach($declares_arr as $d){?>        
                                             <tr>
@@ -170,33 +170,15 @@
                                                 <td> <?php echo $d['b']['page_number'];  ?> </td>
                                                 <td> <?php echo $d['b']['description']; ?> </td>
                                                 <?php 
-                                                    $str = '';
                                                     $json_data = json_decode($d['b']['subject'],true);
-                                                    if (!is_null(json_decode($d['b']['subject'])) && is_array($json_data)) {
-                                                    
-                                                        foreach($json_data as $jk=>$jv) {
                                                             foreach($keyanlist as $k) {
-                                                                $tmp = '';
                                                                 foreach($k as $kk=>$kv) {
-                                                                    if ($kk == $jk) {
-                                                                        $tmp = '<b style="color:black;">' . $kv . ': ' . $jv . '</b>';
-                                                                        $str .= $tmp . ',';
-                                                                        break;
-                                                                    }
-                                                                    
-                                                                }
-                                                                if ($tmp != '') {
-                                                                    $str .= $tmp . ',';
+                                                              echo  '<td>';
+                                                              echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
+                                                              echo '</td>';
                                                                 }
                                                             }
-                                                        }
-                                                        if ($str != '') {
-                                                            $str = rtrim($str, ',');
-                                                        }
-                                                    }
-                                                    
                                                 ?>
-                                                <td style="width: 250px;"><?php echo $str;  ?></td>
                                                 <td> <?php echo $d['b']['amount'];  ?> </td>
                                                 <td> <?php echo Configure::read('new_appprove_code_arr')[$d['m']['code']];  ?> </td>
                                                 <td>  </td>

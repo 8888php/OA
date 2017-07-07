@@ -66,7 +66,7 @@ body{background-color:#f6f5f5;background: url(/img/loginbg.jpg) no-repeat 0px 0p
         <div id="responser" class="text-center"></div>
         <div class="row">
           <div class="col-xs-4 text-center">
-          <img src="/img/login-logo.png" alt='OA'>
+          <img src="./登录 - 然之协同_files/logo.png">
           </div>
           <div class="col-xs-8">
             <table class="table table-form">
@@ -97,9 +97,9 @@ body{background-color:#f6f5f5;background: url(/img/loginbg.jpg) no-repeat 0px 0p
 </div>
 <script language="Javascript">$(document).ready(function()
 {
-    $('.LoginSigninForm').submit(function()
+    $('.form-search').submit(function()
     {
-        var inputValue = $(".user").val();
+        var inputValue = $(".search-query").val();
         if(inputValue == '')
         {
             alert('请输入用户名');
@@ -153,28 +153,15 @@ $(document).ready(function()
 /* Keep session random valid. */
 $('#submit').click(function()
 {
-    var inputUser = $("#user").val();
-        if(inputUser == '')
-        {
-             bootbox.alert('请输入用户名');
-             return false;
-        }
-     var inputPass = $("#password").val();
-        if(inputPass == '')
-        {
-             bootbox.alert('请输入密码');
-             return false;
-        }
-     
-    var password = v.notEncryptedPwd ? inputPass : md5(inputPass);
-    var rawPassword = md5(inputPass);
+    var password = v.notEncryptedPwd ? $('#password').val() : md5(md5(md5($('#password').val()) + $('#account').val()) + v.random);
+    var rawPassword = md5($('#password').val());
     
     loginURL = createLink('login', 'signin');
     $.ajax(
     {
         contentType: 'application/x-www-form-urlencoded',
         type: "POST",
-        data:"user=" + inputUser + '&password=' + password + '&referer=' + encodeURIComponent($('#referer').val()) + '&rawPassword=' + rawPassword + '&keepLogin=' + $('#keepLoginon').is(':checked'),
+        data:"user=" + $('#user').val() + '&password=' + password + '&referer=' + encodeURIComponent($('#referer').val()) + '&rawPassword=' + rawPassword + '&keepLogin=' + $('#keepLoginon').is(':checked'),
         url:$('#LoginSigninForm').attr('action'),
         dataType:'json',
         success:function(data)
