@@ -201,6 +201,7 @@ class ResearchProjectController extends AppController {
         $mainArr['code'] = $ret_arr[$this->res]['approve_code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $ret_arr[$this->res]['approval_process_id']; //审批流程id
         $mainArr['type'] = $type; 
+        $mainArr['attachment'] = $_POST['attachment']; 
         $mainArr['name'] = $_POST['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;        

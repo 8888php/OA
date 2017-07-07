@@ -1,6 +1,6 @@
 <?php echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
-
+<link rel="stylesheet" href="/assets/css/dropzone.css" />
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
 
     <style>
@@ -180,6 +180,98 @@
                 </form>
             </div>
 
+            <!-- PAGE CONTENT BEGINS -->
+            <div id="dropzone">
+                <span>点击添加上传附件</span>
+                <form  class="dropzone" enctype="multipart/form-data" id="upfiles"  method="post" >
+                    
+                    <div class="fallback" >
+                        <input name="file[]" type="file" multiple="" />
+                    </div>
+
+                 <input type="hidden" id="file_upload" name="file_upload[]" value="" />  
+                </form>
+            </div><!-- PAGE CONTENT ENDS -->
+            <!-- basic scripts -->
+            <script src="/js/jquery-2.0.3.min.js"></script>
+            <script src="/assets/js/dropzone.min.js"></script>
+            <script type="text/javascript">
+                      jQuery(function ($) {
+                         try {
+                             $(".dropzone").dropzone({
+                                 url: '/ResearchProject/upload_file',
+                                 paramName: "file", // The name that will be used to transfer the file
+                                 maxFilesize: 0.5, // MB
+
+                                 addRemoveLinks: true,
+                                 dictDefaultMessage:
+                                         '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
+                <span class="smaller-80 grey">(or click)</span> <br /> \
+                <i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
+                                 ,
+                                 dictResponseError: 'Error while uploading file!',
+
+                                 //change the previewTemplate to use Bootstrap progress bars
+                                 previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+                                 removedfile: function (file) {
+                                     //删除文件
+                                     var file_name = file.name;
+                                     file.previewElement.remove();
+                                     var file_all_arr = $('#file_upload').val().split('|');
+                                     var index_ = $.inArray(file_name, file_all_arr);
+                                     if (index_ != -1) {
+                                         //去掉他
+                                         file_all_arr.splice(index_, 1);
+                                     }
+                                     $('#file_upload').val(file_all_arr.join('|'));
+                                 },
+                                 success: function (file, res) {
+                                     //把json转成Obj
+                                     var res = JSON.parse(res);
+                                     if (res.code == -1) {
+                                         //登录过期
+                                         window.location.href = '/homes/index';
+                                         return;
+                                     }
+                                     if (res.code == -2) {
+                                         //权限不足
+                                         alert('权限不足');
+                                         return;
+                                     }
+                                     if (res.code == 1) {
+                                         //重名
+                                         (file.previewElement.classList.add("dz-error"));
+                                         //file.previewElement.remove();
+                                         alert(res.msg);
+
+                                         return;
+                                     }
+                                     if (res.code == 0) {
+                                         //上传成功什么也不干   
+                                         (file.previewElement.classList.add("dz-success"));
+                                         var file_all_str = $('#file_upload').val();
+                                         if (file_all_str) {
+                                             file_all_str += '|' + file.name;
+                                         } else {
+                                             file_all_str = file.name;
+                                         }
+                                         $('#file_upload').val(file_all_str)
+                                         return;
+                                     }
+                                     if (res.code == 2) {
+                                         //失败
+                                         alert(res.msg);
+                                         return;
+                                     }
+                                 }
+
+                             });
+                         } catch (e) {
+                             alert('Dropzone.js does not support older browsers!');
+                         }
+
+                     });  
+            </script>
             <div class="modal-footer" style='background-color: #fff;'>
                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
@@ -253,6 +345,7 @@
         var amount = $('.amount').val();
         var description = $('.description').val();
         var declarename = $('.declarename').val();
+        var attachment = $('#file_upload').val();
         if (ctime == '') {
             $('.ctime').focus();
             return;
@@ -279,7 +372,7 @@
             return;
         }
 
-        var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description};
+        var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
 
         $.ajax({
             url: '/researchproject/sub_declares',

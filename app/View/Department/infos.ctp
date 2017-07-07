@@ -221,7 +221,7 @@
                                                                     <td width='100px'>报销人</td>
                                                                     <td width='100px'>政府采购</td>
                                                                     <td width='100px'>摘要</td>
-                                                                    <?php foreach(Configure::read('keyanlist') as $tdv){  
+                                                                    <?php foreach(Configure::read('xizhenglist') as $tdv){  
                                                                     foreach($tdv as $lv){  
                                                                     echo  "<td width='120'>" . $lv . '</td>'; 
                                                                     }
@@ -250,7 +250,7 @@
                                                                     }
                                                                     ?>
                                                                     <td> <?php echo $d['b']['amount'];  ?> </td>
-                                                                    <td> <?php $code_bxd_arr = Configure::read('code_bxd_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
+                                                                    <td> <?php $code_bxd_arr = Configure::read('new_appprove_code_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
                                                                 </tr>
                                                                 <?php }?>
                                                             </tbody>
