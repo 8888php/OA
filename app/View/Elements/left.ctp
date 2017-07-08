@@ -145,7 +145,8 @@
                         </li>
 
                         <li class="system_message">
-                            <a href="/office/system_message">
+                            <!--a href="/office/system_message"-->
+			    <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 系统消息
                             </a>

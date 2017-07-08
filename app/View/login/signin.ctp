@@ -13,7 +13,8 @@ var config={"webRoot":"\/","appName":"sys","cookieLife":30,"requestType":"GET","
 <link rel="stylesheet" href="/css/rzlogin.css" type="text/css" media="print">
 <script src="/js/rzlogin.js" type="text/javascript"></script>
 <style>.user-control-nav{margin-bottom: 20px;}
-body {padding-top: 0;}
+html{height:100%;}
+body {padding-top: 0;width:100%;height:100%;background-color:#f6f5f5;background: url(/img/loginbg.jpg) no-repeat 0px 0px;font-family: 'Open Sans', sans-serif;background-size:cover;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:100% 100%;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bg-login.png',sizingMethod='scale');border:1px solid #fff;}
 .page-content{padding: 0;}
 .text-bold{font-weight: bold;}
 .container {margin: 10% auto 0 auto}
@@ -47,9 +48,7 @@ if(typeof(v) != "object") v = {};v.lang = {"confirmDelete":"\u60a8\u786e\u5b9a\u
     v.random = "f1ae84c5f98fb8910a449ccce875955e";
     v.notEncryptedPwd = false;
 </script>
-<style>
-body{background-color:#f6f5f5;background: url(/img/loginbg.jpg) no-repeat 0px 0px;font-family: 'Open Sans', sans-serif;background-size:cover;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;}
-</style> 
+
 <div class="container">
   <div id="login" style='opacity:0.9;'>
     <div class="panel-head">

@@ -97,7 +97,8 @@
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
                                                      <td><?php echo $sv['ResearchProject']['type'] == 1 ? '零余额' : '基本户';  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
-                                                    <td><?php echo Configure::read('code_arr')[$sv['ResearchProject']['code']];  ?></td>
+                                                    <td><?php $code_arr =  Configure::read('code_arr');
+						    echo $code_arr[$sv['ResearchProject']['code']];  ?></td>
                                                     
                                                     <td><?php echo $sv['ResearchProject']['project_approver_remarks'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['financial_remarks'];  ?></td>

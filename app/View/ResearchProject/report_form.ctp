@@ -194,7 +194,7 @@
                                                     }
                                                     }
                                                     ?>
-                                                    <td> <?php echo Configure::read('code_bxd_arr')[$d['m']['code']];  ?> </td>
+                                                    <td> <?php $code_bxd_arr = Configure::read('code_bxd_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
                                                 </tr>
                                                 <?php }?>
                                                 
