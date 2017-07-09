@@ -165,16 +165,14 @@ class ResearchProjectController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         #附表入库
+        //是部门，取当前用户的部门信息
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
         if ($_POST['projectname'] == 0) {
-            //是部门，取当前用户的部门信息
-            $department_id = $this->userInfo->department_id;
-            $department_arr = $this->Department->findById($department_id);
-            $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
             $project_id = 0;//让他为0
         }else {
             //项目
-            $department_id = 0;
-            $department_name = '';
             $project_id = $_POST['projectname'];
         }
         $attrArr = array();

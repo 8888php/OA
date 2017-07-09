@@ -85,6 +85,7 @@
                                 $('#'+classname+' option').each(function(){
                                         $(this).removeAttr('selected')
                                 });
+                                $('.ms-choice span').text('');
                                 $('.amount').val('');
                                 $('.rmb_capital').val('');
                                 $( '.'+ classname +' div.ms-drop li.multiple').each(function (i) {
