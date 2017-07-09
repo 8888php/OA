@@ -127,14 +127,10 @@
                             <div class="tab-content no-border ">
                                 <div id="faq-tab-1" class="tab-pane fade in active" >
                                     <div class="table-header">
-                                        项目经费 
-
-                                        <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
-                                            <option value="1">财务报销单</option>
-                                        </select>  
+                                        项目经费  
                                     </div>
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>
-                                        <table class="table table-bordered " style="font-size:12px;text-align: center;table-layout: fixed;" >
+                                        <table class="table table-bordered " style="font-size:12px;text-align: center;table-layout: fixed;" style="margin-left:60%;">
                                             <tbody>
                                                 <tr style='font-weight:600;' class="blue">
                                                     <td width='100px'>日期</td>

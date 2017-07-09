@@ -129,11 +129,8 @@
                                     <div class="table-header">
                                         项目经费 
 
-                                        <select  name="assets" class="type input-width" style="width:145px;margin-left:60%;">
-                                            <option value="1">财务报销单</option>
-                                        </select>  
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" >
+                                        <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" style="margin-left:80%;" >
                                             <i class="icon-plus arrow white"></i>
                                         </a>
                                     </div>

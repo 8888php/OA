@@ -32,7 +32,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User','Department', 'ResearchProject');
+    public $uses = array('User','Department', 'ResearchProject','ProjectMember');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code';//返回的状态
@@ -67,10 +67,15 @@ class AppController extends Controller {
         $this->appdata['deplist'] = $this->Department->deplist();
         $this->set('deplist',$this->appdata['deplist']);
         
-        #所属项目
-       $applyList =  $this->ResearchProject->getApplyList(array('code'=>4));
-       $this->set('applyList',$applyList);
+        #当前用户所属项目
+        
+        $projectId = $this->ProjectMember->find('list',array('conditions'=>array('user_id'=>$this->userInfo->id),'fields'=>array('project_id')));
+        $projectId = empty($projectId) ? array(-1) : array_values($projectId);   //当前用户所属项目
 
+       $applyList =  $this->ResearchProject->getApplyList(array('code'=>4,'id'=>$projectId));
+       $this->set('applyList',$applyList);
+       
+       
     }
 
     /**
