@@ -137,7 +137,7 @@
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>
                                         <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" >
                                             <tbody>
-                                                <tr style='font-weight:600;' class="blue">
+                                                <tr style='font-weight:600;' class="blue first">
                                                     <td  width='50px'> · </td>
                                                     <td  width='50px'>打印</td>
                                                     <td  width='100px'>日期</td>
@@ -162,7 +162,7 @@
                                                 ?>        
                                                 <tr>
                                                     <td><?php echo $d['b']['id'];  ?></td>
-                                                    <td> <i class='glyphicon glyphicon-print blue'></i> </td>
+                                                    <td> <a href="/researchproject/budget_print/<?php echo $d['m']['id'];  ?>" target="_blank"><i class='glyphicon glyphicon-print blue'></i> </a></td>
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
                                                     <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>

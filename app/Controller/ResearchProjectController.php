@@ -704,4 +704,22 @@ class ResearchProjectController extends AppController {
         $this->set('feiyong', $feiyong);
         $this->render();
     }
+    
+    /**
+     * 预览 打印，费用申报列表的打印
+     */
+    public function budget_print($main_id = 0) {
+        if (empty($main_id)) {
+              header("Location:/homes/index");die;
+        }
+        $this->set('costList', Configure::read('keyanlist'));
+        $main_arr = $this->ApplyMain->findById($main_id);
+        
+        $subject = array();
+        if (!empty($main_arr['ApplyMain']['subject'])) {
+            $subject = json_decode($main_arr['ApplyMain']['subject'], true);
+        }
+        $this->set('subject', $subject);
+        $this->render();
+    }
 }
