@@ -34,10 +34,10 @@
                             <tr>
                                 <td>科目</td>
                                 <td colspan='6'> <?php 
-                                    if($main_arr['department_id']){ // 部门
+                                    if($main_arr['department_id'] > 0 && $main_arr['project_id'] <= 0){ // 部门
                                         $bumenArr = Configure::read('xizhenglist'); 
-                                    }else if($main_arr['project_id']){ // 项目
-                                        $bumenArr = Configure::read('keyanlist');
+                                    }else if($main_arr['department_id'] > 0 && $main_arr['project_id'] > 0){ // 项目
+                                    $bumenArr = Configure::read('keyanlist');
                                     }
                                     foreach($bumenArr as $bv){
                                         foreach($bv as $bk => $bvv){
@@ -81,6 +81,16 @@
                                 <td style="width:100px;"> </td>
                                 <td style="width:100px;"> </td>
                             </tr>
+                            <?php 
+                                if(!empty($main_arr['attachment'])){
+                                    $fileurlArr = explode('|',$main_arr['attachment']);
+                                    echo '<tr ><td> 附件内容 </td><td colspan="6" >'; 
+                                    foreach($fileurlArr as $filevs){
+                                        echo "<a href='/files/$filevs' target='$filevs'>".$filevs.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                    }
+                                    echo '</td>';
+                                }                            
+                            ?>
                         </tbody>
                     </table>
                 </form>
@@ -88,9 +98,9 @@
             </div>
      
             
-            <div class="modal-body">
+            <div class="modal-body" style="padding:0 20px;">
                 <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['id'];?>" />
-                <textarea id="remarks" placeholder="审批意见" rows='6' cols='90' ></textarea>
+                <textarea id="remarks" placeholder="审批意见" rows='2' cols='90' ></textarea>
             </div>
             <div class="modal-footer" style='background-color: #fff;'>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>

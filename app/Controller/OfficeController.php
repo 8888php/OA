@@ -529,10 +529,10 @@ class OfficeController extends AppController {
         $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']);  
         
         $kemuStr =  '';
-        if($main_arr['ApplyMain']['department_id']){ // 部门
-            $kemuArr = $this->DepartmentCost->findById($main_arr['ApplyMain']['department_id']);
-            $kemuStr = $kemuArr['DepartmentCost']['name'];
-        }else if($main_arr['ApplyMain']['project_id']){ // 项目
+        if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门
+            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['Department']['name'];
+        }else if($main_arr['ApplyMain']['project_id'] > 0 && $main_arr['ApplyMain']['project_id'] > 0){ // 项目
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);

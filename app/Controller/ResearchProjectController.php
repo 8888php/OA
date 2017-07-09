@@ -235,7 +235,7 @@ class ResearchProjectController extends AppController {
         if (empty($pid)) {
              header("Location:/homes/index");die;
         }
-         $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid'");
+         $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and code = 10000 ");
      
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);

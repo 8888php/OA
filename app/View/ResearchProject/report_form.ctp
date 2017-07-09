@@ -226,7 +226,12 @@
                                                     foreach($keyanlist as $k) {
                                                     foreach($k as $kk=>$kv) {
                                                     echo  '<td>';
-                                                    echo isset($expent[$kk]) ? $pcost[$kk] - $expent[$kk] : (isset($pcost[$kk]) ? $pcost[$kk] : 0);
+                                                    if(isset($expent[$kk])){
+                                                        echo ($pcost[$kk] >= $expent[$kk]) ? ($pcost[$kk] - $expent[$kk]) : '<a style="color:red;">'.($pcost[$kk] - $expent[$kk]).'</a>'; 
+                                                    }else{
+                                                        echo isset($pcost[$kk]) ? $pcost[$kk] : 0;
+                                                    }
+                                                   // echo isset($expent[$kk]) ? $pcost[$kk] - $expent[$kk] : (isset($pcost[$kk]) ? $pcost[$kk] : 0);
                                                     echo '</td>';
                                                     }
                                                     }

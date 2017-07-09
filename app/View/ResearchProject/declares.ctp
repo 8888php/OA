@@ -155,6 +155,7 @@
                                                     ?>  
                                                     <td width='100'>申报总额</td>
                                                     <td width='120'>审批进度</td>
+                                                    <td width='150'>附件</td>
                                                 </tr>
                                                 <?php 
                                                 foreach($declares_arr as $d){
@@ -181,6 +182,14 @@
                                                     ?>
                                                     <td> <?php echo $d['b']['amount'];  ?> </td>
                                                     <td> <?php $code_bxd_arr = Configure::read('code_bxd_arr');echo $code_bxd_arr[$d['m']['code']]; ?> </td>
+                                                    <td> <?php
+                                                        if(!empty($d['m']['attachment'])){
+                                                            $fileurlArr = explode('|',$d['m']['attachment']);
+                                                            foreach($fileurlArr as $filev){
+                                                                echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                                            } 
+                                                        }
+                                                        ?> </td>
                                                 </tr>
                                                 <?php }?>
                                             </tbody>

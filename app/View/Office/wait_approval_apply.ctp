@@ -99,8 +99,14 @@
                                                     <td><?php echo $sv['ApplyMain']['name'];  ?></td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
-                                                    <td><?php $type_value = Configure::read('type_value');
-						    echo $type_value[$sv['ApplyMain']['type']];  ?></td>
+                                                    <td><?php 
+                                                        $type_value = Configure::read('type_value');
+                                                        if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] <= 0){ // 部门
+                                                        echo $type_value[1];
+                                                        }else if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] > 0){ // 项目
+                                                        echo $type_value[2];
+                                                        }
+						      ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
@@ -120,9 +126,9 @@
                                         </table>
                                     </div>
                                     <!-- /.modal_storage -->
-                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:600px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:510px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
                                         <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
-                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:600px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
+                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:510px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
                                     </div>      
 
                                

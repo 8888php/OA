@@ -76,8 +76,8 @@ class DepartmentController extends AppController {
         $this->set('cost', $cost);
         
         // 费用申报
-        $pid = 8;
-        $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.department_id =  '$id' and m.project_id=0");
+        
+        $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.department_id =  '$id' and m.project_id=0 and code = 10000 ");
         $this->set('keyanlist', Configure::read('xizhenglist'));
         $this->set('declares_arr', $declares_arr);
 

@@ -99,8 +99,14 @@
                                                     <td><?php echo $sv['ApplyMain']['name'];  ?></td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
-                                                    <td><?php $type_value =  Configure::read('type_value');
-						    echo $type_value[$sv['ApplyMain']['type']];  ?></td>
+                                                    <td><?php 
+                                                        $type_value = Configure::read('type_value');
+                                                        if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] <= 0){ // 部门
+                                                        echo $type_value[1];
+                                                        }else if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] > 0){ // 项目
+                                                        echo $type_value[2];
+                                                        }
+						      ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){

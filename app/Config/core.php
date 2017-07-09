@@ -468,6 +468,7 @@ Configure::write('code_bxd_arr', array(
     12 => '分管财务所长同意',
     13 => '财务科长拒绝',
     14 => '财务科长同意',
+    10000 => '审核通过',
 ));
 //审核 类型
 Configure::write('type_number', array(
