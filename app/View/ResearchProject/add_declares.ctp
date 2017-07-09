@@ -277,14 +277,26 @@
                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
 
 
         </div>
     </div><!-- /.row -->
 </div>
-
+<script type="text/javascript">
+function printDIV(){
+    $('.modal-footer').css('display', 'none');
+    $('#dropzone').css('display', 'none');
+    //隐藏下拉框
+    $('.' + class_name).css('display', 'none');
+    window.print();//打印刚才新建的网页
+    $('.modal-footer').css('display', '');
+    $('#dropzone').css('display', '');
+    $('.' + class_name).css('display', '');
+    return false;
+}
+</script>
 <script type="text/javascript">
     //计算科目的费用
     var total = 0;//总数
