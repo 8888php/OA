@@ -21,13 +21,24 @@
 
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">资金性质 &nbsp;&nbsp;</label>
-                        <select  name="pid" class="type input-width" id="form-field-1" style="width:145px;">
+                        <select  name="type" class="type input-width" id="form-field-1" style="width:145px;">
                             <option value="1">零余额</option>
                             <option value="2">基本户</option>
                         </select>  
 
                         <label class="input-group-addon " for="form-field-2">金额 &nbsp;&nbsp;</label> 
                         <input type="text" id="form-field-2" readonly="" placeholder="金额" class="amount" name="amount" value="" />                
+                    </li> 
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">所属项目组 &nbsp;&nbsp;</label>
+                        <select  name="project_team_id" class="project_team_id input-width" id="form-field-1" style="width:145px;">
+                            <option value="0">请选择项目组</option>
+                            <?php $project_team_arr = Configure::read('project_team');?>
+                            <?php foreach($project_team_arr as $pk=>$pv) {?>
+                                <option value="<?php echo $pk;?>"><?php echo $pv;?></option>
+                            <?php }?>
+                            
+                        </select>                
                     </li> 
 
                     <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
@@ -140,12 +151,13 @@
         var start_date = $('.start_date').val();
         var end_date = $('.end_date').val();
         var qdly_add_length = $('.qdly_add').length;
+        var project_team_id = $('.project_team_id option:selected').val();
 
-
-        var position = $('.position option:selected').val();
+        var type = $('.type option:selected').val();
         var overview = $('.overview').val();
         var remark = $('.remark').val();
-
+        data_json.project_team_id = project_team_id;
+        data_json.type = type;
         if (name == '') {
             $('.name').focus();
             return;

@@ -514,7 +514,8 @@ class ResearchProjectController extends AppController {
                 $saveArr['end_date'] = $this->request->data('end_date');
                 $saveArr['overview'] = $this->request->data('overview');
                 $saveArr['remark'] = $this->request->data('remark');
-
+                $saveArr['project_team_id'] = $this->request->data('project_team_id');//所属项目组id
+                $saveArr['type'] = $this->request->data('type');
                 $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
 //                $saveArr['source_channel'] = $this->request->data('source_channel');
 //                $saveArr['file_number'] = $this->request->data('file_number');

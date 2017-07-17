@@ -526,3 +526,12 @@ Configure::write('new_appprove_code_arr', array(
     22 => '财务科长同意',
     10000 => '审核通过',
 ));
+
+/**
+ * 定义项目组
+ * 
+ */
+Configure::write('project_team', array(
+    1 => '梨组',
+    2 => '苹果组',
+));
