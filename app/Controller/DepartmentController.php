@@ -35,7 +35,7 @@ class DepartmentController extends AppController {
             }
 
             $depArr = array();
-            $depArr = $this->Department->query('select dep.*,u.name from t_department as dep left join t_user u on dep.user_id = u.id order by dep.id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
+            $depArr = $this->Department->query('select dep.*,u.name,tu.name from t_department as dep left join t_user u on dep.user_id = u.id left join t_user tu on dep.sld = tu.id order by dep.id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
             
         }
         $this->set('depArr', $depArr);
@@ -105,6 +105,11 @@ class DepartmentController extends AppController {
         # 该部门所属成员
         $fuzeren = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
         $this->set('fuzeren',$fuzeren);
+        
+         # 分管所领导
+        $sld_conditions = array('del'=>0,'position_id'=>array(5,6));
+        $suolingdao = $this->User->find('list',array('conditions' => $sld_conditions,'fileds'=>array('id','name')));
+        $this->set('suolingdao',$suolingdao);
         $this->render();
     }
 
@@ -159,11 +164,13 @@ class DepartmentController extends AppController {
             $desc = $this->request->data('desc');
             $type = $this->request->data('type');
             $fzr = $this->request->data('fzr');
+            $sld = $this->request->data('sld');
             $save_arr = array(
                 'name' => $name,
                 'description' => $desc,
                 'type' => $type,
                 'user_id' => $fzr,
+                'sld' => $sld,
                 'ctime' => time(),
             );
             if (empty($name)) {

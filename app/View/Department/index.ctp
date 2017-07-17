@@ -82,6 +82,7 @@
                                                 <th class="hidden-480">部门简介</th>
 
                                                 <th>负责人</th>
+                                                <th>分管所领导</th>
                                                 <th class="hidden-480">类型</th>
 
                                                 <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
@@ -100,6 +101,8 @@
                                                 <td><?php  echo $v['dep']['name']; ?></td>
                                                 <td class="hidden-480"><?php  echo $v['dep']['description']; ?></td>
                                                 <td><?php  echo $v['u']['name']; ?></td>
+                                                
+                                                <td><?php  echo $v['tu']['name']; ?></td>
 
                                                 <td><?php  switch($v['dep']['type']){
                                                     case 1: echo  '行政';break;
@@ -140,7 +143,7 @@
                                         添加部门
                                     </button>
 
-                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;  margin:10% auto 0px; overflow: hidden;border-radius:4px;'>
+                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:500px;  margin:5% auto 0px; overflow: hidden;border-radius:4px;'>
                                         <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">

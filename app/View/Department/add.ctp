@@ -2,7 +2,7 @@
         <p class="btn btn-info btn-block" > <span style="font-size:16px;"></span><a class="close" data-dismiss="modal">×</a> </p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
 
-            <div class="row" style='padding:20px 0;'>
+            <div class="row" style='padding:10px 0;'>
                 <div class="page-content">
 
                     <div class="row">
@@ -75,13 +75,32 @@
                                                 </div>
                                             </div>
 
+                                            
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-11">分管所领导</label>
+
+                                                <div class="col-sm-9">
+                                                    <select style="float: left;" name="sld" class="sld" id="form-field-11">
+                                                        <option value="0" > 请选择 </option>
+                                                        <?php foreach($suolingdao as $sk=>$sv){  ?>
+                                                        <option value="<?php echo @$sk;?>" <?php echo @$sk == @$depArr['Department']['sld'] ? 'selected' : '';?> > <?php echo @$sv;?> </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                        <span class="middle"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            
                                             <div class="space-4"></div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2">部门介绍</label>
 
                                                 <div class="col-sm-9">
-                                                    <textarea style="float: left;"  cols="30" rows="5"  placeholder="部门介绍" class="d_desc"><?php echo @$depArr['Department']['description'];?></textarea>
+                                                    <textarea style="float: left;"  cols="30" rows="3"  placeholder="部门介绍" class="d_desc"><?php echo @$depArr['Department']['description'];?></textarea>
                                                     <span class="help-inline col-xs-12 col-sm-7">
                                                         <span class="middle"></span>
                                                     </span>
@@ -181,6 +200,7 @@
             var desc = $('.d_desc').val();
             var type = $('.type option:selected').val();
             var fzr = $('.fzr option:selected').val();
+            var sld = $('.sld option:selected').val();
 
             if (!dname) {
                 show_error($('.d_name'), '部门名为空');
@@ -192,8 +212,13 @@
                 $('.type').focus();
                 return;
             }
+            if (!sld) {
+                show_error($('.sld'), '请选择所领导');
+                $('.sld').focus();
+                return;
+            }
             
-            var data = {id: did, name: dname, desc: desc, type: type, fzr: fzr};
+            var data = {id: did, name: dname, desc: desc, type: type, fzr: fzr,sld: sld};
             $.ajax({
                 url: '/department/ajax_edit',
                 type: 'post',
