@@ -383,7 +383,9 @@ class ResearchProjectController extends AppController {
         $saveArr['overview'] = $this->request->data('overview');
         $saveArr['remark'] = $this->request->data('remark');
         $saveArr['source'] = $this->request->data('source');
-
+        $saveArr['project_team_id'] = $this->request->data('project_team_id');//所属项目组id
+        $saveArr['type'] = $this->request->data('type');
+        
         $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
         $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
         $this->render();
@@ -524,7 +526,7 @@ class ResearchProjectController extends AppController {
                 //这里取出用户的  id，把id也存入到cookie里面
 
                 $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
-
+                
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = json_encode($saveArr);
 
