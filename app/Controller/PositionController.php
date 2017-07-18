@@ -6,14 +6,16 @@ App::uses('PositionController', 'AppController');
 class PositionController extends AppController {
 
     public $name = 'Position';
-    public $uses=array('Position');
+    public $uses = array('Position');
     public $layout = 'blank';
+    public $components = array('Approval');
     /* 左 */
     
     /**
      * 职务管理
      */
     public function index($pages = 1) {
+//var_dump($this->Approval->apply_bgszr(6,1));die;
       //  var_dump($_SERVER);
         if ((int) $pages < 1) {
             $pages = 1;
