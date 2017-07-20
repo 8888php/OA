@@ -205,6 +205,7 @@ class ResearchProjectController extends AppController {
         $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
+        $mainArr['total'] = $_POST['amount'];
         $mainArr['attr_id'] = $attrId;
         $mainArr['ctime'] = $_POST['ctime'];
         $mainArr['subject'] = json_encode($_POST['subject']);

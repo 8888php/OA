@@ -4,7 +4,104 @@ class ApprovalComponent extends Component{
     public $controller = true;
     public $component = array('Cookie');
  
- 
+ /**
+    *  以下所用方法 都需先获取 申请费用信息
+    *   返回code、下一审核人角色
+    *   获取申请项目信息
+    *  @params: $apply_id 申请费用id; $uinfo 当前审核人信息;$applytype 审批状态
+    *  @response:
+    */
+
+    public function apply($apply_id ,$uinfo , $applytype){
+        // 当前用户无审核权        
+        if($uinfo['can_approval'] != 2){
+             return false;
+        }
+        
+        // 获取申请详情
+        $applyinfo = $this->apply_info($apply_id);
+        
+        // 当前用户角色是否有审核权
+        if($uinfo['position_id'] != $applyinfo['next_approver_id']){
+             return false;
+        }
+        // 当前申请已通过
+        if($applyinfo['next_approver_id'] == 10000){
+             return false;
+        }
+        // 获取审批流
+        $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
+        
+        $contents = array('code'=>'','next_id'=>'');
+
+        switch($applytype){
+            case 1:
+                $contents['code'] = $uinfo['position_id'] * 2 - 1;
+                return $contents;
+                break;
+            case 2:
+                    foreach($liuArr as $k =>$v){
+                        if($v == $uinfo['position_id']){
+                            $next_id = isset($liuArr[$k+1]) ? $liuArr[$k+1] : 10000;  // 下一审批职务
+                            $next_next_id = isset($liuArr[$k+2]) ? $liuArr[$k+2] : 10000; // 下下一审批职务
+                            break;
+                        }
+                    }
+                    
+                    $action_data = array(
+                        'pid'=>$applyinfo['project_id'], // 申请所属项目id
+                        'uid'=>$applyinfo['user_id'], // 申请人id
+                        'department_id'=>$applyinfo['department_id'], // 申请所属部门
+                        'type'=>$applyinfo['type'], // 申请类型
+                        'total'=>$applyinfo['total'], // 申请总费用
+                    );
+                    $apply_yz = $this->apply_action($next_id,$action_data);   // 下一审核人是否跳过 ture跳过
+                    
+                    $contents['code'] = $uinfo['position_id'] * 2;
+                    $contents['next_id'] = $apply_yz ? $next_next_id : $next_id ;  // 如果跳过下一审核人则取下下一审核人
+                return $contents;
+                break;
+            default:
+                return false;
+        }
+
+    }
+
+    /**
+    *   获取申请验证信息
+    *  @params: $aid 进度id; $data 验证信息
+    *  @response:
+    */
+    private function apply_action($aid,$data){
+        switch ($aid){
+            case 11: 
+                return $this->apply_11($data['pid'],$data['uid']); 
+                break;
+            case 12: 
+                return $this->apply_12($data['pid'],$data['uid']); 
+                break;
+            case 13: 
+                return $this->apply_13($data['uid']); 
+                break;
+            case 14: 
+                return $this->apply_14($data['uid']); 
+                break;
+            case 4: 
+                return $this->apply_4($data['department_id'],$data['type'],$data['uid']); 
+                break;
+            case 5: 
+                return $this->apply_5($data['department_id'],$data['type'],$data['uid']); 
+                break;
+            case 6: 
+                return $this->apply_6($data['total'],$data['uid']); 
+                break;
+        }
+        
+    }
+    
+    
+    
  /**
     *  以下所用方法 都需先获取 申请费用信息
     *
@@ -57,7 +154,7 @@ class ApprovalComponent extends Component{
     *  @response:
     */
 
-    public function apply_fzr($pid = 0,$uid = 0){
+    public function apply_11($pid = 0,$uid = 0){
         if(!empty($pid)){ 
             require_once('../Model/ResearchProject.php');
             $Project = new ResearchProject();
@@ -66,7 +163,7 @@ class ApprovalComponent extends Component{
         }
 
         if($uid == $pinfo['user_id']){
-            return true;
+            return true;   
         }else{
             return false;
         }
@@ -84,7 +181,7 @@ class ApprovalComponent extends Component{
     *  @response:
     */
 
-    public function apply_xmzfzr($pid = 0,$uid = 0){
+    public function apply_12($pid = 0,$uid = 0){
         if(!empty($pid)){ 
             require_once('../Model/ResearchProject.php');
             $Project = new ResearchProject();
@@ -95,12 +192,11 @@ class ApprovalComponent extends Component{
         // 如果项目属于项目组则取找项目组负责人
         // 否则 直接返回 
         if($pinfo['project_team_id']){
-            echo '去取项目组负责人';
+            echo '去取项目组负责人'; // ????????????????????
         }else{
             return true;
         }
 
-var_dump($pinfo);
         // 验证uid 是否 项目组负责人 project_team_uid 项目组负责人id
         if($uid == $project_team_uid ){
             return true;
@@ -121,7 +217,7 @@ var_dump($pinfo);
     *   $info = $this->apply_info($apply_id); // 先获取审报费用信息
     */
 
-    public function apply_bgszr($department_id = 0,$type = 0,$uid = 0){
+    public function apply_4($department_id = 0,$type = 0,$uid = 0){
 
         // 根据$type 为1 去查项目所属 科研主任(department_id:3)
         // 为2 则去查 对应行政部门 办公室主任(position_id:4)
@@ -159,7 +255,7 @@ var_dump($pinfo);
     *  @response:
     */
 
-    public function apply_fsz($department_id = 0,$type = 0,$uid = 0){
+    public function apply_5($department_id = 0,$type = 0,$uid = 0){
 
         // 根据$type 为1 去查项目所属 科研主任(department_id:3)
         // 为2 则去查 对应行政部门 办公室主任(position_id:4)
@@ -175,8 +271,8 @@ var_dump($pinfo);
                 }
             break;
             case 2:
-            // 找对应行政部门 分管领导 副所长
-                if(in_array(department_id,array(3,5))){ //如果是科研部门、财务部门 则直接跳过
+            // 找对应行政部门 分管领导 副所长  ??????  科研部门、财务部门申请不需要本部门领导审批？？？？
+                if(in_array($department_id,array(3,5))){ //如果是科研部门、财务部门 则直接跳过
                     return false;
                 }
 
@@ -208,7 +304,7 @@ var_dump($pinfo);
     *  @response:
     */
 
-    public function apply_sz($total = 0,$uid = 0){
+    public function apply_6($total = 0,$uid = 0){
         if($total < 20000){  //小于2W
             return true;
         }
@@ -236,7 +332,7 @@ var_dump($pinfo);
     *  @response:
     */
 
-    public function apply_cwfsz($uid = 0){
+    public function apply_13($uid = 0){
 
         require_once('../Model/User.php');
         $Uinfo = new User();
@@ -260,7 +356,7 @@ var_dump($pinfo);
     *  @response:
     */
 
-    public function apply_cwbgszr($uid = 0){
+    public function apply_14($uid = 0){
 
         require_once('../Model/User.php');
         $Uinfo = new User();
@@ -276,17 +372,6 @@ var_dump($pinfo);
     }
 
 
-
- /*
-     *  1、获取审批流
-     *  2、获取当前审请 进度
-     *  2、验证当前审批人是否 有权限
-     *  3、如有 验证下一审批人是否为当前用户
-     *  4、 如是 继续验证下一审批角色
-     *  5、审批信息入库 
-     *
-     */
-   
 
     
 }

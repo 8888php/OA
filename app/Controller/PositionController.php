@@ -15,7 +15,7 @@ class PositionController extends AppController {
      * 职务管理
      */
     public function index($pages = 1) {
-var_dump($this->Approval->apply_sz(20000,4));die;
+var_dump($this->Approval->apply_6(20000,4));die;
       //  var_dump($_SERVER);
         if ((int) $pages < 1) {
             $pages = 1;
