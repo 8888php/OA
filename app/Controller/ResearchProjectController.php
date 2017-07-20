@@ -484,6 +484,16 @@ class ResearchProjectController extends AppController {
             !$this->ResearchCost->id ? $this->ResearchProject->rollback() : $commitId = $this->ResearchProject->commit();
 
             if ($costId) {
+                //添加成功，把自己写出到项目成员表里面
+                    $editArr['user_id'] = $this->userInfo->id;
+                    $editArr['project_id'] = $porijectId;
+                    $editArr['user_name'] = $this->userInfo->user;
+                    $editArr['name'] = $this->userInfo->name;
+                    $editArr['tel'] =  $this->userInfo->tel;
+                    $editArr['type'] = 1;//项目负责人
+                    $editArr['ctime'] = date('Y-m-d');
+                    $editArr['remark'] = '';
+                    $memberId = $this->ProjectMember->add($editArr);
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = $commitId . '添加项目成功！请等待审核';
             } else {
