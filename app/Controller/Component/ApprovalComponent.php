@@ -3,12 +3,12 @@
 class ApprovalComponent extends Component{
     public $controller = true;
     public $component = array('Cookie');
-    
-
+ 
+ 
  /**
     *  以下所用方法 都需先获取 申请费用信息
     *
-    *   对应办公室主任（科研办公室主任）
+    *   获取申请项目信息
     *  @params: $apply_id 申请费用id; 
     *  @response:
     */
@@ -24,6 +24,29 @@ class ApprovalComponent extends Component{
         return $info;
 
     }
+
+/**
+    *  以下所用方法 都需先获取 申请审批流
+    *
+    *   获取申请审批流
+    *  @params: $process_id 申请流id; 
+    *  @response:
+    */
+
+    public function apply_process($process_id = 0){
+        $info = array();
+        if(!empty($apply_id)){ 
+            require_once('../Model/ApprovalProcess.php');
+            $Process = new ApprovalProcess();
+            $info = $Process->findById($process_id);
+            $info = $info['ApprovalProcess']; 
+        }
+        return $info;
+
+    }
+
+ 
+
 
  /**
     *  1、审批人是否项目申请人，是：直接跳过
@@ -145,6 +168,11 @@ var_dump($pinfo);
             // 找科研副所长
                 $Uinfo = new User();
                 $fusuozhang = $Uinfo->find('list',array('conditions'=>array('department_id' => 3,'position_id' => 5),'fields'=>array('id')));
+                if(in_array($uid, $fusuozhang)){
+                    return true;
+                }else{
+                    return false;
+                }
             break;
             case 2:
             // 找对应行政部门 分管领导 副所长
@@ -152,18 +180,21 @@ var_dump($pinfo);
                     return false;
                 }
 
-                $Uinfo = new User();
-                $fusuozhang = $Uinfo->find('list',array('conditions'=>array('department_id ' => $department_id ,'position_id' => 5),'fields'=>array('id')));
+                //部门分管副所长
+                $Department = new Department();
+                $fusuozhang = $Department->findById($department_id);
+                $fusuozhang = $fusuozhang['Department']; 
+                if($uid == $fusuozhang['sld']){
+                    return true;
+                }else{
+                    return false;
+                }
             break;
             default:
                 return false;
         }
 
-        if(in_array($uid, $fusuozhang)){
-            return true;
-        }else{
-            return false;
-        }
+        
 
     }
 
@@ -177,18 +208,16 @@ var_dump($pinfo);
     *  @response:
     */
 
-    public function apply_sz($total = 0;$uid = 0;){
+    public function apply_sz($total = 0,$uid = 0){
         if($total < 20000){  //小于2W
             return true;
         }
-
 
         require_once('../Model/User.php');
         $Uinfo = new User();
         $userinfo = $Uinfo ->findByPositionId(6);
         $userinfo = $userinfo['User']; 
         
-
         if($uid == $userinfo['id']){
             return true;
         }else{
@@ -203,11 +232,23 @@ var_dump($pinfo);
     *  1、审批人是否项目申请人，是：直接跳过
     *
     *   财务副所长
-    *  @params: $pid 申请所属项目id; $uid 申请人id
+    *  @params:  $uid 申请人id
     *  @response:
     */
 
-    public function apply_cwfsz(){
+    public function apply_cwfsz($uid = 0){
+
+        require_once('../Model/User.php');
+        $Uinfo = new User();
+        $userinfo = $Uinfo ->find('list',array('conditions'=>array('department_id' => 5,'position_id' => 5),'fields'=>array('id')));  
+        $userinfo = $userinfo['User']; 
+        
+
+        if(in_array($uid, $userinfo)){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
@@ -215,11 +256,22 @@ var_dump($pinfo);
     *  1、审批人是否项目申请人，是：直接跳过
     *
     *   财务办公室主任
-    *  @params: $pid 申请所属项目id; $uid 申请人id
+    *  @params:  $uid 申请人id
     *  @response:
     */
 
-    public function apply_cwbgszr(){
+    public function apply_cwbgszr($uid = 0){
+
+        require_once('../Model/User.php');
+        $Uinfo = new User();
+        $userinfo = $Uinfo ->find('list',array('conditions'=>array('department_id' => 5,'position_id' => 4),'fields'=>array('id')));  
+        $userinfo = $userinfo['User']; 
+        
+        if(in_array($uid, $userinfo)){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
