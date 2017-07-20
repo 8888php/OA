@@ -62,7 +62,7 @@ class AppController extends Controller {
 
         $this->userInfo = json_decode(base64_decode($this->User->get_session_oa()));
         $this->set('userInfo',$this->userInfo);
-        
+  
         # 部门列表
         $this->appdata['deplist'] = $this->Department->deplist();
         $this->set('deplist',$this->appdata['deplist']);
