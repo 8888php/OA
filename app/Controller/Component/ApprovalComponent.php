@@ -92,13 +92,9 @@ class ApprovalComponent extends Component {
         $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
-<<<<<<< HEAD
 
         $contents = array('code' => '', 'next_id' => '','code_id' => '');
-=======
-        
-        $contents = array('code' => '', 'next_id' => '');
->>>>>>> 5389da3a92efc7777f8d7c0eaac90a90e28b1b4f
+
         foreach ($liuArr as $k => $v) {
             if ($v == $uinfo['position_id']) {
                 $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
