@@ -583,6 +583,14 @@ class OfficeController extends AppController {
 //                exit;
 //            }
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
+            
+            if ($ret_arr == false) {
+                //说明审批出错
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '审批失败';
+                echo json_encode($this->ret_arr);
+                exit;
+            }
 //            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
             
 //            if ($ret_arr[$this->code] == 1) {
@@ -601,6 +609,8 @@ class OfficeController extends AppController {
                 'main_id' => $main_id,
                 'approve_id' => $approve_id,
                 'remarks' => !$remarks ? '' : $remarks,
+                'name' => $this->userInfo->name,
+                'ctime' => date('Y-m-d', time()),
                 'status' => $status
             );
             //开启事务

@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department','TeamProject');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department','TeamProject', 'ApprovalInformation');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -224,6 +224,22 @@ class ResearchProjectController extends AppController {
 
 
         if ($commitId) {
+            //如果审批通过，且跳过下个则在表里记录一下
+            if (isset($ret_arr['code_id']) && $ret_arr['code_id'] == $this->userInfo->position_id) {
+                //说明这个审批人是他自己
+                //保存审批的数据
+                $save_approve = array(
+                    'main_id' => $mainId,
+                    'approve_id' => $this->userInfo->id,
+                    'remarks' => '',
+                    'name' => $this->userInfo->name,
+                    'ctime' => date('Y-m-d', time()),
+                    'status' => 1
+                );
+                $this->ApprovalInformation->add($save_approve);
+            } else {
+                //其他审批人 暂时不处理
+            }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
         } else {

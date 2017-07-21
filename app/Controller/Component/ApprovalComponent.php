@@ -63,7 +63,7 @@ class ApprovalComponent extends Component {
                         'total' => $applyinfo['total'], // 申请总费用
                     );
                     $apply_yz = $this->apply_action($next_id, $action_data);   // 下一审核人是否跳过 ture跳过
-
+                    
                     if ($apply_yz) {
                         // 跳过下一审核人审核
                         $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
