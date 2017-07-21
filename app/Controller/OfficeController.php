@@ -10,7 +10,7 @@ class OfficeController extends AppController {
     public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost');
 
     public $layout = 'blank';
-    public $components = array('Cookie');
+    public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
     public function index() {
@@ -556,51 +556,52 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             
-            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
-                //有可能是不存在，也有可能是已经审批
-                $this->ret_arr['code'] = 1;
-                $this->ret_arr['msg'] = '参数有误，请重新再试';
-                echo json_encode($this->ret_arr);
-                exit;
-            }
+//            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
+//                //有可能是不存在，也有可能是已经审批
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '参数有误，请重新再试';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
 
             //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
-            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
-            $position_id = $this->userInfo->position_id;
-            $can_approval = $this->userInfo->can_approval;
+//            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
+//            $position_id = $this->userInfo->position_id;
+//            $can_approval = $this->userInfo->can_approval;
             //单子下个审批职务id与当前用户职务id不一样，不能审批
-            if ($next_approve_id != $position_id) {
-                $this->ret_arr['code'] = 1;
-                $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
-                echo json_encode($this->ret_arr);
-                exit;
-            }
+//            if ($next_approve_id != $position_id) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
             //没有审批权限
-            if ($can_approval != 2) {
-                $this->ret_arr['code'] = 1;
-                $this->ret_arr['msg'] = '您没有审批权限';
-                echo json_encode($this->ret_arr);
-                exit;
-            }
-            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
+//            if ($can_approval != 2) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '您没有审批权限';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
+            $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
+//            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
             
-            if ($ret_arr[$this->code] == 1) {
-                $this->ret_arr['code'] = 1;
-                $this->ret_arr['msg'] = $ret_arr[$this->msg];
-                echo json_encode($this->ret_arr);
-                exit;
-            }
+//            if ($ret_arr[$this->code] == 1) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = $ret_arr[$this->msg];
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
             //保存主表的数据
             $save_main = array(
-                'code' => $ret_arr[$this->res]['approve_code'],
-                'next_approver_id' => $ret_arr[$this->res]['next_approver_id']
+                'code' => $ret_arr['code'],
+                'next_approver_id' => $ret_arr['next_id']
             );
             //保存审批的数据
             $save_approve = array(
                 'main_id' => $main_id,
                 'approve_id' => $approve_id,
                 'remarks' => !$remarks ? '' : $remarks,
-                'status' => $ret_arr[$this->res]['status']
+                'status' => $status
             );
             //开启事务
             $this->ApplyMain->begin();

@@ -37,11 +37,11 @@ class ApprovalComponent extends Component {
         $contents = array('code' => '', 'next_id' => '','code_id' => '');
 
         switch ($applytype) {
-            case 1:
+            case 2:
                 $contents['code'] = $uinfo['position_id'] * 2 - 1;
                 return $contents;
                 break;
-            case 2:
+            case 1:
                 foreach ($liuArr as $k => $v) {
                     if ($v == $uinfo['position_id']) {
                         $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
@@ -89,10 +89,16 @@ class ApprovalComponent extends Component {
      */
     public function apply_create($apply_process_id, $uinfo) {
         // 获取审批流
+        $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
+<<<<<<< HEAD
 
         $contents = array('code' => '', 'next_id' => '','code_id' => '');
+=======
+        
+        $contents = array('code' => '', 'next_id' => '');
+>>>>>>> 5389da3a92efc7777f8d7c0eaac90a90e28b1b4f
         foreach ($liuArr as $k => $v) {
             if ($v == $uinfo['position_id']) {
                 $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
@@ -167,7 +173,7 @@ class ApprovalComponent extends Component {
      */
     public function apply_process($process_id = 0) {
         $info = array();
-        if (!empty($apply_id)) {
+        if (!empty($process_id)) {
             require_once('../Model/ApprovalProcess.php');
             $Process = new ApprovalProcess();
             $info = $Process->findById($process_id);

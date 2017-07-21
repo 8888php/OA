@@ -8,7 +8,7 @@ class ResearchProjectController extends AppController {
     public $name = 'ResearchProject';
     public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department','TeamProject');
     public $layout = 'blank';
-    public $components = array('Cookie');
+    public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
     public function beforeFilter() {
@@ -158,12 +158,18 @@ class ResearchProjectController extends AppController {
 
         $type = Configure::read('type_number');//行政费用
         $type = $type[0];
-        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-
-        if ($ret_arr[$this->code] == 1) {
-            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-            exit(json_encode($this->ret_arr));
-        }
+        
+        //获取审批流id
+        $p_id = Configure::read('approval_process');
+        $p_id = $p_id[$table_name];
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo);
+        
+//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
+//
+//        if ($ret_arr[$this->code] == 1) {
+//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
+//            exit(json_encode($this->ret_arr));
+//        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -195,9 +201,9 @@ class ResearchProjectController extends AppController {
         
         # 主表入库
         $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr[$this->res]['next_approver_id'];//下一个审批职务的id
-        $mainArr['code'] = $ret_arr[$this->res]['approve_code'];//当前单子审批的状态码
-        $mainArr['approval_process_id'] = $ret_arr[$this->res]['approval_process_id']; //审批流程id
+        $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
+        $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
         $mainArr['attachment'] = $_POST['attachment']; 
         $mainArr['name'] = $_POST['declarename'];
