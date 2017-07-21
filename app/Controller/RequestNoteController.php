@@ -134,8 +134,8 @@ class RequestNoteController extends AppController {
      * 行政部门费用报销
      */
    
-    // 畜牧所出差审批单
-     public function xms_evection() {
+    // 果树所出差审批单
+     public function gss_evection() {
          
         if ($this->request->is('ajax')) {
             $this->sub_declares($_POST);

@@ -49,10 +49,10 @@
 
             欢迎使用
             <strong class="green">
-                Ace后台管理系统
+                OA管理系统
                 <small>(v1.0)</small>
             </strong>
-            ,好用的后台管理系统.	
+            ,好用的OA管理系统.	
         </div>
 
  

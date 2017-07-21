@@ -168,7 +168,11 @@
                             <td style="width:100px;">财务科长</td>
                         </tr>
                         <tr >
-                            <td style="height:40px;line-height: 40px;"> <?php echo $userInfo->name; ?> </td>
+                            <td style="height:40px;line-height: 20px;"> 
+                                <?php 
+                                    echo $userInfo->name . '<br />';
+                                    echo date('Y-m-d');
+                                ?> </td>
                             <td > </td>
                             <td style="width:100px;"> </td>
                             <td style="width:100px;"> </td>
@@ -184,7 +188,7 @@
             <!-- PAGE CONTENT BEGINS -->
             <div id="dropzone">
                 <span>点击添加上传附件</span>
-                <form  class="dropzone" enctype="multipart/form-data" id="upfiles"  method="post" >
+                <form  class="dropzone" style='min-height:100px;' enctype="multipart/form-data" id="upfiles"  method="post" >
                     
                     <div class="fallback" >
                         <input name="file[]" type="file" multiple="" />
