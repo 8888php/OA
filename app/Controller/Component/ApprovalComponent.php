@@ -13,7 +13,8 @@ class ApprovalComponent extends Component {
      *  @response:
      */
     public function apply($apply_id, $uinfo, $applytype) {
-        // 当前用户无审核权        
+        // 当前用户无审核权 
+        $uinfo = (array)$uinfo;
         if ($uinfo['can_approval'] != 2) {
             return false;
         }
@@ -77,16 +78,20 @@ class ApprovalComponent extends Component {
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
+        $contents = array('code' => '', 'next_id' => '');
         foreach ($liuArr as $k => $v) {
             if ($v == $uinfo['position_id']) {
                 $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : 10000;  // 下一审批职务
+                $contents['code'] = $uinfo['position_id'] * 2;
+                $contents['next_id'] = $next_id; 
             } else {
-                $next_id = $v;
+                $contents['code'] = 0;
+                $contents['next_id'] = $v; 
             }
             break;
         }
 
-        return $next_id;  // 如果跳过下一审核人则取下下一审核人
+        return $contents;  // 如果跳过下一审核人则取下下一审核人
     }
 
     /**

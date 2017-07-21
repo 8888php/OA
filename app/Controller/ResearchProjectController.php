@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department','TeamProject');
     public $layout = 'blank';
     public $components = array('Cookie');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -363,6 +363,9 @@ class ResearchProjectController extends AppController {
      * 添加 添加项目
      */
     public function step1() {
+        
+        $team = $this->TeamProject->find('list',array('conditions'=>array('del'=>0),'fields'=>array('id','name')));
+        $this->set('team',$team);
         $this->render();
     }
 
