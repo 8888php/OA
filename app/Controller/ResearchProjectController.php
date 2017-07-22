@@ -171,7 +171,7 @@ class ResearchProjectController extends AppController {
             $type = $type[0];
             $p_id = 1;
         }
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
         
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //

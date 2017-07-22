@@ -87,7 +87,7 @@ class ApprovalComponent extends Component {
      *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;
      *  @response:
      */
-    public function apply_create($apply_process_id, $uinfo) {
+    public function apply_create($apply_process_id, $uinfo, $project_id = 0) {
         // 获取审批流
         $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
