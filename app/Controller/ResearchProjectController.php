@@ -161,7 +161,7 @@ class ResearchProjectController extends AppController {
         
         //获取审批流id
 //        $p_id = Configure::read('approval_process');
-        $p_id = 1;
+        $p_id = 2;
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
             $type = $type[0];
