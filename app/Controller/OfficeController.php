@@ -616,14 +616,41 @@ class OfficeController extends AppController {
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
-                if ($this->ApprovalInformation->add($save_approve)) {
+//                if ($this->ApprovalInformation->add($save_approve)) {
                     $this->ApplyMain->commit();
+                    //如果审批通过，且跳过下个则在表里记录一下
+                    if (isset($ret_arr['code_id'])) {
+                        foreach ($ret_arr['code_id'] as $k=>$v) {
+                            if ($v == $this->userInfo->id) {
+                                $save_approve = array(
+                                    'main_id' => $mainId,
+                                    'approve_id' => $this->userInfo->id,
+                                    'remarks' => '',
+                                    'name' => $this->userInfo->name,
+                                    'ctime' => date('Y-m-d H:i:s', time()),
+                                    'status' => 1
+                                );
+                            } else {
+                                //根据id取出当前用户的信息
+                                $userinfo = $this->User->findById($v);
+                                $save_approve = array(
+                                    'main_id' => $mainId,
+                                    'approve_id' => $v,
+                                    'remarks' => '',
+                                    'name' => $userinfo['User']['name'],
+                                    'ctime' => date('Y-m-d H:i:s', time()),
+                                    'status' => 1
+                                );
+                            }
+                           $this->ApprovalInformation->add($save_approve);
+                        }
+                    }
                     //成功
                     $this->ret_arr['code'] = 0;
                     $this->ret_arr['msg'] = '审批成功';
                     echo json_encode($this->ret_arr);
                     exit;
-                }
+//                }
             }
             $this->ApplyMain->rollback();
             //失败

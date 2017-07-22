@@ -229,18 +229,32 @@ class ResearchProjectController extends AppController {
 
         if ($commitId) {
             //如果审批通过，且跳过下个则在表里记录一下
-            if (isset($ret_arr['code_id']) && $ret_arr['code_id'] == $this->userInfo->position_id) {
-                //说明这个审批人是他自己
-                //保存审批的数据
-                $save_approve = array(
-                    'main_id' => $mainId,
-                    'approve_id' => $this->userInfo->id,
-                    'remarks' => '',
-                    'name' => $this->userInfo->name,
-                    'ctime' => date('Y-m-d H:i:s', time()),
-                    'status' => 1
-                );
-                $this->ApprovalInformation->add($save_approve);
+            if (isset($ret_arr['code_id'])) {
+                foreach ($ret_arr['code_id'] as $k=>$v) {
+                    if ($v == $this->userInfo->id) {
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'approve_id' => $this->userInfo->id,
+                            'remarks' => '',
+                            'name' => $this->userInfo->name,
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    } else {
+                        //根据id取出当前用户的信息
+                        $userinfo = $this->User->findById($v);
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'approve_id' => $v,
+                            'remarks' => '',
+                            'name' => $userinfo['User']['name'],
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    }
+                   $this->ApprovalInformation->add($save_approve);
+                }
+                
             } else {
                 //其他审批人 暂时不处理
             }
