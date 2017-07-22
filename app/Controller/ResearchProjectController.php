@@ -157,11 +157,20 @@ class ResearchProjectController extends AppController {
         $table_name = 'apply_baoxiaohuizong';
 
         $type = Configure::read('type_number');//行政费用
-        $type = $type[0];
+        
         
         //获取审批流id
-        $p_id = Configure::read('approval_process');
-        $p_id = $p_id[$table_name];
+//        $p_id = Configure::read('approval_process');
+        $p_id = 1;
+        if ($_POST['projectname'] == 0) {
+            $project_id = 0;//让他为0
+            $type = $type[0];
+        }else {
+            //项目
+            $project_id = $_POST['projectname'];
+            $type = $type[1];
+            $p_id = 2;
+        }
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo);
         
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
@@ -175,12 +184,7 @@ class ResearchProjectController extends AppController {
         $department_id = $this->userInfo->department_id;
         $department_arr = $this->Department->findById($department_id);
         $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
-        if ($_POST['projectname'] == 0) {
-            $project_id = 0;//让他为0
-        }else {
-            //项目
-            $project_id = $_POST['projectname'];
-        }
+        
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
         $attrArr['page_number'] = $_POST['page_number'];
@@ -233,7 +237,7 @@ class ResearchProjectController extends AppController {
                     'approve_id' => $this->userInfo->id,
                     'remarks' => '',
                     'name' => $this->userInfo->name,
-                    'ctime' => date('Y-m-d', time()),
+                    'ctime' => date('Y-m-d H:i:s', time()),
                     'status' => 1
                 );
                 $this->ApprovalInformation->add($save_approve);

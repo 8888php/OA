@@ -610,7 +610,7 @@ class OfficeController extends AppController {
                 'approve_id' => $approve_id,
                 'remarks' => !$remarks ? '' : $remarks,
                 'name' => $this->userInfo->name,
-                'ctime' => date('Y-m-d', time()),
+                'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
             //开启事务
