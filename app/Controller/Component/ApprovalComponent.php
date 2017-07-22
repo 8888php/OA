@@ -68,7 +68,7 @@ class ApprovalComponent extends Component {
                         // 跳过下一审核人审核
                         $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
                         $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
-                        $contents['code_id'][] = $next_id;
+                        $contents['code_id'][] = $apply_yz;
                     } else {
                         // 不跳过下一审核人
                         $contents['code'] = $next_id * 2;
@@ -101,23 +101,23 @@ class ApprovalComponent extends Component {
                 case 11:
                     $fzr = $this->apply_11($project_id, $uinfo['id']);
                     if ($fzr) { // 跳过
-                        $contents['code_id'][] = 11;
+                        $contents['code_id'][] = $uinfo['id'];
                         break;
                     } else { // 不跳过 返回
                         $contents['code'] = isset($liuArr[$k + 1]) ? 11 * 2 : 10000;
                         $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
-                        $contents['code_id'][] = 11;
+                        $contents['code_id'][] = $uinfo['id'];
                         break 2;
                     }
                 case 12:
                     $xmzfzr = $this->apply_12($project_id, $uinfo['id']);
                     if ($xmzfzr) { // 跳过
-                        $contents['code_id'][] = 12;
+                        $contents['code_id'][] = $uinfo['id'];
                         break;
                     } else { // 不跳过 返回
                         $contents['code'] = isset($liuArr[$k + 1]) ? 12 * 2 : 10000;
                         $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
-                        $contents['code_id'][] = 12;
+                        $contents['code_id'][] = $uinfo['id'];
                         break 2;
                     }
                     break;
@@ -126,7 +126,7 @@ class ApprovalComponent extends Component {
                         $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
                         $contents['code'] = isset($liuArr[$k + 1]) ? $uinfo['position_id'] * 2 : 10000;
                         $contents['next_id'] = $next_id;
-                        $contents['code_id'][] = $v;
+                        $contents['code_id'][] = $uinfo['id'];
                     } else {
                         $contents['code'] = 0;
                         $contents['next_id'][] = $v;
@@ -222,7 +222,7 @@ class ApprovalComponent extends Component {
         }
 
         if ($uid == $pinfo['user_id']) {
-            return true;
+            return $pinfo['user_id'];
         } else {
             return false;
         }
@@ -254,17 +254,11 @@ class ApprovalComponent extends Component {
         $team = $Team[0]['team'];
         // 项目组不为1 且 项目组负责人与申请人id相同 
         if ($team['id'] > 1 && $team['team_user_id'] == $uid) {
-            return true;
+            return $team['team_user_id'];
         } else {
             return false;
         }
 
-        // 验证uid 是否 项目组负责人 project_team_uid 项目组负责人id
-        if ($uid == $project_team_uid) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -284,19 +278,19 @@ class ApprovalComponent extends Component {
             case 1:
                 // 找科研主任
                 $Uinfo = new User();
-                $zhuren = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 4), 'fields' => array('id')));
+                $zhuren = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 4 ,'del'=>0), 'fields' => array('id')));
                 break;
             case 2:
                 // 找对应行政部门 办公室主任
                 $Uinfo = new User();
-                $zhuren = $Uinfo->find('list', array('conditions' => array('department_id' => $department_id, 'position_id' => 4), 'fields' => array('id')));
+                $zhuren = $Uinfo->find('list', array('conditions' => array('department_id' => $department_id, 'position_id' => 4 ,'del'=>0), 'fields' => array('id')));
                 break;
             default:
                 return false;
         }
 
         if (in_array($uid, $zhuren)) {
-            return true;
+            return $uid;
         } else {
             return false;
         }
@@ -319,9 +313,9 @@ class ApprovalComponent extends Component {
             case 1:
                 // 找科研副所长
                 $Uinfo = new User();
-                $fusuozhang = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 5), 'fields' => array('id')));
+                $fusuozhang = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 5 ,'del'=>0), 'fields' => array('id')));
                 if (in_array($uid, $fusuozhang)) {
-                    return true;
+                    return $uid;
                 } else {
                     return false;
                 }
@@ -329,7 +323,7 @@ class ApprovalComponent extends Component {
             case 2:
                 // 找对应行政部门 分管领导 副所长  ??????  科研部门、财务部门申请不需要本部门领导审批？？？？
                 if (in_array($department_id, array(3, 5))) { //如果是科研部门、财务部门 则直接跳过
-                    return true;
+                    return $uid;
                 }
 
                 //部门分管副所长
@@ -337,7 +331,7 @@ class ApprovalComponent extends Component {
                 $fusuozhang = $Department->findById($department_id);
                 $fusuozhang = $fusuozhang['Department'];
                 if ($uid == $fusuozhang['sld']) {
-                    return true;
+                    return $fusuozhang['sld'];
                 } else {
                     return false;
                 }
@@ -356,17 +350,12 @@ class ApprovalComponent extends Component {
      *  @response:
      */
     public function apply_6($total = 0, $uid = 0) {
-        if ($total < 20000) {  //小于2W
-            return true;
-        }
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->findByPositionId(6);
-        $userinfo = $userinfo['User'];
-
-        if ($uid == $userinfo['id']) {
-            return true;
+        $userinfo = $Uinfo->find('list', array('conditions' => array('position_id' => 6 ,'del'=>0), 'fields' => array('id')));
+        if ($total < 20000 || in_array($uid,$userinfo)) {  //小于2W 或申请人是所长
+            return $userinfo['id'];
         } else {
             return false;
         }
@@ -383,12 +372,11 @@ class ApprovalComponent extends Component {
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 5), 'fields' => array('id')));
+        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 5 ,'del'=>0), 'fields' => array('id')));
         $userinfo = $userinfo['User'];
 
-
         if (in_array($uid, $userinfo)) {
-            return true;
+            return $uid;
         } else {
             return false;
         }
@@ -405,11 +393,11 @@ class ApprovalComponent extends Component {
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 4), 'fields' => array('id')));
+        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 4 ,'del'=>0), 'fields' => array('id')));
         $userinfo = $userinfo['User'];
 
         if (in_array($uid, $userinfo)) {
-            return true;
+            return $uid;
         } else {
             return false;
         }

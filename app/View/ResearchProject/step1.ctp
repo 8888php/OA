@@ -34,7 +34,7 @@
                         <select  name="project_team_id" class="project_team_id input-width" id="form-field-1" style="width:145px;">
                             <!--option value="0">请选择项目组</option-->
                             <?php $project_team_arr = Configure::read('project_team');?>
-                            <?php foreach($project_team_arr as $pk=>$pv) {?>
+                            <?php foreach($team as $pk=>$pv) {?>
                                 <option value="<?php echo $pk;?>"><?php echo $pv;?></option>
                             <?php }?>
                             
