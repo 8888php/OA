@@ -34,7 +34,7 @@ class ApprovalComponent extends Component {
         $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
-        $contents = array('code' => '', 'next_id' => '','code_id' => '');
+        $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
 
         switch ($applytype) {
             case 2:
@@ -63,12 +63,12 @@ class ApprovalComponent extends Component {
                         'total' => $applyinfo['total'], // 申请总费用
                     );
                     $apply_yz = $this->apply_action($next_id, $action_data);   // 下一审核人是否跳过 ture跳过
-                    
+
                     if ($apply_yz) {
                         // 跳过下一审核人审核
                         $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
                         $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
-                        $contents['code_id'] = $next_id;
+                        $contents['code_id'][] = $next_id;
                     } else {
                         // 不跳过下一审核人
                         $contents['code'] = $next_id * 2;
@@ -84,7 +84,7 @@ class ApprovalComponent extends Component {
 
     /**
      *  创建申请时验证 下一审核人角色
-     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;
+     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;$project_id 项目id
      *  @response:
      */
     public function apply_create($apply_process_id, $uinfo, $project_id = 0) {
@@ -93,19 +93,46 @@ class ApprovalComponent extends Component {
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
-        $contents = array('code' => '', 'next_id' => '','code_id' => '');
+        $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
 
         foreach ($liuArr as $k => $v) {
-            if ($v == $uinfo['position_id']) {
-                $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
-                $contents['code'] = isset($liuArr[$k + 1]) ? $uinfo['position_id'] * 2 : 10000;
-                $contents['next_id'] = $next_id;
-                $contents['code_id'] = $v;
-            } else {
-                $contents['code'] = 0;
-                $contents['next_id'] = $v;
+            // 需科研角色审核
+            switch ($v) {
+                case 11:
+                    $fzr = $this->apply_11($project_id, $uinfo['id']);
+                    if ($fzr) { // 跳过
+                        $contents['code_id'][] = 11;
+                        break;
+                    } else { // 不跳过 返回
+                        $contents['code'] = isset($liuArr[$k + 1]) ? 11 * 2 : 10000;
+                        $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
+                        $contents['code_id'][] = 11;
+                        break 2;
+                    }
+                case 12:
+                    $xmzfzr = $this->apply_12($project_id, $uinfo['id']);
+                    if ($xmzfzr) { // 跳过
+                        $contents['code_id'][] = 12;
+                        break;
+                    } else { // 不跳过 返回
+                        $contents['code'] = isset($liuArr[$k + 1]) ? 12 * 2 : 10000;
+                        $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
+                        $contents['code_id'][] = 12;
+                        break 2;
+                    }
+                    break;
+                default:
+                    if ($v == $uinfo['position_id']) {
+                        $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
+                        $contents['code'] = isset($liuArr[$k + 1]) ? $uinfo['position_id'] * 2 : 10000;
+                        $contents['next_id'] = $next_id;
+                        $contents['code_id'][] = $v;
+                    } else {
+                        $contents['code'] = 0;
+                        $contents['next_id'][] = $v;
+                    }
+                    break 2;
             }
-            break;
         }
 
         return $contents;  // 如果跳过下一审核人则取下下一审核人
@@ -220,7 +247,10 @@ class ApprovalComponent extends Component {
 
         // 如果项目属于项目组则取找项目组负责人
         // 否则 直接返回 
-        $Team = $Project->query('select * from t_team_project as team where id = ' . $pinfo['project_team_id'] . ' and del = 0 ');
+        $Team = $Project->query('select * from t_team_project as team where id = ' . $pinfo['project_team_id'] . ' and del = 0 '); 
+        if(empty($Team)){  // 无项目组
+            return true;
+        }
         $team = $Team[0]['team'];
         // 项目组不为1 且 项目组负责人与申请人id相同 
         if ($team['id'] > 1 && $team['team_user_id'] == $uid) {
