@@ -472,8 +472,8 @@ Configure::write('code_bxd_arr', array(
 ));
 //审核 类型
 Configure::write('type_number', array(
-    1, //行政费用
-    2, //科研费用
+    1,//科研费用
+    2,//行政费用 
 ));
 
 //审核 类型

@@ -163,13 +163,13 @@ class ResearchProjectController extends AppController {
 //        $p_id = Configure::read('approval_process');
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
-            $type = $type[0];
-            $p_id = 1;
+            $type = $type[1];
+            $p_id = 2;
         }else {
             //项目
             $project_id = $_POST['projectname'];
-            $type = $type[1];
-            $p_id = 2;
+            $type = $type[0];
+            $p_id = 1;
         }
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo);
         
