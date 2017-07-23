@@ -229,7 +229,7 @@ class ResearchProjectController extends AppController {
 
         if ($commitId) {
             //如果审批通过，且跳过下个则在表里记录一下
-            if (isset($ret_arr['code_id'])) {
+            if (!empty($ret_arr['code_id']) ) {
                 foreach ($ret_arr['code_id'] as $k=>$v) {
                     if ($v == $this->userInfo->id) {
                         $save_approve = array(

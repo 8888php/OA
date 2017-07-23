@@ -21,7 +21,7 @@ class OfficeController extends AppController {
      * 起草申请
      */
     public function draf() {
-
+//var_dump($this->Approval->apply_create(1, $this->userInfo, 8));
         $this->render();
     }
 

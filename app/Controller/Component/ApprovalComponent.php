@@ -39,6 +39,7 @@ class ApprovalComponent extends Component {
         switch ($applytype) {
             case 2:
                 $contents['code'] = $uinfo['position_id'] * 2 - 1;
+                $contents['code_id'][] = $uinfo['id'];
                 return $contents;
                 break;
             case 1:
@@ -50,10 +51,11 @@ class ApprovalComponent extends Component {
                     }
                 }
 
-                if ($next_id == $uinfo['position_id']) {
+                if ($next_next_id == $uinfo['position_id']) {
                     // 当前审批角色已是审批流中最后一个
                     $contents['code'] = 10000;
                     $contents['next_id'] = $next_id;  // 最后一个审核人
+                    $contents['code_id'][] = $uinfo['id'];
                 } else {
                     $action_data = array(
                         'pid' => $applyinfo['project_id'], // 申请所属项目id
@@ -66,13 +68,14 @@ class ApprovalComponent extends Component {
 
                     if ($apply_yz) {
                         // 跳过下一审核人审核
-                        $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
+                        $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
                         $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
                         $contents['code_id'][] = $apply_yz;
                     } else {
                         // 不跳过下一审核人
-                        $contents['code'] = $next_id * 2;
+                        $contents['code'] = $uinfo['position_id'] * 2;
                         $contents['next_id'] = $next_id;
+                        $contents['code_id'][] = $uinfo['id'];
                     }
                 }
                 return $contents;
@@ -100,13 +103,12 @@ class ApprovalComponent extends Component {
             switch ($v) {
                 case 11:
                     $fzr = $this->apply_11($project_id, $uinfo['id']);
-                    if ($fzr) { // 跳过
+                    if ($fzr) { // 跳过 code_id 取当前角色
                         $contents['code_id'][] = $uinfo['id'];
                         break;
-                    } else { // 不跳过 返回
-                        $contents['code'] = isset($liuArr[$k + 1]) ? 11 * 2 : 10000;
-                        $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
-                        $contents['code_id'][] = $uinfo['id'];
+                    } else { // 不跳过 code_id取上一审核角色 返回
+                        $contents['code'] = isset($liuArr[$k - 1]) ? $liuArr[$k - 1] * 2 : 0;
+                        $contents['next_id'] = 11;  // 下一审批职务
                         break 2;
                     }
                 case 12:
@@ -115,9 +117,8 @@ class ApprovalComponent extends Component {
                         $contents['code_id'][] = $uinfo['id'];
                         break;
                     } else { // 不跳过 返回
-                        $contents['code'] = isset($liuArr[$k + 1]) ? 12 * 2 : 10000;
-                        $contents['next_id'] = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
-                        $contents['code_id'][] = $uinfo['id'];
+                        $contents['code'] = isset($liuArr[$k - 1]) ? $liuArr[$k - 1] * 2 : 0;
+                        $contents['next_id'] = 12;  // 下一审批职务
                         break 2;
                     }
                     break;
@@ -128,8 +129,8 @@ class ApprovalComponent extends Component {
                         $contents['next_id'] = $next_id;
                         $contents['code_id'][] = $uinfo['id'];
                     } else {
-                        $contents['code'] = 0;
-                        $contents['next_id'][] = $v;
+                        $contents['code'] = isset($liuArr[$k - 1]) ? $liuArr[$k - 1] * 2 : 0;;
+                        $contents['next_id'] = $v;
                     }
                     break 2;
             }
