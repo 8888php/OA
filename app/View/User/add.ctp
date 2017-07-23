@@ -44,7 +44,7 @@
 
                         <div class="col-sm-9">
                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
-                            <select style="float: left;" name="pid" class="pid" id="form-field-1">
+                            <select style="float: left;" name="pid" class="pid" id="form-field-1" onchange='change_position(this.value);'>
                                 <option value="0">请选择</option>
                                 <?php foreach($department as $d) {?>
                                     <option value="<?php echo $d['Department']['id'];?>" <?php echo @$user['department_id'] == $d['Department']['id'] ? 'selected' : '';?> ><?php echo $d['Department']['name'];?></option>
@@ -55,6 +55,31 @@
                             </span>
                         </div>
                     </div>
+                    <script type="text/javascript">
+                        //切换职务根据部门id
+                        function change_position(d_id) {
+                            if (d_id == 5) {
+                                //财务部门 0,2
+                                $('select.position').html(cw_option);
+                            } else {
+                                //其它部门 0,1
+                                $('select.position').html(ot_option);
+                            }
+                        }
+                        //定义 账务部门所对应的职务，其它部门所对应的职务
+                        var cw_option = '<option value="0">请选择</option>';
+                        var ot_option = '<option value="0">请选择</option>';
+                        <?php foreach($position as $pk=>$pv) {?>
+                                <?php if ($pv['Position']['type'] == 0){?>
+                                    cw_option +='<option value="<?php echo $pv['Position']['id'];?>"><?php echo htmlspecialchars($pv['Position']['name'], ENT_QUOTES);?></option>';
+                                    ot_option +='<option value="<?php echo $pv['Position']['id'];?>"><?php echo htmlspecialchars($pv['Position']['name'], ENT_QUOTES);?></option>';
+                                <?php }else if($pv['Position']['type'] == 1) {?>
+                                    ot_option +='<option value="<?php echo $pv['Position']['id'];?>"><?php echo htmlspecialchars($pv['Position']['name'], ENT_QUOTES);?></option>';
+                                <?php }else if ($pv['Position']['type'] == 2){?>
+                                    cw_option +='<option value="<?php echo $pv['Position']['id'];?>"><?php echo htmlspecialchars($pv['Position']['name'], ENT_QUOTES);?></option>';
+                                <?php }?>
+                        <?php }?>
+                    </script>
                     <div class="form-group">
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1">职务</label>
 
@@ -62,8 +87,10 @@
                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                             <select style="float: left;" name="position" class="position" id="form-field-1">
                                 <option value="0">请选择</option>
-                                <?php foreach($position as $p) {?>
-                                <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                <?php if (!empty($user['position_id'])){?>
+                                    <?php foreach($position as $p) {?>
+                                    <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                    <?php }?>
                                 <?php }?>
                             </select>
                             <span class="help-inline col-xs-12 col-sm-7">
