@@ -12,29 +12,29 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
-                        <input type="hidden" name='declarename' class='declarename' value='果树所出差审批单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='果树所职工带薪年休假审批单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所出差审批单 </td>
+                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
                             </tr>
                             <tr>
-                                <!--td > </td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class="members" name="members"  style='height:25px;width:340px;'>   < span id='memnums'> 共0人</span >
-                                </td-->
-                                <td >填表时间</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class=" form_datetime3 ctime" name="ctime"  style='height:25px;width:590px;'>  
+                                <td >姓名</td>
+                                <td colspan='2'>  <input  type="text" class=" form_datetime3 name" name="name"  style='height:25px;width:190px;'> </td>
+                                <td >所在单位</td>
+                                <td colspan='3'>  <input  type="text" class=" form_datetime3 name" name="name"  style='height:25px;width:290px;'> </td>
+                            </tr>
+                            
+                             <tr>
+                                <td>参加工作时间</td>
+                                <td colspan='2'>  <input readonly="readonly" type="text" class=" form_datetime3 start_day" name="start_day"  style='height:25px;width:180px;'>  
                                     <script type="text/javascript">
                                         $(".form_datetime3").datetimepicker({
                                             format: 'yyyy-mm-dd',
                                             minView: "month", //选择日期后，不会再跳转去选择时分秒 
                                         });
                                     </script> </td>
-                            </tr>
-                            
-                             <tr>
-                                <td>出差事由</td>
-                                <td colspan='6'> <input type="text" name='reason' class="reason" style='width:600px;height:25px;'/>  </td>
+                                <td>工作年限</td>
+                                <td colspan='3'> <input type="text" class="personnel" name="personnel" style='width:200px;height:25px;'/>  </td>
                              </tr>
                              <tr>
                                 <td>出差人员</td>

@@ -151,7 +151,43 @@ class RequestNoteController extends AppController {
         }
     }
 
-    
+   
+       
+    // 果树所借款单
+     public function gss_loan() {
+         
+        if ($this->request->is('ajax')) {
+            $this->sub_declares($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }
  
+           
+    // 果树所领款单
+     public function gss_draw_money() {
+         
+        if ($this->request->is('ajax')) {
+            $this->sub_declares($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }
+    
+    
+    
+               
+    // 果树所职工带薪年休假单
+     public function gss_furlough() {
+         
+        if ($this->request->is('ajax')) {
+            $this->sub_declares($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }
 
 }

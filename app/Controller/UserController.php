@@ -90,7 +90,7 @@ class UserController extends AppController {
             $this->set('user', $user_arr['User']);
         }
         $department = $this->Department->query('select * from t_department Department  where del =0');
-        $position = $this->Position->query('select * from t_position Position where and type in (0,1,2) del =0');
+        $position = $this->Position->query('select * from t_position Position where  del =0 and type in (0,1,2)');
         $this->set('department', $department);
         $this->set('position', $position);
         $this->render('add');
