@@ -187,7 +187,9 @@ class OfficeController extends AppController {
                 $department_str = ' 1 ';
             }
             //有审批权限
-            $total =  $this->ApplyMain->query($sql ="select count(*) count from t_apply_main ApplyMain where {$department_str} and {$type_str} and next_approver_id='$position_id' and code%2=0 and code !='$this->succ_code'"); 
+            $sql ="select count(*) count from t_apply_main ApplyMain where ((next_approver_id=11 and project_user_id='{$this->userInfo->id}') or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') or ({$department_str} and next_approver_id='$position_id'))"
+                    . " and {$type_str} and code%2=0 and code !='$this->succ_code'";
+            $total =  $this->ApplyMain->query($sql); 
             $total = $total[0][0]['count'];
         } else {
             //没有审批权限
@@ -200,7 +202,9 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where {$department_str} and {$type_str} and next_approver_id='$position_id'  and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit");
+            $sql ="select * from t_apply_main ApplyMain where ((next_approver_id=11 and project_user_id='{$this->userInfo->id}') or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') or ({$department_str} and next_approver_id='$position_id'))"
+                    . " and {$type_str} and code%2=0 and code !='$this->succ_code'order by id desc limit " . ($pages-1) * $limit . ", $limit";
+            $lists = $this->ApplyMain->query($sql);
         }
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);

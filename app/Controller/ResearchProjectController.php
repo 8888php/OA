@@ -161,6 +161,8 @@ class ResearchProjectController extends AppController {
         
         //获取审批流id
 //        $p_id = Configure::read('approval_process');
+        $project_user_id = 0;//项目负责人user_id
+        $project_team_user_id = 0;//项目组负责人user_id
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
             $type = $type[1];
@@ -170,7 +172,14 @@ class ResearchProjectController extends AppController {
             $project_id = $_POST['projectname'];
             $type = $type[0];
             $p_id = 1;
+            //根据项目取出，项目负责人user_id,和项目组负责人user_id
+            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+            
+            $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
+            $project_user_id = $project_and_team_arr[0]['p']['user_id'];//项目负责人user_id
+            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
         }
+        
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
         
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
@@ -217,6 +226,8 @@ class ResearchProjectController extends AppController {
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = $_POST['amount'];
         $mainArr['attr_id'] = $attrId;
+        $mainArr['project_user_id'] = $project_user_id;
+        $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['ctime'] = $_POST['ctime'];
         $mainArr['subject'] = json_encode($_POST['subject']);
         if ($attrId) {
