@@ -182,14 +182,33 @@ class OfficeController extends AppController {
         //在这里得加上部门的验证，如果是特殊职务，如所长，账务科长不验证部门
         $department_str = "department_id ='$user_department_id' ";//默认找不到部门
         if ($can_approval == 2) {
+            // 财务副所长、账务科主任 验证所有申请（审批流中包含这两个角色）
+            /*
             if (in_array($position_id, $this->not_department_arr)) {
                 //所长，账务科长不验证部门
                 $department_str = ' 1 ';
             }
+            */
             //有审批权限
-            $sql ="select count(*) count from t_apply_main ApplyMain where ((next_approver_id=11 and project_user_id='{$this->userInfo->id}') or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') or ({$department_str} and next_approver_id='$position_id'))"
-                    . " and {$type_str} and code%2=0 and code !='$this->succ_code'";
-            $total =  $this->ApplyMain->query($sql); 
+            $sql = "select count(*) count from t_apply_main ApplyMain where ( " ;
+            // 项目负责人审核
+            $sql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') "; 
+            // 项目组负责人审核
+            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') ";  
+            // 科研项目由科研主任、科研副所长审核
+            if($this->userInfo->department_id == 3){ 
+                $sql .= "or (type=1 and next_approver_id='{$this->userInfo->position_id}') ";
+            } 
+            // 财务科副所长、财务科办公室主任 审核
+            if($this->userInfo->position_id == 13 || $this->userInfo->position_id == 14){ 
+                $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
+            }else{
+            // 部门申请筛选条件 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id') " ; 
+            } 
+            $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code'";
+
+            $total =  $this->ApplyMain->query($sql);  
             $total = $total[0][0]['count'];
         } else {
             //没有审批权限
@@ -202,8 +221,26 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $sql ="select * from t_apply_main ApplyMain where ((next_approver_id=11 and project_user_id='{$this->userInfo->id}') or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') or ({$department_str} and next_approver_id='$position_id'))"
-                    . " and {$type_str} and code%2=0 and code !='$this->succ_code'order by id desc limit " . ($pages-1) * $limit . ", $limit";
+          //  $sql ="select * from t_apply_main ApplyMain where ((next_approver_id=11 and project_user_id='{$this->userInfo->id}') or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') or ({$department_str} and next_approver_id='$position_id'))"
+          //          . " and {$type_str} and code%2=0 and code !='$this->succ_code'order by id desc limit " . ($pages-1) * $limit . ", $limit";
+            $sql = "select * from t_apply_main ApplyMain where ( " ;
+            // 项目负责人审核
+            $sql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') "; 
+            // 项目组负责人审核
+            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') ";  
+            // 科研项目由科研主任、科研副所长审核
+            if($this->userInfo->department_id == 3){ 
+                $sql .= "or (type=1 and next_approver_id='{$this->userInfo->position_id}') ";
+            }
+            // 财务科副所长、财务科办公室主任 审核
+            if($this->userInfo->position_id == 13 || $this->userInfo->position_id == 14){ 
+                $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
+            }else{
+            // 部门申请筛选条件 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id') " ; 
+            }  
+            $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
+
             $lists = $this->ApplyMain->query($sql);
         }
         $this->set('all_user_arr', $all_user_arr);
@@ -530,8 +567,16 @@ class OfficeController extends AppController {
         $create_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         $this->set('main_arr', @$main_arr['ApplyMain']);
         $this->set('createName', @$create_arr['User']['name']);
-        $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']);  
-        
+        $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']); 
+
+
+        // 审核记录
+        $apply_log = $this->ApprovalInformation->find('list',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','name')));
+        $this->set('apply_log', @$apply_log); 
+        $apply_log_time = $this->ApprovalInformation->find('list',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','ctime')));
+        $this->set('apply_log_time', @$apply_log_time); 
+
+
         $kemuStr =  '';
         if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
@@ -587,7 +632,7 @@ class OfficeController extends AppController {
 //                exit;
 //            }
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
-            
+     
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -627,9 +672,10 @@ class OfficeController extends AppController {
                         foreach ($ret_arr['code_id'] as $k=>$v) {
                             if ($v == $this->userInfo->id) {
                                 $save_approve = array(
-                                    'main_id' => $mainId,
+                                    'main_id' => $main_id,
                                     'approve_id' => $this->userInfo->id,
                                     'remarks' => '',
+                                    'position_id' => $this->userInfo->position_id,
                                     'name' => $this->userInfo->name,
                                     'ctime' => date('Y-m-d H:i:s', time()),
                                     'status' => 1
@@ -638,9 +684,10 @@ class OfficeController extends AppController {
                                 //根据id取出当前用户的信息
                                 $userinfo = $this->User->findById($v);
                                 $save_approve = array(
-                                    'main_id' => $mainId,
+                                    'main_id' => $main_id,
                                     'approve_id' => $v,
                                     'remarks' => '',
+                                    'position_id' => $this->userInfo->position_id,
                                     'name' => $userinfo['User']['name'],
                                     'ctime' => date('Y-m-d H:i:s', time()),
                                     'status' => 1

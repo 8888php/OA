@@ -46,7 +46,7 @@
                                     }
                                     
                                     foreach($main_arr['subject'] as $k => $v){
-                                            echo $bumenArrs[$k].':'.$v.'、';
+                                            echo @$bumenArrs[$k].':'.$v.'、';
                                       }  
                                    
                                     ?>  </td>
@@ -73,13 +73,55 @@
                                 <td style="width:100px;">财务科长</td>
                             </tr>
                             <tr >
-                                <td style="height:40px;line-height: 40px;"> <?php echo $createName; ?> </td>
-                                <td > </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
-                                <td style="width:100px;"> </td>
+                                <td style="height:40px;line-height: 40px;"> 
+                                <?php 
+                                echo $createName ; 
+                                echo '<br />';
+                                echo $attr_arr['ctime'];
+                                ?>
+                                </td>
+                                <td style="width:100px;"> 
+                                <?php 
+                                echo @$apply_log['11']; 
+                                echo '<br />';
+                                echo @$apply_log_time['11'];
+                                ?>   
+                                </td>
+                                <td style="width:100px;">
+                                <?php 
+                                echo @$apply_log['4']; 
+                                echo '<br />';
+                                echo @$apply_log_time['4'];
+                                ?> 
+                                 </td>
+                                <td style="width:100px;">
+                                <?php 
+                                echo @$apply_log['5']; 
+                                echo '<br />';
+                                echo @$apply_log_time['5'];
+                                ?> 
+                                 </td>
+                                <td style="width:100px;">
+                                <?php 
+                                echo @$apply_log['6']; 
+                                echo '<br />';
+                                echo @$apply_log_time['6'];
+                                ?> 
+                                 </td>
+                                <td style="width:100px;">
+                                <?php 
+                                echo @$apply_log['13']; 
+                                echo '<br />';
+                                echo @$apply_log_time['13'];
+                                ?> 
+                                 </td>
+                                 <td style="width:100px;">
+                                <?php 
+                                echo @$apply_log['14']; 
+                                echo '<br />';
+                                echo @$apply_log_time['14'];
+                                ?> 
+                                 </td>
                             </tr>
                             <?php 
                                 if(!empty($main_arr['attachment'])){

@@ -21,18 +21,39 @@ class ApprovalComponent extends Component {
 
         // 获取申请详情
         $applyinfo = $this->apply_info($apply_id);
+        // 获取审批流
+        $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
+
+
+        // 项目负责人、项目组负责人 特殊处理
+        // 获取审批流中为11，12角色的 code值
+        $before_11_code = $before_12_code = -1;
+        foreach ($liuArr as $kx => $vx) {
+            if ($vx == 11) { 
+                $before_11_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
+            }
+            if ($vx == 12) { 
+                $before_12_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
+            }
+        }
+
+        if($applyinfo['code'] == $before_11_code &&  $uinfo['id'] == $applyinfo['project_user_id']){
+            $uinfo['position_id'] = 11 ;
+        }
+        if($applyinfo['code'] == $before_12_code &&  $uinfo['id'] == $applyinfo['project_team_user_id']){
+            $uinfo['position_id'] = 12 ;
+        }
+
 
         // 当前用户角色是否有审核权
         if ($uinfo['position_id'] != $applyinfo['next_approver_id']) {
             return false;
         }
         // 当前申请已通过
-        if ($applyinfo['next_approver_id'] == 10000) {
+        if ($applyinfo['code'] == 10000) {
             return false;
         }
-        // 获取审批流
-        $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
-        $liuArr = explode(',', $apply_liu['approve_ids']);
 
         $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
 
@@ -51,6 +72,7 @@ class ApprovalComponent extends Component {
                     }
                 }
 
+              
                 if ($next_next_id == $uinfo['position_id']) {
                     // 当前审批角色已是审批流中最后一个
                     $contents['code'] = 10000;
@@ -152,12 +174,6 @@ class ApprovalComponent extends Component {
             case 12:
                 return $this->apply_12($data['pid'], $data['uid']);
                 break;
-            case 13:
-                return $this->apply_13($data['uid']);
-                break;
-            case 14:
-                return $this->apply_14($data['uid']);
-                break;
             case 4:
                 return $this->apply_4($data['department_id'], $data['type'], $data['uid']);
                 break;
@@ -166,6 +182,12 @@ class ApprovalComponent extends Component {
                 break;
             case 6:
                 return $this->apply_6($data['total'], $data['uid']);
+                break;
+            case 13:
+                return $this->apply_13($data['uid']);
+                break;
+            case 14:
+                return $this->apply_14($data['uid']);
                 break;
         }
     }
@@ -313,6 +335,7 @@ class ApprovalComponent extends Component {
         switch ($type) {
             case 1:
                 // 找科研副所长
+                require_once('../Model/User.php');
                 $Uinfo = new User();
                 $fusuozhang = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 5 ,'del'=>0), 'fields' => array('id')));
                 if (in_array($uid, $fusuozhang)) {
@@ -328,6 +351,7 @@ class ApprovalComponent extends Component {
                 }
 
                 //部门分管副所长
+                require_once('../Model/Department.php');
                 $Department = new Department();
                 $fusuozhang = $Department->findById($department_id);
                 $fusuozhang = $fusuozhang['Department'];
@@ -373,8 +397,7 @@ class ApprovalComponent extends Component {
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 5 ,'del'=>0), 'fields' => array('id')));
-        $userinfo = $userinfo['User'];
+        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 13 ,'del'=>0), 'fields' => array('id')));
 
         if (in_array($uid, $userinfo)) {
             return $uid;
@@ -394,8 +417,7 @@ class ApprovalComponent extends Component {
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 4 ,'del'=>0), 'fields' => array('id')));
-        $userinfo = $userinfo['User'];
+        $userinfo = $Uinfo->find('list', array('conditions' => array('department_id' => 5, 'position_id' => 14 ,'del'=>0), 'fields' => array('id')));
 
         if (in_array($uid, $userinfo)) {
             return $uid;
