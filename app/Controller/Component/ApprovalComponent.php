@@ -56,11 +56,11 @@ class ApprovalComponent extends Component {
         }
 
         $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
+        $contents['code_id'][0] = $uinfo['id'];
 
         switch ($applytype) {
             case 2:
                 $contents['code'] = $uinfo['position_id'] * 2 - 1;
-                $contents['code_id'][] = $uinfo['id'];
                 return $contents;
                 break;
             case 1:
@@ -68,16 +68,17 @@ class ApprovalComponent extends Component {
                     if ($v == $uinfo['position_id']) {
                         $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
                         $next_next_id = isset($liuArr[$k + 2]) ? $liuArr[$k + 2] : $next_id; // 下下一审批职务
+                        $next_three_id = isset($liuArr[$k + 3]) ? $liuArr[$k + 3] : $next_next_id; // 下下下一审批职务
                         break;
                     }
                 }
 
               
-                if ($next_next_id == $uinfo['position_id']) {
+                if ($next_three_id == $uinfo['position_id']) {
                     // 当前审批角色已是审批流中最后一个
                     $contents['code'] = 10000;
                     $contents['next_id'] = $next_id;  // 最后一个审核人
-                    $contents['code_id'][] = $uinfo['id'];
+                    $contents['code_id'][1] = $uinfo['id'];
                 } else {
                     $action_data = array(
                         'pid' => $applyinfo['project_id'], // 申请所属项目id
@@ -87,17 +88,25 @@ class ApprovalComponent extends Component {
                         'total' => $applyinfo['total'], // 申请总费用
                     );
                     $apply_yz = $this->apply_action($next_id, $action_data);   // 下一审核人是否跳过 ture跳过
+                    
 
                     if ($apply_yz) {
-                        // 跳过下一审核人审核
-                        $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
-                        $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
-                        $contents['code_id'][] = $apply_yz;
+                          $contents['code_id'][2] = $apply_yz;
+                        // 跳过下一审核人审核  验证下下一审核人是否跳过
+                         $next_apply_yz = $this->apply_action($next_next_id, $action_data);  
+
+                         if($next_apply_yz) {
+                            $contents['code'] = ($next_next_id == $next_three_id) ? 10000 : $next_next_id * 2; 
+                            $contents['next_id'] = $next_three_id; 
+                            $contents['code_id'][3] = $next_apply_yz;
+                         }else{
+                            $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
+                            $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
+                         }
                     } else {
                         // 不跳过下一审核人
                         $contents['code'] = $uinfo['position_id'] * 2;
                         $contents['next_id'] = $next_id;
-                        $contents['code_id'][] = $uinfo['id'];
                     }
                 }
                 return $contents;

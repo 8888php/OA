@@ -48,8 +48,21 @@ class ResearchProjectController extends AppController {
 
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
-        $source = $this->ResearchSource->getAll($pid);
+        
+        // 项目组
+        $teaminfos = $this->TeamProject->findById($pinfos['project_team_id']);
+        $pinfos['project_team_str'] = $teaminfos['TeamProject']['name'];
 
+        // 项目组负责人
+        if($teaminfos['TeamProject']['id'] == 1){
+           // $pinfos['project_team_user'] = '';
+            $uinfos = $this->User->findById($pinfos['user_id']);
+        }else{
+            $uinfos = $this->User->findById($teaminfos['TeamProject']['team_user_id']);
+        }
+            $pinfos['project_team_user'] = $uinfos['User']['name'];
+        
+        $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
 
         $this->set('pinfos', $pinfos);

@@ -204,10 +204,10 @@ class OfficeController extends AppController {
                 $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
             }else{
             // 部门申请筛选条件 
-                $sql .= " or ({$department_str} and next_approver_id='$position_id') " ; 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id' and type= 2) " ; 
             } 
             $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code'";
-
+//echo $sql;
             $total =  $this->ApplyMain->query($sql);  
             $total = $total[0][0]['count'];
         } else {
@@ -237,7 +237,7 @@ class OfficeController extends AppController {
                 $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
             }else{
             // 部门申请筛选条件 
-                $sql .= " or ({$department_str} and next_approver_id='$position_id') " ; 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id'  and type= 2) " ; 
             }  
             $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
 
@@ -632,7 +632,7 @@ class OfficeController extends AppController {
 //                exit;
 //            }
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
-     
+ // var_dump($ret_arr);   
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -671,7 +671,7 @@ class OfficeController extends AppController {
                     if (isset($ret_arr['code_id'])) {
                         foreach ($ret_arr['code_id'] as $k=>$v) {
                             if ($v == $this->userInfo->id) {
-                                $save_approve = array(
+                                $save_approve_log[$k] = array(
                                     'main_id' => $main_id,
                                     'approve_id' => $this->userInfo->id,
                                     'remarks' => '',
@@ -683,18 +683,18 @@ class OfficeController extends AppController {
                             } else {
                                 //根据id取出当前用户的信息
                                 $userinfo = $this->User->findById($v);
-                                $save_approve = array(
+                                $save_approve_log[$k] = array(
                                     'main_id' => $main_id,
                                     'approve_id' => $v,
                                     'remarks' => '',
-                                    'position_id' => $this->userInfo->position_id,
+                                    'position_id' => $userinfo['User']['position_id'],
                                     'name' => $userinfo['User']['name'],
                                     'ctime' => date('Y-m-d H:i:s', time()),
                                     'status' => 1
                                 );
-                            }
-                           $this->ApprovalInformation->add($save_approve);
+                            }  
                         }
+                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
                     //成功
                     $this->ret_arr['code'] = 0;

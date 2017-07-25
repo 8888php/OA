@@ -152,6 +152,12 @@
                                                 <td> <?php echo $pinfos['end_date'];  ?> </td>
                                             </tr>
                                             <tr>
+                                                <td>所属项目组</td>
+                                                <td> <?php echo $pinfos['project_team_str'];  ?> </td>
+                                                <td> 项目组负责人 </td>
+                                                <td> <?php echo $pinfos['project_team_user'];  ?> </td>
+                                            </tr>
+                                            <tr>
                                                 <td>任务书</td>
                                                 <td colspan="3"> 
                                                     <?php 

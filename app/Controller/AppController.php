@@ -96,7 +96,7 @@ class AppController extends Controller {
             if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 4) {
                 // 科研办公室 主任
                 return  'keyanzhuren';
-            } else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 11) {
+            } else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 14) {
                 // 财务科 科长
                 return 'caiwukezhang';
             }
