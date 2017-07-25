@@ -188,6 +188,17 @@ class UserController extends AppController {
                 }
                 //save
                 if ($this->User->add($save_arr)) {
+                    //如果部门id，职务id 科室主任
+                    if (!empty($pid)) {
+                        //更改本部门其它的科室主任为职员
+                        if ($position == 4) {
+                            $this->User->query("update t_user set position_id=1 where department_id='$pid' and position_id=4 and id!='{$this->User->id}'");
+                            $this->Department->query("update t_department set user_id='{$this->User->id}' where id='{$pid}'");
+                        } else {
+                            $this->Department->query("update t_department set user_id=0 where id='{$pid}' and user_id='{$this->User->id}'");
+                        }
+                        
+                    }
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '添加成功',
@@ -226,6 +237,17 @@ class UserController extends AppController {
                     unset($save_arr['password']);
                 }
                 if ($this->User->edit($id, $save_arr)) {
+                    //如果部门id，职务id 科室主任
+                    if (!empty($pid)) {
+                        //更改本部门其它的科室主任为职员
+                        if ($position == 4) {
+                            $this->User->query("update t_user set position_id=1 where department_id='$pid' and position_id=4 and id!='{$this->User->id}'");
+                            $this->Department->query("update t_department set user_id='{$this->User->id}' where id='{$pid}'");
+                        } else {
+                            $this->Department->query("update t_department set user_id=0 where id='{$pid}' and user_id='{$this->User->id}'");
+                        }
+                        
+                    }
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
