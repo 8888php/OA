@@ -58,6 +58,10 @@
                     <script type="text/javascript">
                         //切换职务根据部门id
                         function change_position(d_id) {
+                            if (d_id == 0) {
+                                $('select.position').html('<option value="0">请选择</option>');
+                                return;
+                            } 
                             if (d_id == 5) {
                                 //财务部门 0,2
                                 $('select.position').html(cw_option);
@@ -87,11 +91,16 @@
                             <!--<input type="text" id="form-field-1" placeholder="Name" class="col-xs-10 col-sm-5 position" />-->
                             <select style="float: left;" name="position" class="position" id="form-field-1">
                                 <option value="0">请选择</option>
-                                <?php if (!empty($user['position_id'])){?>
+                                
                                     <?php foreach($position as $p) {?>
-                                    <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                        <?php if (!@$user['department_id']){?>
+                                        
+                                        <?php } else if($user['department_id'] == 5 &&(in_array($p['Position']['type'], array(0,2)))) {?>
+                                        <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                        <?php }else if($user['department_id'] != 5 && in_array($p['Position']['type'], array(0,1))) {?>
+                                        <option value="<?php echo $p['Position']['id'];?>" <?php echo @$user['position_id'] == $p['Position']['id'] ? 'selected' : '';?> ><?php echo $p['Position']['name'];?></option>
+                                        <?php }?>
                                     <?php }?>
-                                <?php }?>
                             </select>
                             <span class="help-inline col-xs-12 col-sm-7">
                                 <span class="middle"></span>

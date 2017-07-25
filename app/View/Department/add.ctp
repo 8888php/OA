@@ -59,14 +59,15 @@
                                             </div>
 
                                             <div class="space-4"></div>
+                                            <?php if(@$depArr['Department']['id']){  ?>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">部门负责人</label>
 
                                                 <div class="col-sm-9">
                                                     <select style="float: left;" name="fzr" class="fzr" id="form-field-1">
-                                                        <option value="0" > 暂不指定 </option>
+                                                        <option value="0" > 请选择 </option>
                                                         <?php foreach($fuzeren as $fk=>$fv){  ?>
-                                                        <option value="<?php echo @$fk;?>" <?php echo @$fk == @$depArr['Department']['user_id'] ? 'selected' : '';?> > <?php echo @$fv;?> </option>
+                                                        <option value="<?php echo @$fv['User']['id'];?>" <?php echo @$fv['User']['id'] == @$depArr['Department']['user_id'] ? 'selected' : '';?> > <?php echo @$fv['User']['name'];?> </option>
                                                         <?php } ?>
                                                     </select>
                                                     <span class="help-inline col-xs-12 col-sm-7">
@@ -74,7 +75,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-
+                                            <?php }?>
                                             
                                             <div class="space-4"></div>
                                             <div class="form-group">

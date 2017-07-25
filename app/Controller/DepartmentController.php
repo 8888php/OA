@@ -103,8 +103,12 @@ class DepartmentController extends AppController {
            $conditions['department_id'] = $id;
         }
         # 该部门所属成员
-        $fuzeren = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
-        $this->set('fuzeren',$fuzeren);
+        if (!empty($depArr)) {
+            $conditions['position_id'] = array(1,4);//职员，科室主任
+            $fuzeren = $this->User->find('all',array('conditions' => $conditions,'fileds'=>array('id','name', 'position_id')));
+           
+            $this->set('fuzeren',$fuzeren);
+        }
         
          # 分管所领导
         $sld_conditions = array('del'=>0,'position_id'=>array(5,6));
@@ -233,6 +237,12 @@ class DepartmentController extends AppController {
                 }
 
                 if ($this->Department->edit($id, $save_arr)) {
+                    //修改成功，把本部门的负责人变成科室主任，把之前的科室主任变成职员
+                    $this->User->query("update t_user set position_id=1 where department_id='$id' and position_id=4");
+                    if (!empty($fzr)) {
+                        //部门负责人非空时，把所选的，变为科室主任
+                        $this->User->query("update t_user set position_id=4 where id='$fzr'");
+                    }
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
