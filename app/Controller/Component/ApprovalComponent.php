@@ -378,9 +378,10 @@ class ApprovalComponent extends Component {
 
         require_once('../Model/User.php');
         $Uinfo = new User();
-        $userinfo = $Uinfo->find('list', array('conditions' => array('position_id' => 6 ,'del'=>0), 'fields' => array('id')));
-        if ($total < 20000 || in_array($uid,$userinfo)) {  //小于2W 或申请人是所长
-            return $userinfo['id'];
+        $userinfo = $Uinfo->find('first', array('conditions' => array('position_id' => 6 ,'del'=>0), 'fields' => array('id')));        
+        $userid = $userinfo['User']['id'];
+        if ($total < 20000 || $uid == $userid) {  //小于2W 或申请人是所长
+            return $userid;
         } else {
             return false;
         }
