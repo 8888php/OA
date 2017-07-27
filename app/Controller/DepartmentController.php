@@ -104,7 +104,7 @@ class DepartmentController extends AppController {
         }
         # 该部门所属成员
         if (!empty($depArr)) {
-            $conditions['position_id'] = array(1,4);//职员，科室主任
+            //$conditions['position_id'] = array(1,4);//职员，科室主任
             $fuzeren = $this->User->find('all',array('conditions' => $conditions,'fileds'=>array('id','name', 'position_id')));
            
             $this->set('fuzeren',$fuzeren);
@@ -190,11 +190,11 @@ class DepartmentController extends AppController {
             if ($id < 1 || !is_numeric($id)) {
                 ADD:
                 //add
-                //先查看职务名是否被占用
+                //先查看部门名是否被占用
                 if ($this->Department->findByName($name)) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '职务名被占用',
+                        'msg' => '部门名被占用',
                         'class' => '.name'
                     );
                     echo json_encode($ret_arr);
@@ -221,15 +221,15 @@ class DepartmentController extends AppController {
             } else {
                 //edit
                 if (!($posi_arr = $this->Department->findById($id))) {
-                    //如果找不到此职务就让他添加
+                    //如果找不到此部门就让他添加
                     goto ADD;
                 }
-                //先查看职务名是否被占用
+                //先查看部门名是否被占用
                 $name_user_arr = $this->Department->findByName($name);
                 if (count($name_user_arr) > 1) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '该职务已添加',
+                        'msg' => '该部门已添加',
                         'class' => '.name'
                     );
                     echo json_encode($ret_arr);
@@ -237,12 +237,15 @@ class DepartmentController extends AppController {
                 }
 
                 if ($this->Department->edit($id, $save_arr)) {
+                    /*
                     //修改成功，把本部门的负责人变成科室主任，把之前的科室主任变成职员
                     $this->User->query("update t_user set position_id=1 where department_id='$id' and position_id=4");
                     if (!empty($fzr)) {
                         //部门负责人非空时，把所选的，变为科室主任
                         $this->User->query("update t_user set position_id=4 where id='$fzr'");
                     }
+                     
+                     */
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
