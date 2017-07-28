@@ -22,7 +22,7 @@ class PositionController extends AppController {
         $total = 0;
         $curpage = 0;
         $all_page = 0;
-        $conditions = array(); //获取条件
+        $conditions = array('type != ' => 3); //获取条件
         $total = $this->Position->find('count',array('conditions'=>$conditions));
         
         $posiArr = array();
@@ -34,7 +34,7 @@ class PositionController extends AppController {
             }
 
             $posiArr = array();
-            $posiArr = $this->Position->query('select * from t_position as pos order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
+            $posiArr = $this->Position->query('select * from t_position as pos where type != 3 order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
         }
         $this->set('posiArr', $posiArr);
 

@@ -36,6 +36,9 @@ class ApprovalComponent extends Component {
             if ($vx == 12) { 
                 $before_12_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
             }
+            if ($vx == 15) { 
+                $before_15_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
+            }
         }
 
         if($applyinfo['code'] == $before_11_code &&  $uinfo['id'] == $applyinfo['project_user_id']){
@@ -43,6 +46,9 @@ class ApprovalComponent extends Component {
         }
         if($applyinfo['code'] == $before_12_code &&  $uinfo['id'] == $applyinfo['project_team_user_id']){
             $uinfo['position_id'] = 12 ;
+        }
+        if($applyinfo['code'] == $before_15_code &&  $uinfo['id'] == $applyinfo['department_fzr']){
+            $uinfo['position_id'] = 15 ;
         }
 
 
@@ -74,7 +80,7 @@ class ApprovalComponent extends Component {
                 }
 
               
-                if ($next_three_id == $uinfo['position_id']) {
+                if ($next_three_id == $uinfo['position_id']  && $next_three_id != 15) {
                     // 当前审批角色已是审批流中最后一个
                     $contents['code'] = 10000;
                     $contents['next_id'] = $next_id;  // 最后一个审核人
@@ -153,6 +159,17 @@ class ApprovalComponent extends Component {
                         break 2;
                     }
                     break;
+                case 15:
+                    $bmfzr = $this->apply_15($uinfo['department_id'], $uinfo['id']);
+                    if ($bmfzr) { // 跳过
+                        $contents['code_id'][] = $uinfo['id'];
+                        break;
+                    } else { // 不跳过 返回
+                        $contents['code'] = isset($liuArr[$k - 1]) ? $liuArr[$k - 1] * 2 : 0;
+                        $contents['next_id'] = $v;  // 下一审批职务
+                        break 2;
+                    }
+                    break;
                 default:
                     if ($v == $uinfo['position_id']) {
                         $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
@@ -162,8 +179,8 @@ class ApprovalComponent extends Component {
                     } else {
                         $contents['code'] = isset($liuArr[$k - 1]) ? $liuArr[$k - 1] * 2 : 0;;
                         $contents['next_id'] = $v;
+                        break 2;
                     }
-                    break 2;
             }
         }
 
@@ -197,6 +214,9 @@ class ApprovalComponent extends Component {
                 break;
             case 14:
                 return $this->apply_14($data['uid']);
+                break;
+            case 15:
+                return $this->apply_15($data['department_id'], $data['uid']);
                 break;
         }
     }
@@ -306,6 +326,8 @@ class ApprovalComponent extends Component {
 
         // 根据$type 为1 去查项目所属 科研主任(department_id:3)
         // 为2 则去查 对应行政部门 办公室主任(position_id:4)
+      
+      /*
         switch ($type) {
             case 1:
                 // 找科研主任
@@ -319,6 +341,13 @@ class ApprovalComponent extends Component {
                 break;
             default:
                 return false;
+        }
+        */
+
+        if($type = 1){
+            // 找科研主任
+                $Uinfo = new User();
+                $zhuren = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 4 ,'del'=>0), 'fields' => array('id')));
         }
 
         if (in_array($uid, $zhuren)) {
@@ -435,5 +464,191 @@ class ApprovalComponent extends Component {
             return false;
         }
     }
+
+
+
+   /**
+     *  1、审批人是否项目申请人，是：直接跳过
+     *
+     *   部门负责人
+     *  @params:  $department_id 部门id;$type 申请类型：1科研、2行政; $depid 部门负责人id
+     *  @response:
+     */
+    public function apply_15($department_id = 0, $depid = 0) {
+
+        require_once('../Model/Department.php');
+        $Dinfo = new Department();
+        $Depinfo = $Dinfo->find('first', array('conditions' => array('id' => $department_id , 'user_id'=>$depid , 'del'=>0), 'fields' => array('id')));  
+     
+        if (!empty($Depinfo)) {  // 存在 则说明 是部门负责人
+            return $Depinfo['Department']['id'];
+        } else {
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+  /**
+     *  以下所用方法 都需先获取 申请费用信息
+     *   返回code、下一审核人角色
+     *   获取申请项目信息
+     *  @params: $apply_id 申请费用id; $uinfo 当前审核人信息;$applytype 审批状态
+     *  @response:
+     */
+    public function apply_test($apply_id, $uinfo, $applytype) {
+        // 当前用户无审核权 
+        $uinfo = (array) $uinfo;
+        if ($uinfo['can_approval'] != 2) {
+            return false;
+        }
+
+        // 获取申请详情
+        $applyinfo = $this->apply_info($apply_id);
+        // 获取审批流
+        $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
+
+
+        // 项目负责人、项目组负责人 特殊处理
+        // 获取审批流中为11，12角色的 code值
+        $before_11_code = $before_12_code = -1;
+        foreach ($liuArr as $kx => $vx) {
+            if ($vx == 11) { 
+                $before_11_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
+            }
+            if ($vx == 12) { 
+                $before_12_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;
+            }
+        }
+
+        if($applyinfo['code'] == $before_11_code &&  $uinfo['id'] == $applyinfo['project_user_id']){
+            $uinfo['position_id'] = 11 ;
+        }
+        if($applyinfo['code'] == $before_12_code &&  $uinfo['id'] == $applyinfo['project_team_user_id']){
+            $uinfo['position_id'] = 12 ;
+        }
+
+
+        // 当前用户角色是否有审核权
+        if ($uinfo['position_id'] != $applyinfo['next_approver_id']) {
+            return false;
+        }
+        // 当前申请已通过
+        if ($applyinfo['code'] == 10000) {
+            return false;
+        }
+
+        $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
+        $contents['code_id'][0] = $uinfo['id'];
+
+        switch ($applytype) {
+            case 2:
+                $contents['code'] = $uinfo['position_id'] * 2 - 1;
+                return $contents;
+                break;
+            case 1:
+                $action_data = array(
+                        'pid' => $applyinfo['project_id'], // 申请所属项目id
+                        'uid' => $applyinfo['user_id'], // 申请人id
+                        'department_id' => $applyinfo['department_id'], // 申请所属部门
+                        'type' => $applyinfo['type'], // 申请类型
+                        'total' => $applyinfo['total'], // 申请总费用
+                    );
+
+                $endval = $liuArr[count($liuArr)-1]; // 审批流最后一个val
+
+                foreach ($liuArr as $k => $v) {
+                    if ($v == $uinfo['position_id']) {
+                        $next_id = isset($liuArr[$k + 1]) ? $liuArr[$k + 1] : $v;  // 下一审批职务
+                        $next_next_id = isset($liuArr[$k + 2]) ? $liuArr[$k + 2] : $next_id; // 下下一审批职务
+                        $next_three_id = isset($liuArr[$k + 3]) ? $liuArr[$k + 3] : $next_next_id; // 下下下一审批职务
+                        break;
+                    }
+
+                    $apply_yz = $this->apply_action($next_id, $action_data);   // 下一审核人是否跳过 ture跳过
+
+                    if ($apply_yz) {
+                          $contents['code_id'][$k + 1] = $apply_yz;
+                        // 跳过下一审核人审核  验证下下一审核人是否跳过
+                        /* $next_apply_yz = $this->apply_action($next_next_id, $action_data);  
+
+                         if($next_apply_yz) {
+                            $contents['code'] = ($next_next_id == $next_three_id) ? 10000 : $next_next_id * 2; 
+                            $contents['next_id'] = $next_three_id; 
+                            $contents['code_id'][3] = $next_apply_yz;
+                         }else{
+                            $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
+                            $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
+
+                         }  */
+                    } else {
+                        // 不跳过下一审核人
+                        $contents['code'] = ($endval == $v) ? 10000 : $liuArr[$k - 1] * 2;
+                        $contents['next_id'] = $next_id;
+                        break;
+                    }
+                }
+
+                return $contents;
+                break;
+
+              
+                if ($next_three_id == $uinfo['position_id']  && $next_three_id != 15) {
+                    // 当前审批角色已是审批流中最后一个
+                    $contents['code'] = 10000;
+                    $contents['next_id'] = $next_id;  // 最后一个审核人
+                    $contents['code_id'][1] = $uinfo['id'];
+                } else {
+                    $action_data = array(
+                        'pid' => $applyinfo['project_id'], // 申请所属项目id
+                        'uid' => $applyinfo['user_id'], // 申请人id
+                        'department_id' => $applyinfo['department_id'], // 申请所属部门
+                        'type' => $applyinfo['type'], // 申请类型
+                        'total' => $applyinfo['total'], // 申请总费用
+                    );
+                    $apply_yz = $this->apply_action($next_id, $action_data);   // 下一审核人是否跳过 ture跳过
+                    
+
+                    if ($apply_yz) {
+                          $contents['code_id'][2] = $apply_yz;
+                        // 跳过下一审核人审核  验证下下一审核人是否跳过
+                         $next_apply_yz = $this->apply_action($next_next_id, $action_data);  
+
+                         if($next_apply_yz) {
+                            $contents['code'] = ($next_next_id == $next_three_id) ? 10000 : $next_next_id * 2; 
+                            $contents['next_id'] = $next_three_id; 
+                            $contents['code_id'][3] = $next_apply_yz;
+                         }else{
+                            $contents['code'] = ($next_next_id == $next_id) ? 10000 : $next_id * 2;  // 如果下一审核角色和下下一审核角色相同，说明审批流已完成
+                            $contents['next_id'] = $next_next_id;  // 如果跳过下一审核人则取下下一审核人
+                         }
+                    } else {
+                        // 不跳过下一审核人
+                        $contents['code'] = $uinfo['position_id'] * 2;
+                        $contents['next_id'] = $next_id;
+                    }
+                }
+                return $contents;
+                break;
+            default:
+                return false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 }

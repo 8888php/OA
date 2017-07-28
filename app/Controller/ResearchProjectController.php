@@ -206,6 +206,7 @@ class ResearchProjectController extends AppController {
         $department_id = $this->userInfo->department_id;
         $department_arr = $this->Department->findById($department_id);
         $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
+        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
         
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
@@ -241,6 +242,7 @@ class ResearchProjectController extends AppController {
         $mainArr['attr_id'] = $attrId;
         $mainArr['project_user_id'] = $project_user_id;
         $mainArr['project_team_user_id'] = $project_team_user_id;
+        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = $_POST['ctime'];
         $mainArr['subject'] = json_encode($_POST['subject']);
         if ($attrId) {
