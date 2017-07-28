@@ -28,7 +28,7 @@ class ApprovalComponent extends Component {
 
         // 项目负责人、项目组负责人 特殊处理
         // 获取审批流中为11，12角色的 code值
-        $before_11_code = $before_12_code = -1;
+        $before_11_code = $before_12_code = $before_15_code = -1;
         foreach ($liuArr as $kx => $vx) {
             if ($vx == 11) { 
                 $before_11_code = ($kx-1) >= 0 ? $liuArr[$kx-1]*2 :0;

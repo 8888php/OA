@@ -194,7 +194,9 @@ class OfficeController extends AppController {
             // 项目负责人审核
             $sql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') "; 
             // 项目组负责人审核
-            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') ";  
+            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') "; 
+            // 部门负责人审核
+            $sql .= "or (next_approver_id=15 and department_fzr='{$this->userInfo->id}') ";
             // 科研项目由科研主任、科研副所长审核
             if($this->userInfo->department_id == 3){ 
                 $sql .= "or (type=1 and next_approver_id='{$this->userInfo->position_id}') ";
@@ -227,7 +229,9 @@ class OfficeController extends AppController {
             // 项目负责人审核
             $sql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') "; 
             // 项目组负责人审核
-            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') ";  
+            $sql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') "; 
+            // 部门负责人审核
+            $sql .= "or (next_approver_id=15 and department_fzr='{$this->userInfo->id}') "; 
             // 科研项目由科研主任、科研副所长审核
             if($this->userInfo->department_id == 3){ 
                 $sql .= "or (type=1 and next_approver_id='{$this->userInfo->position_id}') ";

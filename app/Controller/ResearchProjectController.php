@@ -260,6 +260,7 @@ class ResearchProjectController extends AppController {
                     if ($v == $this->userInfo->id) {
                         $save_approve = array(
                             'main_id' => $mainId,
+                            'position_id' => $this->userInfo->position_id,
                             'approve_id' => $this->userInfo->id,
                             'remarks' => '',
                             'name' => $this->userInfo->name,
@@ -271,6 +272,7 @@ class ResearchProjectController extends AppController {
                         $userinfo = $this->User->findById($v);
                         $save_approve = array(
                             'main_id' => $mainId,
+                            'position_id' => $userinfo['User']['position_id'],
                             'approve_id' => $v,
                             'remarks' => '',
                             'name' => $userinfo['User']['name'],
