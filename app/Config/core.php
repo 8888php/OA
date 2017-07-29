@@ -481,6 +481,7 @@ Configure::write('type_value', array(
 //审批流 表名 => 对应的审批流
 Configure::write('approval_process', array(
     'apply_baoxiaohuizong' => 1,
+    'apply_paidleave' => 3,
 ));
 
 //最新的审核状态码 6月30号,0是未审核，10000 是完全审核成功，其它的同意是此职务id的 2倍，拒绝是此职务id的 2倍减1

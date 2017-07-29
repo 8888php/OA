@@ -19,32 +19,33 @@
                             </tr>
                             <tr>
                                 <td >姓名</td>
-                                <td colspan='2'>  <input  type="text" class=" form_datetime3 name" name="name"  style='height:25px;width:190px;'> </td>
+                                <td colspan='2'>  <input  type="text" class="username" name="username"  style='height:25px;width:190px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
                                 <td >所在单位</td>
-                                <td colspan='3'>  <input  type="text" class=" form_datetime3 name" name="name"  style='height:25px;width:290px;'> </td>
+                                <td colspan='3'>  <input  type="text" class="company" name="company"  style='height:25px;width:290px;'> </td>
                             </tr>
                             
                              <tr>
                                 <td>参加工作时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class=" form_datetime3 start_day" name="start_day"  style='height:25px;width:180px;'>  
+                                <td colspan='2'>  <input readonly="readonly" type="text" class="start_work" name="start_work"  style='height:25px;width:180px;'>  
                                     <script type="text/javascript">
-                                        $(".form_datetime3").datetimepicker({
+                                        $(".start_work").datetimepicker({
                                             format: 'yyyy-mm-dd',
                                             minView: "month", //选择日期后，不会再跳转去选择时分秒 
                                         });
                                     </script> </td>
                                 <td>工作年限</td>
-                                <td colspan='3'> <input type="text" class="personnel" name="personnel" style='width:200px;height:25px;'/>  </td>
+                                <td colspan='3'> <input type="text" class="years" name="years" style='width:200px;height:25px;'/>  </td>
                              </tr>
                              <tr>
-                                <td>出差人员</td>
-                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:600px;height:25px;'/> </td>
-                            </tr>
-                            
+                                <td>按规定享受年假天数</td>
+                                <td colspan='2'>  <input  type="text" class="vacation_days" name="vacation_days"  style='height:25px;width:180px;'> 
+                                <td>本年度已休年假天数</td>
+                                <td colspan='3'> <input type="text" class="yx_vacation_days" name="yx_vacation_days" style='width:200px;height:25px;'/>  </td>
+                             </tr>                           
                             <tr>
-                                <td >出差时间</td>
+                                <td >休假时间及天数</td>
                                 <td colspan='4'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 start_day" name="start_day"  style='height:25px;width:180px;'>  
+                                    <input readonly="readonly" type="text" class=" form_datetime1 start_time" name="start_time"  style='height:25px;width:180px;'>  
                                     <script type="text/javascript">
                                         $(".form_datetime1").datetimepicker({
                                             format: 'yyyy-mm-dd',
@@ -52,7 +53,7 @@
                                         });
                                     </script>
                                     至
-                                    <input readonly="readonly" type="text" class=" form_datetime2 end_day" name="end_day"  style='height:25px;width:180px;'>  
+                                    <input readonly="readonly" type="text" class=" form_datetime2 end_time" name="end_time"  style='height:25px;width:180px;'>  
                                     <script type="text/javascript">
                                         $(".form_datetime2").datetimepicker({
                                             format: 'yyyy-mm-dd',
@@ -61,34 +62,13 @@
                                     </script>
                                 </td>
                                 <td style="width:90px;">合计</td>
-                                <td >  <input type="text" name='sum_day' class='sum_day' value='' readonly="readonly" style="width:50px;" />  天 </td>
+                                <td >  <input type="text" name='total_days' class='total_days' value=''  style="width:50px;" />  天 </td>
                             </tr>
                            
                             <tr>
-                                <td>出差地点</td>
-                                <td colspan='6'> <input type="text" name='address' class="address" style='width:600px;height:25px;'/> </td>
+                                <td>个人申请</td>
+                                <td colspan='6'> <input type="text" name='grsq' class="grsq" style='width:600px;height:25px;'/> </td>
                             </tr>
-                            <tr>
-                                <td style="width:110px;">交通方式及路线</td>
-                                <td colspan='6'> <input type="text" name='mode_route' class="mode_route" style='width:600px;height:25px;'/> </td>
-                            </tr>
-                            
-                            <!--tr>
-                                <td> <br />使用交通 <br />工具情况</td>
-                                <td colspan='6' style='text-align: left;line-height: 25px;'>
-                                1、乘坐营运交通工具 
-                                <input name="vehicle" type="checkbox" value="火车" /> 火车 
-                                <input name="vehicle" type="checkbox" value="汽车" /> 气车 
-                                <input name="vehicle" type="checkbox" value="轮船" /> 轮船  
-                                <input name="vehicle" type="checkbox" value="飞机" /> 飞机 
-                                <input name="vehicle" type="checkbox" value="车辆租赁" /> 车辆租赁 
-                                <br />
-                                2、单位派车或租用汽车信息  &nbsp;&nbsp;车号&nbsp;<input type="text" name='wagon_number' class="wagon_number" style='width:160px;height:20px;'/>   &nbsp;&nbsp;司机&nbsp;<input type="text" name='driver' class="driver" style='width:160px;height:20px;'/> <br />
-                                3、其他（需说明）：<input type="text" name='remark' class="remark" style='width:450px;height:20px;'/>
-                                </td>
-                            </tr-->
-
-                            
                             <tr>
                                 <td colspan='2' style="width:260px;" >部门负责人</td>
                                 <td  colspan='2'  style="width:260px;">分管所领导</td>
@@ -123,46 +103,60 @@
 <script type="text/javascript">
   
     function approve() {
-        var ctime = $('.ctime').val();
-        var reason = $('.reason').val();
-        var personnel = $('.personnel').val();
-        var start_day = $('.start_day').val();
-        var end_day = $('.end_day').val();
-        var sum_day = $('.sum_day').val();
-        var address = $('.address').val();
-        var mode_route = $('.mode_route').val();
-        if (ctime == '') {
-            $('.ctime').focus();
+        var company = $('.company').val();
+        var start_work = $('.start_work').val();
+        var years = $('.years').val();
+        var vacation_days = $('.vacation_days').val();
+        var yx_vacation_days = $('.yx_vacation_days').val();
+        var start_time = $('.start_time').val();
+        var end_time = $('.end_time').val();
+        var total_days = $('.total_days').val();
+        var grsq = $('.grsq').val();
+        
+        if (company == '') {
+            $('.company').focus();
             return;
         }
-        if (reason == '') {
-            $('.reason').focus();
+        if (start_work == '') {
+            $('.start_work').focus();
             return;
         }
-        if (personnel == '') {
-            $('.personnel').focus();
+        if (years == '') {
+            $('.years').focus();
             return;
         }
-        if (start_day == '') {
-            $('.start_day').focus();
+        if (vacation_days == '') {
+            $('.vacation_days').focus();
             return;
         }
-        if (end_day == '') {
-            $('.end_day').focus();
+        if (yx_vacation_days == '') {
+            $('.yx_vacation_days').focus();
             return;
         }
-        if (address == '') {
-            $('.address').focus();
+        if (start_time == '') {
+            $('.start_time').focus();
             return;
         }
-        if (mode_route == '') {
-            $('.mode_route').focus();
+        if (end_time == '') {
+            $('.end_time').focus();
             return;
         }
-
-        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
+        if (total_days == '') {
+            $('.total_days').focus();
+            return;
+        }
+        var data = {};
+        data.company = company;
+        data.start_work = start_work;
+        data.years = years;
+        data.vacation_days = vacation_days;
+        data.yx_vacation_days = yx_vacation_days;
+        data.start_time = start_time;
+        data.end_time = end_time;
+        data.grsq = grsq;
+        data.total_days = total_days;
         $.ajax({
-            url: '/RequestNote/gss_evection',
+            url: '/RequestNote/gss_furlough',
             type: 'post',
             data: data,
             dataType: 'json',
