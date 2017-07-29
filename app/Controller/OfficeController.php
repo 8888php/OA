@@ -101,6 +101,7 @@ class OfficeController extends AppController {
         $this->set('total', $total);      //total      总条数       
         $this->set('curpage', $pages);      //curpage    当前页
         $this->set('all_page', $all_page);
+        
         $this->render();
     }
 
@@ -181,6 +182,7 @@ class OfficeController extends AppController {
         $lists = array();
         //在这里得加上部门的验证，如果是特殊职务，如所长，账务科长不验证部门
         $department_str = "department_id ='$user_department_id' ";//默认找不到部门
+        $bumensql = ($position_id != 4) ? '': ' and type = 2 ';   // 部门负责人只能审核 行政申请
         if ($can_approval == 2) {
             // 财务副所长、账务科主任 验证所有申请（审批流中包含这两个角色）
             /*
@@ -206,7 +208,7 @@ class OfficeController extends AppController {
                 $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
             }else{
             // 部门申请筛选条件 
-                $sql .= " or ({$department_str} and next_approver_id='$position_id' and type= 2) " ; 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql ) " ; 
             } 
             $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code'";
 //echo $sql;
@@ -241,7 +243,7 @@ class OfficeController extends AppController {
                 $sql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
             }else{
             // 部门申请筛选条件 
-                $sql .= " or ({$department_str} and next_approver_id='$position_id'  and type= 2) " ; 
+                $sql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql) " ; 
             }  
             $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
 
@@ -559,9 +561,10 @@ class OfficeController extends AppController {
     /**
      * 报销单审核详情
      */
-    public function apply_project_reimbursement($main_id = 0) {
+    public function apply_project_reimbursement($main_id = 0,$code = '') {
+        $this->set('seecode',$code);
         if (empty($main_id)) {
-            // header("Location:/homes/index");die;
+             header("Location:/homes/index");die;
         }
         //根据main_id取出数据
         $main_arr = $this->ApplyMain->findById($main_id);
@@ -579,7 +582,6 @@ class OfficeController extends AppController {
         $this->set('apply_log', @$apply_log); 
         $apply_log_time = $this->ApprovalInformation->find('list',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','ctime')));
         $this->set('apply_log_time', @$apply_log_time); 
-
 
         $kemuStr =  '';
         if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门

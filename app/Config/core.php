@@ -433,6 +433,7 @@ Configure::write('applylist', array(
     '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '#', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
     '所办公室' => array('印信使用签批单' => '#', '所内公文' => '#', '来文' => '#', '发文' => '#'),
 ));
+//'果树所报销汇总单' => '/ResearchProject/add_declares',
 
 //定义审核的状态值 审核状态：1 行政审核未通过，2 行审通过，3 财务审核未通过，4 财审通过
 Configure::write('code_arr', array(

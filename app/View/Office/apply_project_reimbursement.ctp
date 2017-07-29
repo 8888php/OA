@@ -144,10 +144,14 @@
                 <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['id'];?>" />
                 <textarea id="remarks" placeholder="审批意见" rows='2' cols='90' ></textarea>
             </div>
+
             <div class="modal-footer" style='background-color: #fff;'>
+            <?php if($seecode == 'apply'){  ?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+            <?php } ?>
             </div>
+
         </div>
     </div><!-- /.row -->
 </div>

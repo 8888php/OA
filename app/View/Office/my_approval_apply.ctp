@@ -96,17 +96,10 @@
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
+                                                    <td> <a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > <?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
-                                                    <td><?php 
-                                                        $type_value = Configure::read('type_value');
-                                                        if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] <= 0){ // 部门
-                                                        echo $type_value[1];
-                                                        }else if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] > 0){ // 项目
-                                                        echo $type_value[2];
-                                                        }
-						      ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
@@ -193,6 +186,12 @@
                                         <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
                                     </div>
                                 </div>
+                                                 
+                                       <!-- /.modal_storage -->
+                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:510px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                        <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
+                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:510px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
+                                    </div>   
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- PAGE CONTENT ENDS -->
@@ -286,10 +285,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             return 'left';
         }
     })
-</script>
-
-
-<script>
+ 
+ 
     function ajax_del(did) {
         if (!did) {
             alert('删除失败');
@@ -376,7 +373,9 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         //关闭模态框时，清除数据，防止下次加雷有，缓存
         $(this).removeData("bs.modal");
     });
-    
+    function wait_close() {
+        $('#wait_close').click();
+    } 
 </script>
  <script type="text/javascript">
   show_left_select('office', 'my_approval', 'my_approval_apply');                              

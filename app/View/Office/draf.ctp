@@ -86,7 +86,9 @@
                                                 <tr> <td >
                                                         <ul>
                                                             <?php  foreach($v as $ak => $av){  ?>
-                                                            <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a href="<?php echo $av;  ?>" style="text-decoration:none;"> <?php echo $ak;  ?> </a></li>
+                                                            <!--li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a href="<?php echo $av;  ?>" style="text-decoration:none;"> <?php echo $ak;  ?> </a></li-->
+                                                            
+                                                            <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a data-toggle="modal"  data-target="#modal_wait" href="#" style="text-decoration:none;"  onclick="$('#myFrame').attr('src', '<?php echo $av;  ?>');" > <?php echo $ak;  ?> </a></li>
                                                             <?php   } ?>
                                                         </ul>
                                                     </td></tr>
@@ -97,6 +99,13 @@
 
                                 </div>
                             </div><!-- /.modal-content -->
+                                  <!-- /.modal_storage -->
+                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:510px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
+                                        <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
+                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:510px;border-radius:4px; " src="#" > </iframe>
+                                    </div>  
+                            
+                            
                         </div><!-- /.modal-dialog -->
                     </div><!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
@@ -154,6 +163,14 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    $('#modal_declares').on('show.bs.modal', function () {
+        // 执行一些动作...
+        window.childFrame.bumeng_change(); 
+      })
+    function declares_close() {
+        $('#declares_close').click();
+    }
+    
     jQuery(function ($) {
         var oTable1 = $('#sample-table-2').dataTable({
             "aoColumns": [
@@ -189,10 +206,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             return 'left';
         }
     })
-</script>
-
-
-<script>
+ 
     function ajax_del(did) {
         if (!did) {
             alert('删除失败');
@@ -274,6 +288,9 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 }
             }
         });
+    }
+    function wait_close() {
+        $('#wait_close').click();
     }
     $('#modal').on('hidden.bs.modal', function () {
         //关闭模态框时，清除数据，防止下次加雷有，缓存

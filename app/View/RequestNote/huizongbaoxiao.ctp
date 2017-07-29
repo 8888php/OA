@@ -20,13 +20,7 @@
                             <tr>
                                 <td colspan='2'>填表日期</td>
                                 <td colspan='2'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 ctime" name="ctime"  style='height:25px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime1").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
+                                    <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"   style='height:25px;'> 
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
                                 <td>  <input type="text" name='page_number' class="page_number" style='width:100px;height:25px;'/>  </td>

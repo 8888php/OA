@@ -96,17 +96,10 @@
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
+                                                    <td> <a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>/apply');"  > <?php echo $sv['ApplyMain']['name'];  ?> </a>  </td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
-                                                    <td><?php 
-                                                        $type_value = Configure::read('type_value');
-                                                        if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] <= 0){ // 部门
-                                                        echo $type_value[1];
-                                                        }else if($sv['ApplyMain']['department_id'] > 0 && $sv['ApplyMain']['project_id'] > 0){ // 项目
-                                                        echo $type_value[2];
-                                                        }
-						      ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['name']; ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
@@ -117,7 +110,7 @@
                                                         }   ?></td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
 						    echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td>
+                                                    <td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>/apply');"  > 审核 </a></td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -232,10 +225,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             return 'left';
         }
     })
-</script>
 
-
-<script>
     function wait_close() {
         $('#wait_close').click();
     }

@@ -19,13 +19,7 @@
                             </tr>
                             <tr>
                                 <td >填表日期</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class=" form_datetime3 ctime" name="ctime"  style='height:25px;width:590px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime3").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script> </td>
+                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:590px;'>  </td>
                             </tr>
                             
                              <tr>
