@@ -38,28 +38,28 @@
                                 <td>备注</td>
                             </tr>
                             <tr>
-                                <td colspan="2"><input type="text" name='pro1' class="pro1" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name='unit1' class="unit1" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='nums1' class="nums1" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='unit_price1' class="unit_price1" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='amount1' class="amount1" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='remarks1' class="remarks1" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:200px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['unit_price']" class="unit_price0" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:100px;height:25px;'/> </td>
                             </tr>
                             <tr>
-                                <td colspan="2"><input type="text" name='pro2' class="pro2" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name='unit2' class="unit2" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='nums2' class="nums2" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='unit_price2' class="unit_price2" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='amount2' class="amount2" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='remarks2' class="remarks2" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:200px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['amount']" class="amount1" readonly="readonly"  style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:100px;height:25px;'/> </td>
                             </tr>
                             <tr>
-                                <td colspan="2"><input type="text" name='pro3' class="pro3" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name='unit3' class="unit3" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='nums3' class="nums3" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='unit_price3' class="unit_price3" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='amount3' class="amount3" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name='remarks3' class="remarks3" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:200px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2" style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['amount']" class="amount2" readonly="readonly"  style='width:100px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:100px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
@@ -106,17 +106,15 @@
 
 <script type="text/javascript">
   
+        var dp = $("input[name='dp']").val();  console.log(dp);
     function approve() {
         var ctime = $('.ctime').val();
         var dep_pro = $('.dep_pro').val();
-        var borrower = $('.borrower').val();
-        var loan_reason = $('.loan_reason').val();
-        var big_amount = $('.big_amount').val();
-        var small_amount = $('.small_amount').val();
-        var big_approval_amount = $('.big_approval_amount').val();
-        var small_approval_amount = $('.small_approval_amount').val();
-        var repayment_plan = $('.repayment_plan').val();
-        var payee = $('.payee').val();
+        var sheets_num = $('.sheets_num').val();
+        var small_total = $('.small_total').val();
+        var big_total = $('.big_total').val();
+        var declarename = $('.declarename').val();
+        var dp = $("input[name='dp']").val();  
         if (ctime == '') {
             $('.ctime').focus();
             return;
@@ -125,40 +123,12 @@
             $('.dep_pro').focus();
             return;
         }
-        if (borrower == '') {
-            $('.borrower').focus();
+        if (sheets_num == '') {
+            $('.sheets_num').focus();
             return;
         }
-        if (loan_reason == '') {
-            $('.loan_reason').focus();
-            return;
-        }
-        if (big_amount == '') {
-            $('.big_amount').focus();
-            return;
-        }
-        if (small_amount == '') {
-            $('.small_amount').focus();
-            return;
-        }
-        if (big_approval_amount == '') {
-            $('.big_approval_amount').focus();
-            return;
-        }
-        if (small_approval_amount == '') {
-            $('.small_approval_amount').focus();
-            return;
-        }
-        if (repayment_plan == '') {
-            $('.repayment_plan').focus();
-            return;
-        }
-        if (payee == '') {
-            $('.payee').focus();
-            return;
-        }
-
-        var data = {ctime: ctime, dep_pro: dep_pro, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,payee: payee,declarename: declarename};
+        
+        var data = {ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',

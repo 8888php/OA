@@ -125,6 +125,8 @@
         var sum_day = $('.sum_day').val();
         var address = $('.address').val();
         var mode_route = $('.mode_route').val();
+        var declarename = $('.declarename').val();
+        
         if (ctime == '') {
             $('.ctime').focus();
             return;
@@ -154,7 +156,7 @@
             return;
         }
 
-        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route};
+        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection',
             type: 'post',

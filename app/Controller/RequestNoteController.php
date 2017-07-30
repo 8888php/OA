@@ -157,7 +157,7 @@ class RequestNoteController extends AppController {
      public function gss_loan() {
          
         if ($this->request->is('ajax')) {
-            $this->sub_declares($_POST);
+           // $this->sub_declares($_POST);
         }else{
         
         $this->render();
@@ -176,7 +176,18 @@ class RequestNoteController extends AppController {
         }
     }
     
-    
+      
+               
+    // 果树所请假单
+     public function gss_leave() {
+         
+        if ($this->request->is('ajax')) {
+            $this->gss_leave_save($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }  
     
                
     // 果树所职工带薪年审批单

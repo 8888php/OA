@@ -100,6 +100,7 @@
         var big_approval_amount = $('.big_approval_amount').val();
         var small_approval_amount = $('.small_approval_amount').val();
         var repayment_plan = $('.repayment_plan').val();
+        var declarename = $('.declarename').val();
         if (ctime == '') {
             $('.ctime').focus();
             return;

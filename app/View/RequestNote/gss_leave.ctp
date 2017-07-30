@@ -12,38 +12,39 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
-                        <input type="hidden" name='declarename' class='declarename' value='果树所职工带薪年休假审批单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='果树所请假申请单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
+                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所请假申请单 </td>
                             </tr>
                             <tr>
-                                <td >姓名</td>
-                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
-                                <td >所在单位</td>
-                                <td colspan='3'>  <input  type="text" class="depname" name="depname"  style='height:25px;width:280px;'> </td>
+                                <td colspan='3'>填表日期</td>
+                                <td colspan='4'> 
+                                    <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
+                             </tr>
+                             <tr>
+                                <td > 单位或部门 </td>
+                                <td colspan='6'>  <input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'> </td>
                             </tr>
                             
                              <tr>
-                                <td>参加工作时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class="start_work" name="start_work"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".start_work").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script> </td>
-                                <td>工作年限</td>
-                                <td colspan='3'> <input type="text" class="years" name="years" style='width:200px;height:25px;'/>  </td>
+                                <td> 请假类型 </td>
+                                <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >    
+                                        <option value="1"  >  婚假 </option>
+                                        <option value="2"  >  事假 </option>
+                                        <option value="3"  >  病假 </option>
+                                        <option value="4"  >  年假 </option>
+                                    </select>
+                                </td>
+                                <td> 请假人 </td>
+                                <td colspan='3'> <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
                              </tr>
                              <tr>
-                                <td>按规定 <br/> 享受年假天数</td>
-                                <td colspan='2' >  <input  type="text" class="vacation_days" name="vacation_days"  style='height:25px;width:180px;margin-top:5px;'> 
-                                <td>本年度 <br/> 已休年假天数</td>
-                                <td colspan='3'  align="center" valign="middle"> <input type="text" class="yx_vacation_days" name="yx_vacation_days" style='width:200px;height:25px;margin-top:5px;'/>  </td>
+                                <td> 事由 </td>
+                                <td colspan='6' >  <input  type="text" class="about" name="about"  style='height:25px;width:580px;'> 
                              </tr>                           
                             <tr>
-                                <td >休假时间及天数</td>
+                                <td >请假天数</td>
                                 <td colspan='4'>
                                     <input readonly="readonly" type="text" class=" form_datetime1 start_time" name="start_time"  style='height:25px;width:180px;'>  
                                     <script type="text/javascript">
@@ -61,25 +62,29 @@
                                         });
                                     </script>
                                 </td>
-                                <td style="width:90px;">合计</td>
+                                <td style="width:90px;">共</td>
                                 <td >  <input type="text" name='sum_days' class='sum_days' value='0'  style="width:50px;" readonly="readonly"  />  天 </td>
                             </tr>
                            
                             <tr>
-                                <td>个人申请</td>
-                                <td colspan='6'> <input type="text" name='personal_apply' class="personal_apply" style='width:600px;height:25px;'/> </td>
+                                <td colspan='2'> 所在单位负责人 </td>
+                                <td colspan='5'> <textarea  name="leading" class="leading" cols='65' rows='1' ></textarea>  </td>
                             </tr>
                             <tr>
-                                <td style='height:50px;'>所在单位<br/>负责人意见</td>
-                                <td  colspan='6' > <textarea  name="leading_opinion" class="leading_opinion" cols='80' rows='2' ></textarea>   </td>
+                                <td colspan='2'> 医务室 </td>
+                                <td  colspan='5' > <textarea  name="clinic" class="clinic" cols='65' rows='1' ></textarea>   </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;line-height: 50px;'> 分管所领导意见</td>
-                                <td colspan='6'> <textarea  name="leadership_opinion" class="leadership_opinion"  cols='80' rows='2' ></textarea>   </td>
+                                <td colspan='2'> 分管领导 </td>
+                                <td colspan='5'> <textarea  name="leadership" class="leadership"  cols='65' rows='1' ></textarea>   </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;'> 主管<br/>人事领导意见 </td>
-                                <td colspan='6' > <textarea  name="personnel_opinion" class="personnel_opinion"  cols='80' rows='2' ></textarea>   </td>
+                                <td colspan='2'> 分管人事领导 </td>
+                                <td colspan='5' > <textarea  name="personnel" class="personnel"  cols='65' rows='1' ></textarea>   </td>
+                            </tr>
+                            <tr >
+                                <td colspan='2'> 所长 </td>
+                                <td colspan='5' > <textarea  name="bureau_chief" class="bureau_chief"  cols='65' rows='1' ></textarea>   </td>
                             </tr>
                             
                         </tbody>
@@ -102,43 +107,35 @@
 <script type="text/javascript">
   
     function approve() {
+        var ctime = $('.ctime').val();
         var applyname = $('.applyname').val();
-        var depname = $('.depname').val();
-        var start_work = $('.start_work').val();
-        var years = $('.years').val();
-        var vacation_days = $('.vacation_days').val();
-        var yx_vacation_days = $('.yx_vacation_days').val();
+        var dep_pro = $('.dep_pro').val();
+        var leave_type = $('.leave_type option:selected').val();
+        var about = $('.about').val();
         var start_time = $('.start_time').val();
         var end_time = $('.end_time').val();
         var sum_days = $('.sum_days').val();
-        var personal_apply = $('.personal_apply').val();
-        var leading_opinion = $('.leading_opinion').val();
-        var leadership_opinion = $('.leadership_opinion').val();
-        var personnel_opinion = $('.personnel_opinion').val();
+        var leading = $('.leading').val();
+        var clinic = $('.clinic').val();
+        var leadership = $('.leadership').val();
+        var personnel = $('.personnel').val();
+        var bureau_chief = $('.bureau_chief').val();
         var declarename = $('.declarename').val();
         
         if (applyname == '') {
             $('.applyname').focus();
             return;
         }
-        if (depname == '') {
-            $('.depname').focus();
+        if (dep_pro == '') {
+            $('.dep_pro').focus();
             return;
         }
-        if (start_work == '') {
-            $('.start_work').focus();
+        if (leave_type == '') {
+            $('.leave_type').focus();
             return;
         }
-        if (years == '') {
-            $('.years').focus();
-            return;
-        }
-        if (vacation_days == '') {
-            $('.vacation_days').focus();
-            return;
-        }
-        if (yx_vacation_days == '') {
-            $('.yx_vacation_days').focus();
+        if (about == '') {
+            $('.about').focus();
             return;
         }
         if (start_time == '') {
@@ -154,22 +151,22 @@
             return;
         }
         var data = {};
+        data.ctime = ctime;
         data.applyname = applyname;
-        data.depname = depname;
-        data.start_work = start_work;
-        data.years = years;
-        data.vacation_days = vacation_days;
-        data.yx_vacation_days = yx_vacation_days;
+        data.dep_pro = dep_pro;
+        data.leave_type = leave_type;
+        data.about = about;
         data.start_time = start_time;
         data.end_time = end_time;
         data.sum_days = sum_days;
-        data.personal_apply = personal_apply;
-        data.leading_opinion = leading_opinion;
-        data.leadership_opinion = leadership_opinion;
-        data.personnel_opinion = personnel_opinion;
+        data.leading = leading;
+        data.clinic = clinic;
+        data.leadership = leadership;
+        data.personnel = personnel;
+        data.bureau_chief = bureau_chief;
         data.declarename = declarename;
         $.ajax({
-            url: '/RequestNote/gss_furlough',
+            url: '/RequestNote/gss_leave',
             type: 'post',
             data: data,
             dataType: 'json',
