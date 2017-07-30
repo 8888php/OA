@@ -236,7 +236,6 @@ class RequestNoteController extends AppController {
         
         # 开始入库
         $this->ApplyPaidleave->begin();
-        var_dump($this->ApplyPaidleave->begin());die;
         $attrId = $this->ApplyPaidleave->add($attrArr);
         
         # 主表入库

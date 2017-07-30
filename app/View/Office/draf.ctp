@@ -168,7 +168,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         window.childFrame.bumeng_change(); 
       })
     function declares_close() {
-        $('#declares_close').click();
+        $('#modal_wait').click();
     }
     
     jQuery(function ($) {
