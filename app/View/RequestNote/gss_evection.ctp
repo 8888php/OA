@@ -154,7 +154,7 @@
             return;
         }
 
-        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
+        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route};
         $.ajax({
             url: '/RequestNote/gss_evection',
             type: 'post',
