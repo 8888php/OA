@@ -26,7 +26,7 @@
                                 <td>部门或项目</td>
                                 <td colspan='3'> <input type="text" name='dep_pro' class="dep_pro" style='width:290px;height:25px;'/>  </td>
                                 <td>借款人姓名</td>
-                                <td colspan='2'> <input type="text" class="borrower" name="borrower" style='width:190px;height:25px;'/> </td>
+                                <td colspan='2'> <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:190px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
 
                             <tr>
@@ -37,14 +37,14 @@
                             <tr>
                                 <td>申请借款金额</td>
                                 <td>金额大写</td>
-                                <td colspan='3'> <input type="text" name='big_amount' class="big_amount" style='width:280px;height:25px;'/> </td>
+                                <td colspan='3'> <input readonly="readonly" type="text" name='big_amount' class="big_amount" style='width:280px;height:25px;'/> </td>
                                 <td colspan='2'> ￥ <input type="text" name='small_amount' class="small_amount" style='width:170px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
                                 <td>批准金额</td>
                                 <td>金额大写</td>
-                                <td colspan='3'> <input type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;'/> </td>
+                                <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;'/> </td>
                                 <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:170px;height:25px;'/> </td>
                             </tr>
                             
@@ -117,19 +117,19 @@
             $('.loan_reason').focus();
             return;
         }
-        if (big_amount == '') {
-            $('.big_amount').focus();
-            return;
-        }
-        if (small_amount == '') {
+//        if (big_amount == '') {
+//            $('.big_amount').focus();
+//            return;
+//        }
+        if (small_amount == '' || isNaN(small_amount)) {
             $('.small_amount').focus();
             return;
         }
-        if (big_approval_amount == '') {
-            $('.big_approval_amount').focus();
-            return;
-        }
-        if (small_approval_amount == '') {
+//        if (big_approval_amount == '') {
+//            $('.big_approval_amount').focus();
+//            return;
+//        }
+        if (small_approval_amount == '' || isNaN(small_approval_amount)) {
             $('.small_approval_amount').focus();
             return;
         }
@@ -137,12 +137,9 @@
             $('.repayment_plan').focus();
             return;
         }
-        if (payee == '') {
-            $('.payee').focus();
-            return;
-        }
+        
 
-        var data = {ctime: ctime, dep_pro: dep_pro, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,declarename: declarename};
+        var data = {ctime: ctime, dep_pro: dep_pro, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',
@@ -193,6 +190,98 @@
             hide_error($(this));
         }
     });
+    $('.small_amount').blur(function(){
+        $('.big_amount').val(convertCurrency($(this).val()));
+    });
+    $('.small_approval_amount').blur(function(){
+        $('.big_approval_amount').val(convertCurrency($(this).val()));
+    });
+    //钱小写转大写
+    function convertCurrency(money) {
+        //汉字的数字
+        var cnNums = new Array('零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖');
+        //基本单位
+        var cnIntRadice = new Array('', '拾', '佰', '仟');
+        //对应整数部分扩展单位
+        var cnIntUnits = new Array('', '万', '亿', '兆');
+        //对应小数部分单位
+        var cnDecUnits = new Array('角', '分', '毫', '厘');
+        //整数金额时后面跟的字符
+        var cnInteger = '整';
+        //整型完以后的单位
+        var cnIntLast = '元';
+        //最大处理的数字
+        var maxNum = 999999999999999.9999;
+        //金额整数部分
+        var integerNum;
+        //金额小数部分
+        var decimalNum;
+        //输出的中文金额字符串
+        var chineseStr = '';
+        //分离金额后用的数组，预定义
+        var parts;
+        if (money == '') { return ''; }
+        money = parseFloat(money);
+        if (money >= maxNum) {
+          //超出最大处理数字
+          return '';
+        }
+        if (money == 0) {
+          chineseStr = cnNums[0] + cnIntLast + cnInteger;
+          return chineseStr;
+        }
+        //转换为字符串
+        money = money.toString();
+        if (money.indexOf('.') == -1) {
+          integerNum = money;
+          decimalNum = '';
+        } else {
+          parts = money.split('.');
+          integerNum = parts[0];
+          decimalNum = parts[1].substr(0, 4);
+        }
+        //获取整型部分转换
+        if (parseInt(integerNum, 10) > 0) {
+          var zeroCount = 0;
+          var IntLen = integerNum.length;
+          for (var i = 0; i < IntLen; i++) {
+            var n = integerNum.substr(i, 1);
+            var p = IntLen - i - 1;
+            var q = p / 4;
+            var m = p % 4;
+            if (n == '0') {
+              zeroCount++;
+            } else {
+              if (zeroCount > 0) {
+                chineseStr += cnNums[0];
+              }
+              //归零
+              zeroCount = 0;
+              chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+            }
+            if (m == 0 && zeroCount < 4) {
+              chineseStr += cnIntUnits[q];
+            }
+          }
+          chineseStr += cnIntLast;
+        }
+        //小数部分
+        if (decimalNum != '') {
+          var decLen = decimalNum.length;
+          for (var i = 0; i < decLen; i++) {
+            var n = decimalNum.substr(i, 1);
+            if (n != '0') {
+              chineseStr += cnNums[Number(n)] + cnDecUnits[i];
+            }
+          }
+        }
+        if (chineseStr == '') {
+          chineseStr += cnNums[0] + cnIntLast + cnInteger;
+        } else if (decimalNum == '') {
+          chineseStr += cnInteger;
+        }
+        return chineseStr;
+}
 </script>
 
 <?php echo $this->element('foot_frame'); ?>
