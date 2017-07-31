@@ -68,23 +68,23 @@
                            
                             <tr>
                                 <td colspan='2'> 所在单位负责人 </td>
-                                <td colspan='5'> <textarea  name="leading" class="leading" cols='65' rows='1' ></textarea>  </td>
+                                <td colspan='5'> <!--textarea  name="leading" class="leading" cols='65' rows='1' ></textarea-->  </td>
                             </tr>
                             <tr>
                                 <td colspan='2'> 医务室 </td>
-                                <td  colspan='5' > <textarea  name="clinic" class="clinic" cols='65' rows='1' ></textarea>   </td>
+                                <td  colspan='5' > <!--textarea  name="clinic" class="clinic" cols='65' rows='1' ></textarea-->   </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管领导 </td>
-                                <td colspan='5'> <textarea  name="leadership" class="leadership"  cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='5'> <!--textarea  name="leadership" class="leadership"  cols='65' rows='1' ></textarea-->   </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管人事领导 </td>
-                                <td colspan='5' > <textarea  name="personnel" class="personnel"  cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='5' > <!--textarea  name="personnel" class="personnel"  cols='65' rows='1' ></textarea-->   </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 所长 </td>
-                                <td colspan='5' > <textarea  name="bureau_chief" class="bureau_chief"  cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='5' > <!--textarea  name="bureau_chief" class="bureau_chief"  cols='65' rows='1' ></textarea-->   </td>
                             </tr>
                             
                         </tbody>
@@ -155,7 +155,7 @@
         data.applyname = applyname;
         data.dep_pro = dep_pro;
         data.leave_type = leave_type;
-        data.about = about;
+        data.reason = about;
         data.start_time = start_time;
         data.end_time = end_time;
         data.sum_days = sum_days;
