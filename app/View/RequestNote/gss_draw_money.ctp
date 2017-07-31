@@ -37,7 +37,7 @@
                                 <td>金额</td>
                                 <td>备注</td>
                             </tr>
-                            <tr>
+                            <tr class="dp">
                                 <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:200px;height:25px;'/></td>
                                 <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:100px;height:25px;'/> </td>
                                 <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:100px;height:25px;'/> </td>
@@ -45,7 +45,7 @@
                                 <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:100px;height:25px;'/> </td>
                                 <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:100px;height:25px;'/> </td>
                             </tr>
-                            <tr>
+                            <tr class="dp">
                                 <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:200px;height:25px;'/></td>
                                 <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:100px;height:25px;'/> </td>
                                 <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:100px;height:25px;'/> </td>
@@ -53,7 +53,7 @@
                                 <td> <input type="text" name="dp[1]['amount']" class="amount1" readonly="readonly"  style='width:100px;height:25px;'/> </td>
                                 <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:100px;height:25px;'/> </td>
                             </tr>
-                            <tr>
+                            <tr class="dp">
                                 <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:200px;height:25px;'/></td>
                                 <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:100px;height:25px;'/> </td>
                                 <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:100px;height:25px;'/> </td>
@@ -119,18 +119,34 @@
             $('.ctime').focus();
             return;
         }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
-            return;
-        }
         if (sheets_num == '') {
             $('.sheets_num').focus();
             return;
         }
-        
-        var data = {ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename};
+        if (dep_pro == '') {
+            $('.dep_pro').focus();
+            return;
+        }
+        var dp_json_str = [{}];
+       $('.dp').each(function(i){
+           var tmp_str = {};
+           var pro = $(this).find('.pro' + i).val();
+           var unit = $(this).find('.unit' + i).val();
+           var nums = $(this).find('.nums' + i).val();
+           var unit_price = $(this).find('.unit_price' + i).val();
+           var amount = $(this).find('.amount' + i).val();
+           var remarks = $(this).find('.remarks' + i).val();
+           tmp_str.pro = pro;
+           tmp_str.unit = unit;
+           tmp_str.nums = nums;
+           tmp_str.unit_price = unit_price;
+           tmp_str.amount = amount;
+           tmp_str.remarks = remarks;
+           dp_json_str[i] = tmp_str;
+       });
+        var data = {dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename};
         $.ajax({
-            url: '/RequestNote/gss_loan',
+            url: '/RequestNote/gss_draw_money',
             type: 'post',
             data: data,
             dataType: 'json',
