@@ -429,8 +429,8 @@ Configure::write('xizhenglist', array(
 
 // 起草申请
 Configure::write('applylist', array(
-    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '采购申请单' => '#','果树所差旅审批单' => '/RequestNote/gss_evection', ),
-    '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '#', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
+    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '采购申请单' => '/RequestNote/gss_purchase','果树所差旅审批单' => '/RequestNote/gss_evection', ),
+    '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
     '所办公室' => array('印信使用签批单' => '#', '所内公文' => '#', '来文' => '#', '发文' => '#'),
 ));
 //'果树所报销汇总单' => '/ResearchProject/add_declares',

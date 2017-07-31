@@ -166,6 +166,31 @@ class RequestNoteController extends AppController {
     }
  
            
+    // 果树所差旅费报销单
+     public function gss_evection_expense() {
+         $this->render();
+         
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+           // $this->sub_declares($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }
+    
+           
+    // 果树所采购申请单
+     public function gss_purchase() {
+         $this->render();
+         
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+           // $this->sub_declares($_POST);
+        }else{
+        
+        $this->render();
+        }
+    }
+           
     // 果树所领款单
      public function gss_draw_money() {
          
