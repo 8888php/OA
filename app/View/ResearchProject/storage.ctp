@@ -138,7 +138,7 @@
                                                         <option value="1">物资出库单</option>
                                                     </select>  
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a  data-toggle="modal" href="#" data-target="#modal_storage" class="step1_js" >
+                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_storage/<?php echo $pid;?>');"  id="modal_add">
                                                         <i class="icon-plus arrow blue"></i>
                                                     </a>
                                                 </th>
@@ -169,7 +169,7 @@
                                                 <td> <?php echo $sv['Storage']['code'] == 0 ? '待审核':'已通过' ;  ?>  </td>
                                                 <td> 
                                                     <?php if($sv['Storage']['code'] == 0){  ?>
-                                                    <a class="badge badge-info" data-toggle="modal" href="#" data-target="#modal_storage" onclick="$('#myFrame').attr('src', '/ResearchProject/add_storage/<?php echo $pid;?>/<?php echo $sid;?>');"> 修改 </a>   <a class="badge badge-danger" onclick="edit_storage(<?php echo $sid;?> , 'del');" > 删除 </a> 
+                                                    <a class="badge badge-info" data-toggle="modal" data-remote='true'  href="#" data-target="#modal_wait" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_storage/<?php echo $pid.'/'.$sid;?>');" > 修改 </a>   <a class="badge badge-danger" onclick="edit_storage(<?php echo $sid;?> , 'del');" > 删除 </a> 
                                                     <?php }else{ ?>
                                                     <a class="badge badge-success"> 出库 </a> 
                                                     <?php } ?>
@@ -195,12 +195,11 @@
                             </div>
                         </div>
 
-                        <!-- /.modal_storage -->
-                        <div class="modal fade" id="modal_storage" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:370px;height:348px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                            <button type="button" class="close" id="storage_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" frameborder="0" style="width:360px;min-height:340px;border-radius:4px; " src="/ResearchProject/add_storage/<?php echo $pid;?>" > </iframe>
-                        </div>
-
+                        <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" >
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>  
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
@@ -298,7 +297,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                             if (res.code == 0) {
                                 //说明添加或修改成功
                                 alert(res.msg);
-                                location.reload();
+                                $('#modal_wait').modal('hide')
+                                location.reload(true);
                                 return;
                             }
                             if (res.code == 2) {

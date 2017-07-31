@@ -97,7 +97,7 @@
 						?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <td> <a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > <?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name']; ?></td>
@@ -188,13 +188,12 @@
                                         <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 ); ?>                                        
                                     </div>
                                 </div>
-                                
-                                       <!-- /.modal_storage -->
-                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:510px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                        <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
-                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:510px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
-                                    </div>    
-                                
+                                   
+                               <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>  
                                 
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->

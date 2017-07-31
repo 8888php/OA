@@ -48,7 +48,7 @@ class RequestNoteController extends AppController {
     //汇总报销申批单
     public function huizongbaoxiao() {
         
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->sub_declares($_POST);
         }else{
         //当前用户所属项目
@@ -137,7 +137,7 @@ class RequestNoteController extends AppController {
     // 果树所出差审批单
      public function gss_evection() {
          
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_save($_POST);
         }else{
         //当前用户所属项目
@@ -155,8 +155,9 @@ class RequestNoteController extends AppController {
        
     // 果树所借款单
      public function gss_loan() {
+         $this->render();
          
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
            // $this->sub_declares($_POST);
         }else{
         
@@ -168,7 +169,7 @@ class RequestNoteController extends AppController {
     // 果树所领款单
      public function gss_draw_money() {
          
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->sub_declares($_POST);
         }else{
         
@@ -181,7 +182,7 @@ class RequestNoteController extends AppController {
     // 果树所请假单
      public function gss_leave() {
          
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_leave_save($_POST);
         }else{
         
@@ -193,7 +194,7 @@ class RequestNoteController extends AppController {
     // 果树所职工带薪年审批单
      public function gss_furlough() {
          
-        if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_furlough_save($_POST);
         }else{
         

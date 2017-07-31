@@ -3,7 +3,7 @@
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:360px;height:340px;'>
     <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目经费 </span> <a onclick="window.parent.storage_close();" class="close" data-dismiss="modal" >×</a></p>
 
-    <div class="row" style='padding:20px 0;margin:0 auto;'>
+    <div class="row" style='padding:20px 0;margin:0 auto;'><?php //var_dump($storageInfo);?>
         <div class="col-xs-12">
             <form class="form-horizontal"   role="form">
                 <input type="hidden" name="pid" id='pid' value="<?php echo @$pid; ?>" />
@@ -42,7 +42,7 @@
                             <?php echo @$storageInfo['id'] ? '修改':'确定'; ?>  
                         </button>
                         &nbsp; &nbsp; &nbsp;
-                        <button type="button" class="btn btn-info" onclick="window.parent.storage_close();" >
+                        <button type="button" class="btn btn-info" onclick="window.parent.storage_close();" data-dismiss="modal" id="close" >
                             <i class="icon-undo bigger-110"></i>
                             取消
                         </button>
@@ -109,10 +109,11 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
+                    
                     alert(res.msg);
-                    if(res.class == 'edit'){ 
-                        window.location.reload();
-                    }
+                    //if(res.class == 'edit'){ 
+                        window.location.reload(true);
+                    //}
                     return;
                 }
                 if (res.code == 2) {

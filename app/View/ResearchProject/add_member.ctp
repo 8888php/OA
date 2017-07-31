@@ -113,7 +113,7 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    location.reload() ;
+                    $('#modal-body').load('/ResearchProject/add_member/<?php echo $pid;?>');
                     return;
                 }
                 if (res.code == 2) {

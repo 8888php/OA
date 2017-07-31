@@ -96,20 +96,20 @@
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <td> <a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > <?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  >  <?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
 
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
-                                                            $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
-                                                            foreach($fileurlArr as $filev){
-                                                                echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
-                                                            } 
+                                                        $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
+                                                        foreach($fileurlArr as $filev){
+                                                        echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                                        } 
                                                         }  ?></td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
-						    echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
+                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
                                                     <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
                                                 </tr>
                                                 <?php   } ?>
@@ -120,8 +120,8 @@
                                     </div>
 
                                     <script type="text/javascript">
-                                        $(function(){
-                                            $('#modal').on('hidden.bs.modal', function(){
+                                        $(function () {
+                                            $('#modal').on('hidden.bs.modal', function () {
                                                 //关闭模态框时，清除数据，防止下次加雷有，缓存
                                                 $(this).removeData("bs.modal");
                                             })
@@ -139,11 +139,11 @@
                                             } else {
                                                 type = 1;
                                             }
-                                            if (!confirm('您确认 ' +text+ ' 该项目？')) {
+                                            if (!confirm('您确认 ' + text + ' 该项目？')) {
                                                 //取消
                                                 return;
                                             }
-                                            var data = {p_id: $('#p_id').val(), remarks:remarks, type:type};
+                                            var data = {p_id: $('#p_id').val(), remarks: remarks, type: type};
                                             $.ajax({
                                                 url: '/Office/ajax_approve',
                                                 type: 'post',
@@ -163,7 +163,7 @@
                                                     if (res.code == 1) {
                                                         //说明有错误
                                                         alert(res.msg);
-                                                        
+
                                                         return;
                                                     }
                                                     if (res.code == 0) {
@@ -181,17 +181,18 @@
                                             });
                                         }
                                     </script>
-                                    
+
                                     <div class="modal-footer no-margin-top">
                                         <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/wait_approval/",5 ); ?>                                        
                                     </div>
                                 </div>
-                                                 
-                                       <!-- /.modal_storage -->
-                                    <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:510px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                                        <button type="button" class="close" id="wait_close" data-dismiss="modal" aria-hidden="true"> </button>
-                                        <iframe  id="myFrame" frameborder="0" style="width:760px;min-height:510px;border-radius:4px; " src="/office/apply_project_reimbursement" > </iframe>
-                                    </div>   
+
+                                <!-- /.modal_storage -->
+                                <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+                                    <div class="modal-dialog">
+                                        <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+                                    </div><!-- /.modal -->
+                                </div>   
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- PAGE CONTENT ENDS -->
@@ -224,7 +225,7 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
-                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -285,8 +286,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             return 'left';
         }
     })
- 
- 
+
+
     function ajax_del(did) {
         if (!did) {
             alert('删除失败');
@@ -375,10 +376,10 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     });
     function wait_close() {
         $('#wait_close').click();
-    } 
+    }
 </script>
- <script type="text/javascript">
-  show_left_select('office', 'my_approval', 'my_approval_apply');                              
+<script type="text/javascript">
+    show_left_select('office', 'my_approval', 'my_approval_apply');
 </script>
 </body>
 </html>

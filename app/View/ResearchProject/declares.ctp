@@ -130,7 +130,8 @@
                                         项目经费 
 
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a  data-toggle="modal" href="#" data-target="#modal_declares" class="step1_js" style="margin-left:80%;" >
+                                         <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;margin-left:80%;" onclick="$('#modal-body').load('/ResearchProject/add_declares/<?php echo $pid;?>');"  >
+                                        
                                             <i class="icon-plus arrow white"></i>
                                         </a>
                                     </div>
@@ -198,10 +199,12 @@
                             </div>
                         </div>
                         <!-- /.modal_declares -->
-                        <div class="modal fade" id="modal_declares" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:760px;height:448px;margin:3% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                            <button type="button" class="close" id="declares_close" data-dismiss="modal" aria-hidden="true"> </button>
-                            <iframe  id="myFrame" name="childFrame" frameborder="0" style="width:760px;min-height:440px;border-radius:4px; " src="/ResearchProject/add_declares/<?php echo $pid;?>" > </iframe>
-                        </div>
+
+                        <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>  
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->

@@ -144,11 +144,8 @@
                                                 <td><?php  echo $v['User']['del'] == 0 ? '':' <span class="label label-sm label-warning">已删除</span>'; ?></td>
                                                 <td>
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                        <!--a class="blue" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal">
-                                                            <i class="icon-zoom-in bigger-130"></i>
-                                                        </a-->
-
-                                                        <a class="green" data-toggle="modal" href="/user/edit/<?php echo $v['User']['id']; ?>" data-target="#modal" >
+                                                      
+                                                        <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/user/edit/<?php echo $v['User']['id']; ?>');"  >
                                                             <i class="icon-pencil bigger-130"></i>
                                                         </a>
                                                         <?php if ($v['User']['del'] == 0) {?>   
@@ -171,22 +168,16 @@
                                 </div>
 
                                 <div class="modal-footer no-margin-top">
-                                    <button class="btn btn-sm btn-info pull-left" data-toggle="modal" href="/user/add" data-target="#modal" >
+                                    <button class="btn btn-sm btn-info pull-left" data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" onclick="$('#modal-body').load('/user/add');"  >
                                         <i class="icon-plus"></i>
                                         添加成员
                                     </button>
-
-
-                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" style='top:auto; width:500px;overflow:hidden; margin:10% auto 0px; border-radius:4px;'>
-                                        <div class='modal-hader' > <button class='close' type='button' data-dismiss='modal'><span aria-hidden="true">×</span><span class="sr-only">Close</span></button> 
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    //remote.html内容会被加载到这里
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>   
-
+ 
+   <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，页面加载不出来  </div>
+    </div><!-- /.modal -->
+</div>
                                     <?php echo $this->Page->show($limit, $total, $curpage, 1, "/user/index/",5 ); ?>                                        
                                 </div>
                             </div>

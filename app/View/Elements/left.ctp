@@ -221,8 +221,8 @@
                     </a>
 
                     <ul class="submenu">
-                        <li class="">
-                            <a  data-toggle="modal" href="#" data-target="#modal_left" class="step1_js" >
+                        <li > <!--a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/step1');"   -->
+                            <a  data-toggle="modal" href="#" data-target="#modal_left" class="step1_js">
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>
                                 添加项目
@@ -232,6 +232,11 @@
                                 <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true"></button>
                                 <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                             </div>
+                            <!--div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，添加页码加载不出来  </div>
+    </div><!-- /.modal -->
+</div-->  
                         
                         </li>
 

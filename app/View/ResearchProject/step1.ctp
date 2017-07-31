@@ -116,7 +116,7 @@
 
                 <div class="clearfix " style="text-align: center;">
                     <div class=" col-md-9">
-                        <button class="btn btn-primary" type="button" onclick='close_window();' >
+                        <button class="btn btn-primary" type="button" onclick='close_window();' data-dismiss="modal" >
                             <i class="icon-undo bigger-110"></i>
                             取消
                         </button>
@@ -242,6 +242,7 @@
                     //说明添加或修改成功
                     //location.href = '/user/index';
                     //如果成功，则调step2
+                   // $('#modal-body').load('/ResearchProject/step2')
                     $('form').submit();
                     return;
                 }

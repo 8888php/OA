@@ -170,7 +170,9 @@
                                             </tr>
                                             <tr>
                                                 <td>项目成员 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a data-toggle="modal" href="" data-target="#modal_member" >  <i class="icon-plus arrow blue"></i> </a> </td>
+                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_member/<?php echo $pid;?>');"  >
+                                                    <i class="icon-plus arrow blue"></i> </a> 
+                                                </td>
 
                                                 <td colspan='3'> 
                                                     <table class="table table-bordered">
@@ -251,11 +253,11 @@
                             </div>
                         </div>
 
-                        <!-- /.modal_member -->
-                        <div class="modal fade" id="modal_member" tabindex="-1" role="dialog" aria-labelledby="modal" style='width:670px;height:338px;margin:8% auto 0px; overflow: hidden;border-radius:4px; overflow-y:auto;'>
-                            <button type="button" class="close" id="member_close" data-dismiss="modal" aria-hidden="true"></button>
-                            <iframe id="iframe_2" src="/ResearchProject/add_member/<?php echo $pid;?>" style="width:660px;min-height:338px;border-radius:4px; "  frameborder="0"> </iframe>
-                        </div>
+                          <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>
 
                     </div><!-- /.col -->
                 </div><!-- /.row -->
