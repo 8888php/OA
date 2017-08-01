@@ -44,7 +44,7 @@
                                 <td>其他费用</td>
                             </tr>
                             
-                            <tr>
+                            <tr class="json_str">
                                 <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:85px;'> </td>
@@ -55,7 +55,7 @@
                                 <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
                                 
-                            <tr>
+                            <tr class="json_str">
                                 <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:85px;'> </td>
@@ -66,7 +66,7 @@
                                 <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
                                 
-                            <tr>
+                            <tr class="json_str">
                                 <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
@@ -76,12 +76,21 @@
                                 <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
+                                <tr class="json_str">
+                                    <td colspan="2"> 小计</td>
+                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:85px;'> </td>
+                                </tr>
                            
                             <tr>
                                 <td style="width:90px;">合计（大写）</td>
-                                <td colspan='4'>  <input type="text" name='big_total' class='big_total' value='' readonly="readonly" style="width:350px;" /> </td>
+                                <td colspan='4'>  <input type="text" name='big_total' class='big_total' value=''  style="width:350px;" /> </td>
                                 <td style="width:40px;"> ￥ </td>
-                                <td colspan='2'>  <input type="text" name='small_total' class='small_total' value='' readonly="readonly" style="width:150px;" /> </td>
+                                <td colspan='2'>  <input type="text" name='small_total' class='small_total' value=''  style="width:150px;" /> </td>
                             </tr>
                            
                             <tr>
@@ -143,16 +152,16 @@
             $('.ctime').focus();
             return;
         }
-        if (reason == '') {
-            $('.reason').focus();
-            return;
-        }
-        if (personnel == '') {
-            $('.personnel').focus();
+        if (sheets_num == '') {
+            $('.sheets_num').focus();
             return;
         }
         if (dep_pro == '') {
             $('.dep_pro').focus();
+            return;
+        }
+        if (personnel == '') {
+            $('.personnel').focus();
             return;
         }
         if (sums == '') {
@@ -167,12 +176,38 @@
             $('.small_total').focus();
             return;
         }
+        if (reason == '') {
+            $('.reason').focus();
+            return;
+        }
         if (payee == '') {
             $('.payee').focus();
             return;
         }
-
-        var data = {ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
+        var json_str = [{}];
+        $('.json_str').each(function(i){
+            var tmp_str = {};
+            if (i != 3) {
+                var start_end_day = $(this).find('.start_end_day' + i).val();
+                tmp_str.start_end_day = start_end_day;
+                var start_end_address = $(this).find('.start_end_address' + i).val();
+                tmp_str.start_end_address = start_end_address;
+            }
+            var fare = $(this).find('.fare' + i).val();
+            tmp_str.fare = fare;
+            var allowance_days = $(this).find('.allowance_days' + i).val();
+            tmp_str.allowance_days = allowance_days;
+            var supply_needs = $(this).find('.supply_needs' + i).val();
+            tmp_str.supply_needs = supply_needs;
+            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
+            tmp_str.subsidy_amount = subsidy_amount;
+            var hotel_expense = $(this).find('.hotel_expense' + i).val();
+            tmp_str.hotel_expense = hotel_expense;
+            var other_expense = $(this).find('.other_expense' + i).val();
+            tmp_str.other_expense = other_expense;
+            json_str[i] = tmp_str;
+        });
+        var data = {json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',
