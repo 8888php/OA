@@ -1,4 +1,4 @@
-<?php //echo $this->element('head_frame'); ?>
+<?php echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
@@ -17,76 +17,89 @@
                             <tr>
                                 <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所采购申请单 </td>
                             </tr>
-                            <tr>
-                                <td colspan='3'>填表日期</td>
-                                <td colspan='4'> 
-                                    <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
-                             </tr>
-                             <tr>
-                                <td > 单位或部门 </td>
-                                <td colspan='6'>  <input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'> </td>
-                            </tr>
                             
                              <tr>
-                                <td> 请假类型 </td>
-                                <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >    
-                                        <option value="1"  >  婚假 </option>
-                                        <option value="2"  >  事假 </option>
-                                        <option value="3"  >  病假 </option>
-                                        <option value="4"  >  年假 </option>
-                                    </select>
-                                </td>
-                                <td> 请假人 </td>
-                                <td colspan='3'> <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
+                                <td > 申报部门 </td>
+                                <td colspan='6'>  <input  type="text" class="department" name="department"  style='height:25px;width:580px;'> </td>
+                            </tr>
+                             <tr>
+                                <td > 支出项目 </td>
+                                <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:580px;'> </td>
+                            </tr>
+                            <tr>
+                                <td >申报日期</td>
+                                <td colspan='2'> 
+                                    <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
+                                <td >预算指标文号</td>
+                                <td colspan='3'> 
+                                    <input type="text" class="file_number" name="file_number"  style='height:25px;width:300px;'>
                              </tr>
                              <tr>
-                                <td> 事由 </td>
-                                <td colspan='6' >  <input  type="text" class="about" name="about"  style='height:25px;width:580px;'> 
-                             </tr>                           
-                            <tr>
-                                <td >请假天数</td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 start_time" name="start_time"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime1").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
-                                    至
-                                    <input readonly="readonly" type="text" class=" form_datetime2 end_time" name="end_time"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime2").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
+                                <td> 资金来源渠道 </td>
+                                <td colspan='6'>  
+                                   <label> <input type='radio' name="type" class="type" value='1' > 财政拨款公用经费 </label> &nbsp;&nbsp;
+                                   <label> <input type='radio' name="type" class="type" value='2' > 财政拨款专项资金 </label> &nbsp;&nbsp;
+                                   <label> <input type='radio' name="type" class="type" value='3' > 发展基金 </label>
                                 </td>
-                                <td style="width:90px;">共</td>
-                                <td >  <input type="text" name='sum_days' class='sum_days' value='0'  style="width:50px;" readonly="readonly"  />  天 </td>
+                             </tr>
+                             <tr>
+                                <td> 采购物资名称 </td>
+                                <td colspan='6'> <input  type="text" class="material_name" name="material_name"  style='height:25px;width:590px;'> </td>
+                             </tr>
+                             <tr>
+                                <td> 规格型号及详细参数 </td>
+                                <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion" > </td>
+                             </tr> 
+                              <tr>
+                                <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:50px;'> </td>
+                                <td colspan='2'> 数量：<input  type="text" class="nums" name="nums"  style='height:25px;width:90px;'> </td>
+                                <td colspan='2'> 单价：<input  type="text" class="price" name="price"  style='height:25px;width:90px;'> </td>
+                                <td colspan='2'> 合计金额：<input  type="text" class="total" name="total"  style='height:25px;width:90px;'> </td>
+                             </tr>
+                              <tr>
+                                <td> 采购理由 </td>
+                                <td colspan='6' >  <input  type="text" class="reason" name="reason"  style='height:25px;width:600px;'> </td>
+                             </tr>
+                             
+                            <tr>
+                                <td > 采购需求审核</td>
+                                <td colspan='3'>
+                                    需求部门负责人审核 <br /> &nbsp;&nbsp;
+                                    
+                                    </td>
+                                    <td  colspan='3'>
+                                        需求部门分管领导审核 <br /> &nbsp;&nbsp;
+                                     
+                                </td>
+                            </tr>
+                             <tr>
+                                <td > 财务及采购审核 </td>
+                                <td colspan='3'>
+                                    财务科审核 <br /> &nbsp;&nbsp;
+                                    
+                                    </td>
+                                    <td  colspan='3'>
+                                        采购内容核对 <br /> &nbsp;&nbsp;
+                                     
+                                </td>
                             </tr>
                            
                             <tr>
-                                <td colspan='2'> 所在单位负责人 </td>
-                                <td colspan='5'> <textarea  name="leading" class="leading" cols='65' rows='1' ></textarea>  </td>
+                                <td colspan='2'> 采购中心审核 </td>
+                                <td colspan='5'>  </td>
                             </tr>
                             <tr>
-                                <td colspan='2'> 医务室 </td>
-                                <td  colspan='5' > <textarea  name="clinic" class="clinic" cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='2'> 财务及采购分管领导审核 </td>
+                                <td  colspan='5' >    </td>
                             </tr>
                             <tr >
-                                <td colspan='2'> 分管领导 </td>
-                                <td colspan='5'> <textarea  name="leadership" class="leadership"  cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='2'> 所长审核 </td>
+                                <td colspan='5'>    </td>
                             </tr>
                             <tr >
-                                <td colspan='2'> 分管人事领导 </td>
-                                <td colspan='5' > <textarea  name="personnel" class="personnel"  cols='65' rows='1' ></textarea>   </td>
+                                <td colspan='2'> 备注 </td>
+                                <td colspan='5' >  </td>
                             </tr>
-                            <tr >
-                                <td colspan='2'> 所长 </td>
-                                <td colspan='5' > <textarea  name="bureau_chief" class="bureau_chief"  cols='65' rows='1' ></textarea>   </td>
-                            </tr>
-                            
                         </tbody>
                     </table>
                 </form>
@@ -108,65 +121,71 @@
   
     function approve() {
         var ctime = $('.ctime').val();
-        var applyname = $('.applyname').val();
-        var dep_pro = $('.dep_pro').val();
-        var leave_type = $('.leave_type option:selected').val();
-        var about = $('.about').val();
-        var start_time = $('.start_time').val();
-        var end_time = $('.end_time').val();
-        var sum_days = $('.sum_days').val();
-        var leading = $('.leading').val();
-        var clinic = $('.clinic').val();
-        var leadership = $('.leadership').val();
-        var personnel = $('.personnel').val();
-        var bureau_chief = $('.bureau_chief').val();
+        var department = $('.department').val();
+        var project = $('.project').val();
+        var type = $('.type radio:checked').val();
+        var file_number = $('.file_number').val();
+        var material_name = $('.material_name').val();
+        var descripttion = $('.descripttion').val();
+        var unit = $('.unit').val();
+        var nums = $('.nums').val();
+        var price = $('.price').val();
+        var total = $('.total').val();
+        var reason = $('.reason').val();
         var declarename = $('.declarename').val();
         
-        if (applyname == '') {
-            $('.applyname').focus();
+        if (department == '') {
+            $('.department').focus();
             return;
         }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
+        if (project == '') {
+            $('.project').focus();
             return;
         }
-        if (leave_type == '') {
-            $('.leave_type').focus();
+        if (file_number == '') {
+            $('.file_number').focus();
             return;
         }
-        if (about == '') {
-            $('.about').focus();
+        if (material_name == '') {
+            $('.material_name').focus();
             return;
         }
-        if (start_time == '') {
-            $('.start_time').focus();
+        if (descripttion == '') {
+            $('.descripttion').focus();
             return;
         }
-        if (end_time == '') {
-            $('.end_time').focus();
+        if (unit == '') {
+            $('.unit').focus();
             return;
         }
-        if (sum_days == '') {
-            $('.sum_days').focus();
+        if (nums == '') {
+            $('.nums').focus();
+            return;
+        }
+        if (price == '') {
+            $('.price').focus();
+            return;
+        }
+        if (total == '') {
+            $('.total').focus();
             return;
         }
         var data = {};
         data.ctime = ctime;
-        data.applyname = applyname;
-        data.dep_pro = dep_pro;
-        data.leave_type = leave_type;
-        data.about = about;
-        data.start_time = start_time;
-        data.end_time = end_time;
-        data.sum_days = sum_days;
-        data.leading = leading;
-        data.clinic = clinic;
-        data.leadership = leadership;
-        data.personnel = personnel;
-        data.bureau_chief = bureau_chief;
+        data.department = department;
+        data.project = project;
+        data.type = type;
+        data.file_number = file_number;
+        data.material_name = material_name;
+        data.descripttion = descripttion;
+        data.unit = unit;
+        data.nums = nums;
+        data.price = price;
+        data.total = total;
+        data.reason = reason;
         data.declarename = declarename;
         $.ajax({
-            url: '/RequestNote/gss_leave',
+            url: '/RequestNote/gss_purchase',
             type: 'post',
             data: data,
             dataType: 'json',
