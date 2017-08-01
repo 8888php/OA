@@ -1,4 +1,4 @@
-<?php //echo $this->element('head_frame'); ?>
+<?php echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:780px;'>
@@ -15,88 +15,99 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所差旅费报销单 </td>
+                                <td colspan="8" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所差旅费报销单 </td>
                             </tr>
                             <tr>
-                                <!--td > </td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class="members" name="members"  style='height:25px;width:340px;'>   < span id='memnums'> 共0人</span >
-                                </td-->
                                 <td >填表时间</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:590px;'>  </td>
+                                <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:260px;'>  </td>
+                                <td>附单据张数</td>
+                                <td colspan='3'> <input type="text" name='sheets_num' class="sheets_num" style='width:180px;height:25px;'/>  </td>
                             </tr>
                             
                              <tr>
-                                <td>出差事由</td>
-                                <td colspan='6'> <input type="text" name='reason' class="reason" style='width:600px;height:25px;'/>  </td>
+                                <td>部门或项目</td>
+                                <td colspan='2'> <input type="text" name='dep_pro' class="dep_pro" style='width:180px;height:25px;'/>  </td>
+                                <td > 出差人姓名 </td>
+                                <td colspan='3'>
+                                    <input type="text" class="personnel" name="personnel"  style='height:25px;width:260px;'>  </td>
+                                <td >
+                                   共 <input  type="text" class="sums" name="sums"  style='height:25px;width:40px;'> 人 </td>
                              </tr>
                              <tr>
-                                <td>出差人员</td>
-                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:600px;height:25px;'/> </td>
+                                <td>起止日期</td>
+                                <td>起讫地点</td>
+                                <td>车船费</td>
+                                <td>差旅补助天数</td>
+                                <td>差旅补助标准</td>
+                                <td>差旅补助金额</td>
+                                <td>住宿费</td>
+                                <td>其他费用</td>
                             </tr>
                             
                             <tr>
-                                <td >出差时间</td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 start_day" name="start_day"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime1").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
-                                    至
-                                    <input readonly="readonly" type="text" class=" form_datetime2 end_day" name="end_day"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime2").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
-                                </td>
-                                <td style="width:90px;">合计</td>
-                                <td >  <input type="text" name='sum_day' class='sum_day' value='' readonly="readonly" style="width:50px;" />  天 </td>
+                                <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="allowance_days0" name="dp[0]['allowance_days']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="supply_needs0" name="dp[0]['supply_needs']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:85px;'> </td>
+                                </tr>
+                                
+                            <tr>
+                                <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="allowance_days1" name="dp[1]['allowance_days']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="supply_needs1" name="dp[1]['supply_needs']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:85px;'> </td>
+                                </tr>
+                                
+                            <tr>
+                                <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="allowance_days2" name="dp[2]['allowance_days']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="supply_needs2" name="dp[2]['supply_needs']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:85px;'> </td>
+                                <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:85px;'> </td>
+                                </tr>
+                           
+                            <tr>
+                                <td style="width:90px;">合计（大写）</td>
+                                <td colspan='4'>  <input type="text" name='big_total' class='big_total' value='' readonly="readonly" style="width:350px;" /> </td>
+                                <td style="width:40px;"> ￥ </td>
+                                <td colspan='2'>  <input type="text" name='small_total' class='small_total' value='' readonly="readonly" style="width:150px;" /> </td>
                             </tr>
                            
                             <tr>
-                                <td>出差地点</td>
-                                <td colspan='6'> <input type="text" name='address' class="address" style='width:600px;height:25px;'/> </td>
+                                <td>事由</td>
+                                <td colspan='7'> <input type="text" name='reason' class="reason" style='width:640px;height:25px;'/> </td>
                             </tr>
-                            <tr>
-                                <td style="width:110px;">交通方式及路线</td>
-                                <td colspan='6'> <input type="text" name='mode_route' class="mode_route" style='width:600px;height:25px;'/> </td>
-                            </tr>
-                            
-                            <!--tr>
-                                <td> <br />使用交通 <br />工具情况</td>
-                                <td colspan='6' style='text-align: left;line-height: 25px;'>
-                                1、乘坐营运交通工具 
-                                <input name="vehicle" type="checkbox" value="火车" /> 火车 
-                                <input name="vehicle" type="checkbox" value="汽车" /> 气车 
-                                <input name="vehicle" type="checkbox" value="轮船" /> 轮船  
-                                <input name="vehicle" type="checkbox" value="飞机" /> 飞机 
-                                <input name="vehicle" type="checkbox" value="车辆租赁" /> 车辆租赁 
-                                <br />
-                                2、单位派车或租用汽车信息  &nbsp;&nbsp;车号&nbsp;<input type="text" name='wagon_number' class="wagon_number" style='width:160px;height:20px;'/>   &nbsp;&nbsp;司机&nbsp;<input type="text" name='driver' class="driver" style='width:160px;height:20px;'/> <br />
-                                3、其他（需说明）：<input type="text" name='remark' class="remark" style='width:450px;height:20px;'/>
-                                </td>
-                            </tr-->
-
                             
                             <tr>
-                                <td colspan='2' style="width:260px;" >部门负责人</td>
-                                <td  colspan='2'  style="width:260px;">分管所领导</td>
-                                <td  colspan='3' >所长</td>
+                                <td colspan='2' style="width:260px;" >申报人</td>
+                                <td  style="width:260px;">项目负责人</td>
+                                <td >科室负责人</td>
+                                <td  style="width:260px;" >分管所领导</td>
+                                <td  style="width:260px;">所长</td>
+                                <td >分管财务所长</td>
+                                <td  style="width:260px;" >财务科长</td>
                             </tr>
-                            <tr style="height:60px;line-height: 20px;">
-                                <td colspan='2'  >  </td>
-                                <td colspan='2'  > </td>
-                                <td colspan='3' > </td>
+                            <tr style="height:60px;line-height: 20px;" >
+                                <td colspan='2'> <textarea  name="payee" class="payee"  style="width:160px;" ></textarea>  </td>
+                                <td > </td>
+                                <td > </td>
+                                <td >  </td>
+                                <td > </td>
+                                <td > </td>
+                                <td >  </td>
                             </tr>
                             
-                            <tr >
-                                <td colspan='7'>  填表说明：出差3天以内（含3天）需分管领导签字，出差3天以上需所长签字。 </td>
-                            </tr>
                         </tbody>
                     </table>
                 </form>
@@ -118,13 +129,14 @@
   
     function approve() {
         var ctime = $('.ctime').val();
-        var reason = $('.reason').val();
+        var sheets_num = $('.sheets_num').val();
+        var dep_pro = $('.dep_pro').val();
         var personnel = $('.personnel').val();
-        var start_day = $('.start_day').val();
-        var end_day = $('.end_day').val();
-        var sum_day = $('.sum_day').val();
-        var address = $('.address').val();
-        var mode_route = $('.mode_route').val();
+        var sums = $('.sums').val();
+        var big_total = $('.big_total').val();
+        var small_total = $('.small_total').val();
+        var reason = $('.reason').val();
+        var payee = $('.payee').val();
         var declarename = $('.declarename').val();
         
         if (ctime == '') {
@@ -139,26 +151,30 @@
             $('.personnel').focus();
             return;
         }
-        if (start_day == '') {
-            $('.start_day').focus();
+        if (dep_pro == '') {
+            $('.dep_pro').focus();
             return;
         }
-        if (end_day == '') {
-            $('.end_day').focus();
+        if (sums == '') {
+            $('.sums').focus();
             return;
         }
-        if (address == '') {
-            $('.address').focus();
+        if (big_total == '') {
+            $('.big_total').focus();
             return;
         }
-        if (mode_route == '') {
-            $('.mode_route').focus();
+        if (small_total == '') {
+            $('.small_total').focus();
+            return;
+        }
+        if (payee == '') {
+            $('.payee').focus();
             return;
         }
 
-        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
+        var data = {ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
         $.ajax({
-            url: '/RequestNote/gss_evection',
+            url: '/RequestNote/gss_evection_expense',
             type: 'post',
             data: data,
             dataType: 'json',
