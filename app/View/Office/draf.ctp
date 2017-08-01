@@ -166,9 +166,12 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
-    $('#modal_declares').on('show.bs.modal', function () {
+    $('#modal_wait').on('shown.bs.modal', function () {
         // 执行一些动作...
-        window.childFrame.bumeng_change(); 
+        if (typeof bumeng_change == 'function' ) {
+            bumeng_change(); 
+        }
+        
       })
     function declares_close() {
         $('#modal_wait').click();
