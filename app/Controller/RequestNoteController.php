@@ -52,12 +52,26 @@ class RequestNoteController extends AppController {
             $this->sub_declares($_POST);
         }else{
         //当前用户所属项目
-        $conditions = array('user_id'=>$this->userInfo->id);
-        $projectArr = $this->ResearchProject->getlist($conditions);
-        
-        $this->set('projectArr', $projectArr);
-        $this->set('list', Configure::read('keyanlist'));
-        
+//        $conditions = array('user_id'=>$this->userInfo->id);
+//        $projectArr = $this->ResearchProject->getlist($conditions);
+//        
+//        $this->set('projectArr', $projectArr);
+//        $this->set('list', Configure::read('keyanlist'));
+//        
+//        $this->render();
+        $pid = 0;
+        $this->set('pid', $pid);
+        $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
+        $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+//        $source = $this->ResearchSource->getAll($pid);
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $this->set('department_arr', $department_arr);
+        $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
+        $this->set('xizhenglist', Configure::read('xizhenglist'));
+        $this->set('keyanlist', Configure::read('keyanlist'));
+        $this->set('projectInfo', $projectInfo);
+//        $this->set('source', $source);
         $this->render();
         }
         
@@ -822,5 +836,21 @@ class RequestNoteController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
-
+    //根据项目id获取souce
+    public function ajax_get_souce() {
+        $pid = $_POST['pid'];
+        $souces = $this->ResearchSource->getAll($pid);
+        $ret_option = '';
+        if (!empty($souces)) {
+            foreach ($souces as $k=>$v) {
+                $ret_option .= '<option value="'. $v['ResearchSource']['id'].'"> 【'.$v['ResearchSource']['source_channel'].' （'.$v['ResearchSource']['file_number'].'） '.$v['ResearchSource']['year'].'】</option>';
+            }
+        } else {
+            $ret_option = '<option></option>';
+        }
+        echo json_encode(array(
+            'html' => $ret_option
+        ));
+        exit;
+    }
 }
