@@ -71,15 +71,15 @@
                             </tr>
                             <tr>
                                 <td style='height:50px;'>所在单位<br/>负责人意见</td>
-                                <td  colspan='6' > <textarea  name="leading_opinion" class="leading_opinion" cols='80' rows='2' ></textarea>   </td>
+                                <td  colspan='6' >   </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;line-height: 50px;'> 分管所领导意见</td>
-                                <td colspan='6'> <textarea  name="leadership_opinion" class="leadership_opinion"  cols='80' rows='2' ></textarea>   </td>
+                                <td colspan='6'>   </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;'> 主管<br/>人事领导意见 </td>
-                                <td colspan='6' > <textarea  name="personnel_opinion" class="personnel_opinion"  cols='80' rows='2' ></textarea>   </td>
+                                <td colspan='6' >   </td>
                             </tr>
                             
                         </tbody>
@@ -112,9 +112,6 @@
         var end_time = $('.end_time').val();
         var sum_days = $('.sum_days').val();
         var personal_apply = $('.personal_apply').val();
-        var leading_opinion = $('.leading_opinion').val();
-        var leadership_opinion = $('.leadership_opinion').val();
-        var personnel_opinion = $('.personnel_opinion').val();
         var declarename = $('.declarename').val();
         
         if (applyname == '') {
@@ -164,9 +161,6 @@
         data.end_time = end_time;
         data.sum_days = sum_days;
         data.personal_apply = personal_apply;
-        data.leading_opinion = leading_opinion;
-        data.leadership_opinion = leadership_opinion;
-        data.personnel_opinion = personnel_opinion;
         data.declarename = declarename;
         $.ajax({
             url: '/RequestNote/gss_furlough',
