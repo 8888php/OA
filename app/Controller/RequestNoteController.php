@@ -855,7 +855,7 @@ class RequestNoteController extends AppController {
     }
      // 果树所差旅费报销单
     private function gss_evection_expense_save($datas) {
-
+        
         if (empty($datas['ctime']) || empty($datas['reason'])
                 || empty($datas['sheets_num'])
                 ) {
@@ -890,7 +890,8 @@ class RequestNoteController extends AppController {
         
         $attrArr['business_traveller_id'] = $datas['personnel'];
         $attrArr['total_number'] = $datas['sums'];
-        $attrArr['json_str'] = json_encode($datas['reason']);
+        $attrArr['reason'] = $datas['reason'];
+        $attrArr['json_str'] = json_encode($datas['json_str']);
         $attrArr['total'] = $datas['small_total'];
         $attrArr['total_capital'] = $datas['big_total'];
         $attrArr['user_id'] = $this->userInfo->id;
