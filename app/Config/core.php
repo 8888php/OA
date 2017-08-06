@@ -432,6 +432,11 @@ Configure::write('applylist', array(
     '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '采购申请单' => '/RequestNote/gss_purchase','果树所差旅审批单' => '/RequestNote/gss_evection', '调休申请表' => '#','调整工作时间申请表' => '#','田间作业包工申请表' => '#','所内调动申请表'=>'#','所内调动移交表'=>'#','工作调动移交表'=>'#','职工离职移交表'=>'#','职工退休移交表'=>'#','年度考核登记表'=>'#','职工年休假安排计划表'=>'#','职工调整年休假安排表'=>'#','因公不休或不全休带薪休假审批表'=>'#'),
     '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
     '所办公室' => array('印信使用签批单' => '#', '所内公文' => '#', '来文' => '#', '发文' => '#'),
+    '采购中心' => array('采购申请表' => '#'),
+    '新闻发布' => array('新闻签发卡' => '#'),
+    '所办档案' => array('档案借阅' => '#', '档案移交目录' => '#'),
+    '国资科' => array('个人土地使用批准书' => '#', '科研课题组土地使用批准书' => '#'),
+    '无类别模板' => array('事由呈报请示审批卡' => '#', '复本采购申请表' => '#'),
 ));
 //'果树所报销汇总单' => '/ResearchProject/add_declares',
 
