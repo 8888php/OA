@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou');
 
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
@@ -198,10 +198,12 @@ class RequestNoteController extends AppController {
          $this->render();
          
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
-           // $this->sub_declares($_POST);
+            $this->gss_purchase_save($_POST);
         }else{
-        
-        $this->render();
+            //取出所在部门信息
+            $department = $this->Department->findById($this->userInfo->department_id);
+            $this->set('department', $department);
+            $this->render();
         }
     }
            
@@ -926,6 +928,128 @@ class RequestNoteController extends AppController {
             $this->ApplyChuchaiBxd->rollback();
         }
         $mainId ? $commitId = $this->ApplyChuchaiBxd->rollback() : $commitId = $this->ApplyChuchaiBxd->commit();
+
+
+        if ($commitId) {
+            //如果审批通过，且跳过下个则在表里记录一下
+            if (!empty($ret_arr['code_id']) ) {
+                foreach ($ret_arr['code_id'] as $k=>$v) {
+                    if ($v == $this->userInfo->id) {
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $this->userInfo->position_id,
+                            'approve_id' => $this->userInfo->id,
+                            'remarks' => '',
+                            'name' => $this->userInfo->name,
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    } else {
+                        //根据id取出当前用户的信息
+                        $userinfo = $this->User->findById($v);
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $userinfo['User']['position_id'],
+                            'approve_id' => $v,
+                            'remarks' => '',
+                            'name' => $userinfo['User']['name'],
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    }
+                   $this->ApprovalInformation->add($save_approve);
+                }
+                
+            } else {
+                //其他审批人 暂时不处理
+            }
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '申请成功';
+        } else {
+            $this->ret_arr['msg'] = '申请失败';
+        }
+
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+    
+    // 果树所采购申请单
+    private function gss_purchase_save($datas) {
+        if (
+                empty($datas['ctime']) || empty($datas['file_number'])
+                || empty($datas['material_name']) || empty($datas['unit'])
+                || empty($datas['nums']) || empty($datas['price'])
+                || empty($datas['reason'])
+                ) {
+            $this->ret_arr['msg'] = '参数有误';
+            exit(json_encode($this->ret_arr));
+        }
+        $table_name = 'apply_caigou';
+        $p_id = 9;//审批流id
+        $project_id = 0;
+        $type = 0;//类型暂定为0
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+       
+//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
+//
+//        if ($ret_arr[$this->code] == 1) {
+//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
+//            exit(json_encode($this->ret_arr));
+//        }
+        #附表入库
+        //是部门，取当前用户的部门信息
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
+        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
+        
+        $attrArr = array();
+        $attrArr['ctime'] = $datas['ctime'];
+        $attrArr['department_id'] = $department_id;
+        $attrArr['department_name'] = $department_name;
+        $attrArr['project_id'] = $project_id;
+        
+        $attrArr['channel_id'] = $datas['type'];
+        $attrArr['file_number'] = $datas['file_number'];
+        $attrArr['purchase_name'] = $datas['material_name'];
+        $attrArr['company'] = $datas['unit'];
+        $attrArr['number'] = $datas['nums'];
+        $attrArr['price'] = $datas['price'];
+        $attrArr['amount'] = $datas['total'];
+        $attrArr['reason'] = $datas['reason'];        
+        $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['create_time'] = date('Y-m-d H:i:s', time());
+        
+        # 开始入库
+        $this->ApplyCaigou->begin();
+        $attrId = $this->ApplyCaigou->add($attrArr);
+        
+        # 主表入库
+        $mainArr = array();
+        $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
+        $mainArr['approval_process_id'] = $p_id; //审批流程id
+        $mainArr['type'] = $type; 
+        $mainArr['attachment'] = ''; 
+        $mainArr['name'] = '果树所采购申请单';
+        $mainArr['project_id'] = $project_id;
+        $mainArr['department_id'] = $department_id;        
+        $mainArr['table_name'] = $table_name;
+        $mainArr['user_id'] = $this->userInfo->id;
+        $mainArr['total'] = 0;
+        $mainArr['attr_id'] = $attrId;
+        $mainArr['project_user_id'] = 0;
+        $mainArr['project_team_user_id'] = 0;
+        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+        $mainArr['subject'] = '';
+        if ($attrId) {
+            $mainId = $this->ApplyMain->add($mainArr);
+        } else {
+            $this->ApplyCaigou->rollback();
+        }
+        $mainId ? $commitId = $this->ApplyCaigou->rollback() : $commitId = $this->ApplyCaigou->commit();
 
 
         if ($commitId) {

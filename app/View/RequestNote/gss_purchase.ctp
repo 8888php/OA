@@ -20,7 +20,7 @@
                             
                              <tr>
                                 <td > 申报部门 </td>
-                                <td colspan='6'>  <input  type="text" class="department" name="department"  style='height:25px;width:580px;'> </td>
+                                <td colspan='6'>  <input readonly="readonly" type="text" class="department" name="department" value="<?php echo @$department['Department']['name'];?>"  style='height:25px;width:580px;'> </td>
                             </tr>
                              <tr>
                                 <td > 支出项目 </td>
@@ -37,7 +37,7 @@
                              <tr>
                                 <td> 资金来源渠道 </td>
                                 <td colspan='6'>  
-                                   <label> <input type='radio' name="type" class="type" value='1' > 财政拨款公用经费 </label> &nbsp;&nbsp;
+                                    <label> <input type='radio' checked="checked" name="type" class="type" value='1' > 财政拨款公用经费 </label> &nbsp;&nbsp;
                                    <label> <input type='radio' name="type" class="type" value='2' > 财政拨款专项资金 </label> &nbsp;&nbsp;
                                    <label> <input type='radio' name="type" class="type" value='3' > 发展基金 </label>
                                 </td>
@@ -54,7 +54,7 @@
                                 <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:50px;'> </td>
                                 <td colspan='2'> 数量：<input  type="text" class="nums" name="nums"  style='height:25px;width:90px;'> </td>
                                 <td colspan='2'> 单价：<input  type="text" class="price" name="price"  style='height:25px;width:90px;'> </td>
-                                <td colspan='2'> 合计金额：<input  type="text" class="total" name="total"  style='height:25px;width:90px;'> </td>
+                                <td colspan='2'> 合计金额：<input readonly="readonly" type="text" class="total" name="total"  style='height:25px;width:90px;'> </td>
                              </tr>
                               <tr>
                                 <td> 采购理由 </td>
@@ -118,12 +118,18 @@
 </div>
 
 <script type="text/javascript">
-  
+    function isPositiveInteger(s){//是否为正整数
+        var re = /^[0-9]+$/ ;
+        return re.test(s)
+    }
+    $('.price').blur(function(){
+        $('.total').val(parseFloat($('.nums').val()) * parseFloat($('.price').val()));
+    });
     function approve() {
         var ctime = $('.ctime').val();
         var department = $('.department').val();
         var project = $('.project').val();
-        var type = $('.type radio:checked').val();
+        var type = $('.type:checked').val();
         var file_number = $('.file_number').val();
         var material_name = $('.material_name').val();
         var descripttion = $('.descripttion').val();
@@ -150,24 +156,28 @@
             $('.material_name').focus();
             return;
         }
-        if (descripttion == '') {
-            $('.descripttion').focus();
-            return;
-        }
+//        if (descripttion == '') {
+//            $('.descripttion').focus();
+//            return;
+//        }
         if (unit == '') {
             $('.unit').focus();
             return;
         }
-        if (nums == '') {
+        if (!isPositiveInteger(nums)) {
             $('.nums').focus();
             return;
         }
-        if (price == '') {
+        if (!Number(price)) {
             $('.price').focus();
             return;
         }
-        if (total == '') {
-            $('.total').focus();
+//        if (total == '') {
+//            $('.total').focus();
+//            return;
+//        }
+        if (reason == '') {
+            $('.reason').focus();
             return;
         }
         var data = {};
