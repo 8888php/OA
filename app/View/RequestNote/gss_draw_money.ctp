@@ -26,7 +26,20 @@
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='6'> <input type="text" name='dep_pro' class="dep_pro" style='width:590px;height:25px;'/>  </td>
+                                <td colspan='6'>  <select style="width:335px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_f();" >
+                                        <?php if ($is_department == 1){?>
+                                        <option value="0"><?php echo $department_arr['Department']['name'];?></option>
+                                        <?php }?>
+                                        <?php foreach($projectInfo as $pk=>$pv) {?>
+                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
+                                        <?php }?>
+                                    </select>
+                                    <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
+                                        <?php  foreach($source as $qd){?>
+                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
+                                        <?php }?>
+                                    </select>
+                                </td>
                             </tr>
                             
                             <tr>
@@ -78,7 +91,10 @@
                                 <td >财务科长</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
-                                <td > <textarea  name="payee" class="payee"  style="width:100px;" ></textarea>  </td>
+                                <td > <?php 
+                                    echo $userInfo->name . '<br />';
+                                    echo date('Y-m-d');
+                                ?> </td>
                                 <td > </td>
                                 <td > </td>
                                 <td >  </td>

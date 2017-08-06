@@ -25,9 +25,22 @@
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='3'> <input type="text" name='dep_pro' class="dep_pro" style='width:290px;height:25px;'/>  </td>
+                                <td colspan='4'>  <select style="width:235px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_f();" >
+                                        <?php if ($is_department == 1){?>
+                                        <option value="0"><?php echo $department_arr['Department']['name'];?></option>
+                                        <?php }?>
+                                        <?php foreach($projectInfo as $pk=>$pv) {?>
+                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
+                                        <?php }?>
+                                    </select>
+                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
+                                        <?php  foreach($source as $qd){?>
+                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
+                                        <?php }?>
+                                    </select>
+                                </td>
                                 <td>借款人姓名</td>
-                                <td colspan='2'> <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:190px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
+                                <td > <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:100px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
 
                             <tr>
