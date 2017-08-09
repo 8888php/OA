@@ -25,7 +25,7 @@
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='4'>  <select style="width:235px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_f();" >
+                                <td colspan='4'>  <select style="width:235px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
@@ -33,12 +33,32 @@
                                         <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
                                         <?php }?>
                                     </select>
-                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
-                                        <?php  foreach($source as $qd){?>
-                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
-                                        <?php }?>
+                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber">
+                                        <option></option>
                                     </select>
                                 </td>
+                                <script type="text/javascript">
+                                    function change_filenumber() {
+                                        var type = $('.dep_pro').val();
+                                        if (type ==0) {
+                                            //部门
+                                            $('.filenumber').html('<option></option>');
+                                        } else {
+                                            //项目 去取项目所对应的souce
+                                            var data = {pid:type};
+                                            $.ajax({
+                                                url:'/requestnote/ajax_get_souce',
+                                                type:'post',
+                                                data:data,
+                                                dataType:'json',
+                                                success:function(res){
+                                                    var html = res['html'];
+                                                    $('.filenumber').html(html);
+                                                }
+                                            });
+                                        }
+                                    }
+                                </script>
                                 <td>借款人姓名</td>
                                 <td > <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:100px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
@@ -107,6 +127,7 @@
     function approve() {
         var ctime = $('.ctime').val();
         var dep_pro = $('.dep_pro').val();
+        var filenumber = $('.filenumber').val();
         var borrower = $('.borrower').val();
         var loan_reason = $('.loan_reason').val();
         var big_amount = $('.big_amount').val();
@@ -117,10 +138,6 @@
         var declarename = $('.declarename').val();
         if (ctime == '') {
             $('.ctime').focus();
-            return;
-        }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
             return;
         }
         if (borrower == '') {
@@ -153,7 +170,7 @@
         }
         
 
-        var data = {ctime: ctime, dep_pro: dep_pro, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan};
+        var data = {declarename: declarename, ctime: ctime, dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',
