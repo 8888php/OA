@@ -36,13 +36,32 @@
                                         <?php }?>
                                     </select>
                                     <select style="width:215px;height:25px;" name="filenumber" class="filenumber"  >
-                                        <?php  foreach($source as $qd){?>
-                                        <option value="<?php  echo $qd['ResearchSource']['id'];?>"><?php  echo '【'.$qd['ResearchSource']['source_channel'].' （'.$qd['ResearchSource']['file_number'].'） '.$qd['ResearchSource']['year'].'】';?></option>
-                                        <?php }?>
+                                        <option></option>
                                     </select>
                                 </td>
                                 </tr>
-                            
+                            <script type="text/javascript">
+                                    function change_filenumber() {
+                                        var type = $('.dep_pro').val();
+                                        if (type ==0) {
+                                            //部门
+                                            $('.filenumber').html('<option></option>');
+                                        } else {
+                                            //项目 去取项目所对应的souce
+                                            var data = {pid:type};
+                                            $.ajax({
+                                                url:'/requestnote/ajax_get_souce',
+                                                type:'post',
+                                                data:data,
+                                                dataType:'json',
+                                                success:function(res){
+                                                    var html = res['html'];
+                                                    $('.filenumber').html(html);
+                                                }
+                                            });
+                                        }
+                                    }
+                                </script>
                              <tr>
                                 <td > 出差人姓名 </td>
                                 <td colspan='6'>
@@ -95,12 +114,12 @@
                                 </tr>
                                 <tr class="json_str">
                                     <td colspan="2"> 小计</td>
-                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="fare3" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
                            
                             <tr>
@@ -160,6 +179,7 @@
         var ctime = $('.ctime').val();
         var sheets_num = $('.sheets_num').val();
         var dep_pro = $('.dep_pro').val();
+        var filenumber = $('.filenumber').val();
         var personnel = $('.personnel').val();
         var sums = $('.sums').val();
         var big_total = $('.big_total').val();
@@ -176,16 +196,120 @@
             $('.sheets_num').focus();
             return;
         }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
-            return;
-        }
+        
         if (personnel == '') {
             $('.personnel').focus();
             return;
         }
         if (sums == '') {
             $('.sums').focus();
+            return;
+        }
+        
+        var json_str = [{}];
+        var mast_one = false;//必须有一个
+        var error_flag = false;//记录错误标示
+        var fare_xj = 0,
+            allowance_days_xj = 0,
+            supply_needs_xj = 0,
+            subsidy_amount_xj = 0,
+            hotel_expense_xj = 0,
+            other_expense_xj = 0;//小计
+        $('.json_str').each(function(i){
+            var tmp_str = {};
+            if (i == 3) {
+                //计算小计
+                if (!mast_one) {
+                    return false;//中止掉
+                }
+                $(this).find('.fare' + i).val(fare_xj);
+                tmp_str.fare = fare_xj;
+                $(this).find('.allowance_days' + i).val(allowance_days_xj);
+                tmp_str.allowance_days = allowance_days_xj;
+                $(this).find('.supply_needs' + i).val(supply_needs_xj);
+                tmp_str.supply_needs = supply_needs_xj;
+                $(this).find('.subsidy_amount' + i).val(subsidy_amount_xj);
+                tmp_str.subsidy_amount = subsidy_amount_xj;
+                $(this).find('.hotel_expense' + i).val(hotel_expense_xj);
+                tmp_str.hotel_expense = hotel_expense_xj;
+                $(this).find('.other_expense' + i).val(other_expense_xj);
+                tmp_str.other_expense = other_expense_xj;
+                json_str[i] = tmp_str;
+                return false;//中止，已经到结束了
+            }
+            var start_end_day = $(this).find('.start_end_day' + i).val();
+            if (start_end_day == '') {
+                //没填写跳过
+                return true;
+            } else {
+                mast_one = true;
+            }
+            tmp_str.start_end_day = start_end_day;
+            var start_end_address = $(this).find('.start_end_address' + i).val();
+            if (start_end_address == '') {
+                $(this).find('.start_end_address' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.start_end_address = start_end_address;
+            var fare = $(this).find('.fare' + i).val();
+            if (fare == '' || isNaN(fare)) {
+                $(this).find('.fare' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.fare = fare;
+            fare_xj += parseFloat(fare);
+            var allowance_days = $(this).find('.allowance_days' + i).val();
+            if (allowance_days == '' || isNaN(allowance_days)) {
+                $(this).find('.allowance_days' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.allowance_days = allowance_days;
+            allowance_days_xj += parseInt(allowance_days);
+            var supply_needs = $(this).find('.supply_needs' + i).val();
+            if (supply_needs == '' || isNaN(supply_needs)) {
+                $(this).find('.supply_needs' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.supply_needs = supply_needs;
+            supply_needs_xj += parseFloat(supply_needs)
+            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
+            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
+                $(this).find('.subsidy_amount' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.subsidy_amount = subsidy_amount;
+            subsidy_amount_xj += parseFloat(subsidy_amount);
+            var hotel_expense = $(this).find('.hotel_expense' + i).val();
+            if (hotel_expense == '' || isNaN(hotel_expense)) {
+                $(this).find('.hotel_expense' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.hotel_expense = hotel_expense;
+            hotel_expense_xj += parseFloat(hotel_expense);
+            var other_expense = $(this).find('.other_expense' + i).val();
+            if (other_expense == '' || isNaN(other_expense)) {
+                $(this).find('.other_expense' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.other_expense = other_expense;
+            other_expense_xj += parseFloat(other_expense)
+            json_str[i] = tmp_str;
+        });
+        
+        if (!mast_one) {
+            //说明没有写
+            $('.json_str').find('.start_end_day' + 0).focus();
+            return;
+        }
+        if (error_flag) {
+            //说明有没写的
             return;
         }
         if (big_total == '') {
@@ -204,30 +328,7 @@
             $('.payee').focus();
             return;
         }
-        var json_str = [{}];
-        $('.json_str').each(function(i){
-            var tmp_str = {};
-            if (i != 3) {
-                var start_end_day = $(this).find('.start_end_day' + i).val();
-                tmp_str.start_end_day = start_end_day;
-                var start_end_address = $(this).find('.start_end_address' + i).val();
-                tmp_str.start_end_address = start_end_address;
-            }
-            var fare = $(this).find('.fare' + i).val();
-            tmp_str.fare = fare;
-            var allowance_days = $(this).find('.allowance_days' + i).val();
-            tmp_str.allowance_days = allowance_days;
-            var supply_needs = $(this).find('.supply_needs' + i).val();
-            tmp_str.supply_needs = supply_needs;
-            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
-            tmp_str.subsidy_amount = subsidy_amount;
-            var hotel_expense = $(this).find('.hotel_expense' + i).val();
-            tmp_str.hotel_expense = hotel_expense;
-            var other_expense = $(this).find('.other_expense' + i).val();
-            tmp_str.other_expense = other_expense;
-            json_str[i] = tmp_str;
-        });
-        var data = {json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
+        var data = {filenumber: filenumber, declarename: declarename, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',

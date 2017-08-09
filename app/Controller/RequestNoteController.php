@@ -192,7 +192,13 @@ class RequestNoteController extends AppController {
             $this->gss_evection_expense_save($_POST);
         }else{
         
-        $this->render();
+            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
+            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+            $this->set('department_arr', $department_arr);
+            $this->set('projectInfo', $projectInfo);
+            $this->render();
         }
     }
     
@@ -906,16 +912,29 @@ class RequestNoteController extends AppController {
         }
         $table_name = 'apply_chuchai_bxd';
         $p_id = 8;//审批流id
-        $project_id = 0;
+        
+        $project_user_id = 0;//项目负责人user_id
+        $project_team_user_id = 0;//项目组负责人user_id
+        $_POST['projectname'] = $_POST['dep_pro'];
+        if ($_POST['projectname'] == 0) {
+            $project_id = 0;//让他为0
+            
+        }else {
+            //项目
+            $project_id = $_POST['projectname'];
+            //根据项目取出，项目负责人user_id,和项目组负责人user_id
+            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+            
+            $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
+            $project_user_id = $project_and_team_arr[0]['p']['user_id'];//项目负责人user_id
+            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
+        }
+        
+        
         $type = 0;//类型暂定为0
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
        
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -929,7 +948,7 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
         $attrArr['project_id'] = $project_id;
-        
+        $attrArr['source_id'] = $datas['filenumber'];
         $attrArr['business_traveller_id'] = $datas['personnel'];
         $attrArr['total_number'] = $datas['sums'];
         $attrArr['reason'] = $datas['reason'];
@@ -950,15 +969,15 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
         $mainArr['attachment'] = ''; 
-        $mainArr['name'] = '果树所差旅费报销单';
+        $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = 0;
         $mainArr['attr_id'] = $attrId;
-        $mainArr['project_user_id'] = 0;
-        $mainArr['project_team_user_id'] = 0;
+        $mainArr['project_user_id'] = $project_user_id;
+        $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
         $mainArr['subject'] = '';
