@@ -557,8 +557,7 @@ class ResearchProjectController extends AppController {
 
             if ($costId) {
                 //添加成功，把自己写出到项目成员表里面
-                /* 审核结束时会添加项目负责人
-					$editArr['user_id'] = $this->userInfo->id;
+                    $editArr['user_id'] = $this->userInfo->id;
                     $editArr['project_id'] = $porijectId;
                     $editArr['user_name'] = $this->userInfo->user;
                     $editArr['name'] = $this->userInfo->name;
@@ -567,7 +566,6 @@ class ResearchProjectController extends AppController {
                     $editArr['ctime'] = date('Y-m-d');
                     $editArr['remark'] = '';
                     $memberId = $this->ProjectMember->add($editArr);
-					*/
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = $commitId . '添加项目成功！请等待审核';
             } else {
