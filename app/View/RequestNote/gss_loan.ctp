@@ -26,9 +26,8 @@
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='4'>  <select style="width:235px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){?>
+                                        
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
-                                        <?php }?>
                                         <?php foreach($projectInfo as $pk=>$pv) {?>
                                         <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
                                         <?php }?>
