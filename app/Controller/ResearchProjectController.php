@@ -449,7 +449,7 @@ class ResearchProjectController extends AppController {
         $saveArr['user_id'] = $this->userInfo->id;
         $saveArr['name'] = $this->request->data('name');
         $saveArr['alias'] = $this->request->data('alias');
-        $saveArr['amount'] = $this->request->data('amount');
+        $saveArr['amount'] = $this->request->data('sumamount');
         $saveArr['start_date'] = $this->request->data('start_date');
         $saveArr['end_date'] = $this->request->data('end_date');
         $saveArr['overview'] = $this->request->data('overview');
@@ -595,7 +595,7 @@ class ResearchProjectController extends AppController {
                 $saveArr['user_id'] = $this->userInfo->id;
                 $saveArr['name'] = $this->request->data('name');
                 $saveArr['alias'] = $this->request->data('alias');
-                $saveArr['amount'] = $this->request->data('amount');
+                $saveArr['amount'] = $this->request->data('sumamount');
                 $saveArr['start_date'] = $this->request->data('start_date');
                 $saveArr['end_date'] = $this->request->data('end_date');
                 $saveArr['overview'] = $this->request->data('overview');

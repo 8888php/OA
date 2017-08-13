@@ -27,7 +27,7 @@
                         </select>  
 
                         <label class="input-group-addon " for="form-field-2">金额 &nbsp;&nbsp;</label> 
-                        <input type="text" id="form-field-2" readonly="" placeholder="金额" class="amount" name="amount" value="" />                
+                        <input type="text" id="form-field-2" placeholder="金额" class="sumamount" name="sumamount" value="" />                
                     </li> 
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">所属项目组 </label>
@@ -152,7 +152,8 @@
         var end_date = $('.end_date').val();
         var qdly_add_length = $('.qdly_add').length;
         var project_team_id = $('.project_team_id option:selected').val();
-
+        var sumamount = $('.sumamount').val();
+        
         var type = $('.type option:selected').val();
         var overview = $('.overview').val();
         var remark = $('.remark').val();
@@ -168,6 +169,11 @@
             return;
         }
         data_json.alias = alias;
+        if (sumamount == '') {
+            $('.sumamount').focus();
+            return;
+        }
+        data_json.sumamount = sumamount;
         if (start_date == '') {
             $('.start_date').focus();
             return;

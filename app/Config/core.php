@@ -539,6 +539,7 @@ Configure::write('new_appprove_code_arr', array(
  */
 Configure::write('project_team', array(
     1 => '单个项目',
-    2 => '梨组',
-    3 => '苹果组',
+    2 => '苹果产业链',
+    3 => '枣产业链',
+    4 => '葡萄产业链',
 ));

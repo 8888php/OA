@@ -148,7 +148,7 @@
                             <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
                         </tr>
                         <tr>
-                            <td>报销人<br/>简要说明</td>
+                            <td>报销<br/>简要说明</td>
                             <td colspan='6'> <textarea  name="description" class="description"  style="width:600px;" ></textarea>
                             </td>
                         </tr>
@@ -380,6 +380,10 @@ function printDIV(){
         }
         if (amount == '') {
             $('.amount').focus();
+            return;
+        }
+        if (description == '') {
+            $('.description').focus();
             return;
         }
 
