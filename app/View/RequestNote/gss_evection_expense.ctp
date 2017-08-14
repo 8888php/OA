@@ -124,9 +124,9 @@
                            
                             <tr>
                                 <td style="width:90px;">合计（大写）</td>
-                                <td colspan='4'>  <input type="text" name='big_total' class='big_total' value=''  style="width:350px;" /> </td>
+                                <td colspan='4'>  <input readonly="readonly" type="text" name='big_total' class='big_total' value=''  style="width:350px;" /> </td>
                                 <td style="width:40px;"> ￥ </td>
-                                <td colspan='2'>  <input type="text" name='small_total' class='small_total' value=''  style="width:150px;" /> </td>
+                                <td colspan='2'>  <input readonly="readonly" type="text" name='small_total' class='small_total' value=''  style="width:150px;" /> </td>
                             </tr>
                            
                             <tr>
@@ -174,7 +174,120 @@
 </div>
 
 <script type="text/javascript">
-  
+    function jisuan() {
+        var mast_one = false;//必须有一个
+        var error_flag = false;//记录错误标示
+        var fare_xj = 0,
+            allowance_days_xj = 0,
+            supply_needs_xj = 0,
+            subsidy_amount_xj = 0,
+            hotel_expense_xj = 0,
+            other_expense_xj = 0;//小计
+            $('.json_str').each(function(i){
+            var tmp_str = {};
+            if (i == 3) {
+                //计算小计
+                if (!mast_one) {
+                    return false;//中止掉
+                }
+                $(this).find('.fare' + i).val(fare_xj);
+                tmp_str.fare = fare_xj;
+                $(this).find('.allowance_days' + i).val(allowance_days_xj);
+                tmp_str.allowance_days = allowance_days_xj;
+                $(this).find('.supply_needs' + i).val(supply_needs_xj);
+                tmp_str.supply_needs = supply_needs_xj;
+                $(this).find('.subsidy_amount' + i).val(subsidy_amount_xj);
+                tmp_str.subsidy_amount = subsidy_amount_xj;
+                $(this).find('.hotel_expense' + i).val(hotel_expense_xj);
+                tmp_str.hotel_expense = hotel_expense_xj;
+                $(this).find('.other_expense' + i).val(other_expense_xj);
+                tmp_str.other_expense = other_expense_xj;
+//                json_str[i] = tmp_str;
+                
+                //合计
+                var total = subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                $('.small_total').val(total);
+                $('.big_total').val(convertCurrency(total));
+                return false;//中止，已经到结束了
+            }
+            var start_end_day = $(this).find('.start_end_day' + i).val();
+            if (start_end_day == '') {
+                //没填写跳过
+                return true;
+            } else {
+                mast_one = true;
+            }
+            tmp_str.start_end_day = start_end_day;
+            var start_end_address = $(this).find('.start_end_address' + i).val();
+            if (start_end_address == '') {
+                $(this).find('.start_end_address' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.start_end_address = start_end_address;
+            var fare = $(this).find('.fare' + i).val();
+            if (fare == '' || isNaN(fare)) {
+                $(this).find('.fare' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.fare = fare;
+            fare_xj += parseFloat(fare);
+            var allowance_days = $(this).find('.allowance_days' + i).val();
+            if (allowance_days == '' || isNaN(allowance_days)) {
+                $(this).find('.allowance_days' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.allowance_days = allowance_days;
+            allowance_days_xj += parseInt(allowance_days);
+            var supply_needs = $(this).find('.supply_needs' + i).val();
+            if (supply_needs == '' || isNaN(supply_needs)) {
+                $(this).find('.supply_needs' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.supply_needs = supply_needs;
+            supply_needs_xj += parseFloat(supply_needs)
+            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
+            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
+                $(this).find('.subsidy_amount' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.subsidy_amount = subsidy_amount;
+            subsidy_amount_xj += parseFloat(subsidy_amount);
+            var hotel_expense = $(this).find('.hotel_expense' + i).val();
+            if (hotel_expense == '' || isNaN(hotel_expense)) {
+                $(this).find('.hotel_expense' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.hotel_expense = hotel_expense;
+            hotel_expense_xj += parseFloat(hotel_expense);
+            var other_expense = $(this).find('.other_expense' + i).val();
+            if (other_expense == '' || isNaN(other_expense)) {
+                $(this).find('.other_expense' + i).focus();
+                error_flag = true;
+                return false;//中止
+            }
+            tmp_str.other_expense = other_expense;
+            other_expense_xj += parseFloat(other_expense);
+        });
+        if (!mast_one) {
+            //说明没有写
+            $('.json_str').find('.start_end_day' + 0).focus();
+            return;
+        }
+        if (error_flag) {
+            //说明有没写的
+            return;
+        }
+    }
+    $('.json_str input').blur(function(){
+        jisuan();
+    });
+    
     function approve() {
         var ctime = $('.ctime').val();
         var sheets_num = $('.sheets_num').val();
@@ -235,6 +348,11 @@
                 $(this).find('.other_expense' + i).val(other_expense_xj);
                 tmp_str.other_expense = other_expense_xj;
                 json_str[i] = tmp_str;
+                
+                //合计
+                var total = subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                $('.small_total').val(total);
+                $('.big_total').val(convertCurrency(total));
                 return false;//中止，已经到结束了
             }
             var start_end_day = $(this).find('.start_end_day' + i).val();
@@ -365,6 +483,92 @@
             }
         });
     }
+      //钱小写转大写
+    function convertCurrency(money) {
+        //汉字的数字
+        var cnNums = new Array('零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖');
+        //基本单位
+        var cnIntRadice = new Array('', '拾', '佰', '仟');
+        //对应整数部分扩展单位
+        var cnIntUnits = new Array('', '万', '亿', '兆');
+        //对应小数部分单位
+        var cnDecUnits = new Array('角', '分', '毫', '厘');
+        //整数金额时后面跟的字符
+        var cnInteger = '整';
+        //整型完以后的单位
+        var cnIntLast = '元';
+        //最大处理的数字
+        var maxNum = 999999999999999.9999;
+        //金额整数部分
+        var integerNum;
+        //金额小数部分
+        var decimalNum;
+        //输出的中文金额字符串
+        var chineseStr = '';
+        //分离金额后用的数组，预定义
+        var parts;
+        if (money == '') { return ''; }
+        money = parseFloat(money);
+        if (money >= maxNum) {
+          //超出最大处理数字
+          return '';
+        }
+        if (money == 0) {
+          chineseStr = cnNums[0] + cnIntLast + cnInteger;
+          return chineseStr;
+        }
+        //转换为字符串
+        money = money.toString();
+        if (money.indexOf('.') == -1) {
+          integerNum = money;
+          decimalNum = '';
+        } else {
+          parts = money.split('.');
+          integerNum = parts[0];
+          decimalNum = parts[1].substr(0, 4);
+        }
+        //获取整型部分转换
+        if (parseInt(integerNum, 10) > 0) {
+          var zeroCount = 0;
+          var IntLen = integerNum.length;
+          for (var i = 0; i < IntLen; i++) {
+            var n = integerNum.substr(i, 1);
+            var p = IntLen - i - 1;
+            var q = p / 4;
+            var m = p % 4;
+            if (n == '0') {
+              zeroCount++;
+            } else {
+              if (zeroCount > 0) {
+                chineseStr += cnNums[0];
+              }
+              //归零
+              zeroCount = 0;
+              chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+            }
+            if (m == 0 && zeroCount < 4) {
+              chineseStr += cnIntUnits[q];
+            }
+          }
+          chineseStr += cnIntLast;
+        }
+        //小数部分
+        if (decimalNum != '') {
+          var decLen = decimalNum.length;
+          for (var i = 0; i < decLen; i++) {
+            var n = decimalNum.substr(i, 1);
+            if (n != '0') {
+              chineseStr += cnNums[Number(n)] + cnDecUnits[i];
+            }
+          }
+        }
+        if (chineseStr == '') {
+          chineseStr += cnNums[0] + cnIntLast + cnInteger;
+        } else if (decimalNum == '') {
+          chineseStr += cnInteger;
+        }
+        return chineseStr;
+}
     //添加错误信息
     function show_error(obj, msg) {
         obj.parent().find('.middle').addClass('text-danger').text(msg);
