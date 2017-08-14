@@ -207,8 +207,8 @@ class RequestNoteController extends AppController {
      public function gss_purchase() {
          $this->render();
          
-        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
-            $this->gss_purchase_save($_POST);
+        if (/*$this->request->is('ajax') &&*/ !empty($_POST['declarename'])) {
+            $this->gss_purchase_save($_POST, $_FILES);
         }else{
             //取出所在部门信息
             $department = $this->Department->findById($this->userInfo->department_id);
@@ -1034,7 +1034,7 @@ class RequestNoteController extends AppController {
     }
     
     // 果树所采购申请单
-    private function gss_purchase_save($datas) {
+    private function gss_purchase_save($datas, $uploadfile = array()) {
         if (
                 empty($datas['ctime']) || empty($datas['file_number'])
                 || empty($datas['material_name']) || empty($datas['unit'])
@@ -1044,6 +1044,7 @@ class RequestNoteController extends AppController {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
+        header("Content-type: text/html; charset=utf-8"); 
         $table_name = 'apply_caigou';
         $p_id = 9;//审批流id
         $project_id = 0;
@@ -1063,6 +1064,24 @@ class RequestNoteController extends AppController {
         $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
         
+        $new_name = '';
+        if (!empty($uploadfile['descripttion']['name']) && $uploadfile['descripttion']['error'] == 0) {
+            $org_name = $uploadfile['descripttion']['name'];//原始名字
+            $tmp_file = $uploadfile['descripttion']['tmp_name'];//临时文件
+            $ext = pathinfo($org_name, PATHINFO_EXTENSION);//后缀
+            $base_name = basename($org_name, $ext ? '.' . $ext : '');
+            if (empty($ext)) {
+                $new_name = $base_name.'_'.time();
+            } else {
+                $new_name = $base_name.'_'.time() . '.' . $ext;
+            }
+            $new_file_name = WWW_ROOT  . 'files' . DS . $new_name;
+            
+            if (!move_uploaded_file($tmp_file, $new_file_name)) {
+                $new_name = '';//如果没有上传成功，先不处理
+            }
+            
+        }
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['department_id'] = $department_id;
@@ -1077,6 +1096,7 @@ class RequestNoteController extends AppController {
         $attrArr['price'] = $datas['price'];
         $attrArr['amount'] = $datas['total'];
         $attrArr['reason'] = $datas['reason'];        
+        $attrArr['attachment'] = $new_name;//附件   
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
         
@@ -1103,6 +1123,7 @@ class RequestNoteController extends AppController {
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
         $mainArr['subject'] = '';
+        $mainArr['attachment'] = $new_name;
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
@@ -1146,12 +1167,16 @@ class RequestNoteController extends AppController {
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
+            echo "<script>alert('申请成功'); window.location = '/office/draf'</script>";
+            exit;
         } else {
             $this->ret_arr['msg'] = '申请失败';
+            echo "<script>alert('申请失败'); window.location = '/office/draf'</script>";
+            exit;
         }
 
 
-        echo json_encode($this->ret_arr);
-        exit;
+//        echo json_encode($this->ret_arr);
+//        exit;
     }
 }

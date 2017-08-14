@@ -10,7 +10,7 @@
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" enctype="multipart/form-data" action="/RequestNote/gss_purchase" method="post" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' /> 
                         <tbody>
@@ -122,8 +122,18 @@
         var re = /^[0-9]+$/ ;
         return re.test(s)
     }
-    $('.price').blur(function(){
-        $('.total').val(parseFloat($('.nums').val()) * parseFloat($('.price').val()));
+    $('.nums,.price').blur(function(){
+        var nums = $('.nums').val();
+        var price = $('.price').val();
+        var total = 0;
+        if (!isPositiveInteger(nums)) {
+            nums = 0;
+        }
+        if (!Number(price)) {
+            price = 0;
+        }
+        total = parseFloat(nums) * parseFloat(price);
+        $('.total').val(parseFloat(total));
     });
     function approve() {
         var ctime = $('.ctime').val();
@@ -180,6 +190,8 @@
             $('.reason').focus();
             return;
         }
+        $('form').submit();
+        return;
         var data = {};
         data.ctime = ctime;
         data.department = department;
