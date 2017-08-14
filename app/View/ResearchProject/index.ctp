@@ -170,8 +170,10 @@
                                             </tr>
                                             <tr>
                                                 <td>项目成员 &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <?php if($pinfos['user_id'] == $userInfo->id){  ?>
                                                     <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_member/<?php echo $pid;?>');"  >
                                                     <i class="icon-plus arrow blue"></i> </a> 
+                                                <?php  } ?>
                                                 </td>
 
                                                 <td colspan='3'> 
@@ -210,7 +212,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>资金来源</td>
+                                                <td>资金来源 &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <?php  if($pinfos['user_id'] == $userInfo->id){  ?>
+                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_filenumber/<?php echo $pid;?>');"  >
+                                                    <i class="icon-plus arrow blue"></i> </a> 
+                                                <?php  } ?>
+                                                </td>
                                                 <td colspan="3">
                                                     <table class="table table-bordered">
                                                         <thead>

@@ -71,10 +71,11 @@ class AppController extends Controller {
         
         $projectId = $this->ProjectMember->find('list',array('conditions'=>array('user_id'=>$this->userInfo->id),'fields'=>array('project_id')));
         $projectId = empty($projectId) ? array(-1) : array_values($projectId);   //当前用户所属项目
+        $this->appdata['projectId'] = $projectId;
 
        $applyList =  $this->ResearchProject->getApplyList(array('code'=>4,'id'=>$projectId));
        $this->set('applyList',$applyList);
-       
+  
        
     }
 

@@ -38,13 +38,24 @@ class ResearchProjectController extends AppController {
     }
 
     /**
+     * 当前用户是否参与项目
+     */
+    private function is_project_self($pid){
+       return in_array($pid, $this->appdata['projectId']) ? true : false;
+    }
+
+
+
+    /**
      * 详情
      */
-    public function index($pid = 0) {
-        if (empty($pid)) {
-            // header("Location:/homes/index");die;
+    public function index($pid = 0) { 
+        if (empty($pid) || !$this->is_project_self($pid)) {
+             header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
+        $this->set('uid', $this->userInfo->id);
+
 
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
@@ -75,7 +86,7 @@ class ResearchProjectController extends AppController {
      * 详情 预算
      */
     public function budget($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
               header("Location:/homes/index");die;
         }
         $this->set('costList', Configure::read('keyanlist'));
@@ -104,8 +115,8 @@ class ResearchProjectController extends AppController {
      * 详情 项目资产
      */
     public function assets($pid = 0) {
-        if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+        if (empty($pid) || !$this->is_project_self($pid)) {
+              header("Location:/homes/index");die;
         }
         //根据项目id取出他的固定资产列表
         $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id=' . "$pid");
@@ -120,11 +131,24 @@ class ResearchProjectController extends AppController {
      * 详情 费用申报
      */
     public function declares($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");die;
         }
+
+        $proInfos = $this->ResearchProject->findById($pid);
+        $proInfos = $proInfos['ResearchProject'];
+        $this->set('proInfos', $proInfos);  // 预算费用
+
+        $sql_fzr = '';
+        // 项目负责人、财务主任、财务副所长、所长、科研主任、科研副所长可查看全部、职员只看自己提交申请
+        if($this->userInfo->department_id != 3 && ($this->userInfo->position_id != 4 || $this->userInfo->position_id != 5)){
+            if($proInfos['user_id'] != $this->userInfo->id && !in_array($this->userInfo->position_id,array(6,13,14))){
+                $sql_fzr = ' and m.user_id = '.$this->userInfo->id;
+            }
+        }
+
         //费用申报的内容
-        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid'");
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id = '$pid' $sql_fzr ");
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
@@ -136,8 +160,8 @@ class ResearchProjectController extends AppController {
      * 添加 费用申报
      */
     public function add_declares($pid = 0) {
-        if (empty($pid)) {
-            //  header("Location:/homes/index");die;
+        if (empty($pid) || !$this->is_project_self($pid)) {
+              header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
 
@@ -301,11 +325,22 @@ class ResearchProjectController extends AppController {
      * 详情 报表
      */
     public function report_form($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
              header("Location:/homes/index");die;
         }
+
+
+        $proInfos = $this->ResearchProject->findById($pid);
+        $proInfos = $proInfos['ResearchProject'];
+        $this->set('proInfos', $proInfos);  // 预算费用
+          
+     // 项目负责人可查看报表
+     if($proInfos['user_id'] != $this->userInfo->id){
+         header("Location:/homes/index");die;
+        }
+
          $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
-     
+
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('pid', $pid);
@@ -331,7 +366,7 @@ class ResearchProjectController extends AppController {
      * 详情 档案
      */
     public function archives($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
              header("Location:/homes/index");die;
         }
         $this->set('pid', $pid);
@@ -345,7 +380,7 @@ class ResearchProjectController extends AppController {
      * 详情 出入库
      */
     public function storage($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");
             die;
         }
@@ -361,7 +396,7 @@ class ResearchProjectController extends AppController {
      * 添加 添加项目成员列表
      */
     public function add_member($pid = 0) {
-        if (empty($pid)) {
+        if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");
             die;
         }
@@ -426,6 +461,93 @@ class ResearchProjectController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
+
+
+
+
+    /**
+     * 添加 添加项目资金来源表
+     */
+    public function add_filenumber($pid = 0) {
+        if (empty($pid)) {
+            header("Location:/homes/index");
+            die;
+        }
+
+
+        #项目详情
+        $proInfos = $this->ResearchProject->findById($pid);
+
+        // 是否项目负责人添加
+        if($proInfos['ResearchProject']['user_id'] != $this->userInfo->id){
+            header("Location:/homes/index");
+            die;    
+        }
+
+        # 项目资金来源
+        $proSource = $this->ResearchSource->getAll($pid);
+        $this->set('proSource', $proSource);
+
+        $this->set('pid', $pid);
+        $this->render();
+    }
+
+    /**
+     * 添加 添加项目资金来源
+     */
+    public function sub_filenumber() {
+        if (empty($_POST['pid']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+            #项目详情
+            $proInfos = $this->ResearchProject->findById($_POST['pid']);
+
+            // 是否项目负责人添加
+            if($proInfos['ResearchProject']['user_id'] != $this->userInfo->id){
+                $this->ret_arr['msg'] = '非项目负责人无权添加';
+                echo json_encode($this->ret_arr);
+                exit; 
+            }
+            # 项目资金来源 总额
+            $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where project_id = '.$_POST['pid']);
+            if(($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']){
+                $this->ret_arr['msg'] = '资金来源总额超过 项目总金额';
+                echo json_encode($this->ret_arr);
+                exit; 
+            }
+
+            $editArr = array();
+            switch ($_POST['type']) {
+                case 'add' :
+                    $editArr['project_id'] = $_POST['pid'];
+                    $editArr['source_channel'] = $_POST['source_channel'];
+                    $editArr['file_number'] = $_POST['file_number'];
+                    $editArr['amount'] = $_POST['amount'];
+                    $editArr['year'] = $_POST['year'];
+                    $sourceId = $this->ResearchSource->add($editArr);
+                    break;
+                case 'edit':
+                    //$sourceId = $this->ResearchSource->edit($_POST['mid'], $editArr);
+                    break;
+                case 'del':
+                    //$sourceId = $this->ResearchSource->del($_POST['pid'], $_POST['mid']);
+                    break;
+            }
+
+            if ($sourceId) {
+                $this->ret_arr['code'] = 0;
+            } else {
+                $this->ret_arr['msg'] = '操作失败';
+            }
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+
+
+
 
     /**
      * 添加 添加项目
