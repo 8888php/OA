@@ -70,7 +70,7 @@
                         <div class="col-xs-12">
                             <!-- PAGE CONTENT BEGINS -->
 
-                            <div class="row">
+                            <div class="row right_content">
                                 <div class="col-xs-12">
 
                                     <div class="table-responsive" style="font-size: 10px;">

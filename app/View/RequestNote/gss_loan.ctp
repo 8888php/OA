@@ -113,9 +113,54 @@
                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
-
+<script type="text/javascript">
+    var class_name = 'not_right_tmp_8888';//定义一个没有的class
+function printDIV(){
+    $('.modal-footer').css('display', 'none');
+    $('#dropzone').css('display', 'none');
+    //隐藏下拉框
+    $('.' + class_name).css('display', 'none');
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', 'none');
+        $('#sidebar').css('display', 'none');
+        $('.breadcrumbs').css('display', 'none');
+        $('.ace-settings-container').css('display', 'none');
+        $('#btn-scroll-up').css('display', 'none');
+        $('.right_content').css('display', 'none');
+    }
+    window.print();//打印刚才新建的网页
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', '');
+        $('#sidebar').css('display', '');
+        $('.breadcrumbs').css('display', '');
+        $('.ace-settings-container').css('display', '');
+        $('#btn-scroll-up').css('display', '');
+        $('.right_content').css('display', '');
+    }
+    $('.modal-footer').css('display', '');
+    $('#dropzone').css('display', '');
+    $('.' + class_name).css('display', '');
+    return false;
+}
+</script>
 
         </div>
     </div><!-- /.row -->
