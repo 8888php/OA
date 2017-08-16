@@ -11,4 +11,5 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
         # RewriteRule ^ index.php [L]
 	RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+#	RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>

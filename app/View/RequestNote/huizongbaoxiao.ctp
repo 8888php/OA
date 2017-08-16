@@ -64,7 +64,7 @@
                                     //项目 去取项目所对应的souce
                                     var data = {pid:type};
                                     $.ajax({
-                                        url:'/requestnote/ajax_get_souce',
+                                        url:'/RequestNote/ajax_get_souce',
                                         type:'post',
                                         data:data,
                                         dataType:'json',
@@ -431,7 +431,7 @@ function printDIV(){
         var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
 
         $.ajax({
-            url: '/researchproject/sub_declares',
+            url: '/ResearchProject/sub_declares',
             type: 'post',
             data: data,
             dataType: 'json',

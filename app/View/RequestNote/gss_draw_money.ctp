@@ -49,7 +49,7 @@
                                             //项目 去取项目所对应的souce
                                             var data = {pid:type};
                                             $.ajax({
-                                                url:'/requestnote/ajax_get_souce',
+                                                url:'/RequestNote/ajax_get_souce',
                                                 type:'post',
                                                 data:data,
                                                 dataType:'json',
@@ -133,7 +133,8 @@
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
-            <script type="text/javascript">
+
+<script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
 function printDIV(){
     $('.modal-footer').css('display', 'none');

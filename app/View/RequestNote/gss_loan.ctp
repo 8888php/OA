@@ -46,7 +46,7 @@
                                             //项目 去取项目所对应的souce
                                             var data = {pid:type};
                                             $.ajax({
-                                                url:'/requestnote/ajax_get_souce',
+                                                url:'/RequestNote/ajax_get_souce',
                                                 type:'post',
                                                 data:data,
                                                 dataType:'json',
