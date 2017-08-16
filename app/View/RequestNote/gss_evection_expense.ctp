@@ -205,7 +205,7 @@
 //                json_str[i] = tmp_str;
                 
                 //合计
-                var total = subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
                 $('.small_total').val(total);
                 $('.big_total').val(convertCurrency(total));
                 return false;//中止，已经到结束了
@@ -350,7 +350,7 @@
                 json_str[i] = tmp_str;
                 
                 //合计
-                var total = subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
                 $('.small_total').val(total);
                 $('.big_total').val(convertCurrency(total));
                 return false;//中止，已经到结束了
