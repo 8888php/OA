@@ -12,10 +12,10 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
-                        <input type="hidden" name='declarename' class='declarename' value='果树所出差审批单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='果树所差旅审批单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所出差审批单 </td>
+                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所差旅审批单 </td>
                             </tr>
                             <tr>
                                 <!--td > </td>
@@ -55,7 +55,7 @@
                                     </script>
                                 </td>
                                 <td style="width:90px;">合计</td>
-                                <td >  <input type="text" name='sum_day' class='sum_day' value='' readonly="readonly" style="width:50px;" />  天 </td>
+                                <td >  <input type="text" name='sum_day' class='sum_day' value=''  style="width:50px;" />  天 </td>
                             </tr>
                            
                             <tr>

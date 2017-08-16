@@ -63,7 +63,7 @@
                                     </script>
                                 </td>
                                 <td style="width:90px;">共</td>
-                                <td >  <input type="text" name='sum_days' class='sum_days' value='0'  style="width:50px;" readonly="readonly"  />  天 </td>
+                                <td >  <input type="text" name='sum_days' class='sum_days' value='0'  style="width:50px;"  />  天 </td>
                             </tr>
                            
                             <tr>

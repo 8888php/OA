@@ -77,14 +77,14 @@
                         <div class="tabbable">
                             <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
                                 <li >
-                                    <a  href="/researchproject/index/<?php echo $pid;?>">
+                                    <a  href="/ResearchProject/index/<?php echo $pid;?>">
                                         <i class="blue icon-question-sign bigger-120"></i>
                                         项目信息
                                     </a>
                                 </li>
 
                                 <li >
-                                    <a href="/researchproject/budget/<?php echo $pid;?>">
+                                    <a href="/ResearchProject/budget/<?php echo $pid;?>">
                                         <i class="green icon-user bigger-120"></i>
                                         项目预算
                                     </a>
@@ -98,25 +98,25 @@
                                 </li>
 
                                 <li>
-                                    <a  href="/researchproject/declares/<?php echo $pid;?>">
+                                    <a  href="/ResearchProject/declares/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         费用申报
                                     </a>
                                 </li>
                                 <li>
-                                    <a  href="/researchproject/report_form/<?php echo $pid;?>">
+                                    <a  href="/ResearchProject/report_form/<?php echo $pid;?>">
                                         <i class="green icon-list-alt bigger-120"></i>
                                         报&nbsp;&nbsp;表
                                     </a>
                                 </li>
                                 <li>
-                                    <a  href="/researchproject/archives/<?php echo $pid;?>">
+                                    <a  href="/ResearchProject/archives/<?php echo $pid;?>">
                                         <i class="orange icon-credit-card bigger-120"></i>
                                         档&nbsp;&nbsp;案
                                     </a>
                                 </li>
                                 <li>
-                                    <a  href="/researchproject/storage/<?php echo $pid;?>">
+                                    <a  href="/ResearchProject/storage/<?php echo $pid;?>">
                                         <i class="blue icon-list bigger-120"></i>
                                         出入库
                                     </a>

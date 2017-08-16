@@ -61,11 +61,15 @@ class RequestNoteController extends AppController {
 //        $this->render();
         $pid = 0;
         $this->set('pid', $pid);
-        $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
+		// 当前用所参与科研项目
+        $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
+		$proArr = $this->ProjectMember->find('list' ,$pro_conditions);
+		// 所参与项目 详情
+		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0), 'fields' => array('id', 'name'));
         $projectInfo = $this->ResearchProject->find('list' ,$conditions);
 //        $source = $this->ResearchSource->getAll($pid);
         $department_id = $this->userInfo->department_id;
-        $department_arr = $this->Department->findById($department_id);
+        $department_arr = $this->Department->findById($department_id); 
         $this->set('department_arr', $department_arr);
         $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
         $this->set('xizhenglist', Configure::read('xizhenglist'));

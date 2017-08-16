@@ -64,7 +64,7 @@
                                     //项目 去取项目所对应的souce
                                     var data = {pid:type};
                                     $.ajax({
-                                        url:'/requestnote/ajax_get_souce',
+                                        url:'/RequestNote/ajax_get_souce',
                                         type:'post',
                                         data:data,
                                         dataType:'json',
@@ -297,7 +297,39 @@ function printDIV(){
     $('#dropzone').css('display', 'none');
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', 'none');
+        $('#sidebar').css('display', 'none');
+        $('.breadcrumbs').css('display', 'none');
+        $('.ace-settings-container').css('display', 'none');
+        $('#btn-scroll-up').css('display', 'none');
+        $('.right_content').css('display', 'none');
+    }
     window.print();//打印刚才新建的网页
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', '');
+        $('#sidebar').css('display', '');
+        $('.breadcrumbs').css('display', '');
+        $('.ace-settings-container').css('display', '');
+        $('#btn-scroll-up').css('display', '');
+        $('.right_content').css('display', '');
+    }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
     $('.' + class_name).css('display', '');
@@ -399,7 +431,7 @@ function printDIV(){
         var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
 
         $.ajax({
-            url: '/researchproject/sub_declares',
+            url: '/ResearchProject/sub_declares',
             type: 'post',
             data: data,
             dataType: 'json',
