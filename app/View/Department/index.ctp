@@ -119,11 +119,11 @@
 
                                                         <?php  if($v['dep']['del'] == 0) { ?>
 
-                                                        <a class="red" onclick="ajax_del( < ?php echo $v['dep']['id']; ? > , 'del');">
+                                                        <a class="red" onclick="ajax_del(<?php echo $v['dep']['id']; ?> , 'del');">
                                                             <i class="icon-trash bigger-130"></i>
                                                         </a>
                                                         <?php  }else{ ?>
-                                                        <a class="red" onclick="ajax_del( < ?php echo $v['dep']['id']; ? > , 'rest');">
+                                                        <a class="red" onclick="ajax_del(<?php echo $v['dep']['id']; ?> , 'rest');">
                                                             <i class="icon-reply icon-only" title='恢复'></i>
                                                         </a>
                                                         <?php  } ?>
@@ -184,7 +184,7 @@
 <!--[if !IE]> -->
 
 <script type="text/javascript">
-                                                                       window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");</script>
+     window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");</script>
 
 <!-- <![endif]-->
 
