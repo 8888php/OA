@@ -133,6 +133,7 @@
                 <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
+
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
 function printDIV(){
