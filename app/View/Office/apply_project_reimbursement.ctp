@@ -82,44 +82,56 @@
                             </td>
                             <td style="width:100px;"> 
                                 <?php 
-                                echo @$apply_log['11']; 
+                                echo @$applyArr['11']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['11'];
+                                echo @$applyArr['11']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['11']['remarks'];
                                 ?>   
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$apply_log['4']; 
+                                echo @$applyArr['4']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['4'];
+                                echo @$applyArr['4']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['4']['remarks'];
                                 ?> 
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$apply_log['5']; 
+                                echo @$applyArr['5']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['5'];
+                                echo @$applyArr['5']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['5']['remarks'];
                                 ?> 
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$apply_log['6']; 
+                                echo @$applyArr['6']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['6'];
+                                echo @$applyArr['6']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['6']['remarks'];
                                 ?> 
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$apply_log['13']; 
+                                echo @$applyArr['13']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['13'];
+                                echo @$applyArr['13']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['13']['remarks'];
                                 ?> 
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$apply_log['14']; 
+                                echo @$applyArr['14']['name']; 
                                 echo '<br />';
-                                echo @$apply_log_time['14'];
+                                echo @$applyArr['14']['ctime'];
+				echo '<br />';
+                                echo @$applyArr['14']['remarks'];
                                 ?> 
                             </td>
                         </tr>

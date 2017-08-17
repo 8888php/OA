@@ -578,10 +578,15 @@ class OfficeController extends AppController {
 
 
         // 审核记录
-        $apply_log = $this->ApprovalInformation->find('list',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','name')));
-        $this->set('apply_log', @$apply_log); 
-        $apply_log_time = $this->ApprovalInformation->find('list',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','ctime')));
-        $this->set('apply_log_time', @$apply_log_time); 
+		$applylist = $this->ApprovalInformation->find('all',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','name','remarks','ctime')));
+
+		$applyArr = array();
+		foreach($applylist as $k => $v){
+			$applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
+		}
+		$this->set('applyArr', @$applyArr); 
+
+
 
         $kemuStr =  '';
         if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门
@@ -680,7 +685,7 @@ class OfficeController extends AppController {
                                 $save_approve_log[$k] = array(
                                     'main_id' => $main_id,
                                     'approve_id' => $this->userInfo->id,
-                                    'remarks' => '',
+                                    'remarks' => !$remarks ? '' : $remarks,
                                     'position_id' => $this->userInfo->position_id,
                                     'name' => $this->userInfo->name,
                                     'ctime' => date('Y-m-d H:i:s', time()),
@@ -692,7 +697,7 @@ class OfficeController extends AppController {
                                 $save_approve_log[$k] = array(
                                     'main_id' => $main_id,
                                     'approve_id' => $v,
-                                    'remarks' => '',
+                                    'remarks' => !$remarks ? '' : $remarks,
                                     'position_id' => $userinfo['User']['position_id'],
                                     'name' => $userinfo['User']['name'],
                                     'ctime' => date('Y-m-d H:i:s', time()),
