@@ -187,7 +187,7 @@ class ResearchProjectController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         
-        if (empty($_POST['ctime']) || empty($_POST['page_number']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
+        if (empty($_POST['ctime']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -234,7 +234,7 @@ class ResearchProjectController extends AppController {
         
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
-        $attrArr['page_number'] = $_POST['page_number'];
+        $attrArr['page_number'] = empty($_POST['page_number']) ? 0 :$_POST['page_number'];
 
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;

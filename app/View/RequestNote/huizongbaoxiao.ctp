@@ -23,7 +23,7 @@
                                     <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='height:25px;'>  
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:100px;height:25px;'/>  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:100px;height:25px;' value='0' />  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
@@ -133,7 +133,7 @@
                             width: 480,
                             multiple: true,
                             multipleWidth: 220,
-                            minimumCountSelected: 3
+                            minimumCountSelected: 9
                         });
                                 </script>
                                 <?php if($is_department == 1){?>
@@ -143,7 +143,7 @@
                                         width: 480,
                                         multiple: true,
                                         multipleWidth: 220,
-                                        minimumCountSelected: 3
+                                        minimumCountSelected: 9
                                     });
                                 </script>
                                 <?php }?>
