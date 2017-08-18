@@ -86,7 +86,7 @@
                                 <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="allowance_days0" name="dp[0]['allowance_days']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="supply_needs0" name="dp[0]['supply_needs']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
@@ -97,7 +97,7 @@
                                 <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="allowance_days1" name="dp[1]['allowance_days']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="supply_needs1" name="dp[1]['supply_needs']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
@@ -108,7 +108,7 @@
                                 <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="allowance_days2" name="dp[2]['allowance_days']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="supply_needs2" name="dp[2]['supply_needs']"  style='height:25px;width:85px;'> </td>
-                                <td> <input type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:85px;'> </td>
                                 <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
@@ -117,7 +117,7 @@
                                     <td> <input readonly="readonly" type="text" class="fare3" name="dp[2]['fare']"  style='height:25px;width:85px;'> </td>
                                     <td> <input readonly="readonly" type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:85px;'> </td>
                                     <td> <input readonly="readonly" type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:85px;'> </td>
-                                    <td> <input readonly="readonly" type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
+                                    <td> <input readonly="readonly" readonly="readonly" type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:85px;'> </td>
                                     <td> <input readonly="readonly" type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:85px;'> </td>
                                     <td> <input readonly="readonly" type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:85px;'> </td>
                                 </tr>
@@ -339,12 +339,13 @@ function printDIV(){
             }
             tmp_str.supply_needs = supply_needs;
             supply_needs_xj += parseFloat(supply_needs)
-            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
-            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
-                $(this).find('.subsidy_amount' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
+            var subsidy_amount = parseFloat(allowance_days) * parseFloat(supply_needs);
+            $(this).find('.subsidy_amount' + i).val(subsidy_amount);
+//            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
+//                $(this).find('.subsidy_amount' + i).focus();
+//                error_flag = true;
+//                return false;//中止
+//            }
             tmp_str.subsidy_amount = subsidy_amount;
             subsidy_amount_xj += parseFloat(subsidy_amount);
             var hotel_expense = $(this).find('.hotel_expense' + i).val();
@@ -367,6 +368,10 @@ function printDIV(){
         if (!mast_one) {
             //说明没有写
             $('.json_str').find('.start_end_day' + 0).focus();
+            //把合计和总计都清空
+            $('.json_str').eq(3).find('input').val('');
+            $('.big_total').val('');
+            $('.small_total').val('');
             return;
         }
         if (error_flag) {
@@ -483,13 +488,14 @@ function printDIV(){
                 return false;//中止
             }
             tmp_str.supply_needs = supply_needs;
-            supply_needs_xj += parseFloat(supply_needs)
-            var subsidy_amount = $(this).find('.subsidy_amount' + i).val();
-            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
-                $(this).find('.subsidy_amount' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
+            supply_needs_xj += parseFloat(supply_needs);
+            var subsidy_amount = parseFloat(allowance_days) * parseFloat(supply_needs);
+            $(this).find('.subsidy_amount' + i).val(subsidy_amount);
+//            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
+//                $(this).find('.subsidy_amount' + i).focus();
+//                error_flag = true;
+//                return false;//中止
+//            }
             tmp_str.subsidy_amount = subsidy_amount;
             subsidy_amount_xj += parseFloat(subsidy_amount);
             var hotel_expense = $(this).find('.hotel_expense' + i).val();
@@ -514,6 +520,10 @@ function printDIV(){
         if (!mast_one) {
             //说明没有写
             $('.json_str').find('.start_end_day' + 0).focus();
+            //把合计和总计都清空
+            $('.json_str').eq(3).find('input').val('');
+            $('.big_total').val('');
+            $('.small_total').val('');
             return;
         }
         if (error_flag) {
