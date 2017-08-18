@@ -579,11 +579,21 @@ class OfficeController extends AppController {
 
         // 审核记录
 		$applylist = $this->ApprovalInformation->find('all',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','name','remarks','ctime')));
+		
+		// 获取部门负责人
+		if($main_arr['ApplyMain']['type'] == 2){
+			$bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = '.$main_arr['ApplyMain']['department_id'].' limit 1');
+		}
 
 		$applyArr = array();
 		foreach($applylist as $k => $v){
-			$applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
+			if($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']){
+				$applyArr['ksfzr'] =  $v['ApprovalInformation'];
+			}else{
+				$applyArr[$v['ApprovalInformation']['position_id']] =  $v['ApprovalInformation'];
+			}
 		}
+
 		$this->set('applyArr', @$applyArr); 
 
 

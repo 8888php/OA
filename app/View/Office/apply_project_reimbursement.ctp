@@ -91,11 +91,11 @@
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                echo @$applyArr['4']['name']; 
+                                echo @$applyArr['ksfzr']['name']; 
                                 echo '<br />';
-                                echo @$applyArr['4']['ctime'];
+                                echo @$applyArr['ksfzr']['ctime'];
 				echo '<br />';
-                                echo @$applyArr['4']['remarks'];
+                                echo @$applyArr['ksfzr']['remarks'];
                                 ?> 
                             </td>
                             <td style="width:100px;">
@@ -151,12 +151,12 @@
         </div>
     </div>
 
-
+ <?php if($seecode == 'apply'){  ?>
     <div class="modal-body" style="padding:0 20px;">
         <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['id'];?>" />
         <textarea id="remarks" placeholder="审批意见" rows='2' cols='90' ></textarea>
     </div>
-
+ <?php } ?>
     <div class="modal-footer" style='background-color: #fff;'>
         <?php if($seecode == 'apply'){  ?>
         <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
@@ -184,7 +184,7 @@
             //取消
             return;
         }
-        var data = {main_id: $('#main_id').val(), type: type};
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
             url: '/Office/ajax_approve_reimbursement',
             type: 'post',
