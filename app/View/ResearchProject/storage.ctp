@@ -134,6 +134,9 @@
                                                 <th colspan="6" class='blue' style='border-right:0px;'> 出入库 </th>
 
                                                 <th colspan="2" style='border-left:0px;text-align: center;' >
+
+						<?php if($is_pro == true){ ?>
+
                                                     <select  name="assets" class="type input-width" style="width:145px;">
                                                         <option value="1">物资出库单</option>
                                                     </select>  
@@ -141,6 +144,7 @@
                                                     <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_storage/<?php echo $pid;?>');"  id="modal_add">
                                                         <i class="icon-plus arrow blue"></i>
                                                     </a>
+						<?php } ?>
                                                 </th>
                                             </tr>
                                         </thead>

@@ -41,6 +41,10 @@ class ResearchProjectController extends AppController {
      * 当前用户是否参与项目
      */
     private function is_project_self($pid){
+		// 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
+		if($this->is_who() != false){
+			return true;
+		}
        return in_array($pid, $this->appdata['projectId']) ? true : false;
     }
 
@@ -86,6 +90,9 @@ class ResearchProjectController extends AppController {
      * 详情 预算
      */
     public function budget($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
               header("Location:/homes/index");die;
         }
@@ -115,6 +122,9 @@ class ResearchProjectController extends AppController {
      * 详情 项目资产
      */
     public function assets($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
               header("Location:/homes/index");die;
         }
@@ -131,6 +141,9 @@ class ResearchProjectController extends AppController {
      * 详情 费用申报
      */
     public function declares($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");die;
         }
@@ -325,10 +338,12 @@ class ResearchProjectController extends AppController {
      * 详情 报表
      */
     public function report_form($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
              header("Location:/homes/index");die;
         }
-
 
         $proInfos = $this->ResearchProject->findById($pid);
         $proInfos = $proInfos['ResearchProject'];
@@ -366,6 +381,9 @@ class ResearchProjectController extends AppController {
      * 详情 档案
      */
     public function archives($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
              header("Location:/homes/index");die;
         }
@@ -380,6 +398,9 @@ class ResearchProjectController extends AppController {
      * 详情 出入库
      */
     public function storage($pid = 0) {
+		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+		$this->set('is_pro', $is_pro);
+
         if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");
             die;
