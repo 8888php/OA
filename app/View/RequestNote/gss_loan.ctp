@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:780px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -16,16 +16,16 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所借款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所借款单 </td>
+                                <td colspan="7" style="font-size:36px;font-weight: 600;border-color:#000;">  果树所借款单 </td>
                             </tr>
                             <tr>
                                 <td >填表日期</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:590px;'>  </td>
+                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:570px;'>  </td>
                             </tr>
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='4'>  <select style="width:235px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
+                                <td colspan='4'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php foreach($projectInfo as $pk=>$pv) {?>
@@ -59,32 +59,32 @@
                                     }
                                 </script>
                                 <td>借款人姓名</td>
-                                <td > <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:100px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
+                                <td > <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:83px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
 
                             <tr>
                                 <td>借款事由</td>
-                                <td colspan='6'> <input type="text" name='loan_reason' class="loan_reason" style='width:600px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='loan_reason' class="loan_reason" style='width:567px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
                                 <td>申请借款金额</td>
                                 <td>金额大写</td>
                                 <td colspan='3'> <input readonly="readonly" type="text" name='big_amount' class="big_amount" style='width:280px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_amount' class="small_amount" style='width:170px;height:25px;'/> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_amount' class="small_amount" style='width:160px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
                                 <td>批准金额</td>
                                 <td>金额大写</td>
                                 <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:170px;height:25px;'/> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:160px;height:25px;'/> </td>
                             </tr>
                             
                             
                             <tr>
                                 <td  >还款计划</td>
-                                <td colspan='6'> <input type="text" name='repayment_plan' class="repayment_plan" style='width:620px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='repayment_plan' class="repayment_plan" style='width:567px;height:25px;'/> </td>
                             </tr>
           
                             <tr>
