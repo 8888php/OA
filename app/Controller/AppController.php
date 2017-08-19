@@ -68,12 +68,14 @@ class AppController extends Controller {
         $this->set('deplist',$this->appdata['deplist']);
         
         #当前用户所属项目
-        
-        $projectId = $this->ProjectMember->find('list',array('conditions'=>array('user_id'=>$this->userInfo->id),'fields'=>array('project_id')));
-        $projectId = empty($projectId) ? array(-1) : array_values($projectId);   //当前用户所属项目
-        $this->appdata['projectId'] = $projectId;
+		$projectId = $this->ProjectMember->find('list',array('conditions'=>array('user_id'=>$this->userInfo->id),'fields'=>array('project_id')));
+		$projectId = empty($projectId) ? array(-1) : array_values($projectId);   //当前用户所属项目
+		$this->appdata['projectId'] = $projectId;
 
-       $applyList =  $this->ResearchProject->getApplyList(array('code'=>4,'id'=>$projectId));
+		// 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
+		$pro_conditions = ($this->is_who() != false) ? array('code'=>4) : array('code'=>4,'id'=>$projectId);
+
+	   $applyList =  $this->ResearchProject->getApplyList($pro_conditions);
        $this->set('applyList',$applyList);
   
        
@@ -97,10 +99,21 @@ class AppController extends Controller {
             if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 4) {
                 // 科研办公室 主任
                 return  'keyanzhuren';
-            } else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 14) {
+            } else if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 5) {
+                // 科研 副所长
+                return 'keyanfusuozhang';
+            }else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 14) {
                 // 财务科 科长
                 return 'caiwukezhang';
-            }
+            }else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 13) {
+                // 财务科 副所长
+                return 'caiwufusuozhang';
+            }else if ($this->userInfo->department_id == 1 && $this->userInfo->position_id == 6) {
+                // 所长
+                return 'suozhang';
+            }else{
+				return false;
+			}
     }
 
     /**

@@ -134,6 +134,9 @@
                                                 <th colspan="10" class='blue' style='border-right:0px;'> 项目资产 </th>
 
                                                 <th colspan="4" style='border-left:0px;' >
+
+						<?php if($is_pro == true){ ?>
+
                                                     <select  name="assets" class="type input-width" style="width:145px;">
                                                         <option value="1">固定资产减少</option>
                                                         <option value="2">固定资产增加</option>
@@ -141,7 +144,9 @@
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/Fixedassets/add/<?php echo $pid; ?>');"  >
                                                         <i class="icon-plus arrow blue"></i>
-                                                    </a>                                  
+                                                    </a>   
+						    
+						 <?php } ?>
                                                 </th>
 
                                             </tr>

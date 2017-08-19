@@ -135,7 +135,10 @@
 
                                                 <th colspan="1" style='border-left:0px;' >
 
+						<?php if($is_pro == true){ ?>
+
                                                     <i class="icon-plus arrow blue"></i>
+						<?php } ?>
                                                 </th>
                                                 </th>
                                             </tr>

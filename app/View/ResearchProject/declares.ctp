@@ -130,10 +130,13 @@
                                         项目经费 
 
                                         &nbsp;&nbsp;&nbsp;&nbsp;
+					<?php if($is_pro == true){ ?>
+
                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;margin-left:80%;" onclick="$('#modal-body').load('/ResearchProject/add_declares/<?php echo $pid;?>');"  >
                                         
                                             <i class="icon-plus arrow white"></i>
                                         </a>
+					<?php } ?>
                                     </div>
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>
                                         <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" >
