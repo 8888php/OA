@@ -72,7 +72,7 @@
                             <!-- PAGE CONTENT BEGINS -->
 
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-xs-12 right_list">
 
                                     <div class="table-header">
                                         申请费用信息

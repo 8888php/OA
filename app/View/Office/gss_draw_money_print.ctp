@@ -15,7 +15,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所领款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:36px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
                             </tr>
                             <tr>
                                 <td >填表日期</td>
@@ -121,10 +121,9 @@
             </div>
 
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
                 <!--button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button-->
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 
 <script type="text/javascript">
@@ -149,6 +148,8 @@ function printDIV(){
         $('.ace-settings-container').css('display', 'none');
         $('#btn-scroll-up').css('display', 'none');
         $('.right_content').css('display', 'none');
+        $('.table-striped').css('display', 'none');
+        $('.right_list').css('display', 'none');
     }
     window.print();//打印刚才新建的网页
     {
@@ -166,6 +167,8 @@ function printDIV(){
         $('.ace-settings-container').css('display', '');
         $('#btn-scroll-up').css('display', '');
         $('.right_content').css('display', '');
+        $('.table-striped').css('display', '');
+        $('.right_list').css('display', '');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');

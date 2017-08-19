@@ -16,7 +16,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所借款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:36px;font-weight: 600;border-color:#000;">  果树所借款单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所借款单 </td>
                             </tr>
                             <tr>
                                 <td >填表日期</td>

@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <!--p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 审核申请</span> <a onclick="window.parent.wait_close();" class="close" data-dismiss="modal" >×</a></p-->
 
@@ -15,7 +15,7 @@
                 <table class="table  table-condensed" style="text-align: center;border-color:#000;" >
                     <tbody>
                         <tr>
-                            <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
+                            <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
                         </tr>
                         <tr>
                             <td colspan='2'>填表日期</td>
@@ -59,7 +59,7 @@
                             <td colspan='2'> <?php echo $attr_arr['amount']; ?>     </td>
                         </tr>
                         <tr>
-                            <td>报销人<br/>简要说明</td>
+                            <td class='bx_jysm'>报销人<br/>简要说明</td>
                             <td colspan='6'>  <?php echo $attr_arr['description']; ?>   </textarea>
                             </td>
                         </tr>
@@ -188,6 +188,9 @@ function printDIV(){
         $('#btn-scroll-up').css('display', 'none');
         $('.right_content').css('display', 'none');
         $('.table-striped').css('display', 'none');
+        $('.right_list').css('display', 'none');
+        //<td class='bx_jysm'>报销人<br/>简要说明</td>
+        $('.bx_jysm').text('简要说明');
     }
     window.print();//打印刚才新建的网页
     {
@@ -206,6 +209,9 @@ function printDIV(){
         $('#btn-scroll-up').css('display', '');
         $('.right_content').css('display', '');
         $('.table-striped').css('display', '');
+        $('.right_list').css('display', '');
+        //<td class='bx_jysm'>报销人<br/>简要说明</td>
+        $('.bx_jysm').html("报销人<br />简要说明");
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');

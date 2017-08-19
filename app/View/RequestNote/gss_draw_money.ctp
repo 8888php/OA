@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:780px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -15,18 +15,18 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所领款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
                             </tr>
                             <tr>
                                 <td >填表日期</td>
                                 <td colspan='4'>  <input readonly="readonly" type="text" class=" ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:290px;'>   </td>
                                 <td > 附单据张数 </td>
-                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:90px;height:25px;'/> </td>
+                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;'/> </td>
                             </tr>
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='6'>  <select style="width:335px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
+                                <td colspan='6'>  <select style="width:300px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         
@@ -70,34 +70,34 @@
                                 <td>备注</td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['unit_price']" class="unit_price0 jisuan" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:175px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['unit_price']" class="unit_price0 jisuan" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:80px;height:25px;'/> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['amount']" class="amount1" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['amount']" class="amount1" readonly="readonly"  style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:80px;height:25px;'/> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:200px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['amount']" class="amount2" readonly="readonly"  style='width:100px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:100px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:175px;height:25px;'/></td>
+                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['amount']" class="amount2" readonly="readonly"  style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:80px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
                                 <td>合计</td>
-                                <td colspan='4'> <input type="text" name='big_total' class="big_total" readonly="readonly" style='width:380px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_total' class="small_total" readonly="readonly"  style='width:170px;height:25px;'/> </td>
+                                <td colspan='4'> <input type="text" name='big_total' class="big_total" readonly="readonly" style='width:345px;height:25px;'/> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_total' class="small_total" readonly="readonly"  style='width:158px;height:25px;'/> </td>
                             </tr>
                 
                             <tr>
