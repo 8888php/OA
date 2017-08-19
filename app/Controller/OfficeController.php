@@ -12,6 +12,7 @@ class OfficeController extends AppController {
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
+    const Table_fix = 't_';//表前缀
 
     public function index() {
         
@@ -729,4 +730,96 @@ class OfficeController extends AppController {
         }
     }
 
+    /**
+     * 果树所借款单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function gss_loan_print($main_id, $flag='') {
+        //根据main_id取数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
+        $attr_id = $main_arr['ApplyMain']['attr_id'];
+        //取附表
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        //取用户信息
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+        //取项目信息
+        $projecct_id = $attr_arr[0][$table_name]['project_id'];
+        if ($projecct_id) {
+            $project_arr = $this->ResearchProject->findById($projecct_id);
+            $this->set('project_arr', $project_arr);
+            $source_id = $attr_arr[0][$table_name]['source_id'];
+            $source_arr = $this->ResearchSource->findById($source_id);
+            $this->set('source_arr', $source_arr);
+        }
+        $this->set('table_name', $table_name);
+        $this->set('main_arr', $main_arr);
+        $this->set('attr_arr', $attr_arr);
+        $this->set('user_arr', $user_arr);
+        $this->set('flag', $flag);
+        $this->render();
+    }
+    
+     /**
+     * 果树所领款单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function gss_draw_money_print($main_id, $flag='') {
+        //根据main_id取数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
+        $attr_id = $main_arr['ApplyMain']['attr_id'];
+        //取附表
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        //取用户信息
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+        //取项目信息
+        $projecct_id = $attr_arr[0][$table_name]['project_id'];
+        if ($projecct_id) {
+            $project_arr = $this->ResearchProject->findById($projecct_id);
+            $this->set('project_arr', $project_arr);
+            $source_id = $attr_arr[0][$table_name]['source_id'];
+            $source_arr = $this->ResearchSource->findById($source_id);
+            $this->set('source_arr', $source_arr);
+        }
+        $this->set('table_name', $table_name);
+        $this->set('main_arr', $main_arr);
+        $this->set('attr_arr', $attr_arr);
+        $this->set('user_arr', $user_arr);
+        $this->set('flag', $flag);
+        $this->render();
+    }
+    
+     /**
+     * 果树所差旅费报销单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function gss_evection_expense_print($main_id, $flag='') {
+        //根据main_id取数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
+        $attr_id = $main_arr['ApplyMain']['attr_id'];
+        //取附表
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        //取用户信息
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+        //取项目信息
+        $projecct_id = $attr_arr[0][$table_name]['project_id'];
+        if ($projecct_id) {
+            $project_arr = $this->ResearchProject->findById($projecct_id);
+            $this->set('project_arr', $project_arr);
+            $source_id = $attr_arr[0][$table_name]['source_id'];
+            $source_arr = $this->ResearchSource->findById($source_id);
+            $this->set('source_arr', $source_arr);
+        }
+        $this->set('table_name', $table_name);
+        $this->set('main_arr', $main_arr);
+        $this->set('attr_arr', $attr_arr);
+        $this->set('user_arr', $user_arr);
+        $this->set('flag', $flag);
+        $this->render();
+    }
 }
