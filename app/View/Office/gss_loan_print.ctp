@@ -73,12 +73,59 @@
                                 <td colspan='2'>财务科长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;">
-                                <td > </td>
-                                <td > </td>
-                                <td >  </td>
-                                <td > </td>
-                                <td > </td>
-                                <td colspan='2'>  </td>
+                                <td > 
+                                    <?php 
+                                    echo @$applyArr['11']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['11']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['11']['remarks'];
+                                    ?>   
+                                </td>
+                                <td > 
+                                    <?php 
+                                    echo @$applyArr['ksfzr']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['ksfzr']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['ksfzr']['remarks'];
+                                    ?> 
+                                </td>
+                                <td >
+                                    <?php 
+                                    echo @$applyArr['5']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['5']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['5']['remarks'];
+                                    ?> 
+                                </td>
+                                <td >
+                                    <?php 
+                                    echo @$applyArr['6']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['6']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['6']['remarks'];
+                                    ?> 
+                                </td>
+                                <td >
+                                    <?php 
+                                    echo @$applyArr['13']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['13']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['13']['remarks'];
+                                    ?> 
+                                </td>
+                                <td colspan='2'> 
+                                    <?php 
+                                    echo @$applyArr['14']['name']; 
+                                    echo '<br />';
+                                    echo @$applyArr['14']['ctime'];
+                                    echo '<br />';
+                                    echo @$applyArr['14']['remarks'];
+                                    ?> </td>
                             </tr>
                            
                         </tbody>
