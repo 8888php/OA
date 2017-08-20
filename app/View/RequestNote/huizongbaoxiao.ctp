@@ -15,7 +15,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='报销汇总单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
                             </tr>
                             <tr>
                                 <td colspan='2'>填表日期</td>

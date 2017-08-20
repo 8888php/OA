@@ -150,7 +150,7 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
-       
+
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -225,7 +225,6 @@ class OfficeController extends AppController {
                 $sql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql) " ; 
             }  
             $sql .=  ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
-
             $lists = $this->ApplyMain->query($sql);
         }
         $this->set('all_user_arr', $all_user_arr);
@@ -730,6 +729,7 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
         $this->set('attr_arr', $attr_arr);
@@ -761,6 +761,7 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
         $this->set('attr_arr', $attr_arr);
@@ -792,6 +793,7 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
         $this->set('attr_arr', $attr_arr);

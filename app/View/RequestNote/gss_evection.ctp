@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:780px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -15,7 +15,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所差旅审批单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所差旅审批单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所差旅审批单 </td>
                             </tr>
                             <tr>
                                 <!--td > </td>
@@ -23,16 +23,16 @@
                                     <input readonly="readonly" type="text" class="members" name="members"  style='height:25px;width:340px;'>   < span id='memnums'> 共0人</span >
                                 </td-->
                                 <td >填表时间</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:590px;'>  </td>
+                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:575px;'>  </td>
                             </tr>
                             
                              <tr>
                                 <td>出差事由</td>
-                                <td colspan='6'> <input type="text" name='reason' class="reason" style='width:600px;height:25px;'/>  </td>
+                                <td colspan='6'> <input type="text" name='reason' class="reason" style='width:575px;height:25px;'/>  </td>
                              </tr>
                              <tr>
                                 <td>出差人员</td>
-                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:600px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:575px;height:25px;'/> </td>
                             </tr>
                             
                             <tr>
@@ -60,11 +60,11 @@
                            
                             <tr>
                                 <td>出差地点</td>
-                                <td colspan='6'> <input type="text" name='address' class="address" style='width:600px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='address' class="address" style='width:575px;height:25px;'/> </td>
                             </tr>
                             <tr>
                                 <td style="width:110px;">交通方式及路线</td>
-                                <td colspan='6'> <input type="text" name='mode_route' class="mode_route" style='width:600px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='mode_route' class="mode_route" style='width:575px;height:25px;'/> </td>
                             </tr>
                             
                             <!--tr>

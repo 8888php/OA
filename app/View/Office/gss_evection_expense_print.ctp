@@ -152,9 +152,17 @@
                     </table>
                 </form>
             </div>
-
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="90"></textarea>
+                </div>
+            <?php }?>
             <div class="modal-footer" style='background-color: #fff;'>
-                <!--button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button-->
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
@@ -332,174 +340,20 @@ function printDIV(){
         jisuan();
     });
     
-    function approve() {
-        //暂时不用
-        return;
-        var ctime = $('.ctime').val();
-        var sheets_num = $('.sheets_num').val();
-        var dep_pro = $('.dep_pro').val();
-        var filenumber = $('.filenumber').val();
-        var personnel = $('.personnel').val();
-        var sums = $('.sums').val();
-        var big_total = $('.big_total').val();
-        var small_total = $('.small_total').val();
-        var reason = $('.reason').val();
-        var payee = $('.payee').val();
-        var declarename = $('.declarename').val();
-        
-        if (ctime == '') {
-            $('.ctime').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        if (sheets_num == '') {
-            $('.sheets_num').focus();
-            return;
-        }
-        
-        if (personnel == '') {
-            $('.personnel').focus();
-            return;
-        }
-        if (sums == '') {
-            $('.sums').focus();
-            return;
-        }
-        
-        var json_str = [{}];
-        var mast_one = false;//必须有一个
-        var error_flag = false;//记录错误标示
-        var fare_xj = 0,
-            allowance_days_xj = 0,
-            supply_needs_xj = 0,
-            subsidy_amount_xj = 0,
-            hotel_expense_xj = 0,
-            other_expense_xj = 0;//小计
-        $('.json_str').each(function(i){
-            var tmp_str = {};
-            if (i == 3) {
-                //计算小计
-                if (!mast_one) {
-                    return false;//中止掉
-                }
-                $(this).find('.fare' + i).val(fare_xj);
-                tmp_str.fare = fare_xj;
-                $(this).find('.allowance_days' + i).val(allowance_days_xj);
-                tmp_str.allowance_days = allowance_days_xj;
-                $(this).find('.supply_needs' + i).val(supply_needs_xj);
-                tmp_str.supply_needs = supply_needs_xj;
-                $(this).find('.subsidy_amount' + i).val(subsidy_amount_xj);
-                tmp_str.subsidy_amount = subsidy_amount_xj;
-                $(this).find('.hotel_expense' + i).val(hotel_expense_xj);
-                tmp_str.hotel_expense = hotel_expense_xj;
-                $(this).find('.other_expense' + i).val(other_expense_xj);
-                tmp_str.other_expense = other_expense_xj;
-                json_str[i] = tmp_str;
-                
-                //合计
-                var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
-                $('.small_total').val(total);
-                $('.big_total').val(convertCurrency(total));
-                return false;//中止，已经到结束了
-            }
-            var start_end_day = $(this).find('.start_end_day' + i).val();
-            if (start_end_day == '') {
-                //没填写跳过
-                return true;
-            } else {
-                mast_one = true;
-            }
-            tmp_str.start_end_day = start_end_day;
-            var start_end_address = $(this).find('.start_end_address' + i).val();
-            if (start_end_address == '') {
-                $(this).find('.start_end_address' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.start_end_address = start_end_address;
-            var fare = $(this).find('.fare' + i).val();
-            if (fare == '' || isNaN(fare)) {
-                $(this).find('.fare' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.fare = fare;
-            fare_xj += parseFloat(fare);
-            var allowance_days = $(this).find('.allowance_days' + i).val();
-            if (allowance_days == '' || isNaN(allowance_days)) {
-                $(this).find('.allowance_days' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.allowance_days = allowance_days;
-            allowance_days_xj += parseInt(allowance_days);
-            var supply_needs = $(this).find('.supply_needs' + i).val();
-            if (supply_needs == '' || isNaN(supply_needs)) {
-                $(this).find('.supply_needs' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.supply_needs = supply_needs;
-            supply_needs_xj += parseFloat(supply_needs);
-            var subsidy_amount = parseFloat(allowance_days) * parseFloat(supply_needs);
-            $(this).find('.subsidy_amount' + i).val(subsidy_amount);
-//            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
-//                $(this).find('.subsidy_amount' + i).focus();
-//                error_flag = true;
-//                return false;//中止
-//            }
-            tmp_str.subsidy_amount = subsidy_amount;
-            subsidy_amount_xj += parseFloat(subsidy_amount);
-            var hotel_expense = $(this).find('.hotel_expense' + i).val();
-            if (hotel_expense == '' || isNaN(hotel_expense)) {
-                $(this).find('.hotel_expense' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.hotel_expense = hotel_expense;
-            hotel_expense_xj += parseFloat(hotel_expense);
-            var other_expense = $(this).find('.other_expense' + i).val();
-            if (other_expense == '' || isNaN(other_expense)) {
-                $(this).find('.other_expense' + i).focus();
-                error_flag = true;
-                return false;//中止
-            }
-            tmp_str.other_expense = other_expense;
-            other_expense_xj += parseFloat(other_expense)
-            json_str[i] = tmp_str;
-        });
-        
-        if (!mast_one) {
-            //说明没有写
-            $('.json_str').find('.start_end_day' + 0).focus();
-            //把合计和总计都清空
-            $('.json_str').eq(3).find('input').val('');
-            $('.big_total').val('');
-            $('.small_total').val('');
-            return;
-        }
-        if (error_flag) {
-            //说明有没写的
-            return;
-        }
-        if (big_total == '') {
-            $('.big_total').focus();
-            return;
-        }
-        if (small_total == '') {
-            $('.small_total').focus();
-            return;
-        }
-        if (reason == '') {
-            $('.reason').focus();
-            return;
-        }
-        if (payee == '') {
-            $('.payee').focus();
-            return;
-        }
-        var data = {filenumber: filenumber, declarename: declarename, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_evection_expense',
+            url: '/Office/ajax_approve_reimbursement',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -522,8 +376,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
