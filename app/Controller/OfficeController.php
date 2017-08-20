@@ -545,25 +545,7 @@ class OfficeController extends AppController {
 
 
         // 审核记录
-		$applylist = $this->ApprovalInformation->find('all',array('conditions'=>array('main_id'=>$main_arr['ApplyMain']['id']),'fields'=>array('position_id','name','remarks','ctime')));
-		
-		// 获取部门负责人
-		if($main_arr['ApplyMain']['type'] == 2){
-			$bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = '.$main_arr['ApplyMain']['department_id'].' limit 1');
-		}
-
-		$applyArr = array();
-		foreach($applylist as $k => $v){
-			if($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']){
-				$applyArr['ksfzr'] =  $v['ApprovalInformation'];
-			}else{
-				$applyArr[$v['ApprovalInformation']['position_id']] =  $v['ApprovalInformation'];
-			}
-		}
-
-		$this->set('applyArr', @$applyArr); 
-
-
+        $this->cwk_show_shenpi($main_arr);
 
         $kemuStr =  '';
         if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门
@@ -729,6 +711,9 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+        
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -761,6 +746,9 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+        
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -793,6 +781,9 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+        
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -801,4 +792,28 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
+    
+    /**
+     * 财务科  4个单子的 审批信息
+     * @param type $main_arr
+     * 
+     */
+    public function cwk_show_shenpi($main_arr) {
+        // 审核记录
+        $applylist = $this->ApprovalInformation->find('all', array('conditions' => array('main_id' => $main_arr['ApplyMain']['id']), 'fields' => array('position_id', 'name', 'remarks', 'ctime')));
+        // 获取部门负责人
+        if ($main_arr['ApplyMain']['type'] == 2) {
+            $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = ' . $main_arr['ApplyMain']['department_id'] . ' limit 1');
+        }
+        $applyArr = array();
+        foreach ($applylist as $k => $v) {
+            if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']) {
+                $applyArr['ksfzr'] = $v['ApprovalInformation'];
+            } else {
+                $applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
+            }
+        }
+        $this->set('applyArr', @$applyArr);
+    }
+
 }
