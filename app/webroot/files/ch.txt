@@ -1,0 +1,20 @@
+ip    10.96.84.102
+AP 生产 	        user/password/port	mds_mds/mds_mds_key@/3309
+AP 预发 	        user/password/port	mds_pre/mds_pre_key@/3308
+LAS			user/password/port	mds_las/mds_las_key@/3312
+EMEA 生产	user/password/port	mds_mds_emea/mds_mds_emea_key@/3311
+EMEA 测试	user/password/port	mds_pre_emea/mds_pre_emea_key@/3310
+
+
+vpn
+webvpn.cn.lenovo.com
+wangjw15          2wsx!qaz
+
+
+
+
+
+加索引
+
+service_orders 表
+maitrox_number

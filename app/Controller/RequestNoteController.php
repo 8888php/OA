@@ -513,10 +513,12 @@ class RequestNoteController extends AppController {
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
         $_POST['projectname'] = $_POST['dep_pro'];
+        $type = Configure::read('type_number');//行政费用
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
-            
+            $type = $type[1];
         }else {
+            $type = $type[0];
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
@@ -529,7 +531,7 @@ class RequestNoteController extends AppController {
         
         
         
-        $type = 0;//类型暂定为0
+        
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
         
 
@@ -642,9 +644,12 @@ class RequestNoteController extends AppController {
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
         $_POST['projectname'] = $_POST['dep_pro'];
+        $type = Configure::read('type_number');//行政费用
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
+            $type = $type[1];
         }else {
+            $type = $type[0];
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
@@ -656,7 +661,6 @@ class RequestNoteController extends AppController {
         }
         
         
-        $type = 0;//类型暂定为0
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
        
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
@@ -920,10 +924,12 @@ class RequestNoteController extends AppController {
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
         $_POST['projectname'] = $_POST['dep_pro'];
+        $type = Configure::read('type_number');//行政费用
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
-            
+            $type = $type[1];
         }else {
+            $type = $type[0];
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
@@ -935,7 +941,7 @@ class RequestNoteController extends AppController {
         }
         
         
-        $type = 0;//类型暂定为0
+        
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
        
 
