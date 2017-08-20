@@ -119,9 +119,17 @@
                     </table>
                 </form>
             </div>
-
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="90"></textarea>
+                </div>
+            <?php }?>
             <div class="modal-footer" style='background-color: #fff;'>
-                <!--button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button-->
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
                 <button type="button" class="btn btn-primary"  data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
@@ -288,80 +296,23 @@ function printDIV(){
         }
         return chineseStr;
 }
-    function approve() {
-        //暂时不用
-        return;
-        var ctime = $('.ctime').val();
-        var dep_pro = $('.dep_pro').val();
-        var filenumber = $('.filenumber').val();
-        var sheets_num = $('.sheets_num').val();
-        var small_total = $('.small_total').val();
-        var big_total = $('.big_total').val();
-        var declarename = $('.declarename').val();
-        var dp = $("input[name='dp']").val();  
-        if (ctime == '') {
-            $('.ctime').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        if (sheets_num == '') {
-            $('.sheets_num').focus();
-            return;
-        }
-        var dp_json_str = [{}];
-        var mast_one = false;//必须有一个项目
-        var error_flag = false;//错误标记
-       $('.dp').each(function(i){
-           var tmp_str = {};
-           var pro = $(this).find('.pro' + i).val();
-           if (pro == '') {
-               //跳过
-               return true;
-           } else {
-               mast_one = true;//标记这行有记录
-           }
-           var unit = $(this).find('.unit' + i).val();
-           if (unit == '') {
-               $(this).find('.unit' + i).focus();
-               error_flag = true;
-               return false;//中止
-           }
-           var nums = $(this).find('.nums' + i).val();
-           if (nums == '' || isNaN(nums)) {
-               $(this).find('.nums' + i).focus();
-               error_flag = true;
-               return false;//中止
-           }
-           var unit_price = $(this).find('.unit_price' + i).val();
-           if (unit_price == '' || isNaN(unit_price)) {
-               $(this).find('.unit_price' + i).focus();
-               error_flag = true;
-               return false;//中止
-           }
-           var amount = $(this).find('.amount' + i).val();
-           var remarks = $(this).find('.remarks' + i).val();
-           tmp_str.pro = pro;
-           tmp_str.unit = unit;
-           tmp_str.nums = nums;
-           tmp_str.unit_price = unit_price;
-           tmp_str.amount = amount;
-           tmp_str.remarks = remarks;
-           dp_json_str[i] = tmp_str;
-       });
-       if (!mast_one) {
-           //说明他一行也没有写
-           $('.dp').find('.pro' + 0).focus();
-           return;
-       }
-       if (error_flag) {
-           //说明所选有错误
-           return;
-       }
-        var data = {declarename: declarename, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename};
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_draw_money',
+            url: '/Office/ajax_approve_reimbursement',
             type: 'post',
             data: data,
-            dataType: 'json', 
+            dataType: 'json',
             success: function (res) {
                 if (res.code == -1) {
                     //登录过期
@@ -381,8 +332,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

@@ -96,8 +96,18 @@
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <td> <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > <?php echo $sv['ApplyMain']['name'];  ?> </a>  </td>
-
+                                                    <?php if ($sv['ApplyMain']['table_name'] == 'apply_baoxiaohuizong') {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_jiekuandan')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_loan_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_lingkuandan')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_draw_money_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_chuchai_bxd')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_evection_expense_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    
+                                                    <?php } else {?>
+                                                        <td><?php echo $sv['ApplyMain']['name'];  ?></td>
+                                                    <?php }?>
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name']; ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
@@ -110,7 +120,19 @@
                                                         }   ?></td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
 						    echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <td><a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >  审核 </a></td>
+                                                    <!--<td><a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >  审核 </a></td>-->
+                                                    <?php if ($sv['ApplyMain']['table_name'] == 'apply_baoxiaohuizong') {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >审核 </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_jiekuandan')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_loan_print/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >审核 </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_lingkuandan')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_draw_money_print/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >审核 </a> </td>
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_chuchai_bxd')  {?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_evection_expense_print/<?php echo $sv['ApplyMain']['id'];?>/apply');"  >审核 </a> </td>
+                                                    
+                                                    <?php } else {?>
+                                                        <td>审核</td>
+                                                    <?php }?>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

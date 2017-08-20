@@ -85,9 +85,17 @@
                     </table>
                 </form>
             </div>
-
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="90"></textarea>
+                </div>
+            <?php }?>
             <div class="modal-footer" style='background-color: #fff;'>
-                <!--button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button-->
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
@@ -148,57 +156,20 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        //暂时不用
-        return;
-        var ctime = $('.ctime').val();
-        var dep_pro = $('.dep_pro').val();
-        var filenumber = $('.filenumber').val();
-        var borrower = $('.borrower').val();
-        var loan_reason = $('.loan_reason').val();
-        var big_amount = $('.big_amount').val();
-        var small_amount = $('.small_amount').val();
-        var big_approval_amount = $('.big_approval_amount').val();
-        var small_approval_amount = $('.small_approval_amount').val();
-        var repayment_plan = $('.repayment_plan').val();
-        var declarename = $('.declarename').val();
-        if (ctime == '') {
-            $('.ctime').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        if (borrower == '') {
-            $('.borrower').focus();
-            return;
-        }
-        if (loan_reason == '') {
-            $('.loan_reason').focus();
-            return;
-        }
-//        if (big_amount == '') {
-//            $('.big_amount').focus();
-//            return;
-//        }
-        if (small_amount == '' || isNaN(small_amount)) {
-            $('.small_amount').focus();
-            return;
-        }
-//        if (big_approval_amount == '') {
-//            $('.big_approval_amount').focus();
-//            return;
-//        }
-        if (small_approval_amount == '' || isNaN(small_approval_amount)) {
-            $('.small_approval_amount').focus();
-            return;
-        }
-        if (repayment_plan == '') {
-            $('.repayment_plan').focus();
-            return;
-        }
-        
-
-        var data = {declarename: declarename, ctime: ctime, dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan};
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_loan',
+            url: '/Office/ajax_approve_reimbursement',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -221,8 +192,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
