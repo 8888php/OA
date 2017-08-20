@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="/assets/css/dropzone.css" />
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -11,7 +11,7 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <table class="table  table-condensed" style="text-align: center;border-color:#000;" >
+                    <table class="table  table-condensed" style="text-align: center;border-color:#000;table-layout: fixed;" >
                         <input type="hidden" name='declarename' class='declarename' value='报销汇总单' /> 
                         <tbody>
                             <tr>
@@ -23,12 +23,12 @@
                                     <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='height:25px;'>  
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:100px;height:25px;' value='0' />  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value='0' />  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
-                                    <select style="width:335px;height:25px;" name="projectname" class="projectname" onchange="change_filenumber();" >
+                                    <select style="width:300px;height:25px;" name="projectname" class="projectname" onchange="change_filenumber();" >
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
@@ -108,7 +108,7 @@
                             <td>科目</td>
                             <td colspan='6'> 
                                 <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
-                                <textarea style='width:600px;height:25px;' class="subject" disabled="disabled"></textarea>
+                                <textarea style='width:555px;height:25px;' class="subject" disabled="disabled"></textarea>
                                 <select id="multipleselect_ky" multiple="multiple">
                                     <?php foreach($keyanlist as $lk=>$lv){?>
                                     <?php foreach($lv as $k=>$v){?>
@@ -152,13 +152,13 @@
                         <tr>
                             <td>金额</td>
                             <td>人民币大写</td>
-                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:190px;height:25px;'/>   </td>
+                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:180px;height:25px;'/>   </td>
                             <td>￥</td>
-                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:200px;height:25px;'/>   </td>
+                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:180px;height:25px;'/>   </td>
                         </tr>
                         <tr>
                             <td>报销<br/>简要说明</td>
-                            <td colspan='6'> <textarea  name="description" class="description"  style="width:600px;" ></textarea>
+                            <td colspan='6'> <textarea  name="description" class="description"  style="width:570px;" ></textarea>
                             </td>
                         </tr>
                         <tr>

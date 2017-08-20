@@ -1,7 +1,7 @@
 <?php echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -11,7 +11,7 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" enctype="multipart/form-data" action="/RequestNote/gss_purchase" method="post" role="form">
-                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
+                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;table-layout: fixed;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' /> 
                         <tbody>
                             <tr>
@@ -20,11 +20,11 @@
                             
                              <tr>
                                 <td > 申报部门 </td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="department" name="department" value="<?php echo @$department['Department']['name'];?>"  style='height:25px;width:580px;'> </td>
+                                <td colspan='6'>  <input readonly="readonly" type="text" class="department" name="department" value="<?php echo @$department['Department']['name'];?>"  style='height:25px;width:575px;'> </td>
                             </tr>
                              <tr>
                                 <td > 支出项目 </td>
-                                <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:580px;'> </td>
+                                <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:575px;'> </td>
                             </tr>
                             <tr>
                                 <td >申报日期</td>
@@ -32,7 +32,7 @@
                                     <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
                                 <td >预算指标文号</td>
                                 <td colspan='3'> 
-                                    <input type="text" class="file_number" name="file_number"  style='height:25px;width:300px;'>
+                                    <input type="text" class="file_number" name="file_number"  style='height:25px;width:280px;'>
                              </tr>
                              <tr>
                                 <td> 资金来源渠道 </td>
@@ -44,21 +44,21 @@
                              </tr>
                              <tr>
                                 <td> 采购物资名称 </td>
-                                <td colspan='6'> <input  type="text" class="material_name" name="material_name"  style='height:25px;width:590px;'> </td>
+                                <td colspan='6'> <input  type="text" class="material_name" name="material_name"  style='height:25px;width:575px;'> </td>
                              </tr>
                              <tr>
                                 <td> 规格型号及详细参数 </td>
                                 <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion" > </td>
                              </tr> 
                               <tr>
-                                <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:50px;'> </td>
+                                <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:47px;'> </td>
                                 <td colspan='2'> 数量：<input  type="text" class="nums" name="nums"  style='height:25px;width:90px;'> </td>
                                 <td colspan='2'> 单价：<input  type="text" class="price" name="price"  style='height:25px;width:90px;'> </td>
                                 <td colspan='2'> 合计金额：<input readonly="readonly" type="text" class="total" name="total"  style='height:25px;width:90px;'> </td>
                              </tr>
                               <tr>
                                 <td> 采购理由 </td>
-                                <td colspan='6' >  <input  type="text" class="reason" name="reason"  style='height:25px;width:600px;'> </td>
+                                <td colspan='6' >  <input  type="text" class="reason" name="reason"  style='height:25px;width:575px;'> </td>
                              </tr>
                              
                             <tr>
