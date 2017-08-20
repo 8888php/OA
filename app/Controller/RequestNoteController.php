@@ -500,15 +500,11 @@ class RequestNoteController extends AppController {
     
     //果树所借款单
     private function gss_loan_save($datas) {
-        if (empty($datas['ctime']) || empty($datas['loan_reason']) 
-                || empty($datas['big_amount']) || empty($datas['small_amount']) 
-                || empty($datas['big_approval_amount']) || empty($datas['small_approval_amount'])
-                || empty($datas['repayment_plan'])) {
+        if (empty($datas['ctime']) || empty($datas['loan_reason']) || empty($datas['big_amount']) || empty($datas['small_amount']) || empty($datas['repayment_plan']) || empty($datas['subject'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_jiekuandan';
-        $p_id = 5;//审批流id
         
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
@@ -516,9 +512,11 @@ class RequestNoteController extends AppController {
         $type = Configure::read('type_number');//行政费用
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
-            $type = $type[1];
+            $type = $type[1]; 
+            $p_id = 10;//行政审批流id
         }else {
             $type = $type[0];
+            $p_id = 5;//科研审批流id
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
@@ -573,13 +571,13 @@ class RequestNoteController extends AppController {
         $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = 0;
+        $mainArr['total'] = $datas['small_amount'];
         $mainArr['attr_id'] = $attrId;
         $mainArr['project_user_id'] = $project_user_id;
         $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = '';
+        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_amount']));
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
@@ -639,7 +637,6 @@ class RequestNoteController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_lingkuandan';
-        $p_id = 6;//审批流id
         
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
@@ -648,8 +645,10 @@ class RequestNoteController extends AppController {
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
             $type = $type[1];
+            $p_id = 11;//行政审批流id
         }else {
             $type = $type[0];
+            $p_id = 6;//科研审批流id
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
@@ -919,7 +918,6 @@ class RequestNoteController extends AppController {
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_chuchai_bxd';
-        $p_id = 8;//审批流id
         
         $project_user_id = 0;//项目负责人user_id
         $project_team_user_id = 0;//项目组负责人user_id
@@ -928,8 +926,10 @@ class RequestNoteController extends AppController {
         if ($_POST['projectname'] == 0) {
             $project_id = 0;//让他为0
             $type = $type[1];
+            $p_id = 12;//行政审批流id
         }else {
             $type = $type[0];
+            $p_id = 8;//科研审批流id
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id

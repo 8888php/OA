@@ -20,12 +20,14 @@
                             </tr>
                             <tr>
                                 <td >填表日期</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:570px;'>  </td>
+                                <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:270px;'>  </td>
+                                 <td>借款人姓名</td>
+                                <td  colspan='2'> <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:163px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='4'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
+                                <td colspan='6'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php foreach($projectInfo as $pk=>$pv) {?>
@@ -35,6 +37,26 @@
                                     <select style="width:155px;height:25px;" name="filenumber" class="filenumber">
                                         <option></option>
                                     </select>
+                                    
+                                    <select style="width:120px;height:25px;" name='xzsubject' class="xzsubject" >     <option value='0'> 请选择科目 </option>
+                                        <?php 
+                                            foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    echo "<option value='$key'> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <select style="width:120px;height:25px;display:none;" name='kysubject' class="kysubject" >         <option value='0'> 请选择科目 </option>
+                                         <?php 
+                                            foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    echo "<option value='$key'> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    
                                 </td>
                                 <script type="text/javascript">
                                     function change_filenumber() {
@@ -42,6 +64,8 @@
                                         if (type ==0) {
                                             //部门
                                             $('.filenumber').html('<option></option>');
+                                            $('.xzsubject').css('display','inline-block');
+                                            $('.kysubject').css('display','none');
                                         } else {
                                             //项目 去取项目所对应的souce
                                             var data = {pid:type};
@@ -53,13 +77,14 @@
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
+                                                    $('.xzsubject').css('display','none');
+                                                    $('.kysubject').css('display','inline-block');
                                                 }
                                             });
                                         }
                                     }
                                 </script>
-                                <td>借款人姓名</td>
-                                <td > <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:83px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
+                               
                             </tr>
 
                             <tr>
@@ -180,8 +205,14 @@ function printDIV(){
         var small_approval_amount = $('.small_approval_amount').val();
         var repayment_plan = $('.repayment_plan').val();
         var declarename = $('.declarename').val();
+        var subject = (dep_pro == 0) ? $('.xzsubject').val() : $('.kysubject').val();
         if (ctime == '') {
             $('.ctime').focus();
+            return;
+        }
+        if(subject == '' || subject == '0'){
+           $('.xzsubject').focus();
+           $('.kysubject').focus();
             return;
         }
         if (borrower == '') {
@@ -200,21 +231,22 @@ function printDIV(){
             $('.small_amount').focus();
             return;
         }
-//        if (big_approval_amount == '') {
-//            $('.big_approval_amount').focus();
-//            return;
-//        }
+/*        if (big_approval_amount == '') {
+            $('.big_approval_amount').focus();
+            return;
+        }
         if (small_approval_amount == '' || isNaN(small_approval_amount)) {
             $('.small_approval_amount').focus();
             return;
         }
+ */       
         if (repayment_plan == '') {
             $('.repayment_plan').focus();
             return;
         }
         
 
-        var data = {declarename: declarename, ctime: ctime, dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan};
+        var data = {declarename: declarename, ctime: ctime, dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',
