@@ -64,18 +64,7 @@ class OfficeController extends AppController {
     public function apply($pages = 1) {
         $user_id = $this->userInfo->id;        
 //        $type_arr = Configure::read('type_number');
-//        //如果没有配制就是-1
-//        $type_str = " `type`='-1' ";
-//        $type_left_str = '(';
-//        $type_right_str = ')';
-//        $type_center_str = '';
-//        foreach ($type_arr as $t) {
-//            $type_center_str .= "`type`='$t' ||";
-//        }
-//        if (!empty($type_center_str)) {
-//            $type_center_str = rtrim($type_center_str, '||');
-//            $type_str = $type_left_str . $type_center_str . $type_right_str;
-//        }
+
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -161,18 +150,7 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
-        //如果没有配制就是-1
-        $type_str = " `type`='-1' ";
-        $type_left_str = '(';
-        $type_right_str = ')';
-        $type_center_str = '';
-        foreach ($type_arr as $t) {
-            $type_center_str .= "`type`='$t' ||";
-        }
-        if (!empty($type_center_str)) {
-            $type_center_str = rtrim($type_center_str, '||');
-            $type_str = $type_left_str . $type_center_str . $type_right_str;
-        }
+       
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -211,7 +189,7 @@ class OfficeController extends AppController {
             // 部门申请筛选条件 
                 $sql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql ) " ; 
             } 
-            $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code'";
+            $sql .=  ") and code%2=0 and code !='$this->succ_code'";
 //echo $sql;
             $total =  $this->ApplyMain->query($sql);  
             $total = $total[0][0]['count'];
@@ -246,7 +224,7 @@ class OfficeController extends AppController {
             // 部门申请筛选条件 
                 $sql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql) " ; 
             }  
-            $sql .=  ") and {$type_str} and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
+            $sql .=  ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
 
             $lists = $this->ApplyMain->query($sql);
         }
@@ -312,18 +290,7 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
-        //如果没有配制就是-1
-        $type_str = " `type`='-1' ";
-        $type_left_str = '(';
-        $type_right_str = ')';
-        $type_center_str = '';
-        foreach ($type_arr as $t) {
-            $type_center_str .= "`type`='$t' ||";
-        }
-        if (!empty($type_center_str)) {
-            $type_center_str = rtrim($type_center_str, '||');
-            $type_str = $type_left_str . $type_center_str . $type_right_str;
-        }
+       
         if ((int) $pages < 1) {
             $pages = 1;
         }
