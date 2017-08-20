@@ -52,8 +52,8 @@ class ApprovalComponent extends Component {
         }
 
 
-        // 当前用户角色是否有审核权
-        if ($uinfo['position_id'] != $applyinfo['next_approver_id']) {
+        // 当前用户角色是否有审核权 审核到分管副所长时不验证
+        if (($applyinfo['next_approver_id'] !=5) && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
             return false;
         }
         // 当前申请已通过
@@ -66,7 +66,9 @@ class ApprovalComponent extends Component {
 
         switch ($applytype) {
             case 2:
-                $contents['code'] = $uinfo['position_id'] * 2 - 1;
+               // $contents['code'] = $uinfo['position_id'] * 2 - 1;
+                //审核人可能是一人多角色
+                $contents['code'] = $applyinfo['next_approver_id'] * 2 - 1;
                 return $contents;
                 break;
             case 1:
@@ -111,7 +113,8 @@ class ApprovalComponent extends Component {
                          }
                     } else {
                         // 不跳过下一审核人
-                        $contents['code'] = $uinfo['position_id'] * 2;
+                        //$contents['code'] = $uinfo['position_id'] * 2;
+                        $contents['code'] = $applyinfo['next_approver_id'] * 2;
                         $contents['next_id'] = $next_id;
                     }
                 }
