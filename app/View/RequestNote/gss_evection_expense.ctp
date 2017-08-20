@@ -83,34 +83,34 @@
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:75px;' value='0'> </td>
                                 <td> <input type="text" class="allowance_days0" name="dp[0]['allowance_days']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="supply_needs0" name="dp[0]['supply_needs']"  style='height:25px;width:75px;'> </td>
                                 <td> <input readonly="readonly" type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
                                 </tr>
                                 
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:75px;' value='0'> </td>
                                 <td> <input type="text" class="allowance_days1" name="dp[1]['allowance_days']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="supply_needs1" name="dp[1]['supply_needs']"  style='height:25px;width:75px;'> </td>
                                 <td> <input readonly="readonly" type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
                                 </tr>
                                 
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:75px;' value='0'> </td>
                                 <td> <input type="text" class="allowance_days2" name="dp[2]['allowance_days']"  style='height:25px;width:75px;'> </td>
                                 <td> <input type="text" class="supply_needs2" name="dp[2]['supply_needs']"  style='height:25px;width:75px;'> </td>
                                 <td> <input readonly="readonly" type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:75px;'> </td>
+                                <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
                                 </tr>
                                 <tr class="json_str">
                                     <td colspan="2"> 小计</td>
