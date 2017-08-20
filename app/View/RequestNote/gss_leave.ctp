@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -15,7 +15,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所请假申请单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所请假申请单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所请假申请单 </td>
                             </tr>
                             <tr>
                                 <td colspan='3'>填表日期</td>

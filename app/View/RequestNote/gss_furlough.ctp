@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:750px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -15,11 +15,11 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所职工带薪年休假审批单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:14px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
                             </tr>
                             <tr>
                                 <td >姓名</td>
-                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
+                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
                                 <td >所在单位</td>
                                 <td colspan='3'>  <input  type="text" class="depname" name="depname"  style='height:25px;width:280px;'> </td>
                             </tr>
@@ -67,14 +67,14 @@
                            
                             <tr>
                                 <td>个人申请</td>
-                                <td colspan='6'> <input type="text" name='personal_apply' class="personal_apply" style='width:600px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='personal_apply' class="personal_apply" style='width:570px;height:25px;'/> </td>
                             </tr>
                             <tr>
                                 <td style='height:50px;'>所在单位<br/>负责人意见</td>
                                 <td  colspan='6' >   </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;line-height: 50px;'> 分管所领导意见</td>
+                                <td style='height:50px;/*line-height: 50px;*/'> 分管所<br />领导意见</td>
                                 <td colspan='6'>   </td>
                             </tr>
                             <tr >
