@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:700px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -130,7 +130,7 @@
                            
                         </tbody>
                     </table>
-                </form>
+                </form>               
             </div>
             <?php if ($apply == 'apply') {?>
                 <div class="modal-body" style="padding:0 20px;">
