@@ -157,6 +157,7 @@
         <textarea id="remarks" placeholder="审批意见" rows='2' cols='90' ></textarea>
     </div>
  <?php } ?>
+ <hr class="hr" style="display: none; border: 1px solid #666666;" />
     <div class="modal-footer" style='background-color: #fff;'>
         <?php if($seecode == 'apply'){  ?>
         <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
@@ -189,6 +190,7 @@ function printDIV(){
         $('.right_content').css('display', 'none');
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
+        $('.hr').css('display', '');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').text('简要说明');
     }
@@ -210,6 +212,7 @@ function printDIV(){
         $('.right_content').css('display', '');
         $('.table-striped').css('display', '');
         $('.right_list').css('display', '');
+        $('.hr').css('display', 'none');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').html("报销人<br />简要说明");
     }

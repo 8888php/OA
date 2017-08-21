@@ -206,6 +206,7 @@
                     <textarea id="remarks" placeholder="审批意见" rows="2" cols="90"></textarea>
                 </div>
             <?php }?>
+            <hr class="hr" style="display: none; border: 1px solid #666666;" />
             <div class="modal-footer" style='background-color: #fff;'>
                 <?php if ($apply == 'apply') {?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
@@ -238,6 +239,7 @@ function printDIV(){
         $('.right_content').css('display', 'none');
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
+        $('.hr').css('display', '');
     }
     window.print();//打印刚才新建的网页
     {
@@ -257,6 +259,7 @@ function printDIV(){
         $('.right_content').css('display', '');
         $('.table-striped').css('display', '');
         $('.right_list').css('display', '');
+        $('.hr').css('display', 'none');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
