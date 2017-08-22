@@ -348,7 +348,7 @@ function printDIV(){
             if (li_item.find('.first_inpuut').get(0).checked) {
                 //如果这个选中，则把他的金额取出，放到total里面
                 if ($.isNumeric(li_item.find('input.je').val())) {
-                    total += Number(li_item.find('input.je').val());
+                    total += parseFloat(li_item.find('input.je').val());
                     var name = $('select#'+ class_name +' option').eq(i).text();
                     var money = li_item.find('input.je').val();
                     sub_str += name + ": " + money + ',';
