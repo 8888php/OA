@@ -264,6 +264,86 @@ function printDIV(){
 }
 </script>
 <script type="text/javascript">
+    //相加
+        function add_decimal(decimal_a, decimal_b) {
+            if (!$.isNumeric(decimal_a)) {
+                decimal_a = 0;
+            }
+            if (!$.isNumeric(decimal_b))
+            {
+                decimal_b = 0;
+            }
+            decimal_a = parseFloat(decimal_a);
+            decimal_b = parseFloat(decimal_b);
+            //判断他们小数据点位数，谁的大取谁的
+            var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+            var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+            var max = len_a;//最大的小数位数
+            if (len_b > len_a) 
+            {
+                max = len_b;
+            }
+            var tmp_sum = decimal_a * Math.pow(10, max) + decimal_b * Math.pow(10, max);
+            tmp_sum = tmp_sum / Math.pow(10, max);
+            return tmp_sum;
+        }
+        //相乘
+        function ride_decimal(decimal_a, decimal_b) {
+            if (!$.isNumeric(decimal_a)) {
+                decimal_a = 0;
+            }
+            if (!$.isNumeric(decimal_b))
+            {
+                decimal_b = 0;
+            }
+            decimal_a = parseFloat(decimal_a);
+            decimal_b = parseFloat(decimal_b);
+            if (decimal_a == 0 || decimal_b == 0) {
+                return 0;
+            }
+            //判断他们小数据点位数，谁的大取谁的
+            var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+            var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+            var max = len_a;//最大的小数位数
+            if (len_b > len_a) 
+            {
+                max = len_b;
+                decimal_b = parseFloat(decimal_b.toString().split(".")[0] + decimal_b.toString().split(".")[1]);
+                if (len_a == 0) {
+                    //说明是整数
+                    for(var i=0; i < len_b; i++) {
+                        decimal_a = decimal_a.toString() + '0';
+                    }
+                } else {
+                    //说明是小数
+                    decimal_a = parseFloat(decimal_a.toString().split(".")[0] + decimal_a.toString().split(".")[1]);
+                    for(var i=0; i < len_b - len_a; i++) {
+                        decimal_a = decimal_a.toString() + '0';
+                    }
+                }
+                decimal_a = parseFloat(decimal_a);
+            } else {
+                decimal_a = parseFloat(decimal_a.toString().split(".")[0] + decimal_a.toString().split(".")[1]);
+               if (len_b == 0) {
+                    //说明是整数
+                    for(var i=0; i < len_a; i++) {
+                        decimal_b = decimal_b.toString() + '0';
+                    }
+
+                } else {
+                    //说明是小数
+                    decimal_b = parseFloat(decimal_b.toString().split(".")[0] + decimal_b.toString().split(".")[1]);
+                    for(var i=0; i < len_a - len_b; i++) {
+                        decimal_b = decimal_b.toString() + '0';
+                    }
+                } 
+                 decimal_b = parseFloat(decimal_b);
+            }
+            
+            var tmp_sum = decimal_a  * decimal_b;
+            tmp_sum = tmp_sum / (Math.pow(10, max) * Math.pow(10, max));
+            return tmp_sum;
+        }
     function jisuan() {
         var mast_one = false;//必须有一个
         var error_flag = false;//记录错误标示
@@ -295,7 +375,7 @@ function printDIV(){
 //                json_str[i] = tmp_str;
                 
                 //合计
-                var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
                 $('.big_total').val(convertCurrency(total));
                 return false;//中止，已经到结束了
@@ -339,7 +419,7 @@ function printDIV(){
             }
             tmp_str.supply_needs = supply_needs;
             supply_needs_xj += parseFloat(supply_needs)
-            var subsidy_amount = parseFloat(allowance_days) * parseFloat(supply_needs);
+            var subsidy_amount = ride_decimal(allowance_days, supply_needs);
             $(this).find('.subsidy_amount' + i).val(subsidy_amount);
 //            if (subsidy_amount == '' || isNaN(subsidy_amount)) {
 //                $(this).find('.subsidy_amount' + i).focus();
@@ -445,7 +525,7 @@ function printDIV(){
                 json_str[i] = tmp_str;
                 
                 //合计
-                var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
+                var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
                 $('.big_total').val(convertCurrency(total));
                 return false;//中止，已经到结束了

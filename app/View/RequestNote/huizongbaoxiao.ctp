@@ -337,6 +337,29 @@ function printDIV(){
 }
 </script>
 <script type="text/javascript">
+    //相加
+    function add_decimal(decimal_a, decimal_b) {
+        if (!$.isNumeric(decimal_a)) {
+            decimal_a = 0;
+        }
+        if (!$.isNumeric(decimal_b))
+        {
+            decimal_b = 0;
+        }
+        decimal_a = parseFloat(decimal_a);
+        decimal_b = parseFloat(decimal_b);
+        //判断他们小数据点位数，谁的大取谁的
+        var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+        var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+        var max = len_a;//最大的小数位数
+        if (len_b > len_a) 
+        {
+            max = len_b;
+        }
+        var tmp_sum = decimal_a * Math.pow(10, max) + decimal_b * Math.pow(10, max);
+        tmp_sum = tmp_sum / Math.pow(10, max);
+        return tmp_sum;
+    }
     //计算科目的费用
     var total = 0;//总数
     var sub_str = '';//科目 
@@ -348,7 +371,8 @@ function printDIV(){
             if (li_item.find('.first_inpuut').get(0).checked) {
                 //如果这个选中，则把他的金额取出，放到total里面
                 if ($.isNumeric(li_item.find('input.je').val())) {
-                    total = parseFloat(total) + parseFloat(li_item.find('input.je').val());
+//                    total = parseFloat(total) + parseFloat(li_item.find('input.je').val());
+                    total = add_decimal(total, parseFloat(li_item.find('input.je').val()));
                     var name = $('select#'+ class_name +' option').eq(i).text();
                     var money = li_item.find('input.je').val();
                     sub_str += name + ": " + money + ',';
@@ -360,10 +384,10 @@ function printDIV(){
         $('.rmb_capital').val(convertCurrency(total));
     }
     //当输入框输入后，再改变一下总金额
-    $('input.je').keyup(function () {
+    $('input.je').blur(function () {
         var reg = /^[1-9]+[0-9]*/;
         if (!reg.test(this.value)) {
-            this.value = 0;
+            this.value = '';
         }
         sub_fy();
     });

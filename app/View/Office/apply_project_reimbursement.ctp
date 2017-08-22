@@ -136,7 +136,7 @@
                             </td>
                         </tr>
                         <?php 
-                        if(!empty($main_arr['attachment'])){
+                        if(!empty($main_arr['attachment']) && false){
                         $fileurlArr = explode('|',$main_arr['attachment']);
                         echo '<tr ><td> 附件内容 </td><td colspan="6" >'; 
                         foreach($fileurlArr as $filevs){

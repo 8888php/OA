@@ -186,7 +186,87 @@ function printDIV(){
 </div>
 
 <script type="text/javascript">
-  
+        //相加
+        function add_decimal(decimal_a, decimal_b) {
+            if (!$.isNumeric(decimal_a)) {
+                decimal_a = 0;
+            }
+            if (!$.isNumeric(decimal_b))
+            {
+                decimal_b = 0;
+            }
+            decimal_a = parseFloat(decimal_a);
+            decimal_b = parseFloat(decimal_b);
+            //判断他们小数据点位数，谁的大取谁的
+            var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+            var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+            var max = len_a;//最大的小数位数
+            if (len_b > len_a) 
+            {
+                max = len_b;
+            }
+            var tmp_sum = decimal_a * Math.pow(10, max) + decimal_b * Math.pow(10, max);
+            tmp_sum = tmp_sum / Math.pow(10, max);
+            return tmp_sum;
+        }
+        //相乘
+        function ride_decimal(decimal_a, decimal_b) {
+            if (!$.isNumeric(decimal_a)) {
+                decimal_a = 0;
+            }
+            if (!$.isNumeric(decimal_b))
+            {
+                decimal_b = 0;
+            }
+            decimal_a = parseFloat(decimal_a);
+            decimal_b = parseFloat(decimal_b);
+            if (decimal_a == 0 || decimal_b == 0) {
+                return 0;
+            }
+            //判断他们小数据点位数，谁的大取谁的
+            var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+            var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+            var max = len_a;//最大的小数位数
+            if (len_b > len_a) 
+            {
+                max = len_b;
+                decimal_b = parseFloat(decimal_b.toString().split(".")[0] + decimal_b.toString().split(".")[1]);
+                if (len_a == 0) {
+                    //说明是整数
+                    for(var i=0; i < len_b; i++) {
+                        decimal_a = decimal_a.toString() + '0';
+                    }
+                } else {
+                    //说明是小数
+                    decimal_a = parseFloat(decimal_a.toString().split(".")[0] + decimal_a.toString().split(".")[1]);
+                    for(var i=0; i < len_b - len_a; i++) {
+                        decimal_a = decimal_a.toString() + '0';
+                    }
+                }
+                decimal_a = parseFloat(decimal_a);
+            } else {
+                decimal_a = parseFloat(decimal_a.toString().split(".")[0] + decimal_a.toString().split(".")[1]);
+               if (len_b == 0) {
+                    //说明是整数
+                    for(var i=0; i < len_a; i++) {
+                        decimal_b = decimal_b.toString() + '0';
+                    }
+
+                } else {
+                    //说明是小数
+                    decimal_b = parseFloat(decimal_b.toString().split(".")[0] + decimal_b.toString().split(".")[1]);
+                    for(var i=0; i < len_a - len_b; i++) {
+                        decimal_b = decimal_b.toString() + '0';
+                    }
+                } 
+                 decimal_b = parseFloat(decimal_b);
+            }
+            
+            var tmp_sum = decimal_a  * decimal_b;
+            tmp_sum = tmp_sum / (Math.pow(10, max) * Math.pow(10, max));
+            return tmp_sum;
+        }
+    
         var dp = $("input[name='dp']").val();  console.log(dp);
         $('.dp input').blur(function(){
             var total = 0;//总钱数
@@ -198,9 +278,9 @@ function printDIV(){
                 var amount = $(this).find('.amount' + i).val();
                 var remarks = $(this).find('.remarks' + i).val();
                 if (pro != '' && !isNaN(nums) && nums != '' && !isNaN(unit_price) && unit_price != '') {
-                    var tmp_total = parseFloat(nums)  * parseFloat(unit_price);
+                    var tmp_total = ride_decimal(nums, unit_price);
                     $(this).find('.amount' + i).val(tmp_total);
-                    total += parseFloat(tmp_total);
+                    total = add_decimal(total, tmp_total);
                 }
             });
             $('.big_total').val(convertCurrency(total));
