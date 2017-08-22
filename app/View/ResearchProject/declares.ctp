@@ -163,18 +163,18 @@
                                                 </tr>
                                                 <?php 
                                                 foreach($declares_arr as $d){
-                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                    $json_data = json_decode($d['m']['subject'],true);
                                                 ?>        
                                                 <tr>
-                                                    <td><?php echo $d['b']['id'];  ?></td>
+                                                    <td><?php echo $d['m']['id'];  ?></td>
                                                     <td> <a href="/ResearchProject/budget_print/<?php echo $d['m']['id'];  ?>" target="_blank"><i class='glyphicon glyphicon-print blue'></i> </a></td>
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
-                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
-                                                    <td> <?php echo $d['s']['source_channel'];  ?> </td>
-                                                    <td> <?php echo $d['s']['file_number'];  ?> </td>
-                                                    <td> <?php echo $d['b']['description']; ?> </td>
-                                                    <td> <?php echo array_sum($json_data);; ?> </td>
+                                                    <td><?php echo '否';  ?></td>
+                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['s']['source_channel'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['s']['file_number'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['b']['description']; ?> </td>
+                                                    <td> <?php echo array_sum($json_data); ?> </td>
                                                     <?php 
                                                     foreach($keyanlist as $k) {
                                                     foreach($k as $kk=>$kv) {
@@ -184,7 +184,7 @@
                                                     }
                                                     }
                                                     ?>
-                                                    <td> <?php echo $d['b']['amount'];  ?> </td>
+                                                    <td> <?php echo $d['m']['total'];  ?> </td>
                                                     <td> <?php $code_bxd_arr = Configure::read('new_appprove_code_arr');echo $code_bxd_arr[$d['m']['code']]; ?> </td>
                                                     <td> <?php
                                                         if(!empty($d['m']['attachment'])){

@@ -984,13 +984,13 @@ class RequestNoteController extends AppController {
         $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = 0;
+        $mainArr['total'] = $datas['small_total'];
         $mainArr['attr_id'] = $attrId;
         $mainArr['project_user_id'] = $project_user_id;
         $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = '';
+        $mainArr['subject'] = json_encode(array('travel'=>$datas['small_total']));
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {

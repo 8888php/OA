@@ -452,6 +452,9 @@ Configure::write('code_arr', array(
 // 申请单 列表
 Configure::write('declaresList', array(
     '报销汇总单' => 'apply_baoxiaohuizong',
+    '借款单' => 'apply_jiekuandan',
+    '领款单' => 'apply_lingkuandan',
+    '差旅费报销单' => 'apply_chuchai_bxd',
 ));
 
 //报销单状态
