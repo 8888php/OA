@@ -157,7 +157,7 @@
         <textarea id="remarks" placeholder="审批意见" rows='2' cols='90' ></textarea>
     </div>
  <?php } ?>
- <hr class="hr" style="display: none; border: 1px solid #666666;" />
+ <!--<hr class="hr" style="display: none; border: 1px solid #666666;" />-->
     <div class="modal-footer" style='background-color: #fff;'>
         <?php if($seecode == 'apply'){  ?>
         <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
@@ -169,6 +169,7 @@
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
 function printDIV(){
+    var div_height = $('.container').height();
     $('.modal-footer').css('display', 'none');
     $('#dropzone').css('display', 'none');
     //隐藏下拉框
@@ -190,7 +191,9 @@ function printDIV(){
         $('.right_content').css('display', 'none');
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
-        $('.hr').css('display', '');
+        //$('.hr').css('display', '');
+        $('.container').css('border-bottom', '1px solid black');
+        $('.container').css('height', '410px');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').text('简要说明');
     }
@@ -212,7 +215,9 @@ function printDIV(){
         $('.right_content').css('display', '');
         $('.table-striped').css('display', '');
         $('.right_list').css('display', '');
-        $('.hr').css('display', 'none');
+        //$('.hr').css('display', 'none');
+        $('.container').css('border-bottom', '0px');
+        $('.container').css('height', div_height + 'px');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').html("报销人<br />简要说明");
     }

@@ -5,13 +5,14 @@
 
     <style>
         .table tr, .table td{border:1px solid #000;}
+        .table-condensed tbody>tr>td{padding: 3px;}
     </style>
 
     <div  style='padding:0;'>
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
+                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;padding: 3px;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
                         <tbody>
                             <tr>
@@ -50,9 +51,9 @@
                                 <td>起止日期</td>
                                 <td>起讫地点</td>
                                 <td>车船费</td>
-                                <td>差旅补助天数</td>
-                                <td>差旅补助标准</td>
-                                <td>差旅补助金额</td>
+                                <td style="font-size: 12px;">差旅补助天数</td>
+                                <td style="font-size: 12px;">差旅补助标准</td>
+                                <td style="font-size: 12px;">差旅补助金额</td>
                                 <td>住宿费</td>
                                 <td>其他费用</td>
                             </tr>
@@ -115,7 +116,7 @@
                                 </tr>
                            
                             <tr>
-                                <td style="width:90px;">合计（大写）</td>
+                                <td style="width:90px;font-size: 12px;">合计（大写）</td>
                                 <td colspan='4'>  <?php echo $attr_arr[0][$table_name]['total_capital'];?></td>
                                 <td style="width:40px;"> ￥ </td>
                                 <td colspan='2'>  <?php echo $attr_arr[0][$table_name]['total'];?></td>
@@ -132,7 +133,7 @@
                                 <td >科室负责人</td>
                                 <td  style="width:260px;" >分管所领导</td>
                                 <td  style="width:260px;">所长</td>
-                                <td >分管财务所长</td>
+                                <td style="font-size: 12px;">分管财务所长</td>
                                 <td  style="width:260px;" >财务科长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
@@ -206,7 +207,7 @@
                     <textarea id="remarks" placeholder="审批意见" rows="2" cols="90"></textarea>
                 </div>
             <?php }?>
-            <hr class="hr" style="display: none; border: 1px solid #666666;" />
+            <!--<hr class="hr" style="display: none; border: 1px solid #666666;" />-->
             <div class="modal-footer" style='background-color: #fff;'>
                 <?php if ($apply == 'apply') {?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
@@ -218,6 +219,7 @@
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
 function printDIV(){
+    var div_height = $('.container').height();
     $('.modal-footer').css('display', 'none');
     $('#dropzone').css('display', 'none');
     //隐藏下拉框
@@ -239,7 +241,9 @@ function printDIV(){
         $('.right_content').css('display', 'none');
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
-        $('.hr').css('display', '');
+        //$('.hr').css('display', '');
+        $('.container').css('border-bottom', '2px solid black');
+        $('.container').css('height', '410px');
     }
     window.print();//打印刚才新建的网页
     {
@@ -259,7 +263,9 @@ function printDIV(){
         $('.right_content').css('display', '');
         $('.table-striped').css('display', '');
         $('.right_list').css('display', '');
-        $('.hr').css('display', 'none');
+        //$('.hr').css('display', 'none');
+        $('.container').css('border-bottom', '0px');
+        $('.container').css('height', div_height + 'px');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
