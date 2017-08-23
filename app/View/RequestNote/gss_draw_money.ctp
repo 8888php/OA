@@ -26,25 +26,53 @@
                             
                              <tr>
                                 <td>部门或项目</td>
-                                <td colspan='6'>  <select style="width:300px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        
+                                <td colspan='6'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
+                                        <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
-                                        
+                                        <?php }?>
                                         <?php foreach($projectInfo as $pk=>$pv) {?>
                                         <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
                                         <?php }?>
                                     </select>
-                                    <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
+                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
                                         <option></option>
                                     </select>
+
+                                    <select style="width:120px;height:25px;" name='xzsubject' class="xzsubject" >     <option value='0'> 请选择科目 </option>
+                                        <?php 
+                                            foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    echo "<option value='$key'> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <select style="width:120px;height:25px;display:none;" name='kysubject' class="kysubject" >         <option value='0'> 请选择科目 </option>
+                                         <?php 
+                                            foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    echo "<option value='$key'> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    
                                 </td>
                             </tr>
                             <script type="text/javascript">
+                            <?php 
+                                if ($is_department != 1){
+                                    echo 'change_filenumber();';
+                                }
+                            ?>
+
                                     function change_filenumber() {
                                         var type = $('.dep_pro').val();
                                         if (type ==0) {
                                             //部门
                                             $('.filenumber').html('<option></option>');
+                                            $('.xzsubject').css('display','inline-block');
+                                            $('.kysubject').css('display','none');
                                         } else {
                                             //项目 去取项目所对应的souce
                                             var data = {pid:type};
@@ -56,6 +84,8 @@
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
+                                                    $('.xzsubject').css('display','none');
+                                                    $('.kysubject').css('display','inline-block');
                                                 }
                                             });
                                         }
@@ -78,20 +108,20 @@
                                 <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:80px;height:25px;'/> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['amount']" class="amount1" readonly="readonly"  style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:80px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'  disabled="disabled" /></td>
+                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[1]['amount']" class="amount1" disabled="disabled"  style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:80px;height:25px;' disabled="disabled" /> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:175px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['amount']" class="amount2" readonly="readonly"  style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:80px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:175px;height:25px;' disabled="disabled" /></td>
+                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td> <input type="text" name="dp[2]['amount']" class="amount2" disabled="disabled"  style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:80px;height:25px;' disabled="disabled" /> </td>
                             </tr>
                             
                             <tr>
@@ -380,9 +410,15 @@ function printDIV(){
         var small_total = $('.small_total').val();
         var big_total = $('.big_total').val();
         var declarename = $('.declarename').val();
-        var dp = $("input[name='dp']").val();  
+        var dp = $("input[name='dp']").val(); 
+        var subject = (dep_pro == 0) ? $('.xzsubject').val() : $('.kysubject').val(); 
         if (ctime == '') {
             $('.ctime').focus();
+            return;
+        }
+        if(subject == '' || subject == '0'){
+           $('.xzsubject').focus();
+           $('.kysubject').focus();
             return;
         }
         if (sheets_num == '') {
@@ -438,7 +474,7 @@ function printDIV(){
            //说明所选有错误
            return;
        }
-        var data = {declarename: declarename, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename};
+        var data = {declarename: declarename, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_draw_money',
             type: 'post',

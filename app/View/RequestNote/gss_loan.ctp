@@ -28,8 +28,9 @@
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        
+                                        <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
+                                        <?php }?>
                                         <?php foreach($projectInfo as $pk=>$pv) {?>
                                         <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
                                         <?php }?>
@@ -59,6 +60,11 @@
                                     
                                 </td>
                                 <script type="text/javascript">
+                                <?php 
+                                    if ($is_department != 1){
+                                        echo 'change_filenumber();';
+                                    }
+                                ?>
                                     function change_filenumber() {
                                         var type = $('.dep_pro').val();
                                         if (type ==0) {

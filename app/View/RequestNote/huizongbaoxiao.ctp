@@ -20,10 +20,10 @@
                             <tr>
                                 <td colspan='2'>填表日期</td>
                                 <td colspan='2'>
-                                    <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='height:25px;'>  
+                                    <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='width:150px;height:25px;'>  
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value='0' />  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value='' />  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
