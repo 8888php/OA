@@ -171,9 +171,9 @@
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
                                                     <td><?php echo '否';  ?></td>
-                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['s']['source_channel'];  ?> </td>
-                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['s']['file_number'];  ?> </td>
-                                                    <td> <?php echo $attr_arr[$d['m']['attr_id']]['b']['description']; ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['s']['source_channel'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['s']['file_number'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
                                                     <td> <?php echo array_sum($json_data); ?> </td>
                                                     <?php 
                                                     foreach($keyanlist as $k) {

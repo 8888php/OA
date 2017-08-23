@@ -171,16 +171,16 @@
                                                 
                                                 <?php 
                                                 foreach($declares_arr as $d){  
-                                                    $json_data = json_decode($d['b']['subject'],true);
+                                                    $json_data = json_decode($d['m']['subject'],true);
                                                 ?>        
                                                 <tr>
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
-                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
-                                                    <td> <?php echo $d['s']['source_channel'];  ?> </td>
-                                                    <td> <?php echo $d['s']['file_number'];  ?> </td>
-                                                    <td> <?php echo $d['b']['description']; ?> </td>
-                                                    <td> <?php echo $d['b']['amount'];  ?>  </td>
+                                                    <td><?php echo '否';  ?></td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['s']['source_channel'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['s']['file_number'];  ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
+                                                    <td> <?php echo $attr_arr[$d['m']['id']]['b']['amount'];  ?>  </td>
                                                     <?php 
                                                     foreach($keyanlist as $k) {
                                                     foreach($k as $kk=>$kv) {

@@ -393,11 +393,52 @@ class ResearchProjectController extends AppController {
          header("Location:/homes/index");die;
         }
 
-         $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
+  //       $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
 
+
+
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and m.code = 10000 ");
+// var_dump($declares_arr); 
+
+        $mainArr = array();
+        foreach($declares_arr as $k => $v){
+            $mainArr[$v['m']['table_name']][$v['m']['id']] =  $v['m']['attr_id'] ;
+        }
+        
+        //取各分表内容
+        $attrArr = array();
+        foreach($mainArr as $k => $v){
+            $attrid = implode(',', $v);
+            switch($k){
+            case 'apply_baoxiaohuizong':  // 报销汇总单
+               $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_chuchai_bxd':  // 差旅费报销单
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason subject,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_lingkuandan':  // 领款单
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_jiekuandan':  // 借款单
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason subject,b.apply_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            }
+            if(count($attrinfo) > 0){
+                foreach($attrinfo as $atk => $atv){
+                  $attrinfo[$atv['b']['id']] = $atv;  
+                }
+                foreach($v as $atk => $atv){
+                  $attrArr[$atk] = $attrinfo[$atv];  
+                }
+            }
+        }
+        
+ //var_dump($mainArr,$attrArr);        
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
+        $this->set('attr_arr', $attrArr);
         $this->set('pid', $pid);
+
         
         $pcost = $this->ResearchCost->findByProjectId($pid);
         $pcost = $pcost['ResearchCost'];
@@ -405,7 +446,7 @@ class ResearchProjectController extends AppController {
         
         $expent = array();  // 支出总计费用
         foreach($declares_arr as $k => $v){
-            $zhichu = json_decode($v['b']['subject'],true);
+            $zhichu = json_decode($v['m']['subject'],true);
             foreach($zhichu as $zk => $zv){ 
                 $expent[$zk] = isset($expent[$zk]) ? $expent[$zk]+$zv : $zv;
             }
