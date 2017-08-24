@@ -193,7 +193,7 @@ function printDIV(){
         $('.right_list').css('display', 'none');
         //$('.hr').css('display', '');
         $('.container').css('border-bottom', '1px solid black');
-        $('.container').css('height', '410px');
+        $('.container').css('height', '438px');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').text('简要说明');
     }
