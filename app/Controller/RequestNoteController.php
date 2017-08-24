@@ -83,7 +83,7 @@ class RequestNoteController extends AppController {
 
      // 添加 汇总报销申批单
     private function sub_declares($datas) {
-        if (empty($datas['ctime']) || empty($datas['page_number']) || empty($datas['projectname']) || empty($datas['filenumber']) || empty($datas['subject']) || empty($datas['rmb_capital']) || empty($datas['amount'])) {
+        if (empty($datas['ctime']) || (empty($datas['page_number']) && $datas['page_number'] != 0) || empty($datas['projectname']) || empty($datas['filenumber']) || empty($datas['subject']) || empty($datas['rmb_capital']) || empty($datas['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -635,7 +635,7 @@ class RequestNoteController extends AppController {
     
     // 果树所领款单
     private function gss_draw_money_save($datas) {
-        if (empty($datas['ctime']) || empty($datas['sheets_num']) || empty($datas['subject'])) {
+        if (empty($datas['ctime']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0)  || empty($datas['subject'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -915,8 +915,7 @@ class RequestNoteController extends AppController {
     private function gss_evection_expense_save($datas) {
         
         if (empty($datas['ctime']) || empty($datas['reason'])
-                || empty($datas['sheets_num'])
-                ) {
+                || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0)  ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
