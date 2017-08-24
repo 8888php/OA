@@ -242,8 +242,8 @@ function printDIV(){
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
         //$('.hr').css('display', '');
-        $('.container').css('border-bottom', '2px solid black');
-        $('.container').css('height', '410px');
+        $('.container').css('border-bottom', '1px solid black');
+        $('.container').css('height', '438px');
     }
     window.print();//打印刚才新建的网页
     {

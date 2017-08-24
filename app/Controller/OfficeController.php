@@ -552,7 +552,7 @@ class OfficeController extends AppController {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
-            $kemuStr .= ' 【'. $kemuSourceArr['ResearchSource']['source_channel'] .' ('.$kemuSourceArr['ResearchSource']['source_channel'] .') '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
         }
         $this->set('kemuStr', $kemuStr);  
 
