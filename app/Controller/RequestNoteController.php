@@ -713,7 +713,7 @@ class RequestNoteController extends AppController {
         $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_amount']));
+        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
