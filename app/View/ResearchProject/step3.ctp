@@ -49,12 +49,34 @@
 </div>
 
 <script type="text/javascript">
-    
+    //相加
+        function add_decimal(decimal_a, decimal_b) {
+            if (!$.isNumeric(decimal_a)) {
+                decimal_a = 0;
+            }
+            if (!$.isNumeric(decimal_b))
+            {
+                decimal_b = 0;
+            }
+            decimal_a = parseFloat(decimal_a);
+            decimal_b = parseFloat(decimal_b);
+            //判断他们小数据点位数，谁的大取谁的
+            var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
+            var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
+            var max = len_a;//最大的小数位数
+            if (len_b > len_a) 
+            {
+                max = len_b;
+            }
+            var tmp_sum = decimal_a * Math.pow(10, max) + decimal_b * Math.pow(10, max);
+            tmp_sum = tmp_sum / Math.pow(10, max);
+            return tmp_sum;
+        }
     $('.unit').change(function(){
         var totals = 0;
        $('.unit').each(function(i){
          if($.isNumeric($(this).val())){
-             totals = parseInt(totals) + parseInt($(this).val());
+             totals = add_decimal(totals,$(this).val());
          }
         });
         $('.total').val(totals);
