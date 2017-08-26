@@ -113,7 +113,20 @@
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                负责人：<b class="blue"> <?php  echo isset($depInfo['Department']['user_id']) ? (isset($depMember[$depInfo['Department']['user_id']]['User']['name']) ? $depMember[$depInfo['Department']['user_id']]['User']['name'] :'') : '无'; ?> </b>
+                                                                负责人：<b class="blue"> <?php  
+                                                                    foreach($depMember as $mk => $mv){
+                                                                    if($depInfo['Department']['user_id'] == $mv['User']['id']){
+                                                                    echo $mv['User']['name'];
+                                                                    }                                                                                                        } ?>  </b>
+                                                            </li>
+                                                            
+                                                            <li>
+                                                                <i class="icon-caret-right blue"></i>
+                                                                分管所领导：<b class="blue"> <?php  
+                                                                    foreach($depMember as $mk => $mv){
+                                                                    if($depInfo['Department']['sld'] == $mv['User']['id']){
+                                                                    echo $mv['User']['name'];
+                                                                    }                                                                                                        } ?> </b>
                                                             </li>
 
                                                             <li class="divider"></li>
@@ -223,7 +236,7 @@
                                                                     <td width='100px'>摘要</td>
                                                                     <?php foreach(Configure::read('xizhenglist') as $tdv){  
                                                                     foreach($tdv as $lv){  
-                                                                    echo  "<td width='120'>" . $lv . '</td>'; 
+                                                                    echo  "<td width='130'>" . $lv . '</td>'; 
                                                                     }
                                                                     }
                                                                     ?>  
@@ -232,16 +245,16 @@
                                                                 </tr>
                                                                 <?php foreach($declares_arr as $d){?>        
                                                                 <tr>
-                                                                    <td><?php echo $d['b']['id'];  ?></td>
+                                                                    <td><?php echo $d['m']['id'];  ?></td>
                                                                     <!--td> <i class='glyphicon glyphicon-print blue'></i> </td-->
                                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                                     <td><?php echo $d['u']['name']; ?> </td>
-                                                                    <td><?php echo $d['b']['page_number'] == 1 ? '是':'否';  ?></td>
+                                                                    <td><?php echo  '是';  ?></td>
                                                                     
-                                                                    <td> <?php echo $d['b']['description']; ?> </td>
+                                                                    <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
                                                                     <?php 
-                                                                    $json_data = json_decode($d['b']['subject'],true);
-                                                                    foreach($keyanlist as $k) {
+                                                                    $json_data = json_decode($d['m']['subject'],true);
+                                                                    foreach($xizhenglist as $k) {
                                                                     foreach($k as $kk=>$kv) {
                                                                     echo  '<td>';
                                                                     echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
@@ -249,7 +262,7 @@
                                                                     }
                                                                     }
                                                                     ?>
-                                                                    <td> <?php echo $d['b']['amount'];  ?> </td>
+                                                                    <td> <?php echo $d['m']['total'];  ?> </td>
                                                                     <td> <?php $code_bxd_arr = Configure::read('new_appprove_code_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
                                                                 </tr>
                                                                 <?php }?>

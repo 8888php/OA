@@ -61,9 +61,10 @@ class DepartmentController extends AppController {
         $this->set('pid', $id);
 
         # 该部门所属成员
-        $conditions = array('del'=>0,'department_id'=>$id); 
+        $conditions = array('or'=>array('and' => array('del'=>0,'department_id'=>$id),'id' => array($depInfo['Department']['user_id'],$depInfo['Department']['sld']) )); 
         $depMember = $this->User->getAlluser(0,100,$conditions);
         $this->set('depMember',$depMember);
+//var_dump($depMember);        
         # 职务
          $posArr = $this->Position->getList();
          $this->set('d_id', $id);
@@ -77,9 +78,49 @@ class DepartmentController extends AppController {
         
         // 费用申报
         
-        $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.department_id =  '$id' and m.project_id=0 and code = 10000 ");
-        $this->set('keyanlist', Configure::read('xizhenglist'));
+      //  $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.department_id =  '$id' and m.project_id=0 and code = 10000 ");
+        
+        $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 and m.code = 10000 ");
+
+        
+        $mainArr = array();
+        foreach($declares_arr as $k => $v){
+            $mainArr[$v['m']['table_name']][$v['m']['id']] =  $v['m']['attr_id'] ;
+        }
+        
+        //取各分表内容
+        $attrArr = array();
+        foreach($mainArr as $k => $v){
+            $attrid = implode(',', $v);
+            switch($k){
+            case 'apply_baoxiaohuizong':  // 报销汇总单
+               $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_chuchai_bxd':  // 差旅费报销单
+            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason subject,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_lingkuandan':  // 领款单
+            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            case 'apply_jiekuandan':  // 借款单
+            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason subject,b.apply_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            break;
+            }
+            if(count($attrinfo) > 0){
+                foreach($attrinfo as $atk => $atv){
+                  $attrinfo[$atv['b']['id']] = $atv;  
+                }
+                foreach($v as $atk => $atv){
+                  $attrArr[$atk] = $attrinfo[$atv];  
+                }
+            }
+        }
+        
+ //var_dump($mainArr,$attrArr);        
+        $this->set('xizhenglist', Configure::read('xizhenglist'));
         $this->set('declares_arr', $declares_arr);
+        $this->set('attr_arr', $attrArr);
+        $this->set('id', $id);
 
         $this->render();
     }
