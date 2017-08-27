@@ -316,6 +316,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -433,6 +434,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -558,14 +560,15 @@ class RequestNoteController extends AppController {
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['applicant'] = $datas['applicant'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
-//        var_dump($attrArr);die;
+ //       var_dump($datas,$attrArr);die;
         # 开始入库
         $this->ApplyJiekuandan->begin();
         $attrId = $this->ApplyJiekuandan->add($attrArr);
-        
+      
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -699,6 +702,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -828,6 +832,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -978,6 +983,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -1120,6 +1126,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 

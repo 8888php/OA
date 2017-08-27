@@ -61,7 +61,7 @@ class ApprovalComponent extends Component {
             return false;
         }
 
-        $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
+        $contents = array('code' => '', 'next_id' => '', 'code_id' => '','next_uid' => '');
         $contents['code_id'][0] = $uinfo['id'];
 
         switch ($applytype) {
@@ -123,7 +123,98 @@ class ApprovalComponent extends Component {
             default:
                 return false;
         }
+        
+               
+        // 审核成功 根据 申请所属部门 和 下一审核角色 取 下一审核人id
+        if(empty($contents['next_id'])){
+            return false;
+        }else{
+            $contents['next_uid'] = $this->applyUser($applyinfo,$contents);
+        } 
+        return $contents;
+        
     }
+    
+  /**
+     *  获取审核人id
+     *  @params: $applyinfo 申请单详情; $contents 返回审核信息
+     *  @response:
+     */   
+    public function applyUser($applyinfo,$contents){
+        switch($contents['next_id']){
+            case 11:
+                //项目负责人
+                return $applyinfo['user_id'];
+                break;
+            case 12:
+                //项目组负责人
+                require_once('../Model/TeamProject.php');
+                $teamProject = new TeamProject();
+                $info = $teamProject->findById($applyinfo['approval_process_id']);
+                return  $info['TeamProject']['team_user_id'];
+                break;
+            case 4:
+                //科室主任  部门负责人
+                require_once('../Model/Department.php');
+                $depinfo = new Department();
+                switch($applyinfo['type']){
+                    case 1:
+                        $depinfo = $depinfo->findById(3);
+                        break;
+                    case 2:
+                        $depinfo = $depinfo->findById($applyinfo['department_id']);
+                        break;
+                }
+                return $depinfo['Department']['user_id'];
+                break;
+            case 5:
+                //分管副所长
+                require_once('../Model/Department.php');
+                $depinfo = new Department();
+                switch($applyinfo['type']){
+                    case 1:
+                        $dep_info = $depinfo->findById(3);
+                        break;
+                    case 2:
+                        $dep_info = $depinfo->findById($applyinfo['department_id']);
+                        break;
+                }
+                return $dep_info['Department']['sld'];
+                break;
+            case 6:
+                //所长
+                require_once('../Model/User.php');
+                $uinfo = new User();
+                $u_info = $uinfo->findByPositionId(6);
+                return $u_info['User']['id'];
+                break;
+            case 13:
+                //财务副所长
+                require_once('../Model/Department.php');
+                $depinfo = new Department();
+                $dep_info = $depinfo->findById(5);
+                return $dep_info['Department']['user_id'];
+                break;
+            case 14:
+                // 财务办公室主任
+                require_once('../Model/Department.php');
+                $depinfo = new Department();
+                $dep_info = $depinfo->findById(5);
+                return $dep_info['Department']['sld'];
+                break;
+            case 15:
+                //部门负责人
+                require_once('../Model/Department.php');
+                $depinfo = new Department();
+                $dep_info = $depinfo->findById($applyinfo['department_id']);
+                return $dep_info['Department']['user_id'];
+                break;
+        }
+        return false;
+    }
+    
+    
+    
 
     /**
      *  创建申请时验证 下一审核人角色
@@ -136,7 +227,7 @@ class ApprovalComponent extends Component {
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
-        $contents = array('code' => '', 'next_id' => '', 'code_id' => '');
+        $contents = array('code' => '', 'next_id' => '', 'code_id' => '','next_uid' => '');
 
         foreach ($liuArr as $k => $v) {
             // 需科研角色审核
@@ -187,6 +278,18 @@ class ApprovalComponent extends Component {
             }
         }
 
+                      
+        // 审核成功 根据 申请所属部门 和 下一审核角色 取 下一审核人id
+        if(empty($contents['next_id'])){
+            return false;
+        }else{
+            $applyinfo = array();
+            $applyinfo['user_id'] = $uinfo['id'];
+            $applyinfo['department_id'] = $uinfo['department_id'];
+            $applyinfo['approval_process_id'] = $apply_liu['team_user_id'];
+            $contents['next_uid'] = $this->applyUser($applyinfo,$contents);
+        } 
+        
         return $contents;  // 如果跳过下一审核人则取下下一审核人
     }
 

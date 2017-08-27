@@ -305,6 +305,7 @@ class ResearchProjectController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
