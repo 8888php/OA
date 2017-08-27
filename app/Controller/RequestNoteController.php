@@ -556,8 +556,9 @@ class RequestNoteController extends AppController {
         $attrArr['approve_money'] = $datas['small_approval_amount'];
         $attrArr['repayment'] = $datas['repayment_plan'];
         $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['applicant'] = $datas['applicant'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
-        
+//        var_dump($attrArr);die;
         # 开始入库
         $this->ApplyJiekuandan->begin();
         $attrId = $this->ApplyJiekuandan->add($attrArr);

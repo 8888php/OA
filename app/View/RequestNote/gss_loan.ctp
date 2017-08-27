@@ -22,7 +22,7 @@
                                 <td >填表日期</td>
                                 <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:270px;'>  </td>
                                  <td>借款人姓名</td>
-                                <td  colspan='2'> <input readonly="readonly" type="text" class="borrower" name="borrower" style='width:163px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
+                                <td  colspan='2'> <input type="text" class="applicant" name="applicant" style='width:163px;height:25px;' value="" /> </td>
                             </tr>
                             
                              <tr>
@@ -201,6 +201,7 @@ function printDIV(){
   
     function approve() {
         var ctime = $('.ctime').val();
+        var applicant = $('.applicant').val();//申报人或贷款人姓名
         var dep_pro = $('.dep_pro').val();
         var filenumber = $('.filenumber').val();
         var borrower = $('.borrower').val();
@@ -214,6 +215,10 @@ function printDIV(){
         var subject = (dep_pro == 0) ? $('.xzsubject').val() : $('.kysubject').val();
         if (ctime == '') {
             $('.ctime').focus();
+            return;
+        }
+        if (applicant == '') {
+            $('.applicant').focus();
             return;
         }
         if(subject == '' || subject == '0'){
@@ -252,7 +257,7 @@ function printDIV(){
         }
         
 
-        var data = {declarename: declarename, ctime: ctime, dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,subject: subject};
+        var data = {declarename: declarename, ctime: ctime, applicant: applicant,dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',
@@ -304,10 +309,24 @@ function printDIV(){
         }
     });
     $('.small_amount').blur(function(){
-        $('.big_amount').val(convertCurrency($(this).val()));
+        var total = $(this).val();
+        var big_total = '';
+        if (total < 0) {
+            //负数
+            big_total = '负';
+        } 
+        big_total += convertCurrency(Math.abs(total))
+        $('.big_amount').val(big_total);
     });
     $('.small_approval_amount').blur(function(){
-        $('.big_approval_amount').val(convertCurrency($(this).val()));
+        var total = $(this).val();
+        var big_total = '';
+        if (total < 0) {
+            //负数
+            big_total = '负';
+        } 
+        big_total += convertCurrency(Math.abs(total))
+        $('.big_approval_amount').val(big_total);
     });
     //钱小写转大写
     function convertCurrency(money) {
