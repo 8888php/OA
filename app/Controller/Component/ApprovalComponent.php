@@ -148,10 +148,7 @@ class ApprovalComponent extends Component {
                 break;
             case 12:
                 //项目组负责人
-                require_once('../Model/TeamProject.php');
-                $teamProject = new TeamProject();
-                $info = $teamProject->findById($applyinfo['approval_process_id']);
-                return  $info['TeamProject']['team_user_id'];
+                return  $applyinfo['project_team_user_id'];
                 break;
             case 4:
                 //科室主任  部门负责人
@@ -218,10 +215,10 @@ class ApprovalComponent extends Component {
 
     /**
      *  创建申请时验证 下一审核人角色
-     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;$project_id 项目id
+     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;$project_id 项目id;$applyArr 申请附属信息
      *  @response:
      */
-    public function apply_create($apply_process_id, $uinfo, $project_id = 0) {
+    public function apply_create($apply_process_id, $uinfo, $project_id = 0, $applyArr) {
         // 获取审批流
         $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
@@ -284,12 +281,13 @@ class ApprovalComponent extends Component {
             return false;
         }else{
             $applyinfo = array();
+            $applyinfo['type'] = $applyArr['type'];
             $applyinfo['user_id'] = $uinfo['id'];
             $applyinfo['department_id'] = $uinfo['department_id'];
-            $applyinfo['approval_process_id'] = $apply_liu['team_user_id'];
+            $applyinfo['approval_process_id'] = $applyArr['project_team_user_id'];
             $contents['next_uid'] = $this->applyUser($applyinfo,$contents);
         } 
-        
+  
         return $contents;  // 如果跳过下一审核人则取下下一审核人
     }
 

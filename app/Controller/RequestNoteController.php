@@ -276,9 +276,10 @@ class RequestNoteController extends AppController {
         $table_name = 't_apply_paidleave';
         $p_id = 3;//审批流id
         $project_id = 0;
-        $type = 0;//类型暂定为0
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $type = 2;//类型暂定为0
         
+        $applyArr = array('type' => $type,'project_team_user_id'=> 0);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
 //        if ($ret_arr[$this->code] == 1) {
@@ -316,7 +317,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -395,9 +396,10 @@ class RequestNoteController extends AppController {
         $table_name = 'chailvfei_sqd';
         $p_id = 4;//审批流id
         $project_id = 0;
-        $type = 0;//类型暂定为0
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $type = 2;//类型暂定为0
         
+        $applyArr = array('type' => 2,'project_team_user_id'=> 0);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
 //        if ($ret_arr[$this->code] == 1) {
@@ -434,7 +436,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -532,11 +534,8 @@ class RequestNoteController extends AppController {
             $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
         }
         
-        
-        
-        
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
-        
+        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);        
 
         #附表入库
         //是部门，取当前用户的部门信息
@@ -568,7 +567,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -666,8 +665,8 @@ class RequestNoteController extends AppController {
             $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
         }
         
-        
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
        
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
@@ -703,7 +702,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -796,8 +795,10 @@ class RequestNoteController extends AppController {
         $table_name = 'apply_leave';
         $p_id = 7;//审批流id
         $project_id = 0;
-        $type = 0;//类型暂定为0
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $type = 2;//类型暂定为0
+        
+        $applyArr = array('type' => $type,'project_team_user_id'=> 0);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
        
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
@@ -833,7 +834,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -949,9 +950,8 @@ class RequestNoteController extends AppController {
             $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
         }
         
-        
-        
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
        
 
         #附表入库
@@ -985,7 +985,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
@@ -1069,8 +1069,10 @@ class RequestNoteController extends AppController {
         $table_name = 'apply_caigou';
         $p_id = 9;//审批流id
         $project_id = 0;
-        $type = 0;//类型暂定为0
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id);
+        $type = 2;//类型暂定为0
+        
+        $applyArr = array('type' => $type,'project_team_user_id'=> 0);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
        
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
@@ -1128,7 +1130,7 @@ class RequestNoteController extends AppController {
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_approver_id'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type; 
