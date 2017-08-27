@@ -296,6 +296,7 @@ class ResearchProjectController extends AppController {
         $attrArr['rmb_capital'] = $_POST['rmb_capital'];
         $attrArr['amount'] = $_POST['amount'];
         $attrArr['description'] = $_POST['description'];
+        $attrArr['applicant'] = $_POST['applicant'];
         $attrArr['user_id'] = $this->userInfo->id;
                 
         # 开始入库

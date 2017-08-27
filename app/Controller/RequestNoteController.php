@@ -690,6 +690,7 @@ class RequestNoteController extends AppController {
         $attrArr['big_total'] = $datas['big_total'];
         $attrArr['small_total'] = $datas['small_total'];
         $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['applicant'] = $datas['applicant'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
         
         # 开始入库
@@ -969,6 +970,7 @@ class RequestNoteController extends AppController {
         $attrArr['total'] = $datas['small_total'];
         $attrArr['total_capital'] = $datas['big_total'];
         $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['applicant'] = $datas['applicant'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
         
         # 开始入库

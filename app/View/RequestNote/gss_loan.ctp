@@ -22,7 +22,7 @@
                                 <td >填表日期</td>
                                 <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:270px;'>  </td>
                                  <td>借款人姓名</td>
-                                <td  colspan='2'> <input type="text" class="applicant" name="applicant" style='width:163px;height:25px;' value="" /> </td>
+                                 <td  colspan='2'> <input type="text" class="applicant" name="applicant" style='width:163px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
                             </tr>
                             
                              <tr>

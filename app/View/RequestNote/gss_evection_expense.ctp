@@ -149,8 +149,9 @@
                                 <td  style="width:260px;" >财务科长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
-                                <td colspan='2'> <?php 
-                                    echo $userInfo->name . '<br />';
+                                <td colspan='2'><input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
+                                    <br />
+                                    <?php 
                                     echo date('Y-m-d');
                                 ?> </td>
                                 <td > </td>
@@ -382,7 +383,12 @@ function printDIV(){
                 //合计
                 var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
-                $('.big_total').val(convertCurrency(total));
+                var big_total_str = '';
+                if (total < 0) {
+                    big_total_str = '负';
+                }
+                big_total_str += convertCurrency(Math.abs(total));
+                $('.big_total').val(big_total_str);
                 return false;//中止，已经到结束了
             }
             var start_end_day = $(this).find('.start_end_day' + i).val();
@@ -480,6 +486,7 @@ function printDIV(){
         var reason = $('.reason').val();
         var payee = $('.payee').val();
         var declarename = $('.declarename').val();
+        var applicant = $('.applicant').val();
         
         if (ctime == '') {
             $('.ctime').focus();
@@ -631,7 +638,11 @@ function printDIV(){
             $('.payee').focus();
             return;
         }
-        var data = {filenumber: filenumber, declarename: declarename, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
+        if (applicant == '') {
+            $('.applicant').focus();
+            return;
+        }
+        var data = {filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',
