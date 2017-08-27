@@ -172,8 +172,9 @@
                         </tr>
                         <tr >
                             <td style="height:40px;line-height: 20px;"> 
-                                <?php 
-                                    echo $userInfo->name . '<br />';
+                                <input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
+                                    <br />
+                                    <?php 
                                     echo date('Y-m-d');
                                 ?> </td>
                             <td > </td>
@@ -381,11 +382,16 @@ function printDIV(){
         });
         $('.subject').val(sub_str + '总额: ' + total);
         $('input.amount').val(total);
-        $('.rmb_capital').val(convertCurrency(total));
+        var big_total_str = '';
+        if (total < 0) {
+            big_total_str = '负';
+        }
+        big_total_str += convertCurrency(Math.abs(total));
+        $('.rmb_capital').val(big_total_str);
     }
     //当输入框输入后，再改变一下总金额
     $('input.je').blur(function () {
-        var reg = /^[1-9]+[0-9]*/;
+        var reg = /^[-]?[1-9]+[0-9]*/;
         if (!reg.test(this.value)) {
             this.value = '';
         }
@@ -422,6 +428,7 @@ function printDIV(){
         var description = $('.description').val();
         var declarename = $('.declarename').val();
         var attachment = $('#file_upload').val();
+        var applicant = $('.applicant').val();
         if (ctime == '') {
             $('.ctime').focus();
             return;
@@ -451,8 +458,11 @@ function printDIV(){
             $('.ms-choice').focus();
             return;
         }
-
-        var data = {declarename: declarename, ctime: ctime, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
+        if (applicant == '') {
+            $('.applicant').focus();
+            return;
+        }
+        var data = {declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
 
         $.ajax({
             url: '/ResearchProject/sub_declares',

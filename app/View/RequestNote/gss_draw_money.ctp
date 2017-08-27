@@ -140,8 +140,9 @@
                                 <td >财务科长</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
-                                <td > <?php 
-                                    echo $userInfo->name . '<br />';
+                                <td > <input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
+                                    <br />
+                                    <?php 
                                     echo date('Y-m-d');
                                 ?> </td>
                                 <td > </td>
@@ -313,7 +314,12 @@ function printDIV(){
                     total = add_decimal(total, tmp_total);
                 }
             });
-            $('.big_total').val(convertCurrency(total));
+            var big_total = '';
+            if (total < 0) {
+                big_total = '负';
+            }
+            big_total += convertCurrency(Math.abs(total));
+            $('.big_total').val(big_total);
             $('.small_total').val(total);
         });
         //钱小写转大写
@@ -411,6 +417,7 @@ function printDIV(){
         var big_total = $('.big_total').val();
         var declarename = $('.declarename').val();
         var dp = $("input[name='dp']").val(); 
+        var applicant = $('.applicant').val();//
         var subject = (dep_pro == 0) ? $('.xzsubject').val() : $('.kysubject').val(); 
         if (ctime == '') {
             $('.ctime').focus();
@@ -474,7 +481,11 @@ function printDIV(){
            //说明所选有错误
            return;
        }
-        var data = {declarename: declarename, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
+       if (applicant == '') {
+            $('.applicant').focus();
+            return;
+       }
+        var data = {declarename: declarename, applicant: applicant, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_draw_money',
             type: 'post',
