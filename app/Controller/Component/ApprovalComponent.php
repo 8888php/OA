@@ -14,13 +14,17 @@ class ApprovalComponent extends Component {
      */
     public function apply($apply_id, $uinfo, $applytype) {
         // 当前用户无审核权 
-        $uinfo = (array) $uinfo;
+        $uinfo = (array) $uinfo; 
         if ($uinfo['can_approval'] != 2) {
             return false;
         }
 
         // 获取申请详情
         $applyinfo = $this->apply_info($apply_id);
+        if($applyinfo['next_apprly_uid'] != $uinfo['id']){
+        	// 不属当前用户审核
+        	return false;
+        }
         // 获取审批流
         $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
         $liuArr = explode(',', $apply_liu['approve_ids']);
@@ -61,7 +65,7 @@ class ApprovalComponent extends Component {
             return false;
         }
 
-        $contents = array('code' => '', 'next_id' => '', 'code_id' => '','next_uid' => '');
+        $contents = array('code' => '', 'next_id' => 0, 'code_id' => '','next_uid' => 0);
         $contents['code_id'][0] = $uinfo['id'];
 
         switch ($applytype) {
@@ -118,7 +122,7 @@ class ApprovalComponent extends Component {
                         $contents['next_id'] = $next_id;
                     }
                 }
-                return $contents;
+
                 break;
             default:
                 return false;
@@ -190,14 +194,14 @@ class ApprovalComponent extends Component {
                 require_once('../Model/Department.php');
                 $depinfo = new Department();
                 $dep_info = $depinfo->findById(5);
-                return $dep_info['Department']['user_id'];
+                return $dep_info['Department']['sld'];
                 break;
             case 14:
                 // 财务办公室主任
                 require_once('../Model/Department.php');
                 $depinfo = new Department();
                 $dep_info = $depinfo->findById(5);
-                return $dep_info['Department']['sld'];
+                return $dep_info['Department']['user_id'];
                 break;
             case 15:
                 //部门负责人
@@ -206,8 +210,10 @@ class ApprovalComponent extends Component {
                 $dep_info = $depinfo->findById($applyinfo['department_id']);
                 return $dep_info['Department']['user_id'];
                 break;
+            default:
+            	return false;
         }
-        return false;
+
     }
     
     
@@ -224,7 +230,7 @@ class ApprovalComponent extends Component {
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
-        $contents = array('code' => '', 'next_id' => '', 'code_id' => '','next_uid' => '');
+        $contents = array('code' => '', 'next_id' => 0, 'code_id' => '','next_uid' => 0);
 
         foreach ($liuArr as $k => $v) {
             // 需科研角色审核
