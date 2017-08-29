@@ -68,7 +68,7 @@ class DepartmentController extends AppController {
         $posArr = $this->Position->getList();
         $this->set('d_id', $id);
         $this->set('posArr', $posArr);
-var_dump($depInfo['Department']['type'] == 1 && (in_array($this->userInfo->position_id,array(6,13,14)) || $this->userInfo->department_id == $id));
+
         // 预算
         /*  暂时取消
           $this->set('costList', Configure::read('xizhenglist'));
