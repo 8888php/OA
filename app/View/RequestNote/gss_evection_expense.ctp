@@ -140,26 +140,25 @@
                             </tr>
                             
                             <tr>
-                                <td colspan='2' style="width:260px;" >申报人</td>
+                                <td style="width:260px;" >申报人</td>
                                 <td  style="width:260px;">项目负责人</td>
                                 <td >科室负责人</td>
                                 <td  style="width:260px;" >分管所领导</td>
                                 <td  style="width:260px;">所长</td>
                                 <td >分管财务所长</td>
-                                <td  style="width:260px;" >财务科长</td>
+                                <td colspan='2' style="width:260px;" >财务科长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
-                                <td colspan='2'><input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
-                                    <br />
-                                    <?php 
-                                    echo date('Y-m-d');
-                                ?> </td>
+                                <td > 
+                                    <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                </td>
                                 <td > </td>
                                 <td > </td>
                                 <td >  </td>
                                 <td > </td>
                                 <td > </td>
-                                <td >  </td>
+                                <td colspan='2'>  </td>
                             </tr>
                             
                         </tbody>
@@ -473,7 +472,18 @@ function printDIV(){
     $('.json_str input').blur(function(){
         jisuan();
     });
-    
+    //去左空格;
+function ltrim(s){
+    return s.replace(/(^\s*)/g, "");
+}
+//去右空格;
+function rtrim(s){
+    return s.replace(/(\s*$)/g, "");
+}
+//去左右空格;
+function trim(s){
+    return s.replace(/(^\s*)|(\s*$)/g, "");
+}
     function approve() {
         var ctime = $('.ctime').val();
         var sheets_num = $('.sheets_num').val();
@@ -641,7 +651,21 @@ function printDIV(){
         if (applicant == '') {
             $('.applicant').focus();
             return;
-        }
+       }
+       applicant = trim(applicant);
+       if (applicant == '') {
+            $('.applicant').focus();
+            return;
+       }
+       var applicant_arr = applicant.split("\n");
+       var applicant_str = '';
+       for(var i in applicant_arr) {
+            if (applicant_arr[i] == '') {
+                continue;
+            }
+            applicant_str += applicant_arr[i] + ',';
+       }
+       applicant = applicant_str.substring(0, applicant_str.length - 1);
         var data = {filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',

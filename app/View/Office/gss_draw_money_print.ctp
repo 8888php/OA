@@ -103,10 +103,17 @@
                                 <td >财务科长</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
-                                <td > 
-                                    <?php echo $user_arr['User']['name'];?> <br />
-                                    <?php echo $attr_arr[0][$table_name]['ctime'];?>
-                                 </td>
+                                <td style=""> 
+                                <?php 
+                                    $applicant = $attr_arr[0][$table_name]['applicant'];
+                                    if (!empty($applicant)) {
+                                        $applicant_arr = explode(',', $applicant);
+                                        foreach($applicant_arr as $ak=>$av) {
+                                            echo "<span style='display: block;text-align: center; height: 17px;'>".$av."</span>";
+                                        }
+                                    }
+                                ?>
+                            </td>
                                 <td > 
                                     <?php 
                                     echo @$applyArr['11']['name']; 

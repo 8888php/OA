@@ -128,19 +128,26 @@
                             </tr>
                             
                             <tr>
-                                <td colspan='2' style="width:260px;" >申报人</td>
+                                <td  style="width:260px;" >申报人</td>
                                 <td  style="width:260px;">项目负责人</td>
                                 <td >科室负责人</td>
                                 <td  style="width:260px;" >分管所领导</td>
                                 <td  style="width:260px;">所长</td>
                                 <td style="font-size: 12px;">分管财务所长</td>
-                                <td  style="width:260px;" >财务科长</td>
+                                <td colspan='2' style="width:260px;" >财务科长</td>
                             </tr>
-                            <tr style="height:60px;line-height: 20px;" >
-                                <td colspan='2'>
-                                    <?php echo $user_arr['User']['name'];?> <br />
-                                    <?php echo $attr_arr[0][$table_name]['ctime'];?>
-                                </td>
+                            <tr style="/*height:60px;line-height: 20px;*/" >
+                                <td style=""> 
+                                <?php 
+                                    $applicant = $attr_arr[0][$table_name]['applicant'];
+                                    if (!empty($applicant)) {
+                                        $applicant_arr = explode(',', $applicant);
+                                        foreach($applicant_arr as $ak=>$av) {
+                                            echo "<span style='display: block;text-align: center; height: 17px;'>".$av."</span>";
+                                        }
+                                    }
+                                ?>
+                            </td>
                                 <td > 
                                     <?php 
                                     echo @$applyArr['11']['name']; 
@@ -186,7 +193,7 @@
                                     echo @$applyArr['13']['remarks'];
                                     ?> 
                                 </td>
-                                <td >
+                                <td colspan='2'>
                                     <?php 
                                     echo @$applyArr['14']['name']; 
                                     echo '<br />';

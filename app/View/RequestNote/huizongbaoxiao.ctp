@@ -171,12 +171,10 @@
                             <td style="width:100px;">财务科长</td>
                         </tr>
                         <tr >
-                            <td style="height:40px;line-height: 20px;"> 
-                                <input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
-                                    <br />
-                                    <?php 
-                                    echo date('Y-m-d');
-                                ?> </td>
+                            <td > 
+                                    <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                </td>
                             <td > </td>
                             <td style="width:100px;"> </td>
                             <td style="width:100px;"> </td>
@@ -416,6 +414,18 @@ function printDIV(){
         });
         return option_json_tmp;
     }
+        //去左空格;
+function ltrim(s){
+    return s.replace(/(^\s*)/g, "");
+}
+//去右空格;
+function rtrim(s){
+    return s.replace(/(\s*$)/g, "");
+}
+//去左右空格;
+function trim(s){
+    return s.replace(/(^\s*)|(\s*$)/g, "");
+}
     function approve() {
         var ctime = $('.ctime').val();
         var page_number = $('.page_number').val();
@@ -462,6 +472,20 @@ function printDIV(){
             $('.applicant').focus();
             return;
         }
+        applicant = trim(applicant);
+       if (applicant == '') {
+            $('.applicant').focus();
+            return;
+       }
+       var applicant_arr = applicant.split("\n");
+       var applicant_str = '';
+       for(var i in applicant_arr) {
+            if (applicant_arr[i] == '') {
+                continue;
+            }
+            applicant_str += applicant_arr[i] + ',';
+       }
+       applicant = applicant_str.substring(0, applicant_str.length - 1);
         var data = {declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
 
         $.ajax({
