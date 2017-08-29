@@ -77,7 +77,6 @@ class AppController extends Controller {
 
 	   $applyList =  $this->ResearchProject->getApplyList($pro_conditions);
        $this->set('applyList',$applyList);
-  
        
     }
 
@@ -96,24 +95,27 @@ class AppController extends Controller {
      */
     public function is_who(){
          //判断当前用户是 科研办公室 主任3 4、财务科 科长5 11
-            if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 4) {
-                // 科研办公室 主任
-                return  'keyanzhuren';
-            } else if ($this->userInfo->department_id == 3 && $this->userInfo->position_id == 5) {
-                // 科研 副所长
-                return 'keyanfusuozhang';
-            }else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 14) {
-                // 财务科 科长
-                return 'caiwukezhang';
-            }else if ($this->userInfo->department_id == 5 && $this->userInfo->position_id == 13) {
-                // 财务科 副所长
-                return 'caiwufusuozhang';
-            }else if ($this->userInfo->department_id == 1 && $this->userInfo->position_id == 6) {
-                // 所长
-                return 'suozhang';
-            }else{
-				return false;
-			}
+        switch($this->userInfo->position_id){
+            case 4: // 科研办公室 主任
+                $dempar = $this->Department->find('first',array('conditions'=>array('user_id'=>$this->userInfo->id,'id'=>3),'fields'=>array('id')));
+                return empty($dempar['Department']['id']) ? false : 'keyanzhuren';
+                break;
+            case 5: // 科研 副所长
+                 $dempar = $this->Department->find('first',array('conditions'=>array('sld'=>$this->userInfo->id,'id'=>3),'fields'=>array('id')));
+                return empty($dempar['Department']['id']) ? false :  'keyanfusuozhang';
+                break;
+            case 14: // 财务科 科长
+                return  'caiwukezhang';
+                break;
+            case 13: // 财务科 副所长
+                return  'caiwufusuozhang';
+                break;
+            case 6: //  所长
+                return  'suozhang';
+                break;
+            default:
+                return false;
+        }
     }
 
     /**

@@ -6,15 +6,15 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department','User','Position','DepartmentCost'); 
+    public $uses = array('Department', 'User', 'Position', 'DepartmentCost');
     public $layout = 'blank';
+
     /* 左 */
-    
-    
+
     /**
      * 部门管理
      */
-     public function index($pages = 1) {
+    public function index($pages = 1) {
 
         if ((int) $pages < 1) {
             $pages = 1;
@@ -24,8 +24,8 @@ class DepartmentController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $conditions = array(); //获取条件
-        $total = $this->Department->find('count',array('conditions'=>$conditions));
-         
+        $total = $this->Department->find('count', array('conditions' => $conditions));
+
         $depArr = array();
         if ($total > 0) {
             $all_page = ceil($total / $limit);
@@ -36,10 +36,9 @@ class DepartmentController extends AppController {
 
             $depArr = array();
             $depArr = $this->Department->query('select dep.*,u.name,tu.name from t_department as dep left join t_user u on dep.user_id = u.id left join t_user tu on dep.sld = tu.id order by dep.id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
-            
         }
         $this->set('depArr', $depArr);
-        
+
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
         $this->set('curpage', $pages);      //curpage    当前页
@@ -47,119 +46,116 @@ class DepartmentController extends AppController {
         $this->render();
     }
 
-   /**
+    /**
      * 部门详情
      */
-     public function infos($id = 0) {
-         
-        if(!$id && !is_numeric($id)){
+    public function infos($id = 0) {
+
+        if (!$id && !is_numeric($id)) {
             header("Location:/homes/index");
         }
-        
+
         $depInfo = $this->Department->findById($id);
-        $this->set('depInfo',$depInfo);
+        $this->set('depInfo', $depInfo);
         $this->set('pid', $id);
 
         # 该部门所属成员
-        $conditions = array('or'=>array('and' => array('del'=>0,'department_id'=>$id),'id' => array($depInfo['Department']['user_id'],$depInfo['Department']['sld']) )); 
-        $depMember = $this->User->getAlluser(0,100,$conditions);
-        $this->set('depMember',$depMember);
+        $conditions = array('or' => array('and' => array('del' => 0, 'department_id' => $id), 'id' => array($depInfo['Department']['user_id'], $depInfo['Department']['sld'])));
+        $depMember = $this->User->getAlluser(0, 100, $conditions);
+        $this->set('depMember', $depMember);
 //var_dump($depMember);        
         # 职务
-         $posArr = $this->Position->getList();
-         $this->set('d_id', $id);
-         $this->set('posArr',$posArr);
-         
-         // 预算
-        $this->set('costList', Configure::read('xizhenglist'));
-        $cost = $this->DepartmentCost->findByDepartmentId($id);
-        $cost = @$cost['DepartmentCost'];
-        $this->set('cost', $cost);
-        
-        // 费用申报
-        
-      //  $declares_arr = $this->DepartmentCost->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id  WHERE m.department_id =  '$id' and m.project_id=0 and code = 10000 ");
-        
-        $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 and m.code = 10000 ");
+        $posArr = $this->Position->getList();
+        $this->set('d_id', $id);
+        $this->set('posArr', $posArr);
 
-        
-        $mainArr = array();
-        foreach($declares_arr as $k => $v){
-            $mainArr[$v['m']['table_name']][$v['m']['id']] =  $v['m']['attr_id'] ;
-        }
-        
-        //取各分表内容
-        $attrArr = array();
-        foreach($mainArr as $k => $v){
-            $attrid = implode(',', $v);
-            switch($k){
-            case 'apply_baoxiaohuizong':  // 报销汇总单
-               $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_chuchai_bxd':  // 差旅费报销单
-            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason subject,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_lingkuandan':  // 领款单
-            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_jiekuandan':  // 借款单
-            $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason subject,b.apply_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
+        // 预算
+        /*  暂时取消
+          $this->set('costList', Configure::read('xizhenglist'));
+          $cost = $this->DepartmentCost->findByDepartmentId($id);
+          $cost = @$cost['DepartmentCost'];
+          $this->set('cost', $cost);
+         */
+        // 费用申报
+        if ($depInfo['Department']['type'] == 1 && (in_array($this->userInfo->position_id,array(6,13,14)) || $this->userInfo->department_id == $id) ) {
+            $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 and m.code = 10000 ");
+
+
+            $mainArr = array();
+            foreach ($declares_arr as $k => $v) {
+                $mainArr[$v['m']['table_name']][$v['m']['id']] = $v['m']['attr_id'];
             }
-            if(count($attrinfo) > 0){
-                foreach($attrinfo as $atk => $atv){
-                  $attrinfo[$atv['b']['id']] = $atv;  
+
+            //取各分表内容
+            $attrArr = array();
+            foreach ($mainArr as $k => $v) {
+                $attrid = implode(',', $v);
+                switch ($k) {
+                    case 'apply_baoxiaohuizong':  // 报销汇总单
+                        $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                        break;
+                    case 'apply_chuchai_bxd':  // 差旅费报销单
+                        $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason description,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                        break;
+                    case 'apply_lingkuandan':  // 领款单
+                        $attrinfo = $this->DepartmentCost->query("SELECT b.id,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                        break;
+                    case 'apply_jiekuandan':  // 借款单
+                        $attrinfo = $this->DepartmentCost->query("SELECT b.id,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                        break;
                 }
-                foreach($v as $atk => $atv){
-                  $attrArr[$atk] = $attrinfo[$atv];  
+                if (count($attrinfo) > 0) {
+                    foreach ($attrinfo as $atk => $atv) {
+                        $attrinfo[$atv['b']['id']] = $atv;
+                    }
+                    foreach ($v as $atk => $atv) {
+                        $attrArr[$atk] = $attrinfo[$atv];
+                    }
                 }
             }
+
+            //var_dump($mainArr,$attrArr);        
+            $this->set('declares_arr', $declares_arr);
+            $this->set('attr_arr', $attrArr);
         }
-        
- //var_dump($mainArr,$attrArr);        
         $this->set('xizhenglist', Configure::read('xizhenglist'));
-        $this->set('declares_arr', $declares_arr);
-        $this->set('attr_arr', $attrArr);
         $this->set('id', $id);
 
         $this->render();
     }
 
-       
-
     /**
      * 部门编辑
      */
-     public function add($id = 0) {
-         
-         $conditions = array('del'=>0,'department_id'=>0); 
-        if($id && is_numeric($id)){
-           $depArr = $this->Department->findById($id);
-           $this->set('depArr',$depArr);
-           #  未指定部门成员
-           $members = $this->User->find('list',array('conditions' => $conditions,'fileds'=>array('id','name')));
-           $this->set('members',$members);
-           
+    public function add($id = 0) {
+
+        $conditions = array('del' => 0, 'department_id' => 0);
+        if ($id && is_numeric($id)) {
+            $depArr = $this->Department->findById($id);
+            $this->set('depArr', $depArr);
+            #  未指定部门成员
+            $members = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+            $this->set('members', $members);
+
             # 该部门id
-           $conditions['department_id'] = $id;
+            $conditions['department_id'] = $id;
         }
         # 该部门所属成员
         if (!empty($depArr)) {
             //$conditions['position_id'] = array(1,4);//职员，科室主任
-            $fuzeren = $this->User->find('all',array('conditions' => $conditions,'fileds'=>array('id','name', 'position_id')));
-           
-            $this->set('fuzeren',$fuzeren);
+            $fuzeren = $this->User->find('all', array('conditions' => $conditions, 'fileds' => array('id', 'name', 'position_id')));
+
+            $this->set('fuzeren', $fuzeren);
         }
-        
-         # 分管所领导
-        $sld_conditions = array('del'=>0,'position_id'=>array(5,6));
-        $suolingdao = $this->User->find('list',array('conditions' => $sld_conditions,'fileds'=>array('id','name')));
-        $this->set('suolingdao',$suolingdao);
+
+        # 分管所领导
+        $sld_conditions = array('del' => 0, 'position_id' => array(5, 6,13));
+        $suolingdao = $this->User->find('list', array('conditions' => $sld_conditions, 'fileds' => array('id', 'name')));
+        $this->set('suolingdao', $suolingdao);
         $this->render();
     }
 
-
-   /**
+    /**
      * ajax 启用/停用
      */
     public function ajax_del() {
@@ -197,7 +193,6 @@ class DepartmentController extends AppController {
         exit;
     }
 
-   
     /**
      * ajax 保存添加/修改
      */
@@ -279,13 +274,13 @@ class DepartmentController extends AppController {
 
                 if ($this->Department->edit($id, $save_arr)) {
                     /*
-                    //修改成功，把本部门的负责人变成科室主任，把之前的科室主任变成职员
-                    $this->User->query("update t_user set position_id=1 where department_id='$id' and position_id=4");
-                    if (!empty($fzr)) {
-                        //部门负责人非空时，把所选的，变为科室主任
-                        $this->User->query("update t_user set position_id=4 where id='$fzr'");
-                    }
-                     
+                      //修改成功，把本部门的负责人变成科室主任，把之前的科室主任变成职员
+                      $this->User->query("update t_user set position_id=1 where department_id='$id' and position_id=4");
+                      if (!empty($fzr)) {
+                      //部门负责人非空时，把所选的，变为科室主任
+                      $this->User->query("update t_user set position_id=4 where id='$fzr'");
+                      }
+
                      */
                     $ret_arr = array(
                         'code' => 0,
@@ -315,8 +310,7 @@ class DepartmentController extends AppController {
         exit;
     }
 
-    
-     /**
+    /**
      * ajax 保存添加/修改
      */
     public function ajax_member() {
@@ -336,7 +330,7 @@ class DepartmentController extends AppController {
                 echo json_encode($ret_arr);
                 exit;
             }
-            
+
             if (empty($member)) {
                 $ret_arr = array(
                     'code' => 1,
@@ -348,28 +342,26 @@ class DepartmentController extends AppController {
             }
 
             if ($this->User->edit($member, $save_arr)) {
-                    $ret_arr = array(
-                        'code' => 0,
-                        'msg' => '添加成功',
-                        'class' => ''
-                    );
-                    echo json_encode($ret_arr);
-                    exit;
-                }
-                //失败
                 $ret_arr = array(
-                    'code' => 2,
-                    'msg' => '添加失败',
+                    'code' => 0,
+                    'msg' => '添加成功',
                     'class' => ''
                 );
                 echo json_encode($ret_arr);
                 exit;
             }
-        
+            //失败
+            $ret_arr = array(
+                'code' => 2,
+                'msg' => '添加失败',
+                'class' => ''
+            );
+            echo json_encode($ret_arr);
+            exit;
+        }
+
         echo json_encode($ret_arr);
         exit;
     }
-    
-    
 
 }

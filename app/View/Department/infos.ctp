@@ -151,19 +151,21 @@
                                                         </a>
                                                     </li>
 
-                                                    <li >
+                                                    <!--li >
                                                         <a data-toggle="tab" href="#faq-tab-2">
                                                             <i class="blue icon-question-sign bigger-120"></i>
                                                             部门预算
                                                         </a>
-                                                    </li>
-
+                                                    </li-->
+                                                <?php if($depInfo['Department']['type'] == 1){ ;?>
                                                     <li >
                                                         <a data-toggle="tab" href="#faq-tab-3">
                                                             <i class="blue icon-question-sign bigger-120"></i>
                                                             申报费用
                                                         </a>
                                                     </li>
+                                                <?php } ?>
+                                                    
                                                 </ul>
                                                 <div class="tab-content no-border ">
 
