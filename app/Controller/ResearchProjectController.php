@@ -177,16 +177,16 @@ class ResearchProjectController extends AppController {
             $attrid = implode(',', $v);
             switch($k){
             case 'apply_baoxiaohuizong':  // 报销汇总单
-               $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+               $attrinfo = $this->ResearchSource->query("SELECT b.id,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
             break;
             case 'apply_chuchai_bxd':  // 差旅费报销单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason subject,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
             break;
             case 'apply_lingkuandan':  // 领款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.amount,b.description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
             break;
             case 'apply_jiekuandan':  // 借款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason subject,b.apply_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.apply_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
             break;
             }
             if(count($attrinfo) > 0){

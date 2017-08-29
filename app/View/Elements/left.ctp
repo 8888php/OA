@@ -60,7 +60,7 @@
                 <li class="office">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-text-width"></i>
-                        <span class="menu-text"> 行政办公 </span>
+                        <span class="menu-text"> 审批流程 </span>
 
                         <b class="arrow icon-angle-down"></b>
                     </a>
