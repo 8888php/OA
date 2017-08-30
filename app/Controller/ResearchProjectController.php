@@ -269,7 +269,7 @@ class ResearchProjectController extends AppController {
             $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
         }
         
-        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id);
+        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id,'project_user_id'=>$project_user_id);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
         
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
