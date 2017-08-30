@@ -144,6 +144,12 @@
                                                 <?php   } ?>
                                             </tr>
                                             <?php   } ?>
+                                            <tr>
+                                              <td style="text-align:right;"> 合计 </td>
+                                              <td><?php echo $cost['total'] ? $cost['total'] : '0.00';  ?></td> 
+                                              <td style="text-align:right;">  </td>
+                                              <td> </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -173,6 +179,12 @@
                                                 <?php   } ?>
                                             </tr>
                                             <?php   } ?>
+                                            <tr>
+                                              <td style="text-align:right;"> 剩余合计 </td>
+                                              <td><?php echo ($sum_minus >= 0) ? $sum_minus : '<a style="color:red;">'.$sum_minus.'</a>';  ?></td> 
+                                              <td style="text-align:right;">  </td>
+                                              <td> </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
