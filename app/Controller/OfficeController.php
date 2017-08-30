@@ -365,7 +365,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id'");
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' limit " . ($pages - 1) . "," . $limit);
         }
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
