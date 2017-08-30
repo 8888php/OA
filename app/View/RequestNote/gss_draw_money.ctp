@@ -140,11 +140,10 @@
                                 <td >财务科长</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
-                                <td > <input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />
-                                    <br />
-                                    <?php 
-                                    echo date('Y-m-d');
-                                ?> </td>
+                                <td > 
+                                    <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                </td>
                                 <td > </td>
                                 <td > </td>
                                 <td >  </td>
@@ -408,6 +407,18 @@ function printDIV(){
         }
         return chineseStr;
 }
+//去左空格;
+function ltrim(s){
+    return s.replace(/(^\s*)/g, "");
+}
+//去右空格;
+function rtrim(s){
+    return s.replace(/(\s*$)/g, "");
+}
+//去左右空格;
+function trim(s){
+    return s.replace(/(^\s*)|(\s*$)/g, "");
+}
     function approve() {
         var ctime = $('.ctime').val();
         var dep_pro = $('.dep_pro').val();
@@ -485,6 +496,21 @@ function printDIV(){
             $('.applicant').focus();
             return;
        }
+       applicant = trim(applicant);
+       if (applicant == '') {
+            $('.applicant').focus();
+            return;
+       }
+       var applicant_arr = applicant.split("\n");
+       var applicant_str = '';
+       for(var i in applicant_arr) {
+            if (applicant_arr[i] == '') {
+                continue;
+            }
+            applicant_str += applicant_arr[i] + ',';
+       }
+       applicant = applicant_str.substring(0, applicant_str.length - 1);
+       
         var data = {declarename: declarename, applicant: applicant, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_draw_money',

@@ -73,11 +73,15 @@
                             <td style="width:100px;">财务科长</td>
                         </tr>
                         <tr >
-                            <td style="height:40px;line-height: 40px;"> 
+                            <td style="/*height:40px;line-height: 40px;*/"> 
                                 <?php 
-                                echo $createName ; 
-                                echo '<br />';
-                                echo $attr_arr['ctime'];
+                                    $applicant = $attr_arr['applicant'];
+                                    if (!empty($applicant)) {
+                                        $applicant_arr = explode(',', $applicant);
+                                        foreach($applicant_arr as $ak=>$av) {
+                                            echo "<span style='display: block;text-align: center; height: 17px;'>".$av."</span>";
+                                        }
+                                    }
                                 ?>
                             </td>
                             <td style="width:100px;"> 
