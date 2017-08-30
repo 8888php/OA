@@ -112,9 +112,10 @@ class ResearchProjectController extends AppController {
                    $minus[$uk]  += $uv;
                 }
             }
-        }
+        } 
         $this->set('cost', $cost);
         $this->set('minus',$minus);
+        $this->set('sum_minus',$cost['total'] - array_sum($minus) );
         $this->render();
     }
 

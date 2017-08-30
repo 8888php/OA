@@ -878,12 +878,12 @@ class OfficeController extends AppController {
 
         $applyArr = array();
         foreach ($applylist as $k => $v) {
-            if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']) {
+            if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id'] || $v['ApprovalInformation']['position_id'] == 15) {
                 $applyArr['ksfzr'] = $v['ApprovalInformation'];
             } else {
                 $applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
             }
-        }  
+        } 
         $this->set('applyArr', @$applyArr);
     }
 
