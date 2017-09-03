@@ -32,7 +32,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User','Department', 'ResearchProject','ProjectMember', 'ResearchSource');
+    public $uses = array('User','Department', 'ResearchProject','ProjectMember', 'ResearchSource','ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code';//返回的状态
@@ -304,6 +304,27 @@ class AppController extends Controller {
         }
         return $feedback;
     }
+    
+ 
+     /**
+     * 获取申请单 和 附属表详情
+     * @param $main_id 申请单id  $type 申请单表名
+     * @return array();
+     */
+
+    public function applyInfos($main_id,$type){
+                $mainInfo = $this->ApplyMain->findById($main_id); 
+                $mainInfo['ApplyMain']['subject'] = json_decode($mainInfo['ApplyMain']['subject'],true);
+                $attrInfo = $this->$type->findById($mainInfo['ApplyMain']['attr_id']); 
+                
+                $this->set('mainInfo',$mainInfo['ApplyMain']);
+                $this->set('attrInfo',$attrInfo[$type]);
+                          
+                $checkapply = array('mainid'=>$mainInfo['ApplyMain']['id'],'attrid'=>$mainInfo['ApplyMain']['attr_id'],'attrtable'=>$type); 
+                $this->Cookie->write('checkapply',$checkapply, true, '1 day');
+                 return array('ApplyMain' => $mainInfo['ApplyMain'],$type => $attrInfo[$type]);
+    }    
+    
     
     
 }

@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou'); 
 
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
@@ -172,10 +172,11 @@ class RequestNoteController extends AppController {
    
        
     // 果树所借款单
-     public function gss_loan() {
+     public function gss_loan($mid = 0) {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             
            $this->gss_loan_save($_POST);
+
         }else{
             // 当前用所参与科研项目
         $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
@@ -186,11 +187,19 @@ class RequestNoteController extends AppController {
             
 //            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
 //            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('projectInfo', $projectInfo);
+            
+            // 重新提交申请  获取旧申请数据
+            if($mid){
+                $applyArr = $this->applyInfos($mid,'ApplyJiekuandan');
+                $this->set('mainInfo',$applyArr['ApplyMain']);
+                $this->set('attrInfo',$applyArr['ApplyJiekuandan']);
+            }
             $this->render();
         }
     }
@@ -564,7 +573,11 @@ class RequestNoteController extends AppController {
         $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
         
+        // 是否修改申请
+       // $checkapply = $this->Cookie->read('checkapply');
+        
         $attrArr = array();
+       // isset($checkapply['mainid']) && $checkapply['attrtable'] == 'ApplyJiekuandan' && $attrArr['id'] = $checkapply['mainid'];
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['reason'] = $datas['loan_reason'];
         $attrArr['department_id'] = $department_id;
@@ -586,6 +599,7 @@ class RequestNoteController extends AppController {
       
         # 主表入库
         $mainArr = array();
+       // isset($checkapply['attrid']) && $checkapply['attrtable'] == 'ApplyJiekuandan' && $mainArr['id'] = $checkapply['attrid'];
         $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
         $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
         $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
