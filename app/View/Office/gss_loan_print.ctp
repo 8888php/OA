@@ -12,14 +12,14 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
+                    <table class="table  table-condensed" style="/*table-layout: fixed;*/text-align: center;border-color:#000;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所借款单' /> 
                         <tbody>
                             <tr>
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所借款单 </td>
                             </tr>
                             <tr>
-                                <td >填表日期</td>
+                                <td style="width: 14%;">填表日期</td>
                                 <td colspan='6'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
                             </tr>
                             
@@ -35,7 +35,7 @@
                                         <?php  echo $attr_arr[0][$table_name]['department_name'];?>
                                     <?php }?>
                                 </td>
-                                <td>借款人姓名</td>
+                                <td style="width: 13%;">借款人姓名</td>
                                 <td > <?php echo $user_arr['User']['name'];?> </td>
                             </tr>
 
@@ -66,10 +66,10 @@
           
                             <tr>
                                 <td >项目负责人</td>
-                                <td >科室负责人</td>
-                                <td >分管所领导</td>
-                                <td >所长</td>
-                                <td >分管财务所长</td>
+                                <td style="width: 15%;">科室负责人</td>
+                                <td style="width: 15%;">分管所领导</td>
+                                <td  style="width: 16%;">所长</td>
+                                <td style="width: 16%;">分管财务所长</td>
                                 <td colspan='2'>财务科长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;">

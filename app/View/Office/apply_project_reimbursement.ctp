@@ -26,7 +26,7 @@
                             <td>  <?php echo $attr_arr['page_number']; ?>  </td>
                         </tr>
                         <tr>
-                            <td>部门或项目</td>
+                            <td style="width: 14%;">部门或项目</td>
                             <td colspan='6'> 
                                 <?php echo $kemuStr; ?>   
                             </td>
