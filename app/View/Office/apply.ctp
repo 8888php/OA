@@ -121,9 +121,23 @@
                                                             } 
                                                         }
                                                         ?></td>
-                                                    <td><?php  $new_appprove_code_arr = Configure::read('new_appprove_code_arr');
-						    echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
+                                                    <td><?php 
+                                                        $new_appprove_code_arr = Configure::read('new_appprove_code_arr');
+                                                        if(($sv['ApplyMain']['code'] % 2) == 0){
+                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
+                                                        }else{
+                                                        
+                                                        if($sv['ApplyMain']['table_name'] == 'apply_baoxiaohuizong') {?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/huizongbaoxiao/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_jiekuandan')  {?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_loan/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_lingkuandan')  {?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_draw_money/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php }else if($sv['ApplyMain']['table_name'] == 'apply_chuchai_bxd'){  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_evection_expense/<?php echo $sv['ApplyMain']['id'];?>/');"  > <?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php   } } ?>
+                                                    </td>
+                                                   
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

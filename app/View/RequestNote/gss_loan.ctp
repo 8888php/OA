@@ -22,18 +22,21 @@
                                 <td >填表日期</td>
                                 <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>"   style='height:25px;width:270px;'>  </td>
                                  <td>借款人姓名</td>
-                                 <td  colspan='2'> <input type="text" class="applicant" name="applicant" style='width:163px;height:25px;' value="<?php echo $userInfo->name;?>" /> </td>
+                                 <td  colspan='2'> <input type="text" class="applicant" name="applicant" style='width:163px;height:25px;' value="<?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : $userInfo->name; ?>" /> </td>
                             </tr>
-                            
+             
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='6'>  <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){?>
+                                        <?php if ($is_department == 1){  ?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
-                                        <?php foreach($projectInfo as $pk=>$pv) {?>
-                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
-                                        <?php }?>
+                                        <?php 
+                                        foreach($projectInfo as $pk=>$pv) {
+                                        $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
+                                        echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
+                                         }
+                                         ?>
                                     </select>
                                     <select style="width:155px;height:25px;" name="filenumber" class="filenumber">
                                         <option></option>
@@ -43,7 +46,8 @@
                                         <?php 
                                             foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
-                                                    echo "<option value='$key'> $val </option>" ;
+                                                    $selectedstr = ($mainInfo['type'] == 2 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key' $selectedstr> $val </option>" ;
                                                 }
                                             }
                                         ?>
@@ -52,7 +56,8 @@
                                          <?php 
                                             foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
-                                                    echo "<option value='$key'> $val </option>" ;
+                                                    $selectedstr = ($mainInfo['type'] == 1 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key' $selectedstr> $val </option>" ;
                                                 }
                                             }
                                         ?>
@@ -61,7 +66,7 @@
                                 </td>
                                 <script type="text/javascript">
                                 <?php 
-                                    if ($is_department != 1){
+                                    if ($is_department != 1 || isset($mainInfo['id'])){
                                         echo 'change_filenumber();';
                                     }
                                 ?>
@@ -95,27 +100,27 @@
 
                             <tr>
                                 <td>借款事由</td>
-                                <td colspan='6'> <input type="text" name='loan_reason' class="loan_reason" style='width:567px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='loan_reason' class="loan_reason" style='width:567px;height:25px;' value="<?php echo $attrInfo['reason']; ?>" /> </td>
                             </tr>
                             
                             <tr>
                                 <td>申请借款金额</td>
                                 <td>金额大写</td>
-                                <td colspan='3'> <input readonly="readonly" type="text" name='big_amount' class="big_amount" style='width:280px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_amount' class="small_amount" style='width:160px;height:25px;'/> </td>
+                                <td colspan='3'> <input readonly="readonly" type="text" name='big_amount' class="big_amount" style='width:280px;height:25px;' value="<?php echo $attrInfo['apply_money_capital']; ?>" /> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_amount' class="small_amount" style='width:160px;height:25px;' value="<?php echo $attrInfo['apply_money']; ?>" /> </td>
                             </tr>
                             
                             <tr>
                                 <td>批准金额</td>
                                 <td>金额大写</td>
-                                <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:160px;height:25px;'/> </td>
+                                <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;' value="<?php echo $attrInfo['approve_money_capital']; ?>" /> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:160px;height:25px;' value="<?php echo $attrInfo['approve_money']; ?>" /> </td>
                             </tr>
                             
                             
                             <tr>
                                 <td  >还款计划</td>
-                                <td colspan='6'> <input type="text" name='repayment_plan' class="repayment_plan" style='width:567px;height:25px;'/> </td>
+                                <td colspan='6'> <input type="text" name='repayment_plan' class="repayment_plan" style='width:567px;height:25px;'  value="<?php echo $attrInfo['repayment']; ?>"  /> </td>
                             </tr>
           
                             <tr>
