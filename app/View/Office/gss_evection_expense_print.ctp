@@ -12,14 +12,14 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;padding: 3px;" >
+                    <table class="table  table-condensed" style="/*table-layout: fixed;*/text-align: center;border-color:#000;padding: 3px;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
                         <tbody>
                             <tr>
                                 <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所差旅费报销单 </td>
                             </tr>
                             <tr>
-                                <td >填表时间</td>
+                                <td style="width: 14%;">填表时间</td>
                                 <td colspan='3'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
                                 <td>附单据张数</td>
                                 <td colspan='3'> <?php echo $attr_arr[0][$table_name]['page_number'];?>  </td>
@@ -48,13 +48,13 @@
                                    共 <?php  echo $attr_arr[0][$table_name]['total_number'];?> 人 </td>
                              </tr>
                              <tr>
-                                <td>起止日期</td>
-                                <td>起讫地点</td>
-                                <td>车船费</td>
-                                <td style="font-size: 12px;">差旅补助天数</td>
-                                <td style="font-size: 12px;">差旅补助标准</td>
-                                <td style="font-size: 12px;">差旅补助金额</td>
-                                <td>住宿费</td>
+                                 <td>起止日期</td>
+                                <td style="width: 13%;">起讫地点</td>
+                                <td style="width: 11%;">车船费</td>
+                                <td style="font-size: 12px;width: 13%;">差旅补助天数</td>
+                                <td style="font-size: 12px;width: 13%;">差旅补助标准</td>
+                                <td style="font-size: 12px;width: 13%;">差旅补助金额</td>
+                                <td style="width: 11%;">住宿费</td>
                                 <td>其他费用</td>
                             </tr>
                             <?php 

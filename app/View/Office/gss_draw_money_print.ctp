@@ -18,7 +18,7 @@
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
                             </tr>
                             <tr>
-                                <td >填表日期</td>
+                                <td style="width: 14%;">填表日期</td>
                                 <td colspan='4'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>   </td>
                                 <td > 附单据张数 </td>
                                 <td >  <?php echo $attr_arr[0][$table_name]['page_number'];?> </td>
@@ -39,12 +39,12 @@
                             </tr>
                             
                             <tr>
-                                <td colspan="2">项目</td>
-                                <td>计算单位</td>
-                                <td>数量</td>
-                                <td>单价</td>
-                                <td>金额</td>
-                                <td>备注</td>
+                                <td colspan="2" style="width: 30%;">项目</td>
+                                <td style="width: 13%;">计算单位</td>
+                                <td style="width: 13%;">数量</td>
+                                <td style="width: 13%;">单价</td>
+                                <td style="width: 13%;">金额</td>
+                                <td style="width: 18%;">备注</td>
                             </tr>
                             <?php 
                                 $json_str = $attr_arr[0][$table_name]['json_str'];
