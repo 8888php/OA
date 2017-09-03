@@ -902,13 +902,36 @@ class OfficeController extends AppController {
         }
 
         $applyArr = array();
+        $apply_12 = array();//科研 项目组负责人
         foreach ($applylist as $k => $v) {
             if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id'] || $v['ApprovalInformation']['position_id'] == 15) {
                 $applyArr['ksfzr'] = $v['ApprovalInformation'];
             } else {
+                if ($v['ApprovalInformation']['position_id'] == 12) {
+                    //项目组负责人先保存起来
+                    $apply_12 = $v['ApprovalInformation'];
+                    continue;
+                } 
                 $applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
             }
         } 
+        //如果是科研
+        if ($main_arr['ApplyMain']['type'] == 1) {
+            if (!empty($apply_12)) {
+                //把项目负责人的信息给项目负责人,用与打印显示
+                $applyArr[11] = $apply_12;
+            } else {
+                //判断next_approve_id是不12
+                if(!empty($applyArr[11])) {
+                    //看看 项目负责人在不
+                    //取出下一审核人的 next_approve_id
+                    if ($main_arr['ApplyMain']['next_approver_id'] == 12) {
+                        //如果是项目组负责人，那么就不显示项目负责人
+                        unset($applyArr[11]);
+                    }
+                }
+            } 
+        }
         $this->set('applyArr', @$applyArr);
     }
 

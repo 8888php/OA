@@ -290,7 +290,7 @@ class ApprovalComponent extends Component {
             $applyinfo['type'] = $applyArr['type'];
             $applyinfo['project_user_id'] = $applyArr['project_user_id'];
             $applyinfo['department_id'] = $uinfo['department_id'];
-            $applyinfo['approval_process_id'] = $applyArr['project_team_user_id'];
+            $applyinfo['project_team_user_id'] = $applyArr['project_team_user_id'];
             $contents['next_uid'] = $this->applyUser($applyinfo,$contents);
         } 
   
