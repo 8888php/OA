@@ -32,7 +32,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User','Department', 'ResearchProject','ProjectMember');
+    public $uses = array('User','Department', 'ResearchProject','ProjectMember', 'ResearchSource');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code';//返回的状态
@@ -267,4 +267,43 @@ class AppController extends Controller {
        return $ret_arr; 
     }
 
+    
+   
+     /**
+     * 验证审批单申请是否超过 来源资金剩余金额
+     * @param $apply 申请单详情  $source_id 资金来源id
+     * @return array();
+     */
+    public function residual_cost($apply ,$source_id){
+         if($apply['ApplyMain']['type'] == 1){
+            $project_id = $apply['ApplyMain']['project_id'];
+            $source = $this->ResearchSource->findById($source_id);
+            $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
+            $sqlstr = "select m.id,m.attr_id,m.table_name,m.total  from t_apply_main m "
+                    . "left join t_apply_baoxiaohuizong h on m.project_id = h.project_id and h.source_id = $source_id and m.attr_id = h.id "
+                    . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
+                    . "left join t_apply_jiekuandan j on m.project_id = j.project_id and j.source_id = $source_id and m.attr_id = j.id  "
+                    . "left join t_apply_lingkuandan l on m.project_id = l.project_id and j.source_id = $source_id and m.attr_id = l.id  "
+                    . " where m.project_id = $project_id and m.code = 10000 ";
+            $amount_sum = $this->ResearchSource->query($sqlstr);
+            $total_cost = 0;
+            foreach($amount_sum as $k => $v){
+               $total_cost += $v['m']['total'] ;
+            }
+            $residual = $source_amount - $total_cost; // 剩余金额
+        }
+        
+        $feedback = array('code'=>0,'total'=>'','msg'=>'');
+        if($residual < 0){
+            $feedback['code'] = 1; 
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '该来源资金已超出金额 '.$residual . ' 元';
+        }else if($residual > 0){
+            $feedback['total'] = $residual;
+            $feedback['msg']  = '该来源资金剩余金额 '.$residual . ' 元';
+        }
+        return $feedback;
+    }
+    
+    
 }

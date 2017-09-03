@@ -140,6 +140,17 @@
             <?php }?>
             <!--<hr class="hr" style="display: none; border: 1px solid #666666;" />-->
             <div class="modal-footer" style='background-color: #fff;'>
+                <?php if($feedback['code']){ ?>
+                 <div class="alert alert-danger alert-dismissable center ">
+                     <button type="button" class="close" data-dismiss="alert"
+                             aria-hidden="true">
+                         &times;
+                     </button>
+                     警告！
+                     <?php   echo $feedback['msg'];  ?>
+                 </div>
+                 <?php   } ?>
+                        
                 <?php if ($apply == 'apply') {?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>

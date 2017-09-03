@@ -600,6 +600,11 @@ class OfficeController extends AppController {
         $this->set('createName', @$create_arr['User']['name']);
         $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']); 
 
+        // 科研类费用 检查所申请来源资金是否超额
+        if($main_arr['ApplyMain']['type'] == 1){
+            $residual = $this->residual_cost($main_arr,$attr_arr['ApplyBaoxiaohuizong']['source_id']);          
+            $this->set('feedback',$residual);
+        }
 
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
@@ -776,6 +781,13 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        
+        // 科研类费用 检查所申请来源资金是否超额
+        if($main_arr['ApplyMain']['type'] == 1){
+            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);         
+            $this->set('feedback',$residual);
+        }
+        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         
@@ -811,6 +823,13 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        
+        // 科研类费用 检查所申请来源资金是否超额
+        if($main_arr['ApplyMain']['type'] == 1){
+            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);          
+            $this->set('feedback',$residual);
+        }
+        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
       
@@ -846,6 +865,12 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
+        
+        // 科研类费用 检查所申请来源资金是否超额
+        if($main_arr['ApplyMain']['type'] == 1){
+            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);          
+            $this->set('feedback',$residual);
+        }        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         
