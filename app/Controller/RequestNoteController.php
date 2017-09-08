@@ -46,7 +46,7 @@ class RequestNoteController extends AppController {
      */
     
     //汇总报销申批单
-    public function huizongbaoxiao() {
+    public function huizongbaoxiao($mid = 0) {
         
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->sub_declares($_POST);
@@ -76,6 +76,14 @@ class RequestNoteController extends AppController {
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('projectInfo', $projectInfo);
 //        $this->set('source', $source);
+        
+        // 重新提交申请  获取旧申请数据
+        if($mid){
+            $applyArr = $this->applyInfos($mid,'ApplyBaoxiaohuizong');
+            $this->set('mainInfo',$applyArr['ApplyMain']);
+            $this->set('attrInfo',$applyArr['ApplyBaoxiaohuizong']);
+        }
+
         $this->render();
         }
         
@@ -197,7 +205,7 @@ class RequestNoteController extends AppController {
  
            
     // 果树所差旅费报销单
-     public function gss_evection_expense() {
+     public function gss_evection_expense($mid = 0) {
          $this->render();
          
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
@@ -211,6 +219,14 @@ class RequestNoteController extends AppController {
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('projectInfo', $projectInfo);
+            
+            // 重新提交申请  获取旧申请数据
+            if($mid){
+                $applyArr = $this->applyInfos($mid,'ApplyChuchaiBxd');
+                $this->set('mainInfo',$applyArr['ApplyMain']);
+                $this->set('attrInfo',$applyArr['ApplyChuchaiBxd']);
+            }
+            
             $this->render();
         }
     }
@@ -231,7 +247,7 @@ class RequestNoteController extends AppController {
     }
            
     // 果树所领款单
-     public function gss_draw_money() {
+     public function gss_draw_money($mid = 0) {
          
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_draw_money_save($_POST);
@@ -243,6 +259,14 @@ class RequestNoteController extends AppController {
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('projectInfo', $projectInfo);
+            
+            // 重新提交申请  获取旧申请数据
+            if($mid){
+                $applyArr = $this->applyInfos($mid,'ApplyLingkuandan');
+                $this->set('mainInfo',$applyArr['ApplyMain']);
+                $this->set('attrInfo',$applyArr['ApplyLingkuandan']);
+            }
+            
             $this->render();
         }
     }
