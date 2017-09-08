@@ -8,7 +8,7 @@
         .tab-content{z-index:0;}
     </style>
 
-    <div  style='padding:0;'>
+    <div  style='padding:0;' >
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
