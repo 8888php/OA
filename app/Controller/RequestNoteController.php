@@ -65,7 +65,7 @@ class RequestNoteController extends AppController {
         $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
 		$proArr = $this->ProjectMember->find('list' ,$pro_conditions);
 		// 所参与项目 详情
-		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0), 'fields' => array('id', 'name'));
+		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
         $projectInfo = $this->ResearchProject->find('list' ,$conditions);
 //        $source = $this->ResearchSource->getAll($pid);
         $department_id = $this->userInfo->department_id;
@@ -184,9 +184,18 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             
            $this->gss_loan_save($_POST);
-        }else{           
-            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
-            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+
+        }else{
+            // 当前用所参与科研项目
+        $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
+		$proArr = $this->ProjectMember->find('list' ,$pro_conditions);
+		// 所参与项目 详情
+		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+        $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+            
+//            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+//            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
@@ -211,9 +220,15 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_expense_save($_POST);
         }else{
+             // 当前用所参与科研项目
+        $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
+		$proArr = $this->ProjectMember->find('list' ,$pro_conditions);
+		// 所参与项目 详情
+		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+        $projectInfo = $this->ResearchProject->find('list' ,$conditions);
         
-            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
-            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+//            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+//            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
@@ -252,8 +267,15 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_draw_money_save($_POST);
         }else{
-            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0), 'fields' => array('id', 'name'));
-            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+            
+             // 当前用所参与科研项目
+        $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
+		$proArr = $this->ProjectMember->find('list' ,$pro_conditions);
+		// 所参与项目 详情
+		$conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+        $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+//            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+//            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
