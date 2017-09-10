@@ -165,6 +165,13 @@
                                                         </a>
                                                     </li>
                                                 <?php } ?>
+                                                
+                                                <li >
+                                                        <a  data-toggle="tab" href="#faq-tab-4">
+                                                            <i class="orange icon-list-alt bigger-120"></i>
+                                                            资金来源
+                                                        </a>
+                                                    </li>
                                                     
                                                 </ul>
                                                 <div class="tab-content no-border ">
@@ -270,7 +277,39 @@
                                                                 <?php }?>
                                                             </tbody>
                                                         </table>
-                                                    </div>                                                  
+                                                    </div>                                                
+                                                    
+                                                   <div id="faq-tab-4" class="tab-pane fade  ">
+                                                        <table class="table table-striped table-bordered" style='width:80%;float:left;margin-left:15px;border:1px solid #ccc;font-size:11px;'>
+                                                        
+                                                        <thead>
+                                                            <tr>
+                                                                <th>NO.</th>
+                                                                <th>来源渠道</th>
+                                                                <th>文号</th>
+                                                                <th>金额</th>
+                                                                <th>年度</th>
+                                                                
+                                                                <?php  if($depInfo['Department']['user_id'] == $userInfo->id){  ?>
+                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;height:32px;margin-left: 20px;" onclick="$('#modal-body').load('/Department/add_filenumber/<?php echo $d_id;?>');" > <i class="icon-plus arrow blue"></i> </a> 
+                                                            <?php  } ?>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php  foreach($source as $sk => $sv){  ?>
+                                                            <tr>
+                                                                <td><?php echo $sk+1;  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['source_channel'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['file_number'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['amount'];  ?></td>
+                                                                <td><?php echo $sv['ResearchSource']['year'];  ?></td>
+                                                            </tr>
+                                                            <?php   } ?>
+                                                        </tbody>
+                                                       </table>
+
+                                                        <div style="clear:both;"> </div>
+                                                    </div>
 
                                                 </div>
 
@@ -282,7 +321,11 @@
                                 </div>
                             </div>
                         </div>
-
+<div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->

@@ -56,7 +56,10 @@ class ResearchSource extends AppModel {
         return  $this->find('all',array('conditions' => array('project_id'=>$pid)));
     }
      
-    
+         # 获取部门相关来源
+    public function getDepAll($depid){
+        return  $this->find('all',array('conditions' => array('department_id'=>$depid)));
+    }  
     
     
     
