@@ -81,7 +81,7 @@ class RequestNoteController extends AppController {
         if($mid){
             $applyArr = $this->applyInfos($mid,'ApplyBaoxiaohuizong');
             $this->set('mainInfo',$applyArr['ApplyMain']);
-            $this->set('attrInfo',$applyArr['ApplyBaoxiaohuizong']);
+            $this->set('attrInfo',$applyArr['ApplyBaoxiaohuizong']);            var_dump($applyArr);
         }
 
         $this->render();
@@ -239,6 +239,7 @@ class RequestNoteController extends AppController {
             if($mid){
                 $applyArr = $this->applyInfos($mid,'ApplyChuchaiBxd');
                 $this->set('mainInfo',$applyArr['ApplyMain']);
+                $applyArr['ApplyChuchaiBxd']['json_str'] = json_decode($applyArr['ApplyChuchaiBxd']['json_str'],true);
                 $this->set('attrInfo',$applyArr['ApplyChuchaiBxd']);
             }
             
@@ -281,12 +282,13 @@ class RequestNoteController extends AppController {
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('projectInfo', $projectInfo);
-            
+         
             // 重新提交申请  获取旧申请数据
             if($mid){
                 $applyArr = $this->applyInfos($mid,'ApplyLingkuandan');
                 $this->set('mainInfo',$applyArr['ApplyMain']);
-                $this->set('attrInfo',$applyArr['ApplyLingkuandan']);
+                $applyArr['ApplyLingkuandan']['json_str'] = json_decode($applyArr['ApplyLingkuandan']['json_str'],true);
+                $this->set('attrInfo',$applyArr['ApplyLingkuandan']);               
             }
             
             $this->render();
@@ -963,11 +965,13 @@ class RequestNoteController extends AppController {
     //根据项目id获取souce
     public function ajax_get_souce() {
         $pid = $_POST['pid'];
+        $souid = $_POST['pid'];
         $souces = $this->ResearchSource->getAll($pid);
         $ret_option = '';
         if (!empty($souces)) {
+            $selected = $souid ? 'selected' : '';
             foreach ($souces as $k=>$v) {
-                $ret_option .= '<option value="'. $v['ResearchSource']['id'].'"> 【'.$v['ResearchSource']['source_channel'].' （'.$v['ResearchSource']['file_number'].'） '.$v['ResearchSource']['year'].'】</option>';
+                $ret_option .= '<option value="'. $v['ResearchSource']['id'].'"  $selected > 【'.$v['ResearchSource']['source_channel'].' （'.$v['ResearchSource']['file_number'].'） '.$v['ResearchSource']['year'].'】</option>';
             }
         } else {
             $ret_option = '<option></option>';

@@ -21,7 +21,7 @@
                                 <td >填表时间</td>
                                 <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:230px;'>  </td>
                                 <td>附单据张数</td>
-                                <td colspan='3'> <input type="text" name='sheets_num' class="sheets_num" style='width:180px;height:25px;'/>  </td>
+                                <td colspan='3'> <input type="text" name='sheets_num' class="sheets_num" style='width:180px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
                             </tr>
                             
                              <tr>
@@ -31,9 +31,11 @@
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
-                                        <?php foreach($projectInfo as $pk=>$pv) {?>
-                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
-                                        <?php }?>
+                                        <?php 
+                                        foreach($projectInfo as $pk=>$pv) {
+                                        $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
+                                        echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
+                                         }?>
                                     </select>
                                     <select style="width:215px;height:25px;" name="filenumber" class="filenumber"  >
                                         <option></option>
@@ -42,7 +44,7 @@
                                 </tr>
                             <script type="text/javascript">
                                 <?php 
-                                    if ($is_department != 1){
+                                    if ($is_department != 1 || isset($mainInfo['id'])){
                                         echo 'change_filenumber();';
                                     }
                                 ?>
@@ -70,9 +72,9 @@
                              <tr>
                                 <td > 出差人姓名 </td>
                                 <td colspan='6'>
-                                    <input type="text" class="personnel" name="personnel"  style='height:25px;width:465px;'>  </td>
+                                    <input type="text" class="personnel" name="personnel"  style='height:25px;width:465px;'  value="<?php echo $attrInfo['business_traveller_id']; ?>" >  </td>
                                 <td >
-                                   共 <input  type="text" class="sums" name="sums"  style='height:25px;width:40px;'> 人 </td>
+                                   共 <input  type="text" class="sums" name="sums"  style='height:25px;width:40px;'  value="<?php echo $attrInfo['total_number'] ? $attrInfo['total_number'] : 0; ?>"> 人 </td>
                              </tr>
                              <tr>
                                 <td>起止日期</td>
@@ -86,57 +88,57 @@
                             </tr>
                             
                             <tr class="json_str">
-                                <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="allowance_days0" name="dp[0]['allowance_days']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="supply_needs0" name="dp[0]['supply_needs']"  style='height:25px;width:75px;'> </td>
-                                <td> <input readonly="readonly" type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][0]['start_end_day']; ?>" > </td>
+                                <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['start_end_address']; ?>" > </td>
+                                <td> <input type="text" class="fare0" name="dp[0]['fare']"  style='height:25px;width:75px;'   value="<?php echo $attrInfo['json_str'][0]['fare'] ? $attrInfo['json_str'][0]['fare'] : 0; ?>"> </td>
+                                <td> <input type="text" class="allowance_days0" name="dp[0]['allowance_days']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['allowance_days'] ? $attrInfo['json_str'][0]['allowance_days'] : 0; ?>" > </td>
+                                <td> <input type="text" class="supply_needs0" name="dp[0]['supply_needs']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['supply_needs'] ? $attrInfo['json_str'][0]['supply_needs'] : 0; ?>"> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount0" name="dp[0]['subsidy_amount']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['subsidy_amount'] ? $attrInfo['json_str'][0]['subsidy_amount'] : 0; ?>"> </td>
+                                <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['hotel_expense'] ? $attrInfo['json_str'][0]['hotel_expense'] : 0; ?>"> </td>
+                                <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['other_expense'] ? $attrInfo['json_str'][0]['other_expense'] : 0; ?>"> </td>
                                 </tr>
                                 
                             <tr class="json_str">
-                                <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="allowance_days1" name="dp[1]['allowance_days']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="supply_needs1" name="dp[1]['supply_needs']"  style='height:25px;width:75px;'> </td>
-                                <td> <input readonly="readonly" type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:75px;'value="<?php echo $attrInfo['json_str'][1]['start_end_day']; ?>"  > </td>
+                                <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['start_end_address']; ?>" > </td>
+                                <td> <input type="text" class="fare1" name="dp[1]['fare']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['fare'] ? $attrInfo['json_str'][1]['fare'] : 0; ?>"> </td>
+                                <td> <input type="text" class="allowance_days1" name="dp[1]['allowance_days']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][1]['allowance_days'] ? $attrInfo['json_str'][1]['allowance_days'] : 0; ?>"> </td>
+                                <td> <input type="text" class="supply_needs1" name="dp[1]['supply_needs']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][1]['supply_needs'] ? $attrInfo['json_str'][1]['supply_needs'] : 0; ?>"> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount1" name="dp[1]['subsidy_amount']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][1]['subsidy_amount'] ? $attrInfo['json_str'][1]['subsidy_amount'] : 0; ?>"> </td>
+                                <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['hotel_expense'] ? $attrInfo['json_str'][1]['hotel_expense'] : 0; ?>"> </td>
+                                <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['other_expense'] ? $attrInfo['json_str'][1]['other_expense'] : 0; ?>"> </td>
                                 </tr>
                                 
                             <tr class="json_str">
-                                <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="allowance_days2" name="dp[2]['allowance_days']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="supply_needs2" name="dp[2]['supply_needs']"  style='height:25px;width:75px;'> </td>
-                                <td> <input readonly="readonly" type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:75px;' value='0'> </td>
-                                <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:75px;' value='0'> </td>
+                                <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['start_end_day']; ?>" > </td>
+                                <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['start_end_address']; ?>" > </td>
+                                <td> <input type="text" class="fare2" name="dp[2]['fare']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][2]['fare'] ? $attrInfo['json_str'][2]['fare'] : 0; ?>"> </td>
+                                <td> <input type="text" class="allowance_days2" name="dp[2]['allowance_days']"  style='height:25px;width:75px;'value="<?php echo $attrInfo['json_str'][2]['allowance_days'] ? $attrInfo['json_str'][2]['allowance_days'] : 0; ?>"> </td>
+                                <td> <input type="text" class="supply_needs2" name="dp[2]['supply_needs']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['supply_needs'] ? $attrInfo['json_str'][2]['supply_needs'] : 0; ?>"> </td>
+                                <td> <input readonly="readonly" type="text" class="subsidy_amount2" name="dp[2]['subsidy_amount']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['subsidy_amount'] ? $attrInfo['json_str'][2]['subsidy_amount'] : 0; ?>"> </td>
+                                <td> <input type="text" class="hotel_expense2" name="dp[2]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][2]['hotel_expense'] ? $attrInfo['json_str'][2]['hotel_expense'] : 0; ?>"> </td>
+                                <td> <input type="text" class="other_expense2" name="dp[2]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][2]['other_expense'] ? $attrInfo['json_str'][2]['other_expense'] : 0; ?>"> </td>
                                 </tr>
                                 <tr class="json_str">
                                     <td colspan="2"> 小计</td>
-                                    <td> <input readonly="readonly" type="text" class="fare3" name="dp[2]['fare']"  style='height:25px;width:75px;'> </td>
-                                    <td> <input readonly="readonly" type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:75px;'> </td>
-                                    <td> <input readonly="readonly" type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:75px;'> </td>
-                                    <td> <input readonly="readonly" readonly="readonly" type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:75px;'> </td>
-                                    <td> <input readonly="readonly" type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:75px;'> </td>
-                                    <td> <input readonly="readonly" type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:75px;'> </td>
+                                    <td> <input readonly="readonly" type="text" class="fare3" name="dp[3]['fare']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][3]['fare'] ? $attrInfo['json_str'][3]['fare'] : 0; ?>"> </td>
+                                    <td> <input readonly="readonly" type="text" class="allowance_days3" name="dp[3]['allowance_days']"  style='height:25px;width:75px;'value="<?php echo $attrInfo['json_str'][3]['allowance_days'] ? $attrInfo['json_str'][3]['allowance_days'] : 0; ?>"> </td>
+                                    <td> <input readonly="readonly" type="text" class="supply_needs3" name="dp[3]['supply_needs']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][3]['supply_needs'] ? $attrInfo['json_str'][3]['supply_needs'] : 0; ?>"> </td>
+                                    <td> <input readonly="readonly" readonly="readonly" type="text" class="subsidy_amount3" name="dp[3]['subsidy_amount']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][3]['subsidy_amount'] ? $attrInfo['json_str'][3]['subsidy_amount'] : 0; ?>"> </td>
+                                    <td> <input readonly="readonly" type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][3]['hotel_expense'] ? $attrInfo['json_str'][3]['hotel_expense'] : 0; ?>"> </td>
+                                    <td> <input readonly="readonly" type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][3]['other_expense'] ? $attrInfo['json_str'][3]['other_expense'] : 0; ?>"> </td>
                                 </tr>
                            
                             <tr>
                                 <td style="width:90px;">合计（大写）</td>
-                                <td colspan='4'>  <input readonly="readonly" type="text" name='big_total' class='big_total' value=''  style="width:315px;" /> </td>
+                                <td colspan='4'>  <input readonly="readonly" type="text" name='big_total' class='big_total'  value="<?php echo $attrInfo['total_capital']; ?>"   style="width:315px;" /> </td>
                                 <td style="width:40px;"> ￥ </td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" name='small_total' class='small_total' value=''  style="width:150px;" /> </td>
+                                <td colspan='2'>  <input readonly="readonly" type="text" name='small_total' class='small_total'  value="<?php echo $attrInfo['total']; ?>"   style="width:150px;" /> </td>
                             </tr>
                            
                             <tr>
                                 <td>事由</td>
-                                <td colspan='7'> <input type="text" name='reason' class="reason" style='width:570px;height:25px;'/> </td>
+                                <td colspan='7'> <input type="text" name='reason' class="reason" style='width:570px;height:25px;'  value="<?php echo $attrInfo['reason']; ?>"  /> </td>
                             </tr>
                             
                             <tr>
@@ -151,7 +153,7 @@
                             <tr style="height:60px;line-height: 20px;" >
                                 <td > 
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
-                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
                                 <td > </td>
                                 <td > </td>

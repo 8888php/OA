@@ -23,7 +23,7 @@
                                     <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='width:150px;height:25px;'>  
                                 </td>
                                 <td colspan='2'>原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value='' />  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
@@ -32,9 +32,10 @@
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
-                                        <?php foreach($projectInfo as $pk=>$pv) {?>
-                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
-                                        <?php }?>
+                                        <?php foreach($projectInfo as $pk=>$pv) {
+                                        $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
+                                        echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
+                                       }?>
                                     </select>
                                     <select style="width:255px;height:25px;" name="filenumber" class="filenumber"  >
                                         <?php  foreach($source as $qd){?>
@@ -158,7 +159,7 @@
                         </tr>
                         <tr>
                             <td>报销<br/>简要说明</td>
-                            <td colspan='6'> <textarea  name="description" class="description"  style="width:570px;" ></textarea>
+                            <td colspan='6'> <textarea  name="description" class="description"  style="width:570px;" > <?php echo $attrInfo['description'];?>  </textarea>
                             </td>
                         </tr>
                         <tr>
@@ -173,7 +174,7 @@
                         <tr >
                             <td > 
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
-                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
                             <td > </td>
                             <td style="width:100px;"> </td>
@@ -189,6 +190,16 @@
 
             <!-- PAGE CONTENT BEGINS -->
             <div id="dropzone">
+                
+                <?php if($mainInfo['id']){ ?>
+                 <div class="alert alert-warning alert-dismissable center ">
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                         &times;
+                     </button>
+                     <strong>请再次提交附件！ </strong>
+                 </div>
+                 <?php   } ?>
+                 
                 <span>点击添加上传附件</span>
                 <form  class="dropzone" style='min-height:100px;' enctype="multipart/form-data" id="upfiles"  method="post" >
                     

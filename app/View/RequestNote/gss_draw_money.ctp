@@ -21,7 +21,7 @@
                                 <td >填表日期</td>
                                 <td colspan='4'>  <input readonly="readonly" type="text" class=" ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:290px;'>   </td>
                                 <td > 附单据张数 </td>
-                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;'/> </td>
+                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  /> </td>
                             </tr>
                             
                              <tr>
@@ -30,9 +30,11 @@
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
-                                        <?php foreach($projectInfo as $pk=>$pv) {?>
-                                        <option value="<?php  echo $pk;?>"><?php  echo $pv;?></option>
-                                        <?php }?>
+                                        <?php 
+                                        foreach($projectInfo as $pk=>$pv) {
+                                        $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
+                                        echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
+                                       }?>
                                     </select>
                                     <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
                                         <option></option>
@@ -42,7 +44,8 @@
                                         <?php 
                                             foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
-                                                    echo "<option value='$key'> $val </option>" ;
+                                                 $selectedstr = ($mainInfo['type'] == 2 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key'  $selectedstr > $val </option>" ;
                                                 }
                                             }
                                         ?>
@@ -51,7 +54,8 @@
                                          <?php 
                                             foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
-                                                    echo "<option value='$key'> $val </option>" ;
+                                                $selectedstr = ($mainInfo['type'] == 1 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key' $selectedstr> $val </option>" ;
                                                 }
                                             }
                                         ?>
@@ -61,7 +65,7 @@
                             </tr>
                             <script type="text/javascript">
                             <?php 
-                                if ($is_department != 1){
+                                if ($is_department != 1 || isset($mainInfo['id'])){
                                     echo 'change_filenumber();';
                                 }
                             ?>
@@ -100,12 +104,12 @@
                                 <td>备注</td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:175px;height:25px;'/></td>
-                                <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['unit_price']" class="unit_price0 jisuan" style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:80px;height:25px;'/> </td>
+                                <td colspan="2"><input type="text" name="dp[0]['pro']" class="pro0" style='width:175px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['pro'];   ?>" /></td>
+                                <td> <input type="text" name="dp[0]['unit']" class="unit0" style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['unit'];   ?>"  /> </td>
+                                <td> <input type="text" name="dp[0]['nums']" class="nums0" style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['nums'];   ?>"  /> </td>
+                                <td> <input type="text" name="dp[0]['unit_price']" class="unit_price0 jisuan" style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['unit_price'];   ?>" /> </td>
+                                <td> <input type="text" name="dp[0]['amount']" class="amount0" readonly="readonly"  style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['amount'];   ?>"   /> </td>
+                                <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['remarks'];   ?>" /> </td>
                             </tr>
                             <tr class="dp">
                                 <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'  disabled="disabled" /></td>
@@ -126,8 +130,8 @@
                             
                             <tr>
                                 <td>合计</td>
-                                <td colspan='4'> <input type="text" name='big_total' class="big_total" readonly="readonly" style='width:345px;height:25px;'/> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_total' class="small_total" readonly="readonly"  style='width:158px;height:25px;'/> </td>
+                                <td colspan='4'> <input type="text" name='big_total' class="big_total" readonly="readonly" style='width:345px;height:25px;' value="<?php echo $attrInfo['big_total'];   ?>"  /> </td>
+                                <td colspan='2'> ￥ <input type="text" name='small_total' class="small_total" readonly="readonly"  style='width:158px;height:25px;' value="<?php echo $attrInfo['small_total'];   ?>"  /> </td>
                             </tr>
                 
                             <tr>
@@ -142,7 +146,7 @@
                             <tr style="min-height:60px;line-height: 20px;">
                                 <td > 
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
-                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo trim($userInfo->name);?></textarea>
+                                    <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
                                 <td > </td>
                                 <td > </td>
