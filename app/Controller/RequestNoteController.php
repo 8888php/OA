@@ -81,7 +81,7 @@ class RequestNoteController extends AppController {
         if($mid){
             $applyArr = $this->applyInfos($mid,'ApplyBaoxiaohuizong');
             $this->set('mainInfo',$applyArr['ApplyMain']);
-            $this->set('attrInfo',$applyArr['ApplyBaoxiaohuizong']);            var_dump($applyArr);
+            $this->set('attrInfo',$applyArr['ApplyBaoxiaohuizong']); 
         }
 
         $this->render();
@@ -965,17 +965,20 @@ class RequestNoteController extends AppController {
     //根据项目id获取souce
     public function ajax_get_souce() {
         $pid = $_POST['pid'];
-        $souid = $_POST['pid'];
+        $souid = $_POST['sid'];
         $souces = $this->ResearchSource->getAll($pid);
         $ret_option = '';
         if (!empty($souces)) {
-            $selected = $souid ? 'selected' : '';
             foreach ($souces as $k=>$v) {
-                $ret_option .= '<option value="'. $v['ResearchSource']['id'].'"  $selected > 【'.$v['ResearchSource']['source_channel'].' （'.$v['ResearchSource']['file_number'].'） '.$v['ResearchSource']['year'].'】</option>';
+                $selected = ($souid == $v['ResearchSource']['id']) ? 'selected' : ''; 
+                $ret_option .= '<option value="'. $v['ResearchSource']['id'].'"  ';
+                $ret_option .= $selected .' > ';
+                $ret_option .= '【'.$v['ResearchSource']['source_channel'].' （'.$v['ResearchSource']['file_number'].'） '.$v['ResearchSource']['year'].'】</option>';
             }
         } else {
             $ret_option = '<option></option>';
         }
+
         echo json_encode(array(
             'html' => $ret_option
         ));

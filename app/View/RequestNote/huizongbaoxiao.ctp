@@ -49,7 +49,13 @@
                                 class_name = 'multipleselect_ky';
                             }
                             
-                            function change_filenumber() {
+                            <?php 
+                                if ($is_department != 1 || isset($attrInfo['source_id'])){
+                                    echo 'change_filenumber('.$attrInfo['source_id'].');';
+                                }
+                            ?>
+
+                            function change_filenumber(sid = 0) {
                                 var type = $('.projectname').val();
                                 if (type ==0) {
                                     //部门
@@ -63,7 +69,7 @@
                                     clear_class_info('multipleselect_ky');
                                 } else {
                                     //项目 去取项目所对应的souce
-                                    var data = {pid:type};
+                                    var data = {pid:type,sid:sid};
                                     $.ajax({
                                         url:'/RequestNote/ajax_get_souce',
                                         type:'post',
@@ -103,6 +109,7 @@
                             function bumeng_change() {
                                 $('.projectname').change();
                             }
+
                         </script>
                         </tr>
                         <tr>
@@ -111,19 +118,25 @@
                                 <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
                                 <textarea style='width:555px;height:25px;' class="subject" disabled="disabled"></textarea>
                                 <select id="multipleselect_ky" multiple="multiple">
-                                    <?php foreach($keyanlist as $lk=>$lv){?>
-                                    <?php foreach($lv as $k=>$v){?>
-                                    <option  value="<?php echo $k;?>"><?php echo $v;?></option>
-                                    <?php }?>
-                                    <?php }?>
+                                    <?php 
+                                        foreach($keyanlist as $lk=>$lv){
+                                          foreach($lv as $k=>$v){
+                                            $selectedstr = ($mainInfo['type'] == 1 && isset($mainInfo['subject'][$k])) ? 'selected' : '';
+                                            $option_val = ($selectedstr == 'selected') ? $mainInfo['subject'][$k] : $v;
+                                            echo "<option value='$k' $selectedstr> $v </option>" ;
+                                            }
+                                         }?>
                                 </select>
                                 <?php if($is_department == 1){?>
                                 <select id="multipleselect_bm" multiple="multiple">
-                                    <?php foreach($xizhenglist as $lk=>$lv){?>
-                                    <?php foreach($lv as $k=>$v){?>
-                                    <option  value="<?php echo $k;?>"><?php echo $v;?></option>
-                                    <?php }?>
-                                    <?php }?>
+                                    <?php 
+                                        foreach($xizhenglist as $lk=>$lv){
+                                          foreach($lv as $k=>$v){
+                                            $selectedstr = ($mainInfo['type'] == 2 && isset($mainInfo['subject'][$k])) ? 'selected' : '';
+                                            $option_val = ($selectedstr == 'selected') ? $mainInfo['subject'][$k] : $v;
+                                            echo "<option value='$k' $selectedstr> $v </option>" ;
+                                            }
+                                         }?>
                                 </select>
                                 <?php }?>
                                 <script src="/assets/js/multiple-select_fy.js"></script>
@@ -153,9 +166,9 @@
                         <tr>
                             <td>金额</td>
                             <td>人民币大写</td>
-                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:180px;height:25px;'/>   </td>
+                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:180px;height:25px;' />   </td>
                             <td>￥</td>
-                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:180px;height:25px;'/>   </td>
+                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:180px;height:25px;' />   </td>
                         </tr>
                         <tr>
                             <td>报销<br/>简要说明</td>
@@ -301,7 +314,7 @@
         </div>
     </div><!-- /.row -->
 </div>
-<script type="text/javascript">
+<script type="text/javascript">             
 function printDIV(){
     $('.modal-footer').css('display', 'none');
     $('#dropzone').css('display', 'none');
@@ -634,6 +647,22 @@ function trim(s){
         }
         return chineseStr;
 }
+
+<?php 
+                            $subject_str = '';
+                            foreach($keyanlist as $lk=>$lv){
+                                foreach($lv as $k=>$v){
+                                 $subject_str .= isset($mainInfo['subject'][$k]) ? $v.':'.$mainInfo['subject'][$k].',' : '';
+                                } 
+                            } 
+                            if($subject_str != ''){
+                                $subject_str .= '总额：'.$mainInfo['total'];
+                        ?>
+                        $('.subject').val("<?php echo $subject_str;?>");
+                        $('.rmb_capital').val("<?php echo $attrInfo['rmb_capital'];?>");
+                        $('.amount').val("<?php echo $attrInfo['amount'];?>");
+                        <?php } ?>
+
 </script>
 
 <?php echo $this->element('foot_frame'); ?>

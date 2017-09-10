@@ -66,11 +66,11 @@
                                 </td>
                                 <script type="text/javascript">
                                 <?php 
-                                    if ($is_department != 1 || isset($mainInfo['id'])){
-                                        echo 'change_filenumber();';
+                                    if ($is_department != 1 || isset($attrInfo['source_id'])){
+                                        echo 'change_filenumber('.$attrInfo['source_id'].');';
                                     }
                                 ?>
-                                    function change_filenumber() {
+                                    function change_filenumber(sid = 0) {
                                         var type = $('.dep_pro').val();
                                         if (type ==0) {
                                             //部门
@@ -79,7 +79,7 @@
                                             $('.kysubject').css('display','none');
                                         } else {
                                             //项目 去取项目所对应的souce
-                                            var data = {pid:type};
+                                            var data = {pid:type,sid:sid};
                                             $.ajax({
                                                 url:'/RequestNote/ajax_get_souce',
                                                 type:'post',
