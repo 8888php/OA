@@ -612,8 +612,11 @@ class RequestNoteController extends AppController {
         $attrArr['source_id'] = $_POST['filenumber'];
         $attrArr['apply_money_capital'] = $datas['big_amount'];
         $attrArr['apply_money'] = $datas['small_amount'];
-        $attrArr['approve_money_capital'] = $datas['big_approval_amount'];
-        $attrArr['approve_money'] = $datas['small_approval_amount'];
+//        $attrArr['approve_money_capital'] = $datas['big_approval_amount'];
+//        $attrArr['approve_money'] = $datas['small_approval_amount'];
+        //创建时没有金额
+        $attrArr['approve_money_capital'] = '';
+        $attrArr['approve_money'] = 0;
         $attrArr['repayment'] = $datas['repayment_plan'];
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['applicant'] = $datas['applicant'];

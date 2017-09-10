@@ -54,8 +54,13 @@
                             <tr>
                                 <td>批准金额</td>
                                 <td>金额大写</td>
-                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['approve_money_capital'];?> </td>
-                                <td colspan='2'> ￥ <?php echo $attr_arr[0][$table_name]['approve_money'];?> </td>
+                                <?php if ($apply == 'apply' && $caiwukezhang_flag) {?>
+                                    <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;' value="<?php echo $attrInfo['approve_money_capital']; ?>" /> </td>
+                                    <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:123px;height:25px;' value="<?php echo $attrInfo['approve_money']; ?>" /> </td> 
+                                <?php }else{?>
+                                    <td colspan='3'> <?php echo $attr_arr[0][$table_name]['approve_money_capital'];?> </td>
+                                    <td colspan='2'> ￥ <?php echo $attr_arr[0][$table_name]['approve_money'];?> </td>
+                                <?php }?>
                             </tr>
                             
                             
@@ -224,16 +229,35 @@ function printDIV(){
   
     function approve(type) {
         var text = '拒绝';
-        if (type == 1) {
-            text = '同意';
-        } else {
-            type = 2;
-        }
+        <?php if ($apply == 'apply' && $caiwukezhang_flag) {?>
+            var small_approval_amount = $('.small_approval_amount').val();
+            var big_approval_amount = $('.big_approval_amount').val();
+            //判断没有值
+            if (small_approval_amount == '' || isNaN(small_approval_amount)) {
+                $('.small_approval_amount').focus();
+                return;
+            }
+            if (type == 1) {
+                text = '同意';
+            } else {
+                type = 2;
+            }
+        <?php } else {?>
+            if (type == 1) {
+                text = '同意';
+            } else {
+                type = 2;
+            }
+        <?php }?>
         if (!confirm('您确认 ' + text + ' 该项目？')) {
             //取消
             return;
         }
         var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
+        <?php if ($apply == 'apply' && $caiwukezhang_flag) {?>
+                data.small_approval_amount = small_approval_amount;
+                data.big_approval_amount = big_approval_amount;
+        <?php }?>
         $.ajax({
             url: '/Office/ajax_approve_reimbursement',
             type: 'post',
@@ -285,10 +309,24 @@ function printDIV(){
         }
     });
     $('.small_amount').blur(function(){
-        $('.big_amount').val(convertCurrency($(this).val()));
+       var total = $(this).val();
+        var big_total = '';
+        if (total < 0) {
+            //负数
+            big_total = '负';
+        } 
+        big_total += convertCurrency(Math.abs(total))
+        $('.big_amount').val(big_total);
     });
     $('.small_approval_amount').blur(function(){
-        $('.big_approval_amount').val(convertCurrency($(this).val()));
+        var total = $(this).val();
+        var big_total = '';
+        if (total < 0) {
+            //负数
+            big_total = '负';
+        } 
+        big_total += convertCurrency(Math.abs(total))
+        $('.big_approval_amount').val(big_total);
     });
     //钱小写转大写
     function convertCurrency(money) {

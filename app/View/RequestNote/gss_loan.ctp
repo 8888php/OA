@@ -114,7 +114,7 @@
                                 <td>批准金额</td>
                                 <td>金额大写</td>
                                 <td colspan='3'> <input readonly="readonly" type="text" name='big_approval_amount' class="big_approval_amount" style='width:280px;height:25px;' value="<?php echo $attrInfo['approve_money_capital']; ?>" /> </td>
-                                <td colspan='2'> ￥ <input type="text" name='small_approval_amount' class="small_approval_amount" style='width:160px;height:25px;' value="<?php echo $attrInfo['approve_money']; ?>" /> </td>
+                                <td colspan='2'> ￥ <input  readonly="readonly" type="text" name='small_approval_amount' class="small_approval_amount" style='width:160px;height:25px;' value="<?php echo $attrInfo['approve_money']; ?>" /> </td>
                             </tr>
                             
                             

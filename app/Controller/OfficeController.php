@@ -7,7 +7,7 @@ class OfficeController extends AppController {
 
     public $name = 'Office';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan');
 
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
@@ -736,6 +736,18 @@ class OfficeController extends AppController {
                         }
                            $this->ApprovalInformation->saveAll($save_approve_log);
                     }
+                    //判断如果有审批金额则写到表里面
+                    if ($this->request->data('small_approval_amount')) {
+                        $small_approval_amount = $this->request->data('small_approval_amount');
+                        $big_approval_amount = $this->request->data('big_approval_amount');
+                        $attr_id = $mainInfos['ApplyMain']['attr_id'];
+                        $save_arr = array(
+                            'approve_money' => $small_approval_amount,
+                            'approve_money_capital' => $big_approval_amount
+                        );
+                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+                    }
+                    
                     //成功
                     $this->ret_arr['code'] = 0;
                     $this->ret_arr['msg'] = '审批成功';
@@ -788,6 +800,12 @@ class OfficeController extends AppController {
             $this->set('feedback',$residual);
         }
         
+        //账务科长 得填写审批金额
+        $caiwukezhang_flag = false;//默认不是账务科长
+        if ($main_arr['ApplyMain']['next_approver_id'] == 14) {
+            $caiwukezhang_flag = true;
+        }
+        $this->set('caiwukezhang_flag', $caiwukezhang_flag);
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         
