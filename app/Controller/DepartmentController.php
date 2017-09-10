@@ -6,8 +6,9 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department', 'User', 'Position', 'DepartmentCost');
+    public $uses = array('Department', 'User', 'Position', 'DepartmentCost','ResearchSource');
     public $layout = 'blank';
+    private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
     /* 左 */
 
@@ -66,7 +67,10 @@ class DepartmentController extends AppController {
 //var_dump($depMember);        
         # 职务
         $posArr = $this->Position->getList();
+        $source = $this->ResearchSource->getDepAll($id);
+        
         $this->set('d_id', $id);
+        $this->set('source', $source);
         $this->set('posArr', $posArr);
 
         // 预算
@@ -124,6 +128,91 @@ class DepartmentController extends AppController {
         $this->render();
     }
 
+    
+       /**
+     * 添加 添加项目资金来源表
+     */
+    public function add_filenumber($did = 0) {
+        if (empty($did)) {
+            header("Location:/homes/index");
+            die;
+        }
+
+        #项目详情
+        $depInfos = $this->Department->findById($did);
+
+        // 是否项目负责人添加
+        if($depInfos['Department']['user_id'] != $this->userInfo->id){
+            header("Location:/homes/index");
+            die;    
+        }
+
+        # 项目资金来源
+        $proSource = $this->ResearchSource->getDepAll($did);
+        $this->set('proSource', $proSource);
+
+        $this->set('did', $did);
+        $this->render();
+    }
+
+     /**
+     * 添加 添加部门资金来源
+     */
+    public function sub_filenumber() {        
+        if (empty($_POST['did']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+            #项目详情
+            $proInfos = $this->Department->findById($_POST['did']);
+
+            // 是否项目负责人添加
+            if($proInfos['Department']['user_id'] != $this->userInfo->id){
+                $this->ret_arr['msg'] = '非部门负责人无权添加';
+                echo json_encode($this->ret_arr);
+                exit; 
+            }
+            # 项目资金来源 总额
+  /*          部门没总额  暂不验证
+               $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where department_id = '.$_POST['did']);
+            if(($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']){
+                $this->ret_arr['msg'] = '资金来源总额超过 项目总金额';
+                echo json_encode($this->ret_arr);
+                exit; 
+            }
+*/
+            $editArr = array();
+            switch ($_POST['type']) {
+                case 'add' :
+                    $editArr['department_id'] = $_POST['did'];
+                    $editArr['source_channel'] = $_POST['source_channel'];
+                    $editArr['file_number'] = $_POST['file_number'];
+                    $editArr['amount'] = $_POST['amount'];
+                    $editArr['year'] = $_POST['year'];
+                    $sourceId = $this->ResearchSource->add($editArr);
+                    break;
+                case 'edit':
+                    //$sourceId = $this->ResearchSource->edit($_POST['did'], $editArr);
+                    break;
+                case 'del':
+                    //$sourceId = $this->ResearchSource->del($_POST['did'], $_POST['mid']);
+                    break;
+            }
+
+            if ($sourceId) {
+                $this->ret_arr['code'] = 0;
+            } else {
+                $this->ret_arr['msg'] = '操作失败';
+            }
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+
+
+ 
+    
     /**
      * 部门编辑
      */
