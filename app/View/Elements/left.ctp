@@ -350,6 +350,13 @@
                                 部门管理
                             </a>
                         </li>
+                        
+                        <li class="set_team">
+                            <a href="/Team/index">
+                                <i class="icon-double-angle-right"></i>
+                                团队管理
+                            </a>
+                        </li>
 
                         <li class="set_position">
                             <a href="/position/index">

@@ -1,18 +1,18 @@
 <?php
 
-App::uses('PositionController', 'AppController');
-/* 职务 */
+App::uses('TeamController', 'AppController');
+/* 团队 */
 
-class PositionController extends AppController {
+class TeamController extends AppController {
 
-    public $name = 'Position';
+    public $name = 'Team';
     public $uses = array('Position');
     public $layout = 'blank';
-    public $components = array('Approval');
-    /* 左 */
+    public $components = array();
+
     
     /**
-     * 职务管理
+     * 团队管理
      */
     public function index($pages = 1) {
         if ((int) $pages < 1) {
@@ -46,7 +46,7 @@ class PositionController extends AppController {
     }
 
     /**
-     * 职务编辑
+     * 团队编辑
      */
     public function add($id = 0) {
         if($id && is_numeric($id)){
@@ -113,7 +113,7 @@ class PositionController extends AppController {
             if (empty($name)) {
                 $ret_arr = array(
                     'code' => 1,
-                    'msg' => '职务名为空',
+                    'msg' => '团队名为空',
                     'class' => '.name'
                 );
                 echo json_encode($ret_arr);
@@ -123,11 +123,11 @@ class PositionController extends AppController {
             if ($id < 1 || !is_numeric($id)) {
                 ADD:
                 //add
-                //先查看职务名是否被占用
+                //先查看团队名是否被占用
                 if ($this->Position->findByName($name)) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '职务名被占用',
+                        'msg' => '团队名被占用',
                         'class' => '.name'
                     );
                     echo json_encode($ret_arr);
@@ -154,15 +154,15 @@ class PositionController extends AppController {
             } else {
                 //edit
                 if (!($posi_arr = $this->Position->findById($id))) {
-                    //如果找不到此职务就让他添加
+                    //如果找不到此团队就让他添加
                     goto ADD;
                 }
-                //先查看职务名是否被占用
+                //先查看团队名是否被占用
                 $name_user_arr = $this->Position->findByName($name);
                 if (count($name_user_arr) > 1) {
                     $ret_arr = array(
                         'code' => 1,
-                        'msg' => '该职务已添加',
+                        'msg' => '该团队已添加',
                         'class' => '.name'
                     );
                     echo json_encode($ret_arr);

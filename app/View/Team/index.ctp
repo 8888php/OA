@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 职务管理 </title>
+        <title> 团队管理 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,7 +55,7 @@
                     <li>
                         <a href="#"> 系统设置 </a>
                     </li>
-                    <li class="active"> 职务管理 </li>
+                    <li class="active"> 团队管理 </li>
                 </ul><!-- .breadcrumb -->
 
             </div>
@@ -69,7 +69,7 @@
                             <div class="col-xs-12">
 
                                 <div class="table-header">
-                                    职务列表信息
+                                    团队列表信息
                                 </div>
 
                                 <div class="table-responsive">
@@ -77,7 +77,8 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>职务名</th>
+                                                <th>团队名</th>
+                                                <th>团队负责人</th>
                                                 <th>简介</th>
                                                 <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
                                                 <th class="hidden-480">删除</th>
@@ -92,12 +93,13 @@
                                                     <a href="#"> <?php  echo $v['pos']['id']; ?> </a>
                                                 </td>
                                                 <td><?php  echo $v['pos']['name']; ?></td>
+                                                <td><?php  echo '无'; ?></td>
                                                 <td class="hidden-480"><?php  echo $v['pos']['description']; ?></td>
                                                 <td><?php  echo date('Y-m-d H:i',$v['pos']['ctime']); ?></td>
                                                 <td><?php  echo $v['pos']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
                                                 <td>
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                        <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/position/add/<?php echo $v['pos']['id']; ?>');"  >
+                                                        <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/Team/add/<?php echo $v['pos']['id']; ?>');"  >
                                                             <i class="icon-pencil bigger-130"></i>
                                                         </a>
                                                         <?php  if($v['pos']['del'] == 0) { ?>
@@ -110,6 +112,10 @@
                                                             <i class="icon-reply icon-only" alt='取消删除'></i>
                                                         </a>
                                                         <?php  } ?>
+                                                        
+                                                         <a class="red" >
+                                                            <i class="icon-plus arrow blue" alt='添加成员'></i>
+                                                        </a>
                                                     </div>
 
                                                 </td>
@@ -121,9 +127,9 @@
                                 </div>
 
                                 <div class="modal-footer no-margin-top">
-                                    <button class="btn btn-sm btn-info pull-left" data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" onclick="$('#modal-body').load('/position/add');"  >
+                                    <button class="btn btn-sm btn-info pull-left" data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" onclick="$('#modal-body').load('/Team/add');"  >
                                         <i class="icon-plus"></i>
-                                        添加职务
+                                        添加团队
                                     </button>
 
  
@@ -133,7 +139,7 @@
     </div><!-- /.modal -->
 </div>
 
-                                    <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/position/index/",5 ); ?>
+                                    <?php echo $this->Page->show($limit, $total, $curpage, $all_page, "/Team/index/",5 ); ?>
                                 </div>
                             </div>
                         </div><!-- /.modal-content -->
@@ -239,7 +245,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
             var data = {did: did, status:status};
                     $.ajax({
-                    url: '/position/ajax_del',
+                    url: '/Team/ajax_del',
                             type: 'post',
                             data: data,
                             dataType: 'json',
@@ -282,5 +288,5 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     //关闭模态框时，清除数据，防止下次加雷有，缓存
     $(this).removeData("bs.modal");
     });
-            show_left_select('system_set', 'set_position');
+            show_left_select('system_set', 'set_team');
 </script>
