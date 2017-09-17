@@ -169,4 +169,19 @@ class User extends AppModel {
         return $all_user_arr;
     }
 
+    
+    
+    
+     
+     # 获取全部非团队内成员
+
+    public function not_team_member($tid) {
+        $userArr = array();
+        $sql = 'SELECT u.id,u.name FROM t_user u WHERE u.id NOT IN(SELECT m.user_id FROM t_team_member m WHERE m.team_id = '.$tid.' ) AND u.del = 0 AND u.status = 0  ';
+        $userArr = $this->query($sql);
+
+        return $userArr;
+    }   
+    
+    
 }

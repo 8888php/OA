@@ -6,9 +6,10 @@ App::uses('TeamController', 'AppController');
 class TeamController extends AppController {
 
     public $name = 'Team';
-    public $uses = array('Position');
+    public $uses = array('Team','TeamMember');
     public $layout = 'blank';
     public $components = array();
+    private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
     
     /**
@@ -22,8 +23,8 @@ class TeamController extends AppController {
         $total = 0;
         $curpage = 0;
         $all_page = 0;
-        $conditions = array('type != ' => 3); //获取条件
-        $total = $this->Position->find('count',array('conditions'=>$conditions));
+        $conditions = array(); //获取条件
+        $total = $this->Team->find('count',array('conditions'=>$conditions));
         
         $posiArr = array();
         if ($total > 0) {
@@ -34,7 +35,7 @@ class TeamController extends AppController {
             }
 
             $posiArr = array();
-            $posiArr = $this->Position->query('select * from t_position as pos where type != 3 order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
+            $posiArr = $this->Team->query('select * from t_team as t  order by t.id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
         }
         $this->set('posiArr', $posiArr);
 
@@ -50,8 +51,8 @@ class TeamController extends AppController {
      */
     public function add($id = 0) {
         if($id && is_numeric($id)){
-           $posiArr = $this->Position->findById($id);
-           $this->set('posiArr',$posiArr);
+           $teamArr = $this->Team->findById($id);
+           $this->set('teamArr',$teamArr);
         }
 
         $this->render();
@@ -73,7 +74,7 @@ class TeamController extends AppController {
                 );
             } else {
                 $delArr['del'] = ($del == 'del') ? 1 : 0;
-                if ($this->Position->edit($id, $delArr)) {
+                if ($this->Team->edit($id, $delArr)) {
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '删除成功'
@@ -124,7 +125,7 @@ class TeamController extends AppController {
                 ADD:
                 //add
                 //先查看团队名是否被占用
-                if ($this->Position->findByName($name)) {
+                if ($this->Team->findByName($name)) {
                     $ret_arr = array(
                         'code' => 1,
                         'msg' => '团队名被占用',
@@ -134,7 +135,7 @@ class TeamController extends AppController {
                     exit;
                 }
                 //save
-                if ($this->Position->add($save_arr)) {
+                if ($this->Team->add($save_arr)) {
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '添加成功',
@@ -153,12 +154,12 @@ class TeamController extends AppController {
                 exit;
             } else {
                 //edit
-                if (!($posi_arr = $this->Position->findById($id))) {
+                if (!($posi_arr = $this->Team->findById($id))) {
                     //如果找不到此团队就让他添加
                     goto ADD;
                 }
                 //先查看团队名是否被占用
-                $name_user_arr = $this->Position->findByName($name);
+                $name_user_arr = $this->Team->findByName($name);
                 if (count($name_user_arr) > 1) {
                     $ret_arr = array(
                         'code' => 1,
@@ -169,7 +170,7 @@ class TeamController extends AppController {
                     exit;
                 }
 
-                if ($this->Position->edit($id, $save_arr)) {
+                if ($this->Team->edit($id, $save_arr)) {
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
@@ -198,5 +199,87 @@ class TeamController extends AppController {
         exit;
     }
 
+    
+    
+    
+    /**
+     * 添加 添加团队成员列表
+     */
+    public function add_member($tid = 0) {
+        if (empty($tid)) {
+            header("Location:/homes/index");
+            die;
+        }
+
+        # 非团队内成员
+        $notInMember = $this->User->not_team_member($tid);
+        $this->set('notInMember', $notInMember);
+
+        #团队内成员
+        $teamMember = $this->TeamMember->getList($tid);
+        $this->set('teamMember', $teamMember);
+        $this->set('tid', $tid);
+        $this->render();
+    }
+
+    /**
+     * 添加 添加团队成员
+     */
+    public function member_operation() {
+        if (empty($_POST['tid']) || (empty($_POST['member']) && empty($_POST['mid'])) || (empty($_POST['code']) && $_POST['code'] != 0) ) {
+            $this->ret_arr['msg'] = '参数有误';
+        } else {
+            $editArr = array();
+            switch ($_POST['type']) {
+                case 'add' :
+                    $memberInfo = $this->User->findById($_POST['member']);
+                    if (!$memberInfo)
+                        exit(json_encode($this->ret_arr));
+
+                    $isAdd = $this->TeamMember->getmember($_POST['tid'], $_POST['member']);
+                    if ($isAdd) {
+                        $this->ret_arr['msg'] = '该用户已是团队成员';
+                        exit(json_encode($this->ret_arr));
+                    }
+
+                    $editArr['user_id'] = $_POST['member'];
+                    $editArr['team_id'] = $_POST['tid'];
+                    $editArr['code'] = $_POST['code'];
+                    $editArr['name'] = $memberInfo['User']['name'];
+                    $editArr['create_time'] = date('Y-m-d H:i:s');
+                    $memberId = $this->TeamMember->add($editArr);
+                        // 团队表修改负责人、所领导
+                        switch($_POST['code']){
+                            case 1:  
+                                $this->Team->edit($_POST['tid'],array('fzr'=>$_POST['member']));
+                                break;
+                            case 2:
+                                $this->Team->edit($_POST['tid'],array('sld'=>$_POST['member']));
+                                break;
+                        }
+                    break;
+                case 'edit':
+                    $memberId = $this->TeamMember->edit($_POST['mid'], $editArr);
+                    break;
+                case 'del':
+                    $memberId = $this->TeamMember->del($_POST['tid'], $_POST['mid']);
+                    break;
+            }
+
+            if ($memberId) {
+                $this->ret_arr['code'] = 0;
+            } else {
+                $this->ret_arr['msg'] = '操作失败';
+            }
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+
+  
+    
+    
 
 }

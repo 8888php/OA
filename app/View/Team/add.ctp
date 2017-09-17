@@ -1,17 +1,17 @@
 
-        <p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($posiArr) ? '修改':'添加'?>团队</span> <a class="close" data-dismiss="modal">×</a></p>
+        <p class="btn btn-info btn-block" > <span style="font-size:16px;"><?php echo !empty($teamArr) ? '修改':'添加'?>团队</span> <a class="close" data-dismiss="modal">×</a></p>
         <div class="container" style='background-color:#fff;border-radius:4px;'>
 
             <div class="row" style='padding:20px 0;'>
                 <div class="col-xs-12">
                     <form class="form-horizontal" role="form">
-                        <input type="hidden" id="pid" name="pid" value="<?php echo @$posiArr['Position']['id'];?>" />
+                        <input type="hidden" id="pid" name="pid" value="<?php echo @$teamArr['Team']['id'];?>" />
                     <div class="form-group">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">团队名</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5 name" value="<?php echo @$posiArr['Position']['name'];?>" />
+                                <input type="text" id="form-field-1" placeholder="" class="col-xs-10 col-sm-5 name" value="<?php echo @$teamArr['Team']['name'];?>" />
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle"></span>
                                 </span>
@@ -24,7 +24,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1">团队简介</label>
 
                             <div class="col-sm-9">
-                                <textarea style="float: left;" cols="40" rows="5" placeholder="团队简介" class="desc"><?php echo @$posiArr['Position']['description'];?></textarea>
+                                <textarea style="float: left;" cols="40" rows="5" placeholder="团队简介" class="desc"><?php echo @$teamArr['Team']['description'];?></textarea>
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle"></span>
                                 </span>
@@ -38,7 +38,7 @@
                             <div class=" col-md-9">
                                 <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                     <i class="icon-ok bigger-110"></i>
-                                    <?php echo !empty($posiArr) ? '修改':'添加'?>
+                                    <?php echo !empty($teamArr) ? '修改':'添加'?>
                                 </button>
                                 &nbsp; &nbsp; &nbsp;
                                 <button class="btn" type="reset">

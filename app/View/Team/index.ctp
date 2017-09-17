@@ -79,6 +79,7 @@
                                                 <th>ID</th>
                                                 <th>团队名</th>
                                                 <th>团队负责人</th>
+                                                <th>所领导</th>
                                                 <th>简介</th>
                                                 <th class="hidden-480"><i class="icon-time bigger-110 hidden-480"></i>创建时间</th>
                                                 <th class="hidden-480">删除</th>
@@ -90,30 +91,31 @@
                                             <?php  foreach($posiArr as $v){  ?>
                                             <tr>
                                                 <td>
-                                                    <a href="#"> <?php  echo $v['pos']['id']; ?> </a>
+                                                    <a href="#"> <?php  echo $v['t']['id']; ?> </a>
                                                 </td>
-                                                <td><?php  echo $v['pos']['name']; ?></td>
+                                                <td><?php  echo $v['t']['name']; ?></td>
                                                 <td><?php  echo '无'; ?></td>
-                                                <td class="hidden-480"><?php  echo $v['pos']['description']; ?></td>
-                                                <td><?php  echo date('Y-m-d H:i',$v['pos']['ctime']); ?></td>
-                                                <td><?php  echo $v['pos']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
+                                                <td><?php  echo '无'; ?></td>
+                                                <td class="hidden-480"><?php  echo $v['t']['description']; ?></td>
+                                                <td><?php  echo $v['t']['create_time']; ?></td>
+                                                <td><?php  echo $v['t']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
                                                 <td>
                                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                                        <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/Team/add/<?php echo $v['pos']['id']; ?>');"  >
+                                                        <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/Team/add/<?php echo $v['t']['id']; ?>');"  >
                                                             <i class="icon-pencil bigger-130"></i>
                                                         </a>
-                                                        <?php  if($v['pos']['del'] == 0) { ?>
+                                                        <?php  if($v['t']['del'] == 0) { ?>
 
-                                                        <a class="red" onclick="ajax_del( <?php echo $v['pos']['id']; ?> , 'del');">
+                                                        <a class="red" onclick="ajax_del( <?php echo $v['t']['id']; ?> , 'del');">
                                                             <i class="icon-trash bigger-130"></i>
                                                         </a>
                                                         <?php  }else{ ?>
-                                                        <a class="red" onclick="ajax_del( <?php echo $v['pos']['id']; ?> , 'rest');">
+                                                        <a class="red" onclick="ajax_del( <?php echo $v['t']['id']; ?> , 'rest');">
                                                             <i class="icon-reply icon-only" alt='取消删除'></i>
                                                         </a>
                                                         <?php  } ?>
                                                         
-                                                         <a class="red" >
+                                                         <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/Team/add_member/<?php echo $v['t']['id'];?>');"  >
                                                             <i class="icon-plus arrow blue" alt='添加成员'></i>
                                                         </a>
                                                     </div>
