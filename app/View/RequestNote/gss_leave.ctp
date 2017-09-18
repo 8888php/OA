@@ -24,16 +24,31 @@
                              </tr>
                              <tr>
                                 <td > 单位或部门 </td>
-                                <td colspan='6'>  <input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'> </td>
+                                <td colspan='6'>  
+                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
+                                    <select style="height:25px;width:580px;" name="dep_pro" class="dep_pro" onchange="">
+                                        <?php foreach($department_arr as $v){?>
+                                        <option value="0"><?php echo $v['name'];?></option>
+                                        <?php }?>
+                                        <?php foreach($team_arr as $v){?>
+                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
+                                        <?php }?>
+                                    </select>
+                                </td>
                             </tr>
                             
                              <tr>
                                 <td> 请假类型 </td>
                                 <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >    
                                         <option value="1"  >  婚假 </option>
-                                        <option value="2"  >  事假 </option>
-                                        <option value="3"  >  病假 </option>
-                                        <option value="4"  >  年假 </option>
+                                        <option value="2"  >  生育产假 </option>
+                                        <option value="3"  >  外出办公 </option>
+                                        <option value="4"  >  事假 </option>
+                                        <option value="5"  >  丧假 </option>
+                                        <option value="6"  >  计生假 </option>
+                                        <option value="7"  >  病假 </option>
+                                        <option value="8"  >  女工假 </option>
+                                        <option value="9"  >  男职工护理假 </option>
                                     </select>
                                 </td>
                                 <td> 请假人 </td>
@@ -154,7 +169,7 @@ function printDIV(){
     function approve() {
         var ctime = $('.ctime').val();
         var applyname = $('.applyname').val();
-        var dep_pro = $('.dep_pro').val();
+        var dep_pro = $('.dep_pro option:selected').val();
         var leave_type = $('.leave_type option:selected').val();
         var about = $('.about').val();
         var start_time = $('.start_time').val();
