@@ -32,7 +32,7 @@ class TeamMember extends AppModel{
      */
     public function edit($id, $data) {
         $this->setDataSource('write');
-        $fieldList = array('remark');
+        $fieldList = array('code');
         $this->id = $id;
         return  $this->save($data,true,$fieldList);
     }

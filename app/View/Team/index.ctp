@@ -94,8 +94,8 @@
                                                     <a href="#"> <?php  echo $v['t']['id']; ?> </a>
                                                 </td>
                                                 <td><?php  echo $v['t']['name']; ?></td>
-                                                <td><?php  echo '无'; ?></td>
-                                                <td><?php  echo '无'; ?></td>
+                                                <td><?php  echo $memberArr[1][$v['t']['id']]; ?></td>
+                                                <td><?php  echo $memberArr[2][$v['t']['id']]; ?></td>
                                                 <td class="hidden-480"><?php  echo $v['t']['description']; ?></td>
                                                 <td><?php  echo $v['t']['create_time']; ?></td>
                                                 <td><?php  echo $v['t']['del'] == 0 ? '':' <span class="label label-sm label-warning">删除</span>'; ?></td>
