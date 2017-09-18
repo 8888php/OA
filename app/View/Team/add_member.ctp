@@ -40,12 +40,13 @@
                         <tr>
                             <td><?php echo $pk+1;  ?></td>
                             <td>  <?php echo $pv['TeamMember']['name'];  ?> </td>
-                            <td> <?php switch($pv['TeamMember']['code']){
-                                            case 0: echo '成员';break;
-                                            case 1: echo '负责人';break;
-                                            case 2: echo '所领导';break;
-                                }
-                                ?> </td>
+                            <td> 
+                                <select  id="<?php  echo 'code'.$pv['TeamMember']['id'];  ?>" style='height:28px;line-height: 28px;'> 
+                                    <option value="0" <?php echo $pv['TeamMember']['code']== 0 ? 'selected':'';  ?> > 职员 </option>
+                                    <option value="1" <?php echo $pv['TeamMember']['code']== 1 ? 'selected':'';  ?> > 负责人 </option>
+                                    <option value="2" <?php echo $pv['TeamMember']['code']== 2 ? 'selected':'';  ?> > 所领导 </option> 
+                                </select>
+                                </td>
                             <td> <?php echo $pv['TeamMember']['create_time'];  ?> </td>
                             
                             <td> <i class="glyphicon glyphicon-edit blue" title='修改' onclick="mem_edit(<?php echo $pv['TeamMember']['id'];?>, 'edit')"></i>
@@ -84,7 +85,7 @@
             if(type == 'del' && !confirm('确定删除该成员？')){
                 return;
             }
-            data_json.code = $('#code').val();
+            data_json.code = $('#code'+mid).val();
             data_json.mid = mid;
         }
 
