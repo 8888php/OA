@@ -166,11 +166,18 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_save($_POST);
         }else{
-        //当前用户所属项目
-        $projectArr = $this->Department->findById($this->userInfo->department_id);
-        $projectArr =  $projectArr['Department'];
-
-        $this->set('projectArr', $projectArr);
+        //当前用户所属部门和所参加的项目
+        $department = $this->Department->findById($this->userInfo->department_id);
+        // 当前用所参与科研项目
+        $pro_conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id), 'fields' => array('project_id'));
+        $proArr = $this->ProjectMember->find('list' ,$pro_conditions);
+        // 所参与项目 详情
+        $conditions = array( 'conditions' => array('id'=>$proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+        $projectInfo = $this->ResearchProject->find('list' ,$conditions);
+        
+        $this->set('department', $department);
+        
+        $this->set('projectInfo', $projectInfo);
         $this->set('list', Configure::read('xizhenglist'));
         
         $this->render();
@@ -459,10 +466,17 @@ class RequestNoteController extends AppController {
         }
         $table_name = 'chailvfei_sqd';
         $p_id = 4;//审批流id
-        $project_id = 0;
-        $type = 2;//类型暂定为0
+        if (!$datas['dep_pro']) {
+            //说明是部门
+            $type = 2;//行政
+            $project_id = 0;
+        } else {
+            $type = 1;//科研
+            $project_id = $datas['dep_pro'];
+        }
         
-        $applyArr = array('type' => 2,'project_team_user_id'=> 0,'project_user_id'=>0);
+        
+        $applyArr = array('type' => $type,'project_team_user_id'=> 0,'project_user_id'=>0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
@@ -481,9 +495,9 @@ class RequestNoteController extends AppController {
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['reason'] = $datas['reason'];
 
-//        $attrArr['department_id'] = $department_id;
-//        $attrArr['department_name'] = $department_name;
-//        $attrArr['project_id'] = $project_id;
+        $attrArr['department_id'] = $department_id;
+        $attrArr['department_name'] = $department_name;
+        $attrArr['project_id'] = $project_id;
         $attrArr['personnel'] = $datas['personnel'];
         $attrArr['start_time'] = $datas['start_day'];
         $attrArr['end_time'] = $datas['end_day'];
@@ -867,7 +881,7 @@ class RequestNoteController extends AppController {
         $table_name = 'apply_leave';
         $p_id = 0;//审批流id
         
-        if (!dep_pro) {
+        if (!$datas['dep_pro']) {
             //说明是部门
             $type = 2;//类型暂定为0
             $team_id = 0;

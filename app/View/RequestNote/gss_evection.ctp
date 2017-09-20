@@ -18,12 +18,20 @@
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所差旅审批单 </td>
                             </tr>
                             <tr>
-                                <!--td > </td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class="members" name="members"  style='height:25px;width:340px;'>   < span id='memnums'> 共0人</span >
-                                </td-->
+                                <td > 单位或部门 </td>
+                                <td colspan='3'>  
+                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
+                                    <select style="height:25px;width: 280px;" name="dep_pro" class="dep_pro" onchange="">
+                                        <?php foreach($department as $v){?>
+                                        <option value="0"><?php echo $v['name'];?></option>
+                                        <?php }?>
+                                        <?php foreach($projectInfo as $k=>$v){?>
+                                        <option value="<?php echo $k;?>"><?php echo $v;?></option>
+                                        <?php }?>
+                                    </select>
+                                </td>
                                 <td >填表时间</td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:575px;'>  </td>
+                                <td colspan='2'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:180px;'>  </td>
                             </tr>
                             
                              <tr>
@@ -162,6 +170,7 @@ function printDIV(){
 <script type="text/javascript">
   
     function approve() {
+        var dep_pro = $('.dep_pro  option:selected').val();
         var ctime = $('.ctime').val();
         var reason = $('.reason').val();
         var personnel = $('.personnel').val();
@@ -200,8 +209,7 @@ function printDIV(){
             $('.mode_route').focus();
             return;
         }
-
-        var data = {ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
+        var data = {dep_pro: dep_pro, ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
         $.ajax({
             url: '/RequestNote/gss_evection',
             type: 'post',
