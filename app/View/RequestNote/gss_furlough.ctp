@@ -21,8 +21,16 @@
                                 <td >姓名</td>
                                 <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
                                 <td >所在单位</td>
-                                <td colspan='3'>  <input  type="text" class="depname" name="depname"  style='height:25px;width:280px;'> </td>
-                            </tr>
+                                <td colspan='3'>  
+                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
+                                    <select style="height:25px;width:270px;" name="dep_pro" class="dep_pro" onchange="">
+                                        <?php foreach($department_arr as $v){?>
+                                        <option value="0"><?php echo $v['name'];?></option>
+                                        <?php }?>
+                                        <?php foreach($team_arr as $v){?>
+                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
+                                        <?php }?>
+                                    </select> </tr>
                             
                              <tr>
                                 <td>参加工作时间</td>
@@ -148,7 +156,7 @@ function printDIV(){
   
     function approve() {
         var applyname = $('.applyname').val();
-        var depname = $('.depname').val();
+        var depname = $('.dep_pro option:selected').val();
         var start_work = $('.start_work').val();
         var years = $('.years').val();
         var vacation_days = $('.vacation_days').val();

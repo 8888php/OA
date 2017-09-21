@@ -331,8 +331,17 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_furlough_save($_POST);
         }else{
-        
-        $this->render();
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
+            $this->render();
         }
     }
     
@@ -346,8 +355,17 @@ class RequestNoteController extends AppController {
         }
         $table_name = 't_apply_paidleave';
         $p_id = 3;//审批流id
+        $p_id = 0;//审批流id
+        
+        if (!$datas['depname']) {
+            //说明是部门
+            $type = 2;//类型暂定为0
+            $team_id = 0;
+        } else {
+            $type = 3;//团队类型
+            $team_id = $datas['depname'];
+        }
         $project_id = 0;
-        $type = 2;//类型暂定为0
         
         $applyArr = array('type' => $type,'project_team_user_id'=> 0,'project_user_id'=>0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
@@ -365,12 +383,12 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
         
         $attrArr = array();
-        $attrArr['company'] = $datas['company'];
+//        $attrArr['company'] = $datas['company'];
         $attrArr['start_work'] = $datas['start_work'];
 
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
-        $attrArr['project_id'] = $project_id;
+        $attrArr['team_id'] = $team_id;
         $attrArr['vacation_days'] = $datas['vacation_days'];
         $attrArr['yx_vacation_days'] = $datas['yx_vacation_days'];
         $attrArr['start_time'] = $datas['start_time'];
@@ -395,6 +413,7 @@ class RequestNoteController extends AppController {
         $mainArr['attachment'] = ''; 
         $mainArr['name'] = '果树所职工带薪年休假审批单';
         $mainArr['project_id'] = $project_id;
+        $mainArr['team_id'] = $team_id;
         $mainArr['department_id'] = $department_id;        
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
