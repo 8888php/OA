@@ -85,6 +85,7 @@
                                                     <th>ID</th>
                                                     <th>申请名</th>
                                                     <th>申请时间</th>
+						    <th>审核时间</th>
                                                     <th>类型</th>
                                                     <th>申请人</th>
                                                     <th>附件</th>
@@ -110,6 +111,7 @@
                                                     <?php }?>
                                                     
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
+						    <td><?php echo $sv['ApprovalInformation']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
