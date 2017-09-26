@@ -1465,4 +1465,155 @@ class RequestNoteController extends AppController {
         exit;
     }
     
+    
+    // 职工因公不休或不全休带薪假审批表
+     public function gss_endlessly() {
+         
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_endlessly_save($_POST);
+        }else{
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+    }
+       // 职工因公不休或不全休带薪假审批表
+    private function gss_endlessly_save($datas) {
+        if (empty($datas['company']) || empty($datas['start_work']) 
+                || empty($datas['years']) || empty($datas['vacation_days']) 
+                || empty($datas['start_time']) || empty($datas['end_time'])) {
+            $this->ret_arr['msg'] = '参数有误';
+            exit(json_encode($this->ret_arr));
+        }
+        $table_name = 't_apply_paidleave';
+        $p_id = 3;//审批流id
+        $p_id = 0;//审批流id
+        
+        if (!$datas['depname']) {
+            //说明是部门
+            $type = 2;//类型暂定为0
+            $team_id = 0;
+        } else {
+            $type = 3;//团队类型
+            $team_id = $datas['depname'];
+        }
+        $project_id = 0;
+        
+        $applyArr = array('type' => $type,'project_team_user_id'=> 0,'project_user_id'=>0);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
+//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
+//
+//        if ($ret_arr[$this->code] == 1) {
+//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
+//            exit(json_encode($this->ret_arr));
+//        }
+        #附表入库
+        //是部门，取当前用户的部门信息
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
+        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
+        
+        $attrArr = array();
+//        $attrArr['company'] = $datas['company'];
+        $attrArr['start_work'] = $datas['start_work'];
+
+        $attrArr['department_id'] = $department_id;
+        $attrArr['department_name'] = $department_name;
+        $attrArr['team_id'] = $team_id;
+        $attrArr['vacation_days'] = $datas['vacation_days'];
+        $attrArr['yx_vacation_days'] = $datas['yx_vacation_days'];
+        $attrArr['start_time'] = $datas['start_time'];
+        $attrArr['end_time'] = $datas['end_time'];
+        $attrArr['total_days'] = $datas['total_days'];
+        $attrArr['years'] = $datas['years'];
+        $attrArr['grsq'] = $datas['grsq'];
+        $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['create_time'] = date('Y-m-d H:i:s', time());
+        
+        # 开始入库
+        $this->ApplyPaidleave->begin();
+        $attrId = $this->ApplyPaidleave->add($attrArr);
+        
+        # 主表入库
+        $mainArr = array();
+        $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
+        $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
+        $mainArr['approval_process_id'] = $p_id; //审批流程id
+        $mainArr['type'] = $type; 
+        $mainArr['attachment'] = ''; 
+        $mainArr['name'] = '果树所职工带薪年休假审批单';
+        $mainArr['project_id'] = $project_id;
+        $mainArr['team_id'] = $team_id;
+        $mainArr['department_id'] = $department_id;        
+        $mainArr['table_name'] = $table_name;
+        $mainArr['user_id'] = $this->userInfo->id;
+        $mainArr['total'] = 0;
+        $mainArr['attr_id'] = $attrId;
+        $mainArr['project_user_id'] = 0;
+        $mainArr['project_team_user_id'] = 0;
+        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+        $mainArr['subject'] = '';
+        if ($attrId) {
+            $mainId = $this->ApplyMain->add($mainArr);
+        } else {
+            $this->ApplyPaidleave->rollback();
+        }
+        $mainId ? $commitId = $this->ApplyPaidleave->rollback() : $commitId = $this->ApplyPaidleave->commit();
+
+
+        if ($commitId) {
+            //如果审批通过，且跳过下个则在表里记录一下
+            if (!empty($ret_arr['code_id']) ) {
+                foreach ($ret_arr['code_id'] as $k=>$v) {
+                    if ($v == $this->userInfo->id) {
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $this->userInfo->position_id,
+                            'approve_id' => $this->userInfo->id,
+                            'remarks' => '',
+                            'name' => $this->userInfo->name,
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    } else {
+                        //根据id取出当前用户的信息
+                        $userinfo = $this->User->findById($v);
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $userinfo['User']['position_id'],
+                            'approve_id' => $v,
+                            'remarks' => '',
+                            'name' => $userinfo['User']['name'],
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    }
+                   $this->ApprovalInformation->add($save_approve);
+                }
+                
+            } else {
+                //其他审批人 暂时不处理
+            }
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '申请成功';
+        } else {
+            $this->ret_arr['msg'] = '申请失败';
+        }
+
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+    
 }
