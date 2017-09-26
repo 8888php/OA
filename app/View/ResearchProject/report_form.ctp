@@ -183,11 +183,19 @@
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['amount'];  ?>  </td>
                                                     <?php 
                                                     foreach($keyanlist as $k) {
-                                                    foreach($k as $kk=>$kv) {
-                                                    echo  '<td>';
-                                                    echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
-                                                    echo '</td>';
-                                                    }
+                                                        if($d['m']['table_name'] == 'apply_jiekuandan'){
+                                                            foreach($k as $kk=>$kv) {
+                                                                echo  '<td>';
+                                                                echo isset($json_data[$kk]) ?  $attr_arr[$d['m']['id']]['b']['amount'] : 0;
+                                                                echo '</td>';
+                                                            }
+                                                        }else{
+                                                            foreach($k as $kk=>$kv) {
+                                                                echo  '<td>';
+                                                                echo isset($json_data[$kk]) ?  $json_data[$kk]: 0;
+                                                                echo '</td>';
+                                                            }
+                                                        }
                                                     }
                                                     ?>
                                                     <td> <?php $code_bxd_arr = Configure::read('code_bxd_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
