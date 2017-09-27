@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department','TeamProject', 'ApprovalInformation');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department', 'TeamProject', 'ApprovalInformation');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -14,7 +14,7 @@ class ResearchProjectController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         if ($this->request->is('get')) {
-            //获取参数
+//获取参数
             $action = $this->request->params['action'];
             $left_use_show_actions = array(
                 '', //默认index
@@ -26,7 +26,7 @@ class ResearchProjectController extends AppController {
                 'storage',
                 'declares'
             );
-            //左侧栏 科研项目显示
+//左侧栏 科研项目显示
             if (in_array($action, $left_use_show_actions) || in_array(strtolower(substr($action, 0, 1)) . substr($action, 1), $left_use_show_actions)) {
                 $pid = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : 0;
                 if ($pid > 0) {
@@ -40,22 +40,21 @@ class ResearchProjectController extends AppController {
     /**
      * 当前用户是否参与项目
      */
-    private function is_project_self($pid){
-		// 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
-		if($this->is_who() != false){
-			return true;
-		}
-       return in_array($pid, $this->appdata['projectId']) ? true : false;
+    private function is_project_self($pid) {
+// 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
+        if ($this->is_who() != false) {
+            return true;
+        }
+        return in_array($pid, $this->appdata['projectId']) ? true : false;
     }
-
-
 
     /**
      * 详情
      */
-    public function index($pid = 0) { 
+    public function index($pid = 0) {
         if (empty($pid) || !$this->is_project_self($pid)) {
-             header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('pid', $pid);
         $this->set('uid', $this->userInfo->id);
@@ -63,20 +62,20 @@ class ResearchProjectController extends AppController {
 
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
-        
-        // 项目组
+
+// 项目组
         $teaminfos = $this->TeamProject->findById($pinfos['project_team_id']);
         $pinfos['project_team_str'] = $teaminfos['TeamProject']['name'];
 
-        // 项目组负责人
-        if($teaminfos['TeamProject']['id'] == 1){
-           // $pinfos['project_team_user'] = '';
+// 项目组负责人
+        if ($teaminfos['TeamProject']['id'] == 1) {
+// $pinfos['project_team_user'] = '';
             $uinfos = $this->User->findById($pinfos['user_id']);
-        }else{
+        } else {
             $uinfos = $this->User->findById($teaminfos['TeamProject']['team_user_id']);
         }
-            $pinfos['project_team_user'] = $uinfos['User']['name'];
-        
+        $pinfos['project_team_user'] = $uinfos['User']['name'];
+
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
 
@@ -90,32 +89,33 @@ class ResearchProjectController extends AppController {
      * 详情 预算
      */
     public function budget($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
-              header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('costList', Configure::read('keyanlist'));
         $this->set('pid', $pid);
 
         $cost = $this->ResearchCost->findByProjectId($pid);
         $cost = @$cost['ResearchCost'];
-        
+
         $minus = array();
-        if(!empty($cost)){
+        if (!empty($cost)) {
             $overplus = $this->ApplyMain->getSubject($pid);
-            foreach($overplus as $k => $v){
-                $units = json_decode($v,true);
-                foreach($units as $uk => $uv){
-                   !isset($minus[$uk]) && $minus[$uk] = 0;
-                   $minus[$uk]  += $uv;
+            foreach ($overplus as $k => $v) {
+                $units = json_decode($v, true);
+                foreach ($units as $uk => $uv) {
+                    !isset($minus[$uk]) && $minus[$uk] = 0;
+                    $minus[$uk] += $uv;
                 }
             }
-        } 
+        }
         $this->set('cost', $cost);
-        $this->set('minus',$minus);
-        $this->set('sum_minus',$cost['total'] - array_sum($minus) );
+        $this->set('minus', $minus);
+        $this->set('sum_minus', $cost['total'] - array_sum($minus));
         $this->render();
     }
 
@@ -123,13 +123,14 @@ class ResearchProjectController extends AppController {
      * 详情 项目资产
      */
     public function assets($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
-              header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
-        //根据项目id取出他的固定资产列表
+//根据项目id取出他的固定资产列表
         $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id=' . "$pid");
         $this->set('fixedassets', $fixedassets);
         $this->set('pid', $pid);
@@ -142,11 +143,12 @@ class ResearchProjectController extends AppController {
      * 详情 费用申报
      */
     public function declares($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
-            header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
 
         $proInfos = $this->ResearchProject->findById($pid);
@@ -154,60 +156,65 @@ class ResearchProjectController extends AppController {
         $this->set('proInfos', $proInfos);  // 预算费用
 
         $sql_fzr = '';
-        // 项目负责人、财务主任、财务副所长、所长、科研主任、科研副所长可查看全部、职员只看自己提交申请
-        if($this->userInfo->department_id != 3 && ($this->userInfo->position_id != 4 || $this->userInfo->position_id != 5)){
-            if($proInfos['user_id'] != $this->userInfo->id && !in_array($this->userInfo->position_id,array(6,13,14))){
-                $sql_fzr = ' and m.user_id = '.$this->userInfo->id;
+// 项目负责人、财务主任、财务副所长、所长、科研主任、科研副所长可查看全部、职员只看自己提交申请
+        if ($this->userInfo->department_id != 3 && ($this->userInfo->position_id != 4 || $this->userInfo->position_id != 5)) {
+            if ($proInfos['user_id'] != $this->userInfo->id && !in_array($this->userInfo->position_id, array(6, 13, 14))) {
+                $sql_fzr = ' and m.user_id = ' . $this->userInfo->id;
             }
         }
 
-        //费用申报的内容
+//费用申报的内容
 //        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id = '$pid' $sql_fzr ");
-        
-        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' $sql_fzr ");
+
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE type =1 and m.project_id = '$pid' $sql_fzr ");
 // var_dump($declares_arr); 
 
         $mainArr = array();
-        foreach($declares_arr as $k => $v){
-            $mainArr[$v['m']['table_name']][$v['m']['id']] =  $v['m']['attr_id'] ;
+        foreach ($declares_arr as $k => $v) {
+            $mainArr[$v['m']['table_name']][$v['m']['id']] = $v['m']['attr_id'];
         }
-     
-        //取各分表内容
+
+//取各分表内容
         $attrArr = array();
-        foreach($mainArr as $k => $v){
+        foreach ($mainArr as $k => $v) {
             $attrid = implode(',', $v);
-            switch($k){
-            case 'apply_baoxiaohuizong':  // 报销汇总单
-               $attrinfo = $this->ResearchSource->query("SELECT b.id,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_chuchai_bxd':  // 差旅费报销单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason description,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_lingkuandan':  // 领款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.json_str description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_jiekuandan':  // 借款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            } 
-            if(count($attrinfo) > 0){
-                if($k == 'apply_lingkuandan'){
-                    foreach($attrinfo as $attk => $attv){
-                      $tmpdecp = json_decode($attv['b']['description'],true);
-                      $attv['b']['description'] = $tmpdecp[0]['pro'];
-                      $attrinfo[$attv['b']['id']] = $attv; 
+            switch ($k) {
+                case 'apply_baoxiaohuizong':  // 报销汇总单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_chuchai_bxd':  // 差旅费报销单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason description,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_lingkuandan':  // 领款单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.json_str description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_jiekuandan':  // 借款单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.approve_money ,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+            }
+            if (count($attrinfo) > 0) {
+                if ($k == 'apply_lingkuandan') {
+                    foreach ($attrinfo as $attk => $attv) {
+                        $tmpdecp = json_decode($attv['b']['description'], true);
+                        $attv['b']['description'] = $tmpdecp[0]['pro'];
+                        $attrinfo[$attv['b']['id']] = $attv;
                     }
-                }else{
-                    foreach($attrinfo as $attk => $attv){
-                      $attrinfo[$attv['b']['id']] = $attv;  
+                } else if ($k == 'apply_jiekuandan') {
+                    foreach ($attrinfo as $attk => $attv) {
+                        $attrinfo[$attv['b']['id']] = $attv;
+                     //   $declares_arr[]
+                    }
+                } else {
+                    foreach ($attrinfo as $attk => $attv) {
+                        $attrinfo[$attv['b']['id']] = $attv;
                     }
                 }
-                foreach($v as $atk => $atv){
-                  $attrArr[$atk] = $attrinfo[$atv];  
+                foreach ($v as $atk => $atv) {
+                    $attrArr[$atk] = $attrinfo[$atv];
                 }
             }
-        }    
- //var_dump($mainArr,$attrArr);        
+        }
+//var_dump($mainArr,$attrArr);        
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
@@ -221,7 +228,8 @@ class ResearchProjectController extends AppController {
      */
     public function add_declares($pid = 0) {
         if (empty($pid) || !$this->is_project_self($pid)) {
-              header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('pid', $pid);
 
@@ -246,56 +254,54 @@ class ResearchProjectController extends AppController {
             $this->ret_arr['msg'] = '请求不合法';
             exit(json_encode($this->ret_arr));
         }
-        
+
         if (empty($_POST['ctime']) || empty($_POST['subject']) || empty($_POST['rmb_capital']) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_baoxiaohuizong';
 
-        $type = Configure::read('type_number');//行政费用
-        
-        
-        //获取审批流id
+        $type = Configure::read('type_number'); //行政费用
+//获取审批流id
 //        $p_id = Configure::read('approval_process');
-        $project_user_id = 0;//项目负责人user_id
-        $project_team_user_id = 0;//项目组负责人user_id
+        $project_user_id = 0; //项目负责人user_id
+        $project_team_user_id = 0; //项目组负责人user_id
         if ($_POST['projectname'] == 0) {
-            $project_id = 0;//让他为0
+            $project_id = 0; //让他为0
             $type = $type[1];
             $p_id = 2;
-        }else {
-            //项目
+        } else {
+//项目
             $project_id = $_POST['projectname'];
             $type = $type[0];
             $p_id = 1;
-            //根据项目取出，项目负责人user_id,和项目组负责人user_id
+//根据项目取出，项目负责人user_id,和项目组负责人user_id
             $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
-            
+
             $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
-            $project_user_id = $project_and_team_arr[0]['p']['user_id'];//项目负责人user_id
-            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id'];//项目组负责人user_id
+            $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
+            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id']; //项目组负责人user_id
         }
-        
-        $applyArr = array('type' => $type,'project_team_user_id'=> $project_team_user_id,'project_user_id'=>$project_user_id);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id,$applyArr);
-        
+
+        $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
 //        if ($ret_arr[$this->code] == 1) {
 //            $this->ret_arr['msg'] = $ret_arr[$this->msg];
 //            exit(json_encode($this->ret_arr));
 //        }
-        #附表入库
-        //是部门，取当前用户的部门信息
+#附表入库
+//是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
         $department_arr = $this->Department->findById($department_id);
         $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
-        
+
         $attrArr = array();
         $attrArr['ctime'] = $_POST['ctime'];
-        $attrArr['page_number'] = empty($_POST['page_number']) ? 0 :$_POST['page_number'];
+        $attrArr['page_number'] = empty($_POST['page_number']) ? 0 : $_POST['page_number'];
 
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
@@ -307,22 +313,22 @@ class ResearchProjectController extends AppController {
         $attrArr['description'] = $_POST['description'];
         $attrArr['applicant'] = $_POST['applicant'];
         $attrArr['user_id'] = $this->userInfo->id;
-                
-        # 开始入库
+
+# 开始入库
         $this->ApplyBaoxiaohuizong->begin();
         $attrId = $this->ApplyBaoxiaohuizong->add($attrArr);
-        
-        # 主表入库
+
+# 主表入库
         $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr['next_id'];//下一个审批职务的id
-        $mainArr['next_apprly_uid'] = $ret_arr['next_uid'];//下一个审批人id
-        $mainArr['code'] = $ret_arr['code'];//当前单子审批的状态码
+        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
-        $mainArr['type'] = $type; 
-        $mainArr['attachment'] = $_POST['attachment']; 
+        $mainArr['type'] = $type;
+        $mainArr['attachment'] = $_POST['attachment'];
         $mainArr['name'] = $_POST['declarename'];
         $mainArr['project_id'] = $project_id;
-        $mainArr['department_id'] = $department_id;        
+        $mainArr['department_id'] = $department_id;
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = $_POST['amount'];
@@ -341,9 +347,9 @@ class ResearchProjectController extends AppController {
 
 
         if ($commitId) {
-            //如果审批通过，且跳过下个则在表里记录一下
-            if (!empty($ret_arr['code_id']) ) {
-                foreach ($ret_arr['code_id'] as $k=>$v) {
+//如果审批通过，且跳过下个则在表里记录一下
+            if (!empty($ret_arr['code_id'])) {
+                foreach ($ret_arr['code_id'] as $k => $v) {
                     if ($v == $this->userInfo->id) {
                         $save_approve = array(
                             'main_id' => $mainId,
@@ -355,7 +361,7 @@ class ResearchProjectController extends AppController {
                             'status' => 1
                         );
                     } else {
-                        //根据id取出当前用户的信息
+//根据id取出当前用户的信息
                         $userinfo = $this->User->findById($v);
                         $save_approve = array(
                             'main_id' => $mainId,
@@ -367,11 +373,10 @@ class ResearchProjectController extends AppController {
                             'status' => 1
                         );
                     }
-                   $this->ApprovalInformation->add($save_approve);
+                    $this->ApprovalInformation->add($save_approve);
                 }
-                
             } else {
-                //其他审批人 暂时不处理
+//其他审批人 暂时不处理
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
@@ -388,92 +393,88 @@ class ResearchProjectController extends AppController {
      * 详情 报表
      */
     public function report_form($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
-             header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
 
         $proInfos = $this->ResearchProject->findById($pid);
         $proInfos = $proInfos['ResearchProject'];
         $this->set('proInfos', $proInfos);  // 预算费用
-          
-     // 项目负责人可查看报表
-     if($proInfos['user_id'] != $this->userInfo->id){
-         header("Location:/homes/index");die;
+// 项目负责人可查看报表
+        if ($proInfos['user_id'] != $this->userInfo->id) {
+            header("Location:/homes/index");
+            die;
         }
 
-  //       $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
+//       $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
 
-        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and m.code = 10000 ");
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and type = 1 and m.code = 10000 ");
 // var_dump($declares_arr); 
 
         $mainArr = array();
-        foreach($declares_arr as $k => $v){
-            $mainArr[$v['m']['table_name']][$v['m']['id']] =  $v['m']['attr_id'] ;
+        foreach ($declares_arr as $k => $v) {
+            $mainArr[$v['m']['table_name']][$v['m']['id']] = $v['m']['attr_id'];
         }
-        
-        //取各分表内容
+
+//取各分表内容
         $attrArr = array();
-        foreach($mainArr as $k => $v){
+        foreach ($mainArr as $k => $v) {
             $attrid = implode(',', $v);
-            switch($k){
-            case 'apply_baoxiaohuizong':  // 报销汇总单
-               $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_chuchai_bxd':  // 差旅费报销单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason description,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
-            case 'apply_lingkuandan':  // 领款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.json_str description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-                foreach($attrinfo as $k => $v){
-                    $descrip = json_decode($v['b']['description'],true);
-                    $attrinfo[$k]['b']['description'] = $descrip[0]['pro'];
-                }
-            break;
-            case 'apply_jiekuandan':  // 借款单
-            $attrinfo = $this->ResearchSource->query("SELECT b.id,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-            break;
+            switch ($k) {
+                case 'apply_baoxiaohuizong':  // 报销汇总单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.subject,b.amount,b.description,s.* FROM t_apply_baoxiaohuizong b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_chuchai_bxd':  // 差旅费报销单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.total amount,b.reason description,s.* FROM t_apply_chuchai_bxd b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_lingkuandan':  // 领款单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.small_total amount,b.json_str description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
+                case 'apply_jiekuandan':  // 借款单
+                    $attrinfo = $this->ResearchSource->query("SELECT b.id,b.approve_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
+                    break;
             }
-            if(count($attrinfo) > 0){
-                if($k == 'apply_lingkuandan'){
-                    foreach($attrinfo as $attk => $attv){
-                      $tmpdecp = json_decode($attv['b']['description'],true);
-                      $attv['b']['description'] = $tmpdecp[0]['pro'];
-                      $attrinfo[$attv['b']['id']] = $attv; 
+            if (count($attrinfo) > 0) {
+                if ($k == 'apply_lingkuandan') {
+                    foreach ($attrinfo as $attk => $attv) {
+                        $tmpdecp = json_decode($attv['b']['description'], true);
+                        $attv['b']['description'] = $tmpdecp[0]['pro']; 
+                        $attrinfo[$attv['b']['id']] = $attv;
                     }
-                }else{
-                    foreach($attrinfo as $attk => $attv){
-                      $attrinfo[$attv['b']['id']] = $attv;  
+                } else {
+                    foreach ($attrinfo as $attk => $attv) {
+                        $attrinfo[$attv['b']['id']] = $attv;
                     }
                 }
-                foreach($v as $atk => $atv){
-                  $attrArr[$atk] = $attrinfo[$atv];  
+                foreach ($v as $atk => $atv) {
+                    $attrArr[$atk] = $attrinfo[$atv];
                 }
             }
         }
-        
- //var_dump($mainArr,$attrArr);        
+       
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
         $this->set('pid', $pid);
 
-        
+
         $pcost = $this->ResearchCost->findByProjectId($pid);
         $pcost = $pcost['ResearchCost'];
         $this->set('pcost', $pcost);  // 预算费用
-        
+
         $expent = array();  // 支出总计费用
-        foreach($declares_arr as $k => $v){
-            $zhichu = json_decode($v['m']['subject'],true);
-            foreach($zhichu as $zk => $zv){ 
-                $expent[$zk] = isset($expent[$zk]) ? $expent[$zk]+$zv : $zv;
+        foreach ($declares_arr as $k => $v) {
+            $zhichu = json_decode($v['m']['subject'], true);
+            foreach ($zhichu as $zk => $zv) {
+                $expent[$zk] = isset($expent[$zk]) ? $expent[$zk] + $zv : $zv;
             }
         }
         $this->set('expent', $expent);  // 支出总计费用
-        
+
         $this->render();
     }
 
@@ -481,16 +482,17 @@ class ResearchProjectController extends AppController {
      * 详情 档案
      */
     public function archives($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
-             header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('pid', $pid);
-        
+
         $sourcelist = $this->ResearchSource->getAll($pid);
-        
+
         $this->render();
     }
 
@@ -498,8 +500,8 @@ class ResearchProjectController extends AppController {
      * 详情 出入库
      */
     public function storage($pid = 0) {
-		$is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
-		$this->set('is_pro', $is_pro);
+        $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
+        $this->set('is_pro', $is_pro);
 
         if (empty($pid) || !$this->is_project_self($pid)) {
             header("Location:/homes/index");
@@ -522,11 +524,11 @@ class ResearchProjectController extends AppController {
             die;
         }
 
-        # 非项目内成员
+# 非项目内成员
         $notInMember = $this->User->not_project_member($pid);
         $this->set('notInMember', $notInMember);
 
-        #项目内成员
+#项目内成员
         $projectMember = $this->ProjectMember->getList($pid);
         $this->set('projectMember', $projectMember);
         $this->set('pid', $pid);
@@ -583,9 +585,6 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
-
-
-
     /**
      * 添加 添加项目资金来源表
      */
@@ -596,16 +595,16 @@ class ResearchProjectController extends AppController {
         }
 
 
-        #项目详情
+#项目详情
         $proInfos = $this->ResearchProject->findById($pid);
 
-        // 是否项目负责人添加
-        if($proInfos['ResearchProject']['user_id'] != $this->userInfo->id){
+// 是否项目负责人添加
+        if ($proInfos['ResearchProject']['user_id'] != $this->userInfo->id) {
             header("Location:/homes/index");
-            die;    
+            die;
         }
 
-        # 项目资金来源
+# 项目资金来源
         $proSource = $this->ResearchSource->getAll($pid);
         $this->set('proSource', $proSource);
 
@@ -620,21 +619,21 @@ class ResearchProjectController extends AppController {
         if (empty($_POST['pid']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
         } else {
-            #项目详情
+#项目详情
             $proInfos = $this->ResearchProject->findById($_POST['pid']);
 
-            // 是否项目负责人添加
-            if($proInfos['ResearchProject']['user_id'] != $this->userInfo->id){
+// 是否项目负责人添加
+            if ($proInfos['ResearchProject']['user_id'] != $this->userInfo->id) {
                 $this->ret_arr['msg'] = '非项目负责人无权添加';
                 echo json_encode($this->ret_arr);
-                exit; 
+                exit;
             }
-            # 项目资金来源 总额
-            $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where project_id = '.$_POST['pid']);
-            if(($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']){
+# 项目资金来源 总额
+            $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where project_id = ' . $_POST['pid']);
+            if (($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']) {
                 $this->ret_arr['msg'] = '资金来源总额超过 项目总金额';
                 echo json_encode($this->ret_arr);
-                exit; 
+                exit;
             }
 
             $editArr = array();
@@ -648,10 +647,10 @@ class ResearchProjectController extends AppController {
                     $sourceId = $this->ResearchSource->add($editArr);
                     break;
                 case 'edit':
-                    //$sourceId = $this->ResearchSource->edit($_POST['mid'], $editArr);
+//$sourceId = $this->ResearchSource->edit($_POST['mid'], $editArr);
                     break;
                 case 'del':
-                    //$sourceId = $this->ResearchSource->del($_POST['pid'], $_POST['mid']);
+//$sourceId = $this->ResearchSource->del($_POST['pid'], $_POST['mid']);
                     break;
             }
 
@@ -666,17 +665,13 @@ class ResearchProjectController extends AppController {
         exit;
     }
 
-
-
-
-
     /**
      * 添加 添加项目
      */
     public function step1() {
-        
-        $team = $this->TeamProject->find('list',array('conditions'=>array('del'=>0),'fields'=>array('id','name')));
-        $this->set('team',$team);
+
+        $team = $this->TeamProject->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
+        $this->set('team', $team);
         $this->render();
     }
 
@@ -698,9 +693,9 @@ class ResearchProjectController extends AppController {
         $saveArr['overview'] = $this->request->data('overview');
         $saveArr['remark'] = $this->request->data('remark');
         $saveArr['source'] = $this->request->data('source');
-        $saveArr['project_team_id'] = $this->request->data('project_team_id');//所属项目组id
+        $saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
         $saveArr['type'] = $this->request->data('type');
-        
+
         $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
         $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
         $this->render();
@@ -770,7 +765,7 @@ class ResearchProjectController extends AppController {
             $projectArr['filename'] = $filesArr[0];
             $projectArr['ctime'] = date("Y-m-d H:i:s");
 
-            # 开始入库
+# 开始入库
             $this->ResearchProject->begin();
             $this->ResearchProject->add($projectArr);
 
@@ -799,18 +794,18 @@ class ResearchProjectController extends AppController {
             !$this->ResearchCost->id ? $this->ResearchProject->rollback() : $commitId = $this->ResearchProject->commit();
 
             if ($costId) {
-                //添加成功，把自己写出到项目成员表里面
+//添加成功，把自己写出到项目成员表里面
                 /* 审核结束时会添加项目负责人
-					$editArr['user_id'] = $this->userInfo->id;
-                    $editArr['project_id'] = $porijectId;
-                    $editArr['user_name'] = $this->userInfo->user;
-                    $editArr['name'] = $this->userInfo->name;
-                    $editArr['tel'] =  $this->userInfo->tel;
-                    $editArr['type'] = 1;//项目负责人
-                    $editArr['ctime'] = date('Y-m-d');
-                    $editArr['remark'] = '';
-                    $memberId = $this->ProjectMember->add($editArr);
-					*/
+                  $editArr['user_id'] = $this->userInfo->id;
+                  $editArr['project_id'] = $porijectId;
+                  $editArr['user_name'] = $this->userInfo->user;
+                  $editArr['name'] = $this->userInfo->name;
+                  $editArr['tel'] =  $this->userInfo->tel;
+                  $editArr['type'] = 1;//项目负责人
+                  $editArr['ctime'] = date('Y-m-d');
+                  $editArr['remark'] = '';
+                  $memberId = $this->ProjectMember->add($editArr);
+                 */
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = $commitId . '添加项目成功！请等待审核';
             } else {
@@ -843,17 +838,17 @@ class ResearchProjectController extends AppController {
                 $saveArr['end_date'] = $this->request->data('end_date');
                 $saveArr['overview'] = $this->request->data('overview');
                 $saveArr['remark'] = $this->request->data('remark');
-                $saveArr['project_team_id'] = $this->request->data('project_team_id');//所属项目组id
+                $saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
                 $saveArr['type'] = $this->request->data('type');
                 $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
 //                $saveArr['source_channel'] = $this->request->data('source_channel');
 //                $saveArr['file_number'] = $this->request->data('file_number');
 //                $saveArr['amount'] = $this->request->data('amount');
 //                $saveArr['year'] = $this->request->data('year');
-                //这里取出用户的  id，把id也存入到cookie里面
+//这里取出用户的  id，把id也存入到cookie里面
 
                 $this->Cookie->write('research_project' . $this->userInfo->id, CookieEncode($saveArr), false, '7 day');
-                
+
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = json_encode($saveArr);
 
@@ -896,7 +891,7 @@ class ResearchProjectController extends AppController {
             }
 
 
-            //cookie write没有返回值
+//cookie write没有返回值
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '存入成功';
 
@@ -918,7 +913,7 @@ class ResearchProjectController extends AppController {
         $size = $file_arr['size'];
 
         $new_file_name = WWW_ROOT . DS . 'files' . DS . $name;
-        //判断这个文件没有存在，如果存在就不上传
+//判断这个文件没有存在，如果存在就不上传
         if (file_exists($new_file_name)) {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '文件名重复';
@@ -944,7 +939,7 @@ class ResearchProjectController extends AppController {
             header("Location:/home/index");
         }
 
-        #项目详情
+#项目详情
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
         $this->set('pinfos', $pinfos);
@@ -1016,35 +1011,36 @@ class ResearchProjectController extends AppController {
         echo json_encode($this->ret_arr);
         exit;
     }
-    
+
     /**
      * 
      * 根据部门或者项目id取出对用的费用
      * @param type $type 类型 1为部门， 2为科研项目
      * @param type $project_id 项目id
      */
-    public function add_declares_department_project($type,$project_id=0) {
+    public function add_declares_department_project($type, $project_id = 0) {
         if ($type == 1) {
-            //部门费用
-            $feiyong  = Configure::read('xizhenglist');
+//部门费用
+            $feiyong = Configure::read('xizhenglist');
         } else {
-            //科研费用
-            $feiyong  = Configure::read('keyanlist');
+//科研费用
+            $feiyong = Configure::read('keyanlist');
         }
         $this->set('feiyong', $feiyong);
         $this->render();
     }
-    
+
     /**
      * 预览 打印，费用申报列表的打印
      */
     public function budget_print($main_id = 0) {
         if (empty($main_id)) {
-              header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         $this->set('costList', Configure::read('keyanlist'));
         $main_arr = $this->ApplyMain->findById($main_id);
-        
+
         $subject = array();
         if (!empty($main_arr['ApplyMain']['subject'])) {
             $subject = json_decode($main_arr['ApplyMain']['subject'], true);
@@ -1052,4 +1048,5 @@ class ResearchProjectController extends AppController {
         $this->set('subject', $subject);
         $this->render();
     }
+
 }

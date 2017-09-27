@@ -174,14 +174,22 @@
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['s']['source_channel'];  ?> </td>
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['s']['file_number'];  ?> </td>
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
-                                                    <td> <?php echo array_sum($json_data); ?> </td>
+                                                    <td> <?php echo $d['m']['table_name'] == 'apply_jiekuandan' ? $attr_arr[$d['m']['id']]['b']['approve_money'] : array_sum($json_data); ?> </td>
                                                     <?php 
                                                     foreach($keyanlist as $k) {
-                                                    foreach($k as $kk=>$kv) {
-                                                    echo  '<td>';
-                                                    echo isset($json_data[$kk]) ? $json_data[$kk] : 0;
-                                                    echo '</td>';
-                                                    }
+                                                    if($d['m']['table_name'] == 'apply_jiekuandan'){
+                                                            foreach($k as $kk=>$kv) {
+                                                                echo  '<td>';
+                                                                echo isset($json_data[$kk]) ?  $attr_arr[$d['m']['id']]['b']['approve_money'] : 0;
+                                                                echo '</td>';
+                                                            }
+                                                        }else{
+                                                            foreach($k as $kk=>$kv) {
+                                                                echo  '<td>';
+                                                                echo isset($json_data[$kk]) ?  $json_data[$kk]: 0;
+                                                                echo '</td>';
+                                                            }
+                                                        }
                                                     }
                                                     ?>
                                                     <td> <?php echo $d['m']['total'];  ?> </td>
