@@ -262,9 +262,17 @@ class RequestNoteController extends AppController {
         if (/*$this->request->is('ajax') &&*/ !empty($_POST['declarename'])) {
             $this->gss_purchase_save($_POST, $_FILES);
         }else{
-            //取出所在部门信息
-            $department = $this->Department->findById($this->userInfo->department_id);
-            $this->set('department', $department);
+            
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
             $this->render();
         }
     }

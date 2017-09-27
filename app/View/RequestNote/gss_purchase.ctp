@@ -20,8 +20,18 @@
                             
                              <tr>
                                 <td > 申报部门 </td>
-                                <td colspan='6'>  <input readonly="readonly" type="text" class="department" name="department" value="<?php echo @$department['Department']['name'];?>"  style='height:25px;width:575px;'> </td>
-                            </tr>
+                                <td colspan='6'>  
+                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
+                                    <select style="height:25px;width:580px;" name="dep_pro" class="dep_pro" onchange="">
+<!--                                        <?php foreach($department_arr as $v){?>
+                                        <option value="0"><?php echo $v['name'];?></option>
+                                        <?php }?>-->
+                                        <?php foreach($team_arr as $v){?>
+                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
+                                        <?php }?>
+                                    </select>
+                                </td>
+                             </tr>
                              <tr>
                                 <td > 支出项目 </td>
                                 <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:575px;'> </td>
