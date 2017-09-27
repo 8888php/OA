@@ -433,10 +433,6 @@ class ResearchProjectController extends AppController {
                     break;
                 case 'apply_lingkuandan':  // 领款单
                     $attrinfo = $this->ResearchSource->query("SELECT b.id,b.small_total amount,b.json_str description,s.* FROM t_apply_lingkuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
-                    foreach ($attrinfo as $k => $v) {
-                        $descrip = json_decode($v['b']['description'], true);
-                        $attrinfo[$k]['b']['description'] = $descrip[0]['pro'];
-                    }
                     break;
                 case 'apply_jiekuandan':  // 借款单
                     $attrinfo = $this->ResearchSource->query("SELECT b.id,b.approve_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
@@ -446,7 +442,7 @@ class ResearchProjectController extends AppController {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
                         $tmpdecp = json_decode($attv['b']['description'], true);
-                        $attv['b']['description'] = $tmpdecp[0]['pro'];
+                        $attv['b']['description'] = $tmpdecp[0]['pro']; 
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
                 } else {
@@ -459,8 +455,7 @@ class ResearchProjectController extends AppController {
                 }
             }
         }
-
-//var_dump($mainArr,$attrArr);        
+       
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
