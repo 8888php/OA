@@ -30,7 +30,9 @@
                                         <?php foreach($team_arr as $v){?>
                                         <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
                                         <?php }?>
-                                    </select> </tr>
+                                    </select> 
+                                </td>
+                            </tr>
                             
                              <tr>
                                 <td>参加工作时间</td>
