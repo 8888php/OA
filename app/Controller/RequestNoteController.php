@@ -941,6 +941,7 @@ class RequestNoteController extends AppController {
         $attrArr['department_name'] = $department_name;
 //        $attrArr['project_id'] = $project_id;
         $attrArr['team_id'] = $team_id;
+        $attrArr['applyname'] = $datas['applyname'];//请假人姓名
         
         $attrArr['start_time'] = $datas['start_time'];
         $attrArr['end_time'] = $datas['end_time'];
