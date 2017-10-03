@@ -1,4 +1,5 @@
 
+
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -13,137 +14,67 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
-                        <input type="hidden" name='declarename' class='declarename' value='山西省农科院果树所来文批办单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='档案借阅申请表' /> 
                         <tbody>
                             <tr>
-                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">秘密等级</td>
-                                <td colspan='1'>  <input  type="text" style='height:25px;width:80px;'> </td>  
-                                <td style="border-bottom: 1px solid white;"></td>
-                                <td><input  type="text" style='height:25px;width:80px;'> </td>
+                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;">  档案借阅申请表 </td>
                             </tr>
                             
-                            <tr>
-                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">紧急程度</td>
-                                <td colspan='1'>  <input  type="text" style='height:25px;width:80px;'> </td>  
-                                <td style="border-top-color: white;border-bottom-color: white;"></td>
-                                <td>第【<input  type="text" style='height:25px;width:80px;'>】号 </td>
-                            </tr>
-                            <tr>
-                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;border-right-color: white;"></td>
-                                <td colspan='1' style="border-right-color: white;">  </td>  
-                                <td style="border-top-color: white; border-left-color: white;"></td>
-                                <td><input  readonly="true"  class="form_datetime1" name="form_datetime1"  type="text" style='height:25px;width:80px;'> </td>
-                                <script type="text/javascript">
-                                        $(".form_datetime1").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                </script>
-                            </tr>
-                            
-                            <tr>
-                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;border-left-color: white;border-right-color: white;">  山西省农科院果树所来文批办单 </td>
-                            </tr>
-                            
-                             <tr>
+<!--                             <tr>
                                 <td colspan='1' style="text-align: right;height:50px; line-height: 50px; text-align: center;">来文单位</td>
                                 <td colspan='1' > <textarea style="height:50px;text-align: center;max-width: 150px;max-height: 50px;"></textarea>  </td>  
                                 <td style="text-align: right;height:50px; line-height: 50px; text-align: center;">文号</td>
                                 <td style="line-height: 50px;"><input type="text" style='height:25px;width:80px; text-align: center;line-height: 50px;'> </td>
                                 
-                            </tr>
+                            </tr>-->
                             
-<!--                            <tr>
-                                <td colspan='5' style="text-align: right;height:25px; line-height: 25px;">填表日期</td>
-                                <td colspan='2'>  <input  type="text" class="ctime" name="ctime"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo date('Y-m-d'); ?>"> </td>  
-                            </tr>
                             <tr>
-                                <td >姓名</td>
-                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
-                                <td >所在单位</td>
-                                <td colspan='3'>  
-                                    <input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'> 
-                                    <select style="height:25px;width:270px;" name="dep_pro" class="dep_pro" onchange="">
+                                <td  colspan='1'>借阅单位</td>
+                                <td colspan='1'>  
+                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
+                                    <select style="height:25px;width:160px;" name="dep_pro" class="dep_pro" onchange="">
                                         <?php foreach($department_arr as $v){?>
                                         <option value="0"><?php echo $v['name'];?></option>
                                         <?php }?>
                                         <?php foreach($team_arr as $v){?>
                                         <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
                                         <?php }?>
-                                    </select> 
-                            </tr>
-                            
-                             <tr>
-                                <td>参加工作时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class="start_work" name="start_work"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".start_work").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script> </td>
-                                <td>工作年限</td>
-                                <td colspan='3'> <input type="text" class="years" name="years" style='width:200px;height:25px;'/>  </td>
-                             </tr>
-                             <tr>
-                                <td>应休假天数</td>
-                                <td colspan='1' >  <input  type="text" class="vacation_days" name="vacation_days"  style='height:25px;width:80px;margin-top:5px;'> 
-                                <td>已休假天数</td>
-                                <td colspan='1'  align="center" valign="middle"> <input type="text" class="yx_vacation_days" name="yx_vacation_days" style='width:80px;height:25px;margin-top:5px;'/>  </td>
-                                <td>余年假天数</td>
-                                <td colspan='2'  align="center" valign="middle"> <input type="text" class="yx_vacation_days" name="yx_vacation_days" style='width:170px;height:25px;margin-top:5px;'/>  </td>
-                             
-                             </tr>                           
-                            <tr>
-                                <td >休假时间及天数</td>
-                                <td colspan='4'>
-                                    <input readonly="readonly" type="text" class=" form_datetime1 start_time" name="start_time"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
+                                    </select>
+                                    <td  colspan='1'>借阅时间</td>
+                                    <td colspan='1'><input  readonly="true"  class="form_datetime1" name="form_datetime1"  type="text" style='height:25px;width:80px;'> </td>
+                                <script type="text/javascript">
                                         $(".form_datetime1").datetimepicker({
                                             format: 'yyyy-mm-dd',
                                             minView: "month", //选择日期后，不会再跳转去选择时分秒 
                                         });
-                                    </script>
-                                    至
-                                    <input readonly="readonly" type="text" class=" form_datetime2 end_time" name="end_time"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".form_datetime2").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script>
-                                </td>
-                                <td style="width:90px;">合计</td>
-                                <td >  <input type="text" name='sum_days' class='sum_days' value='0'  style="width:50px;"  />  天 </td>
-                            </tr>-->
-                           
+                                </script>
+                                
                             <tr>
-                                <td  colspan='1'>文件标题</td>
+                                <td  colspan='1'>借阅内容</td>
                                 <td colspan='3'> <input type="text" name='reason' class="reason" style='width:470px;height:25px;'/> </td>
                             </tr>
                             <tr>
-                                <td colspan='1' rowspan="2" style='height:50px;    line-height: 100px;'>领导现场批示</td>
+                                <td  colspan='1'>借阅用途</td>
+                                <td colspan='3'> <input type="text" name='reason' class="reason" style='width:470px;height:25px;'/> </td>
+                            </tr>
+                             <tr >
+                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 借阅单位负责人意见</td>
+                                <td colspan='3'>   </td>
+                            </tr>
+                            <tr >
+                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 相关部门负责人意见</td>
+                                <td colspan='3'>   </td>
+                            </tr>
+                            <tr >
+                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 分管所领导意见</td>
                                 <td colspan='3'>   </td>
                             </tr>
                             <tr>
-                                
-                                <td colspan='3'>   </td>
+                                <td colspan='1'  style='height:50px;    line-height: 100px;'>借阅人签字</td>
+                                <td colspan='1'>   </td>
+                                <td colspan='1'  style='height:50px;    line-height: 100px;'>档案室经办人签字</td>
+                                <td colspan='1'>   </td>
                             </tr>
-                            <tr >
-                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 拟办意见</td>
-                                <td colspan='3'>   </td>
-                            </tr>
-                            <tr >
-                                <td colspan='1' style='height:50px;'> 业务科室意见 </td>
-                                <td colspan='3'>   </td>
-                            </tr>
-                            <tr >
-                                <td colspan='1' style='/*height:50px;*/'> 所长办公室承办人 </td>
-                                <td colspan='1'> <input type="text" style='width: 150px;' />  </td>
-                                <td colspan='1' style='/*height:50px;*/'> 联系电话 </td>
-                                <td colspan='1'>  <input type="text" style='width: 150px;' /> </td>
-                            </tr>
-                            
                         </tbody>
                     </table>
                 </form>
@@ -270,7 +201,7 @@ function printDIV(){
         data.personal_apply = personal_apply;
         data.declarename = declarename;
         $.ajax({
-            url: '/RequestNote/gss_furlough',
+            url: '/RequestNote/gss_send',
             type: 'post',
             data: data,
             dataType: 'json',

@@ -63,7 +63,7 @@ class RequestNoteController extends AppController {
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 //        $source = $this->ResearchSource->getAll($pid);
             $department_id = $this->userInfo->department_id;
-            $department_arr = $this->Department->findById($department_id); 
+            $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('xizhenglist', Configure::read('xizhenglist'));
@@ -912,6 +912,8 @@ class RequestNoteController extends AppController {
 //        $attrArr['project_id'] = $project_id;
         $attrArr['team_id'] = $team_id;
 
+        $attrArr['applyname'] = $datas['applyname']; //请假人姓名
+
         $attrArr['start_time'] = $datas['start_time'];
         $attrArr['end_time'] = $datas['end_time'];
         $attrArr['total_days'] = $datas['sum_days'];
@@ -1001,7 +1003,7 @@ class RequestNoteController extends AppController {
         $souid = $_POST['sid'];
         $depid = $_POST['depid'];
         // 如果是部门取部门资金来源
-        $souces = ($pid == 0 && isset($depid)) ? $this->ResearchSource->getDepAll($depid) : $this->ResearchSource->getAll($pid) ; 
+        $souces = ($pid == 0 && isset($depid)) ? $this->ResearchSource->getDepAll($depid) : $this->ResearchSource->getAll($pid);
         $ret_option = '';
         if (!empty($souces)) {
             foreach ($souces as $k => $v) {
@@ -1743,6 +1745,54 @@ class RequestNoteController extends AppController {
 
     //保存来文
     private function gss_received_save($datas) {
+        
+    }
+
+    //发文 
+    public function gss_send() {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_send_save($_POST);
+        } else {
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+    }
+
+    //保存发文
+    private function gss_send_save($datas) {
+        
+    }
+
+    //借阅
+    public function gss_borrow() {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_borrow_save($_POST);
+        } else {
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+    }
+
+    //保存借阅
+    private function gss_borrow_save($datas) {
         
     }
 
