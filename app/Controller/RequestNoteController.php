@@ -1671,4 +1671,28 @@ class RequestNoteController extends AppController {
     private function gss_send_save($datas) {
             
     }
+    
+     //借阅
+     public function gss_borrow() {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_borrow_save($_POST);
+        }else{
+            //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+        
+    }
+    //保存借阅
+    private function gss_borrow_save($datas) {
+            
+    }
 }
