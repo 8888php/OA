@@ -60,5 +60,11 @@ class ApplyMain extends AppModel {
         return $this->find('list', array('conditions' => array('project_id' => $pid,'code'=>10000), 'fields' => $fields));
     }
 
+    
+        # 获取项目全部 费用信息 
+    public function getSubjectTwo($pid) {
+        $fields = array('id','subject','table_name','attr_id');
+        return $this->find('all', array('conditions' => array('project_id' => $pid,'code'=>10000), 'fields' => $fields));
+    }
 
 }

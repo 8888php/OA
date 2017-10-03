@@ -63,7 +63,7 @@ class RequestNoteController extends AppController {
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 //        $source = $this->ResearchSource->getAll($pid);
             $department_id = $this->userInfo->department_id;
-            $department_arr = $this->Department->findById($department_id);
+            $department_arr = $this->Department->findById($department_id); 
             $this->set('department_arr', $department_arr);
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('xizhenglist', Configure::read('xizhenglist'));
@@ -588,7 +588,7 @@ class RequestNoteController extends AppController {
 
     //果树所借款单
     private function gss_loan_save($datas) {
-        if (empty($datas['ctime']) || empty($datas['loan_reason']) || empty($datas['big_amount']) || empty($datas['small_amount']) || empty($datas['repayment_plan']) || empty($datas['subject'])) {
+        if (empty($datas['ctime']) || empty($datas['loan_reason']) || empty($datas['big_amount']) || empty($datas['small_amount']) || empty($datas['repayment_plan']) || empty($datas['subject']) || empty($datas['filenumber'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -725,7 +725,7 @@ class RequestNoteController extends AppController {
 
     // 果树所领款单
     private function gss_draw_money_save($datas) {
-        if (empty($datas['ctime']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0) || empty($datas['subject'])) {
+        if (empty($datas['ctime']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0) || empty($datas['subject']) || empty($datas['filenumber'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -999,7 +999,9 @@ class RequestNoteController extends AppController {
     public function ajax_get_souce() {
         $pid = $_POST['pid'];
         $souid = $_POST['sid'];
-        $souces = $this->ResearchSource->getAll($pid);
+        $depid = $_POST['depid'];
+        // 如果是部门取部门资金来源
+        $souces = ($pid == 0 && isset($depid)) ? $this->ResearchSource->getDepAll($depid) : $this->ResearchSource->getAll($pid) ; 
         $ret_option = '';
         if (!empty($souces)) {
             foreach ($souces as $k => $v) {
@@ -1021,7 +1023,7 @@ class RequestNoteController extends AppController {
     // 果树所差旅费报销单
     private function gss_evection_expense_save($datas) {
 
-        if (empty($datas['ctime']) || empty($datas['reason']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0)) {
+        if (empty($datas['ctime']) || empty($datas['reason']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0) || empty($datas['filenumber'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }

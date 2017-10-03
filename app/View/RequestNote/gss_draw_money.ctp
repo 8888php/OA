@@ -64,22 +64,20 @@
                                 </td>
                             </tr>
                             <script type="text/javascript">
-                            <?php 
-                                if ($is_department != 1 || isset($attrInfo['source_id'])){
-                                    echo 'change_filenumber('.$attrInfo['source_id'].');';
-                                }
-                            ?>
-
                                     function change_filenumber(sid = 0) {
+                                        var depid = "<?php echo $department_arr['Department']['id']; ?>" ;
                                         var type = $('.dep_pro').val();
                                         if (type ==0) {
                                             //部门
-                                            $('.filenumber').html('<option></option>');
                                             $('.xzsubject').css('display','inline-block');
                                             $('.kysubject').css('display','none');
                                         } else {
+                                            $('.xzsubject').css('display','none');
+                                            $('.kysubject').css('display','inline-block');
+                                        }
                                             //项目 去取项目所对应的souce
                                             var data = {pid:type,sid:sid};
+                                            data.depid = (type == 0) ? depid : 0 ;
                                             $.ajax({
                                                 url:'/RequestNote/ajax_get_souce',
                                                 type:'post',
@@ -88,11 +86,11 @@
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
-                                                    $('.xzsubject').css('display','none');
-                                                    $('.kysubject').css('display','inline-block');
                                                 }
                                             });
-                                        }
+                                    }
+                                     function bumeng_change(){
+                                        $('.dep_pro').change();
                                     }
                                 </script>
                             <tr>
@@ -445,6 +443,10 @@ function trim(s){
         }
         if (sheets_num == '') {
             $('.sheets_num').focus();
+            return;
+        }
+        if (filenumber == '') {
+            $('.filenumber').focus();
             return;
         }
         var dp_json_str = [{}];

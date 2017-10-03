@@ -102,14 +102,33 @@ class ResearchProjectController extends AppController {
         $cost = $this->ResearchCost->findByProjectId($pid);
         $cost = @$cost['ResearchCost'];
 
-        $minus = array();
+        $minus = $applycost = $jk_attr = array();
         if (!empty($cost)) {
-            $overplus = $this->ApplyMain->getSubject($pid);
+            $applycost = $this->ApplyMain->getSubjectTwo($pid);
+            foreach ($applycost as $k => $v) {
+                $overplus[$v['ApplyMain']['id']] = $v['ApplyMain']['subject'];
+                ($v['ApplyMain']['table_name'] == 'apply_jiekuandan') && $jk_attr[$v['ApplyMain']['id']] = $v['ApplyMain']['attr_id'];
+            }
+            // 取借款单 最终审批金额
+            if (count($jk_attr) > 0) {
+                $jiekuandan = $this->ApplyJiekuandan->find('list', array('conditions' => array('id' => $jk_attr), 'fields' => array('id', 'approve_money')));
+                foreach ($jk_attr as $k => $v) {
+                    $jk_attr_val[$k] = $jiekuandan[$v];
+                }
+            }
+  
             foreach ($overplus as $k => $v) {
                 $units = json_decode($v, true);
-                foreach ($units as $uk => $uv) {
-                    !isset($minus[$uk]) && $minus[$uk] = 0;
-                    $minus[$uk] += $uv;
+                if (isset($jk_attr_val[$k])) {
+                    foreach ($units as $uk => $uv) {
+                        !isset($minus[$uk]) && $minus[$uk] = 0;
+                        $minus[$uk] += $jk_attr_val[$k];
+                    }
+                } else {
+                    foreach ($units as $uk => $uv) {
+                        !isset($minus[$uk]) && $minus[$uk] = 0;
+                        $minus[$uk] += $uv;
+                    }
                 }
             }
         }
@@ -202,7 +221,7 @@ class ResearchProjectController extends AppController {
                 } else if ($k == 'apply_jiekuandan') {
                     foreach ($attrinfo as $attk => $attv) {
                         $attrinfo[$attv['b']['id']] = $attv;
-                     //   $declares_arr[]
+                        //   $declares_arr[]
                     }
                 } else {
                     foreach ($attrinfo as $attk => $attv) {
@@ -442,7 +461,7 @@ class ResearchProjectController extends AppController {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
                         $tmpdecp = json_decode($attv['b']['description'], true);
-                        $attv['b']['description'] = $tmpdecp[0]['pro']; 
+                        $attv['b']['description'] = $tmpdecp[0]['pro'];
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
                 } else {
@@ -455,7 +474,7 @@ class ResearchProjectController extends AppController {
                 }
             }
         }
-       
+
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
@@ -469,12 +488,17 @@ class ResearchProjectController extends AppController {
         $expent = array();  // 支出总计费用
         foreach ($declares_arr as $k => $v) {
             $zhichu = json_decode($v['m']['subject'], true);
+            // 如是借款单 转换借款金额为批准金额
+            if ($v['m']['table_name'] == 'apply_jiekuandan') {
+                foreach ($zhichu as $zck => $zcv) {
+                    $zhichu[$zck] = $attrArr[$v['m']['id']]['b']['amount'];
+                }
+            }
             foreach ($zhichu as $zk => $zv) {
                 $expent[$zk] = isset($expent[$zk]) ? $expent[$zk] + $zv : $zv;
             }
         }
         $this->set('expent', $expent);  // 支出总计费用
-
         $this->render();
     }
 

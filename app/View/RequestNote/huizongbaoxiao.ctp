@@ -44,32 +44,15 @@
                                     </select>
                                 </td>
                         <script type="text/javascript">
+                            var depid = "<?php echo $department_arr['Department']['id']; ?>" ;
                             var class_name = 'multipleselect_bm';
                             if ($('#multipleselect_bm option').eq(0).val() != 0) {
                                 class_name = 'multipleselect_ky';
                             }
-                            
-                            <?php 
-                                if ($is_department != 1 || isset($attrInfo['source_id'])){
-                                    echo 'change_filenumber('.$attrInfo['source_id'].');';
-                                }
-                            ?>
-
                             function change_filenumber(sid = 0) {
                                 var type = $('.projectname').val();
-                                if (type ==0) {
-                                    //部门
-                                    $('.filenumber').html('<option></option>');
-                                    //部门 select显示
-                                    $('.multipleselect_bm').css('display', '');
-                                    //项目 select 隐藏
-                                    $('.multipleselect_ky').css('display', 'none');
-                                    class_name = 'multipleselect_bm';
-                                    //清空 之前所选
-                                    clear_class_info('multipleselect_ky');
-                                } else {
-                                    //项目 去取项目所对应的souce
                                     var data = {pid:type,sid:sid};
+                                        data.depid = (type == 0) ? depid : 0 ;
                                     $.ajax({
                                         url:'/RequestNote/ajax_get_souce',
                                         type:'post',
@@ -80,14 +63,19 @@
                                             $('.filenumber').html(html);
                                         }
                                     });
-                                    //部门 select 隐藏
-                                    $('.multipleselect_bm').css('display', 'none');
-                                    //项目 select 显示
-                                    $('.multipleselect_ky').css('display', '');
-                                    class_name = 'multipleselect_ky';
-                                    //清空 之前所选
-                                    clear_class_info('multipleselect_bm');
-                                }
+                                    if(type == 0){
+                                        $('.multipleselect_ky').css('display', 'none');
+                                        $('.multipleselect_bm').css('display', '');
+                                        class_name = 'multipleselect_bm';
+                                        //清空 之前所选
+                                        clear_class_info('multipleselect_ky');
+                                     }else{
+                                        $('.multipleselect_bm').css('display', 'none');
+                                        $('.multipleselect_ky').css('display', '');
+                                        class_name = 'multipleselect_ky';
+                                        //清空 之前所选
+                                        clear_class_info('multipleselect_bm');
+                                    }
                                 $('.subject').val('');
                             }
                             //清空 checkbox,清空input
@@ -102,20 +90,16 @@
                                     var li_item = $('li.multiple').eq(i);
                                     li_item.find('.first_inpuut').removeAttr('checked');
                                     li_item.find('input.je').val('0')
-                                    
                                 });
                             }
-                            //进来后，让他运行一次
-                            function bumeng_change() {
+                            function bumeng_change(){
                                 $('.projectname').change();
                             }
-
                         </script>
                         </tr>
                         <tr>
                             <td>科目</td>
-                            <td colspan='6'> 
-                                <!--<input type="text" name='subject' class="subject" style='width:600px;height:25px;'/>--> 
+                            <td colspan='6'>
                                 <textarea style='width:555px;height:25px;' class="subject" disabled="disabled"></textarea>
                                 <select id="multipleselect_ky" multiple="multiple">
                                     <?php 
@@ -476,8 +460,8 @@ function trim(s){
             return;
         }
         if (filenumber == '') {
-            //$('.filenumber').focus();
-            //return;
+            $('.filenumber').focus();
+            return;
         }
         if (description == '') {
             $('.description').focus();
