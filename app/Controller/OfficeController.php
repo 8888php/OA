@@ -587,7 +587,7 @@ class OfficeController extends AppController {
     /**
      * 报销单审核详情
      */
-    public function apply_project_reimbursement($main_id = 0,$code = '') {
+    public function apply_baoxiaohuizong_print($main_id = 0,$code = '') {
         $this->set('seecode',$code);
         if (empty($main_id)) {
              header("Location:/homes/index");die;
@@ -777,7 +777,7 @@ class OfficeController extends AppController {
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function gss_loan_print($main_id, $flag='') {
+    public function apply_jiekuandan_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
@@ -825,7 +825,7 @@ class OfficeController extends AppController {
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function gss_draw_money_print($main_id, $flag='') {
+    public function apply_lingkuandan_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
@@ -867,7 +867,7 @@ class OfficeController extends AppController {
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function gss_evection_expense_print($main_id, $flag='') {
+    public function apply_chuchai_bxd_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
@@ -962,7 +962,7 @@ class OfficeController extends AppController {
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function gss_leave_print($main_id, $flag='') {
+    public function apply_leave_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];

@@ -97,9 +97,19 @@
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <?php  if($sv['ApplyMain']['table_name']){  ?>
-                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
-                                                    <?php  }else{   ?>
+                                                    <?php  switch($sv['ApplyMain']['table_name']){
+                                                    case 'apply_baoxiaohuizong':  ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php  break;case 'apply_jiekuandan':   ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_loan_print/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php  break;case 'apply_lingkuandan':   ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_draw_money_print/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php  break;case 'apply_chuchai_bxd':   ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_evection_expense_print/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php  break;case 'apply_leave':   ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_leave_print/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    
+                                                    <?php  break;default:  ?>
                                                         <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <?php }?>
                                                     
@@ -116,7 +126,7 @@
                                                         }  ?></td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
                                                         echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_baoxiaohuizong_print/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
+                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>

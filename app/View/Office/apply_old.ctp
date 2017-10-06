@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 经我审批申请列表 </title>
+        <title> 我的申请项目列表 </title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,8 +60,8 @@
                         <li>
                             <a href="#"> 行政办公 </a>
                         </li>
-                        <li class="active"> 经我审批 </li>
-                        <li class="active"> 经审申请 </li>
+                        <li class="active"> 我的申请 </li>
+                        <li class="active"> 申请 </li>
                     </ul><!-- .breadcrumb -->
 
                 </div>
@@ -72,10 +72,10 @@
                             <!-- PAGE CONTENT BEGINS -->
 
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-xs-12 right_list">
 
                                     <div class="table-header">
-                                        经审费用信息
+                                        申请费用信息
                                     </div>
 
                                     <div class="table-responsive">
@@ -85,7 +85,6 @@
                                                     <th>ID</th>
                                                     <th>申请名</th>
                                                     <th>申请时间</th>
-						    <th>审核时间</th>
                                                     <th>类型</th>
                                                     <th>申请人</th>
                                                     <th>附件</th>
@@ -94,29 +93,58 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php  foreach($lists as $sk => $sv){  ?>
+                                                <?php  foreach($lists as $sk => $sv){  
+                                                $apply = 'apply';//第二个参数用
+						?>
                                                 <tr>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
-                                                    <?php  if($sv['ApplyMain']['table_name']){  ?>
-                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
-                                                    <?php  }else{   ?>
+                                                    <?php switch($sv['ApplyMain']['table_name']){
+                                                    case 'apply_baoxiaohuizong':   ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/apply_project_reimbursement/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php break; case 'apply_jiekuandan':  ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_loan_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php break; case 'apply_lingkuandan': ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_draw_money_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    <?php break; case 'apply_chuchai_bxd':  ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_evection_expense_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                        <?php break;case 'apply_leave':  ?>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/gss_leave_print/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
+                                                    
+                                                    <?php break; 
+                                                    default:  ?>
                                                         <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <?php }?>
-                                                    
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
-						    <td><?php echo $sv['ApprovalInformation']['ctime'];  ?></td>
-                                                    <td><?php echo $sv['ApplyMain']['name'];  ?></td>
+                                                    <td><?php echo $sv['ApplyMain']['name']; ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
-                                                        $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
-                                                        foreach($fileurlArr as $filev){
-                                                        echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
-                                                        } 
-                                                        }  ?></td>
-                                                    <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
-                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_baoxiaohuizong_print/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
+                                                            $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
+                                                            foreach($fileurlArr as $filev){
+                                                                echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                                            } 
+                                                        }
+                                                        ?></td>
+                                                    <td><?php 
+                                                        $new_appprove_code_arr = Configure::read('new_appprove_code_arr');
+                                                        if(($sv['ApplyMain']['code'] % 2) == 0){
+                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
+                                                        }else{
+                                                        
+                                                        switch($sv['ApplyMain']['table_name']){ 
+                                                        case 'apply_baoxiaohuizong':  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/huizongbaoxiao/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php  break;case 'apply_jiekuandan':  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_loan/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php break;case 'apply_lingkuandan':  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_draw_money/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php break;case 'apply_chuchai_bxd':  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_evection_expense/<?php echo $sv['ApplyMain']['id'];?>/');"  > <?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php break;case 'apply_leave':  ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_leave/<?php echo $sv['ApplyMain']['id'];?>/');"  > <?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
+                                                    <?php   } } ?>
+                                                    </td>
+                                                   
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -126,8 +154,8 @@
                                     </div>
 
                                     <script type="text/javascript">
-                                        $(function () {
-                                            $('#modal').on('hidden.bs.modal', function () {
+                                        $(function(){
+                                            $('#modal').on('hidden.bs.modal', function(){
                                                 //关闭模态框时，清除数据，防止下次加雷有，缓存
                                                 $(this).removeData("bs.modal");
                                             })
@@ -145,11 +173,11 @@
                                             } else {
                                                 type = 1;
                                             }
-                                            if (!confirm('您确认 ' + text + ' 该项目？')) {
+                                            if (!confirm('您确认 ' +text+ ' 该项目？')) {
                                                 //取消
                                                 return;
                                             }
-                                            var data = {p_id: $('#p_id').val(), remarks: remarks, type: type};
+                                            var data = {p_id: $('#p_id').val(), remarks:remarks, type:type};
                                             $.ajax({
                                                 url: '/Office/ajax_approve',
                                                 type: 'post',
@@ -169,7 +197,7 @@
                                                     if (res.code == 1) {
                                                         //说明有错误
                                                         alert(res.msg);
-
+                                                        
                                                         return;
                                                     }
                                                     if (res.code == 0) {
@@ -187,18 +215,18 @@
                                             });
                                         }
                                     </script>
-
+                                    
                                     <div class="modal-footer no-margin-top">
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/my_approval_apply/",5 ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 ); ?>                                        
                                     </div>
                                 </div>
-
-                                <!-- /.modal_storage -->
-                                <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-                                    <div class="modal-dialog">
-                                        <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
-                                    </div><!-- /.modal -->
-                                </div>   
+                                   
+                               <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>  
+                                
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- PAGE CONTENT ENDS -->
@@ -231,7 +259,7 @@
 
 <!--[if !IE]> -->
 <script type="text/javascript">
-                                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                        window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -380,13 +408,14 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         //关闭模态框时，清除数据，防止下次加雷有，缓存
         $(this).removeData("bs.modal");
     });
-    function wait_close() {
+      function wait_close() {
         $('#wait_close').click();
     }
+
 </script>
-<script type="text/javascript">
-    show_left_select('office', 'my_approval', 'my_approval_apply');
+
+ <script type="text/javascript">
+  show_left_select('office', 'apply', 'shengqing');                              
 </script>
 </body>
 </html>
-
