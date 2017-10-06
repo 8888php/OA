@@ -79,7 +79,7 @@ class ApplyLeave extends AppModel {
             $this->next_id => 0,
             $this->next_uid => 0,
             $this->code => 0,
-            $this->err_msg = ''
+            $this->err_msg => ''
         );
         $sum_days = $data['sum_days'];//天数
         if ($user_info['position_id'] == self::SUOZHANG_ID) {
@@ -104,7 +104,7 @@ class ApplyLeave extends AppModel {
         $sql_1 = "select *from t_department where id='{$user_info['department_id']}' and del=0";
         $dem_arr = $this->query($sql_1);
         if (empty($dem_arr)) {
-            $ret_arr[$this->err_msg] = '部门不存在不存在';
+            $ret_arr[$this->err_msg] = '部门不存在';
             return $ret_arr;
         }
         if ($dem_arr[0]['t_department']['sld'] == $user_info['id']) {
@@ -146,11 +146,11 @@ class ApplyLeave extends AppModel {
     }
     //团队
     private function team_create($type, $data, $user_info) {
-        $sum_days = $data['sum_days'];//天数
         $ret_arr = array(
             $this->next_id => 0,
             $this->next_uid => 0,
-            $this->code => 0
+            $this->code => 0,
+            $this->err_msg => ''
         );
         $sum_days = $data['sum_days'];//天数
         if ($user_info['position_id'] == self::SUOZHANG_ID) {
@@ -164,35 +164,64 @@ class ApplyLeave extends AppModel {
             //取出所长信息
             $sql_suozhang = "select *from t_user where position_id='".self::SUOZHANG_ID."' and del=0";
             $suo_zhang = $this->query($sql_suozhang);
+            if (empty($suo_zhang)) {
+                $ret_arr[$this->err_msg] = '所长不存在';
+                return $ret_arr;
+            }
             $ret_arr[$this->next_id] = self::SUOZHANG_ID;
             $ret_arr[$this->next_uid] = $suo_zhang[0]['t_user']['id'];
             return $ret_arr;
         }
-        $sql_1 = "select *from t_department where id='{$user_info['department_id']}' and del=0";
+        //取出团队成员
+        $sql_team_member = "select *from t_team_member where user_id='{$user_info['id']}'";
+        $tmam_member_arr = $this->query($sql_team_member);
+        if (empty($tmam_member_arr)) {
+            $ret_arr[$this->err_msg] = '所对应的团队成员不存在';
+            return $ret_arr;
+        }
+        $sql_1 = "select *from t_team where id='{$data['dep_pro']}' and del=0";
         $dem_arr = $this->query($sql_1);
-        if ($dem_arr[0]['t_department']['sld'] == $user_info['id']) {
+        if (empty($dem_arr)) {
+            $ret_arr[$this->err_msg] = '团队不存在';
+            return $ret_arr;
+        }
+        if ($dem_arr[0]['t_team']['sld'] == $user_info['id']) {
             //说明他是分管领导
             //取人事领导信息
             $sql_renshi = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id=4 and d.sld=u.id";
             $renshi_arr = $this->query($sql_renshi);
+            if (empty($renshi_arr)) {
+                $ret_arr[$this->err_msg] = '分管人事领导不存在';
+                var_dump($renshi_arr);die;
+                return $ret_arr;
+            }
             $ret_arr[$this->next_id] = 22;
             $ret_arr[$this->next_uid] = $renshi_arr[0]['u']['id'];
             return $ret_arr;
         }
-        if ($dem_arr[0]['t_department']['user_id'] == $user_info['id']) {
+        if ($dem_arr[0]['t_team']['fzx'] == $user_info['id']) {
             //说明他是部门负责人
             //分管所领导信息
-            $sql_fenguan = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.sld=u.id"; 
+            $sql_fenguan = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['dep_pro']}' and t.sld=m.id"; 
             $fenguan_arr = $this->query($sql_fenguan);
-            $ret_arr[$this->next_id] = 5;
-            $ret_arr[$this->next_uid] = $fenguan_arr[0]['u']['id'];
+            if (empty($fenguan_arr)) {
+                $ret_arr[$this->err_msg] = '团队分管所领导不存在';
+                return $ret_arr;
+            }
+            $ret_arr[$this->next_id] = 21;
+            $ret_arr[$this->next_uid] = $fenguan_arr[0]['m']['user_id'];
             return $ret_arr;
         }
         //这里是职员
-        $sql_fenze = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.user_id=u.id";
+        $sql_fenze = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['dep_pro']}' and t.fzr=m.id";
+        
         $fuze_arr = $this->query($sql_fenze);
-        $ret_arr[$this->next_id] = 15;
-        $ret_arr[$this->next_uid] = $fuze_arr[0]['u']['id'];
+        if (empty($fuze_arr)) {
+            $ret_arr[$this->err_msg] = '团队部门负责人不存在';
+            return $ret_arr;
+        }
+        $ret_arr[$this->next_id] = 20;
+        $ret_arr[$this->next_uid] = $fuze_arr[0]['m']['user_id'];
         return $ret_arr;
     }
         /**

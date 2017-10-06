@@ -891,6 +891,7 @@ class RequestNoteController extends AppController {
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
 //        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
         $ret_arr = $this->ApplyLeave->apply_create($type, $datas, (array)$this->userInfo);
+        
         if (!empty($ret_arr['msg'])) {
             //说明出问题了
             $this->ret_arr['msg'] = $ret_arr['msg'];

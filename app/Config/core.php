@@ -564,7 +564,7 @@ Configure::write('project_team', array(
  */
 Configure::write('approval_process',array(
     'apply_leave' => array(
-        2 => '4,5,22,6',   // 请假申请单 部门
+        2 => '15,5,22,6',   // 请假申请单 部门
         3 => '20,21,22,6',   // 请假申请单 团队
     ),
     'apply_chuchai' => array(
