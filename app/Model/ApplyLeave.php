@@ -392,7 +392,7 @@ class ApplyLeave extends AppModel {
 //                            $sql_22 = "select *from t_department where id=4 and del=0";
                             $arr_22 = $this->get_by_pos_dep(22, $qingjia_arr[0]['t_apply_leave']['department_id']);
                             $next_approver_id = 22;
-                            $ret_arr[$this->code] = 22 * 2;
+                            $ret_arr[$this->code] = 5 * 2;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
                             $ret_arr[$this->next_id] = 22;
@@ -402,7 +402,7 @@ class ApplyLeave extends AppModel {
 //                            $sql_6 = "select *from t_user where position_id=6 and del=0";
                             $arr_6 = $this->get_by_pos_dep(6, $qingjia_arr[0]['t_apply_leave']['department_id']);
                             $next_approver_id = 6;
-                            $ret_arr[$this->code] = 6 * 2;
+                            $ret_arr[$this->code] = 22 * 2;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
                             $ret_arr[$this->next_id] = 6;
@@ -544,7 +544,7 @@ class ApplyLeave extends AppModel {
 //                            $sql_22 = "select *from t_department where id=4 and del=0";
                             $arr_22 = $this->get_by_pos_dep(22, $qingjia_arr[0]['t_apply_leave']['department_id']);
                             $next_approver_id = 22;
-                            $ret_arr[$this->code] = 22 * 2;
+                            $ret_arr[$this->code] = 21 * 2;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
                             $ret_arr[$this->next_id] = 22;
@@ -554,7 +554,7 @@ class ApplyLeave extends AppModel {
 //                            $sql_6 = "select *from t_user where position_id=6 and del=0";
                             $arr_6 = $this->get_by_pos_dep(6, $qingjia_arr[0]['t_apply_leave']['department_id']);
                             $next_approver_id = 6;
-                            $ret_arr[$this->code] = 6 * 2;
+                            $ret_arr[$this->code] = 22 * 2;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
                             $ret_arr[$this->next_id] = 6;
