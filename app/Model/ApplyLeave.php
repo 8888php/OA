@@ -111,10 +111,11 @@ class ApplyLeave extends AppModel {
         if ($dem_arr[0]['t_department']['sld'] == $user_info['id']) {
             //说明他是分管领导
             //取人事领导信息
-            $sql_renshi = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id=4 and d.sld=u.id";
+           // $sql_renshi = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id=4 and d.sld=u.id";
+            $sql_renshi = 'SELECT *FROM t_user u LEFT JOIN t_department d ON d.sld=u.id WHERE d.id=4 ';
             $renshi_arr = $this->query($sql_renshi);
             if (empty($renshi_arr)) {
-                $ret_arr[$this->err_msg] = '分管人事领导不存在';
+                $ret_arr[$this->err_msg] = $sql_renshi.'分管人事领导不存在';
                 return $ret_arr;
             }
             $ret_arr[$this->next_id] = 22;
@@ -124,7 +125,8 @@ class ApplyLeave extends AppModel {
         if ($dem_arr[0]['t_department']['user_id'] == $user_info['id']) {
             //说明他是部门负责人
             //分管所领导信息
-            $sql_fenguan = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.sld=u.id"; 
+            //$sql_fenguan = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.sld=u.id"; 
+            $sql_fenguan = "SELECT *FROM t_user u LEFT JOIN t_department d ON d.sld=u.id WHERE d.id={$user_info['department_id']} ";
             $fenguan_arr = $this->query($sql_fenguan);
             if (empty($fenguan_arr)) {
                 $ret_arr[$this->err_msg] = '分管所领导不存在';
@@ -135,7 +137,8 @@ class ApplyLeave extends AppModel {
             return $ret_arr;
         }
         //这里是职员
-        $sql_fenze = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.user_id=u.id";
+       // $sql_fenze = "select *from t_user u left join t_department d on u.department_id=d.id where u.department_id='{$user_info['department_id']}' and d.user_id=u.id";
+        $sql_fenze = "SELECT *FROM t_user u LEFT JOIN t_department d ON d.user_id=u.id WHERE d.id={$user_info['department_id']} ";
         $fuze_arr = $this->query($sql_fenze);
         if (empty($fuze_arr)) {
             $ret_arr[$this->err_msg] = '部门负责人不存在';

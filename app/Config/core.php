@@ -34,7 +34,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-Configure::write('debug', 2);
+Configure::write('debug', 0);
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -542,9 +542,9 @@ Configure::write('new_appprove_code_arr', array(
     39 => '团队负责人拒绝',
     40 => '团队负责人同意',
     41 => '团队所领导拒绝',
-    42 => '团队所领导拒绝',
+    42 => '团队所领导同意',
     43 => '人事领导拒绝',
-    44 => '人事领导拒绝',
+    44 => '人事领导同意',
     10000 => '审核通过',
 ));
 

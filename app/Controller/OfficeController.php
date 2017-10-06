@@ -951,7 +951,7 @@ class OfficeController extends AppController {
                     }
                 }
             } 
-        }     
+        }    
         $this->set('applyArr', @$applyArr);
     }
 
@@ -1046,6 +1046,7 @@ class OfficeController extends AppController {
 //            }
 
             $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array)$this->userInfo, $status);
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1117,16 +1118,16 @@ class OfficeController extends AppController {
                            $this->ApprovalInformation->saveAll($save_approve_log);
                     }
                     //判断如果有审批金额则写到表里面
-                    if ($this->request->data('small_approval_amount')) {
-                        $small_approval_amount = $this->request->data('small_approval_amount');
-                        $big_approval_amount = $this->request->data('big_approval_amount');
-                        $attr_id = $mainInfos['ApplyMain']['attr_id'];
-                        $save_arr = array(
-                            'approve_money' => $small_approval_amount,
-                            'approve_money_capital' => $big_approval_amount
-                        );
-                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
-                    }
+//                    if ($this->request->data('small_approval_amount')) {
+//                        $small_approval_amount = $this->request->data('small_approval_amount');
+//                        $big_approval_amount = $this->request->data('big_approval_amount');
+//                        $attr_id = $mainInfos['ApplyMain']['attr_id'];
+//                        $save_arr = array(
+//                            'approve_money' => $small_approval_amount,
+//                            'approve_money_capital' => $big_approval_amount
+//                        );
+//                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+//                    }
                     
                     //成功
                     $this->ret_arr['code'] = 0;

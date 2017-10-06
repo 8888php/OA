@@ -49,7 +49,15 @@
                            
                             <tr>
                                 <td colspan='2'> 所在单位负责人 </td>
-                                <td colspan='5'>    </td>
+                                <td colspan='5'> 
+                                    <?php  
+                                    if(isset($applyArr[20]['name'])){
+                                        echo $applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['remarks'];  
+                                    }else{
+                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
+                                    }
+                                    ?>  
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan='2'> 医务室 </td>
@@ -57,15 +65,21 @@
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管领导 </td>
-                                <td colspan='5'>     </td>
+                                <td colspan='5'>   <?php  
+                                    if(isset($applyArr[21]['name'])){
+                                        echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
+                                    }else{
+                                        echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  
+                                     }
+                                        ?>  </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管人事领导 </td>
-                                <td colspan='5' >     </td>
+                                <td colspan='5' >   <?php  echo $applyArr[22]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[22]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[22]['remarks'];  ?>  </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 所长 </td>
-                                <td colspan='5' >    </td>
+                                <td colspan='5' > <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?> </td>
                             </tr>
                             
                         </tbody>
