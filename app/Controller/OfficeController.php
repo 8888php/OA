@@ -85,6 +85,7 @@ class OfficeController extends AppController {
             }
             $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages-1) * $limit . ", $limit");
         }
+        
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
@@ -950,8 +951,63 @@ class OfficeController extends AppController {
                     }
                 }
             } 
-        }
+        }     
         $this->set('applyArr', @$applyArr);
     }
 
+
+
+    /**
+     * 果树所请假单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function gss_leave_print($main_id, $flag='') {
+        //根据main_id取数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
+        $attr_id = $main_arr['ApplyMain']['attr_id'];
+        //取附表
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        //取用户信息
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
+        //取项目信息
+//        $projecct_id = $attr_arr[0][$table_name]['project_id'];
+//        if ($projecct_id) {
+//            $project_arr = $this->ResearchProject->findById($projecct_id);
+//            $this->set('project_arr', $project_arr);
+//            $source_id = $attr_arr[0][$table_name]['source_id'];
+//            $source_arr = $this->ResearchSource->findById($source_id);
+//            $this->set('source_arr', $source_arr);
+//        }
+        
+        // 科研类费用 检查所申请来源资金是否超额
+//        if($main_arr['ApplyMain']['type'] == 1){
+//            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);         
+//            $this->set('feedback',$residual);
+//        }
+        
+        //账务科长 得填写审批金额
+//        $caiwukezhang_flag = false;//默认不是账务科长
+//        if ($main_arr['ApplyMain']['next_approver_id'] == 14) {
+//            $caiwukezhang_flag = true;
+//        }
+//        $this->set('caiwukezhang_flag', $caiwukezhang_flag);
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+  
+        $this->set('apply', $flag);
+        $this->set('table_name', $table_name);
+        $this->set('main_arr', $main_arr);
+        $this->set('attr_arr', $attr_arr);
+        $this->set('user_arr', $user_arr);
+        $this->set('flag', $flag);
+        $this->render();
+    }
+        
+    
+    
+    
+    
+    
 }

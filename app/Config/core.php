@@ -34,7 +34,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-Configure::write('debug', 0);
+Configure::write('debug', 2);
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -581,3 +581,20 @@ Configure::write('approval_process',array(
         3 => '20,21',   // 带薪假申请单 团队
     ),
 ));
+
+/**
+ * 请假单请假类型
+ */
+Configure::write('apply_leave_type',array(
+    1 => '婚假',
+    2 => '生育产假',
+    3 => '外出办公',
+    4 => '事假',
+    5 => '丧假',
+    6 => '计生假',
+    7 => '病假',
+    8 => '女工假',
+    9 => '男职工护理假',
+));
+
+
