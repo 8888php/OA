@@ -889,8 +889,14 @@ class RequestNoteController extends AppController {
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+//        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+        $ret_arr = $this->ApplyLeave->apply_create($type, $datas, (array)$this->userInfo);
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
 //        if ($ret_arr[$this->code] == 1) {
