@@ -365,20 +365,20 @@
                             </a>
                         </li>
 
-                        <li>
+<!--                        <li>
                             <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 个人信息
                             </a>
                         </li>
 
-                        <li>
+                        <li>-->
                             <!--a href="/setting/index"-->
-                            <a href="#">
+<!--                            <a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 档案项管理
                             </a>
-                        </li>
+                        </li>-->
 
                     </ul>
                 </li>

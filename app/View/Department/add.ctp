@@ -114,16 +114,16 @@
 
                                             <div class="hr hr-24"></div>
                                             <div class="clearfix ">
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                                         <i class="icon-ok bigger-110"></i>
                                                         <?php echo !empty($depArr['Department']['id']) ? '修改' : '添加';  ?>
                                                     </button>
                                                     &nbsp; &nbsp; &nbsp;
-                                                    <button class="btn" type="reset">
+                                                    <!--button class="btn" type="reset">
                                                         <i class="icon-undo bigger-110"></i>
                                                         重置
-                                                    </button>
+                                                    </button-->
                                                 </div>
                                             </div>
                                         </form>
@@ -166,16 +166,16 @@
 
                                             <div class="hr hr-24"></div>
                                             <div class="clearfix ">
-                                                <div class=" col-md-9">
+                                                <div class=" col-md-7">
                                                     <button class="btn btn-info" type="button"  onclick="ajax_member();">
                                                         <i class="icon-ok bigger-110"></i>
                                                         添加
                                                     </button>
                                                     &nbsp; &nbsp; &nbsp;
-                                                    <button class="btn" type="reset">
+                                                    <!--button class="btn" type="reset">
                                                         <i class="icon-undo bigger-110"></i>
                                                         重置
-                                                    </button>
+                                                    </button-->
                                                 </div>
                                             </div>
                                         </form>
