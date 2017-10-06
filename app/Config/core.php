@@ -564,7 +564,7 @@ Configure::write('project_team', array(
  */
 Configure::write('approval_process',array(
     'apply_leave' => array(
-        2 => '4,5,22,6',   // 请假申请单 部门
+        2 => '15,5,22,6',   // 请假申请单 部门
         3 => '20,21,22,6',   // 请假申请单 团队
     ),
     'apply_chuchai' => array(
@@ -573,11 +573,11 @@ Configure::write('approval_process',array(
     ) , 
     'apply_baogong' => '20,4', // 田间作业包工单  4是科研部门负责人
     'apply_paidleave' => array(
-        2 => '4,5,22',   // 年假申请单 部门
+        2 => '15,5,22',   // 年假申请单 部门
         3 => '20,21,22',   // 年假申请单 团队
     ),
     'apply_endlessly' => array(
-        2 => '4,5',   // 带薪假申请单 部门
+        2 => '15,5',   // 带薪假申请单 部门
         3 => '20,21',   // 带薪假申请单 团队
     ),
 ));
