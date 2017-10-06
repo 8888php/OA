@@ -309,6 +309,7 @@ class ApplyLeave extends AppModel {
         $code = $main_arr[0]['t_apply_main']['code'];
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
+        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $shengpin_arr = $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']);
         
         if ($sum_day < 3) {
@@ -356,37 +357,42 @@ class ApplyLeave extends AppModel {
         } else {
             //走完整的审批
             foreach ($shengpin_arr as $k=>$v) {
+                //根据$v取出他下一个审批的id
                 if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
+                    $arr = $this->get_by_pos_dep($v, $qingjia_arr[0]['t_apply_leave']['department_id']);
+                    if ($next_approver_id == 6 && $ret_arr[$this->next_uid] == $next_apprly_uid) {
                         $ret_arr[$this->code] = 10000;
                         $ret_arr[$this->code_id][] = $user_info['id'];
                     } else {
                         //15,5,22,6
-                        if ($next_approver_id == 15) {
+                        if ($next_approver_id == 15 && $ret_arr[$this->next_uid] == $next_apprly_uid) {
                             //取出5所对应该的信息
-                            $sql_5 = "select *from t_department where id='{$qingjia_arr[0]['t_apply_leave']['department_id']}' and del=0";
-                            $arr_5 = $this->query($sql_5);
+//                            $sql_5 = "select *from t_department where id='{$qingjia_arr[0]['t_apply_leave']['department_id']}' and del=0";
+                            $arr_5 = $this->$this->get_by_pos_dep(5, $qingjia_arr[0]['t_apply_leave']['department_id']);
+                            $next_approver_id = 5;
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
                             $ret_arr[$this->next_id] = 5;
-                            return $ret_arr;
-                        } else if ($next_approver_id == 5) {
+                            
+                        } else if ($next_approver_id == 5 && $ret_arr[$this->next_uid] == $next_apprly_uid) {
                             //取出 22
-                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->query($sql_22);
+//                            $sql_22 = "select *from t_department where id=4 and del=0";
+                            $arr_22 = $this->$this->get_by_pos_dep(22, $qingjia_arr[0]['t_apply_leave']['department_id']);
+                            $next_approver_id = 22;
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
                             $ret_arr[$this->next_id] = 22;
-                            return $ret_arr;
-                        } else if ($next_approver_id == 22) {
+                            
+                        } else if ($next_approver_id == 22 && $ret_arr[$this->next_uid] == $next_apprly_uid) {
                             //取出 6
-                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->query($sql_6);
+//                            $sql_6 = "select *from t_user where position_id=6 and del=0";
+                            $arr_6 = $this->$this->get_by_pos_dep(6, $qingjia_arr[0]['t_apply_leave']['department_id']);
+                            $next_approver_id = 6;
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
+                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
                             $ret_arr[$this->next_id] = 6;
                             
                         }
@@ -394,7 +400,37 @@ class ApplyLeave extends AppModel {
                     
                 }
             }
+            return $ret_arr;
         }
+    }
+    //根据职务和部门取出用户信息 行政
+    private function get_by_pos_dep($pos_id, $dep_id) {
+        $ret_arr = array(
+            $this->next_id => 0,
+            $this->next_uid => 0
+        );
+        if ($pos_id == 15) {
+            $sql_15 = "select *from t_department where id='{$dep_id}' and del=0";
+            $arr_15 = $this->query($sql_15);
+            $ret_arr[$this->next_uid] = empty($arr_15[0]['t_department']['user_id']) ? 0 : $arr_15[0]['t_department']['user_id'];
+            $ret_arr[$this->next_id] = 15;
+        } elseif ($pos_id == 5) {
+            $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
+            $arr_5 = $this->query($sql_5);
+            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
+            $ret_arr[$this->next_id] = 5;
+        } elseif ($pos_id == 22) {
+            $sql_22 = "select *from t_department where id=4 and del=0";
+            $arr_22 = $this->query($sql_22);
+            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
+            $ret_arr[$this->next_id] = 22;
+        } elseif ($pos_id == 6) {
+            $sql_6 = "select *from t_user where position_id=6 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = 6;
+        }
+        return $ret_arr;
     }
     private function team_approve($main_arr, $user_info, $status) {
         $ret_arr = array(
