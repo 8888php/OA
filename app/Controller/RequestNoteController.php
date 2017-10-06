@@ -303,7 +303,7 @@ class RequestNoteController extends AppController {
             //获取部门和团队
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
-            $department_arr = $this->Department->findById($department_id);
+            $department_arr = $this->Department->find('first',array('conditions' => array('id' => $department_id,'type'=>1 )));
 
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
