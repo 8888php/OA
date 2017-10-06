@@ -951,7 +951,7 @@ class OfficeController extends AppController {
                     }
                 }
             } 
-        }    
+        }   //var_dump($applyArr);
         $this->set('applyArr', @$applyArr);
     }
 

@@ -50,9 +50,9 @@
                             <tr>
                                 <td colspan='2'> 所在单位负责人 </td>
                                 <td colspan='5'> 
-                                    <?php  
-                                    if(isset($applyArr[20]['name'])){
-                                        echo $applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['remarks'];  
+                                    <?php   
+                                    if(empty($applyArr[20]['name'])){
+                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
                                     }else{
                                         echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
                                     }
@@ -66,7 +66,7 @@
                             <tr >
                                 <td colspan='2'> 分管领导 </td>
                                 <td colspan='5'>   <?php  
-                                    if(isset($applyArr[21]['name'])){
+                                    if(empty($applyArr[21]['name'])){
                                         echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
                                     }else{
                                         echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  

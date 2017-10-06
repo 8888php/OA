@@ -197,7 +197,7 @@ class ApplyLeave extends AppModel {
         if ($sld_member[0]['t_team_member']['user_id'] == $user_info['id']) {
             //说明他是分管领导
             //取人事领导信息
-            $sql_renshi = "select *from t_user u left join t_department d on d.sld=u.id where u.department_id=4";
+            $sql_renshi = "select *from t_user u left join t_department d on d.sld=u.id where d.id=4";
             $renshi_arr = $this->query($sql_renshi);
             if (empty($renshi_arr)) {
                 $ret_arr[$this->err_msg] = '分管人事领导不存在';
