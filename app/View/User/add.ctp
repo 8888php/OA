@@ -172,18 +172,12 @@
 
 
                     <div class="clearfix " >
-                        <div class=" col-md-9">
+                        <div class=" col-md-7">
                             <button class="btn btn-info" type="button"  onclick="ajax_submit();">
                                 <i class="icon-ok bigger-110"></i>
                                 <?php echo !empty($user) ? '修改':'添加';?>
                             </button>
                              &nbsp; &nbsp; &nbsp;
-                            <?php  if(!isset($user)){  ?>
-                            <button class="btn" type="reset">
-                                <i class="icon-undo bigger-110"></i>
-                                重置
-                            </button>
-                            <?php } ?>
                         </div>
                     </div>
 
