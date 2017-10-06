@@ -920,6 +920,7 @@ class RequestNoteController extends AppController {
         $attrArr['team_id'] = $team_id;
 
         $attrArr['applyname'] = $datas['applyname']; //请假人姓名
+        $attrArr['about'] = $datas['reason']; //事由
 
         $attrArr['start_time'] = $datas['start_time'];
         $attrArr['end_time'] = $datas['end_time'];
@@ -927,7 +928,7 @@ class RequestNoteController extends AppController {
         $attrArr['reason'] = $datas['reason'];
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
-
+       
         # 开始入库
         $this->ApplyLeave->begin();
         $attrId = $this->ApplyLeave->add($attrArr);
