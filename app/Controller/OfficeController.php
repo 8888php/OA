@@ -7,7 +7,7 @@ class OfficeController extends AppController {
 
     public $name = 'Office';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave');
 
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
@@ -720,7 +720,7 @@ class OfficeController extends AppController {
                                     'position_id' => $approve_position_id,
                                     'name' => $this->userInfo->name,
                                     'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => 1
+                                    'status' => $status
                                 );
                             } else {
                                 //根据id取出当前用户的信息
@@ -732,7 +732,7 @@ class OfficeController extends AppController {
                                     'position_id' => $approve_position_id,
                                     'name' => $userinfo['User']['name'],
                                     'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => 1
+                                    'status' => $status
                                 );
                             }  
                         }
@@ -1006,7 +1006,149 @@ class OfficeController extends AppController {
     }
         
     
-    
+    /**
+     * 请假申请审批
+     */
+    public function ajax_approve_leave() {
+        //code 1是审核通过，2是拒绝
+        if ($this->request->is('ajax')) {
+            $main_id = $this->request->data('main_id');
+            $remarks = $this->request->data('remarks');
+            $status = $this->request->data('type');
+            $approve_id = $this->userInfo->id;
+
+            
+//            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
+//                //有可能是不存在，也有可能是已经审批
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '参数有误，请重新再试';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
+
+            //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
+//            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
+//            $position_id = $this->userInfo->position_id;
+//            $can_approval = $this->userInfo->can_approval;
+            //单子下个审批职务id与当前用户职务id不一样，不能审批
+//            if ($next_approve_id != $position_id) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
+            //没有审批权限
+//            if ($can_approval != 2) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = '您没有审批权限';
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
+
+            $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array)$this->userInfo, $status);
+            if ($ret_arr == false) {
+                //说明审批出错
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '审批失败';
+                echo json_encode($this->ret_arr);
+                exit;
+            }
+//            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
+            
+//            if ($ret_arr[$this->code] == 1) {
+//                $this->ret_arr['code'] = 1;
+//                $this->ret_arr['msg'] = $ret_arr[$this->msg];
+//                echo json_encode($this->ret_arr);
+//                exit;
+//            }
+            //保存主表的数据
+            $save_main = array(
+                'code' => $ret_arr['code'],
+                'next_approver_id' => $ret_arr['next_id'],
+                'next_apprly_uid' => $ret_arr['next_uid']
+            );
+            //保存审批的数据
+            $save_approve = array(
+                'main_id' => $main_id,
+                'approve_id' => $approve_id,
+                'remarks' => !$remarks ? '' : $remarks,
+                'name' => $this->userInfo->name,
+                'ctime' => date('Y-m-d H:i:s', time()),
+                'status' => $status
+            );
+            
+            // 获取申请详情 取出审核前下一审核角色id
+            $mainInfos = $this->ApplyMain->findById($main_id);
+            $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
+                    
+            //开启事务
+            $this->ApplyMain->begin();
+            if ($this->ApplyMain->edit($main_id, $save_main)) {
+//                if ($this->ApprovalInformation->add($save_approve)) {
+                    $this->ApplyMain->commit();
+                    
+                    //如果审批通过，且跳过下个则在表里记录一下
+                    if (isset($ret_arr['code_id'])) {
+                        foreach ($ret_arr['code_id'] as $k=>$v) {
+                            if ($v == $this->userInfo->id) {
+                                $save_approve_log[$k] = array(
+                                    'main_id' => $main_id,
+                                    'approve_id' => $this->userInfo->id,
+                                    'remarks' => !$remarks ? '' : $remarks,
+                                    'position_id' => $approve_position_id,
+                                    'name' => $this->userInfo->name,
+                                    'ctime' => date('Y-m-d H:i:s', time()),
+                                    'status' => $status
+                                );
+                            } else {
+                                //根据id取出当前用户的信息
+                                $userinfo = $this->User->findById($v);
+                                $save_approve_log[$k] = array(
+                                    'main_id' => $main_id,
+                                    'approve_id' => $v,
+                                    'remarks' => !$remarks ? '' : $remarks,
+                                    'position_id' => $approve_position_id,
+                                    'name' => $userinfo['User']['name'],
+                                    'ctime' => date('Y-m-d H:i:s', time()),
+                                    'status' => $status
+                                );
+                            }  
+                        }
+                           $this->ApprovalInformation->saveAll($save_approve_log);
+                    }
+                    //判断如果有审批金额则写到表里面
+                    if ($this->request->data('small_approval_amount')) {
+                        $small_approval_amount = $this->request->data('small_approval_amount');
+                        $big_approval_amount = $this->request->data('big_approval_amount');
+                        $attr_id = $mainInfos['ApplyMain']['attr_id'];
+                        $save_arr = array(
+                            'approve_money' => $small_approval_amount,
+                            'approve_money_capital' => $big_approval_amount
+                        );
+                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+                    }
+                    
+                    //成功
+                    $this->ret_arr['code'] = 0;
+                    $this->ret_arr['msg'] = '审批成功';
+                    echo json_encode($this->ret_arr);
+                    exit;
+//                }
+            }
+            $this->ApplyMain->rollback();
+            //失败
+            $this->ret_arr['code'] = 2;
+            $this->ret_arr['msg'] = '审批失败';
+            echo json_encode($this->ret_arr);
+            exit;
+            
+        } else {
+            $this->ret_arr['code'] = 1;
+            $this->ret_arr['msg'] = '参数有误';
+            echo json_encode($this->ret_arr);
+            exit;
+        }
+    }
     
     
     

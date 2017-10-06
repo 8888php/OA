@@ -142,67 +142,20 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var ctime = $('.ctime').val();
-        var applyname = $('.applyname').val();
-        var dep_pro = $('.dep_pro option:selected').val();
-        var leave_type = $('.leave_type option:selected').val();
-        var about = $('.about').val();
-        var start_time = $('.start_time').val();
-        var end_time = $('.end_time').val();
-        var sum_days = $('.sum_days').val();
-        var leading = $('.leading').val();
-        var clinic = $('.clinic').val();
-        var leadership = $('.leadership').val();
-        var personnel = $('.personnel').val();
-        var bureau_chief = $('.bureau_chief').val();
-        var declarename = $('.declarename').val();
-        
-        if (applyname == '') {
-            $('.applyname').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
-            return;
-        }
-        if (leave_type == '') {
-            $('.leave_type').focus();
-            return;
-        }
-        if (about == '') {
-            $('.about').focus();
-            return;
-        }
-        if (start_time == '') {
-            $('.start_time').focus();
-            return;
-        }
-        if (end_time == '') {
-            $('.end_time').focus();
-            return;
-        }
-        if (sum_days == '') {
-            $('.sum_days').focus();
-            return;
-        }
-        var data = {};
-        data.ctime = ctime;
-        data.applyname = applyname;
-        data.dep_pro = dep_pro;
-        data.leave_type = leave_type;
-        data.reason = about;
-        data.start_time = start_time;
-        data.end_time = end_time;
-        data.sum_days = sum_days;
-        data.leading = leading;
-        data.clinic = clinic;
-        data.leadership = leadership;
-        data.personnel = personnel;
-        data.bureau_chief = bureau_chief;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_leave',
+            url: '/Office/ajax_approve_leave',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -225,8 +178,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
