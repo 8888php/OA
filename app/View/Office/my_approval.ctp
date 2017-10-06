@@ -186,11 +186,9 @@
         </div><!-- /.page-content -->
     </div><!-- /.main-content -->
 
-
     <?php echo $this->element('acebox'); ?>
 
 </div><!-- /.main-container-inner -->
-
 
 
 <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
