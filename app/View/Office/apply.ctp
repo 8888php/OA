@@ -119,18 +119,22 @@
                                                         if(($sv['ApplyMain']['code'] % 2) == 0){
                                                         echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
                                                         }else{
+                                                        $resetchar = '#';
                                                         switch($sv['ApplyMain']['table_name']){ 
-                                                        case 'apply_baoxiaohuizong':  ?>
-                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/huizongbaoxiao/<?php echo $sv['ApplyMain']['id'];?>');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
-                                                    <?php  break;case 'apply_jiekuandan':  ?>
-                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_loan/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
-                                                    <?php break;case 'apply_lingkuandan':  ?>
-                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_draw_money/<?php echo $sv['ApplyMain']['id'];?>/');"  ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
-                                                    <?php break;case 'apply_chuchai_bxd':  ?>
-                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_evection_expense/<?php echo $sv['ApplyMain']['id'];?>/');"  > <?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
-                                                    <?php break;case 'apply_leave':  ?>
-                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/RequestNote/gss_leave/<?php echo $sv['ApplyMain']['id'];?>/');"  > <?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a> 
-                                                    <?php   } } ?>
+                                                            case 'apply_baoxiaohuizong':  
+                                                            $resetchar = '/RequestNote/huizongbaoxiao/'; break;
+                                                            case 'apply_jiekuandan':
+                                                            $resetchar = '/RequestNote/gss_loan/'; break;
+                                                            case 'apply_lingkuandan':
+                                                            $resetchar = '/RequestNote/gss_draw_money/'; break;
+                                                            case 'apply_chuchai_bxd':
+                                                            $resetchar = '/RequestNote/gss_evection_expense/'; break;
+                                                            case 'apply_leave':
+                                                            $resetchar = '/RequestNote/gss_leave/'; break;
+                                                         } 
+                                                        ?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
+                                                    <?php   } ?>
                                                     </td>
                                                    
                                                 </tr>
