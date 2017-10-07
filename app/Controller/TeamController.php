@@ -260,8 +260,19 @@ class TeamController extends AppController {
                     break;
             }
 
-             // 团队表修改负责人、所领导
-            if (($_POST['type'] == 'add' || $_POST['type'] == 'edit') && $memberId ) {
+             // 团队表添加负责人、所领导
+            if ($_POST['type'] == 'add' && $memberId ) {
+                switch ($_POST['code']) {
+                    case 1:
+                        $memberId = $this->Team->add($_POST['tid'], array('fzr' => $_POST['mid']));
+                        break;
+                    case 2:
+                        $memberId = $this->Team->add($_POST['tid'], array('sld' => $_POST['mid']));
+                        break;
+                }
+            }
+            // 团队表修改负责人、所领导
+            if ($_POST['type'] == 'edit' && $memberId ) {
                 switch ($_POST['code']) {
                     case 1:
                         $memberId = $this->Team->edit($_POST['tid'], array('fzr' => $_POST['mid']));
