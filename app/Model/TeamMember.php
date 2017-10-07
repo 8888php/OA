@@ -34,7 +34,8 @@ class TeamMember extends AppModel{
         $this->setDataSource('write');
         $fieldList = array('code');
         $this->id = $id;
-        return  $this->save($data,true,$fieldList);
+        $this->save($data,true,$fieldList);
+        return  $this->id;
     }
 
     /**
@@ -44,7 +45,8 @@ class TeamMember extends AppModel{
      */
     public function del($tid,$mid) {
         $this->setDataSource('write');
-       return $this->deleteAll(array('team_id'=>$tid,'id'=>$mid));
+        $this->deleteAll(array('team_id'=>$tid,'id'=>$mid));
+       return $this->id;
     }
     
     

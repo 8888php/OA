@@ -264,10 +264,10 @@ class TeamController extends AppController {
             if (($_POST['type'] == 'add' || $_POST['type'] == 'edit') && $memberId ) {
                 switch ($_POST['code']) {
                     case 1:
-                        $memberId = $this->Team->edit($_POST['tid'], array('fzr' => $_POST['mid']));
+                        $memberId = $this->Team->edit($_POST['tid'], array('fzr' => $memberId));
                         break;
                     case 2:
-                        $memberId = $this->Team->edit($_POST['tid'], array('sld' => $_POST['mid']));
+                        $memberId = $this->Team->edit($_POST['tid'], array('sld' => $memberId));
                         break;
                 }
             }
