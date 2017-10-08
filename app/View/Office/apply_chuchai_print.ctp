@@ -92,12 +92,23 @@
                     </table>
                 </form>
             </div>
-
+            
+             <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -136,49 +147,20 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var dep_pro = $('.dep_pro  option:selected').val();
-        var ctime = $('.ctime').val();
-        var reason = $('.reason').val();
-        var personnel = $('.personnel').val();
-        var start_day = $('.start_day').val();
-        var end_day = $('.end_day').val();
-        var sum_day = $('.sum_day').val();
-        var address = $('.address').val();
-        var mode_route = $('.mode_route').val();
-        var declarename = $('.declarename').val();
-        
-        if (ctime == '') {
-            $('.ctime').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该审批单？')) {
+            //取消
             return;
         }
-        if (reason == '') {
-            $('.reason').focus();
-            return;
-        }
-        if (personnel == '') {
-            $('.personnel').focus();
-            return;
-        }
-        if (start_day == '') {
-            $('.start_day').focus();
-            return;
-        }
-        if (end_day == '') {
-            $('.end_day').focus();
-            return;
-        }
-        if (address == '') {
-            $('.address').focus();
-            return;
-        }
-        if (mode_route == '') {
-            $('.mode_route').focus();
-            return;
-        }
-        var data = {dep_pro: dep_pro, ctime: ctime, reason: reason, start_day: start_day, end_day: end_day, personnel: personnel, sum_day: sum_day, address: address,mode_route: mode_route,declarename: declarename};
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_evection',
+            url: '/Office/ajax_approve_chuchai',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -201,8 +183,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

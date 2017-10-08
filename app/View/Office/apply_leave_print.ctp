@@ -111,14 +111,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -128,14 +120,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');
@@ -163,7 +147,7 @@ function printDIV(){
         } else {
             type = 2;
         }
-        if (!confirm('您确认 ' + text + ' 该项目？')) {
+        if (!confirm('您确认 ' + text + ' 该请假单？')) {
             //取消
             return;
         }

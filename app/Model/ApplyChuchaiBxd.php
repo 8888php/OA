@@ -1,7 +1,7 @@
 <?php
 
 /* *
- *  项目 出入库
+ *  差旅审批报销单
  */
 
 App::uses('ApplyChuchaiBxd', 'AppModel');

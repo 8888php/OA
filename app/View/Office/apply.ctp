@@ -131,6 +131,8 @@
                                                             $resetchar = '/RequestNote/gss_evection_expense/'; break;
                                                             case 'apply_leave':
                                                             $resetchar = '/RequestNote/gss_leave/'; break;
+                                                            case 'apply_chuchai':
+                                                            $resetchar = '/RequestNote/gss_evection/'; break;
                                                          } 
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
