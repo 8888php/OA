@@ -25,7 +25,6 @@
                              <tr>
                                 <td > 单位或部门 </td>
                                 <td colspan='6'>  
-                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
                                     <select style="height:25px;width:580px;" name="dep_pro" class="dep_pro" onchange="">
                                         <?php foreach($department_arr as $v){?>
                                         <option value="0"><?php echo $v['name'];?></option>

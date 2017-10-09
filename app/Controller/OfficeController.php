@@ -1174,7 +1174,7 @@ class OfficeController extends AppController {
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
-        $this->set('attr_arr', $attr_arr);
+        $this->set('attr_arr', $attr_arr); 
         $this->set('user_arr', $user_arr);
         $this->set('flag', $flag);
         $this->render();

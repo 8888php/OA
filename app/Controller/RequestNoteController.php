@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -150,7 +150,7 @@ class RequestNoteController extends AppController {
      * 行政部门费用报销
      */
     // 果树所出差审批单
-    public function gss_evection() {
+    public function gss_evection($mid = 0) {
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_save($_POST);
@@ -169,6 +169,12 @@ class RequestNoteController extends AppController {
             $this->set('projectInfo', $projectInfo);
             $this->set('list', Configure::read('xizhenglist'));
 
+            // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'Applychuchai');
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['Applychuchai']);
+            }
             $this->render();
         }
     }
@@ -295,7 +301,7 @@ class RequestNoteController extends AppController {
     }
 
     // 果树所请假单
-    public function gss_leave() {
+    public function gss_leave($mid = 0) {
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_leave_save($_POST);
@@ -310,6 +316,13 @@ class RequestNoteController extends AppController {
 
             $this->set('team_arr', $team_arr);
             $this->set('department_arr', $department_arr);
+            
+            // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'ApplyLeave');
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['ApplyLeave']);
+            }
             $this->render();
         }
     }
@@ -462,13 +475,13 @@ class RequestNoteController extends AppController {
         exit;
     }
 
-    //果树所出差审批单
+    //果树所差旅审批单
     private function gss_evection_save($datas) {
         if (empty($datas['ctime']) || empty($datas['reason']) || empty($datas['personnel']) || empty($datas['mode_route']) || empty($datas['start_day']) || empty($datas['end_day'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
-        $table_name = 'chailvfei_sqd';
+        $table_name = 'apply_chuchai';
         //$p_id = 0; //审批流id
         if (!$datas['dep_pro']) {
             //说明是部门
@@ -478,7 +491,7 @@ class RequestNoteController extends AppController {
             $type = 1; //科研
             $project_id = $datas['dep_pro'];
         }
-        
+       
         //获取审批信息
         $ret_arr = $this->ApplyChuchai->apply_create($type, $datas, (array)$this->userInfo);
         
@@ -523,7 +536,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = 0; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所出差审批单';
+        $mainArr['name'] = '果树所差旅审批单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
         $mainArr['table_name'] = $table_name;

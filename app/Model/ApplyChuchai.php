@@ -58,7 +58,7 @@ class ApplyChuchai extends AppModel {
      * 创建者信息 $user_info
      * 类型 $type 2是部门 3是团队，目前只有这两种
      */
-    public function apply_create($type, $data, $user_info) {
+    public function apply_create($type, $data, $user_info) { 
         switch($type){
             case 2:  //行政
                 return $this->dep_create($type, $data, $user_info);
@@ -92,6 +92,7 @@ class ApplyChuchai extends AppModel {
             $this->err_msg => '',
             $this->code_id=>array(),
         );
+
         $sum_days = $data['sum_day'];//天数
         // 是否所长申请
         if ($user_info['position_id'] == self::SUOZHANG_ID) {
@@ -182,9 +183,9 @@ class ApplyChuchai extends AppModel {
         }
         
         // 是否科研办公室所领导申请
-        $sql = "select *from t_department where id=3 and sld='{$user_info['id']}' and del=0";
-        $pro_arr = $this->query($sql_1);
-        if (empty($pro_arr)) {
+        $sql = "select * from t_department where id=3 and del=0";
+        $pro_arr = $this->query($sql);
+        if (empty($pro_arr[0]['t_department']['sld'])) {
             $ret_arr[$this->err_msg] = '科研办公室所领导不存在';
             return $ret_arr;
         }
@@ -234,7 +235,7 @@ class ApplyChuchai extends AppModel {
         if($is_apply === false){
             // 项目所属职员申请
             $ret_arr[$this->next_id] = 15;
-            $ret_arr[$this->next_uid] = $fuze_arr[0]['u']['id'];
+            $ret_arr[$this->next_uid] = $profzr_arr[0]['u']['id'];
             return $ret_arr;
         }
         return false;
@@ -289,8 +290,8 @@ class ApplyChuchai extends AppModel {
         $chuchai_sql = "select * from t_apply_chuchai where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
         $chuchai_arr = $this->query($chuchai_sql);
         $data = array();
-        $data['sum_day'] = $chailv_arr[0]['t_apply_chuchai']['days'];
-        $data['dep_pro'] = $chailv_arr[0]['t_apply_chuchai']['project_id'];
+        $data['sum_day'] = $chuchai_arr[0]['t_apply_chuchai']['days'];
+        $data['dep_pro'] = $chuchai_arr[0]['t_apply_chuchai']['project_id'];
         if ($type == 2) {
             //部门
             //return $this->dep_approve($main_arr, $user_info, $status);
