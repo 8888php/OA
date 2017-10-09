@@ -294,11 +294,9 @@ class ApplyChuchai extends AppModel {
         $data['dep_pro'] = $chuchai_arr[0]['t_apply_chuchai']['project_id'];
         if ($type == 2) {
             //部门
-            //return $this->dep_approve($main_arr, $user_info, $status);
            return $this->dep_create($type, $data, $user_info, true) ;
         } else {
             //科研
-            //return $this->pro_approve($main_arr, $user_info, $status);
             return $this->pro_create($type, $data, $user_info, true) ;
         }
     }
@@ -313,121 +311,7 @@ class ApplyChuchai extends AppModel {
     }
             
     
-    private function dep_approve($main_arr, $user_info, $status) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0,
-            $this->code => 0,
-            $this->err_msg => '',
-            $this->code_id=>array()
-        );
-        //获取请假天数
-        $sql_chuchai = "select * from t_apply_chuchai where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
-        $chuchai_arr = $this->query($sql_chuchai);
-        if (empty($chuchai_arr)) {
-            $ret_arr[$this->err_msg] = '申请单信息不存在';
-            return $ret_arr;
-        }
-        $sum_day = $chuchai_arr[0]['t_apply_chuchai']['days'];
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
-        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
-        
-        if ($sum_day < 3) {
-            //只要下一个审批就可以
-            foreach ($shengpin_arr as $k=>$v) {
-                if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //15,5,22,6
-                        if ($next_approver_id == 15) {
-                            //取出5所对应该的信息
-                            $sql_5 = "select *from t_department where id='{$chuchai_arr[0]['t_apply_chuchai']['department_id']}' and del=0";
-                            $arr_5 = $this->query($sql_5);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 5;
-                            
-                        } else if ($next_approver_id == 5) {
-                            //取出 22
-                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->query($sql_22);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22) {
-                            //取出 6
-                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->query($sql_6);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                        
-                    }
-                   
-                }
-                return $ret_arr; 
-            }
-        } else {
-            //走完整的审批
-            foreach ($shengpin_arr as $k=>$v) {
-                //根据$v取出他下一个审批的id
-                if ($v == $next_approver_id) {
-                    $arr_get = $this->get_by_pos_dep($v, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                    if ($next_approver_id == 6 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //15,5,22,6
-                        if ($next_approver_id == 15 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出5所对应该的信息
-//                            $sql_5 = "select *from t_department where id='{$chuchai_arr[0]['t_apply_chuchai']['department_id']}' and del=0";
-                            $arr_5 = $this->get_by_pos_dep(5, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                            
-                            $next_approver_id = 5;
-                            $ret_arr[$this->code] = 15 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_5['next_uid']) ? 0 : $arr_5['next_uid'];
-                            $ret_arr[$this->next_id] = 5;
-                            
-                        } else if ($next_approver_id == 5 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 22
-//                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->get_by_pos_dep(22, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 5 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 6
-//                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->get_by_pos_dep(6, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                            $next_approver_id = 6;
-                            $ret_arr[$this->code] = 22 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                    }
-                    
-                }
-            }
-            return $ret_arr;
-        }
-    }
+   
     //根据职务和部门取出用户信息 行政
     private function get_by_pos_dep($pos_id, $dep_id, $team_id=0) {
         $ret_arr = array(
@@ -468,119 +352,7 @@ class ApplyChuchai extends AppModel {
         }
         return $ret_arr;
     }
-    // 科研
-    private function pro_approve($main_arr, $user_info, $status) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0,
-            $this->code => 0,
-            $this->err_msg => '',
-            $this->code_id=>array()
-        );
-        //获取请假天数
-        $sql_chuchai = "select *from t_apply_chuchai where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
-        $chuchai_arr = $this->query($sql_chuchai);
-        if (empty($chuchai_arr)) {
-            $ret_arr[$this->err_msg] = '申请单信息不存在';
-            return $ret_arr;
-        }
-        $sum_day = $chuchai_arr[0]['t_apply_chuchai']['total_days'];
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
-        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
-        $dep_id = $chuchai_arr[0]['t_apply_chuchai']['department_id'];
-        $team_id = $chuchai_arr[0]['t_apply_chuchai']['team_id'];
-        if ($sum_day < 3) {
-            //只要下一个审批就可以
-            foreach ($shengpin_arr as $k=>$v) {
-                if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //20,21,22,6
-                        
-                        if ($next_approver_id == 20) {
-                            //取出21所对应该的信息
-                            $arr_21 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_21[$this->next_uid]) ? 0 : $arr_21[$this->next_uid];
-                            $ret_arr[$this->next_id] = 21;
-                            
-                        } else if ($next_approver_id == 21) {
-                            //取出 22
-                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->query($sql_22);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22) {
-                            //取出 6
-                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->query($sql_6);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                        
-                    }
-                   
-                }
-                return $ret_arr; 
-            }
-        } else {
-            //走完整的审批
-            foreach ($shengpin_arr as $k=>$v) {
-                //根据$v取出他下一个审批的id
-                if ($v == $next_approver_id) {
-                    $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
-                    if ($next_approver_id == 6 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //20,21,22,6
-                        if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            $arr_20 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 20 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_20[$this->next_uid]) ? 0 : $arr_20[$this->next_uid];
-                            $ret_arr[$this->next_id] = 21;
-                        } else if ($next_approver_id == 21 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 22
-//                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->get_by_pos_dep(22, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 21 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 6
-//                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->get_by_pos_dep(6, $chuchai_arr[0]['t_apply_chuchai']['department_id']);
-                            $next_approver_id = 6;
-                            $ret_arr[$this->code] = 22 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                    }
-                    
-                }
-            }
-            return $ret_arr;
-        }
-    } 
+  
     
     
     

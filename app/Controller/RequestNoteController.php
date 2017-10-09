@@ -369,12 +369,7 @@ class RequestNoteController extends AppController {
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -397,6 +392,7 @@ class RequestNoteController extends AppController {
         $attrArr['years'] = $datas['years'];
         $attrArr['grsq'] = $datas['grsq'];
         $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['user_name'] = $this->userInfo->name;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
