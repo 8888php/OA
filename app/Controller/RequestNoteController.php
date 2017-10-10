@@ -6,7 +6,8 @@ App::uses('AppController', 'Controller');
 class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou', 'ApplyBaogong');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong');
+
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -150,14 +151,14 @@ class RequestNoteController extends AppController {
      * 行政部门费用报销
      */
     // 果树所出差审批单
-    public function gss_evection() {
+    public function gss_evection($mid = 0) {
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_save($_POST);
         } else {
-            //当前用户所属部门和所参加的项目
-            $department = $this->Department->findById($this->userInfo->department_id);
-            // 当前用所参与科研项目
+            //当前用户所属部门
+            $department = $this->Department->find('first',array('conditions'=>array('id' => $this->userInfo->department_id, 'type' => 1)));
+            // 当前用户所参与科研项目
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
@@ -169,6 +170,12 @@ class RequestNoteController extends AppController {
             $this->set('projectInfo', $projectInfo);
             $this->set('list', Configure::read('xizhenglist'));
 
+            // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'Applychuchai');
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['Applychuchai']);
+            }
             $this->render();
         }
     }
@@ -295,7 +302,7 @@ class RequestNoteController extends AppController {
     }
 
     // 果树所请假单
-    public function gss_leave() {
+    public function gss_leave($mid = 0) {
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_leave_save($_POST);
@@ -310,6 +317,13 @@ class RequestNoteController extends AppController {
 
             $this->set('team_arr', $team_arr);
             $this->set('department_arr', $department_arr);
+            
+            // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'ApplyLeave');
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['ApplyLeave']);
+            }
             $this->render();
         }
     }
@@ -356,12 +370,7 @@ class RequestNoteController extends AppController {
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -384,6 +393,7 @@ class RequestNoteController extends AppController {
         $attrArr['years'] = $datas['years'];
         $attrArr['grsq'] = $datas['grsq'];
         $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['user_name'] = $this->userInfo->name;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
@@ -462,14 +472,14 @@ class RequestNoteController extends AppController {
         exit;
     }
 
-    //果树所出差审批单
+    //果树所差旅审批单
     private function gss_evection_save($datas) {
         if (empty($datas['ctime']) || empty($datas['reason']) || empty($datas['personnel']) || empty($datas['mode_route']) || empty($datas['start_day']) || empty($datas['end_day'])) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
-        $table_name = 'chailvfei_sqd';
-        $p_id = 4; //审批流id
+        $table_name = 'apply_chuchai';
+        //$p_id = 0; //审批流id
         if (!$datas['dep_pro']) {
             //说明是部门
             $type = 2; //行政
@@ -478,16 +488,17 @@ class RequestNoteController extends AppController {
             $type = 1; //科研
             $project_id = $datas['dep_pro'];
         }
+       
+        //获取审批信息
+        $ret_arr = $this->ApplyChuchai->apply_create($type, $datas, (array)$this->userInfo);
+        
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
 
-
-        $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -498,32 +509,31 @@ class RequestNoteController extends AppController {
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['reason'] = $datas['reason'];
-
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
         $attrArr['project_id'] = $project_id;
         $attrArr['personnel'] = $datas['personnel'];
-        $attrArr['start_time'] = $datas['start_day'];
-        $attrArr['end_time'] = $datas['end_day'];
-        $attrArr['total_day'] = $datas['sum_day'];
+        $attrArr['start_date'] = $datas['start_day'];
+        $attrArr['end_date'] = $datas['end_day'];
+        $attrArr['days'] = $datas['sum_day'];
         $attrArr['place'] = $datas['address'];
-        $attrArr['way'] = $datas['mode_route'];
+        $attrArr['mode_route'] = $datas['mode_route'];
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
-        $this->ChailvfeiSqd->begin();
-        $attrId = $this->ChailvfeiSqd->add($attrArr);
+        $this->ApplyChuchai->begin();
+        $attrId = $this->ApplyChuchai->add($attrArr);
 
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
         $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
-        $mainArr['approval_process_id'] = $p_id; //审批流程id
+        $mainArr['approval_process_id'] = 0; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所出差审批单';
+        $mainArr['name'] = '果树所差旅审批单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
         $mainArr['table_name'] = $table_name;
@@ -538,9 +548,9 @@ class RequestNoteController extends AppController {
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
-            $this->ChailvfeiSqd->rollback();
+            $this->ApplyChuchai->rollback();
         }
-        $mainId ? $commitId = $this->ChailvfeiSqd->rollback() : $commitId = $this->ChailvfeiSqd->commit();
+        $mainId ? $commitId = $this->ApplyChuchai->rollback() : $commitId = $this->ApplyChuchai->commit();
 
 
         if ($commitId) {
@@ -580,7 +590,6 @@ class RequestNoteController extends AppController {
         } else {
             $this->ret_arr['msg'] = '申请失败';
         }
-
 
         echo json_encode($this->ret_arr);
         exit;
