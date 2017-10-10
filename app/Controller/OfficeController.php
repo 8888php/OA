@@ -7,7 +7,7 @@ class OfficeController extends AppController {
 
     public $name = 'Office';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave');
 
 
     public $layout = 'blank';
