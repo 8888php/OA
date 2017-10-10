@@ -537,7 +537,7 @@ class ApplyLeave extends AppModel {
                         //20,21,22,6
                         if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $next_apprly_uid) {
                             $arr_20 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                            $next_approver_id = 22;
+                            $next_approver_id = 21;
                             $ret_arr[$this->code] = 20 * 2;
                             $ret_arr[$this->code_id][] = $user_info['id'];
                             $ret_arr[$this->next_uid] = empty($arr_20[$this->next_uid]) ? 0 : $arr_20[$this->next_uid];

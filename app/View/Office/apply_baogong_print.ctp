@@ -18,58 +18,67 @@
                             <tr>
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  山西省农科院果树所田间作业包工申请表 </td>
                             </tr>
-                            
                              <tr>
                                  <td colspan="5" style="text-align: right;line-height: 25px;"> 编号 </td>
-                                <td colspan='2'>  <input type="text" class="number" name="number" value=""  style='height:25px;width:180px;'> </td>
+                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['number'];?></td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 部门 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;">
-                                    <select style="height:25px;width:440px;" name="dep_pro" class="dep_pro" onchange="">
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select>
+                                    <?php echo $team_arr[0]['t_team']['name'];?>
                                 </td>
                             </tr>
                             
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 包工人员 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;">
-                                    <textarea class="personnel" name="personnel" style="min-width: 440px; max-width: 440px; min-height: 50px; max-height: 50px;"></textarea>
+                                    <?php echo $attr_arr[0][$table_name]['personnel'];?>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 包工时间及地点 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;"> 
-                                    <input class="time_address" name="time_address" style="width: 440px;" type="text" value="" /> 
+                                   <?php echo $attr_arr[0][$table_name]['time_address'];?> 
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 包工内容及工作量 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;">
-                                    <textarea class="content" name="content" style="min-width: 440px; max-width: 440px; min-height: 50px; max-height: 50px;"></textarea>
+                                    <?php echo $attr_arr[0][$table_name]['content'];?> 
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 部门负责人意见 </td>
-                                <td colspan='5' style="height: 45px; line-height: 45px;">  </td>
+                                <td colspan='5' style="height: 45px; line-height: 45px;"> 
+                                    <?php  echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  ?> 
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 科研办公室意见 </td>
-                                <td colspan='5' style="height: 45px; line-height: 45px;">  </td>
+                                <td colspan='5' style="height: 45px; line-height: 45px;"> 
+                                    <?php  echo $applyArr[4]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['remarks'];  ?> 
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
 
-            <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
 
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+            <div class="modal-footer" style='background-color: #fff;'>
+                 <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -140,44 +149,20 @@ function printDIV(){
         total = parseFloat(nums) * parseFloat(price);
         $('.total').val(parseFloat(total));
     });
-    function approve() {
-       
-        var declarename = $('.declarename').val();
-        var number = $('.number').val();
-        var dep_pro = $('.dep_pro option:selected').val();
-        var personnel = $('.personnel').val();
-        var time_address = $('.time_address').val();
-        var content = $('.content').val();
-        if (number == '') {
-            $('.number').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        if (!dep_pro) {
-            $('.dep_pro').focus();
-            return;
-        }
-        if (personnel == '') {
-            $('.personnel').focus();
-            return;
-        }
-        if (time_address == '') {
-            $('.time_address').focus();
-            return;
-        }
-        if (content == '') {
-            $('.content').focus();
-            return;
-        }
-        var data = {};
-        data.number = number;
-        data.dep_pro = dep_pro;
-        data.personnel = personnel;
-        data.time_address = time_address;
-        data.content = content;
-        data.declarename = declarename;
-        
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_contractor',
+            url: '/Office/ajax_approve_baogong',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -200,8 +185,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
