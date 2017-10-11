@@ -254,6 +254,7 @@ class TeamController extends AppController {
                 case 'edit':
                     $editArr['code'] = $_POST['code'];
                     $memberId = $this->TeamMember->edit($_POST['mid'], $editArr);
+                    $memberId && $this->TeamMember->query('update t_team_member set code = 0 where team_id = '.$_POST['tid'].'  and code = '.$_POST['code'].' and id != '.$_POST['mid'] );
                     break;
                 case 'del':
                     $memberId = $this->TeamMember->del($_POST['tid'], $_POST['mid']);

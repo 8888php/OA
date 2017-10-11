@@ -171,7 +171,6 @@ function printDIV(){
                 if (res.code == 1) {
                     //说明有错误
                     alert(res.msg);
-
                     return;
                 }
                 if (res.code == 0) {
