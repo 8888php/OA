@@ -74,13 +74,14 @@ class ApplyPaidleave extends AppModel {
 
     const SUOZHANG_ID = 6;//所长的职务id
 
-    private function dep_create($type, $data, $user_info) {
+    private function dep_create($type, $data, $user_info, $is_apply = false) {
        
         $ret_arr = array(
             $this->next_id => 0,
             $this->next_uid => 0,
             $this->code => 0,
-            $this->err_msg => ''
+            $this->err_msg => '',
+            $this->code_id=>array(),
         );
         $sum_days = $data['sum_days'];//天数
         // 是否人事领导申请
@@ -93,6 +94,9 @@ class ApplyPaidleave extends AppModel {
         if ($rssld_arr[0]['t_department']['sld'] == $user_info['id']) {
             //说明他是人事领导
             $ret_arr[$this->code] = 10000;
+            $ret_arr[$this->code_id][] = $user_info['id'];
+            $ret_arr[$this->next_uid] = 0;
+            $ret_arr[$this->next_id] = 0;
             return $ret_arr;
         }
         
@@ -108,6 +112,8 @@ class ApplyPaidleave extends AppModel {
             //取人事领导信息
             $ret_arr[$this->next_id] = 22;
             $ret_arr[$this->next_uid] = $rssld_arr[0]['t_department']['sld'];
+            $ret_arr[$this->code_id][] = $user_info['id'];
+             $ret_arr[$this->code] = $is_apply ? 5*2 : 0;
             return $ret_arr;
         }
         
@@ -123,26 +129,33 @@ class ApplyPaidleave extends AppModel {
             }
             $ret_arr[$this->next_id] = 5;
             $ret_arr[$this->next_uid] = $fenguan_arr[0]['u']['id'];
+            $ret_arr[$this->code_id][] = $user_info['id'];
+            $ret_arr[$this->code] = $is_apply ? 15*2 : 0;
             return $ret_arr;
         }
-        //这里是职员
-        $sql_fenze = "SELECT *FROM t_user u LEFT JOIN t_department d ON d.user_id=u.id WHERE d.id={$user_info['department_id']} ";
-        $fuze_arr = $this->query($sql_fenze);
-        if (empty($fuze_arr)) {
-            $ret_arr[$this->err_msg] = '部门负责人不存在';
+        
+        if($is_apply === false){
+            //这里是职员
+            $sql_fenze = "SELECT *FROM t_user u LEFT JOIN t_department d ON d.user_id=u.id WHERE d.id={$user_info['department_id']} ";
+            $fuze_arr = $this->query($sql_fenze);
+            if (empty($fuze_arr)) {
+                $ret_arr[$this->err_msg] = '部门负责人不存在';
+                return $ret_arr;
+            }
+            $ret_arr[$this->next_id] = 15;
+            $ret_arr[$this->next_uid] = $fuze_arr[0]['u']['id'];
             return $ret_arr;
         }
-        $ret_arr[$this->next_id] = 15;
-        $ret_arr[$this->next_uid] = $fuze_arr[0]['u']['id'];
-        return $ret_arr;
+        return false;
     }
     //团队
-    private function team_create($type, $data, $user_info) {
+    private function team_create($type, $data, $user_info, $is_apply = false) {
         $ret_arr = array(
             $this->next_id => 0,
             $this->next_uid => 0,
             $this->code => 0,
-            $this->err_msg => ''
+            $this->err_msg => '',
+            $this->code_id=>array(),
         );
         $sum_days = $data['sum_days'];//天数
         // 是否人事领导申请
@@ -155,22 +168,27 @@ class ApplyPaidleave extends AppModel {
         if ($rssld_arr[0]['t_department']['sld'] == $user_info['id']) {
             //说明他是人事领导
             $ret_arr[$this->code] = 10000;
+            $ret_arr[$this->code_id][] = $user_info['id'];
+            $ret_arr[$this->next_uid] = 0;
+            $ret_arr[$this->next_id] = 0;
             return $ret_arr;
         }
      
-        //取出团队成员
+        //取出团队成员 检查团队是否存在
         $sql_team_member = "select *from t_team_member where user_id='{$user_info['id']}'";
         $tmam_member_arr = $this->query($sql_team_member);
         if (empty($tmam_member_arr)) {
             $ret_arr[$this->err_msg] = '所对应的团队成员不存在';
             return $ret_arr;
         }
-        $sql_1 = "select *from t_team where id='{$data['dep_pro']}' and del=0";
+        $sql_1 = "select *from t_team where id='{$data['depname']}' and del=0";
         $dem_arr = $this->query($sql_1);
         if (empty($dem_arr)) {
             $ret_arr[$this->err_msg] = '团队不存在';
             return $ret_arr;
         }
+        
+        // 是否分管领导申请
         $sld_member = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['sld']}'");
         if (empty($sld_member[0]['t_team_member']['user_id'])) {
             $ret_arr[$this->err_msg] = '分管领导不存在';
@@ -181,9 +199,11 @@ class ApplyPaidleave extends AppModel {
             //取人事领导信息
             $ret_arr[$this->next_id] = 22;
             $ret_arr[$this->next_uid] = $renshi_arr[0]['u']['id'];
+            $ret_arr[$this->code_id][] = $user_info['id'];
+            $ret_arr[$this->code] = $is_apply ? 21*2 : 0;
             return $ret_arr;
         }
-        //团队负责人
+        // 是否团队负责人 申请
         $fzr_member[0]['t_team_member']['user_id'] = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['fzr']}'");
         if (empty($fzr_member[0]['t_team_member']['user_id'])) {
             $ret_arr[$this->err_msg] = '团队负责人不存在';
@@ -192,7 +212,7 @@ class ApplyPaidleave extends AppModel {
         if ($fzr_member == $user_info['id']) {
             //说明他是部门负责人
             //分管所领导信息
-            $sql_fenguan = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['dep_pro']}' and t.sld=m.id"; 
+            $sql_fenguan = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['depname']}' and t.sld=m.id"; 
             $fenguan_arr = $this->query($sql_fenguan);
             if (empty($fenguan_arr)) {
                 $ret_arr[$this->err_msg] = '团队分管所领导不存在';
@@ -200,23 +220,30 @@ class ApplyPaidleave extends AppModel {
             }
             $ret_arr[$this->next_id] = 21;
             $ret_arr[$this->next_uid] = $fenguan_arr[0]['m']['user_id'];
+            $ret_arr[$this->code_id][] = $user_info['id'];
+            $ret_arr[$this->code] = $is_apply ? 20*2 : 0;
             return $ret_arr;
         }
-        //这里是职员
-        $sql_fenze = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['dep_pro']}' and t.fzr=m.id";
         
-        $fuze_arr = $this->query($sql_fenze);
-        if (empty($fuze_arr)) {
-            $ret_arr[$this->err_msg] = '团队部门负责人不存在';
+        if($is_apply === false){
+            //这里是职员
+            $sql_fenze = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['depname']}' and t.fzr=m.id";
+
+            $fuze_arr = $this->query($sql_fenze);
+            if (empty($fuze_arr)) {
+                $ret_arr[$this->err_msg] = '团队部门负责人不存在';
+                return $ret_arr;
+            }
+            $ret_arr[$this->next_id] = 20;
+            $ret_arr[$this->next_uid] = $fuze_arr[0]['m']['user_id'];
             return $ret_arr;
-        }
-        $ret_arr[$this->next_id] = 20;
-        $ret_arr[$this->next_uid] = $fuze_arr[0]['m']['user_id'];
-        return $ret_arr;
+         }
+        return false;
+        
     }
        
     /**
-     * 
+     * 审核
      * @param type $main_id
      * @param type $user_info
      * @param type $status
@@ -234,22 +261,22 @@ class ApplyPaidleave extends AppModel {
         $main_sql = "select *from t_apply_main where id='{$main_id}'";
         $main_arr = $this->query($main_sql);
         if (empty($main_arr)) {
-            $ret_arr[$this->err_msg] = '单子信息不存在';
+            $ret_arr[$this->err_msg] = '该申请单不存在';
             return $ret_arr;
         }
         $code = $main_arr[0]['t_apply_main']['code'];
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
         if ($code == 10000) {
-            $ret_arr[$this->err_msg] = '单子已经审批通过了';
+            $ret_arr[$this->err_msg] = '该申请单已经审批通过了';
             return $ret_arr;
         }
         if ($code%2 !=0) {
-            $ret_arr[$this->err_msg] = '单子已经被拒绝';
+            $ret_arr[$this->err_msg] = '该申请单已经被拒绝';
             return $ret_arr;
         }
         if ($next_id != $user_info['id']) {
-            $ret_arr[$this->err_msg] = '您无权审批此单子';
+            $ret_arr[$this->err_msg] = '您无权审批此申请单';
             return $ret_arr;
         }
         //拒绝直接返回
@@ -260,13 +287,20 @@ class ApplyPaidleave extends AppModel {
             return $ret_arr;
         }
         $type = $main_arr[0]['t_apply_main']['type'];
+        
+        $paidleave_sql = "select * from t_apply_paidleave where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
+        $paidleave_arr = $this->query($paidleave_sql);
+        $data = array();
+        $data['sum_day'] = $paidleave_arr[0]['t_apply_paidleave']['total_days'];
+        $data['depname'] = $paidleave_arr[0]['t_apply_paidleave']['team_id'];
         if ($type == 2) {
             //部门
-            return $this->dep_approve($main_arr, $user_info, $status);
+           return $this->dep_create($type, $data, $user_info, true) ;
         } else {
             //团队
-            return $this->team_approve($main_arr, $user_info, $status);
+            return $this->team_create($type, $data, $user_info, true) ;
         }
+        
     }
     
     /**
@@ -279,121 +313,7 @@ class ApplyPaidleave extends AppModel {
     }
             
     
-    private function dep_approve($main_arr, $user_info, $status) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0,
-            $this->code => 0,
-            $this->err_msg => '',
-            $this->code_id=>array()
-        );
-        //获取请假天数
-        $sql_qingjia = "select *from t_apply_leave where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
-        $qingjia_arr = $this->query($sql_qingjia);
-        if (empty($qingjia_arr)) {
-            $ret_arr[$this->err_msg] = '单子信息不存在';
-            return $ret_arr;
-        }
-        $sum_day = $qingjia_arr[0]['t_apply_leave']['total_days'];
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
-        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
-        
-        if ($sum_day < 3) {
-            //只要下一个审批就可以
-            foreach ($shengpin_arr as $k=>$v) {
-                if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //15,5,22,6
-                        if ($next_approver_id == 15) {
-                            //取出5所对应该的信息
-                            $sql_5 = "select *from t_department where id='{$qingjia_arr[0]['t_apply_leave']['department_id']}' and del=0";
-                            $arr_5 = $this->query($sql_5);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 5;
-                            
-                        } else if ($next_approver_id == 5) {
-                            //取出 22
-                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->query($sql_22);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22) {
-                            //取出 6
-                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->query($sql_6);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                        
-                    }
-                   
-                }
-                return $ret_arr; 
-            }
-        } else {
-            //走完整的审批
-            foreach ($shengpin_arr as $k=>$v) {
-                //根据$v取出他下一个审批的id
-                if ($v == $next_approver_id) {
-                    $arr_get = $this->get_by_pos_dep($v, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                    if ($next_approver_id == 6 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //15,5,22,6
-                        if ($next_approver_id == 15 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出5所对应该的信息
-//                            $sql_5 = "select *from t_department where id='{$qingjia_arr[0]['t_apply_leave']['department_id']}' and del=0";
-                            $arr_5 = $this->get_by_pos_dep(5, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                            
-                            $next_approver_id = 5;
-                            $ret_arr[$this->code] = 15 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_5['next_uid']) ? 0 : $arr_5['next_uid'];
-                            $ret_arr[$this->next_id] = 5;
-                            
-                        } else if ($next_approver_id == 5 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 22
-//                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->get_by_pos_dep(22, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 5 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 6
-//                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->get_by_pos_dep(6, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                            $next_approver_id = 6;
-                            $ret_arr[$this->code] = 22 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                    }
-                    
-                }
-            }
-            return $ret_arr;
-        }
-    }
+  
     //根据职务和部门取出用户信息 行政
     private function get_by_pos_dep($pos_id, $dep_id, $team_id=0) {
         $ret_arr = array(
@@ -434,118 +354,7 @@ class ApplyPaidleave extends AppModel {
         }
         return $ret_arr;
     }
-    private function team_approve($main_arr, $user_info, $status) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0,
-            $this->code => 0,
-            $this->err_msg => '',
-            $this->code_id=>array()
-        );
-        //获取请假天数
-        $sql_qingjia = "select *from t_apply_leave where id='{$main_arr[0]['t_apply_main']['attr_id']}'";
-        $qingjia_arr = $this->query($sql_qingjia);
-        if (empty($qingjia_arr)) {
-            $ret_arr[$this->err_msg] = '单子信息不存在';
-            return $ret_arr;
-        }
-        $sum_day = $qingjia_arr[0]['t_apply_leave']['total_days'];
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
-        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
-        $dep_id = $qingjia_arr[0]['t_apply_leave']['department_id'];
-        $team_id = $qingjia_arr[0]['t_apply_leave']['team_id'];
-        if ($sum_day < 3) {
-            //只要下一个审批就可以
-            foreach ($shengpin_arr as $k=>$v) {
-                if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //20,21,22,6
-                        
-                        if ($next_approver_id == 20) {
-                            //取出21所对应该的信息
-                            $arr_21 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_21[$this->next_uid]) ? 0 : $arr_21[$this->next_uid];
-                            $ret_arr[$this->next_id] = 21;
-                            
-                        } else if ($next_approver_id == 21) {
-                            //取出 22
-                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->query($sql_22);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22) {
-                            //取出 6
-                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->query($sql_6);
-                            $ret_arr[$this->code] = 10000;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                        
-                    }
-                   
-                }
-                return $ret_arr; 
-            }
-        } else {
-            //走完整的审批
-            foreach ($shengpin_arr as $k=>$v) {
-                //根据$v取出他下一个审批的id
-                if ($v == $next_approver_id) {
-                    $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
-                    if ($next_approver_id == 6 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //20,21,22,6
-                        if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            $arr_20 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 20 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_20[$this->next_uid]) ? 0 : $arr_20[$this->next_uid];
-                            $ret_arr[$this->next_id] = 21;
-                        } else if ($next_approver_id == 21 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 22
-//                            $sql_22 = "select *from t_department where id=4 and del=0";
-                            $arr_22 = $this->get_by_pos_dep(22, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                            $next_approver_id = 22;
-                            $ret_arr[$this->code] = 21 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22['next_uid']) ? 0 : $arr_22['next_uid'];
-                            $ret_arr[$this->next_id] = 22;
-                            
-                        } else if ($next_approver_id == 22 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            //取出 6
-//                            $sql_6 = "select *from t_user where position_id=6 and del=0";
-                            $arr_6 = $this->get_by_pos_dep(6, $qingjia_arr[0]['t_apply_leave']['department_id']);
-                            $next_approver_id = 6;
-                            $ret_arr[$this->code] = 22 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6['next_uid']) ? 0 : $arr_6['next_uid'];
-                            $ret_arr[$this->next_id] = 6;
-                            
-                        }
-                    }
-                    
-                }
-            }
-            return $ret_arr;
-        }
-    }
+  
     
     
     

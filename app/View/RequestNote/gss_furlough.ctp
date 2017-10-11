@@ -22,7 +22,6 @@
                                 <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
                                 <td >所在单位</td>
                                 <td colspan='3'>  
-                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
                                     <select style="height:25px;width:270px;" name="dep_pro" class="dep_pro" onchange="">
                                         <?php foreach($department_arr as $v){?>
                                         <option value="0"><?php echo $v['name'];?></option>
@@ -111,14 +110,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -128,14 +119,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');
