@@ -6,7 +6,9 @@ App::uses('AppController', 'Controller');
 class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team');
+
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team', 'ApplyEndlessly');
+
 
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
@@ -1460,8 +1462,7 @@ class RequestNoteController extends AppController {
             //获取部门和团队
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
-            $department_arr = $this->Department->findById($department_id);
-
+            $department_arr = $this->Department->find('first',array('conditions' => array('id' => $department_id,'type'=>1 )));
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
 
@@ -1473,32 +1474,36 @@ class RequestNoteController extends AppController {
 
     // 职工因公不休或不全休带薪假审批表
     private function gss_endlessly_save($datas) {
-        if (empty($datas['company']) || empty($datas['start_work']) || empty($datas['years']) || empty($datas['vacation_days']) || empty($datas['start_time']) || empty($datas['end_time'])) {
+        if (empty($datas['declarename']) || empty($datas['ctime']) || empty($datas['applyname']) || empty($datas['start_time']) 
+                || empty($datas['years']) || empty($datas['vacation_days'])
+                || empty($datas['days_off']) || empty($datas['rest_days'])
+                || empty($datas['reason'])
+                ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
-        $table_name = 't_apply_paidleave';
-        $p_id = 3; //审批流id
+        $table_name = 'apply_endlessly';
         $p_id = 0; //审批流id
 
-        if (!$datas['depname']) {
+        if (!$datas['dep_pro']) {
             //说明是部门
-            $type = 2; //类型暂定为0
+            $type = 2; //行政部门
             $team_id = 0;
         } else {
             $type = 3; //团队类型
-            $team_id = $datas['depname'];
+            $team_id = $datas['dep_pro'];
         }
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+        $ret_arr = $this->ApplyEndlessly->apply_create($type, $datas, (array)$this->userInfo);
+        
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -1507,26 +1512,25 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
 
         $attrArr = array();
-//        $attrArr['company'] = $datas['company'];
+        $attrArr['ctime'] = $datas['ctime'];
         $attrArr['start_work'] = $datas['start_work'];
 
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
         $attrArr['team_id'] = $team_id;
-        $attrArr['vacation_days'] = $datas['vacation_days'];
-        $attrArr['yx_vacation_days'] = $datas['yx_vacation_days'];
         $attrArr['start_time'] = $datas['start_time'];
-        $attrArr['end_time'] = $datas['end_time'];
-        $attrArr['total_days'] = $datas['total_days'];
+        $attrArr['yx_vacation_days'] = $datas['yx_vacation_days'];
         $attrArr['years'] = $datas['years'];
-        $attrArr['grsq'] = $datas['grsq'];
+        $attrArr['vacation_days'] = $datas['vacation_days'];
+        $attrArr['days_off'] = $datas['days_off'];
+        $attrArr['rest_days'] = $datas['rest_days'];
+        $attrArr['reason'] = $datas['reason'];
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
-        $this->ApplyPaidleave->begin();
-        $attrId = $this->ApplyPaidleave->add($attrArr);
-
+        $this->ApplyEndlessly->begin();
+        $attrId = $this->ApplyEndlessly->add($attrArr);
         # 主表入库
         $mainArr = array();
         $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
@@ -1535,7 +1539,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所职工带薪年休假审批单';
+        $mainArr['name'] = '职工因公不休或不全休带薪假审批表';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
         $mainArr['department_id'] = $department_id;
@@ -1551,9 +1555,9 @@ class RequestNoteController extends AppController {
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
-            $this->ApplyPaidleave->rollback();
+            $this->ApplyEndlessly->rollback();
         }
-        $mainId ? $commitId = $this->ApplyPaidleave->rollback() : $commitId = $this->ApplyPaidleave->commit();
+        $mainId ? $commitId = $this->ApplyEndlessly->rollback() : $commitId = $this->ApplyEndlessly->commit();
 
 
         if ($commitId) {

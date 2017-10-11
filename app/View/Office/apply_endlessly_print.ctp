@@ -15,62 +15,81 @@
                         <input type="hidden" name='declarename' class='declarename' value='职工因公不休或不全休带薪假审批表' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  职工因公不休或不全休带薪假审批表 </td>
                             </tr>
                             <tr>
                                 <td colspan='5' style="text-align: right;height:25px; line-height: 25px;">填表日期</td>
-                                <td colspan='2'>  <input  type="text" class="ctime" name="ctime"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo date('Y-m-d'); ?>"> </td>  
+                                <td colspan='2'>  <?php echo $attr_arr[0][$table_name]['ctime'];?> </td>  
                             </tr>
                             <tr>
                                 <td >姓名</td>
-                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;' readonly="readonly" value="<?php echo $userInfo->name;?>"> </td>
+                                <td colspan='2'> <?php echo $user_arr['User']['name'];?></td>
                                 <td >所在单位</td>
-                                <td colspan='3'>  
-                                    <!--<input  type="text" class="dep_pro" name="dep_pro"  style='height:25px;width:580px;'>--> 
-                                    <select style="height:25px;width:270px;" name="dep_pro" class="dep_pro" onchange="">
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select> 
+                                <td colspan='3'>
+                                    <?php
+                                        if ($attr_arr[0][$table_name]['team_id']) {
+                                            echo $team_arr[0]['t_team']['name'];
+                                        } else {
+                                            echo $attr_arr[0][$table_name]['department_name'];
+                                        }
+                                    ?>
+                                </td>
                             </tr>
                             
                              <tr>
                                 <td>参加工作时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class="start_time" name="start_time"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
-                                        $(".start_time").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                    </script> </td>
+                                <td colspan='2'>
+                                    <?php echo $attr_arr[0][$table_name]['start_time'];?>
+                                </td>
                                 <td>工作年限</td>
-                                <td colspan='3'> <input type="text" class="years" name="years" style='width:200px;height:25px;'/>  </td>
+                                <td colspan='3'> 
+                                    <?php echo $attr_arr[0][$table_name]['years'];?>
+                                </td>
                              </tr>
                              <tr>
                                 <td>应休假天数</td>
-                                <td colspan='1' >  <input  type="text" class="vacation_days" name="vacation_days"  style='height:25px;width:80px;margin-top:5px;'> 
+                                <td colspan='1' >
+                                    <?php echo $attr_arr[0][$table_name]['vacation_days'];?>
+                                </td>
                                 <td>已休假天数</td>
-                                <td colspan='1'  align="center" valign="middle"> <input type="text" class="days_off" name="days_off" style='width:80px;height:25px;margin-top:5px;'/>  </td>
+                                <td colspan='1'  align="center" valign="middle"> 
+                                    <?php echo $attr_arr[0][$table_name]['days_off'];?>
+                                </td>
                                 <td>余年假天数</td>
-                                <td colspan='2'  align="center" valign="middle"> <input type="text" class="rest_days" name="rest_days" style='width:170px;height:25px;margin-top:5px;'/>  </td>
+                                <td colspan='2'  align="center" valign="middle">
+                                    <?php echo $attr_arr[0][$table_name]['rest_days'];?>
+                                </td>
                              
                              </tr>                           
                             
                            
                             <tr>
                                 <td  colspan='2'>因公不能休息原因</td>
-                                <td colspan='5'> <input type="text" name='reason' class="reason" style='width:470px;height:25px;'/> </td>
+                                <td colspan='5'> 
+                                    <?php echo $attr_arr[0][$table_name]['reason'];?>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style='height:50px;'>所在单位意见</td>
-                                <td  colspan='5' >   </td>
+                                <td  colspan='5' >
+                                     <?php
+                                        if($attr_arr[0][$table_name]['team_id'])
+                                            echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks']; 
+                                        else
+                                           echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                    ?>
+                                </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style='height:50px;/*line-height: 50px;*/'> 分管所长意见</td>
-                                <td colspan='5'>   </td>
+                                <td colspan='5'>
+                                    <?php
+                                        if($attr_arr[0][$table_name]['team_id'])
+                                            echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks']; 
+                                        else
+                                           echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  
+                                    ?>
+                                </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style='height:50px;'> 财务会研究审批意见 </td>
@@ -82,11 +101,21 @@
                 </form>
             </div>
 
-            <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
 
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+            <div class="modal-footer" style='background-color: #fff;'>
+                 <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -141,62 +170,20 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var ctime = $('.ctime').val();
-        var applyname = $('.applyname').val();
-        var dep_pro = $('.dep_pro option:selected').val();
-        var start_time = $('.start_time').val();
-        var years = $('.years').val();
-        var vacation_days = $('.vacation_days').val();
-        var days_off = $('.days_off').val();
-        var rest_days = $('.rest_days').val();
-        var reason = $('.reason').val();
-        var declarename = $('.declarename').val();
-        var data = {};
-        data.declarename = declarename;
-        data.dep_pro = dep_pro;
-        if (!ctime) {
-           $('.ctime').focus();
-            return; 
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
         }
-        data.ctime = ctime;
-        if (applyname == '') {
-            $('.applyname').focus();
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        data.applyname = applyname;
-        if (start_time == '') {
-            $('.start_time').focus();
-            return;
-        }
-        data.start_time = start_time;
-        if (years == '') {
-            $('.years').focus();
-            return;
-        }
-        data.years = years;
-        if (vacation_days == '') {
-            $('.vacation_days').focus();
-            return;
-        }
-        data.vacation_days = vacation_days;
-        if (days_off == '') {
-            $('.days_off').focus();
-            return;
-        }
-        data.days_off = days_off;
-        if (rest_days == '') {
-            $('.rest_days').focus();
-            return;
-        }
-        data.rest_days = rest_days;
-        if (reason == '') {
-            $('.reason').focus();
-            return;
-        }
-        data.reason = reason;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_endlessly',
+            url: '/Office/ajax_approve_endlessly',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -219,8 +206,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
