@@ -1604,7 +1604,7 @@ class RequestNoteController extends AppController {
     public function gss_seal() {
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
-            $this->gss_furlough_save($_POST);
+            $this->gss_seal_save($_POST);
         } else {
              //获取部门和团队
             $user_id = $this->userInfo->id;
@@ -1642,8 +1642,15 @@ class RequestNoteController extends AppController {
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+        $ret_arr = $this->ApplySeal->apply_create($type, $datas, (array)$this->userInfo);
+        
+        
+         if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -1655,7 +1662,7 @@ class RequestNoteController extends AppController {
         $attrArr['applyname'] = $datas['applyname'];
         $attrArr['oddnum'] = $datas['oddnum'];
         $attrArr['department'] = $datas['department'];
-        $attrArr['department_name'] = $datas['department_name'];
+        $attrArr['dep_name'] = $datas['dep_name'];
         $attrArr['dep_team'] = $datas['dep_team'];
         $attrArr['dep_team_name'] = $datas['dep_team_name'];
         $attrArr['sealtype'] = $datas['sealtype'];

@@ -73,7 +73,9 @@
                             </tr>
                             <tr>
                                 <td style='height:50px;'> 科室主任意见 </td>
-                                <td  colspan='6' >  <?php  echo $applyArr[27]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['remarks'];  ?>   </td>
+                                <td  colspan='6' >  
+                                    <?php  echo $applyArr[27]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['remarks'];  ?>   
+                                </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;'> 所长意见  </td>
@@ -154,13 +156,13 @@ function printDIV(){
         } else {
             type = 2;
         }
-        if (!confirm('您确认 ' + text + ' 该年假单？')) {
+        if (!confirm('您确认 ' + text + '  印信使用签批单？')) {
             //取消
             return;
         }
         var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/Office/ajax_approve_paidleave',
+            url: '/Office/ajax_approve_seal',
             type: 'post',
             data: data,
             dataType: 'json',

@@ -192,7 +192,7 @@ function printDIV(){
         data.sealtype = sealtype;
         data.filetype = filetype;
         data.filenum = filenum;
-        data.declarename = declarename;  console.log(data); return;
+        data.declarename = declarename;
         $.ajax({
             url: '/RequestNote/gss_seal',
             type: 'post',

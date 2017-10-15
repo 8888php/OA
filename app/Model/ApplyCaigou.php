@@ -318,7 +318,7 @@ class ApplyCaigou extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($pos_id == 6) {
+            if ($v == 6 && $pos_id == $v) {
                 //所长
                 $ret_arr[$this->code] = 10000;
                 $ret_arr[$this->code_id][] = $user_id;

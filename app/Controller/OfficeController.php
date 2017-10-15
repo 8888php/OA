@@ -8,7 +8,7 @@ class OfficeController extends AppController {
     public $name = 'Office';
 
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou', 'ApplySeal');
 
 
 
@@ -1460,7 +1460,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->$tablename->apply_approve($main_id, (array)$this->userInfo, $status);
-            
+
             if (!empty($ret_arr['msg'])) {
                  //说明审批出错
                 $this->ret_arr['code'] = 1;
