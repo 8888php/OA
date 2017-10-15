@@ -184,7 +184,7 @@ function printDIV(){
         } else {
             type = 2;
         }
-        if (!confirm('您确认 ' + text + ' 该年假单？')) {
+        if (!confirm('您确认 ' + text + ' 该采购申请单？')) {
             //取消
             return;
         }

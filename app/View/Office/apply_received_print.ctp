@@ -1,3 +1,4 @@
+
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -11,103 +12,85 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" name='declarename' class='declarename' value='印信使用签批单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='山西省农科院果树所来文批办单' /> 
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  印信使用签批单 </td>
-                            </tr>
-                            <tr>
-                                <td >申请人</td>
-                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['applyname'];?> </td>
-                                <td >流水单号</td>
-                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['oddnum'];?> </select> 
-                                </td>
+                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">秘密等级</td>
+                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['hierarchy'];?>  </td>  
+                                <td style="border-bottom: 1px solid white;"></td>
+                                <td><input  type="text"  style='height:25px;width:80px;'> </td>
                             </tr>
                             
-                             <tr>
-                                <td>使用内容</td>
-                                <td colspan='2'> <?php echo Configure::read('seal_sealtype')[$attr_arr[0][$table_name]['sealtype']];?> </td>
-                                <td>使用单位</td>
-                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['dep_name'];?>  </td>
-                             </tr>
                             <tr>
-                             <td>部门</td>
-                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['dep_team_name'];?> </td>
-                             </tr>
-                             <tr>
-                                <td> 文件类型 </td>
-                                <td colspan='6' > 
-                                    <?php 
-                                    foreach(json_decode($attr_arr[0][$table_name]['dep_team_name'],true) as $val){
-                                        echo Configure::read('seal_filetype')[$val] . '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                    }
-                                    ?>  </td>
-                             </tr>                           
-                            <tr>
-                                <td >文号/编号</td>
-                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['filenum'];?> </td>
+                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">紧急程度</td>
+                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['urgency'];?>  </td>  
+                                <td style="border-top-color: white;border-bottom-color: white;"></td>
+                                <td>第【 <?php echo $attr_arr[0][$table_name]['num'];?> 】号 </td>
                             </tr>
-                           
                             <tr>
-                                <td style='height:50px;'> 部门负责人意见 </td>
-                                <td  colspan='2' >
-                                    <?php   
-                                    if(empty($applyArr[20]['name'])){
-                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
-                                    }else{
-                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
-                                    }
-                                    ?>  
+                                <td colspan='1' style="text-align: right;height:25px; line-height: 25px;border-right-color: white;">  
                                 </td>
-                                <td style='height:50px;'> 分管所领导意见 </td>
-                                <td  colspan='3' >  
-                                <?php  
-                                    if(empty($applyArr[21]['name'])){
-                                        echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
-                                    }else{
-                                        echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  
-                                     }
-                                ?> 
-                                </td>
+                                <td colspan='1' style="border-right-color: white;">  </td>  
+                                <td style="border-top-color: white; border-left-color: white;"></td>
+                                <td>  <?php echo $attr_arr[0][$table_name]['datestr'];?> </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;border-left-color: white;border-right-color: white;">  山西省农科院果树所来文批办单 </td>
+                            </tr>
+                             <tr>
+                                <td colspan='1' style="text-align: right;height:50px; line-height: 50px; text-align: center;">来文单位</td>
+                                <td colspan='1' >  <?php echo $attr_arr[0][$table_name]['company'];?>  </td>  
+                                <td style="text-align: right;height:50px; line-height: 50px; text-align: center;">文号</td>
+                                <td style="line-height: 50px;">  <?php echo $attr_arr[0][$table_name]['document_number'];?> </td>
+                                
                             </tr>
                             <tr>
-                                <td style='height:50px;'> 科室主任意见 </td>
-                                <td  colspan='6' >  <?php  echo $applyArr[27]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['remarks'];  ?>   </td>
+                                <td  colspan='1'>文件标题</td>
+                                <td colspan='3'>  <?php echo $attr_arr[0][$table_name]['file_title'];?>  </td>
+                            </tr>
+                            <tr>
+                                <td colspan='1' rowspan="2" style='height:50px;line-height: 100px;'>领导同志批示</td>
+                                <td colspan='3'>  <?php  echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  ?>    </td>
+                            </tr>
+                            <tr>
+                                <td colspan='3'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;'> 所长意见  </td>
-                                <td colspan='6'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
+                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 拟办意见</td>
+                                <td colspan='3'>   </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;'> 所办主任意见 </td>
-                                <td colspan='6' >  <?php  echo $applyArr[28]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['remarks'];  ?>   </td>
+                                <td colspan='1' style='height:50px;'> 业务科室意见 </td>
+                                <td colspan='3'>  <?php  echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
-                                <td style='height:50px;'> 律师意见 </td>
-                                <td colspan='6' >   </td>
+                                <td colspan='1' > 所长办公室承办人 </td>
+                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['user_cbr'];?>  </td>
+                                <td colspan='1' > 联系电话 </td>
+                                <td colspan='1'>   <?php echo $attr_arr[0][$table_name]['tel'];?> </td>
                             </tr>
                             
                         </tbody>
                     </table>
                 </form>
             </div>
-            
-             <?php if ($apply == 'apply') {?>
+
+              <?php if ($apply == 'apply') {?>
                 <div class="modal-body" style="padding:0 20px;">
                     <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
                     <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
                 </div>
             <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <?php if ($apply == 'apply') {?>
+                 <?php if ($apply == 'apply') {?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
                 <?php }?>
- 
-                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>               
-                <button type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -123,6 +106,7 @@ function printDIV(){
         $('.ace-settings-container').css('display', 'none');
         $('#btn-scroll-up').css('display', 'none');
         $('.right_content').css('display', 'none');
+        $('#received_type').css('display','none');
     }
     window.print();//打印刚才新建的网页
     {
@@ -145,8 +129,7 @@ function printDIV(){
 </div>
 
 <script type="text/javascript">
-  
-  
+   
     function approve(type) {
         var text = '拒绝';
         if (type == 1) {
@@ -154,7 +137,7 @@ function printDIV(){
         } else {
             type = 2;
         }
-        if (!confirm('您确认 ' + text + ' 该印信使用签批单？')) {
+        if (!confirm('您确认 ' + text + ' 该来文批办单？')) {
             //取消
             return;
         }
