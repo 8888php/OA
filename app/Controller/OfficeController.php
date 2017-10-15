@@ -8,7 +8,7 @@ class OfficeController extends AppController {
     public $name = 'Office';
 
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou');
 
 
 
@@ -1595,10 +1595,7 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            
-
-
-                    $ret_arr = $this->ApplyEndlessly->apply_approve($main_id, (array)$this->userInfo, $status);
+            $ret_arr = $this->ApplyEndlessly->apply_approve($main_id, (array)$this->userInfo, $status);
                     
             if ($ret_arr == false) {
                 //说明审批出错
@@ -1703,4 +1700,23 @@ class OfficeController extends AppController {
             exit;
         }
     }
+    
+        
+    /**
+     * 果树所 采购申请单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_caigou_print($main_id, $flag='') {
+         $this->apply_print_model($main_id, $flag);
+    } 
+    
+     /**
+     * 果树所 采购申请单 审批
+     */
+    public function ajax_approve_caigou() {
+        $this->ajax_approve_model('ApplyCaigou');
+    } 
+    
+    
 }

@@ -11,8 +11,8 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" enctype="multipart/form-data" action="/RequestNote/gss_purchase" method="post" role="form">
-                    <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' /> 
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;table-layout: fixed;" >
+                        <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' /> 
                         <tbody>
                             <tr>
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所采购申请单 </td>
@@ -20,87 +20,95 @@
                             
                              <tr>
                                 <td > 申报部门 </td>
-                                <td colspan='6'>  
-                                    <select style="height:25px;width:580px;" name="team" class="dep_pro" >
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select>
-                                </td>
+                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['team_name'];?>  </td>
                              </tr>
                              <tr>
                                 <td > 支出项目 </td>
-                                <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:575px;'> </td>
+                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['project'];?> </td>
                             </tr>
                             <tr>
                                 <td >申报日期</td>
-                                <td colspan='2'> 
-                                    <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
+                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
                                 <td >预算指标文号</td>
-                                <td colspan='3'> 
-                                    <input type="text" class="file_number" name="file_number"  style='height:25px;width:280px;'>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['file_number'];?>  </td>
                              </tr>
                              <tr>
                                 <td> 资金来源渠道 </td>
-                                <td colspan='6'>  
-                                    <label> <input type='radio' checked="checked" name="type" class="type" value='1' > 财政拨款公用经费 </label> &nbsp;&nbsp;
-                                   <label> <input type='radio' name="type" class="type" value='2' > 财政拨款专项资金 </label> &nbsp;&nbsp;
-                                   <label> <input type='radio' name="type" class="type" value='3' > 发展基金 </label>
-                                </td>
+                                <td colspan='6'>  <?php echo Configure::read('apply_caigou_type')[$attr_arr[0][$table_name]['channel_id']];?>  </td>
                              </tr>
                              <tr>
                                 <td> 采购物资名称 </td>
-                                <td colspan='6'> <input  type="text" class="material_name" name="material_name"  style='height:25px;width:575px;'> </td>
+                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['material_name'];?>  </td>
                              </tr>
                              <tr>
                                 <td> 规格型号及详细参数 </td>
-                                <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion" > </td>
+                                <td colspan='6' >  <?php echo "<a href='".$attr_arr[0][$table_name]['attachment']."' target='_blank' >规格型号及详细参数 </a>"; ?>  </td>
                              </tr> 
                               <tr>
-                                <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:47px;'> </td>
-                                <td colspan='2'> 数量：<input  type="text" class="nums" name="nums"  style='height:25px;width:90px;'> </td>
-                                <td colspan='2'> 单价：<input  type="text" class="price" name="price"  style='height:25px;width:90px;'> </td>
-                                <td colspan='2'> 合计金额：<input readonly="readonly" type="text" class="total" name="total"  style='height:25px;width:90px;'> </td>
+                                <td colspan='1'> 单位：<?php echo $attr_arr[0][$table_name]['company'];?>  </td>
+                                <td colspan='2'> 数量：<?php echo $attr_arr[0][$table_name]['number'];?>  </td>
+                                <td colspan='2'> 单价：<?php echo $attr_arr[0][$table_name]['price'];?>  </td>
+                                <td colspan='2'> 合计金额：<?php echo $attr_arr[0][$table_name]['amount'];?>  </td>
                              </tr>
                               <tr>
                                 <td> 采购理由 </td>
-                                <td colspan='6' >  <input  type="text" class="reason" name="reason"  style='height:25px;width:575px;'> </td>
+                                <td colspan='6' >  <?php echo $attr_arr[0][$table_name]['material_name'];?>  </td>
                              </tr>
                              
                             <tr>
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
-                                    需求部门负责人审核 <br /> &nbsp;&nbsp;
-                                    
+                                    <?php  
+                                            if($applyArr[20]['name']){
+                                                echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks']; 
+                                            }else{
+                                                echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
+                                            }
+                                        ?>                                    
                                     </td>
                                     <td  colspan='3'>
-                                        需求部门分管领导审核 <br /> &nbsp;&nbsp;
-                                     
+                                        <?php  
+                                            if($applyArr[5]['name']){
+                                                echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
+                                            }else{
+                                                echo '需求部门分管领导审核 <br /> &nbsp;&nbsp;';
+                                            }
+                                        ?>                                      
                                 </td>
                             </tr>
                              <tr>
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
-                                    财务科审核 <br /> &nbsp;&nbsp;
-                                    
+                                        <?php  
+                                            if($applyArr[14]['name']){
+                                                echo $applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['remarks']; 
+                                            }else{
+                                                echo '财务科审核 <br /> &nbsp;&nbsp;';
+                                            }
+                                        ?>                                     
                                     </td>
                                     <td  colspan='3'>
-                                        采购内容核对 <br /> &nbsp;&nbsp;
-                                     
+                                        <?php  
+                                            if($applyArr[23]['name']){
+                                                echo $applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['remarks']; 
+                                            }else{
+                                                echo '采购内容核对 <br /> &nbsp;&nbsp;';
+                                            }
+                                        ?> 
                                 </td>
                             </tr>
                            
                             <tr>
                                 <td colspan='2'> 采购中心审核 </td>
-                                <td colspan='5'>  </td>
+                                <td colspan='5'>  <?php  echo $applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['remarks'];  ?>  </td>
                             </tr>
                             <tr>
                                 <td colspan='2'> 财务及采购分管领导审核 </td>
-                                <td  colspan='5' >    </td>
+                                <td  colspan='5' >   <?php  echo $applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 所长审核 </td>
-                                <td colspan='5'>    </td>
+                                <td colspan='5'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style="line-height: 90px;"> 备注 </td>
@@ -116,11 +124,21 @@
                 </form>
             </div>
 
+              <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -158,92 +176,21 @@ function printDIV(){
 </div>
 
 <script type="text/javascript">
-    function isPositiveInteger(s){//是否为正整数
-        var re = /^[0-9]+$/ ;
-        return re.test(s)
-    }
-    $('.nums,.price').blur(function(){
-        var nums = $('.nums').val();
-        var price = $('.price').val();
-        var total = 0;
-        if (!isPositiveInteger(nums)) {
-            nums = 0;
+  
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
         }
-        if (!Number(price)) {
-            price = 0;
-        }
-        total = parseFloat(nums) * parseFloat(price);
-        $('.total').val(parseFloat(total));
-    });
-    function approve() {
-        var ctime = $('.ctime').val();
-        var department = $('.department').val();
-        var project = $('.project').val();
-        var type = $('.type:checked').val();
-        var file_number = $('.file_number').val();
-        var material_name = $('.material_name').val();
-        var descripttion = $('.descripttion').val();
-        var unit = $('.unit').val();
-        var nums = $('.nums').val();
-        var price = $('.price').val();
-        var total = $('.total').val();
-        var reason = $('.reason').val();
-        var declarename = $('.declarename').val();
-        
-        if (department == '') {
-            $('.department').focus();
+        if (!confirm('您确认 ' + text + ' 该年假单？')) {
+            //取消
             return;
         }
-        if (project == '') {
-            $('.project').focus();
-            return;
-        }
-        if (file_number == '') {
-            $('.file_number').focus();
-            return;
-        }
-        if (material_name == '') {
-            $('.material_name').focus();
-            return;
-        }
-//        if (descripttion == '') {
-//            $('.descripttion').focus();
-//            return;
-//        }
-        if (unit == '') {
-            $('.unit').focus();
-            return;
-        }
-        if (!isPositiveInteger(nums)) {
-            $('.nums').focus();
-            return;
-        }
-        if (!Number(price)) {
-            $('.price').focus();
-            return;
-        }
-        if (reason == '') {
-            $('.reason').focus();
-            return;
-        }
-        $('form').submit();
-        return;
-        var data = {};
-        data.ctime = ctime;
-        data.department = department;
-        data.project = project;
-        data.type = type;
-        data.file_number = file_number;
-        data.material_name = material_name;
-        data.descripttion = descripttion;
-        data.unit = unit;
-        data.nums = nums;
-        data.price = price;
-        data.total = total;
-        data.reason = reason;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_purchase',
+            url: '/Office/ajax_approve_caigou',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -266,8 +213,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
