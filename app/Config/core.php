@@ -601,5 +601,12 @@ Configure::write('apply_leave_type',array(
     8 => '女工假',
     9 => '男职工护理假',
 ));
-
+/**
+ * 采购单资金来源类型
+ */
+Configure::write('apply_caigou_type',array(
+    1 => '财政拨款公用经费',
+    2 => '财政拨款专项资金',
+    3 => '发展基金',
+));
 

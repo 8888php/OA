@@ -251,8 +251,7 @@ class RequestNoteController extends AppController {
     // 果树所采购申请单
     public function gss_purchase() {
         $this->render();
-
-        if (/* $this->request->is('ajax') && */!empty($_POST['declarename'])) {
+        if ( !empty($_POST['declarename']) && !empty($_POST['team']) && !empty($_POST['project']) && !empty($_POST['file_number']) && !empty($_POST['material_name']) && !empty($_POST['reason']) ) {
             $this->gss_purchase_save($_POST, $_FILES);
         } else {
 
@@ -283,8 +282,6 @@ class RequestNoteController extends AppController {
             // 所参与项目 详情
             $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
-//            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
-//            $projectInfo = $this->ResearchProject->find('list' ,$conditions);
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
             $this->set('department_arr', $department_arr);
@@ -1171,9 +1168,7 @@ class RequestNoteController extends AppController {
 
     // 果树所采购申请单
     private function gss_purchase_save($datas, $uploadfile = array()) {
-        if (
-                empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason'])
-        ) {
+        if ( empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -1186,12 +1181,6 @@ class RequestNoteController extends AppController {
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
 
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -1210,17 +1199,19 @@ class RequestNoteController extends AppController {
             } else {
                 $new_name = $base_name . '_' . time() . '.' . $ext;
             }
-            $new_file_name = WWW_ROOT . 'files' . DS . $new_name;
+            $new_file_name = WWW_ROOT . 'files/caigou' . DS . $new_name;
 
             if (!move_uploaded_file($tmp_file, $new_file_name)) {
                 $new_name = ''; //如果没有上传成功，先不处理
             }
         }
+        $team_arr = $this->Team->findById($datas['team']);
+        
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
-        $attrArr['department_id'] = $department_id;
-        $attrArr['department_name'] = $department_name;
-        $attrArr['project_id'] = $project_id;
+        $attrArr['team_id'] = $datas['team'];
+        $attrArr['team_name'] = $team_arr['Team']['name'];
+        $attrArr['project'] = $datas['project'];
 
         $attrArr['channel_id'] = $datas['type'];
         $attrArr['file_number'] = $datas['file_number'];
@@ -1249,6 +1240,7 @@ class RequestNoteController extends AppController {
         $mainArr['name'] = '果树所采购申请单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
+        $mainArr['team_id'] = $datas['team'];
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = 0;

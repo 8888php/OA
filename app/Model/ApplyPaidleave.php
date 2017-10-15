@@ -113,7 +113,7 @@ class ApplyPaidleave extends AppModel {
             $ret_arr[$this->next_id] = 22;
             $ret_arr[$this->next_uid] = $rssld_arr[0]['t_department']['sld'];
             $ret_arr[$this->code_id][] = $user_info['id'];
-             $ret_arr[$this->code] = $is_apply ? 5*2 : 0;
+            $ret_arr[$this->code] = $is_apply ? 5*2 : 0;
             return $ret_arr;
         }
         
@@ -159,7 +159,7 @@ class ApplyPaidleave extends AppModel {
         );
         $sum_days = $data['sum_days'];//天数
         // 是否人事领导申请
-        $sql = "select *from t_department where id=4 and del=0";
+        $sql = "select * from t_department where id=4 and del=0";
         $rssld_arr = $this->query($sql);
         if(!$rssld_arr[0]['t_department']['sld']){
             $ret_arr[$this->err_msg] = '人事领导不存在';
@@ -198,24 +198,24 @@ class ApplyPaidleave extends AppModel {
             //说明他是分管领导
             //取人事领导信息
             $ret_arr[$this->next_id] = 22;
-            $ret_arr[$this->next_uid] = $renshi_arr[0]['u']['id'];
+            $ret_arr[$this->next_uid] = $rssld_arr[0]['t_department']['sld'];
             $ret_arr[$this->code_id][] = $user_info['id'];
             $ret_arr[$this->code] = $is_apply ? 21*2 : 0;
             return $ret_arr;
         }
         // 是否团队负责人 申请
-        $fzr_member[0]['t_team_member']['user_id'] = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['fzr']}'");
+        $fzr_member = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['fzr']}'");
         if (empty($fzr_member[0]['t_team_member']['user_id'])) {
             $ret_arr[$this->err_msg] = '团队负责人不存在';
             return $ret_arr;
         }
-        if ($fzr_member == $user_info['id']) {
+        if ($fzr_member[0]['t_team_member']['user_id'] == $user_info['id']) {
             //说明他是部门负责人
             //分管所领导信息
             $sql_fenguan = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['depname']}' and t.sld=m.id"; 
             $fenguan_arr = $this->query($sql_fenguan);
             if (empty($fenguan_arr)) {
-                $ret_arr[$this->err_msg] = '团队分管所领导不存在';
+                $ret_arr[$this->err_msg] = '团队分管所领导不存在'; 
                 return $ret_arr;
             }
             $ret_arr[$this->next_id] = 21;
@@ -228,7 +228,6 @@ class ApplyPaidleave extends AppModel {
         if($is_apply === false){
             //这里是职员
             $sql_fenze = "select *from t_team_member m left join t_team t on m.team_id=t.id where t.id='{$data['depname']}' and t.fzr=m.id";
-
             $fuze_arr = $this->query($sql_fenze);
             if (empty($fuze_arr)) {
                 $ret_arr[$this->err_msg] = '团队部门负责人不存在';
