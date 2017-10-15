@@ -19,76 +19,69 @@
                             </tr>
                             <tr>
                                 <td >申请人</td>
-                                <td colspan='2'>  <input  type="text" class="applyname" name="applyname"  style='height:25px;width:180px;'  value="<?php echo $userInfo->name;?>"> </td>
+                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['applyname'];?> </td>
                                 <td >流水单号</td>
-                                <td colspan='3'> <input  type="text" class="oddnum" name="oddnum"  style='height:25px;width:180px;'  value="<?php echo date('Ym').$number;?>" readonly="readonly" >  </select> 
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['oddnum'];?> </select> 
                                 </td>
                             </tr>
                             
                              <tr>
                                 <td>使用内容</td>
-                                <td colspan='2'>   
-                                    <input type="radio"  checked="checked" class="sealtype" name="sealtype" value='1' />  公章
-                                    <input type="radio" class="sealtype" name="sealtype" value='2' />  名章
-                                </td>
+                                <td colspan='2'> <?php echo Configure::read('seal_sealtype')[$attr_arr[0][$table_name]['sealtype']];?> </td>
                                 <td>使用单位</td>
-                                <td colspan='3'>   
-                                    <select style="height:25px;width:280px;" name="department" class="department" >
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
-                                    </select>
-                                </td>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['dep_name'];?>  </td>
                              </tr>
                             <tr>
                              <td>部门</td>
-                                <td colspan='6'>   
-                                    <select style="height:25px;width:580px;" name="dep_team" class="dep_team" >
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select>
-                                </td>
+                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['dep_team_name'];?> </td>
                              </tr>
                              <tr>
                                 <td> 文件类型 </td>
-                                <td colspan='6' >  
-                                    <input type='checkbox'class="filetype" name='filetype' value='1' > 报表   
-                                    <input type='checkbox'class="filetype" name='filetype' value='2' > 合同、协议  
-                                    <input type='checkbox'class="filetype" name='filetype' value='3' > 证明  
-                                    <input type='checkbox'class="filetype" name='filetype' value='4' > 申请  
-                                    <input type='checkbox'class="filetype" name='filetype' value='5' > 介绍信  
-                                    <input type='checkbox'class="filetype" name='filetype' value='6' > 外部函件  
-                                    <input type='checkbox'class="filetype" name='filetype' value='7' > 其他  
-                                </td>
+                                <td colspan='6' > 
+                                    <?php 
+                                    foreach(json_decode($attr_arr[0][$table_name]['dep_team_name'],true) as $val){
+                                        echo Configure::read('seal_filetype')[$val] . '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                    }
+                                    ?>  </td>
                              </tr>                           
                             <tr>
                                 <td >文号/编号</td>
-                                <td colspan='6'>
-                                    <input type="text" class='filenum'  name="filenum"  style='height:25px;width:500px;'>  
-                                </td>
+                                <td colspan='6'> <?php echo $attr_arr[0][$table_name]['filenum'];?> </td>
                             </tr>
                            
                             <tr>
                                 <td style='height:50px;'> 部门负责人意见 </td>
-                                <td  colspan='2' >   </td>
+                                <td  colspan='2' >
+                                    <?php   
+                                    if(empty($applyArr[20]['name'])){
+                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                    }else{
+                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
+                                    }
+                                    ?>  
+                                </td>
                                 <td style='height:50px;'> 分管所领导意见 </td>
-                                <td  colspan='3' >   </td>
+                                <td  colspan='3' >  
+                                <?php  
+                                    if(empty($applyArr[21]['name'])){
+                                        echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
+                                    }else{
+                                        echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  
+                                     }
+                                ?> 
+                                </td>
                             </tr>
                             <tr>
                                 <td style='height:50px;'> 科室主任意见 </td>
-                                <td  colspan='6' >   </td>
+                                <td  colspan='6' >  <?php  echo $applyArr[27]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['remarks'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;'> 所长意见  </td>
-                                <td colspan='6'>   </td>
+                                <td colspan='6'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;'> 所办主任意见 </td>
-                                <td colspan='6' >   </td>
+                                <td colspan='6' >  <?php  echo $applyArr[28]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['remarks'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td style='height:50px;'> 律师意见 </td>
@@ -99,12 +92,22 @@
                     </table>
                 </form>
             </div>
-
+            
+             <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+ 
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>               
+                <button type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -143,58 +146,21 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var applyname = $('.applyname').val();
-        var oddnum = $('.oddnum').val();
-        var department = $('.department option:selected').val();
-        var department_name = $('.department option:selected').text();
-        var dep_team = $('.dep_team option:selected').val();
-        var dep_team_name = $('.dep_team option:selected').text();
-        var sealtype = $('.sealtype:checked').val();
-        var filetype = new Array();
-        var filenum = $('.filenum').val()
-        var declarename = $('.declarename').val();
-        
-        if (applyname == '') {
-            $('.applyname').focus();
+  
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该年假单？')) {
+            //取消
             return;
         }
-        if (department == '') {
-            $('.department').focus();
-            return;
-        }
-        if (dep_team == '') {
-            $('.dep_team').focus();
-            return;
-        }
-        if (sealtype == '') {
-            $('.sealtype').focus();
-            return;
-        }
-        var i = 0; 
-        $("input[name = 'filetype']:checkbox:checked").each(function(){filetype[i] = $(this).val();i++;});
-        if (filetype == '') {
-            $('.filetype').focus();
-            return;
-        }
-        if (filenum == '') {
-            $('.filenum').focus();
-            return;
-        }
-        
-        var data = {};
-        data.applyname = applyname;
-        data.oddnum = oddnum;
-        data.department = department;
-        data.department_name = department_name;
-        data.dep_team = dep_team;
-        data.dep_team_name = dep_team_name;
-        data.sealtype = sealtype;
-        data.filetype = filetype;
-        data.filenum = filenum;
-        data.declarename = declarename;  console.log(data); return;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_seal',
+            url: '/Office/ajax_approve_paidleave',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -217,8 +183,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

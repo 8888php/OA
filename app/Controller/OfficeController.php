@@ -1718,5 +1718,22 @@ class OfficeController extends AppController {
         $this->ajax_approve_model('ApplyCaigou');
     } 
     
+          
+    /**
+     * 印信使用签批单
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_seal_print($main_id, $flag='') {
+         $this->apply_print_model($main_id, $flag);
+    } 
+    
+     /**
+     * 印信使用签批单
+     */
+    public function ajax_approve_seal() {
+        $this->ajax_approve_model('ApplySeal');
+    } 
+    
     
 }
