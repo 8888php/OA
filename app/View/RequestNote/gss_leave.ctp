@@ -82,23 +82,23 @@
                            
                             <tr>
                                 <td colspan='2'> 所在单位负责人 </td>
-                                <td colspan='5'> <!--textarea  name="leading" class="leading" cols='65' rows='1' ></textarea-->  </td>
+                                <td colspan='5'>    </td>
                             </tr>
                             <tr>
                                 <td colspan='2'> 医务室 </td>
-                                <td  colspan='5' > <!--textarea  name="clinic" class="clinic" cols='65' rows='1' ></textarea-->   </td>
+                                <td  colspan='5' >    </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管领导 </td>
-                                <td colspan='5'> <!--textarea  name="leadership" class="leadership"  cols='65' rows='1' ></textarea-->   </td>
+                                <td colspan='5'> </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 分管人事领导 </td>
-                                <td colspan='5' > <!--textarea  name="personnel" class="personnel"  cols='65' rows='1' ></textarea-->   </td>
+                                <td colspan='5' >  </td>
                             </tr>
                             <tr >
                                 <td colspan='2'> 所长 </td>
-                                <td colspan='5' > <!--textarea  name="bureau_chief" class="bureau_chief"  cols='65' rows='1' ></textarea-->   </td>
+                                <td colspan='5' >  </td>
                             </tr>
                             
                         </tbody>
@@ -120,14 +120,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -137,14 +129,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');

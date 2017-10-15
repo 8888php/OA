@@ -7,7 +7,7 @@ class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team', 'ApplyEndlessly');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team', 'ApplyEndlessly','ApplySeal');
 
 
     public $layout = 'blank';
@@ -1606,6 +1606,18 @@ class RequestNoteController extends AppController {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_furlough_save($_POST);
         } else {
+             //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+            
+            $seal_count = $this->ApplySeal->find('count');
+            $this->set('number',sprintf('%04s',$seal_count+1));
+            $this->set('team_arr', $team_arr);
+            $this->set('department_arr', $department_arr);
             $this->render();
         }
     }
@@ -1616,28 +1628,22 @@ class RequestNoteController extends AppController {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
-        $table_name = 't_apply_seal';
-        $p_id = 3; //审批流id
+        $table_name = 'apply_seal';
         $p_id = 0; //审批流id
 
-        if (!$datas['depname']) {
+        if (!$datas['dep_team']) {
             //说明是部门
             $type = 2; //类型暂定为0
             $team_id = 0;
         } else {
             $type = 3; //团队类型
-            $team_id = $datas['depname'];
+            $team_id = $datas['dep_team'];
         }
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -1646,25 +1652,20 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
 
         $attrArr = array();
-//        $attrArr['company'] = $datas['company'];
-        $attrArr['start_work'] = $datas['start_work'];
-
-        $attrArr['department_id'] = $department_id;
-        $attrArr['department_name'] = $department_name;
-        $attrArr['team_id'] = $team_id;
-        $attrArr['vacation_days'] = $datas['vacation_days'];
-        $attrArr['yx_vacation_days'] = $datas['yx_vacation_days'];
-        $attrArr['start_time'] = $datas['start_time'];
-        $attrArr['end_time'] = $datas['end_time'];
-        $attrArr['total_days'] = $datas['total_days'];
-        $attrArr['years'] = $datas['years'];
-        $attrArr['grsq'] = $datas['grsq'];
-        $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['applyname'] = $datas['applyname'];
+        $attrArr['oddnum'] = $datas['oddnum'];
+        $attrArr['department'] = $datas['department'];
+        $attrArr['department_name'] = $datas['department_name'];
+        $attrArr['dep_team'] = $datas['dep_team'];
+        $attrArr['dep_team_name'] = $datas['dep_team_name'];
+        $attrArr['sealtype'] = $datas['sealtype'];
+        $attrArr['filetype'] = json_encode( $datas['filetype'] );
+        $attrArr['filenum'] = $datas['filenum'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
-        $this->ApplyPaidleave->begin();
-        $attrId = $this->ApplyPaidleave->add($attrArr);
+        $this->ApplySeal->begin();
+        $attrId = $this->ApplySeal->add($attrArr);
 
         # 主表入库
         $mainArr = array();
@@ -1674,7 +1675,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所职工带薪年休假审批单';
+        $mainArr['name'] = '印信使用签批单';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
         $mainArr['department_id'] = $department_id;
@@ -1690,9 +1691,9 @@ class RequestNoteController extends AppController {
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
-            $this->ApplyPaidleave->rollback();
+            $this->ApplySeal->rollback();
         }
-        $mainId ? $commitId = $this->ApplyPaidleave->rollback() : $commitId = $this->ApplyPaidleave->commit();
+        $mainId ? $commitId = $this->ApplySeal->rollback() : $commitId = $this->ApplySeal->commit();
 
 
         if ($commitId) {
