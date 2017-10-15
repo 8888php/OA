@@ -135,6 +135,10 @@
                                                             $resetchar = '/RequestNote/gss_evection/'; break;
                                                             case 'apply_paidleave':
                                                             $resetchar = '/RequestNote/gss_furlough/'; break;
+                                                            case 'apply_caigou':
+                                                            $resetchar = '/RequestNote/gss_purchase/'; break;
+                                                            case 'apply_seal':
+                                                            $resetchar = '/RequestNote/gss_seal/'; break;
                                                          } 
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
