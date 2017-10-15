@@ -139,6 +139,12 @@
                                                             $resetchar = '/RequestNote/gss_purchase/'; break;
                                                             case 'apply_seal':
                                                             $resetchar = '/RequestNote/gss_seal/'; break;
+                                                            case 'apply_received':
+                                                            $resetchar = '/RequestNote/gss_received/'; break;
+                                                            case 'apply_dispatch':
+                                                            $resetchar = '/RequestNote/gss_send/'; break;
+                                                            case 'apply_borrow':
+                                                            $resetchar = '/RequestNote/gss_borrow/'; break;
                                                          } 
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
