@@ -1460,7 +1460,14 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->$tablename->apply_approve($main_id, (array)$this->userInfo, $status);
-
+            
+            if (!empty($ret_arr['msg'])) {
+                 //说明审批出错
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = $ret_arr['msg'];
+                echo json_encode($this->ret_arr);
+                exit;
+            }
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
