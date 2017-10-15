@@ -1167,13 +1167,18 @@ class RequestNoteController extends AppController {
         }
         header("Content-type: text/html; charset=utf-8");
         $table_name = 'apply_caigou';
-        $p_id = 9; //审批流id
+        $p_id = 0; //审批流id
         $project_id = 0;
-        $type = 2; //类型暂定为0
+        $type = 3; //类型暂定为0
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+//        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+        $ret_arr = $this->ApplyCaigou->apply_create($type, $datas, (array) $this->userInfo);
+        
+        if (!empty($ret_arr['msg'])) {
+            echo "<script>alert('".$ret_arr['msg']."'); window.location = '/office/draf'</script>";
+            exit;
+        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;

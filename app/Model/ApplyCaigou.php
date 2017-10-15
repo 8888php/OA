@@ -78,7 +78,7 @@ class ApplyCaigou extends AppModel {
             $this->err_msg => ''
         );
         $dep_id = $user_info['department_id'];
-        $team_id = $data['dep_pro'];
+        $team_id = $data['team'];
         $user_id = $user_info['id'];        
         $pos_id = $user_info['position_id'];
         $shenpi_arr = array_reverse(explode(',', $this->get_shengpin_arr()));//反转数组
@@ -92,7 +92,7 @@ class ApplyCaigou extends AppModel {
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
-                $ret_arr[$this->err_msg] = $this->get_error_msg($pos_id);
+                $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
             if ($pos_id == 6) {
@@ -101,12 +101,13 @@ class ApplyCaigou extends AppModel {
                 return $ret_arr;
             } else {
                 if ($arr_get[$this->next_uid] == $user_id) {
-                    brea;
+                    break;
                 }
             }
         }
-        $ret_arr[$this->next_id] = $arr_tmp[$k - 1][$this->next_id];
-        $ret_arr[$this->next_uid] = $arr_tmp[$k - 1][$this->next_uid];
+        $index = (($k + 1)== count($shenpi_arr)) ? $k : $k-1;//下标
+        $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
+        $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
         return $ret_arr; //这里结束
         //判断是不是所长  6
         $arr_6 = $this->get_by_pos_dep(6, $dep_id, $team_id);
@@ -133,7 +134,7 @@ class ApplyCaigou extends AppModel {
     private function get_error_msg($pos_id = 0)  {
         $msg = '审批参数有误';
         //20,5,14,23,24,13,6
-        switch ($ret_arr[$this->next_id]) {
+        switch ($pos_id) {
             case 6:
                 $msg = '所长不存在';
                 break;
@@ -286,44 +287,63 @@ class ApplyCaigou extends AppModel {
         );
         $attr_id = $main_arr[0]['t_apply_main']['attr_id'];
         //取出单子信息
-        $sql_baogong = "select *from t_apply_baogong where id='{$attr_id}'";
+        $sql_baogong = "select *from t_apply_caigou where id='{$attr_id}'";
         $baogong_arr = $this->query($sql_baogong);
         if (empty($baogong_arr)) {
             $ret_arr[$this->err_msg] = '单子信息不存在';
             return $ret_arr;
         }
+        $user_id = $user_info['id'];
+        $pos_id = $user_info['position_id'];
         $code = $main_arr[0]['t_apply_main']['code'];
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
         $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shengpin_arr = explode(',', $this->get_shengpin_arr());
-        $dep_id = $baogong_arr[0]['t_apply_baogong']['department_id'];
-        $team_id = $baogong_arr[0]['t_apply_baogong']['team_id'];
-       {
-            //走完整的审批
-            foreach ($shengpin_arr as $k=>$v) {
-                //根据$v取出他下一个审批的id
-                if ($v == $next_approver_id) {
-                    $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
-                    if ($next_approver_id == 4 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                        $ret_arr[$this->code] = 10000;
-                        $ret_arr[$this->code_id][] = $user_info['id'];
-                    } else {
-                        //20,4
-                        if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $next_apprly_uid) {
-                            $arr_20 = $this->get_by_pos_dep(4, $dep_id, $team_id);
-                            $next_approver_id = 4;
-                            $ret_arr[$this->code] = 20 * 2;
-                            $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_20[$this->next_uid]) ? 0 : $arr_20[$this->next_uid];
-                            $ret_arr[$this->next_id] = 4;
-                        }
-                    }
-                    
-                }
-            }
+        $shenpi_arr = explode(',', $this->get_shengpin_arr());//反转数组
+        if (empty($shenpi_arr)) {
+            $ret_arr[$this->err_msg] = '定义审批流异常';
             return $ret_arr;
         }
+        $dep_id = $main_arr[0]['t_apply_main']['department_id'];
+        $team_id = $main_arr[0]['t_apply_main']['team_id'];
+       
+        foreach ($shenpi_arr as $k=>$v) {
+            if ($v != $next_approver_id) {
+                continue;
+            }
+            $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
+            
+            if ($arr_get[$this->next_uid] == 0) {
+                //说明有问题
+                $ret_arr[$this->err_msg] = $this->get_error_msg($v);
+                return $ret_arr;
+            }
+            if ($pos_id == 6) {
+                //所长
+                $ret_arr[$this->code] = 10000;
+                $ret_arr[$this->code_id][] = $user_id;
+                return $ret_arr;
+            } else {
+                
+                if ($arr_get[$this->next_uid] == $user_id) {
+                    $arr_get = $this->get_by_pos_dep($shenpi_arr[$k+1], $dep_id, $team_id);//下一职务
+                    if ($arr_get[$this->next_uid] == 0) {
+                        //说明有问题
+                        $ret_arr[$this->err_msg] = $this->get_error_msg($shenpi_arr[$k+1]);
+                        return $ret_arr;
+                    }
+                    $next_approver_id = $arr_get[$this->next_id];
+                    $ret_arr[$this->next_id] = $arr_get[$this->next_id];
+                    $ret_arr[$this->next_uid] = $arr_get[$this->next_uid];
+                    $ret_arr[$this->code] = $v * 2;
+                    $ret_arr[$this->code_id][] = $user_id;
+                }
+            }
+        } 
+       if ($ret_arr[$this->code] == 0 && $ret_arr[$this->err_msg] == '') {
+           $ret_arr[$this->err_msg] = '审批失败';
+       }
+       return $ret_arr;
     }
 
 }
