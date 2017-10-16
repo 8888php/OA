@@ -1461,7 +1461,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->$tablename->apply_approve($main_id, (array)$this->userInfo, $status);
-
+            
             if (!empty($ret_arr['msg'])) {
                  //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1742,7 +1742,8 @@ class OfficeController extends AppController {
     public function ajax_approve_seal() {
         $this->ajax_approve_model('ApplySeal');
     } 
- 
+
+
      /**
      * 果树所来文处理单
      * @param type $main_id 主表id
@@ -1758,6 +1759,9 @@ class OfficeController extends AppController {
     public function ajax_approve_received() {
         $this->ajax_approve_model('ApplyReceived');
     } 
+
+
+
     
 
     /**
@@ -1791,5 +1795,6 @@ class OfficeController extends AppController {
     public function ajax_approve_borrow() {
         $this->ajax_approve_model('ApplyBorrow');
     } 
+
     
 }

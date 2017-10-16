@@ -96,6 +96,7 @@ class ApplySeal extends AppModel {
         unset($shenpi_arr[27]);//去掉
         $shenpi_arr = array_reverse(array_flip($shenpi_arr));
         $arr_tmp = array();//定义空数组存放所有职务信息
+        $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
             
@@ -115,11 +116,12 @@ class ApplySeal extends AppModel {
                 }
             } else {
                 if ($user_id == $arr_get[$this->next_uid]) {
+                    $flag = true;
                     break;
                 }
             }
         }
-        $index = ($k+1) == count($shenpi_arr) ? $k : $k -1;
+        $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
         return $ret_arr; //这里结束
@@ -144,6 +146,7 @@ class ApplySeal extends AppModel {
         }
         $shenpi_arr = array_reverse($shenpi_arr);
         $arr_tmp = array();//定义空数组存放所有职务信息
+        $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
             $arr_tmp[$k] = $arr_get;//放进去
@@ -162,11 +165,12 @@ class ApplySeal extends AppModel {
                 }
             } else {
                 if ($user_id == $arr_get[$this->next_uid]) {
+                    $flag = true;
                     break;
                 }
             }
         }
-        $index = ($k+1) == count($shenpi_arr) ? $k : $k -1;
+        $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
         return $ret_arr; //这里结束
