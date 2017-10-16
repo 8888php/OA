@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td colspan='1' rowspan="2" style='height:50px;line-height: 100px;'>领导同志批示</td>
-                                <td colspan='3'>  <?php  echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  ?>    </td>
+                                <td colspan='3'>  <?php  echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  ?>    </td>
                             </tr>
                             <tr>
                                 <td colspan='3'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
@@ -63,7 +63,7 @@
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 业务科室意见 </td>
-                                <td colspan='3'>  <?php  echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  ?>    </td>
+                                <td colspan='3'>  <?php  echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='1' > 所长办公室承办人 </td>
@@ -143,7 +143,7 @@ function printDIV(){
         }
         var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/Office/ajax_approve_paidleave',
+            url: '/Office/ajax_approve_received',
             type: 'post',
             data: data,
             dataType: 'json',

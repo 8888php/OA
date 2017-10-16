@@ -1768,12 +1768,19 @@ class RequestNoteController extends AppController {
         $p_id = 0; //审批流id
 
         // 所办 、党办 $type=2、$team_id = 0
-        $type = 2; 
+        $type = 0; 
         $team_id = 0;  
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+        $ret_arr = $this->ApplyReceived->apply_create($datas['type'], $datas, (array)$this->userInfo);
+        
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
 
         #附表入库
         //是部门，取当前用户的部门信息

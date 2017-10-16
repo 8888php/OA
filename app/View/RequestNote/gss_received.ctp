@@ -136,7 +136,7 @@ function printDIV(){
         var hierarchy = $('#hierarchy').val();
         var urgency = $('#urgency').val();
         var num = $('#num').val();
-        var type = $('#type:checked').val();
+        var type = $('input[type="radio"]:checked').val();
         var datestr = $("input[name = 'datestr']").val();
         var company = $('#company').val();
         var document_number = $('#document_number').val();
