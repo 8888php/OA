@@ -1,5 +1,3 @@
-
-
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -22,53 +20,64 @@
                             
                             <tr>
                                 <td  colspan='1'>借阅单位</td>
-                                <td colspan='1'>  
-                                    <select style="height:25px;width:160px;" name="dep_pro" class="dep_pro" onchange="">
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select>
+                                <td colspan='1'> <?php echo $attr_arr[0][$table_name]['company'];?> </td>
                                     <td  colspan='1'>借阅时间</td>
-                                    <td colspan='1'><input  readonly="true"  class="form_datetime1" name="datestr"  type="text" style='height:25px;width:150px;' value="<?php echo date('Y-m-d H:i:s');?>"> </td>                               
+                                    <td colspan='1'> <?php echo $attr_arr[0][$table_name]['btime'];?> </td>                               
                             <tr>
                                 <td  colspan='1'>借阅内容</td>
-                                <td colspan='3'> <input type="text" name='content' class="content" style='width:470px;height:25px;'/> </td>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['content'];?> </td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>借阅用途</td>
-                                <td colspan='3'> <input type="text" name='purpose' class="purpose" style='width:470px;height:25px;'/> </td>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['purpose'];?> </td>
                             </tr>
                              <tr >
                                 <td colspan='1' style='height:50px;'> 借阅单位负责人意见</td>
-                                <td colspan='3'>   </td>
+                                <td colspan='3'> 
+                                <?php   
+                                    if(empty($applyArr[20]['name'])){
+                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                    }else{
+                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
+                                    }
+                                    ?>  
+                                </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 相关部门负责人意见</td>
-                                <td colspan='3'>   </td>
+                                <td colspan='3'>  <?php  echo $applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['remarks'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 分管所领导意见</td>
-                                <td colspan='3'>   </td>
+                                <td colspan='3'>   <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?> </td>
                             </tr>
                             <tr>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>借阅人签字</td>
-                                <td colspan='1'> <input type="text" name='borrow_user' class="borrow_user" style='width:130px;height:25px;' value="<?php echo $userInfo['name'];?>"/>   </td>
+                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['borrow_user'];?>  </td>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>档案室经办人签字</td>
-                                <td colspan='1'>   </td>
+                                <td colspan='1'>  <?php  echo $applyArr[26]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[26]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[26]['remarks'];  ?>  </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
 
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>                
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -107,45 +116,21 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var dep_pro = $('.dep_pro option:selected').val();
-        var datestr = $('.datestr').val();
-        var content = $('.content').val();
-        var purpose = $('.purpose').val();
-        var borrow_user = $('.borrow_user').val();
-        var declarename = $('.declarename').val();
-        
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
+  
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该档案借阅申请？')) {
+            //取消
             return;
         }
-        if (datestr == '') {
-            $('.datestr').focus();
-            return;
-        }
-        if (content == '') {
-            $('.content').focus();
-            return;
-        }
-        if (purpose == '') {
-            $('.purpose').focus();
-            return;
-        }
-        if (borrow_user == '') {
-            $('.borrow_user').focus();
-            return;
-        }
-        
-        var data = {};
-        data.dep_pro = dep_pro;
-        data.company = $('.dep_pro option:selected').text();
-        data.datestr = datestr;
-        data.content = content;
-        data.purpose = purpose;
-        data.borrow_user = borrow_user;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_borrow',
+            url: '/Office/ajax_approve_borrow',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -168,8 +153,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
@@ -179,7 +164,7 @@ function printDIV(){
                 }
             }
         });
-    }
+    } 
     //添加错误信息
     function show_error(obj, msg) {
         obj.parent().find('.middle').addClass('text-danger').text(msg);

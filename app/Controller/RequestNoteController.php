@@ -1897,10 +1897,16 @@ class RequestNoteController extends AppController {
         }
         $table_name = 'apply_dispatch';
         $p_id = 0; //审批流id
-        $type = 2; 
-        $team_id = 0;  
+        if (!$datas['dep']) {
+            //说明是部门
+            $type = 2; //类型暂定为0
+            $team_id = 0;
+        } else {
+            $type = 3; //团队类型
+            $team_id = $datas['dep'];
+        }
         $project_id = 0;
-
+        
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
 
@@ -2014,18 +2020,23 @@ class RequestNoteController extends AppController {
         }
     }
 
+    
     //保存借阅
     private function gss_borrow_save($datas) {
-        if (empty($datas['type']) || empty($datas['datestr']) || empty($datas['company']) || empty($datas['hierarchy']) || empty($datas['urgency']) || empty($datas['num']) || empty($datas['document_number']) || empty($datas['file_title'])) {
+        if (empty($datas['dep_pro']) || empty($datas['company']) || empty($datas['datestr']) || empty($datas['content']) || empty($datas['purpose']) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_borrow';
         $p_id = 0; //审批流id
-
-        // 所办 、党办 $type=2、$team_id = 0
-        $type = 2; 
-        $team_id = 0;  
+        if (!$datas['dep_pro']) {
+            //说明是部门
+            $type = 2; //类型暂定为0
+            $team_id = 0;
+        } else {
+            $type = 3; //团队类型
+            $team_id = $datas['dep_pro'];
+        }
         $project_id = 0;
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
@@ -2039,17 +2050,14 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
 
         $attrArr = array();
-        $attrArr['hierarchy'] = $datas['hierarchy'];
-        $attrArr['urgency'] = $datas['urgency'];
-        $attrArr['num'] = $datas['num'];
         $attrArr['user_id'] = $this->userInfo->id;
-        $attrArr['ctime'] = $datas['datestr'];
-        $attrArr['type'] = $datas['type'];
+        $attrArr['user_name'] = $this->userInfo->name;
         $attrArr['company'] = $datas['company'];
-        $attrArr['document_number'] = $datas['document_number'];
-        $attrArr['file_title'] = $datas['file_title'] ;
-        $attrArr['tel'] = $datas['tel'];
-        $attrArr['user_cbr'] = $datas['user_cbr'];
+        $attrArr['btime'] = $datas['datestr'];
+        $attrArr['content'] = $datas['content'];
+        $attrArr['purpose'] = $datas['purpose'];
+        $attrArr['dep_id'] = $datas['dep_pro'];
+        $attrArr['borrow_user'] = $datas['borrow_user'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
