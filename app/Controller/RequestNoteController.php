@@ -1898,14 +1898,12 @@ class RequestNoteController extends AppController {
 
     //保存发文
     private function gss_send_save($datas) {
-        if (empty($datas['type']) || empty($datas['datestr']) || empty($datas['company']) || empty($datas['hierarchy']) || empty($datas['urgency']) || empty($datas['num']) || empty($datas['document_number']) || empty($datas['file_title'])) {
+        if (empty($datas['num']) || empty($datas['datastr']) || empty($datas['dep']) || empty($datas['file_title']) || empty($this->userInfo->id) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_dispatch';
         $p_id = 0; //审批流id
-
-        // 所办 、党办 $type=2、$team_id = 0
         $type = 2; 
         $team_id = 0;  
         $project_id = 0;
@@ -1921,17 +1919,13 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
 
         $attrArr = array();
-        $attrArr['hierarchy'] = $datas['hierarchy'];
-        $attrArr['urgency'] = $datas['urgency'];
-        $attrArr['num'] = $datas['num'];
         $attrArr['user_id'] = $this->userInfo->id;
         $attrArr['ctime'] = $datas['datestr'];
-        $attrArr['type'] = $datas['type'];
-        $attrArr['company'] = $datas['company'];
-        $attrArr['document_number'] = $datas['document_number'];
-        $attrArr['file_title'] = $datas['file_title'] ;
-        $attrArr['tel'] = $datas['tel'];
-        $attrArr['user_cbr'] = $datas['user_cbr'];
+        $attrArr['num'] = $datas['num'];
+        $attrArr['dep_id'] = $datas['dep'];
+        $attrArr['compay'] = $datas['compay'];
+        $attrArr['file_title'] = $datas['file_title'];
+        $attrArr['user_name'] = $this->userInfo->name;
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
 
         # 开始入库
@@ -1946,7 +1940,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所来文批办单';
+        $mainArr['name'] = '果树所发文处理单';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
         $mainArr['department_id'] = $department_id;

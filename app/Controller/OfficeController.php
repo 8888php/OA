@@ -1742,7 +1742,9 @@ class OfficeController extends AppController {
     public function ajax_approve_seal() {
         $this->ajax_approve_model('ApplySeal');
     } 
-      /**
+
+
+     /**
      * 果树所来文处理单
      * @param type $main_id 主表id
      * @param type $flag 
@@ -1756,6 +1758,42 @@ class OfficeController extends AppController {
      */
     public function ajax_approve_received() {
         $this->ajax_approve_model('ApplyReceived');
+    } 
+
+
+
+    
+
+    /**
+     * 果树所发文处理单
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_dispatch_print($main_id, $flag='') {
+         $this->apply_print_model($main_id, $flag);
+    } 
+    
+     /**
+     * 果树所发文处理单 审核
+     */
+    public function ajax_approve_dispatch() {
+        $this->ajax_approve_model('ApplyDispatch');
+    } 
+    
+    /**
+     * 档案借阅申请单
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_borrow_print($main_id, $flag='') {
+         $this->apply_print_model($main_id, $flag);
+    } 
+    
+     /**
+     * 档案借阅申请单  审核
+     */
+    public function ajax_approve_borrow() {
+        $this->ajax_approve_model('ApplyBorrow');
     } 
 
     

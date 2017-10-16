@@ -24,18 +24,12 @@
                             
                             <tr>
                                 <td colspan='1' style="border-top-color: white; border-left-color: white; border-bottom-color: white;"></td>
-                                <td colspan='2' style="text-align: center;">第【<input type="text" name="num" class="num" style="width:100px;" />】号</td>  
+                                <td colspan='2' style="text-align: center;">第【 <?php echo $attr_arr[0][$table_name]['num'];?> 】号</td>  
                                 <td style="border-bottom: 1px solid white;border-right-color: white;"></td>
                             </tr>
                             <tr>
                                 <td colspan='1' style="border-top-color: white; border-left-color: white; border-bottom-color: white;"></td>
-                                <td colspan='2'><input  readonly="true"  class="form_datetime1" name="datastr"  type="text" style='height:25px;width:130px;'> </td>
-                                <script type="text/javascript">
-                                        $(".form_datetime1").datetimepicker({
-                                            format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
-                                        });
-                                </script>
+                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['ctime'];?> </td>
                                 <td style="border-bottom: 1px solid white;border-right-color: white;"></td>
                             </tr>
                             <tr>
@@ -43,45 +37,57 @@
                             </tr>
                             <tr>
                                 <td  colspan='1'>发文单位</td>
-                                <td colspan='3'> 
-                                     <select style="height:25px;width:470px;" name="dep_pro" class="dep_pro" >
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
-                                        <?php }?>
-                                    </select>
-                                </td>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['compay'];?> </td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>文件标题</td>
-                                <td colspan='3'> <input type="text" name='file_title' class="file_title" style='width:470px;height:25px;'/> </td>
+                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['file_title'];?> </td>
                             </tr>
                             <tr>
-                                <td colspan='1'  style='height:50px;    line-height: 100px;'>发文科室意见</td>
-                                <td colspan='1'>   </td>
-                                <td colspan='1'  style='height:50px;    line-height: 100px;'>所办主任意见</td>
-                                <td colspan='1'>   </td>
+                                <td colspan='1'  style='height:50px;line-height: 100px;'>发文科室意见</td>
+                                <td colspan='1'>  
+                                 <?php   
+                                    if(empty($applyArr[20]['name'])){
+                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                    }else{
+                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
+                                    }
+                                    ?> 
+                                </td>
+                                <td colspan='1'  style='height:50px;line-height: 100px;'>所办主任意见</td>
+                                <td colspan='1'>  
+                                 <?php    echo $applyArr['28']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['28']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['28']['remarks'];  ?> 
+                                </td>
                             </tr>
                             <tr >
-                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 分管领导批示</td>
-                                <td colspan='3'>   </td>
+                                <td colspan='1' style='height:50px;'> 分管领导批示</td>
+                                <td colspan='3'> <?php    echo $applyArr['27']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['27']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['27']['remarks'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 领导批示 </td>
-                                <td colspan='3'>   </td>
+                                <td colspan='3'> <?php    echo $applyArr['6']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['6']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['6']['remarks'];  ?>   </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
 
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
 
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
-                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>                
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -120,39 +126,20 @@ function printDIV(){
 
 <script type="text/javascript">
   
-    function approve() {
-        var num = $('.num').val();
-        var datastr = $('.datastr').val();
-        var dep_pro = $('.dep_pro option:selected').val();
-        var file_title = $('.file_title').val();
-        var declarename = $('.declarename').val();
-        
-        if (num == '') {
-            $('.num').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该发文处理单？')) {
+            //取消
             return;
         }
-        if (datastr == '') {
-            $('.datastr').focus();
-            return;
-        }
-        if (dep_pro == '') {
-            $('.dep_pro').focus();
-            return;
-        }
-        if (file_title == '') {
-            $('.file_title').focus();
-            return;
-        }
-        
-        var data = {};
-        data.num = num;
-        data.datastr = datastr;
-        data.dep = dep_pro;
-        data.compay = $('.dep_pro option:selected').text();
-        data.file_title = file_title;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_send',
+            url: '/Office/ajax_approve_dispatch',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -175,8 +162,8 @@ function printDIV(){
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {
