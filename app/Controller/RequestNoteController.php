@@ -2089,7 +2089,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
-        $mainArr['name'] = '果树所来文批办单';
+        $mainArr['name'] = '档案借阅申请表';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
         $mainArr['department_id'] = $department_id;
