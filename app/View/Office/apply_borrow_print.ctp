@@ -45,7 +45,7 @@
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 相关部门负责人意见</td>
-                                <td colspan='3'>  <?php  echo $applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['remarks'];  ?>   </td>
+                                <td colspan='3'>  <?php  echo $applyArr[28]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['remarks'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 分管所领导意见</td>

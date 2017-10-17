@@ -61,7 +61,15 @@
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 分管领导批示</td>
-                                <td colspan='3'> <?php    echo $applyArr['27']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['27']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['27']['remarks'];  ?>   </td>
+                                <td colspan='3'> 
+                                <?php   
+                                    if(empty($applyArr[5]['name'])){
+                                        echo $applyArr['5']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['5']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['5']['remarks'];  
+                                    }else{
+                                        echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks'];  
+                                    }
+                                    ?> 
+                                </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 领导批示 </td>
