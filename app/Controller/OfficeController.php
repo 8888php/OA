@@ -361,7 +361,7 @@ class OfficeController extends AppController {
         $all_page = 0;
         $lists = array();
         
-        $total =  $this->ApplyMain->query($sql ="select count(*) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' "); 
+        $total =  $this->ApplyMain->query("select count(distinct ApplyMain.id) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' "); 
         $total = $total[0][0]['count'];
         $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
@@ -370,7 +370,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' order by ApprovalInformation.id desc limit " . ($pages - 1)*$limit . "," . $limit);
+            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1)*$limit . "," . $limit);
         }
 
         $this->set('all_user_arr', $all_user_arr);
