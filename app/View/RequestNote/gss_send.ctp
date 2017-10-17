@@ -122,7 +122,7 @@ function printDIV(){
   
     function approve() {
         var num = $('.num').val();
-        var datastr = $('.datastr').val();
+        var datastr = $('.form_datetime1').val();
         var dep_pro = $('.dep_pro option:selected').val();
         var file_title = $('.file_title').val();
         var declarename = $('.declarename').val();
@@ -132,7 +132,7 @@ function printDIV(){
             return;
         }
         if (datastr == '') {
-            $('.datastr').focus();
+            $('.form_datetime1').focus();
             return;
         }
         if (dep_pro == '') {

@@ -1898,7 +1898,7 @@ class RequestNoteController extends AppController {
 
     //保存发文
     private function gss_send_save($datas) {
-        if (empty($datas['num']) || empty($datas['datastr']) || empty($datas['dep']) || empty($datas['file_title']) || empty($this->userInfo->id) ) {
+        if (empty($datas['num']) || empty($datas['datastr']) || empty($datas['file_title']) || empty($this->userInfo->id) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -1915,8 +1915,14 @@ class RequestNoteController extends AppController {
         $project_id = 0;
         
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+        $ret_arr = $this->ApplyDispatch->apply_create($type, $datas, (array)$this->userInfo);
+        
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -1926,7 +1932,7 @@ class RequestNoteController extends AppController {
 
         $attrArr = array();
         $attrArr['user_id'] = $this->userInfo->id;
-        $attrArr['ctime'] = $datas['datestr'];
+        $attrArr['ctime'] = $datas['datastr'];
         $attrArr['num'] = $datas['num'];
         $attrArr['dep_id'] = $datas['dep'];
         $attrArr['compay'] = $datas['compay'];
