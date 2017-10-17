@@ -2026,11 +2026,10 @@ class RequestNoteController extends AppController {
             $this->render();
         }
     }
-
-    
+  
     //保存借阅
     private function gss_borrow_save($datas) {
-        if (empty($datas['dep_pro']) || empty($datas['company']) || empty($datas['datestr']) || empty($datas['content']) || empty($datas['purpose']) ) {
+        if ( empty($datas['datestr']) || empty($datas['content']) || empty($datas['purpose']) || empty($datas['borrow_user']) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -2046,9 +2045,8 @@ class RequestNoteController extends AppController {
         }
         $project_id = 0;
 
-        $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+        $ret_arr = $this->ApplyBorrow->apply_create($type, $datas, (array)$this->userInfo);
+        
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;

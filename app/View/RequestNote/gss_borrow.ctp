@@ -32,7 +32,7 @@
                                         <?php }?>
                                     </select>
                                     <td  colspan='1'>借阅时间</td>
-                                    <td colspan='1'><input  readonly="true"  class="form_datetime1" name="datestr"  type="text" style='height:25px;width:150px;' value="<?php echo date('Y-m-d H:i:s');?>"> </td>                               
+                                    <td colspan='1'><input  readonly="true"  class="datestr" name="datestr"  type="text" style='height:25px;width:150px;' value="<?php echo date('Y-m-d H:i:s');?>"> </td>                               
                             <tr>
                                 <td  colspan='1'>借阅内容</td>
                                 <td colspan='3'> <input type="text" name='content' class="content" style='width:470px;height:25px;'/> </td>
@@ -54,9 +54,9 @@
                                 <td colspan='3'>   </td>
                             </tr>
                             <tr>
-                                <td colspan='1'  style='height:50px;line-height: 100px;'>借阅人签字</td>
-                                <td colspan='1'> <input type="text" name='borrow_user' class="borrow_user" style='width:130px;height:25px;' value="<?php echo $userInfo['name'];?>"/>   </td>
-                                <td colspan='1'  style='height:50px;line-height: 100px;'>档案室经办人签字</td>
+                                <td colspan='1'  style='height:50px;line-height: 50px;'>借阅人签字</td>
+                                <td colspan='1'> <input type="text" name='borrow_user' class="borrow_user" style='width:130px;height:25px;' value="<?php echo $userInfo->name;?>"/>   </td>
+                                <td colspan='1'  style='height:50px;line-height: 50px;'>档案室经办人签字</td>
                                 <td colspan='1'>   </td>
                             </tr>
                         </tbody>
