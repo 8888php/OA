@@ -2053,6 +2053,12 @@ class RequestNoteController extends AppController {
 
         $ret_arr = $this->ApplyBorrow->apply_create($type, $datas, (array)$this->userInfo);
         
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
