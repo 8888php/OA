@@ -41,35 +41,35 @@
                             </tr>
                              <tr>
                                 <td colspan='1' style="text-align: right;height:50px; line-height: 50px; text-align: center;">来文单位</td>
-                                <td colspan='1' >  <?php echo $attr_arr[0][$table_name]['company'];?>  </td>  
+                                <td colspan='1'style="line-height: 50px;" >  <?php echo $attr_arr[0][$table_name]['company'];?>  </td>  
                                 <td style="text-align: right;height:50px; line-height: 50px; text-align: center;">文号</td>
                                 <td style="line-height: 50px;">  <?php echo $attr_arr[0][$table_name]['document_number'];?> </td>
                                 
                             </tr>
                             <tr>
-                                <td  colspan='1'>文件标题</td>
-                                <td colspan='3'>  <?php echo $attr_arr[0][$table_name]['file_title'];?>  </td>
+                                <td  colspan='1'  style="text-align: right;height:50px; line-height: 50px; text-align: center;">文件标题</td>
+                                <td colspan='3' style="line-height: 50px;">  <?php echo $attr_arr[0][$table_name]['file_title'];?>  </td>
                             </tr>
                             <tr>
-                                <td colspan='1' rowspan="2" style='height:50px;line-height: 100px;'>领导同志批示</td>
-                                <td colspan='3'>  <?php  echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  ?>    </td>
+                                <td colspan='1' rowspan="2" style='height:260px;line-height: 260px;'>领导同志批示</td>
+                                <td colspan='3' >  <?php  echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  ?>    </td>
                             </tr>
                             <tr>
                                 <td colspan='3'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
-                                <td colspan='1' style='height:50px;/*line-height: 50px;*/'> 拟办意见</td>
+                                <td colspan='1' style='height:100px;line-height: 100px;'> 拟办意见</td>
                                 <td colspan='3'>   </td>
                             </tr>
                             <tr >
-                                <td colspan='1' style='height:50px;'> 业务科室意见 </td>
+                                <td colspan='1' style='height:100px;line-height: 100px;'> 业务科室意见 </td>
                                 <td colspan='3'>  <?php  echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  ?>    </td>
                             </tr>
-                            <tr >
-                                <td colspan='1' > 所长办公室承办人 </td>
-                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['user_cbr'];?>  </td>
-                                <td colspan='1' > 联系电话 </td>
-                                <td colspan='1'>   <?php echo $attr_arr[0][$table_name]['tel'];?> </td>
+                            <tr style='height:100px;'>
+                                <td colspan='1' style='line-height: 100px;' > 所长办公室承办人 </td>
+                                <td colspan='1'> <br/> <?php echo $attr_arr[0][$table_name]['user_cbr'];?>  </td>
+                                <td colspan='1' style='line-height: 100px;' > 联系电话 </td>
+                                <td colspan='1'>  <br/>  <?php echo $attr_arr[0][$table_name]['tel'];?> </td>
                             </tr>
                             
                         </tbody>

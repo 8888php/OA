@@ -272,7 +272,8 @@ class ApplySeal extends AppModel {
      * @return array()
      */
     private function get_shengpin_arr ($type = 2) {
-        return Configure::read('approval_process')['apply_seal'][$type];
+            $processlist = Configure::read('approval_process');
+        return $processlist['apply_seal'][$type];
     }
             
     

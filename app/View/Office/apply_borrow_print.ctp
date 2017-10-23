@@ -53,7 +53,7 @@
                             </tr>
                             <tr>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>借阅人签字</td>
-                                <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['borrow_user'];?>  </td>
+                                <td colspan='1'> <br/> <?php echo $attr_arr[0][$table_name]['borrow_user'];?>  </td>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>档案室经办人签字</td>
                                 <td colspan='1'>  <?php  echo $applyArr[26]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[26]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[26]['remarks'];  ?>  </td>
                             </tr>

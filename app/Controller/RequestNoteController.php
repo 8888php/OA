@@ -1603,6 +1603,7 @@ class RequestNoteController extends AppController {
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
+            $dep_list = $this->Department->deplist();
 
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
@@ -1611,6 +1612,7 @@ class RequestNoteController extends AppController {
             $this->set('number',sprintf('%04s',$seal_count+1));
             $this->set('team_arr', $team_arr);
             $this->set('department_arr', $department_arr);
+            $this->set('dep_list', $dep_list[1]);
             $this->render();
         }
     }

@@ -215,7 +215,8 @@ class ApplyCaigou extends AppModel {
     获取审批流
      */
     private function get_shengpin_arr () {
-        return Configure::read('approval_process')['apply_caigou'];
+        $listarr = Configure::read('approval_process');
+        return  $listarr['apply_caigou'];
     }
             
     

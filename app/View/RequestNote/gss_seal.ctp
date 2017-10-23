@@ -34,9 +34,11 @@
                                 <td>使用单位</td>
                                 <td colspan='3'>   
                                     <select style="height:25px;width:280px;" name="department" class="department" >
-                                        <?php foreach($department_arr as $v){?>
-                                        <option value="0"><?php echo $v['name'];?></option>
-                                        <?php }?>
+                                        <?php 
+                                           foreach($dep_list as $k => $v){
+                                            echo "<option value='$k' > $v </option>";
+                                            }
+                                         ?>
                                     </select>
                                 </td>
                              </tr>

@@ -34,7 +34,10 @@
                              </tr>
                              <tr>
                                 <td> 资金来源渠道 </td>
-                                <td colspan='6'>  <?php echo Configure::read('apply_caigou_type')[$attr_arr[0][$table_name]['channel_id']];?>  </td>
+                                <td colspan='6'>  <?php 
+                                $listattr = Configure::read('apply_caigou_type');
+                                echo $listattr[$attr_arr[0][$table_name]['channel_id']];
+                                ?>  </td>
                              </tr>
                              <tr>
                                 <td> 采购物资名称 </td>
@@ -42,7 +45,14 @@
                              </tr>
                              <tr>
                                 <td> 规格型号及详细参数 </td>
-                                <td colspan='6' >  <?php echo "<a href='".$attr_arr[0][$table_name]['attachment']."' target='_blank' >规格型号及详细参数 </a>"; ?>  </td>
+                                <td colspan='6' >  
+                                <?php 
+                                if($attr_arr[0][$table_name]['attachment']) {
+                                    echo "<a href='/files/caigou/".$attr_arr[0][$table_name]['attachment']."' target='_blank' >规格型号及详细参数 </a>"; 
+                                }else{
+                                    echo '无';
+                                }
+                                ?>  </td>
                              </tr> 
                               <tr>
                                 <td colspan='1'> 单位：<?php echo $attr_arr[0][$table_name]['company'];?>  </td>
@@ -56,7 +66,7 @@
                              </tr>
                              
                             <tr>
-                                <td > 采购需求审核</td>
+                                <td style='height:100px;line-height:100px;'> 采购需求审核</td>
                                 <td colspan='3'>
                                     <?php  
                                             if($applyArr[20]['name']){
@@ -77,7 +87,7 @@
                                 </td>
                             </tr>
                              <tr>
-                                <td > 财务及采购审核 </td>
+                                <td style='height:100px;'> <br/><br/>财务及采购审核 </td>
                                 <td colspan='3'>
                                         <?php  
                                             if($applyArr[14]['name']){
@@ -98,16 +108,16 @@
                                 </td>
                             </tr>
                            
-                            <tr>
-                                <td colspan='2'> 采购中心审核 </td>
+                            <tr >
+                                <td colspan='2' style='height:50px;line-height:50px;'> 采购中心审核 </td>
                                 <td colspan='5'>  <?php  echo $applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['remarks'];  ?>  </td>
                             </tr>
                             <tr>
-                                <td colspan='2'> 财务及采购分管领导审核 </td>
+                                <td colspan='2' style='height:50px;line-height:50px;'> 财务及采购分管领导审核 </td>
                                 <td  colspan='5' >   <?php  echo $applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['remarks'];  ?>    </td>
                             </tr>
                             <tr >
-                                <td colspan='2'> 所长审核 </td>
+                                <td colspan='2' style='height:50px;line-height:50px;'> 所长审核 </td>
                                 <td colspan='5'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
                             </tr>
                             <tr >

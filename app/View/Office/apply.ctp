@@ -109,8 +109,9 @@
                                                     <td><?php 
                                                         if(!empty($sv['ApplyMain']['attachment'])){
                                                             $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
+                                                            $add_dirstr = $sv['ApplyMain']['table_name'] == 'apply_caigou' ? 'caigou/' : '';
                                                             foreach($fileurlArr as $filev){
-                                                                echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                echo  "<a href='/files/$add_dirstr$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
                                                             } 
                                                         }
                                                         ?></td>

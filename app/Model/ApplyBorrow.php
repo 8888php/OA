@@ -263,7 +263,8 @@ class ApplyBorrow extends AppModel {
      * @return array()
      */
     private function get_shengpin_arr ($type = 2) {
-        return Configure::read('approval_process')['apply_borrow'][$type];
+        $listarr = Configure::read('approval_process');
+        return $listarr['apply_borrow'][$type];
     }
             
     
