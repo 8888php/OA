@@ -1197,7 +1197,7 @@ class RequestNoteController extends AppController {
             } else {
                 $new_name = $base_name . '_' . time() . '.' . $ext;
             }
-            $new_file_name = WWW_ROOT . 'files/caigou' . DS . $new_name;
+            $new_file_name = WWW_ROOT . 'files' . DS . 'caigou' . DS . $new_name;
 
             if (!move_uploaded_file($tmp_file, $new_file_name)) {
                 $new_name = ''; //如果没有上传成功，先不处理
@@ -1603,6 +1603,9 @@ class RequestNoteController extends AppController {
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
+            if ($department_arr['Department']['type'] != 1) {
+                $department_arr = array();//只取行政
+            }
             $dep_list = $this->Department->deplist();
 
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
@@ -1793,6 +1796,7 @@ class RequestNoteController extends AppController {
 
         $attrArr = array();
         $attrArr['hierarchy'] = $datas['hierarchy'];
+        $attrArr['text1'] = $datas['text1'];
         $attrArr['urgency'] = $datas['urgency'];
         $attrArr['num'] = $datas['num'];
         $attrArr['user_id'] = $this->userInfo->id;
@@ -2025,7 +2029,9 @@ class RequestNoteController extends AppController {
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
-
+            if ($department_arr['Department']['type'] != 1) {
+                $department_arr = array();//只取行政
+            }
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
 

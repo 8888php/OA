@@ -94,7 +94,7 @@
                 <?php }?>
 
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>                
-                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+                <button  type="button" class="btn btn-primary" onclick="/*window.parent.declares_close();*/" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
             </div>
 <script type="text/javascript">
@@ -110,7 +110,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', 'none');
         $('.ace-settings-container').css('display', 'none');
         $('#btn-scroll-up').css('display', 'none');
-        $('.right_content').css('display', 'none');
+        $('.right_content,.right_list').css('display', 'none');
     }
     window.print();//打印刚才新建的网页
     {
@@ -119,7 +119,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', '');
         $('.ace-settings-container').css('display', '');
         $('#btn-scroll-up').css('display', '');
-        $('.right_content').css('display', '');
+        $('.right_content,.right_list').css('display', '');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');

@@ -19,7 +19,7 @@
                                 <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">秘密等级</td>
                                 <td colspan='1'>  <input  type="text" name='hierarchy' id='hierarchy' style='height:25px;width:80px;'> </td>  
                                 <td style="border-bottom: 1px solid white;"></td>
-                                <td><input  type="text"  style='height:25px;width:80px;'> </td>
+                                <td><input class="text1" id="text1"  type="text"  style='height:25px;width:80px;'> </td>
                             </tr>
                             
                             <tr>
@@ -134,6 +134,7 @@ function printDIV(){
   
     function approve() {
         var hierarchy = $('#hierarchy').val();
+        var text1 = $('#text1').val();
         var urgency = $('#urgency').val();
         var num = $('#num').val();
         var type = $('input[type="radio"]:checked').val();
@@ -147,6 +148,10 @@ function printDIV(){
         
         if (hierarchy == '') {
             $('#hierarchy').focus();
+            return;
+        }
+        if (text1 == '') {
+            $('#text1').focus();
             return;
         }
         if (urgency == '') {
@@ -176,6 +181,7 @@ function printDIV(){
 
         var data = {};
         data.hierarchy = hierarchy;
+        data.text1 = text1;
         data.urgency = urgency;
         data.num = num;
         data.type = type;

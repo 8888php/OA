@@ -176,6 +176,7 @@ function printDIV(){
         var i = 0; 
         $("input[name = 'filetype']:checkbox:checked").each(function(){filetype[i] = $(this).val();i++;});
         if (filetype == '') {
+            alert('文件类型');
             $('.filetype').focus();
             return;
         }

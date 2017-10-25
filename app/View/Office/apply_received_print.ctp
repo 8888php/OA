@@ -19,7 +19,7 @@
                                 <td colspan='1' style="text-align: right;height:25px; line-height: 25px;">秘密等级</td>
                                 <td colspan='1'>  <?php echo $attr_arr[0][$table_name]['hierarchy'];?>  </td>  
                                 <td style="border-bottom: 1px solid white;"></td>
-                                <td><input  type="text"  style='height:25px;width:80px;'> </td>
+                                <td><?php echo $attr_arr[0][$table_name]['text1'];?> </td>
                             </tr>
                             
                             <tr>
@@ -51,7 +51,7 @@
                                 <td colspan='3' style="line-height: 50px;">  <?php echo $attr_arr[0][$table_name]['file_title'];?>  </td>
                             </tr>
                             <tr>
-                                <td colspan='1' rowspan="2" style='height:260px;line-height: 260px;'>领导同志批示</td>
+                                <td colspan='1' rowspan="2" style='height:200px;line-height: 200px;'>领导同志批示</td>
                                 <td colspan='3' >  <?php  echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  ?>    </td>
                             </tr>
                             <tr>
@@ -90,7 +90,7 @@
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
                 <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
-                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+                <button  type="button" class="btn btn-primary" onclick="/*window.parent.declares_close();*/" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
 <script type="text/javascript">
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -105,7 +105,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', 'none');
         $('.ace-settings-container').css('display', 'none');
         $('#btn-scroll-up').css('display', 'none');
-        $('.right_content').css('display', 'none');
+        $('.right_content,.right_list').css('display', 'none');
         $('#received_type').css('display','none');
     }
     window.print();//打印刚才新建的网页
@@ -115,7 +115,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', '');
         $('.ace-settings-container').css('display', '');
         $('#btn-scroll-up').css('display', '');
-        $('.right_content').css('display', '');
+        $('.right_content,.right_list').css('display', '');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
