@@ -19,9 +19,16 @@
                             </tr>
                             <tr>
                                 <td >填表时间</td>
-                                <td colspan='3'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:230px;'>  </td>
+                                <td colspan='2'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:150px;'>  </td>
                                 <td>附单据张数</td>
-                                <td colspan='3'> <input type="text" name='sheets_num' class="sheets_num" style='width:180px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
+                                <td colspan='2'> <input type="text" name='sheets_num' class="sheets_num" style='width:140px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
+                                <td>核算</td>
+                                <td > 
+                                    <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
+                                        <option value="0"  > 否 </option>
+                                        <option value="1" <?php echo $attrInfo['is_calculation'] == 1 ? 'selected' : ''; ?> > 是 </option>
+                                    </select>
+                                </td>
                             </tr>
                             
                              <tr>
@@ -280,14 +287,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -297,14 +296,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');
@@ -330,14 +321,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -347,14 +330,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');
@@ -587,6 +562,7 @@ function trim(s){
     function approve() {
         var ctime = $('.ctime').val();
         var sheets_num = $('.sheets_num').val();
+        var is_calculation = $('.is_calculation').val();
         var dep_pro = $('.dep_pro').val();
         var filenumber = $('.filenumber').val();
         var personnel = $('.personnel').val();
@@ -770,7 +746,7 @@ function trim(s){
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
        var attachment = $('#file_upload').val();
-        var data = {attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename};
+        var data = {attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename, is_calculation : is_calculation};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',
