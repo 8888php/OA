@@ -184,7 +184,7 @@ class ApplyReceived extends AppModel {
             case 6:
                 $msg = '所长' . $not_found;
                 break;
-            case 5:
+            case 29:
                 $msg = '分管所领导' . $not_found;
                 break;
             case 15:
@@ -360,9 +360,9 @@ class ApplyReceived extends AppModel {
             $arr_15 = $this->query($sql_15);
             $ret_arr[$this->next_uid] = empty($arr_15[0]['t_department']['user_id']) ? 0 : $arr_15[0]['t_department']['user_id'];
             $ret_arr[$this->next_id] = $pos_id;
-        } elseif ($pos_id == 5) {
-            //所领导
-            $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
+        } elseif ($pos_id == 29) {
+            //党办所领导
+            $sql_5 = "select *from t_department where id=2 and del=0";
             $arr_5 = $this->query($sql_5);
             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
             $ret_arr[$this->next_id] = $pos_id;
