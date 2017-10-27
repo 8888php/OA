@@ -18,12 +18,19 @@
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
                             </tr>
                             <tr>
-                                <td colspan='2'>填表日期</td>
+                                <td >填表日期</td>
                                 <td colspan='2'>
                                     <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='width:150px;height:25px;'>  
                                 </td>
-                                <td colspan='2'>原始凭证页数</td>
+                                <td >原始凭证页数</td>
                                 <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
+                                <td>核算</td>
+                                <td > 
+                                    <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
+                                        <option value="0"  > 否 </option>
+                                        <option value="1" <?php echo $attrInfo['is_calculation'] == 1 ? 'selected' : ''; ?> > 是 </option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>部门或项目</td>
@@ -305,14 +312,6 @@ function printDIV(){
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', 'none');
         $('#sidebar').css('display', 'none');
         $('.breadcrumbs').css('display', 'none');
@@ -322,14 +321,6 @@ function printDIV(){
     }
     window.print();//打印刚才新建的网页
     {
-        /**
-         * navbar-default
-            id sidebar 
-            breadcrumbs
-            ace-settings-container
-            id btn-scroll-up
-            right_content
-         */
         $('.navbar-default').css('display', '');
         $('#sidebar').css('display', '');
         $('.breadcrumbs').css('display', '');
@@ -439,6 +430,7 @@ function trim(s){
         var page_number = $('.page_number').val();
         var projectname = $('.projectname').val();
         var filenumber = $('.filenumber').val();
+        var is_calculation = $('.is_calculation').val();
         var subject = option_josn();
   
         var rmb_capital = $('.rmb_capital').val();
@@ -494,7 +486,7 @@ function trim(s){
             applicant_str += applicant_arr[i] + ',';
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
-        var data = {declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment};
+        var data = {declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment, is_calculation:is_calculation};
 
         $.ajax({
             url: '/ResearchProject/sub_declares',
