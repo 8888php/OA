@@ -657,7 +657,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -789,7 +789,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -1095,7 +1095,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
