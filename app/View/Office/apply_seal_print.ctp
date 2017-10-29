@@ -39,7 +39,7 @@
                                 <td> 文件类型 </td>
                                 <td colspan='6' > 
                                     <?php 
-                                    foreach(json_decode($attr_arr[0][$table_name]['dep_team_name'],true) as $val){
+                                    foreach(json_decode($attr_arr[0][$table_name]['filetype'],true) as $val){
                                         echo Configure::read('seal_filetype')[$val] . '&nbsp;&nbsp;&nbsp;&nbsp;';
                                     }
                                     ?>  </td>

@@ -1662,7 +1662,7 @@ class RequestNoteController extends AppController {
         $attrArr['applyname'] = $datas['applyname'];
         $attrArr['oddnum'] = $datas['oddnum'];
         $attrArr['department'] = $datas['department'];
-        $attrArr['dep_name'] = $datas['dep_name'];
+        $attrArr['dep_name'] = $datas['department_name'];
         $attrArr['dep_team'] = $datas['dep_team'];
         $attrArr['dep_team_name'] = $datas['dep_team_name'];
         $attrArr['sealtype'] = $datas['sealtype'];
