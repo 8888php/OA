@@ -62,7 +62,7 @@
                              </tr>
                               <tr>
                                 <td> 采购理由 </td>
-                                <td colspan='6' >  <?php echo $attr_arr[0][$table_name]['material_name'];?>  </td>
+                                <td colspan='6' >  <?php echo $attr_arr[0][$table_name]['reason'];?>  </td>
                              </tr>
                              
                             <tr>
