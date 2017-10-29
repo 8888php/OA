@@ -1810,7 +1810,6 @@ class RequestNoteController extends AppController {
         $attrArr['tel'] = $datas['tel'];
         $attrArr['user_cbr'] = $datas['user_cbr'];
         $attrArr['create_time'] = date('Y-m-d H:i:s', time());
-
         # 开始入库
         $this->ApplyReceived->begin();
         $attrId = $this->ApplyReceived->add($attrArr);
