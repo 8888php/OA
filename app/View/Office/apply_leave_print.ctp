@@ -116,7 +116,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', 'none');
         $('.ace-settings-container').css('display', 'none');
         $('#btn-scroll-up').css('display', 'none');
-        $('.right_content').css('display', 'none');
+        $('.right_content,.right_list').css('display', 'none');
     }
     window.print();//打印刚才新建的网页
     {
@@ -125,7 +125,7 @@ function printDIV(){
         $('.breadcrumbs').css('display', '');
         $('.ace-settings-container').css('display', '');
         $('#btn-scroll-up').css('display', '');
-        $('.right_content').css('display', '');
+        $('.right_content,.right_list').css('display', '');
     }
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
