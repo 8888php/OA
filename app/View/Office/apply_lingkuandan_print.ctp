@@ -189,14 +189,15 @@
                         &times;
                     </button>
                     警告！
-                    <?php   echo $feedback['msg'];  ?>
+                    <?php  echo ($project_sum['code'] == 1) ? $project_sum['msg'] : $feedback['msg'];  ?>
                 </div>
                 <?php   } ?>
         
                 <?php if ($apply == 'apply') {?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <?php if($project_sum['code'] == 0){  ?>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
-                <?php }?>
+                <?php } } ?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
                 <button type="button" class="btn btn-primary"  data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>

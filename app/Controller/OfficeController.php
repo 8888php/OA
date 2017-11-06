@@ -616,14 +616,19 @@ class OfficeController extends AppController {
         $this->cwk_show_shenpi($main_arr);
 
         $kemuStr =  '';
-        if($main_arr['ApplyMain']['department_id'] > 0 && $main_arr['ApplyMain']['project_id'] <= 0){ // 部门
+        if($main_arr['ApplyMain']['type'] == 2){ // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
-        }else if($main_arr['ApplyMain']['project_id'] > 0 && $main_arr['ApplyMain']['project_id'] > 0){ // 项目
+        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
             $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+          // 科研类费用 检查所申请金额是否超项目总额
+            if($residual['code'] == 1){
+                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
+                $this->set('project_sum',$sourcelist);
+            }
         }
         $this->set('kemuStr', $kemuStr);  
 
@@ -815,6 +820,25 @@ class OfficeController extends AppController {
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         
+        
+          $kemuStr =  '';
+        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['Department']['name'];
+        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
+            $kemuStr = $kemuArr['ResearchProject']['name'];
+            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+          // 科研类费用 检查所申请金额是否超项目总额
+            if($residual['code'] == 1){
+                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
+                $this->set('project_sum',$sourcelist);
+            }
+        }
+        $this->set('kemuStr', $kemuStr);  
+        
+        
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -856,6 +880,23 @@ class OfficeController extends AppController {
         
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
+        
+          $kemuStr =  '';
+        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['Department']['name'];
+        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
+            $kemuStr = $kemuArr['ResearchProject']['name'];
+            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+          // 科研类费用 检查所申请金额是否超项目总额
+            if($residual['code'] == 1){
+                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
+                $this->set('project_sum',$sourcelist);
+            }
+        }
+        $this->set('kemuStr', $kemuStr);  
       
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
@@ -897,6 +938,23 @@ class OfficeController extends AppController {
         }        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
+        
+         $kemuStr =  '';
+        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['Department']['name'];
+        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
+            $kemuStr = $kemuArr['ResearchProject']['name'];
+            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
+          // 科研类费用 检查所申请金额是否超项目总额
+            if($residual['code'] == 1){
+                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
+                $this->set('project_sum',$sourcelist);
+            }
+        }
+        $this->set('kemuStr', $kemuStr);  
         
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);

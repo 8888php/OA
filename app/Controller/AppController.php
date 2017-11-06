@@ -279,17 +279,14 @@ class AppController extends Controller {
             $project_id = $apply['ApplyMain']['project_id'];
             $source = $this->ResearchSource->findById($source_id);
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
-            $sqlstr = "select m.id,m.attr_id,m.table_name,m.total  from t_apply_main m "
+            $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
                     . "left join t_apply_baoxiaohuizong h on m.project_id = h.project_id and h.source_id = $source_id and m.attr_id = h.id "
                     . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
                     . "left join t_apply_jiekuandan j on m.project_id = j.project_id and j.source_id = $source_id and m.attr_id = j.id  "
                     . "left join t_apply_lingkuandan l on m.project_id = l.project_id and j.source_id = $source_id and m.attr_id = l.id  "
                     . " where m.project_id = $project_id and m.code = 10000 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
-            $total_cost = 0;
-            foreach($amount_sum as $k => $v){
-               $total_cost += $v['m']['total'] ;
-            }
+            $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
         }
         
@@ -305,7 +302,32 @@ class AppController extends Controller {
         return $feedback;
     }
     
- 
+     
+    /**
+     * 验证审批单申请是否超过 项目总金额
+     * @param $apply 申请单详情  $project_sum_count 项目总金额
+     * @return array();
+     */
+    public function residual_project_cost($apply,$project_sum_count){
+         if($apply['ApplyMain']['type'] == 1){
+            $project_id = $apply['ApplyMain']['project_id'];
+            $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where project_id = $project_id and code = 10000 ;");
+            $residual = $project_sum_count - $sumTotal[0][0]['sum_total']; // 剩余金额
+        }
+
+        $feedback = array('code'=>0,'total'=>'','msg'=>'');
+        if($residual < 0){
+            $feedback['code'] = 1; 
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '该项目已超出总金额 '.$residual . ' 元';
+        }else {
+            $feedback['total'] = $residual;
+            $feedback['msg']  = '该项目剩余总金额 '.$residual . ' 元';
+        }
+        return $feedback;
+    }
+    
+    
      /**
      * 获取申请单 和 附属表详情
      * @param $main_id 申请单id  $type 申请单表名
