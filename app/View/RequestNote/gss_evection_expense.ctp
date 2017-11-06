@@ -25,8 +25,8 @@
                                 <td>核算</td>
                                 <td > 
                                     <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
-                                        <option value="0"  > 否 </option>
-                                        <option value="1" <?php echo $attrInfo['is_calculation'] == 1 ? 'selected' : ''; ?> > 是 </option>
+                                        <option value="1" > 是 </option>
+                                        <option value="0"  <?php echo $attrInfo['is_calculation'] === 0 ? 'selected' : ''; ?> > 否 </option>
                                     </select>
                                 </td>
                             </tr>

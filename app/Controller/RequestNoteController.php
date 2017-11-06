@@ -123,7 +123,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr[$this->res]['approve_code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $ret_arr[$this->res]['approval_process_id']; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['is_calculation'] = $is_calculation == 1 ? 1 : 0;
+        $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $datas['projectname'];
         $mainArr['table_name'] = $table_name;
@@ -1097,7 +1097,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['is_calculation'] = $is_calculation == 1 ? 1 : 0;
+        $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
