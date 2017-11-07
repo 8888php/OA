@@ -1854,5 +1854,17 @@ class OfficeController extends AppController {
         $this->ajax_approve_model('ApplyBorrow');
     } 
 
+ 
+        
+    /**
+     * 申请单 附件页面
+     */
+    public function file_print($fileurl) {
+        $fileArr = json_decode( base64_decode( $fileurl ),true );
+        $this->set('filearr', $fileArr);
+        $this->render();
+    } 
+    
+    
     
 }
