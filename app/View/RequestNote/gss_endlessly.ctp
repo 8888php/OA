@@ -15,7 +15,7 @@
                         <input type="hidden" name='declarename' class='declarename' value='职工因公不休或不全休带薪假审批表' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所职工带薪年休假审批单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  职工因公不休或不全休带薪假审批表 </td>
                             </tr>
                             <tr>
                                 <td colspan='5' style="text-align: right;height:25px; line-height: 25px;">填表日期</td>

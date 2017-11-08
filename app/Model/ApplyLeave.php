@@ -208,11 +208,12 @@ class ApplyLeave extends AppModel {
             return $ret_arr;
         }
         //团队负责人
-        $fzr_member[0]['t_team_member']['user_id'] = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['fzr']}'");
-        if (empty($fzr_member[0]['t_team_member']['user_id'])) {
+        $fzr_member = $this->query("select *from t_team_member where id='{$dem_arr[0]['t_team']['fzr']}'");
+        if (empty($fzr_member)) {
             $ret_arr[$this->err_msg] = '团队负责人不存在';
             return $ret_arr;
         }
+        $fzr_member = $fzr_member[0]['t_team_member']['user_id'];
         if ($fzr_member == $user_info['id']) {
             //说明他是部门负责人
             //分管所领导信息

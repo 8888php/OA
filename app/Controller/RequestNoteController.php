@@ -486,7 +486,7 @@ class RequestNoteController extends AppController {
        
         //获取审批信息
         $ret_arr = $this->ApplyChuchai->apply_create($type, $datas, (array)$this->userInfo);
-        
+
         if (!empty($ret_arr['msg'])) {
             //说明出问题了
             $this->ret_arr['msg'] = $ret_arr['msg'];
