@@ -289,15 +289,19 @@ class AppController extends Controller {
             $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
         }
-        
+       
         $feedback = array('code'=>0,'total'=>'','msg'=>'');
-        if($residual < 0){
+        if( $residual < 0 ){
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
-            $feedback['msg'] = '该来源资金已超出金额 '.$residual . ' 元';
-        }else if($residual > 0){
+            $feedback['msg'] = '该来源资金已超出金额 '.$residual . ' 元!';
+        }else if( $residual > 0 && $residual < $apply['ApplyMain']['total'] ){
+            $feedback['code'] = 1; 
             $feedback['total'] = $residual;
-            $feedback['msg']  = '该来源资金剩余金额 '.$residual . ' 元';
+            $feedback['msg']  = '该来源资金剩余金额 '.$residual . ' 元，不足申请金额！';
+        }else if( $residual > $apply['ApplyMain']['total'] ){
+            $feedback['total'] = $residual;
+            $feedback['msg']  = '该来源资金剩余金额 '.$residual . ' 元！';
         }
         return $feedback;
     }
@@ -320,7 +324,11 @@ class AppController extends Controller {
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
             $feedback['msg'] = '该项目已超出总金额 '.$residual . ' 元';
-        }else {
+        }else if( $residual > 0 && $residual < $apply['ApplyMain']['total'] ){
+            $feedback['code'] = 1; 
+            $feedback['total'] = $residual;
+            $feedback['msg']  = '该项目目剩余总金额 '.$residual . ' 元，不足申请金额！';
+        }else if( $residual > $apply['ApplyMain']['total'] ){
             $feedback['total'] = $residual;
             $feedback['msg']  = '该项目剩余总金额 '.$residual . ' 元';
         }
