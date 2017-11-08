@@ -492,5 +492,12 @@ class UserController extends AppController {
     }
 
   
-
+    /**
+     * 修改用户密码
+     */
+    public function password(){
+        $this->render();
+    }
+    
+    
 }

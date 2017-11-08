@@ -230,7 +230,7 @@
                 <li class="light-blue">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo" src="/assets/avatars/avatar2.png" alt="Jason's Photo" />
-                     
+
                         <span class="user-info">
                             <small>欢迎您,</small>
                             <?php echo $userInfo->name; ?>
@@ -240,17 +240,17 @@
                     </a>
 
                     <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <li>
-                            <a href="#">
-                                <i class="icon-cog"></i>
-                                设置
-                            </a>
-                        </li>
+                        <!--                        <li>
+                                                    <a href="#">
+                                                        <i class="icon-cog"></i>
+                                                        设置
+                                                    </a>
+                                                </li>-->
 
                         <li>
-                            <a href="#">
+                            <a data-toggle="modal" data-target="#useModal" onclick="$('#usemodal-content').load('/User/password');" >
                                 <i class="icon-user"></i>
-                                个人资料
+                                修改密码
                             </a>
                         </li>
 
@@ -267,6 +267,12 @@
             </ul><!-- /.ace-nav -->
         </div><!-- /.navbar-header -->
     </div><!-- /.container -->
+</div>
+
+<div class="modal fade" id="useModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id='usemodal-content'> </div>
+    </div>
 </div>
 
 <div class="main-container" id="main-container">
