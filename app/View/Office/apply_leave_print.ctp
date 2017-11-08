@@ -23,7 +23,7 @@
                              </tr>
                              <tr>
                                 <td > 单位或部门 </td>
-                                <td colspan='6'>   <?php echo $attr_arr[0][$table_name]['department_name'];?>  </td>
+                                <td colspan='6'>   <?php echo $dep_or_team_name;?>  </td>
                             </tr>
                             
                              <tr>

@@ -8,7 +8,7 @@ class OfficeController extends AppController {
     public $name = 'Office';
 
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou','ApplySeal','ApplyReceived','ApplyBorrow','ApplyDispatch');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou','ApplySeal','ApplyReceived','ApplyBorrow','ApplyDispatch', 'Team');
 
 
 
@@ -1057,7 +1057,17 @@ class OfficeController extends AppController {
 //        $this->set('caiwukezhang_flag', $caiwukezhang_flag);
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-  
+        $dep_or_team_name = '';
+        if ($main_arr['ApplyMain']['type'] == 3) {
+            //取团队名称
+            $team_id = $main_arr['ApplyMain']['team_id'];
+            $team_arr = $this->Team->findById($team_id);
+            $dep_or_team_name = $team_arr['Team']['name'];
+        } else {
+            //取部门
+            $dep_or_team_name = $attr_arr[0][$table_name]['department_name'];
+        }
+        $this->set('dep_or_team_name', $dep_or_team_name);
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -1108,7 +1118,7 @@ class OfficeController extends AppController {
 //            }
 
             $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array)$this->userInfo, $status);
-
+            
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
