@@ -106,15 +106,19 @@
                                                     <td><?php echo $sv['ApplyMain']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name']; ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
-                                                    <td><?php 
-                                                        if(!empty($sv['ApplyMain']['attachment'])){
-                                                            $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
-                                                            $add_dirstr = $sv['ApplyMain']['table_name'] == 'apply_caigou' ? 'caigou/' : '';
-                                                            foreach($fileurlArr as $filev){
-                                                                echo  "<a href='/files/$add_dirstr$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
-                                                            } 
-                                                        }
-                                                        ?></td>
+                                                    <td>
+                                                        <?php 
+                                                          if(!empty($sv['ApplyMain']['attachment'])){
+                                                            $filearr = array();
+                                                            $filearr['url'] = $sv['ApplyMain']['attachment'];
+                                                            $filearr['name'] = $sv['ApplyMain']['name'];
+                                                            $filearr['uname'] = $all_user_arr[$sv['ApplyMain']['user_id']];
+                                                            $filearr['type'] =  $sv['ApplyMain']['table_name'] == 'apply_caigou' ? 'caigou/' : '';
+                                                            $filebase = base64_encode( json_encode( $filearr ) );
+                                                           ?>
+                                                        <a  data-toggle="modal" data-target="#fileModal" onclick="$('#modal-content').load('/office/file_print/<?php echo $filebase;?>');" > 附件 </a>
+                                                        <?php   } ?>
+                                                        </td>
                                                     <td><?php 
                                                         $new_appprove_code_arr = Configure::read('new_appprove_code_arr');
                                                         if(($sv['ApplyMain']['code'] % 2) == 0){
@@ -158,6 +162,12 @@
 
 
                                         </table>
+                                    </div>
+                                    
+                                    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content" id='modal-content'> </div>
+                                        </div>
                                     </div>
 
                                     <script type="text/javascript">

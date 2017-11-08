@@ -107,16 +107,22 @@
 						    <td><?php echo $sv['ApprovalInformation']['ctime'];  ?></td>
                                                     <td><?php echo $sv['ApplyMain']['name'];  ?></td>
                                                     <td><?php echo $all_user_arr[$sv['ApplyMain']['user_id']];  ?></td>
-                                                    <td><?php 
-                                                        if(!empty($sv['ApplyMain']['attachment'])){
-                                                        $fileurlArr = explode('|',$sv['ApplyMain']['attachment']);
-                                                        foreach($fileurlArr as $filev){
-                                                        echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
-                                                        } 
-                                                        }  ?></td>
+                                                    <td>
+                                                         <?php 
+                                                          if(!empty($sv['ApplyMain']['attachment'])){
+                                                            $filearr = array();
+                                                            $filearr['url'] = $sv['ApplyMain']['attachment'];
+                                                            $filearr['name'] = $sv['ApplyMain']['name'];
+                                                            $filearr['uname'] = $all_user_arr[$sv['ApplyMain']['user_id']];
+                                                            $filearr['type'] =  $sv['ApplyMain']['table_name'] == 'apply_caigou' ? 'caigou/' : '';
+                                                            $filebase = base64_encode( json_encode( $filearr ) );
+                                                           ?>
+                                                        <a  data-toggle="modal" data-target="#fileModal" onclick="$('#modal-content').load('/office/file_print/<?php echo $filebase;?>');" > 附件 </a>
+                                                        <?php   } ?>
+                                                        
+                                                    </td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
                                                         echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
-                                                    <!--td><a data-toggle="modal"  data-target="#modal_wait" href="#" onclick="$('#myFrame').attr('src', '/office/apply_baoxiaohuizong_print/<?php echo $sv['ApplyMain']['id'];?>');"  > 审核 </a></td-->
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -125,6 +131,11 @@
                                         </table>
                                     </div>
 
+                                    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content" id='modal-content'> </div>
+                                        </div>
+                                    </div>
                                     <script type="text/javascript">
                                         $(function () {
                                             $('#modal').on('hidden.bs.modal', function () {
@@ -198,9 +209,8 @@
                                     <div class="modal-dialog">
                                         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
                                     </div><!-- /.modal -->
-                                </div>   
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
+                                </div>  
+                                
                     </div><!-- PAGE CONTENT ENDS -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -383,6 +393,9 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     function wait_close() {
         $('#wait_close').click();
     }
+    
+    
+    
 </script>
 <script type="text/javascript">
     show_left_select('office', 'my_approval', 'my_approval_apply');
