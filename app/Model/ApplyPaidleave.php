@@ -101,7 +101,13 @@ class ApplyPaidleave extends AppModel {
         }
         
         // 是否所领导申请
-        $sql_1 = "select *from t_department where id='{$user_info['department_id']}' and del=0";
+        if ($is_apply) {
+            //审批时间取创建单子的 部门id
+            $dep_id = $data['dep_id'];
+        } else {
+            $dep_id = $user_info['department_id'];
+        }
+        $sql_1 = "select *from t_department where id='{$dep_id}' and del=0";
         $dem_arr = $this->query($sql_1);
         if (empty($dem_arr)) {
             $ret_arr[$this->err_msg] = '部门不存在';
@@ -292,6 +298,7 @@ class ApplyPaidleave extends AppModel {
         $data = array();
         $data['sum_day'] = $paidleave_arr[0]['t_apply_paidleave']['total_days'];
         $data['depname'] = $paidleave_arr[0]['t_apply_paidleave']['team_id'];
+        $data['dep_id'] = $paidleave_arr[0]['t_apply_paidleave']['department_id'];
         if ($type == 2) {
             //部门
            return $this->dep_create($type, $data, $user_info, true) ;

@@ -105,7 +105,13 @@ class ApplyChuchai extends AppModel {
         }
        
         // 是否部门所领导申请
-        $sql_1 = "select *from t_department where id='{$user_info['department_id']}' and del=0";
+        if ($is_apply) {
+            //审批时间取创建单子的 部门id
+            $dep_id = $data['dep_id'];
+        } else {
+            $dep_id = $user_info['department_id'];
+        }
+        $sql_1 = "select *from t_department where id='{$dep_id}' and del=0";
         $dem_arr = $this->query($sql_1);
         if (empty($dem_arr)) {
             $ret_arr[$this->err_msg] = '部门不存在';
@@ -292,6 +298,7 @@ class ApplyChuchai extends AppModel {
         $data = array();
         $data['sum_day'] = $chuchai_arr[0]['t_apply_chuchai']['days'];
         $data['dep_pro'] = $chuchai_arr[0]['t_apply_chuchai']['project_id'];
+        $data['dep_id'] = $chuchai_arr[0]['t_apply_chuchai']['department_id'];
         if ($type == 2) {
             //部门
            return $this->dep_create($type, $data, $user_info, true) ;

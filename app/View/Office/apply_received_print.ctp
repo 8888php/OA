@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td colspan='1' rowspan="2" style='height:200px;line-height: 200px;'>领导同志批示</td>
-                                <td colspan='3' >  <?php  echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  ?>    </td>
+                                <td colspan='3' >  <?php  echo $applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['remarks'];  ?>    </td>
                             </tr>
                             <tr>
                                 <td colspan='3'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
