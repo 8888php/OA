@@ -1,5 +1,5 @@
 <style>
-.modal-dialog{margin: 200px auto;}  
+.modal-dialog{margin: 10% auto 0;}  
 .btnstyle {background:#286090;color:#fff;width:100px;height:35px;}
 </style>
     

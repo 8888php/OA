@@ -496,6 +496,52 @@ class UserController extends AppController {
      * 修改用户密码
      */
     public function password(){
+        $this->layout = 'blank';
+        $returnMsg = array('result'=>'fail','message'=>'','locate'=>'');  
+        //只接受 post
+        $login_arr = $this->request->data;
+        
+        if ($this->request->isPost() && !empty($login_arr)) {
+            
+            $uname = $this->userInfo->user;
+            $pwdstr = $login_arr['pwd1'];
+            $new_pwdstr = $login_arr['pwd2'];
+            
+            $uInfo = $this->User->check_user_pwd($uname,$pwdstr);
+            switch($uInfo){
+                case -1:
+                    $returnMsg['message'] = '帐号密码为空';
+                    break;
+                case -2:
+                    $returnMsg['message'] = '用户不存在';
+                    break;
+                case -3:
+                    $returnMsg['message'] = '密码不对 或 已删除';
+                    break;
+            }
+            if($returnMsg['message'] != ''){
+                echo json_encode($returnMsg);
+                exit;
+            }
+            
+            if($uInfo['id']){
+                $saveArr = array();
+                $saveArr['password'] = $new_pwdstr;
+                $edit_status = $this->User->edit($uInfo['id'], $saveArr);
+                if($edit_status){
+                    $returnMsg['result'] = 'success';
+                    $returnMsg['message'] = '修改成功';
+                }else{
+                    $returnMsg['result'] = 'fail';
+                    $returnMsg['message'] = '修改失败'; 
+                }
+            }else{
+                $returnMsg['result'] = 'fail';
+                $returnMsg['message'] = '修改失败'; 
+            }
+             echo json_encode($returnMsg);die;
+        }
+               
         $this->render();
     }
     

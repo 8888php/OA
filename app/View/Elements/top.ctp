@@ -269,7 +269,7 @@
     </div><!-- /.container -->
 </div>
 
-<div class="modal fade" id="useModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="useModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content" id='usemodal-content'> </div>
     </div>
