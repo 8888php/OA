@@ -236,7 +236,7 @@ class ApplyEndlessly extends AppModel {
             return $ret_arr;
         }
         $user_id = $user_info['id'];
-        $dep_id = $user_info['department_id'];
+        $dep_id = $main_arr[0]['t_apply_main']['department_id'];
         $code = $main_arr[0]['t_apply_main']['code'];
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
