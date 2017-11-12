@@ -1405,7 +1405,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->ApplyChuchai->apply_approve($main_id, (array)$this->userInfo, $status);
-
+            
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
