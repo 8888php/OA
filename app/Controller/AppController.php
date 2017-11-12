@@ -294,7 +294,7 @@ class AppController extends Controller {
         if( $residual < 0 ){
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
-            $feedback['msg'] = '该来源资金已超出金额 '.$residual . ' 元!';
+            $feedback['msg'] = '该来源资金已超出金额 '.-$residual . ' 元!';
         }else if( $residual > 0 && $residual < $apply['ApplyMain']['total'] ){
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
@@ -323,17 +323,69 @@ class AppController extends Controller {
         if($residual < 0){
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
-            $feedback['msg'] = '该项目已超出总金额 '.$residual . ' 元';
+            $feedback['msg'] = '该项目已超出总金额 '.-$residual . ' 元';
         }else if( $residual > 0 && $residual < $apply['ApplyMain']['total'] ){
             $feedback['code'] = 1; 
             $feedback['total'] = $residual;
-            $feedback['msg']  = '该项目目剩余总金额 '.$residual . ' 元，不足申请金额！';
+            $feedback['msg']  = '该项目剩余总金额 '.$residual . ' 元，不足申请金额！';
         }else if( $residual > $apply['ApplyMain']['total'] ){
             $feedback['total'] = $residual;
             $feedback['msg']  = '该项目剩余总金额 '.$residual . ' 元';
         }
         return $feedback;
     }
+    
+    
+    
+        
+    /**
+     * 验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+     * @param $project_id 申请单所选项目  $subject 科目金额
+     * @return array();
+     */
+    public function check_subject_cost($project_id,$subject){
+         //1、项目所包含科目费用
+        $feedback = array('code'=>0,'total'=>'','msg'=>'');
+        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
+        if($project_costArr){
+            $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
+            //2、申请单所选科目费用
+            //$subject = json_decode($subject,true);
+            //3、取所选项目下已申报的科目的总费用
+            $costArr = $this->ApplyMain->find('list',array('conditions'=>array('project_id'=>$project_id,'code'=>10000,'is_calculation'=>1,'total != '=>0),'fields'=>array('id','subject')));
+            $subjectArr = array();
+            foreach($costArr as $v){
+                $kemu = json_decode($v , true);
+                foreach($kemu as $k => $v){
+                    $subjectArr[$k] += $v;
+                }
+            }
+            //4、比较单科目是否超额
+            foreach($subject as $k => $v){
+                if($v < $subjectArr[$k] ) {
+                    $keyanlist = Configure::read('keyanlist');
+                    $kemu_name = '';
+                    foreach($keyanlist as $lk => $lv){
+                        foreach($lv as $lkey => $lval){
+                            if( $lkey == $k ){
+                                $kemu_name = $lval;
+                                break 2;
+                            }
+                        }
+                    }
+                    $feedback['code'] = 1; 
+                    $feedback['total'] = $subjectArr[$k] - $v;
+                    $feedback['msg'] = $kemu_name.' 已超出该科目总额 '.$feedback['total'] . ' 元';
+                }
+            }
+   
+        }
+
+        return $feedback;
+    }
+    
+    
+    
     
     
      /**

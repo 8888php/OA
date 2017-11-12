@@ -605,11 +605,17 @@ class OfficeController extends AppController {
         $this->set('main_arr', @$main_arr['ApplyMain']);
         $this->set('createName', @$create_arr['User']['name']);
         $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']); 
-
+        
         // 科研类费用 检查所申请来源资金是否超额
         if($main_arr['ApplyMain']['type'] == 1){
-            $residual = $this->residual_cost($main_arr,$attr_arr['ApplyBaoxiaohuizong']['source_id']);          
-            $this->set('feedback',$residual);
+            //检查 单科目费用是否超过 科目总额
+            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],$main_arr['ApplyMain']['subject']);
+            if( $is_subject_check_cost['code'] == 0 ){
+                $residual = $this->residual_cost($main_arr,$attr_arr['ApplyBaoxiaohuizong']['source_id']);   
+                $this->set('feedback',$residual);
+            }else{
+                $this->set('feedback',$is_subject_check_cost);
+            }
         }
 
         // 审核记录
@@ -804,11 +810,17 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
-        
+     
         // 科研类费用 检查所申请来源资金是否超额
         if($main_arr['ApplyMain']['type'] == 1){
-            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);         
-            $this->set('feedback',$residual);
+            //检查 单科目费用是否超过 科目总额
+            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
+            if( $is_subject_check_cost['code'] == 0 ){
+                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
+                $this->set('feedback',$residual);
+            }else{
+                $this->set('feedback',$is_subject_check_cost);
+            }
         }
         
         //账务科长 得填写审批金额
@@ -871,11 +883,18 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
-        
+
+                
         // 科研类费用 检查所申请来源资金是否超额
         if($main_arr['ApplyMain']['type'] == 1){
-            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);          
-            $this->set('feedback',$residual);
+            //检查 单科目费用是否超过 科目总额
+            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
+            if( $is_subject_check_cost['code'] == 0 ){
+                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
+                $this->set('feedback',$residual);
+            }else{
+                $this->set('feedback',$is_subject_check_cost);
+            }
         }
         
         // 审核记录
@@ -930,11 +949,17 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
-        
+         
         // 科研类费用 检查所申请来源资金是否超额
         if($main_arr['ApplyMain']['type'] == 1){
-            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);          
-            $this->set('feedback',$residual);
+            //检查 单科目费用是否超过 科目总额
+            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
+            if( $is_subject_check_cost['code'] == 0 ){
+                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
+                $this->set('feedback',$residual);
+            }else{
+                $this->set('feedback',$is_subject_check_cost);
+            }
         }        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
@@ -1873,6 +1898,19 @@ class OfficeController extends AppController {
         $fileArr = json_decode( base64_decode( $fileurl ),true );
         $this->set('filearr', $fileArr);
         $this->render();
+    } 
+    
+   
+    
+            
+    /**
+     * 申请单 附件页面
+     */
+    public function test() {
+        $project_id = 1;
+        $subject = json_decode( '{"data_fee":"6000","facility":"10000"}' ,true );
+        var_dump( $this->check_subject_cost($project_id, $subject) );
+        exit;
     } 
     
     
