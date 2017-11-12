@@ -1822,6 +1822,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '果树所来文批办单';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
@@ -1959,6 +1960,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '果树所发文处理单';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
