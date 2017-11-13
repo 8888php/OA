@@ -363,7 +363,7 @@ class AppController extends Controller {
                         }
                     }
                     $feedback['code'] = 1;
-                    $feedback['total'] = $subjectArr[$k] - $v;
+                    $feedback['total'] = $subjectArr[$k] - $project_costArr[$k] - $v;
                     $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
                 }
             }

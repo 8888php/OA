@@ -699,10 +699,6 @@ class OfficeController extends AppController {
                 'next_approver_id' => $ret_arr['next_id'],
                 'next_apprly_uid' => $ret_arr['next_uid']
             );
-            //判断如果有审批金额则写到表里面
-                if ($this->request->data('small_approval_amount')) {
-                    $save_main['total'] = $this->request->data('small_approval_amount');
-                }
             
             //保存审批的数据
             $save_approve = array(
@@ -717,6 +713,16 @@ class OfficeController extends AppController {
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
+            
+            //判断如果有审批金额则写到表里面
+                if ($this->request->data('small_approval_amount')) {
+                    $save_main['total'] = $this->request->data('small_approval_amount');
+                    $main_subject = json_encode($mainInfos['ApplyMain']['subject'],true);
+                    foreach($main_subject as $mk => $mv){
+                        $main_subject[$mk] = $this->request->data('small_approval_amount');
+                    }
+                    $save_main['subject'] = json_encode($main_subject);
+                }            
 
             //开启事务
             $this->ApplyMain->begin();
