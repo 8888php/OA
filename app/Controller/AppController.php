@@ -364,7 +364,7 @@ class AppController extends Controller {
                     }
                     $feedback['code'] = 1;
                     $feedback['total'] = $project_costArr[$k] - $subjectArr[$k] - $v;
-                    $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                    $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元';
                 }
             }
         }
