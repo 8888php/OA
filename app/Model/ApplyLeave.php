@@ -330,45 +330,49 @@ class ApplyLeave extends AppModel {
             //只要下一个审批就可以
             foreach ($shengpin_arr as $k=>$v) {
                 if ($v == $next_approver_id) {
-                    if ($next_approver_id == 6) {
+                    $arr_get = $this->get_by_pos_dep($v, $qingjia_arr[0]['t_apply_leave']['department_id']);
+                    if ($next_approver_id == 6 && $arr_get[$this->next_uid] == $next_apprly_uid) {
                         $ret_arr[$this->code] = 10000;
                         $ret_arr[$this->code_id][] = $user_info['id'];
                     } else {
                         //15,5,22,6
-                        if ($next_approver_id == 15) {
+                        if ($next_approver_id == 15 && $arr_get[$this->next_uid] == $next_apprly_uid) {
                             //取出5所对应该的信息
                             $sql_5 = "select *from t_department where id='{$qingjia_arr[0]['t_apply_leave']['department_id']}' and del=0";
                             $arr_5 = $this->query($sql_5);
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 5;
+//                            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
+//                            $ret_arr[$this->next_id] = 5;
+                            break;
                             
-                        } else if ($next_approver_id == 5) {
+                        } else if ($next_approver_id == 5 && $arr_get[$this->next_uid] == $next_apprly_uid) {
                             //取出 22
                             $sql_22 = "select *from t_department where id=4 and del=0";
                             $arr_22 = $this->query($sql_22);
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 22;
+//                            $ret_arr[$this->next_uid] = empty($arr_22[0]['t_department']['sld']) ? 0 : $arr_22[0]['t_department']['sld'];
+//                            $ret_arr[$this->next_id] = 22;
+                            break;
                             
-                        } else if ($next_approver_id == 22) {
+                        } else if ($next_approver_id == 22 && $arr_get[$this->next_uid] == $next_apprly_uid) {
                             //取出 6
                             $sql_6 = "select *from t_user where position_id=6 and del=0";
                             $arr_6 = $this->query($sql_6);
                             $ret_arr[$this->code] = 10000;
                             $ret_arr[$this->code_id][] = $user_info['id'];
-                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
-                            $ret_arr[$this->next_id] = 6;
+//                            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_department']['sld']) ? 0 : $arr_6[0]['t_department']['sld'];
+//                            $ret_arr[$this->next_id] = 6;
+                            break;
                             
                         }
                         
                     }
                    
                 }
-                return $ret_arr; 
             }
+            return $ret_arr; 
         } else {
             //走完整的审批
             foreach ($shengpin_arr as $k=>$v) {
