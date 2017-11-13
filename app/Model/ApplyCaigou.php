@@ -87,6 +87,7 @@ class ApplyCaigou extends AppModel {
             return $ret_arr;
         }
         $arr_tmp = array();//放所有的审批角色信息
+        $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
@@ -101,11 +102,12 @@ class ApplyCaigou extends AppModel {
                 return $ret_arr;
             } else {
                 if ($arr_get[$this->next_uid] == $user_id) {
+                    $flag = true;
                     break;
                 }
             }
         }
-        $index = (($k + 1)== count($shenpi_arr)) ? $k : $k-1;//下标
+        $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
         return $ret_arr; //这里结束
