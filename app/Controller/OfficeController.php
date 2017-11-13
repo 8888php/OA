@@ -6,17 +6,12 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-
-
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource','ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation','DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave','ApplyChuchai', 'ApplyBaogong','ApplyPaidleave', 'ApplyEndlessly','ApplyCaigou','ApplySeal','ApplyReceived','ApplyBorrow','ApplyDispatch', 'Team');
-
-
-
-
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
-    const Table_fix = 't_';//表前缀
+
+    const Table_fix = 't_'; //表前缀
 
     public function index() {
         
@@ -66,7 +61,7 @@ class OfficeController extends AppController {
      * 我的申请 申请
      */
     public function apply($pages = 1) {
-        $user_id = $this->userInfo->id;        
+        $user_id = $this->userInfo->id;
 //        $type_arr = Configure::read('type_number');
 
         if ((int) $pages < 1) {
@@ -78,7 +73,7 @@ class OfficeController extends AppController {
         $all_page = 0;
         $lists = array();
         //有审批权限
-        $total =  $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' ");
+        $total = $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' ");
         $total = $total[0][0]['count'];
         $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
@@ -87,16 +82,16 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages-1) * $limit . ", $limit");
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages - 1) * $limit . ", $limit");
         }
-        
+
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
         $this->set('total', $total);      //total      总条数       
         $this->set('curpage', $pages);      //curpage    当前页
         $this->set('all_page', $all_page);
-        
+
         $this->render();
     }
 
@@ -121,12 +116,12 @@ class OfficeController extends AppController {
         } else if ($isWho == 'caiwukezhang') {
             $wherestr = ' and code = 2 ';
             $conditions = array('code ' => 2, 'del' => 0);
-        }else{
+        } else {
             $wherestr = ' and code = -1 ';
-            $conditions = array( 'code' => '-1', 'del' => 0);
+            $conditions = array('code' => '-1', 'del' => 0);
         }
 
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 ' . $wherestr); 
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 ' . $wherestr);
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -165,52 +160,52 @@ class OfficeController extends AppController {
         $all_page = 0;
         $lists = array();
         //在这里得加上部门的验证，如果是特殊职务，如所长，账务科长不验证部门
-        $department_str = "department_id ='$user_department_id' ";//默认找不到部门
-        $bumensql = ($position_id != 4) ? '': ' and type = 2 ';   // 部门负责人只能审核 行政申请
+        $department_str = "department_id ='$user_department_id' "; //默认找不到部门
+        $bumensql = ($position_id != 4) ? '' : ' and type = 2 ';   // 部门负责人只能审核 行政申请
         if ($can_approval == 2) {
             // 财务副所长、账务科主任 验证所有申请（审批流中包含这两个角色）
             /*
-            if (in_array($position_id, $this->not_department_arr)) {
-                //所长，账务科长不验证部门
-                $department_str = ' 1 ';
-            }
-            */
+              if (in_array($position_id, $this->not_department_arr)) {
+              //所长，账务科长不验证部门
+              $department_str = ' 1 ';
+              }
+             */
             //有审批权限
-            $sql = "select count(*) count from t_apply_main ApplyMain where ( " ;
+            $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
 
             $wheresql = '';
-                // 项目负责人审核
-            $wheresql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') "; 
+            // 项目负责人审核
+            $wheresql .= "(next_approver_id=11 and project_user_id='{$this->userInfo->id}') ";
             // 项目组负责人审核
-            $wheresql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') "; 
+            $wheresql .= "or (next_approver_id=12 and project_team_user_id='{$this->userInfo->id}') ";
             // 部门负责人审核
             $wheresql .= "or (next_approver_id=15 and department_fzr='{$this->userInfo->id}') ";
             // 科研项目由科研主任、科研副所长审核
-            if($this->userInfo->department_id == 3){ 
+            if ($this->userInfo->department_id == 3) {
                 $wheresql .= "or (type=1 and next_approver_id='{$this->userInfo->position_id}') ";
-            } 
+            }
             // 财务科副所长、财务科办公室主任 审核
-            if($this->userInfo->position_id == 13 || $this->userInfo->position_id == 14){ 
+            if ($this->userInfo->position_id == 13 || $this->userInfo->position_id == 14) {
                 $wheresql .= "or (next_approver_id='{$this->userInfo->position_id}') ";
-            }else if($this->userInfo->position_id == 6){
-             // 所长 审核
-               $wheresql .= "or (next_approver_id = 6 ) ";
+            } else if ($this->userInfo->position_id == 6) {
+                // 所长 审核
+                $wheresql .= "or (next_approver_id = 6 ) ";
             }
-             // 部门所属分管副所长  审核
-                $dep_lsd = $this->Department->find('list',array('conditions' => array('sld'=>$this->userInfo->id,'del'=>0), 'fields' => array('id')));
-            if(count($dep_lsd) > 0){
-                $dep_lsd_str =  implode($dep_lsd,',');
-                $wheresql .= "or (next_approver_id = 5 and department_id in($dep_lsd_str)) ";  
+            // 部门所属分管副所长  审核
+            $dep_lsd = $this->Department->find('list', array('conditions' => array('sld' => $this->userInfo->id, 'del' => 0), 'fields' => array('id')));
+            if (count($dep_lsd) > 0) {
+                $dep_lsd_str = implode($dep_lsd, ',');
+                $wheresql .= "or (next_approver_id = 5 and department_id in($dep_lsd_str)) ";
             }
-          /*  else{
-            // 部门申请筛选条件 
-             //   $wheresql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql ) " ; 
-            } 
-           */
+            /*  else{
+              // 部门申请筛选条件
+              //   $wheresql .= " or ({$department_str} and next_approver_id='$position_id' $bumensql ) " ;
+              }
+             */
             $sql .= $wheresql;
-            $sql .=  ") and code%2=0 and code !='$this->succ_code'";
+            $sql .= ") and code%2=0 and code !='$this->succ_code'";
 //echo $sql;
-            $total =  $this->ApplyMain->query($sql);  
+            $total = $this->ApplyMain->query($sql);
             $total = $total[0][0]['count'];
         } else {
             //没有审批权限
@@ -224,9 +219,9 @@ class OfficeController extends AppController {
                 $pages = $all_page;
             }
 
-            $sql = "select * from t_apply_main ApplyMain where ( " ;
+            $sql = "select * from t_apply_main ApplyMain where ( ";
             $sql .= $wheresql;
-            $sql .=  ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
+            $sql .= ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages - 1) * $limit . ", $limit";
             $lists = $this->ApplyMain->query($sql);
         }
         $this->set('all_user_arr', $all_user_arr);
@@ -238,8 +233,7 @@ class OfficeController extends AppController {
         $this->render();
     }
 
-
-   /**
+    /**
      * 待我审批 申请
      */
     public function wait_approval_apply($pages = 1) {
@@ -261,12 +255,12 @@ class OfficeController extends AppController {
         if ($can_approval == 2) {
 
             //有审批权限
-            $sql = "select count(*) count from t_apply_main ApplyMain where ( " ;
-            $wheresql = ' next_apprly_uid = '.$this->userInfo->id ;
+            $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
+            $wheresql = ' next_apprly_uid = ' . $this->userInfo->id;
             $sql .= $wheresql;
-            $sql .=  " ) and code%2=0 and code !='$this->succ_code'";
+            $sql .= " ) and code%2=0 and code !='$this->succ_code'";
 
-            $total =  $this->ApplyMain->query($sql);  
+            $total = $this->ApplyMain->query($sql);
             $total = $total[0][0]['count'];
         } else {
             //没有审批权限
@@ -280,11 +274,11 @@ class OfficeController extends AppController {
                 $pages = $all_page;
             }
 
-            $sql = "select * from t_apply_main ApplyMain where ( " ;
+            $sql = "select * from t_apply_main ApplyMain where ( ";
             $sql .= $wheresql;
-            $sql .=  ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages-1) * $limit . ", $limit";
+            $sql .= ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages - 1) * $limit . ", $limit";
             $lists = $this->ApplyMain->query($sql);
-        } 
+        }
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
@@ -293,10 +287,6 @@ class OfficeController extends AppController {
         $this->set('all_page', $all_page);
         $this->render();
     }
-
-
-
-
 
     /**
      * 经我审批 项目
@@ -310,18 +300,18 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        
-         // 行政审批 还是财务审批
+
+        // 行政审批 还是财务审批
         $isWho = $this->is_who();
         if ($isWho == 'keyanzhuren') {
             $wherestr = 'project_approver_id';
         } else if ($isWho == 'caiwukezhang') {
             $wherestr = 'financial_approver_id';
-        }else{
+        } else {
             $wherestr = 'del';
         }
- 
-        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and '.$wherestr. '=' . $this->userInfo->id);
+
+        $total = $this->ResearchProject->query('select count(*) as count from t_research_project where del=0 and ' . $wherestr . '=' . $this->userInfo->id);
         $total = $total[0][0]['count'];
         $userArr = array();
         if ($total > 0) {
@@ -351,7 +341,7 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
-       
+
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -360,8 +350,8 @@ class OfficeController extends AppController {
         $curpage = 0;
         $all_page = 0;
         $lists = array();
-        
-        $total =  $this->ApplyMain->query("select count(distinct ApplyMain.id) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' "); 
+
+        $total = $this->ApplyMain->query("select count(distinct ApplyMain.id) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' ");
         $total = $total[0][0]['count'];
         $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
@@ -370,7 +360,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1)*$limit . "," . $limit);
+            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
         }
 
         $this->set('all_user_arr', $all_user_arr);
@@ -399,15 +389,17 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $type = $this->request->data('type');
             $approve_id = $this->userInfo->id;
-            
+
             $isWho = $this->is_who();  // 当前用户身份
-            switch ($isWho){
-                case 'keyanzhuren' :  $codestatus = 0 ; break;
-                case 'caiwukezhang' : $codestatus = 2 ;  break;
+            switch ($isWho) {
+                case 'keyanzhuren' : $codestatus = 0;
+                    break;
+                case 'caiwukezhang' : $codestatus = 2;
+                    break;
                 default :
-                     $codestatus = '-1' ; 
+                    $codestatus = '-1';
             }
-            $pinfos = $this->ResearchProject->query('select p.id,u.id,u.user,u.name,u.tel from t_research_project p left join t_user u on p.user_id = u.id  where p.id=' . $pid . ' and p.code='.$codestatus.' and p.del=0');
+            $pinfos = $this->ResearchProject->query('select p.id,u.id,u.user,u.name,u.tel from t_research_project p left join t_user u on p.user_id = u.id  where p.id=' . $pid . ' and p.code=' . $codestatus . ' and p.del=0');
             if (!$pinfos) {
                 //有可能是不存在，也有可能是已经审批
                 $this->ret_arr['code'] = 1;
@@ -591,10 +583,11 @@ class OfficeController extends AppController {
     /**
      * 报销单审核详情
      */
-    public function apply_baoxiaohuizong_print($main_id = 0,$code = '') {
-        $this->set('seecode',$code);
+    public function apply_baoxiaohuizong_print($main_id = 0, $code = '') {
+        $this->set('seecode', $code);
         if (empty($main_id)) {
-             header("Location:/homes/index");die;
+            header("Location:/homes/index");
+            die;
         }
         //根据main_id取出数据
         $main_arr = $this->ApplyMain->findById($main_id);
@@ -604,41 +597,45 @@ class OfficeController extends AppController {
         $create_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         $this->set('main_arr', @$main_arr['ApplyMain']);
         $this->set('createName', @$create_arr['User']['name']);
-        $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']); 
-        
-        // 科研类费用 检查所申请来源资金是否超额
-        if($main_arr['ApplyMain']['type'] == 1){
-            //检查 单科目费用是否超过 科目总额
-            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],$main_arr['ApplyMain']['subject']);
-            if( $is_subject_check_cost['code'] == 0 ){
-                $residual = $this->residual_cost($main_arr,$attr_arr['ApplyBaoxiaohuizong']['source_id']);   
-                $this->set('feedback',$residual);
-            }else{
-                $this->set('feedback',$is_subject_check_cost);
+        $this->set('attr_arr', @$attr_arr['ApplyBaoxiaohuizong']);
+
+
+        // 科研类费用 检查所申请金额是否超项目总额
+        if ($main_arr['ApplyMain']['type'] == 1) {
+            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            if ($sourcelist['code'] == 0) {
+                // 科研类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_cost($main_arr, $attr_arr['ApplyBaoxiaohuizong']['source_id']);
+                if ($residual['code'] == 0) {
+                    //检查 单科目费用是否超过 科目总额
+                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
+                    $this->set('feedback', $is_subject_check_cost);
+                } else {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
             }
         }
 
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
 
-        $kemuStr =  '';
-        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+        $kemuStr = '';
+        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
-        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+        } else if ($main_arr['ApplyMain']['type'] == 1) { // 项目
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
-            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
-          // 科研类费用 检查所申请金额是否超项目总额
-            if($residual['code'] == 1){
-                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
-                $this->set('project_sum',$sourcelist);
-            }
+            $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
         }
-        $this->set('kemuStr', $kemuStr);  
+        $this->set('kemuStr', $kemuStr);
 
-      //  var_dump($main_arr,$attr_arr,$kemuStr);
+        //  var_dump($main_arr,$attr_arr,$kemuStr);
         $this->render();
     }
 
@@ -653,7 +650,7 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            
+
 //            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
 //                //有可能是不存在，也有可能是已经审批
 //                $this->ret_arr['code'] = 1;
@@ -661,7 +658,6 @@ class OfficeController extends AppController {
 //                echo json_encode($this->ret_arr);
 //                exit;
 //            }
-
             //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
 //            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
 //            $position_id = $this->userInfo->position_id;
@@ -682,7 +678,7 @@ class OfficeController extends AppController {
 //            }
 
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
-   
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -691,7 +687,6 @@ class OfficeController extends AppController {
                 exit;
             }
 //            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
-            
 //            if ($ret_arr[$this->code] == 1) {
 //                $this->ret_arr['code'] = 1;
 //                $this->ret_arr['msg'] = $ret_arr[$this->msg];
@@ -713,63 +708,63 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
 //                if ($this->ApprovalInformation->add($save_approve)) {
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //判断如果有审批金额则写到表里面
-                    if ($this->request->data('small_approval_amount')) {
-                        $small_approval_amount = $this->request->data('small_approval_amount');
-                        $big_approval_amount = $this->request->data('big_approval_amount');
-                        $attr_id = $mainInfos['ApplyMain']['attr_id'];
-                        $save_arr = array(
-                            'approve_money' => $small_approval_amount,
-                            'approve_money_capital' => $big_approval_amount
-                        );
-                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
-                    }
-                    
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //判断如果有审批金额则写到表里面
+                if ($this->request->data('small_approval_amount')) {
+                    $small_approval_amount = $this->request->data('small_approval_amount');
+                    $big_approval_amount = $this->request->data('big_approval_amount');
+                    $attr_id = $mainInfos['ApplyMain']['attr_id'];
+                    $save_arr = array(
+                        'approve_money' => $small_approval_amount,
+                        'approve_money_capital' => $big_approval_amount
+                    );
+                    $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+                }
+
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
 //                }
             }
             $this->ApplyMain->rollback();
@@ -778,7 +773,6 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
@@ -792,86 +786,13 @@ class OfficeController extends AppController {
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_jiekuandan_print($main_id, $flag='') {
+    public function apply_jiekuandan_print($main_id, $flag = '') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
-        //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
-        //取项目信息
-        $projecct_id = $attr_arr[0][$table_name]['project_id'];
-        if ($projecct_id) {
-            $project_arr = $this->ResearchProject->findById($projecct_id);
-            $this->set('project_arr', $project_arr);
-            $source_id = $attr_arr[0][$table_name]['source_id'];
-            $source_arr = $this->ResearchSource->findById($source_id);
-            $this->set('source_arr', $source_arr);
-        }
-     
-        // 科研类费用 检查所申请来源资金是否超额
-        if($main_arr['ApplyMain']['type'] == 1){
-            //检查 单科目费用是否超过 科目总额
-            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
-            if( $is_subject_check_cost['code'] == 0 ){
-                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
-                $this->set('feedback',$residual);
-            }else{
-                $this->set('feedback',$is_subject_check_cost);
-            }
-        }
-        
-        //账务科长 得填写审批金额
-        $caiwukezhang_flag = false;//默认不是账务科长
-        if ($main_arr['ApplyMain']['next_approver_id'] == 14) {
-            $caiwukezhang_flag = true;
-        }
-        $this->set('caiwukezhang_flag', $caiwukezhang_flag);
-        // 审核记录
-        $this->cwk_show_shenpi($main_arr);
-        
-        
-          $kemuStr =  '';
-        if($main_arr['ApplyMain']['type'] == 2){ // 部门
-            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
-            $kemuStr = $kemuArr['Department']['name'];
-        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
-            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
-            $kemuStr = $kemuArr['ResearchProject']['name'];
-            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
-            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
-          // 科研类费用 检查所申请金额是否超项目总额
-            if($residual['code'] == 1){
-                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
-                $this->set('project_sum',$sourcelist);
-            }
-        }
-        $this->set('kemuStr', $kemuStr);  
-        
-        
-        $this->set('apply', $flag);
-        $this->set('table_name', $table_name);
-        $this->set('main_arr', $main_arr);
-        $this->set('attr_arr', $attr_arr);
-        $this->set('user_arr', $user_arr);
-        $this->set('flag', $flag);
-        $this->render();
-    }
-    
-     /**
-     * 果树所领款单 打印
-     * @param type $main_id 主表id
-     * @param type $flag 
-     */
-    public function apply_lingkuandan_print($main_id, $flag='') {
-        //根据main_id取数据
-        $main_arr = $this->ApplyMain->findById($main_id);
-        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
-        $attr_id = $main_arr['ApplyMain']['attr_id'];
-        //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
         $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         //取项目信息
@@ -884,39 +805,49 @@ class OfficeController extends AppController {
             $this->set('source_arr', $source_arr);
         }
 
-                
-        // 科研类费用 检查所申请来源资金是否超额
-        if($main_arr['ApplyMain']['type'] == 1){
-            //检查 单科目费用是否超过 科目总额
-            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
-            if( $is_subject_check_cost['code'] == 0 ){
-                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
-                $this->set('feedback',$residual);
-            }else{
-                $this->set('feedback',$is_subject_check_cost);
+        // 科研类费用 检查所申请金额是否超项目总额
+        if ($main_arr['ApplyMain']['type'] == 1) {
+            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            if ($sourcelist['code'] == 0) {
+                // 科研类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 0) {
+                    //检查 单科目费用是否超过 科目总额
+                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
+                    $this->set('feedback', $is_subject_check_cost);
+                } else {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
             }
         }
-        
+
+        //账务科长 得填写审批金额
+        $caiwukezhang_flag = false; //默认不是账务科长
+        if ($main_arr['ApplyMain']['next_approver_id'] == 14) {
+            $caiwukezhang_flag = true;
+        }
+        $this->set('caiwukezhang_flag', $caiwukezhang_flag);
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-        
-          $kemuStr =  '';
-        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+
+
+        $kemuStr = '';
+        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
-        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+        } else if ($main_arr['ApplyMain']['type'] == 1) { // 项目
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
-            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
-          // 科研类费用 检查所申请金额是否超项目总额
-            if($residual['code'] == 1){
-                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
-                $this->set('project_sum',$sourcelist);
-            }
+            $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
         }
-        $this->set('kemuStr', $kemuStr);  
-      
+        $this->set('kemuStr', $kemuStr);
+
+
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -925,19 +856,19 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
-    
-     /**
-     * 果树所差旅费报销单 打印
+
+    /**
+     * 果树所领款单 打印
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_chuchai_bxd_print($main_id, $flag='') {
+    public function apply_lingkuandan_print($main_id, $flag = '') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
         $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         //取项目信息
@@ -949,38 +880,42 @@ class OfficeController extends AppController {
             $source_arr = $this->ResearchSource->findById($source_id);
             $this->set('source_arr', $source_arr);
         }
-         
-        // 科研类费用 检查所申请来源资金是否超额
-        if($main_arr['ApplyMain']['type'] == 1){
-            //检查 单科目费用是否超过 科目总额
-            $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'],json_decode($main_arr['ApplyMain']['subject'],true));
-            if( $is_subject_check_cost['code'] == 0 ){
-                $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);   
-                $this->set('feedback',$residual);
-            }else{
-                $this->set('feedback',$is_subject_check_cost);
+
+        // 科研类费用 检查所申请金额是否超项目总额
+        if ($main_arr['ApplyMain']['type'] == 1) {
+            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            if ($sourcelist['code'] == 0) {
+                // 科研类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 0) {
+                    //检查 单科目费用是否超过 科目总额
+                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
+                    $this->set('feedback', $is_subject_check_cost);
+                } else {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
             }
-        }        
+        }
+
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-        
-         $kemuStr =  '';
-        if($main_arr['ApplyMain']['type'] == 2){ // 部门
+
+        $kemuStr = '';
+        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
-        }else if($main_arr['ApplyMain']['type'] == 1){ // 项目
+        } else if ($main_arr['ApplyMain']['type'] == 1) { // 项目
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
-            $kemuStr .= ' |【'. $kemuSourceArr['ResearchSource']['source_channel'] .' （'.$kemuSourceArr['ResearchSource']['file_number'] .'） '.$kemuSourceArr['ResearchSource']['year'] .'】';            
-          // 科研类费用 检查所申请金额是否超项目总额
-            if($residual['code'] == 1){
-                $sourcelist = $this->residual_project_cost($main_arr,$kemuArr['ResearchProject']['amount']);  
-                $this->set('project_sum',$sourcelist);
-            }
+            $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
         }
-        $this->set('kemuStr', $kemuStr);  
-        
+        $this->set('kemuStr', $kemuStr);
+
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -989,7 +924,77 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
-    
+
+    /**
+     * 果树所差旅费报销单 打印
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_chuchai_bxd_print($main_id, $flag = '') {
+        //根据main_id取数据
+        $main_arr = $this->ApplyMain->findById($main_id);
+        $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
+        $attr_id = $main_arr['ApplyMain']['attr_id'];
+        //取附表
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
+        //取用户信息
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+        //取项目信息
+        $projecct_id = $attr_arr[0][$table_name]['project_id'];
+        if ($projecct_id) {
+            $project_arr = $this->ResearchProject->findById($projecct_id);
+            $this->set('project_arr', $project_arr);
+            $source_id = $attr_arr[0][$table_name]['source_id'];
+            $source_arr = $this->ResearchSource->findById($source_id);
+            $this->set('source_arr', $source_arr);
+        }
+
+
+        // 科研类费用 检查所申请金额是否超项目总额
+        if ($main_arr['ApplyMain']['type'] == 1) {
+            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            if ($sourcelist['code'] == 0) {
+                // 科研类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 0) {
+                    //检查 单科目费用是否超过 科目总额
+                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
+                    $this->set('feedback', $is_subject_check_cost);
+                } else {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
+            }
+        }
+
+
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+
+        $kemuStr = '';
+        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
+            $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
+            $kemuStr = $kemuArr['Department']['name'];
+        } else if ($main_arr['ApplyMain']['type'] == 1) { // 项目
+            $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
+            $kemuStr = $kemuArr['ResearchProject']['name'];
+            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
+        }
+        $this->set('kemuStr', $kemuStr);
+
+        $this->set('apply', $flag);
+        $this->set('table_name', $table_name);
+        $this->set('main_arr', $main_arr);
+        $this->set('attr_arr', $attr_arr);
+        $this->set('user_arr', $user_arr);
+        $this->set('flag', $flag);
+        $this->render();
+    }
+
     /**
      * 财务科  4个单子的 审批信息
      * @param type $main_arr
@@ -999,17 +1004,17 @@ class OfficeController extends AppController {
         // 审核记录
         $applylist = $this->ApprovalInformation->find('all', array('conditions' => array('main_id' => $main_arr['ApplyMain']['id']), 'fields' => array('position_id', 'name', 'remarks', 'ctime')));
         // 获取部门负责人
-        switch($main_arr['ApplyMain']['type']) {
+        switch ($main_arr['ApplyMain']['type']) {
             case 2:
-            $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = ' . $main_arr['ApplyMain']['department_id'] . ' limit 1');
-            break;
+                $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = ' . $main_arr['ApplyMain']['department_id'] . ' limit 1');
+                break;
             case 1:
-            $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = 3 limit 1');
-            break;
+                $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = 3 limit 1');
+                break;
         }
 
         $applyArr = array();
-        $apply_12 = array();//科研 项目组负责人
+        $apply_12 = array(); //科研 项目组负责人
         foreach ($applylist as $k => $v) {
             if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id'] || $v['ApprovalInformation']['position_id'] == 15) {
                 $applyArr['ksfzr'] = $v['ApprovalInformation'];
@@ -1018,10 +1023,10 @@ class OfficeController extends AppController {
                     //项目组负责人先保存起来
                     $apply_12 = $v['ApprovalInformation'];
                     continue;
-                } 
+                }
                 $applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
             }
-        } 
+        }
         //如果是科研
         if ($main_arr['ApplyMain']['type'] == 1) {
             if (!empty($apply_12)) {
@@ -1029,7 +1034,7 @@ class OfficeController extends AppController {
                 $applyArr[11] = $apply_12;
             } else {
                 //判断next_approve_id是不12
-                if(!empty($applyArr[11])) {
+                if (!empty($applyArr[11])) {
                     //看看 项目负责人在不
                     //取出下一审核人的 next_approve_id
                     if ($main_arr['ApplyMain']['next_approver_id'] == 12) {
@@ -1037,27 +1042,25 @@ class OfficeController extends AppController {
                         unset($applyArr[11]);
                     }
                 }
-            } 
+            }
         }   //var_dump($applyArr);
         $this->set('applyArr', @$applyArr);
     }
-
-
 
     /**
      * 果树所请假单 打印
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_leave_print($main_id, $flag='') {
+    public function apply_leave_print($main_id, $flag = '') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         //取项目信息
 //        $projecct_id = $attr_arr[0][$table_name]['project_id'];
 //        if ($projecct_id) {
@@ -1067,13 +1070,11 @@ class OfficeController extends AppController {
 //            $source_arr = $this->ResearchSource->findById($source_id);
 //            $this->set('source_arr', $source_arr);
 //        }
-        
         // 科研类费用 检查所申请来源资金是否超额
 //        if($main_arr['ApplyMain']['type'] == 1){
 //            $residual = $this->residual_cost($main_arr,$attr_arr[0][$table_name]['source_id']);         
 //            $this->set('feedback',$residual);
 //        }
-        
         //账务科长 得填写审批金额
 //        $caiwukezhang_flag = false;//默认不是账务科长
 //        if ($main_arr['ApplyMain']['next_approver_id'] == 14) {
@@ -1101,8 +1102,7 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
-        
-    
+
     /**
      * 请假申请审批
      */
@@ -1114,7 +1114,7 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            
+
 //            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
 //                //有可能是不存在，也有可能是已经审批
 //                $this->ret_arr['code'] = 1;
@@ -1122,7 +1122,6 @@ class OfficeController extends AppController {
 //                echo json_encode($this->ret_arr);
 //                exit;
 //            }
-
             //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
 //            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
 //            $position_id = $this->userInfo->position_id;
@@ -1142,8 +1141,8 @@ class OfficeController extends AppController {
 //                exit;
 //            }
 
-            $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array)$this->userInfo, $status);
-            
+            $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array) $this->userInfo, $status);
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1152,7 +1151,6 @@ class OfficeController extends AppController {
                 exit;
             }
 //            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
-            
 //            if ($ret_arr[$this->code] == 1) {
 //                $this->ret_arr['code'] = 1;
 //                $this->ret_arr['msg'] = $ret_arr[$this->msg];
@@ -1174,47 +1172,47 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
 //                if ($this->ApprovalInformation->add($save_approve)) {
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //判断如果有审批金额则写到表里面
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //判断如果有审批金额则写到表里面
 //                    if ($this->request->data('small_approval_amount')) {
 //                        $small_approval_amount = $this->request->data('small_approval_amount');
 //                        $big_approval_amount = $this->request->data('big_approval_amount');
@@ -1225,12 +1223,11 @@ class OfficeController extends AppController {
 //                        );
 //                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
 //                    }
-                    
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
 //                }
             }
             $this->ApplyMain->rollback();
@@ -1239,7 +1236,6 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
@@ -1247,18 +1243,18 @@ class OfficeController extends AppController {
             exit;
         }
     }
-    
+
     public function apply_baogong_print($main_id, $flag) {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         $team_arr = $this->ApplyMain->query("select *from t_team where id='{$attr_arr[0][$table_name]['team_id']}'");
         //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
-        
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         $this->set('team_arr', $team_arr);
@@ -1270,8 +1266,8 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
-    
-     /**
+
+    /**
      * 审批包工
      */
     public function ajax_approve_baogong() {
@@ -1282,11 +1278,11 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            
 
 
-                    $ret_arr = $this->ApplyBaogong->apply_approve($main_id, (array)$this->userInfo, $status);
-            
+
+            $ret_arr = $this->ApplyBaogong->apply_approve($main_id, (array) $this->userInfo, $status);
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1295,7 +1291,6 @@ class OfficeController extends AppController {
                 exit;
             }
 //            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
-            
 //            if ($ret_arr[$this->code] == 1) {
 //                $this->ret_arr['code'] = 1;
 //                $this->ret_arr['msg'] = $ret_arr[$this->msg];
@@ -1317,47 +1312,47 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
 //                if ($this->ApprovalInformation->add($save_approve)) {
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //判断如果有审批金额则写到表里面
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //判断如果有审批金额则写到表里面
 //                    if ($this->request->data('small_approval_amount')) {
 //                        $small_approval_amount = $this->request->data('small_approval_amount');
 //                        $big_approval_amount = $this->request->data('big_approval_amount');
@@ -1368,12 +1363,11 @@ class OfficeController extends AppController {
 //                        );
 //                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
 //                    }
-                    
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
 //                }
             }
             $this->ApplyMain->rollback();
@@ -1382,7 +1376,6 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
@@ -1390,35 +1383,35 @@ class OfficeController extends AppController {
             exit;
         }
     }
-    
-      /**
+
+    /**
      * 果树所差旅审批单 打印
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_chuchai_print($main_id, $flag='') {
+    public function apply_chuchai_print($main_id, $flag = '') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
 
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-  
+
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
-        $this->set('attr_arr', $attr_arr); 
+        $this->set('attr_arr', $attr_arr);
         $this->set('user_arr', $user_arr);
         $this->set('flag', $flag);
         $this->render();
-    } 
-    
-     /**
+    }
+
+    /**
      * 差旅申请审批
      */
     public function ajax_approve_chuchai() {
@@ -1429,8 +1422,8 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            $ret_arr = $this->ApplyChuchai->apply_approve($main_id, (array)$this->userInfo, $status);
-            
+            $ret_arr = $this->ApplyChuchai->apply_approve($main_id, (array) $this->userInfo, $status);
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1454,51 +1447,51 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
-                
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
             }
             $this->ApplyMain->rollback();
             //失败
@@ -1506,7 +1499,6 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
@@ -1514,34 +1506,34 @@ class OfficeController extends AppController {
             exit;
         }
     }
-    
-     /**
+
+    /**
      * 审批单 打印模板
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    private function apply_print_model($main_id, $flag='') {
+    private function apply_print_model($main_id, $flag = '') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
 
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-  
+
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
-        $this->set('attr_arr', $attr_arr); 
+        $this->set('attr_arr', $attr_arr);
         $this->set('user_arr', $user_arr);
         $this->set('flag', $flag);
         $this->render();
-    } 
-   
+    }
+
     /**
      * 审批单 审批模板
      */
@@ -1553,10 +1545,10 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            $ret_arr = $this->$tablename->apply_approve($main_id, (array)$this->userInfo, $status);
-            
+            $ret_arr = $this->$tablename->apply_approve($main_id, (array) $this->userInfo, $status);
+
             if (!empty($ret_arr['msg'])) {
-                 //说明审批出错
+                //说明审批出错
                 $this->ret_arr['code'] = 1;
                 $this->ret_arr['msg'] = $ret_arr['msg'];
                 echo json_encode($this->ret_arr);
@@ -1585,51 +1577,51 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
-                
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
             }
             $this->ApplyMain->rollback();
             //失败
@@ -1637,42 +1629,41 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
             echo json_encode($this->ret_arr);
             exit;
         }
-    } 
-    
+    }
+
     /**
      * 果树所职工带薪年休假审批单 打印
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_paidleave_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_paidleave_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 果树所职工带薪年休假审批单 审批
      */
     public function ajax_approve_paidleave() {
         $this->ajax_approve_model('ApplyPaidleave');
-    } 
-    
+    }
+
     public function apply_endlessly_print($main_id, $flag) {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
-        $attr_arr = $this->ApplyMain->query("select *from " . $table_name. " where id=$attr_id");
+        $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         $team_arr = $this->ApplyMain->query("select *from t_team where id='{$attr_arr[0][$table_name]['team_id']}'");
         //取用户信息
-        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']); 
-        
+        $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
+
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
         $this->set('team_arr', $team_arr);
@@ -1684,8 +1675,8 @@ class OfficeController extends AppController {
         $this->set('flag', $flag);
         $this->render();
     }
-    
-     /**
+
+    /**
      * 职工因公不休或不全休带薪假审批表
      */
     public function ajax_approve_endlessly() {
@@ -1696,8 +1687,8 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-            $ret_arr = $this->ApplyEndlessly->apply_approve($main_id, (array)$this->userInfo, $status);
-                    
+            $ret_arr = $this->ApplyEndlessly->apply_approve($main_id, (array) $this->userInfo, $status);
+
             if ($ret_arr == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -1706,7 +1697,6 @@ class OfficeController extends AppController {
                 exit;
             }
 //            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
-            
 //            if ($ret_arr[$this->code] == 1) {
 //                $this->ret_arr['code'] = 1;
 //                $this->ret_arr['msg'] = $ret_arr[$this->msg];
@@ -1728,47 +1718,47 @@ class OfficeController extends AppController {
                 'ctime' => date('Y-m-d H:i:s', time()),
                 'status' => $status
             );
-            
+
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
             $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
-                    
+
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
 //                if ($this->ApprovalInformation->add($save_approve)) {
-                    $this->ApplyMain->commit();
-                    
-                    //如果审批通过，且跳过下个则在表里记录一下
-                    if (isset($ret_arr['code_id'])) {
-                        foreach ($ret_arr['code_id'] as $k=>$v) {
-                            if ($v == $this->userInfo->id) {
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $this->userInfo->id,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $this->userInfo->name,
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            } else {
-                                //根据id取出当前用户的信息
-                                $userinfo = $this->User->findById($v);
-                                $save_approve_log[$k] = array(
-                                    'main_id' => $main_id,
-                                    'approve_id' => $v,
-                                    'remarks' => !$remarks ? '' : $remarks,
-                                    'position_id' => $approve_position_id,
-                                    'name' => $userinfo['User']['name'],
-                                    'ctime' => date('Y-m-d H:i:s', time()),
-                                    'status' => $status
-                                );
-                            }  
+                $this->ApplyMain->commit();
+
+                //如果审批通过，且跳过下个则在表里记录一下
+                if (isset($ret_arr['code_id'])) {
+                    foreach ($ret_arr['code_id'] as $k => $v) {
+                        if ($v == $this->userInfo->id) {
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $this->userInfo->id,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $this->userInfo->name,
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
+                        } else {
+                            //根据id取出当前用户的信息
+                            $userinfo = $this->User->findById($v);
+                            $save_approve_log[$k] = array(
+                                'main_id' => $main_id,
+                                'approve_id' => $v,
+                                'remarks' => !$remarks ? '' : $remarks,
+                                'position_id' => $approve_position_id,
+                                'name' => $userinfo['User']['name'],
+                                'ctime' => date('Y-m-d H:i:s', time()),
+                                'status' => $status
+                            );
                         }
-                           $this->ApprovalInformation->saveAll($save_approve_log);
                     }
-                    //判断如果有审批金额则写到表里面
+                    $this->ApprovalInformation->saveAll($save_approve_log);
+                }
+                //判断如果有审批金额则写到表里面
 //                    if ($this->request->data('small_approval_amount')) {
 //                        $small_approval_amount = $this->request->data('small_approval_amount');
 //                        $big_approval_amount = $this->request->data('big_approval_amount');
@@ -1779,12 +1769,11 @@ class OfficeController extends AppController {
 //                        );
 //                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
 //                    }
-                    
-                    //成功
-                    $this->ret_arr['code'] = 0;
-                    $this->ret_arr['msg'] = '审批成功';
-                    echo json_encode($this->ret_arr);
-                    exit;
+                //成功
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '审批成功';
+                echo json_encode($this->ret_arr);
+                exit;
 //                }
             }
             $this->ApplyMain->rollback();
@@ -1793,7 +1782,6 @@ class OfficeController extends AppController {
             $this->ret_arr['msg'] = '审批失败';
             echo json_encode($this->ret_arr);
             exit;
-            
         } else {
             $this->ret_arr['code'] = 1;
             $this->ret_arr['msg'] = '参数有误';
@@ -1801,118 +1789,104 @@ class OfficeController extends AppController {
             exit;
         }
     }
-    
-        
+
     /**
      * 果树所 采购申请单 打印
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_caigou_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_caigou_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 果树所 采购申请单 审批
      */
     public function ajax_approve_caigou() {
         $this->ajax_approve_model('ApplyCaigou');
-    } 
-    
-          
+    }
+
     /**
      * 印信使用签批单
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_seal_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_seal_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 印信使用签批单
      */
     public function ajax_approve_seal() {
         $this->ajax_approve_model('ApplySeal');
-    } 
+    }
 
-
-     /**
+    /**
      * 果树所来文处理单
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_received_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_received_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 果树所来文处理单 审核
      */
     public function ajax_approve_received() {
         $this->ajax_approve_model('ApplyReceived');
-    } 
-
-
-
-    
+    }
 
     /**
      * 果树所发文处理单
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_dispatch_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_dispatch_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 果树所发文处理单 审核
      */
     public function ajax_approve_dispatch() {
         $this->ajax_approve_model('ApplyDispatch');
-    } 
-    
+    }
+
     /**
      * 档案借阅申请单
      * @param type $main_id 主表id
      * @param type $flag 
      */
-    public function apply_borrow_print($main_id, $flag='') {
-         $this->apply_print_model($main_id, $flag);
-    } 
-    
-     /**
+    public function apply_borrow_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+
+    /**
      * 档案借阅申请单  审核
      */
     public function ajax_approve_borrow() {
         $this->ajax_approve_model('ApplyBorrow');
-    } 
+    }
 
- 
-        
     /**
      * 申请单 附件页面
      */
     public function file_print($fileurl) {
-        $fileArr = json_decode( base64_decode( $fileurl ),true );
+        $fileArr = json_decode(base64_decode($fileurl), true);
         $this->set('filearr', $fileArr);
         $this->render();
-    } 
-    
-   
-    
-            
+    }
+
     /**
      * 申请单 附件页面
      */
     public function test() {
         $project_id = 1;
-        $subject = json_decode( '{"data_fee":"6000","facility":"10000"}' ,true );
-        var_dump( $this->check_subject_cost($project_id, $subject) );
+        $subject = json_decode('{"data_fee":"6000","facility":"10000"}', true);
+        var_dump($this->check_subject_cost($project_id, $subject));
         exit;
-    } 
-    
-    
-    
+    }
+
 }
