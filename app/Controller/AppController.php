@@ -350,23 +350,34 @@ class AppController extends Controller {
                 }
             }
             //4、比较单科目是否超额
+            
+            
             foreach ($subject as $k => $v) {
-                if ($v < $subjectArr[$k]) {
-                    $keyanlist = Configure::read('keyanlist');
-                    $kemu_name = '';
-                    foreach ($keyanlist as $lk => $lv) {
-                        foreach ($lv as $lkey => $lval) {
-                            if ($lkey == $k) {
-                                $kemu_name = $lval;
-                                break 2;
+                if(!$subjectArr[$k]){
+                   $keyanlist = Configure::read('keyanlist');
+                   $kemu_name = '';
+                   $feedback['code'] = 1;
+                   $feedback['total'] = $v;
+                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元'; 
+                }else{
+                    if ($v < $subjectArr[$k]) {
+                        $keyanlist = Configure::read('keyanlist');
+                        $kemu_name = '';
+                        foreach ($keyanlist as $lk => $lv) {
+                            foreach ($lv as $lkey => $lval) {
+                                if ($lkey == $k) {
+                                    $kemu_name = $lval;
+                                    break 2;
+                                }
                             }
                         }
+                        $feedback['code'] = 1;
+                        $feedback['total'] = $project_costArr[$k] - $subjectArr[$k] - $v;
+                        $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元';
                     }
-                    $feedback['code'] = 1;
-                    $feedback['total'] = $project_costArr[$k] - $subjectArr[$k] - $v;
-                    $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元';
                 }
             }
+            
         }
 
         return $feedback;
