@@ -614,7 +614,7 @@ class OfficeController extends AppController {
                 $residual = $this->residual_cost($main_arr, $attr_arr['ApplyBaoxiaohuizong']['source_id']);
                 if ($residual['code'] == 0) {
                     //检查 单科目费用是否超过 科目总额
-                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
+                    $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], $main_arr['ApplyMain']['subject']);
                     $this->set('feedback', $is_subject_check_cost);
                 } else {
                     $this->set('project_sum', $residual);
