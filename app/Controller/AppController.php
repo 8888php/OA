@@ -358,7 +358,7 @@ class AppController extends Controller {
                    $kemu_name = '';
                    $feedback['code'] = 1;
                    $feedback['total'] = $v;
-                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元'; 
+                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元'; 
                 }else{
                     if ($v < $subjectArr[$k]) {
                         $keyanlist = Configure::read('keyanlist');
