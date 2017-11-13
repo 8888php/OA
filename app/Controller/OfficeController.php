@@ -699,6 +699,11 @@ class OfficeController extends AppController {
                 'next_approver_id' => $ret_arr['next_id'],
                 'next_apprly_uid' => $ret_arr['next_uid']
             );
+            //判断如果有审批金额则写到表里面
+                if ($this->request->data('small_approval_amount')) {
+                    $save_main['total'] = $this->request->data('small_approval_amount');
+                }
+            
             //保存审批的数据
             $save_approve = array(
                 'main_id' => $main_id,
