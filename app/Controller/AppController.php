@@ -1,24 +1,4 @@
 <?php
-
-/**
- * Application level Controller
- *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
 App::uses('AppController', 'Controller');
 
 /**
@@ -28,7 +8,6 @@ App::uses('AppController', 'Controller');
  * will inherit them.
  *
  * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
 
@@ -277,7 +256,7 @@ class AppController extends Controller {
                     . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
                     . "left join t_apply_jiekuandan j on m.project_id = j.project_id and j.source_id = $source_id and m.attr_id = j.id  "
                     . "left join t_apply_lingkuandan l on m.project_id = l.project_id and j.source_id = $source_id and m.attr_id = l.id  "
-                    . " where m.project_id = $project_id and m.code = 10000  and is_calculation = 1 ";
+                    . " where m.project_id = $project_id and type = 1 and m.code = 10000  and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
@@ -307,7 +286,7 @@ class AppController extends Controller {
     public function residual_project_cost($apply, $project_sum_count) {
         if ($apply['ApplyMain']['type'] == 1) {
             $project_id = $apply['ApplyMain']['project_id'];
-            $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where project_id = $project_id and code = 10000 and is_calculation = 1 ");
+            $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where project_id = $project_id  and type = 1 and code = 10000 and is_calculation = 1 ");
             $residual = $project_sum_count - $sumTotal[0][0]['sum_total']; // 剩余金额
         }
 
@@ -382,6 +361,80 @@ class AppController extends Controller {
 
         return $feedback;
     }
+
+
+
+   /**
+     * 部门
+     * 验证审批单申请是否超过 来源资金剩余金额
+     * @param $apply 申请单详情  $source_id 资金来源id
+     * @return array();
+     */
+    public function residual_department($apply, $source_id) {
+        if ($apply['ApplyMain']['type'] == 1) {
+            $department_id = $apply['ApplyMain']['department_id'];
+            $source = $this->ResearchSource->findById($source_id);
+            $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
+            $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
+                    . "left join t_apply_baoxiaohuizong h on m.department_id = h.department_id and h.source_id = $source_id and m.attr_id = h.id "
+                    . " left join t_apply_chuchai_bxd c on m.department_id = c.department_id and c.source_id = $source_id and m.attr_id = c.id  "
+                    . "left join t_apply_jiekuandan j on m.department_id = j.department_id and j.source_id = $source_id and m.attr_id = j.id  "
+                    . "left join t_apply_lingkuandan l on m.department_id = l.department_id and j.source_id = $source_id and m.attr_id = l.id  "
+                    . " where m.department_id = $department_id and type = 2 and m.code = 10000  and is_calculation = 1 ";
+            $amount_sum = $this->ResearchSource->query($sqlstr);
+            $total_cost = $amount_sum[0][0]['sum_total'];
+            $residual = $source_amount - $total_cost; // 剩余金额
+        }
+
+        $feedback = array('code' => 0, 'total' => '', 'msg' => '');
+        if ($residual < 0) {
+            $feedback['code'] = 1;
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '部门该来源资金已超出金额 ' . -$residual . ' 元!';
+        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+            $feedback['code'] = 1;
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '部门该来源资金剩余金额 ' . $residual . ' 元，不足申请金额！';
+        } else if ($residual > $apply['ApplyMain']['total']) {
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '部门该来源资金剩余金额 ' . $residual . ' 元！';
+        }
+        return $feedback;
+    }
+
+
+
+     /**
+     * 部门
+     * 验证审批单申请是否超过 部门资金来源总金额
+     * @param $apply 申请单详情  $project_sum_count 项目总金额
+     * @return array();
+     */
+    public function residual_department_cost($apply) {
+        if ($apply['ApplyMain']['type'] == 1) {
+            $department_id = $apply['ApplyMain']['department_id'];
+            $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where department_id = $department_id  and type = 2 and code = 10000 and is_calculation = 1 ");
+
+            $sumSourceAmount = $this->ResearchSource->query("select sum(amount) sum_amount from t_research_source where department_id = $department_id  ");
+            $residual = $sumTotal[0][0]['sum_total'] - $sumSourceAmount[0][0]['sum_amount']; // 剩余金额
+        }
+
+        $feedback = array('code' => 0, 'total' => '', 'msg' => '');
+        if ($residual < 0) {
+            $feedback['code'] = 1;
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '该部门已超出总金额 ' . -$residual . ' 元';
+        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+            $feedback['code'] = 1;
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '该部门剩余总金额 ' . $residual . ' 元，不足申请金额！';
+        } else if ($residual > $apply['ApplyMain']['total']) {
+            $feedback['total'] = $residual;
+            $feedback['msg'] = '该部门剩余总金额 ' . $residual . ' 元';
+        }
+        return $feedback;
+    }
+
 
     /**
      * 获取申请单 和 附属表详情

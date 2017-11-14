@@ -626,14 +626,31 @@ class OfficeController extends AppController {
             }
         }
 
-        // 审核记录
-        $this->cwk_show_shenpi($main_arr);
 
         if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
+
+            // 部门类型费用 检查申请单金额是否超总额
+             $sourcelist = $this->residual_department_cost($main_arr);
+            if ($sourcelist['code'] == 0) {
+                // 部门类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_department($main_arr, $attr_arr['ApplyBaoxiaohuizong']['source_id']);
+                if ($residual['code'] == 1) {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
+            }
         } 
         $this->set('kemuStr', $kemuStr);
+
+
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
+
 
         //  var_dump($main_arr,$attr_arr,$kemuStr);
         $this->render();
@@ -855,8 +872,24 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
+
+            // 部门类型费用 检查申请单金额是否超总额
+             $sourcelist = $this->residual_department_cost($main_arr);
+            if ($sourcelist['code'] == 0) {
+                // 部门类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 1) {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
+            }
         } 
         $this->set('kemuStr', $kemuStr);
+
+
 
 
         $this->set('apply', $flag);
@@ -924,8 +957,24 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
+
+            // 部门类型费用 检查申请单金额是否超总额
+             $sourcelist = $this->residual_department_cost($main_arr);
+            if ($sourcelist['code'] == 0) {
+                // 部门类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 1) {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
+            }
         } 
         $this->set('kemuStr', $kemuStr);
+
+
 
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
@@ -987,15 +1036,28 @@ class OfficeController extends AppController {
         }
 
 
-        // 审核记录
-        $this->cwk_show_shenpi($main_arr);
-
-        
         if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
+
+            // 部门类型费用 检查申请单金额是否超总额
+             $sourcelist = $this->residual_department_cost($main_arr);
+            if ($sourcelist['code'] == 0) {
+                // 部门类费用 检查所申请来源资金是否超额
+                $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
+                if ($residual['code'] == 1) {
+                    $this->set('project_sum', $residual);
+                    $this->set('feedback', $residual);
+                }
+            } else {
+                $this->set('project_sum', $sourcelist);
+                $this->set('feedback', $sourcelist);
+            }
         } 
         $this->set('kemuStr', $kemuStr);
+
+        // 审核记录
+        $this->cwk_show_shenpi($main_arr);
 
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
