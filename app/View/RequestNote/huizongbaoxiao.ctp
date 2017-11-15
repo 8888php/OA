@@ -23,7 +23,7 @@
                                     <input readonly="readonly" type="text" class=" ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>"   style='width:150px;height:25px;'>  
                                 </td>
                                 <td >原始凭证页数</td>
-                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
+                                <td>  <input type="text" name='page_number' class="page_number" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : ''; ?>"  />  </td>
                                 <td>核算</td>
                                 <td > 
                                     <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
@@ -163,7 +163,7 @@
                         </tr>
                         <tr>
                             <td>报销<br/>简要说明</td>
-                            <td colspan='6'> <textarea  name="description" class="description"  style="width:570px;" > <?php echo $attrInfo['description'];?>  </textarea>
+                            <td colspan='6'> <textarea  name="description" class="description"  style="width:570px;" ><?php echo $attrInfo['description'];?></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -443,7 +443,8 @@ function trim(s){
             $('.ctime').focus();
             return;
         }
-        if (page_number == '') {
+        var reg = /^[1-9]\d*$/;
+        if (!reg.test(page_number)) {
             $('.page_number').focus();
             return;
         }
@@ -455,10 +456,7 @@ function trim(s){
             $('.filenumber').focus();
             return;
         }
-        if (description == '') {
-            $('.description').focus();
-            return;
-        }
+        
 
         if (rmb_capital == '') {
             $('.ms-choice').focus();
@@ -466,6 +464,10 @@ function trim(s){
         }
         if (amount == '') {
             $('.ms-choice').focus();
+            return;
+        }
+        if (description == '') {
+            $('.description').focus();
             return;
         }
         if (applicant == '') {

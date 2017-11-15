@@ -21,7 +21,7 @@
                                 <td >填表日期</td>
                                 <td colspan='4'>  <input readonly="readonly" type="text" class=" ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:290px;'>   </td>
                                 <td > 附单据张数 </td>
-                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  /> </td>
+                                <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : ''; ?>"  /> </td>
                             </tr>
                             
                              <tr>
@@ -545,7 +545,8 @@ function trim(s){
            $('.kysubject').focus();
             return;
         }
-        if (sheets_num == '') {
+        var reg = /^[1-9]\d*$/;
+        if (!reg.test(sheets_num)) {
             $('.sheets_num').focus();
             return;
         }

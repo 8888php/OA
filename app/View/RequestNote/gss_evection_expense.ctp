@@ -21,7 +21,7 @@
                                 <td >填表时间</td>
                                 <td colspan='2'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:150px;'>  </td>
                                 <td>附单据张数</td>
-                                <td colspan='2'> <input type="text" name='sheets_num' class="sheets_num" style='width:140px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : 0; ?>"  />  </td>
+                                <td colspan='2'> <input type="text" name='sheets_num' class="sheets_num" style='width:140px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : ''; ?>"  />  </td>
                                 <td>核算</td>
                                 <td > 
                                     <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
@@ -578,7 +578,8 @@ function trim(s){
             $('.ctime').focus();
             return;
         }
-        if (sheets_num == '') {
+        var reg = /^[1-9]\d*$/;
+        if (!reg.test(sheets_num)) {
             $('.sheets_num').focus();
             return;
         }
