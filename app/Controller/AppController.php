@@ -370,8 +370,8 @@ class AppController extends Controller {
      * @param $apply 申请单详情  $source_id 资金来源id
      * @return array();
      */
-    public function residual_department($apply, $source_id) {
-        if ($apply['ApplyMain']['type'] == 1) {
+    public function residual_department($apply, $source_id) {  
+        if ($apply['ApplyMain']['type'] == 2) {
             $department_id = $apply['ApplyMain']['department_id'];
             $source = $this->ResearchSource->findById($source_id);
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
@@ -410,13 +410,16 @@ class AppController extends Controller {
      * @param $apply 申请单详情  $project_sum_count 项目总金额
      * @return array();
      */
-    public function residual_department_cost($apply) {
-        if ($apply['ApplyMain']['type'] == 1) {
+    public function residual_department_cost($apply) { 
+        if ($apply['ApplyMain']['type'] == 2) {
             $department_id = $apply['ApplyMain']['department_id'];
+            //已申请金额
             $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where department_id = $department_id  and type = 2 and code = 10000 and is_calculation = 1 ");
 
+            // 部门总资金来源
             $sumSourceAmount = $this->ResearchSource->query("select sum(amount) sum_amount from t_research_source where department_id = $department_id  ");
-            $residual = $sumTotal[0][0]['sum_total'] - $sumSourceAmount[0][0]['sum_amount']; // 剩余金额
+            // 剩余金额
+            $residual = $sumSourceAmount[0][0]['sum_amount'] - $sumTotal[0][0]['sum_total']; 
         }
 
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
