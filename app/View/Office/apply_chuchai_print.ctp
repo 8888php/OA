@@ -56,8 +56,10 @@
                             </tr>
                             <tr style="height:60px;line-height: 20px;">
                                 <td colspan='2'  > 
-                                    <?php   
-                                    if(empty($applyArr[11]['name'])){
+                                    <?php
+                                    if (!empty($applyArr[2])) {
+                                       echo $applyArr[2]['name'].'<br/>'.$applyArr[2]['ctime'].'<br/>'.$applyArr[2]['remarks'];
+                                    } else if(empty($applyArr[11]['name'])){
                                         echo $applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'].'<br/>'.$applyArr['ksfzr']['remarks'];  
                                     }else{
                                         echo $applyArr[11]['name'].'<br/>'.$applyArr[11]['ctime'].'<br/>'.$applyArr[11]['remarks'];  
