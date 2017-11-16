@@ -312,8 +312,8 @@ class AppController extends Controller {
      * @return array();
      */
     public function check_subject_cost($project_id, $subject) {
-        //1、项目所包含科目费用
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
+        //1、项目所包含科目费用
         $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
@@ -329,17 +329,17 @@ class AppController extends Controller {
                 }
             }
             //4、比较单科目是否超额
-            
-            
             foreach ($subject as $k => $v) {
                 if(!$subjectArr[$k]){
                    $keyanlist = Configure::read('keyanlist');
                    $kemu_name = '';
                    $feedback['code'] = 1;
-                   $feedback['total'] = $v;
+                   $feedback['total'] = $v; 
                    $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元'; 
                 }else{
-                    if ($v < $subjectArr[$k]) {
+                    // 单科目剩余金额
+                    $overplus = $project_costArr[$k] - $subjectArr[$k];
+                    if ($v > $overplus) {
                         $keyanlist = Configure::read('keyanlist');
                         $kemu_name = '';
                         foreach ($keyanlist as $lk => $lv) {
@@ -350,9 +350,10 @@ class AppController extends Controller {
                                 }
                             }
                         }
-                        $feedback['code'] = 1;
-                        $feedback['total'] = $project_costArr[$k] - $subjectArr[$k] - $v;
-                        $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . -$feedback['total'] . ' 元';
+                        $feedback['code'] = 1;  
+                        $feedback['total'] = $v - $overplus;
+                        $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                        break ;
                     }
                 }
             }
