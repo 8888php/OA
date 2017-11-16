@@ -5,7 +5,10 @@
         } catch (e) {
         }
     </script>
-
+<style>
+    a:link{text-decoration:none;} a:visited{text-decoration:none;} a:active{text-decoration:none;}
+</style>
+    
     <div class="main-container-inner">
         <a class="menu-toggler " id="menu-toggler" href="#">
             <span class="menu-text"></span>
@@ -298,10 +301,15 @@
                         <li class="guding_index">
                             <a href="/reportforms/index">
                                 <i class="icon-double-angle-right"></i>
-                                汇总报表
+                                项目报表
                             </a>
                         </li>
-
+                        <!--li class="guding_index">
+                            <a href="/reportforms/index">
+                                <i class="icon-double-angle-right"></i>
+                                部门报表
+                            </a>
+                        </li-->
                     </ul>
                 </li>
 

@@ -11,6 +11,7 @@ class ReportformsController extends AppController {
     
     public function index() {
         $this->layout = 'blank';
+       // var_dump( $this->appdata );
         $this->render();
  
     }

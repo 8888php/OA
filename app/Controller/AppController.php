@@ -56,6 +56,7 @@ class AppController extends Controller {
         $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
 
         $applyList = $this->ResearchProject->getApplyList($pro_conditions);
+        $this->appdata['applyList'] = $applyList;
         $this->set('applyList', $applyList);
     }
 
