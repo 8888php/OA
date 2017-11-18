@@ -76,8 +76,20 @@
 
                                     <div class="table-header">
                                         申请费用信息
+                                        <select style="float: right; margin-right: 4%; height: 38px;" onchange="change_table(this.value);">
+                                            <option value="0">请选择...</option>
+                                            <?php foreach(Configure::read('select_apply') as $k=>$v){?>
+                                            <option value="<?php echo $k;?>" <?php echo $k==$table ? 'selected':'';?>><?php echo $v;?></option>
+                                            <?php }?>
+                                        </select>
                                     </div>
-
+                                    <script type="text/javascript">
+                                        function change_table(table) {
+                                            var host = window.location.host;
+                                            var url = 'http://'+host+'/office/apply/1/' + table;
+                                            window.location.href = url;
+                                        }
+                                    </script>
                                     <div class="table-responsive">
                                         <table  class="table table-striped table-bordered table-hover">
                                             <thead>
@@ -234,7 +246,7 @@
                                     </script>
                                     
                                     <div class="modal-footer no-margin-top">
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/apply/",5 , $table); ?>                                        
                                     </div>
                                 </div>
                                    
