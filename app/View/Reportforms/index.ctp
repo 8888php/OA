@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目详情 — 报表</title>		
+        <title> 汇总报表 — 项目报表</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,9 +55,11 @@
                         <i class="icon-home home-icon"></i>
                         <a href="#">Home</a>
                     </li>
-
                     <li class="active">
                         <a href="#">汇总报表</a>
+                    </li>
+                    <li class="active">
+                        项目报表
                     </li>
                 </ul><!-- .breadcrumb -->
 
@@ -72,56 +74,75 @@
 
                         <div class="tabbable">
                             <div class="tab-content no-border ">
-                                
-
+   
                                 <div id="faq-tab-1" class="tab-pane fade in active">
                                     <table class="table table-bordered table-striped" style=''>
                                         <thead>
                                             <tr>
-                                                <th colspan="9" class='blue' style='border-right:0px;'> 汇总报表 </th>
+                                                <th colspan="5" class='blue' style='font-size:16px;border-right:0px;'> 项目报表 </th>
 
-                                                <th colspan="3" style='border-left:0px;' >
-                                                    <!--select  name="assets" class="type input-width" style="width:145px;">
-                                                        <option value="1">财务报销单</option>
-                                                    </select>  
+                                                <th colspan="1" style='border-left:0px;text-align:right;' >
+                                                    <i class="icon-plus arrow blue"></i>导出
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="icon-plus arrow blue"></i-->
-                                                </th>
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr style='font-weight:600;' class="blue">
-                                                <td> 日期 </td>
-                                                <td>摘要</td>
-                                                <td>现金来源</td>
-                                                <td>文号</td>
-                                                <td>合计</td>
-                                                <td>资料费</td>
-                                                <td>设备费1</td>
-                                                <td>设备费2</td>
-                                                <td>设备费3</td>
-                                                <td>材料费1</td>
-                                                <td>材料费2</td>
-                                                <td>材料费3</td>
+                                            <tr style='font-size:14px;font-weight:600;text-align:center;' class="blue">
+                                                <td> 资金类型 </td>
+                                                <td > 项目 </td>
+                                                <td> 期初数 </td>
+                                                <td> 支出累计 </td>
+                                                <td> 期末数 </td>
+                                                <td> 详细 </td>
                                             </tr>
-
                                             
-                                            <tr>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00 </td>
-                                                <td><?php echo 1;  ?></td>
+                                             <tr style="text-align:center;">
+                                                <td  rowspan="<?php echo count($applyList[1])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 零余额 </td>
+                                                <td style="text-align:center;">  -- </td>
+                                                <td> 1 </td>
                                                 <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 0.00</td>
-                                                <td><?php echo 1;  ?></td>
-                                                <td> 删除 </td>
+                                                <td> 3 </td>
+                                                <td>  </td>
                                             </tr>
-                                        
+                                            <?php  foreach($applyList[1] as $k => $v){  ?>
+                                            <tr style="text-align:center;">
+                                                <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
+                                                <td> 1 </td>
+                                                <td> 0.00</td>
+                                                <td> 3 </td>
+                                                <td>  </td>
+                                            </tr>
+                                            <?php } ?>
+                                            
+                                             <tr style="text-align:center;border-top:2px solid #478;">
+                                                <td   rowspan="<?php echo count($applyList[2])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 基本户 </td>
+                                                <td style="text-align:center;">  -- </td>
+                                                <td> 1</td>
+                                                <td> 0.00</td>
+                                                <td> 3 </td>
+                                                <td>   </td>
+                                            </tr>
+                                            
+                                            <?php  foreach($applyList[2] as $k => $v){  ?>
+                                            <tr style="text-align:center;">
+                                                <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
+                                                <td> 1 </td>
+                                                <td> 0.00</td>
+                                                <td> 3 </td>
+                                                <td>  </td>
+                                            </tr>
+                                            <?php } ?>
+                                            
+                                              <tr style="text-align:center;border-top:2px solid #478;">
+                                                <td   rowspan="<?php echo count($applyList[1]); ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
+                                                <td style="text-align:center;">  -- </td>
+                                                <td> 1 </td>
+                                                <td> 0.00</td>
+                                                <td> 3</td>
+                                                <td> </td>
+                                            </tr>  
+                                            
                                         </tbody>
                                     </table>
                                 </div>
