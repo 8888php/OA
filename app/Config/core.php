@@ -668,3 +668,23 @@ Configure::write('seal_filetype',array(
     6 => '外部函件',
     7 => '其他',
 ));
+
+/**
+ * 申请所有类型数组
+ */
+Configure::write('select_apply',array(
+    'apply_leave' => '请假申请单',
+    'apply_paidleave' => '果树所职工带薪年休假审批单',
+    'apply_chuchai' => '果树所差旅审批单',
+    'apply_baogong' => '田间作业包工申请表',
+    'apply_endlessly' => '因公不休或不全休带薪休假审批表',
+    'apply_jiekuandan' => '果树所借款单',
+    'apply_lingkuandan' => '果树所领款单',
+    'apply_chuchai_bxd' => '果树所差旅费报销单',
+    'apply_baoxiaohuizong' => '果树所报销汇总单',
+    'apply_seal' => '印信使用签批单',
+    'apply_received' => '来文',
+    'apply_dispatch' => ' 发文',
+    'apply_caigou' => '采购申请单',
+    'apply_borrow' => '档案借阅',
+));

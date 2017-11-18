@@ -60,10 +60,17 @@ class OfficeController extends AppController {
     /**
      * 我的申请 申请
      */
-    public function apply($pages = 1) {
+    public function apply($pages = 1, $table = '') {
         $user_id = $this->userInfo->id;
 //        $type_arr = Configure::read('type_number');
 
+        if (!isset(Configure::read('select_apply')[$table])) {
+            //没有设置默认空
+            $table = 'fish';
+            $table_sql = '';
+        } else {
+            $table_sql = " and table_name='{$table}'";
+        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -73,7 +80,7 @@ class OfficeController extends AppController {
         $all_page = 0;
         $lists = array();
         //有审批权限
-        $total = $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' ");
+        $total = $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' {$table_sql} ");
         $total = $total[0][0]['count'];
         $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
@@ -82,9 +89,9 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' order by id desc limit " . ($pages - 1) * $limit . ", $limit");
+            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' {$table_sql} order by id desc limit " . ($pages - 1) * $limit . ", $limit");
         }
-
+        $this->set('table', $table);
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
@@ -236,13 +243,20 @@ class OfficeController extends AppController {
     /**
      * 待我审批 申请
      */
-    public function wait_approval_apply($pages = 1) {
+    public function wait_approval_apply($pages = 1, $table = '') {
         //取出当前用户职务id以及审批权限
         $position_id = $this->userInfo->position_id;
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
 
+        if (!isset(Configure::read('select_apply')[$table])) {
+            //没有设置默认空
+            $table = 'fish';
+            $table_sql = '';
+        } else {
+            $table_sql = " and table_name='{$table}'";
+        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -258,7 +272,7 @@ class OfficeController extends AppController {
             $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
             $wheresql = ' next_apprly_uid = ' . $this->userInfo->id;
             $sql .= $wheresql;
-            $sql .= " ) and code%2=0 and code !='$this->succ_code'";
+            $sql .= " ) and code%2=0 {$table_sql} and code !='$this->succ_code'";
 
             $total = $this->ApplyMain->query($sql);
             $total = $total[0][0]['count'];
@@ -276,9 +290,10 @@ class OfficeController extends AppController {
 
             $sql = "select * from t_apply_main ApplyMain where ( ";
             $sql .= $wheresql;
-            $sql .= ") and code%2=0 and code !='$this->succ_code' order by id desc limit " . ($pages - 1) * $limit . ", $limit";
+            $sql .= ") and code%2=0 {$table_sql} and code !='$this->succ_code' order by id desc limit " . ($pages - 1) * $limit . ", $limit";
             $lists = $this->ApplyMain->query($sql);
         }
+        $this->set('table', $table);
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
@@ -334,7 +349,7 @@ class OfficeController extends AppController {
     /**
      * 经我审批 申请
      */
-    public function my_approval_apply($pages = 1) {
+    public function my_approval_apply($pages = 1, $table = '') {
         //取出当前用户职务id以及审批权限
         $user_id = $this->userInfo->id;
         $position_id = $this->userInfo->position_id;
@@ -342,6 +357,13 @@ class OfficeController extends AppController {
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
 
+        if (!isset(Configure::read('select_apply')[$table])) {
+            //没有设置默认空
+            $table = 'fish';
+            $table_sql = '';
+        } else {
+            $table_sql = " and table_name='{$table}'";
+        }
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -351,7 +373,7 @@ class OfficeController extends AppController {
         $all_page = 0;
         $lists = array();
 
-        $total = $this->ApplyMain->query("select count(distinct ApplyMain.id) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' ");
+        $total = $this->ApplyMain->query("select count(distinct ApplyMain.id) count from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' {$table_sql} ");
         $total = $total[0][0]['count'];
         $all_user_arr = $this->User->get_all_user_id_name();
         if ($total > 0) {
@@ -360,9 +382,9 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
+            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' {$table_sql} group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
         }
-
+        $this->set('table', $table);
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数

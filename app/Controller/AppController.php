@@ -58,6 +58,32 @@ class AppController extends Controller {
         $applyList = $this->ResearchProject->getApplyList($pro_conditions);
         $this->appdata['applyList'] = $applyList;
         $this->set('applyList', $applyList);
+        
+        //右上角，左边和中间的显示
+        TOP_LEFT_MIDDLE:{
+            // 左边是我的申请—申请 有几条未审批通过的,意思是说 除去拒绝的和审批通过的
+            $user_id = $this->userInfo->id;
+            $top_left_arr = $this->ApplyMain->query("select count(*) count from t_apply_main ApplyMain where user_id='{$user_id}' and code !='{$this->succ_code}' and code%2=0 ");
+            $top_left_number = $top_left_arr[0][0]['count'];
+            
+            //中间当前用户待我审批有几条显示几条
+            $can_approval = $this->userInfo->can_approval;
+            if ($can_approval == 2) {
+                //有审批权限
+                $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
+                $wheresql = ' next_apprly_uid = ' . $user_id;
+                $sql .= $wheresql;
+                $sql .= " ) and code%2=0  and code !='$this->succ_code'";
+
+                $top_middle_arr = $this->ApplyMain->query($sql);
+                $top_middle_number = $top_middle_arr[0][0]['count'];
+            } else {
+                $top_middle_number = 0;
+            }
+            
+        }
+        $this->set('top_left_number', $top_left_number);
+        $this->set('top_middle_number', $top_middle_number);
     }
 
     /**
