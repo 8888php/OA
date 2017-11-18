@@ -413,21 +413,25 @@ class ResearchProjectController extends AppController {
     public function report_form($pid = 0) {
         $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
         $this->set('is_pro', $is_pro);
-
-        if (empty($pid) || !$this->is_project_self($pid)) {
-            header("Location:/homes/index");
-            die;
+        
+        if (empty($pid) || !$this->is_who()) {
+            // 不属于五个职务的 请求用户
+            if($is_pro == false){
+                // 不属于五个职务的 且不是该项目成员的 请求用户
+                 header("Location:".$_SERVER['HTTP_REFERER']);die; 
+            }
+            $proInfos = $this->ResearchProject->findById($pid);
+            $proInfos = $proInfos['ResearchProject'];
+            $this->set('proInfos', $proInfos);  // 预算费用
+            // 不是项目负责人不可查看报表
+            if ($proInfos['user_id'] != $this->userInfo->id) {
+                header("Location:".$_SERVER['HTTP_REFERER']);
+               // echo "<script> alert('抱歉！您没有查看权限！');location.href = '".$_SERVER['HTTP_REFERER']."' </script>"; 
+                die;
+            }
         }
 
-        $proInfos = $this->ResearchProject->findById($pid);
-        $proInfos = $proInfos['ResearchProject'];
-        $this->set('proInfos', $proInfos);  // 预算费用
-// 项目负责人可查看报表
-        if ($proInfos['user_id'] != $this->userInfo->id) {
-            header("Location:/homes/index");
-            die;
-        }
-
+       
 //       $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
         // 报表只取核算为1的数据
         $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and type = 1 and is_calculation = 1 and m.code = 10000 ");
@@ -459,7 +463,7 @@ class ResearchProjectController extends AppController {
             if (count($attrinfo) > 0) {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
-                        $tmpdecp = json_decode($attv['b']['description'], true);
+                        $tmpdecp = json_decode($attv['b']['description'], true);                     
                         $attv['b']['description'] = $tmpdecp[0]['pro'];
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
