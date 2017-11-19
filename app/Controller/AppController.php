@@ -357,12 +357,13 @@ class AppController extends Controller {
             }
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
-                if(!$subjectArr[$k]){
+                if(!$project_costArr[$k]){
                    $keyanlist = Configure::read('keyanlist');
                    $kemu_name = '';
                    $feedback['code'] = 1;
                    $feedback['total'] = $v; 
-                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元'; 
+                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                   break;
                 }else{
                     // 单科目剩余金额
                     $overplus = $project_costArr[$k] - $subjectArr[$k];
@@ -385,8 +386,11 @@ class AppController extends Controller {
                 }
             }
             
+        }else{
+            $feedback['code'] = 1;  
+            $feedback['total'] = 0;
+            $feedback['msg'] = '未找到该项目所包含科目费用！'; 
         }
-
         return $feedback;
     }
 
