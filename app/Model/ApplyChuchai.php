@@ -203,13 +203,14 @@ class ApplyChuchai extends AppModel {
                 $ret_arr[$this->err_msg] = '所长不存在';
                 return $ret_arr;
             }
-            $ret_arr[$this->next_id] = self::SUOZHANG_ID;
-            $ret_arr[$this->next_uid] = $suo_zhang[0]['t_user']['id'];
+
             $ret_arr[$this->code_id][] = $user_info['id'];
             // 3天以内 所领导审，3天以上 需所长最终审批
             if($sum_days <= 3){ 
-                $ret_arr[$this->code] = $is_apply ? 10000 : 0;
+                $ret_arr[$this->code] = $is_apply ? 10000 : 10000;
             }else{
+                $ret_arr[$this->next_id] = self::SUOZHANG_ID;
+                $ret_arr[$this->next_uid] = $suo_zhang[0]['t_user']['id'];
                 $ret_arr[$this->code] = $is_apply ? 5*2 : 0;
             }
             return $ret_arr;
