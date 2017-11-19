@@ -432,10 +432,8 @@ class ResearchProjectController extends AppController {
             }
         }
 
-       
-//       $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id =  '$pid' and m.code = 10000 ");
         // 报表只取核算为1的数据
-        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and type = 1 and is_calculation = 1 and m.code = 10000 ");
+        $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and type = 1 and is_calculation = 1 and m.code = 10000 and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd') ");
 // var_dump($declares_arr); 
 
         $mainArr = array();
@@ -460,31 +458,33 @@ class ResearchProjectController extends AppController {
                 case 'apply_jiekuandan':  // 借款单
                     $attrinfo = $this->ResearchSource->query("SELECT b.id,b.approve_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
                     break;
-            }
+            }//print_r($attrinfo);
             if (count($attrinfo) > 0) {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
-                        $tmpdecp = json_decode($attv['b']['description'], true);                     
-                        $attv['b']['description'] = $tmpdecp[0]['pro'];
+                        $tmpdecp = json_decode($attv['b']['description'], true);  
+                      // var_dump(is_array($tmpdecp),$tmpdecp); 
+                        $attv['b']['description'] = $tmpdecp[0]['pro'].' '.$tmpdecp[0]['nums'].$tmpdecp[0]['unit'].' 单价：'.$tmpdecp[0]['unit_price'].' 总金额：'.$tmpdecp[0]['amount'].' ；'.$tmpdecp[0]['remarks'];
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
                 } else {
-                    foreach ($attrinfo as $attk => $attv) {
-                        $attrinfo[$attv['b']['id']] = $attv;
-                    }
+                    foreach ($attrinfo as $attk => $attvs) {
+                        $attrinfo[$attvs['b']['id']] = $attvs;
+                    }//print_r($attrinfo);
                 }
                 foreach ($v as $atk => $atv) {
                     $attrArr[$atk] = $attrinfo[$atv];
                 }
+                $attrinfo = array();
             }
         }
-
+//print_r($attrArr);
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
         $this->set('pid', $pid);
 
-
+//var_dump($declares_arr);die;
         $pcost = $this->ResearchCost->findByProjectId($pid);
         $pcost = $pcost['ResearchCost'];
         $this->set('pcost', $pcost);  // 预算费用
