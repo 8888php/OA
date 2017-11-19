@@ -82,7 +82,7 @@
                                                 <th colspan="5" class='blue' style='font-size:16px;border-right:0px;'> 项目报表 </th>
 
                                                 <th colspan="1" style='border-left:0px;text-align:right;' >
-                                                    <i class="icon-plus arrow blue"></i>导出
+                                                    <a href='#'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                 </th>
                                             </tr>
@@ -100,46 +100,46 @@
                                              <tr style="text-align:center;">
                                                 <td  rowspan="<?php echo count($applyList[1])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 零余额 </td>
                                                 <td style="text-align:center;">  -- </td>
-                                                <td> 1 </td>
-                                                <td> 0.00</td>
-                                                <td> 3 </td>
+                                                <td> <?php echo $fromArr['one']['amount']; ?> </td>
+                                                <td> <?php echo $fromArr['one']['pay']; ?> </td>
+                                                <td> <?php echo $fromArr['one']['amount'] - $fromArr['one']['pay']; ?> </td>
                                                 <td>  </td>
                                             </tr>
                                             <?php  foreach($applyList[1] as $k => $v){  ?>
                                             <tr style="text-align:center;">
                                                 <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
-                                                <td> 1 </td>
-                                                <td> 0.00</td>
-                                                <td> 3 </td>
-                                                <td>  </td>
+                                                <td> <?php echo $fromArr[1][$k]['amount']; ?> </td>
+                                                <td> <?php echo $fromArr[1][$k]['pay']; ?> </td>
+                                                <td> <?php echo $fromArr[1][$k]['amount'] - $fromArr[1][$k]['pay']; ?> </td>
+                                                <td>  <a href="/ResearchProject/report_form/<?php echo $k; ?>" > <i class='glyphicon glyphicon-list-alt'> </i> </a>  </td>
                                             </tr>
                                             <?php } ?>
                                             
                                              <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td   rowspan="<?php echo count($applyList[2])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 基本户 </td>
                                                 <td style="text-align:center;">  -- </td>
-                                                <td> 1</td>
-                                                <td> 0.00</td>
-                                                <td> 3 </td>
+                                                <td> <?php echo $fromArr['two']['amount']; ?> </td>
+                                                <td> <?php echo $fromArr['two']['pay']; ?> </td>
+                                                <td> <?php echo $fromArr['two']['amount'] - $fromArr['two']['pay']; ?> </td>
                                                 <td>   </td>
                                             </tr>
                                             
                                             <?php  foreach($applyList[2] as $k => $v){  ?>
                                             <tr style="text-align:center;">
                                                 <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
-                                                <td> 1 </td>
-                                                <td> 0.00</td>
-                                                <td> 3 </td>
-                                                <td>  </td>
+                                                <td> <?php echo $fromArr[2][$k]['amount']; ?> </td>
+                                                <td> <?php echo $fromArr[2][$k]['pay']; ?> </td>
+                                                <td> <?php echo $fromArr[2][$k]['amount'] - $fromArr[2][$k]['pay']; ?> </td>
+                                                <td> <a href="/ResearchProject/report_form/<?php echo $k; ?>" > <i class='glyphicon glyphicon-list-alt'> </i> </a> </td>
                                             </tr>
                                             <?php } ?>
                                             
                                               <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td   rowspan="<?php echo count($applyList[1]); ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
                                                 <td style="text-align:center;">  -- </td>
-                                                <td> 1 </td>
-                                                <td> 0.00</td>
-                                                <td> 3</td>
+                                                <td> <?php echo $fromArr['one']['amount'] + $fromArr['two']['amount']; ?> </td>
+                                                <td> <?php echo $fromArr['one']['pay'] + $fromArr['two']['pay']; ?> </td>
+                                                <td> <?php echo $fromArr['one']['amount'] + $fromArr['two']['amount'] - $fromArr['one']['pay'] - $fromArr['two']['pay']; ?> </td>
                                                 <td> </td>
                                             </tr>  
                                             
