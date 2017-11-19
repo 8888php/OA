@@ -314,7 +314,7 @@
                 </li>
 
 
-                <li class="guding">
+                <!--li class="guding">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-calendar"></i>
                         <span class="menu-text"> 固定资产 </span>
@@ -333,7 +333,7 @@
                         </li>
 
                     </ul>
-                </li>
+                </li-->
 
 
 
