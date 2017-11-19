@@ -265,7 +265,7 @@ class ResearchProjectController extends AppController {
     }
 
     /**
-     * 添加 费用报销单
+     * 添加  汇总报销申批单   起草申请中调用方法
      */
     public function sub_declares() {
         if (!$this->request->is('ajax')) {
@@ -343,6 +343,7 @@ class ResearchProjectController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
+        $mainArr['is_calculation'] = $_POST['is_calculation'] == 1 ? 1 : 0;
         $mainArr['attachment'] = $_POST['attachment'];
         $mainArr['name'] = $_POST['declarename'];
         $mainArr['project_id'] = $project_id;

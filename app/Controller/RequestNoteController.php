@@ -84,7 +84,7 @@ class RequestNoteController extends AppController {
         }
     }
 
-    // 添加 汇总报销申批单
+    // 添加 汇总报销申批单  项目内调用方法
     private function sub_declares($datas) {
         if (empty($datas['ctime']) || (empty($datas['page_number']) && $datas['page_number'] != 0) || empty($datas['projectname']) || empty($datas['filenumber']) || empty($datas['subject']) || empty($datas['rmb_capital']) || empty($datas['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
@@ -658,6 +658,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
+        $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
@@ -790,6 +791,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
+        $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;

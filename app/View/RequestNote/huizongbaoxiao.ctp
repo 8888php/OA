@@ -432,7 +432,7 @@ function trim(s){
         var filenumber = $('.filenumber').val();
         var is_calculation = $('.is_calculation').val();
         var subject = option_josn();
-  
+
         var rmb_capital = $('.rmb_capital').val();
         var amount = $('.amount').val();
         var description = $('.description').val();
