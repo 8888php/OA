@@ -76,7 +76,7 @@
 
                                     <div class="table-header">
                                         待审费用信息
-                                        <select style="float: right; margin-right: 4%; height: 38px;" onchange="change_table(this.value);">
+                                        <select style="float: right; margin-right: 4%; height: 38px;font-size: 13px;" onchange="change_table(this.value);">
                                             <option value="0">请选择...</option>
                                             <?php foreach(Configure::read('select_apply') as $k=>$v){?>
                                             <option value="<?php echo $k;?>" <?php echo $k==$table ? 'selected':'';?>><?php echo $v;?></option>
