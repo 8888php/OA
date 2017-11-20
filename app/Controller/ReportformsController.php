@@ -21,7 +21,7 @@ class ReportformsController extends AppController {
         //print_r($startAmount);
         
         // 各项目已支出累计金额
-        $payTotal = $this->ApplyMain->query('SELECT project_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 1 AND is_calculation = 1 AND CODE = 10000 GROUP BY project_id ');
+        $payTotal = $this->ApplyMain->query("SELECT project_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 1 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY project_id ");
         $payTotalArr= array();
         foreach($payTotal as $v){
            $payTotalArr[$v['t_apply_main']['project_id']] = $v[0]['sum_amount'];

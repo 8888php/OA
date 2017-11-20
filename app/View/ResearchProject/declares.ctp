@@ -130,7 +130,10 @@
                                         项目经费 
 
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-					<?php if($is_pro == true){ ?>
+					<?php 
+                                        if(0){
+                                        //if($is_pro == true){ 
+                                        ?>
 
                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;margin-left:80%;" onclick="$('#modal-body').load('/ResearchProject/add_declares/<?php echo $pid;?>');"  >
                                         
