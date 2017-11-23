@@ -336,14 +336,14 @@
                 </li-->
 
 
-
+                <?php if((new AppController())->sytem_auth(true)){?>
                 <li class="system_set">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-picture"></i>
                         <span class="menu-text"> 系统设置 </span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
-
+                
                     <ul class="submenu">
                         <li class="set_user">
                             <a href="/user/index">
@@ -390,7 +390,7 @@
 
                     </ul>
                 </li>
-
+                <?php }?>
             </ul><!-- /.nav-list -->
 
             <div class="sidebar-collapse" id="sidebar-collapse">

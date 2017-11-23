@@ -15,6 +15,8 @@ class PositionController extends AppController {
      * 职务管理
      */
     public function index($pages = 1) {
+        //判断权限
+        $this->sytem_auth();
         if ((int) $pages < 1) {
             $pages = 1;
         }

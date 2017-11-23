@@ -18,12 +18,14 @@
                             <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
                         </tr>
                         <tr>
-                            <td colspan='2'>填表日期</td>
+                            <td colspan=''>填表日期</td>
                             <td colspan='2'>
                                 <?php echo $main_arr['ctime']; ?>
                             </td>
-                            <td colspan='2'>原始凭证页数</td>
+                            <td colspan=''>原始凭证页数</td>
                             <td>  <?php echo $attr_arr['page_number']; ?>  </td>
+                            <td>核算</td>
+                                <td colspan=''> <?php echo $main_arr['ApplyMain']['is_calculation'] == 1 ? '是' : '否';?>  </td>
                         </tr>
                         <tr>
                             <td style="width: 14%;">部门或项目</td>

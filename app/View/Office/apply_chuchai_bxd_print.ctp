@@ -20,9 +20,11 @@
                             </tr>
                             <tr>
                                 <td style="width: 14%;">填表时间</td>
-                                <td colspan='3'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
+                                <td colspan='2'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
                                 <td>附单据张数</td>
-                                <td colspan='3'> <?php echo $attr_arr[0][$table_name]['page_number'];?>  </td>
+                                <td colspan='2'> <?php echo $attr_arr[0][$table_name]['page_number'];?>  </td>
+                                <td>核算</td>
+                                <td colspan=''> <?php echo $main_arr['ApplyMain']['is_calculation'] == 1 ? '是' : '否';?>  </td>
                             </tr>
                             
                              <tr>

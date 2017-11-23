@@ -15,6 +15,8 @@ class TeamController extends AppController {
      * 团队管理
      */
     public function index($pages = 1) {
+        //判断权限
+        $this->sytem_auth();
         if ((int) $pages < 1) {
             $pages = 1;
         }
