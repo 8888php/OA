@@ -149,10 +149,10 @@
 
                         <li class="system_message">
                             <!--a href="/office/system_message"-->
-			    <a href="#">
+			    <!--a href="#">
                                 <i class="icon-double-angle-right"></i>
                                 系统消息
-                            </a>
+                            </a-->
                         </li>
                     </ul>
                 </li>
@@ -304,12 +304,12 @@
                                 项目报表
                             </a>
                         </li>
-                        <!--li class="guding_index">
-                            <a href="/reportforms/index">
+                        <li class="guding_index">
+                            <a href="/reportforms/department">
                                 <i class="icon-double-angle-right"></i>
                                 部门报表
                             </a>
-                        </li-->
+                        </li>
                     </ul>
                 </li>
 

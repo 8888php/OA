@@ -21,15 +21,10 @@
                         <tr >
                             <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130"></i> </td>
                             <td> <select style="height:28px;line-height: 28px;width:115px;" name="source_channel" class="source_channel"  >
-                            <option value='省级' > 省级 </option>
-                            <option value='中央' > 中央 </option>
-                            <option value='同级' > 同级 </option>
-                            <option value='企业' > 企业 </option>
-                            <option value='非本级' > 非本级 </option>
-                            <option value='本级横向' > 本级横向 </option>
+                            <option value='所级' > 所级 </option>
                             </select>
                             </td>
-                            <td> <input type="text"  name='year' class='year' placeholder="年度" style="height:28px;line-height: 28px;width:115px;"   />  </td>
+                            <td> <input type="text"  name='year' class='year' placeholder="年度" style="height:28px;line-height: 28px;width:115px;" value="<?php echo date('Y'); ?>"  readonly="readonly" />  </td>
                             <td> <input type="text"  name='file_number' class='file_number'  placeholder="文号" style="height:28px;line-height: 28px;width:115px;"  value="" /> </td>
                             <td> <input type="text"  name='amount' class='amount'  placeholder="金额" style="height:28px;line-height: 28px;width:115px;" value="" />  </td>
                             
