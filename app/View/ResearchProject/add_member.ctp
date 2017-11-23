@@ -1,4 +1,4 @@
-<?php echo $this->element('head_frame'); ?>
+<?php //echo $this->element('head_frame'); ?>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:660px;'>
     <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 项目成员管理 </span> <a onclick="window.parent.member_close();" class="close" data-dismiss="modal" >×</a></p>
@@ -22,12 +22,40 @@
 
                         <tr >
                             <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130"></i> </td>
-                            <td> <select name="member" id='member' style='height:28px;line-height: 28px;' > 
+                            <td> <select name="member" id='member' style='height:28px;line-height: 28px; width: 60px;' > 
                                     <option value=""> 请选 </option> 
                                 <?php foreach($notInMember as $mk => $mv){  ?>
                                     <option value="<?php echo $mv['u']['id']; ?>"> <?php echo $mv['u']['name']; ?> </option> 
                                 <?php } ?>
                                 </select> 
+                                <input type="text" style="width: 50px; margin-right: -20px;" onkeyup="change_select(this.value);" />
+                                <script type="text/javascript">
+                                    //根据所搜，更改select内容
+                                    var orig_val = '';//原始值为空
+                                    function change_select(search_val) {
+                                        if (orig_val == search_val) {
+                                            //如果上次的值和这次一样，就不做处理
+                                            return;
+                                        }
+                                        orig_val = search_val;//把最新值赋给原来的值
+                                        //去掉所有 selected
+                                        $('#member option').removeAttr('selected');
+                                        //遍历select
+                                        $('#member option').each(function(i){
+                                            if (i == 0) {
+                                                //跳过
+                                                return true;
+                                            }
+                                            var text = $(this).text();
+                                            if (text.indexOf(search_val) != -1) {
+                                                //说明包含
+                                                $(this).css('display', 'block');
+                                            } else {
+                                                $(this).css('display', 'none');
+                                            }
+                                        });
+                                    }
+                                </script>
                             </td>
                             <td>  </td>
                             <td> <select name="types"  id='types' style='height:28px;line-height: 28px;'> <option value="2"> 职员 </option> </select> </td>

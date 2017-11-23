@@ -115,12 +115,12 @@
                                         档&nbsp;&nbsp;案
                                     </a>
                                 </li>
-                                <li>
+<!--                                <li>
                                     <a  href="/ResearchProject/storage/<?php echo $pid;?>">
                                         <i class="blue icon-list bigger-120"></i>
                                         出入库
                                     </a>
-                                </li>
+                                </li>-->
 
                             </ul>
 

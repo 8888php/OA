@@ -43,7 +43,8 @@ class UserController extends AppController {
      * 成员列表页
      */
     public function index($pages = 1) {
-
+        //判断权限
+        $this->sytem_auth();
         if ((int) $pages < 1) {
             $pages = 1;
         }

@@ -28,12 +28,16 @@
                                 <td colspan='4'>  
                                     <?php if ($attr_arr[0][$table_name]['project_id']) {?>
                                         <?php echo $project_arr['ResearchProject']['name'];?>  
-                                        <?php if(!empty($source_arr)){
-                                            echo '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
-                                        }?>
+                                        
                                     <?php }else {?>
                                         <?php  echo $attr_arr[0][$table_name]['department_name'];?>
                                     <?php }?>
+                                    <?php if(!empty($source_arr)){
+                                            echo '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
+                                    }?>
+                                    <?php if(!empty($feiyong)) {
+                                        echo '| ' . $feiyong;
+                                    }?>
                                 </td>
                                 <td style="width: 13%;">借款人姓名</td>
                                 <td > <?php echo $user_arr['User']['name'];?> </td>

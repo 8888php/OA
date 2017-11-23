@@ -488,5 +488,30 @@ class AppController extends Controller {
         $this->Cookie->write('checkapply', $checkapply, true, '1 day');
         return array('ApplyMain' => $mainInfo['ApplyMain'], $type => $attrInfo[$type]);
     }
+    
+    /**
+     * 判断是否有权限
+     * @return boolean
+     * @param type $view 是否前台用
+     */
+    public function sytem_auth($view = false) {
+        //如果不是  王樾 249 侯东梅 35 没有权限
+        if (!in_array($this->userInfo->id, array(35, 249))) {
+            if (!$view) {
+                //后面用
+                echo '你没有权限访问';
+                exit;
+            } else {
+                //前台
+                return false;
+            }
+            
+        }
+        if ($view) {
+            //前台
+            return true;
+        }
+        //后台不用管
+    }
 
 }

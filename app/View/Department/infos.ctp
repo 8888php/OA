@@ -110,7 +110,15 @@
                                                                 }
                                                                 ?>
                                                             </li>
-
+                                                            <li>
+                                                                <i class="icon-caret-right blue"></i>
+                                                                分管所领导：<b class="blue"> <?php  
+                                                                    foreach($depMember as $mk => $mv){
+                                                                    if($depInfo['Department']['sld'] == $mv['User']['id']){
+                                                                    echo $mv['User']['name'];
+                                                                    }                                                                                                        } ?> </b>
+                                                            </li>
+                                                            
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
                                                                 负责人：<b class="blue"> <?php  
@@ -120,14 +128,7 @@
                                                                     }                                                                                                        } ?>  </b>
                                                             </li>
                                                             
-                                                            <li>
-                                                                <i class="icon-caret-right blue"></i>
-                                                                分管所领导：<b class="blue"> <?php  
-                                                                    foreach($depMember as $mk => $mv){
-                                                                    if($depInfo['Department']['sld'] == $mv['User']['id']){
-                                                                    echo $mv['User']['name'];
-                                                                    }                                                                                                        } ?> </b>
-                                                            </li>
+                                                            
 
                                                             <li class="divider"></li>
 
