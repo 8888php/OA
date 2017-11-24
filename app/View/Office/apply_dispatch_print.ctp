@@ -48,15 +48,15 @@
                                 <td colspan='1'>  
                                  <?php   
                                     if(empty($applyArr[20]['name'])){
-                                        echo $applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'].'<br/>'.$applyArr['ksfzr']['remarks'];  
+                                        echo $applyArr['ksfzr']['remarks'].'<br/>'.$applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'];  
                                     }else{
-                                        echo $applyArr[20]['name'].'<br/>'.$applyArr[20]['ctime'].'<br/>'.$applyArr[20]['remarks'];  
+                                        echo $applyArr[20]['remarks'].'<br/>'.$applyArr[20]['name'].'<br/>'.$applyArr[20]['ctime'];  
                                     }
                                     ?> 
                                 </td>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>所办主任意见</td>
                                 <td colspan='1'>  
-                                 <?php    echo $applyArr['28']['name'].'<br/>'.$applyArr['28']['ctime'].'<br/>'.$applyArr['28']['remarks'];  ?> 
+                                 <?php    echo $applyArr['28']['remarks'].'<br/>'.$applyArr['28']['name'].'<br/>'.$applyArr['28']['ctime'];  ?> 
                                 </td>
                             </tr>
                             <tr >
@@ -64,16 +64,16 @@
                                 <td colspan='3'> 
                                 <?php   
                                     if(empty($applyArr[5]['name'])){
-                                        echo $applyArr['21']['name'].'<br/>'.$applyArr['21']['ctime'].'<br/>'.$applyArr['21']['remarks'];  
+                                        echo $applyArr['21']['remarks'].'<br/>'.$applyArr['21']['name'].'<br/>'.$applyArr['21']['ctime'];  
                                     }else{
-                                        echo $applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'].'<br/>'.$applyArr[5]['remarks'];  
+                                        echo $applyArr[5]['remarks'].'<br/>'.$applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'];  
                                     }
                                     ?> 
                                 </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:150px;line-height: 150px;'> 领导批示 </td>
-                                <td colspan='3'> <?php    echo $applyArr['6']['name'].'<br/>'.$applyArr['6']['ctime'].'<br/>'.$applyArr['6']['remarks'];  ?>   </td>
+                                <td colspan='3'> <?php    echo $applyArr['6']['remarks'].'<br/>'.$applyArr['6']['name'].'<br/>'.$applyArr['6']['ctime'];  ?>   </td>
                             </tr>
                         </tbody>
                     </table>

@@ -74,9 +74,9 @@
                                 <td  colspan='5' >
                                      <?php
                                         if($attr_arr[0][$table_name]['team_id'])
-                                            echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks']; 
+                                            echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
                                         else
-                                           echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                           echo $applyArr['ksfzr']['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'];  
                                     ?>
                                 </td>
                             </tr>
@@ -85,9 +85,9 @@
                                 <td colspan='5'>
                                     <?php
                                         if($attr_arr[0][$table_name]['team_id'])
-                                            echo $applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['remarks']; 
+                                            echo $applyArr[21]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[21]['ctime']; 
                                         else
-                                           echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks'];  
+                                           echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'];  
                                     ?>
                                 </td>
                             </tr>

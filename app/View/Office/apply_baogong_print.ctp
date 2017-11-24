@@ -50,13 +50,13 @@
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 部门负责人意见 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;"> 
-                                    <?php  echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  ?> 
+                                    <?php  echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'];  ?> 
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style="height: 45px; line-height: 45px;"> 科研办公室意见 </td>
                                 <td colspan='5' style="height: 45px; line-height: 45px;"> 
-                                    <?php  echo $applyArr[4]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['remarks'];  ?> 
+                                    <?php  echo $applyArr[4]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[4]['ctime'];  ?> 
                                 </td>
                             </tr>
                         </tbody>

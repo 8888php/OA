@@ -70,7 +70,7 @@
                                 <td colspan='3'>
                                     <?php  
                                             if($applyArr[20]['name']){
-                                                echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks']; 
+                                                echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
                                             }else{
                                                 echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
                                             }
@@ -79,7 +79,7 @@
                                     <td  colspan='3'>
                                         <?php  
                                             if($applyArr[5]['name']){
-                                                echo $applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['remarks']; 
+                                                echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime']; 
                                             }else{
                                                 echo '需求部门分管领导审核 <br /> &nbsp;&nbsp;';
                                             }
@@ -91,7 +91,7 @@
                                 <td colspan='3'>
                                         <?php  
                                             if($applyArr[14]['name']){
-                                                echo $applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['remarks']; 
+                                                echo $applyArr[14]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime']; 
                                             }else{
                                                 echo '财务科审核 <br /> &nbsp;&nbsp;';
                                             }
@@ -100,7 +100,7 @@
                                     <td  colspan='3'>
                                         <?php  
                                             if($applyArr[23]['name']){
-                                                echo $applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['remarks']; 
+                                                echo $applyArr[23]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime']; 
                                             }else{
                                                 echo '采购内容核对 <br /> &nbsp;&nbsp;';
                                             }
@@ -110,15 +110,15 @@
                            
                             <tr >
                                 <td colspan='2' style='height:50px;line-height:50px;'> 采购中心审核 </td>
-                                <td colspan='5'>  <?php  echo $applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['remarks'];  ?>  </td>
+                                <td colspan='5'>  <?php  echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  ?>  </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style='height:50px;line-height:50px;'> 财务及采购分管领导审核 </td>
-                                <td  colspan='5' >   <?php  echo $applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['remarks'];  ?>    </td>
+                                <td  colspan='5' >   <?php  echo $applyArr[13]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style='height:50px;line-height:50px;'> 所长审核 </td>
-                                <td colspan='5'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
+                                <td colspan='5'>  <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style="line-height: 90px;"> 备注 </td>

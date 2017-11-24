@@ -36,20 +36,20 @@
                                 <td colspan='3'> 
                                 <?php   
                                     if(empty($applyArr[20]['name'])){
-                                        echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  
+                                        echo $applyArr['ksfzr']['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'];  
                                     }else{
-                                        echo $applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['remarks'];  
+                                        echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime'];  
                                     }
                                     ?>  
                                 </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 相关部门负责人意见</td>
-                                <td colspan='3'>  <?php  echo $applyArr[28]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['remarks'];  ?>   </td>
+                                <td colspan='3'>  <?php  echo $applyArr[28]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[28]['ctime'];  ?>   </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:50px;'> 分管所领导意见</td>
-                                <td colspan='3'>   <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?> </td>
+                                <td colspan='3'>   <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?> </td>
                             </tr>
                             <tr>
                                 <td colspan='1'  style='height:50px;line-height: 100px;'>借阅人签字</td>

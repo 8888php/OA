@@ -52,10 +52,10 @@
                             </tr>
                             <tr>
                                 <td colspan='1' rowspan="2" style='height:200px;line-height: 200px;'>领导同志批示</td>
-                                <td colspan='3' >  <?php  echo $applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['remarks'];  ?>    </td>
+                                <td colspan='3' >  <?php  echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'];  ?>    </td>
                             </tr>
                             <tr>
-                                <td colspan='3'>  <?php  echo $applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['remarks'];  ?>    </td>
+                                <td colspan='3'>  <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:100px;line-height: 100px;'> 拟办意见</td>
@@ -63,7 +63,7 @@
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:100px;line-height: 100px;'> 业务科室意见 </td>
-                                <td colspan='3'>  <?php  echo $applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['remarks'];  ?>    </td>
+                                <td colspan='3'>  <?php  echo $applyArr['ksfzr']['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime'];  ?>    </td>
                             </tr>
                             <tr style='height:100px;'>
                                 <td colspan='1' style='line-height: 100px;' > 所长办公室承办人 </td>

@@ -58,17 +58,17 @@
                                 <td colspan='2'  > 
                                     <?php
                                     if (!empty($applyArr[2])) {
-                                       echo $applyArr[2]['name'].'<br/>'.$applyArr[2]['ctime'].'<br/>'.$applyArr[2]['remarks'];
+                                       echo $applyArr[2]['remarks'].'<br/>'. $applyArr[2]['name'].'<br/>'.$applyArr[2]['ctime'];
                                     } else if(empty($applyArr[11]['name'])){
-                                        echo $applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'].'<br/>'.$applyArr['ksfzr']['remarks'];  
+                                        echo $applyArr['ksfzr']['remarks'].'<br/>'.$applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'];  
                                     }else{
-                                        echo $applyArr[11]['name'].'<br/>'.$applyArr[11]['ctime'].'<br/>'.$applyArr[11]['remarks'];  
+                                        echo $applyArr[11]['remarks'].'<br/>'.$applyArr[11]['name'].'<br/>'.$applyArr[11]['ctime'];  
                                     }
                                     ?> 
                                 </td>
-                                <td colspan='2'  > <?php  echo $applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'].'<br/>'.$applyArr[5]['remarks'];  ?>
+                                <td colspan='2'  > <?php  echo $applyArr[5]['remarks'].'<br/>'.$applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'];  ?>
                                 </td>
-                                <td colspan='3' > <?php  echo $applyArr[6]['name'].'<br/>'.$applyArr[6]['ctime'].'<br/>'.$applyArr[6]['remarks'];  ?> </td>
+                                <td colspan='3' > <?php  echo $applyArr[6]['remarks'].'<br/>'.$applyArr[6]['name'].'<br/>'.$applyArr[6]['ctime'];  ?> </td>
                             </tr>
                             
                             <tr >

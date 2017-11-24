@@ -120,56 +120,56 @@
                             </td>
                                 <td > 
                                     <?php 
+                                    echo @$applyArr['11']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['11']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['11']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['11']['remarks'];
                                     ?>   
                                 </td>
                                 <td > 
                                     <?php 
+                                    echo @$applyArr['ksfzr']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['ksfzr']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['ksfzr']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['ksfzr']['remarks'];
                                     ?> 
                                 </td>
                                 <td >
                                     <?php 
+                                    echo @$applyArr['5']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['5']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['5']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['5']['remarks'];
                                     ?> 
                                 </td>
                                 <td >
                                     <?php 
+                                    echo @$applyArr['6']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['6']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['6']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['6']['remarks'];
                                     ?> 
                                 </td>
                                 <td >
                                     <?php 
+                                    echo @$applyArr['13']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['13']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['13']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['13']['remarks'];
                                     ?> 
                                 </td>
                                 <td >
                                     <?php 
+                                    echo @$applyArr['14']['remarks'];
+                                    echo '<br />';
                                     echo @$applyArr['14']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['14']['ctime'];
-                                    echo '<br />';
-                                    echo @$applyArr['14']['remarks'];
                                     ?>
                                 </td>
                             </tr>
