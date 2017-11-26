@@ -660,6 +660,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
+        $mainArr['source_id'] = $_POST['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -793,6 +794,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
+        $mainArr['source_id'] = $_POST['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -1100,6 +1102,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['attachment'] = $datas['attachment'];
         $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
+        $mainArr['source_id'] = $_POST['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;

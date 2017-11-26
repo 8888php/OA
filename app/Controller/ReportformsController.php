@@ -54,40 +54,31 @@ class ReportformsController extends AppController {
     public function department() {
         $this->layout = 'blank';
         //部门对应总金额
-        $totalArr = $this->ResearchSource->query('select department_id,sum(amount) sum_amount from t_research_source where project_id = 0 group by project_id ');     
+        $totalArr = $this->ResearchSource->query('select department_id,amount from t_research_source where project_id = 0  ');         //  print_r($totalArr); 
         $startAmount= array();
         foreach($totalArr as $v){
-           $startAmount[$v['t_research_source']['department_id']] = $v[0]['sum_amount'];
+           $startAmount[$v['t_research_source']['department_id']][] = $v['t_research_source']['amount'];
         }
-        
+    //  print_r($startAmount);    die;
         // 各项目已支出累计金额
-        $payTotal = $this->ApplyMain->query("SELECT department_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 2 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY project_id ");
+        $payTotal = $this->ApplyMain->query("SELECT department_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 2 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY department_id ");
         $payTotalArr= array();
         foreach($payTotal as $v){
-           $payTotalArr[$v['t_apply_main']['department_id']] = $v[0]['sum_amount'];
+           $payTotalArr[$v['t_apply_main']['department_id']][] = $v[0]['sum_amount'];
         }
-        print_r($payTotalArr);
-        print_r($this->appdata['deplist'][1]);
+//print_r($payTotalArr); die;
         // 合并数据
-        $fromArr = array(1=>array(),2=>array(),'one'=>array('amount'=>0,'pay'=>0),'two'=>array('amount'=>0,'pay'=>0));
+        $fromArr = array('list'=>array(),'total'=>array('amount'=>0,'pay'=>0));
         if(isset($this->appdata['deplist'][1])){
             foreach($this->appdata['deplist'][1] as $k => $v){
-               $fromArr[1][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0  ;
-               $fromArr[1][$k]['pay']= isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0 ;
-               $fromArr['one']['amount'] +=  $fromArr[1][$k]['amount'];
-               $fromArr['one']['pay'] +=  $fromArr[1][$k]['pay'];
+               $fromArr['list'][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0  ;
+               $fromArr['list'][$k]['pay']= isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0 ;
+               $fromArr['total']['amount'] +=  $fromArr['list'][$k]['amount'];
+               $fromArr['total']['pay'] +=  $fromArr['list'][$k]['pay'];
             }   
         }
-        
-        if(isset($this->appdata['applyList'][2])){
-            foreach($this->appdata['applyList'][2] as $k => $v){
-               $fromArr[2][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0  ;
-               $fromArr[2][$k]['pay']= isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0 ;
-               $fromArr['two']['amount'] +=  $fromArr[2][$k]['amount'];
-               $fromArr['two']['pay'] +=  $fromArr[2][$k]['pay'];
-            }
-        }
-       // print_r($fromArr);
+
+        print_r($fromArr);
         $this->set('fromArr',$fromArr);
         
         $this->render();

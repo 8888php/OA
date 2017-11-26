@@ -345,6 +345,7 @@ class ResearchProjectController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['is_calculation'] = $_POST['is_calculation'] == 1 ? 1 : 0;
         $mainArr['attachment'] = $_POST['attachment'];
+        $mainArr['source_id'] = $_POST['filenumber'];
         $mainArr['name'] = $_POST['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
