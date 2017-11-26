@@ -101,9 +101,9 @@
                                              <tr style="text-align:center;border-top:2px solid #ddd;">
                                                  <td rowspan = "<?php echo isset($startAmount[$k]) ? count($startAmount[$k])+1 : 1;  ?>" style="text-indent:2rem;text-align:left;vertical-align:middle;font-size:12px;font-weight:600;"> <?php  echo $v ; ?> </td>
                                                 <td> -- </td>
-                                                <td> <?php  echo $fromArr[$k]['amount']; ?> </td>
-                                                <td> <?php  echo $fromArr[$k]['pay']; ?> </td>
-                                                <td> <?php  echo $fromArr[$k]['amount'] - $fromArr[$k]['pay']; ?> </td>
+                                                <td> <?php  echo $fromArr[$k]['amount'] ; ?> </td>
+                                                <td> <?php  echo $fromArr[$k]['pay'] ; ?> </td>
+                                                <td> <?php  echo sprintf('%.2f',$fromArr[$k]['amount'] - $fromArr[$k]['pay']); ?> </td>
                                             </tr>                                           
                                             <?php  
                                              if(isset($startAmount[$k])){
@@ -123,9 +123,9 @@
                                               <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td style="vertical-align:middle;font-size:12px;font-weight:600;"> 总合计 </td>
                                                 <td> -- </td>
-                                                <td> <?php  echo $total['amount'] ; ?> </td>
-                                                <td> <?php  echo $total['pay'] ; ?> </td>
-                                                <td> <?php  echo $total['amount'] - $total['pay'] ; ?> </td>
+                                                <td> <?php  echo sprintf('%.2f',$total['amount']) ; ?> </td>
+                                                <td> <?php  echo sprintf('%.2f',$total['pay']) ; ?> </td>
+                                                <td> <?php  echo sprintf('%.2f',$total['amount'] - $total['pay']) ; ?> </td>
                                             </tr>  
                                             
                                         </tbody>
