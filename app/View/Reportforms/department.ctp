@@ -79,7 +79,7 @@
                                     <table class="table table-bordered table-striped" style=''>
                                         <thead>
                                             <tr>
-                                                <th colspan="5" class='blue' style='font-size:16px;border-right:0px;'> 部门报表 </th>
+                                                <th colspan="4" class='blue' style='font-size:16px;border-right:0px;'> 部门报表 </th>
 
                                                 <th colspan="1" style='border-left:0px;text-align:right;' >
                                                     <a href='#'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
@@ -90,39 +90,42 @@
                                         <tbody>
                                             <tr style='font-size:14px;font-weight:600;text-align:center;' class="blue">
                                                 <td> 部门 </td>
-                                                <td > 资金来源 </td>
                                                 <td> 文号 </td>
                                                 <td> 期初数 </td>
                                                 <td> 支出累计 </td>
                                                 <td> 期末数 </td>
                                             </tr>
+
                                             
-                                             <tr style="text-align:center;border-top:2px solid #478;">
-                                                <td   rowspan="<?php echo count($applyList[2])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 0 </td>
-                                                <td style="text-align:center;">  -- </td>
-                                                <td> 1</td>
-                                                <td> 2 </td>
-                                                <td> 3 </td>
-                                                <td>   </td>
-                                            </tr>
-                                            
-                                            <?php  foreach($applyList[2] as $k => $v){  ?>
+                                            <?php  foreach($deplist[1] as $k => $v){ ?>
+                                             <tr style="text-align:center;border-top:2px solid #ddd;">
+                                                 <td rowspan = "<?php echo isset($startAmount[$k]) ? count($startAmount[$k])+1 : 1;  ?>" style="text-indent:2rem;text-align:left;vertical-align:middle;font-size:12px;font-weight:600;"> <?php  echo $v ; ?> </td>
+                                                <td> -- </td>
+                                                <td> <?php  echo $fromArr[$k]['amount']; ?> </td>
+                                                <td> <?php  echo $fromArr[$k]['pay']; ?> </td>
+                                                <td> <?php  echo $fromArr[$k]['amount'] - $fromArr[$k]['pay']; ?> </td>
+                                            </tr>                                           
+                                            <?php  
+                                             if(isset($startAmount[$k])){
+                                                foreach($startAmount[$k] as $kf => $vf){  ?>
                                             <tr style="text-align:center;">
-                                                <td style="text-indent:2rem;text-align:left;"> 0 </td>
-                                                <td> 1 </td>
-                                                <td> 2 </td>
-                                                <td> 3 </td>
-                                                <td> 4 </td>
+                                                <td> <?php  echo $vf['file_number'] ; ?> </td>
+                                                <td> <?php  echo $vf['amount'] ; ?> </td>
+                                                <td> <?php  echo $vf['pay'] ; ?> </td>
+                                                <td> <?php  echo $vf['amount'] - $vf['pay'] ; ?> </td>
                                             </tr>
-                                            <?php } ?>
+                                            <?php 
+                                                }
+                                             }
+                                            } 
+                                            ?>
                                             
                                               <tr style="text-align:center;border-top:2px solid #478;">
-                                                <td   rowspan="<?php echo count($applyList[1]); ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
-                                                <td style="text-align:center;">  -- </td>
-                                                <td> 1 </td>
-                                                <td> 2 </td>
-                                                <td> 3 </td>
-                                                <td> 4 </td>
+                                                <td style="vertical-align:middle;font-size:12px;font-weight:600;"> 总合计 </td>
+                                                <td> -- </td>
+                                                <td> <?php  echo $total['amount'] ; ?> </td>
+                                                <td> <?php  echo $total['pay'] ; ?> </td>
+                                                <td> <?php  echo $total['amount'] - $total['pay'] ; ?> </td>
                                             </tr>  
                                             
                                         </tbody>

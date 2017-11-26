@@ -54,35 +54,43 @@ class ReportformsController extends AppController {
     public function department() {
         $this->layout = 'blank';
         //部门对应总金额
-        $totalArr = $this->ResearchSource->query('select department_id,amount from t_research_source where project_id = 0  ');         //  print_r($totalArr); 
+        $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');         
         $startAmount= array();
         foreach($totalArr as $v){
-           $startAmount[$v['t_research_source']['department_id']][] = $v['t_research_source']['amount'];
+           $startAmount[$v['t_research_source']['department_id']][$v['t_research_source']['id']] = $v['t_research_source'];
         }
-    //  print_r($startAmount);    die;
+ 
         // 各项目已支出累计金额
-        $payTotal = $this->ApplyMain->query("SELECT department_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 2 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY department_id ");
-        $payTotalArr= array();
+        $payTotal = $this->ApplyMain->query("SELECT department_id,source_id,SUM(total) sum_amount FROM t_apply_main WHERE TYPE = 2 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY source_id ");
+        $payTotalArr= array(); 
         foreach($payTotal as $v){
-           $payTotalArr[$v['t_apply_main']['department_id']][] = $v[0]['sum_amount'];
-        }
-//print_r($payTotalArr); die;
-        // 合并数据
-        $fromArr = array('list'=>array(),'total'=>array('amount'=>0,'pay'=>0));
-        if(isset($this->appdata['deplist'][1])){
-            foreach($this->appdata['deplist'][1] as $k => $v){
-               $fromArr['list'][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0  ;
-               $fromArr['list'][$k]['pay']= isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0 ;
-               $fromArr['total']['amount'] +=  $fromArr['list'][$k]['amount'];
-               $fromArr['total']['pay'] +=  $fromArr['list'][$k]['pay'];
-            }   
+           $payTotalArr[$v['t_apply_main']['department_id']][$v['t_apply_main']['source_id']] = $v[0]['sum_amount'];
         }
 
-        print_r($fromArr);
+        // 合并数据
+        $fromArr = array();
+        $total = array('amount'=>0,'pay'=>0);
+            foreach($this->appdata['deplist'][1] as $k => $v){
+                if( isset($startAmount[$k]) ){
+                    $fromArr[$k]['amount'] = $fromArr[$k]['pay'] = 0;
+                    foreach($startAmount[$k] as $dk => $dv){
+                      $fromArr[$k]['amount'] +=  isset($dv['amount']) ? $dv['amount'] : 0 ;
+                      $startAmount[$k][$dk]['pay']= isset($payTotalArr[$k][$dk]) ? $payTotalArr[$k][$dk] : 0 ;  
+                      $fromArr[$k]['pay'] +=  $startAmount[$k][$dk]['pay'];
+                    }
+               }else{
+                      $fromArr[$k]['amount'] =  0;
+                      $fromArr[$k]['pay'] = 0;
+               }
+               $total['amount'] += $fromArr[$k]['amount'];
+               $total['pay'] += $fromArr[$k]['pay'];
+            } 
+
         $this->set('fromArr',$fromArr);
+        $this->set('total',$total);
+        $this->set('startAmount',$startAmount);
         
         $this->render();
- 
     }   
 
 }
