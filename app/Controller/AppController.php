@@ -277,7 +277,13 @@ class AppController extends Controller {
         if ($apply['ApplyMain']['type'] == 1) {
             $project_id = $apply['ApplyMain']['project_id'];
             $source = $this->ResearchSource->findById($source_id);
+            if( empty($source) ){
+                $feedback['code'] = 1;
+                $feedback['msg'] = '项目资金来源中没有该资金来源 ';
+                return $feedback;
+            }
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
+            $source_id = empty($source_id) ? 0 : $source_id;
             $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
                     . "left join t_apply_baoxiaohuizong h on m.project_id = h.project_id and h.source_id = $source_id and m.attr_id = h.id "
                     . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
@@ -395,7 +401,6 @@ class AppController extends Controller {
     }
 
 
-
    /**
      * 部门
      * 验证审批单申请是否超过 来源资金剩余金额
@@ -406,7 +411,13 @@ class AppController extends Controller {
         if ($apply['ApplyMain']['type'] == 2) {
             $department_id = $apply['ApplyMain']['department_id'];
             $source = $this->ResearchSource->findById($source_id);
+            if( empty($source) ){
+                $feedback['code'] = 1;
+                $feedback['msg'] = '部门资金来源中没有该资金来源 ';
+                return $feedback;
+            }
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
+            $source_id = empty($source_id) ? 0 : $source_id;
             $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
                     . "left join t_apply_baoxiaohuizong h on m.department_id = h.department_id and h.source_id = $source_id and m.attr_id = h.id "
                     . " left join t_apply_chuchai_bxd c on m.department_id = c.department_id and c.source_id = $source_id and m.attr_id = c.id  "

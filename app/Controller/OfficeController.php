@@ -673,8 +673,6 @@ class OfficeController extends AppController {
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
 
-
-        //  var_dump($main_arr,$attr_arr,$kemuStr);
         $this->render();
     }
 
@@ -689,33 +687,6 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
 
-
-//            if (!($main_arr = $this->ApplyMain->findById($main_id))) {
-//                //有可能是不存在，也有可能是已经审批
-//                $this->ret_arr['code'] = 1;
-//                $this->ret_arr['msg'] = '参数有误，请重新再试';
-//                echo json_encode($this->ret_arr);
-//                exit;
-//            }
-            //查看单子的 next_approve_id 是否和当前用户的职务Id一样，且有审批权限
-//            $next_approve_id = $main_arr['ApplyMain']['next_approver_id'];
-//            $position_id = $this->userInfo->position_id;
-//            $can_approval = $this->userInfo->can_approval;
-            //单子下个审批职务id与当前用户职务id不一样，不能审批
-//            if ($next_approve_id != $position_id) {
-//                $this->ret_arr['code'] = 1;
-//                $this->ret_arr['msg'] = '您暂时不能审批该单子，请刷新页面再试';
-//                echo json_encode($this->ret_arr);
-//                exit;
-//            }
-            //没有审批权限
-//            if ($can_approval != 2) {
-//                $this->ret_arr['code'] = 1;
-//                $this->ret_arr['msg'] = '您没有审批权限';
-//                echo json_encode($this->ret_arr);
-//                exit;
-//            }
-
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
 
             if ($ret_arr == false) {
@@ -725,13 +696,7 @@ class OfficeController extends AppController {
                 echo json_encode($this->ret_arr);
                 exit;
             }
-//            $ret_arr = $this->get_apporve_approval_process_by_table_name($main_arr['ApplyMain']['table_name'], $main_arr['ApplyMain']['type'], $status, $main_arr['ApplyMain']['department_id']);
-//            if ($ret_arr[$this->code] == 1) {
-//                $this->ret_arr['code'] = 1;
-//                $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//                echo json_encode($this->ret_arr);
-//                exit;
-//            }
+
             //保存主表的数据
             $save_main = array(
                 'code' => $ret_arr['code'],
@@ -756,7 +721,7 @@ class OfficeController extends AppController {
             //判断如果有审批金额则写到表里面
                 if ($this->request->data('small_approval_amount')) {
                     $save_main['total'] = $this->request->data('small_approval_amount');
-                    $main_subject = json_encode($mainInfos['ApplyMain']['subject'],true);
+                    $main_subject = json_decode($mainInfos['ApplyMain']['subject'],true);
                     foreach($main_subject as $mk => $mv){
                         $main_subject[$mk] = $this->request->data('small_approval_amount');
                     }
@@ -766,7 +731,6 @@ class OfficeController extends AppController {
             //开启事务
             $this->ApplyMain->begin();
             if ($this->ApplyMain->edit($main_id, $save_main)) {
-//                if ($this->ApprovalInformation->add($save_approve)) {
                 $this->ApplyMain->commit();
 
                 //如果审批通过，且跳过下个则在表里记录一下
@@ -815,7 +779,6 @@ class OfficeController extends AppController {
                 $this->ret_arr['msg'] = '审批成功';
                 echo json_encode($this->ret_arr);
                 exit;
-//                }
             }
             $this->ApplyMain->rollback();
             //失败
