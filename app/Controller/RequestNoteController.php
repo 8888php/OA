@@ -922,7 +922,7 @@ class RequestNoteController extends AppController {
 
         $attrArr['applyname'] = $datas['applyname']; //请假人姓名
         $attrArr['about'] = $datas['reason']; //事由
-
+        
         $attrArr['start_time'] = $datas['start_time'];
         $attrArr['end_time'] = $datas['end_time'];
         $attrArr['total_days'] = $datas['sum_days'];
@@ -942,6 +942,7 @@ class RequestNoteController extends AppController {
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
         $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '果树所请假单';
         $mainArr['team_id'] = $team_id;
         $mainArr['project_id'] = $project_id;
