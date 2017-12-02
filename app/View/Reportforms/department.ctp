@@ -38,9 +38,7 @@
 
     <body>
         <?php echo $this->element('top'); ?>
-
         <?php echo $this->element('left'); ?>
-
         <div class="main-content">
             <div class="breadcrumbs" id="breadcrumbs">
                 <script type="text/javascript">
@@ -62,8 +60,6 @@
                         部门报表
                     </li>
                 </ul><!-- .breadcrumb -->
-
-
             </div>
 
             <div class="page-content">
@@ -80,9 +76,8 @@
                                         <thead>
                                             <tr>
                                                 <th colspan="4" class='blue' style='font-size:16px;border-right:0px;'> 部门报表 </th>
-
                                                 <th colspan="1" style='border-left:0px;text-align:right;' >
-                                                    <a href='#'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
+                                                    <a href='/Reportforms/dep_export'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                 </th>
                                             </tr>

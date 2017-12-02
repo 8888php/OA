@@ -82,7 +82,7 @@
                                                 <th colspan="5" class='blue' style='font-size:16px;border-right:0px;'> 项目报表 </th>
 
                                                 <th colspan="1" style='border-left:0px;text-align:right;' >
-                                                    <a href='#'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
+                                                    <a href='/Reportforms/pro_export'><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                 </th>
                                             </tr>
@@ -135,7 +135,7 @@
                                             <?php } ?>
                                             
                                               <tr style="text-align:center;border-top:2px solid #478;">
-                                                <td   rowspan="<?php echo count($applyList[1]); ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
+                                                <td style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
                                                 <td style="text-align:center;">  -- </td>
                                                 <td> <?php echo $fromArr['one']['amount'] + $fromArr['two']['amount']; ?> </td>
                                                 <td> <?php echo $fromArr['one']['pay'] + $fromArr['two']['pay']; ?> </td>

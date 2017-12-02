@@ -127,6 +127,9 @@
                             <div class="tab-content no-border ">
                                 <div id="faq-tab-1" class="tab-pane fade in active" >
                                     <div class="table-header">
+                                        <div style="float:right;">
+                                            <a href="/ResearchProject/report_form_export/<?php echo $pid; ?>" style="color:#fff;"><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>  &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
                                         项目经费  
                                     </div>
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>

@@ -99,26 +99,35 @@ class ReportformsController extends AppController {
         $this->render();
     }
 
-    //导出
-    function export() {
-        App::import('Vendor', 'excel');
-        $xls = new Excel_XML('UTF-8', false, 'Member');
-        $export_data = array(array('项目汇总报表'), array('资金类型', '项目', '期初数', '支出累计', '期末数'));
-        $dataArr = $this->index(true);
-       // var_dump($dataArr);die;
-        foreach ($this->data['OrderList'] as $r) {
-            @$export_data[] = array(
-                $r['Order']['id'],
-                $r['Order']['order_sn'],
-                $r['Order']['create_time'],
-                $r['Order']['pay_time'],
-                $r['Order']['kt_price'],
-                $r['Order']['kq_price'],
-            );
-        }
-      //  $xls->addArray($export_data);
-      //  $xls->generateXML('Order_' . date("YmdHis"));
-        exit();
+    //项目汇总报表 导出
+    function pro_export() {
+       $this->layout = 'blank';
+       $xls_name = '项目汇总报表-'.date("Y-m-d H:i:s");
+       $xls_suffix = 'xls';
+       header("Content-Type:application/vnd.ms-excel");
+       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $export_xls_head = array('title'=>'项目汇总报表', 'cols'=>array('资金类型', '项目', '期初数', '支出累计', '期末数'));
+       $this->set('xls_head',$export_xls_head);
+       $dataArr = $this->index(true);
+       
+       $this->render();
     }
 
+   //部门汇总报表 导出
+    function dep_export() {
+       $this->layout = 'blank';
+       $xls_name = '部门汇总报表-'.date("Y-m-d H:i:s");
+       $xls_suffix = 'xls';
+       header("Content-Type:application/vnd.ms-excel");
+       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+       
+       $export_xls_head = array('title'=>'部门汇总报表', 'cols'=>array('部门', '文号', '期初数', '支出累计', '期末数'));
+       $this->set('xls_head',$export_xls_head);
+       $dataArr = $this->department(true);
+       
+       $this->render();
+    }
+    
+    
 }

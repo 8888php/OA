@@ -412,10 +412,10 @@ class ResearchProjectController extends AppController {
     /**
      * 详情 报表
      */
-    public function report_form($pid = 0) {
+    public function report_form($pid = 0, $export = false) {
         $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
         $this->set('is_pro', $is_pro);
-        
+
         if (empty($pid) || !$this->is_who()) {
             // 不属于五个职务的 请求用户
             if($is_pro == false){
@@ -435,7 +435,6 @@ class ResearchProjectController extends AppController {
 
         // 报表只取核算为1的数据
         $declares_arr = $this->ResearchSource->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.project_id = '$pid' and type = 1 and is_calculation = 1 and m.code = 10000 and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd') ");
-// var_dump($declares_arr); 
 
         $mainArr = array();
         foreach ($declares_arr as $k => $v) {
@@ -459,19 +458,18 @@ class ResearchProjectController extends AppController {
                 case 'apply_jiekuandan':  // 借款单
                     $attrinfo = $this->ResearchSource->query("SELECT b.id,b.approve_money amount,b.reason description,s.* FROM t_apply_jiekuandan b left join t_research_source s ON b.source_id = s.id  WHERE b.id in($attrid)  ");
                     break;
-            }//print_r($attrinfo);
+            }
             if (count($attrinfo) > 0) {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
                         $tmpdecp = json_decode($attv['b']['description'], true);  
-                      // var_dump(is_array($tmpdecp),$tmpdecp); 
                         $attv['b']['description'] = $tmpdecp[0]['pro'].' '.$tmpdecp[0]['nums'].$tmpdecp[0]['unit'].' 单价：'.$tmpdecp[0]['unit_price'].' 总金额：'.$tmpdecp[0]['amount'].' ；'.$tmpdecp[0]['remarks'];
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
                 } else {
                     foreach ($attrinfo as $attk => $attvs) {
                         $attrinfo[$attvs['b']['id']] = $attvs;
-                    }//print_r($attrinfo);
+                    }
                 }
                 foreach ($v as $atk => $atv) {
                     $attrArr[$atk] = $attrinfo[$atv];
@@ -479,13 +477,12 @@ class ResearchProjectController extends AppController {
                 $attrinfo = array();
             }
         }
-//print_r($attrArr);
+
         $this->set('keyanlist', Configure::read('keyanlist'));
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
         $this->set('pid', $pid);
 
-//var_dump($declares_arr);die;
         $pcost = $this->ResearchCost->findByProjectId($pid);
         $pcost = $pcost['ResearchCost'];
         $this->set('pcost', $pcost);  // 预算费用
@@ -504,6 +501,11 @@ class ResearchProjectController extends AppController {
             }
         }
         $this->set('expent', $expent);  // 支出总计费用
+        
+        if ($export) {
+            return true;
+        }
+        
         $this->render();
     }
 
@@ -1078,4 +1080,35 @@ class ResearchProjectController extends AppController {
         $this->render();
     }
 
+    
+    
+ 
+   //所属项目汇总报表 导出
+    function report_form_export($pid = 0) {
+       $this->layout = 'blank';
+       if( empty($pid) ){
+         header("Location:".$_SERVER['HTTP_REFERER']);die; 
+        }
+
+       $xls_name = $this->appdata['applyList'][1][$pid].'项目汇总报表-'.date("Y-m-d H:i:s");
+       $xls_suffix = 'xls';
+       header("Content-Type:application/vnd.ms-excel");
+       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $export_xls_head = array('title'=>$this->appdata['applyList'][1][$pid].'项目汇总报表', 'cols'=>array('日期', '报销人', '政府采购', '来源渠道', '文号','摘要','合计'));
+       foreach(Configure::read('keyanlist') as $tdv){
+           foreach($tdv as $lv){ 
+               $cols[]= $lv; 
+            }
+           }
+       $export_xls_head['cols'] = array_merge($export_xls_head['cols'],$cols);
+       $this->set('xls_head',$export_xls_head);
+       
+       $dataArr = $this->report_form($pid, true);
+       
+       $this->render();
+    }
+       
+    
+    
 }
