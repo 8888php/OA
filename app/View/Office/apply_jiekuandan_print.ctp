@@ -89,6 +89,14 @@
                                     echo @$applyArr['11']['name']; 
                                     echo '<br />';
                                     echo @$applyArr['11']['ctime'];
+                                    if (!empty($applyArr['12'])) {
+                                        echo '<br />';
+                                        echo @$applyArr['12']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['12']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['12']['ctime'];
+                                    }
                                     ?>   
                                 </td>
                                 <td > 
