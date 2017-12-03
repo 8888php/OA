@@ -310,6 +310,12 @@
                                 部门报表
                             </a>
                         </li>
+                        <li class="guding_index">
+                            <a href="/reportforms/report_form/leave">
+                                <i class="icon-double-angle-right"></i>
+                                人事报表
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

@@ -101,33 +101,139 @@ class ReportformsController extends AppController {
 
     //项目汇总报表 导出
     function pro_export() {
-       $this->layout = 'blank';
-       $xls_name = '项目汇总报表-'.date("Y-m-d H:i:s");
-       $xls_suffix = 'xls';
-       header("Content-Type:application/vnd.ms-excel");
-       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+        $this->layout = 'blank';
+        $xls_name = '项目汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
 
-        $export_xls_head = array('title'=>'项目汇总报表', 'cols'=>array('资金类型', '项目', '期初数', '支出累计', '期末数'));
-       $this->set('xls_head',$export_xls_head);
-       $dataArr = $this->index(true);
-       
-       $this->render();
+        $export_xls_head = array('title' => '项目汇总报表', 'cols' => array('资金类型', '项目', '期初数', '支出累计', '期末数'));
+        $this->set('xls_head', $export_xls_head);
+        $dataArr = $this->index(true);
+
+        $this->render();
     }
 
-   //部门汇总报表 导出
+    //部门汇总报表 导出
     function dep_export() {
-       $this->layout = 'blank';
-       $xls_name = '部门汇总报表-'.date("Y-m-d H:i:s");
-       $xls_suffix = 'xls';
-       header("Content-Type:application/vnd.ms-excel");
-       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
-       
-       $export_xls_head = array('title'=>'部门汇总报表', 'cols'=>array('部门', '文号', '期初数', '支出累计', '期末数'));
-       $this->set('xls_head',$export_xls_head);
-       $dataArr = $this->department(true);
-       
-       $this->render();
+        $this->layout = 'blank';
+        $xls_name = '部门汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $export_xls_head = array('title' => '部门汇总报表', 'cols' => array('部门', '文号', '期初数', '支出累计', '期末数'));
+        $this->set('xls_head', $export_xls_head);
+        $dataArr = $this->department(true);
+
+        $this->render();
     }
-    
-    
+
+    // 人事汇总报表
+    function report_form($type = false) {
+        $this->layout = 'blank';
+        if (!$type) {
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            die;
+        }
+
+        $fromdata = '';
+        switch ($type) {
+            case 'leave':
+                $fromdata = $this->leave();
+                $this->set('fromtype', 'leave');
+                break;
+            case 'chuchai':
+                $fromdata = $this->chuchai();
+                $this->set('fromtype', 'chuchai');
+                break;
+            case 'baogong':
+                $fromdata = $this->baogong();
+                $this->set('fromtype', 'baogong');
+                break;
+            case 'paidleave':
+                $fromdata = $this->paidleave();
+                $this->set('fromtype', 'paidleave');
+                break;
+            default:
+                $fromdata = false;
+        }
+
+        $this->render();
+    }
+
+    //人事报表  请假单
+    function leave($export = false) {
+
+        $export_xls_head = array('title' => '请假单汇总报表', 'cols' => array('ID','申请日期', '请假人', '单位或部门', '开始日期', '结束日期', '共计天数', '事由', '请假类型', '单位负责人', '医务室', '分管领导', '分管人事领导', '所长', '审批状态'));
+        $this->set('xls_head', $export_xls_head);
+
+        return true;
+    }
+
+    //人事报表  出差审批单
+    function chuchai($export = false) {
+
+        $export_xls_head = array('title' => '出差审批单汇总报表', 'cols' => array('ID','申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
+        $this->set('xls_head', $export_xls_head);
+
+        return true;
+    }
+
+    //人事报表  田间作业包工单
+    function baogong($export = false) {
+
+        $export_xls_head = array('title' => '田间作业包工单汇总报表', 'cols' => array('ID','申请日期', '申请人', '编号', '部门', '包工人员', '包工时间地点', '包工内容及工作量', '部门负责人', '科研办公室', '审批状态'));
+        $this->set('xls_head', $export_xls_head);
+
+        return true;
+    }
+
+    //人事报表 职工带薪年休假申请单
+    function paidleave($export = false) {
+
+        $export_xls_head = array('title' => '职工带薪年休假申请单汇总报表', 'cols' => array('ID','申请日期', '申请人', '所在单位', '参加工作时间', '工作年限', '按规定享受年假天数', '本年度已休年假天数', '开始时间', '结束时间', '共几天', '个人申请', '所在单位负责人意见', '分管领导意见', '主管人事领导意见','审批状态'));
+        $this->set('xls_head', $export_xls_head);
+
+        return true;
+    }
+
+    //人事报表 汇总 导出
+    function personnel_export($type = false) {
+        $this->layout = 'blank';
+        $xls_name = '部门汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+        
+        if (!$type) {
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            die;
+        }
+
+        $fromdata = '';
+        switch ($type) {
+            case 'leave':
+                $fromdata = $this->leave();
+                $this->set('fromtype', 'leave');
+                break;
+            case 'chuchai':
+                $fromdata = $this->chuchai();
+                $this->set('fromtype', 'chuchai');
+                break;
+            case 'baogong':
+                $fromdata = $this->baogong();
+                $this->set('fromtype', 'baogong');
+                break;
+            case 'paidleave':
+                $fromdata = $this->paidleave();
+                $this->set('fromtype', 'paidleave');
+                break;
+            default:
+                $fromdata = false;
+        }
+
+        $this->render();
+    }
+
 }
