@@ -612,11 +612,11 @@ class RequestNoteController extends AppController {
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
-            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+             $select_user_id_sql = "select p.user_id,tm.user_id from t_research_project p left join t_team tp on p.project_team_id=tp.id  left join t_team_member tm on tp.fzr = tm.id where p.id='$project_id'";
 
             $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
-            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id']; //项目组负责人user_id
+            $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
@@ -744,11 +744,11 @@ class RequestNoteController extends AppController {
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
-            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+             $select_user_id_sql = "select p.user_id,tm.user_id from t_research_project p left join t_team tp on p.project_team_id=tp.id  left join t_team_member tm on tp.fzr = tm.id where p.id='$project_id'";
 
             $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
-            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id']; //项目组负责人user_id
+            $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
@@ -1055,11 +1055,11 @@ class RequestNoteController extends AppController {
             //项目
             $project_id = $_POST['projectname'];
             //根据项目取出，项目负责人user_id,和项目组负责人user_id
-            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+            $select_user_id_sql = "select p.user_id,tm.user_id from t_research_project p left join t_team tp on p.project_team_id=tp.id  left join t_team_member tm on tp.fzr = tm.id where p.id='$project_id'";
 
             $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
-            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id']; //项目组负责人user_id
+            $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);

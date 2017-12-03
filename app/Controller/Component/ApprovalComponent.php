@@ -409,14 +409,19 @@ class ApprovalComponent extends Component {
 
         // 如果项目属于项目组则取找项目组负责人
         // 否则 直接返回 
-        $Team = $Project->query('select * from t_team_project as team where id = ' . $pinfo['project_team_id'] . ' and del = 0 '); 
-        if(empty($Team) || $Team[0]['team']['id'] == 1){  // 无项目组 单个项目 返回项目负责人id
+        if( $pinfo['project_team_id'] == 0 ){  // 单个项目 返回项目负责人id
             return $pinfo['user_id'];
         }
+        
+        $Team = $Project->query('select * from t_team_member as team where id = ' . $pinfo['project_team_id'] . ' and del = 0 ');
+        if( empty($Team) ){  // 无项目组 返回项目负责人id
+            return $pinfo['user_id'];
+        }
+        
         $team = $Team[0]['team'];
-        // 项目组不为1 且 项目组负责人与申请人id相同 
-        if ($team['id'] > 1 && $team['team_user_id'] == $uid) {
-            return $team['team_user_id'];
+        //  项目组负责人与申请人id相同 
+        if ( $team['user_id'] == $uid ) {
+            return $team['user_id'];
         } else {
             return false;
         }

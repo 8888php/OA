@@ -6,7 +6,7 @@ App::uses('ResearchProjectController', 'AppController');
 class ResearchProjectController extends AppController {
 
     public $name = 'ResearchProject';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department', 'TeamProject', 'ApprovalInformation');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'Fixedassets', 'Storage', 'ApplyBaoxiaohuizong', 'ApplyMain', 'Department', 'TeamProject', 'ApprovalInformation', 'Team','TeamMember');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -63,18 +63,19 @@ class ResearchProjectController extends AppController {
         $pinfos = $this->ResearchProject->findById($pid);
         $pinfos = @$pinfos['ResearchProject'];
 
-// 项目组
-        $teaminfos = $this->TeamProject->findById($pinfos['project_team_id']);
-        $pinfos['project_team_str'] = $teaminfos['TeamProject']['name'];
-
-// 项目组负责人
-        if ($teaminfos['TeamProject']['id'] == 1) {
-// $pinfos['project_team_user'] = '';
+        // 项目组
+        //$teaminfos = $this->TeamProject->findById($pinfos['project_team_id']);
+        // 项目组负责人
+        if ($pinfos['project_team_id'] == 0) {
             $uinfos = $this->User->findById($pinfos['user_id']);
+            $pinfos['project_team_str'] = '单个项目';
+            $pinfos['project_team_user'] = $uinfos['User']['name'];
         } else {
-            $uinfos = $this->User->findById($teaminfos['TeamProject']['team_user_id']);
+            $teaminfos = $this->Team->findById($pinfos['project_team_id']);
+            $pinfos['project_team_str'] = $teaminfos['Team']['name'];
+            $uinfos = $this->TeamMember->findById($teaminfos['Team']['fzr']);
+            $pinfos['project_team_user'] = $uinfos['TeamMember']['name'];
         }
-        $pinfos['project_team_user'] = $uinfos['User']['name'];
 
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
@@ -116,7 +117,7 @@ class ResearchProjectController extends AppController {
                     $jk_attr_val[$k] = $jiekuandan[$v];
                 }
             }
-  
+
             foreach ($overplus as $k => $v) {
                 $units = json_decode($v, true);
                 if (isset($jk_attr_val[$k])) {
@@ -294,11 +295,11 @@ class ResearchProjectController extends AppController {
             $type = $type[0];
             $p_id = 1;
 //根据项目取出，项目负责人user_id,和项目组负责人user_id
-            $select_user_id_sql = "select p.user_id,tp.team_user_id from t_research_project p left join t_team_project tp on p.project_team_id=tp.id where p.id='$project_id'";
+            $select_user_id_sql = "select p.user_id,tm.user_id from t_research_project p left join t_team tp on p.project_team_id=tp.id  left join t_team_member tm on tp.fzr = tm.id where p.id='$project_id'";
 
             $project_and_team_arr = $this->ApplyMain->query($select_user_id_sql);
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
-            $project_team_user_id = $project_and_team_arr[0]['tp']['team_user_id']; //项目组负责人user_id
+            $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
@@ -418,17 +419,18 @@ class ResearchProjectController extends AppController {
 
         if (empty($pid) || !$this->is_who()) {
             // 不属于五个职务的 请求用户
-            if($is_pro == false){
+            if ($is_pro == false) {
                 // 不属于五个职务的 且不是该项目成员的 请求用户
-                 header("Location:".$_SERVER['HTTP_REFERER']);die; 
+                header("Location:" . $_SERVER['HTTP_REFERER']);
+                die;
             }
             $proInfos = $this->ResearchProject->findById($pid);
             $proInfos = $proInfos['ResearchProject'];
             $this->set('proInfos', $proInfos);  // 预算费用
             // 不是项目负责人不可查看报表
             if ($proInfos['user_id'] != $this->userInfo->id) {
-                header("Location:".$_SERVER['HTTP_REFERER']);
-               // echo "<script> alert('抱歉！您没有查看权限！');location.href = '".$_SERVER['HTTP_REFERER']."' </script>"; 
+                header("Location:" . $_SERVER['HTTP_REFERER']);
+                // echo "<script> alert('抱歉！您没有查看权限！');location.href = '".$_SERVER['HTTP_REFERER']."' </script>"; 
                 die;
             }
         }
@@ -462,8 +464,8 @@ class ResearchProjectController extends AppController {
             if (count($attrinfo) > 0) {
                 if ($k == 'apply_lingkuandan') {
                     foreach ($attrinfo as $attk => $attv) {
-                        $tmpdecp = json_decode($attv['b']['description'], true);  
-                        $attv['b']['description'] = $tmpdecp[0]['pro'].' '.$tmpdecp[0]['nums'].$tmpdecp[0]['unit'].' 单价：'.$tmpdecp[0]['unit_price'].' 总金额：'.$tmpdecp[0]['amount'].' ；'.$tmpdecp[0]['remarks'];
+                        $tmpdecp = json_decode($attv['b']['description'], true);
+                        $attv['b']['description'] = $tmpdecp[0]['pro'] . ' ' . $tmpdecp[0]['nums'] . $tmpdecp[0]['unit'] . ' 单价：' . $tmpdecp[0]['unit_price'] . ' 总金额：' . $tmpdecp[0]['amount'] . ' ；' . $tmpdecp[0]['remarks'];
                         $attrinfo[$attv['b']['id']] = $attv;
                     }
                 } else {
@@ -501,11 +503,11 @@ class ResearchProjectController extends AppController {
             }
         }
         $this->set('expent', $expent);  // 支出总计费用
-        
+
         if ($export) {
             return true;
         }
-        
+
         $this->render();
     }
 
@@ -701,7 +703,8 @@ class ResearchProjectController extends AppController {
      */
     public function step1() {
 
-        $team = $this->TeamProject->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
+        //$team = $this->TeamProject->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
+        $team = $this->Team->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
         $this->set('team', $team);
         $this->render();
     }
@@ -1080,35 +1083,31 @@ class ResearchProjectController extends AppController {
         $this->render();
     }
 
-    
-    
- 
-   //所属项目汇总报表 导出
+    //所属项目汇总报表 导出
     function report_form_export($pid = 0) {
-       $this->layout = 'blank';
-       if( empty($pid) ){
-         header("Location:".$_SERVER['HTTP_REFERER']);die; 
+        $this->layout = 'blank';
+        if (empty($pid)) {
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            die;
         }
 
-       $xls_name = $this->appdata['applyList'][1][$pid].'项目汇总报表-'.date("Y-m-d H:i:s");
-       $xls_suffix = 'xls';
-       header("Content-Type:application/vnd.ms-excel");
-       header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+        $xls_name = $this->appdata['applyList'][1][$pid] . '项目汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
 
-        $export_xls_head = array('title'=>$this->appdata['applyList'][1][$pid].'项目汇总报表', 'cols'=>array('日期', '报销人', '政府采购', '来源渠道', '文号','摘要','合计'));
-       foreach(Configure::read('keyanlist') as $tdv){
-           foreach($tdv as $lv){ 
-               $cols[]= $lv; 
+        $export_xls_head = array('title' => $this->appdata['applyList'][1][$pid] . '项目汇总报表', 'cols' => array('日期', '报销人', '政府采购', '来源渠道', '文号', '摘要', '合计'));
+        foreach (Configure::read('keyanlist') as $tdv) {
+            foreach ($tdv as $lv) {
+                $cols[] = $lv;
             }
-           }
-       $export_xls_head['cols'] = array_merge($export_xls_head['cols'],$cols);
-       $this->set('xls_head',$export_xls_head);
-       
-       $dataArr = $this->report_form($pid, true);
-       
-       $this->render();
+        }
+        $export_xls_head['cols'] = array_merge($export_xls_head['cols'], $cols);
+        $this->set('xls_head', $export_xls_head);
+
+        $dataArr = $this->report_form($pid, true);
+
+        $this->render();
     }
-       
-    
-    
+
 }
