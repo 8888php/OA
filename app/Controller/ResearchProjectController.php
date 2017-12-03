@@ -798,6 +798,7 @@ class ResearchProjectController extends AppController {
             $filesArr = CookieDecode($files);
             $projectArr['filename'] = $filesArr[0];
             $projectArr['ctime'] = date("Y-m-d H:i:s");
+            $projectArr['code'] = 2;//默认让他走 财务科班主任
 
 # 开始入库
             $this->ResearchProject->begin();
