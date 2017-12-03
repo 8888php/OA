@@ -298,19 +298,19 @@
                     </a>
 
                     <ul class="submenu">
-                        <li class="guding_index">
+                        <li class="xm_baobiao">
                             <a href="/reportforms/index">
                                 <i class="icon-double-angle-right"></i>
                                 项目报表
                             </a>
                         </li>
-                        <li class="guding_index">
+                        <li class="bm_baobiao">
                             <a href="/reportforms/department">
                                 <i class="icon-double-angle-right"></i>
                                 部门报表
                             </a>
                         </li>
-                        <li class="guding_index">
+                        <li class="rsh_baobiao">
                             <a href="/reportforms/report_form/leave">
                                 <i class="icon-double-angle-right"></i>
                                 人事报表

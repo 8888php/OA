@@ -192,9 +192,15 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
     });
-    show_left_select('reportforms', '无效');
+    //show_left_select('reportforms', '无效');
     
 </script>
-
+<script type="text/javascript">
+    $('#modal').on('hidden.bs.modal', function(){
+    //关闭模态框时，清除数据，防止下次加雷有，缓存
+    $(this).removeData("bs.modal");
+    });
+            show_left_select('reportforms', 'bm_baobiao');
+</script>
 </body>
 </html>
