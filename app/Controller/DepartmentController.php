@@ -125,7 +125,7 @@ class DepartmentController extends AppController {
         }
         $this->set('xizhenglist', Configure::read('xizhenglist'));
         $this->set('id', $id);
-
+        $this->is_dailirong_yujing();
         $this->render();
     }
 
@@ -143,7 +143,8 @@ class DepartmentController extends AppController {
         $depInfos = $this->Department->findById($did);
 
         // 是否项目负责人添加
-        if($depInfos['Department']['user_id'] != $this->userInfo->id){
+//        if($depInfos['Department']['user_id'] != $this->userInfo->id){
+        if(!$this->is_dailirong_yujing()){
             header("Location:/homes/index");
             die;    
         }
@@ -167,7 +168,8 @@ class DepartmentController extends AppController {
             $proInfos = $this->Department->findById($_POST['did']);
 
             // 是否项目负责人添加
-            if($proInfos['Department']['user_id'] != $this->userInfo->id){
+//            if($proInfos['Department']['user_id'] != $this->userInfo->id){
+            if(!$this->is_dailirong_yujing()){
                 $this->ret_arr['msg'] = '非部门负责人无权添加';
                 echo json_encode($this->ret_arr);
                 exit; 
@@ -453,5 +455,13 @@ class DepartmentController extends AppController {
         echo json_encode($ret_arr);
         exit;
     }
-
+    //戴丽蓉 于静添加部门的资金来源 
+    public function is_dailirong_yujing() {
+        $return = false;
+        if (in_array($this->userInfo->id, array(4, 40))) {
+            $return = true;
+        }
+        $this->set('is_dailirong_yujing', $return);
+        return $return;
+    }
 }

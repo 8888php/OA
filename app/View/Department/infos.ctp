@@ -291,7 +291,8 @@
                                                                 <th>金额</th>
                                                                 <th>年度</th>
                                                                 
-                                                                <?php  if($depInfo['Department']['user_id'] == $userInfo->id){  ?>
+                                                                <?php  //if($depInfo['Department']['user_id'] == $userInfo->id){  ?>
+                                                                <?php  if($is_dailirong_yujing){  ?>
                                                     <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;height:32px;margin-left: 20px;" onclick="$('#modal-body').load('/Department/add_filenumber/<?php echo $d_id;?>');" > <i class="icon-plus arrow blue"></i> </a> 
                                                             <?php  } ?>
                                                             </tr>
