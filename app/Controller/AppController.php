@@ -11,7 +11,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd');
+    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd', 'Team');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code'; //返回的状态
@@ -55,9 +55,17 @@ class AppController extends Controller {
         // 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
         $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
 
-        $applyList = $this->ResearchProject->getApplyList($pro_conditions);
+        $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
         $this->appdata['applyList'] = $applyList;
         $this->set('applyList', $applyList);
+        
+        // 获取项目所在团队
+        $teamId = array('id' => array_keys($applyList));
+        $selfTeamList = array('单个项目');
+        $selfTeamList += $this->Team->getListId($teamId);
+        $this->appdata['selfTeamList'] = $selfTeamList;
+        $this->set('selfTeamList', $selfTeamList);
+
         
         //右上角，左边和中间的显示
         TOP_LEFT_MIDDLE:{

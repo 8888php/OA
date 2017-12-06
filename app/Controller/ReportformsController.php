@@ -25,28 +25,27 @@ class ReportformsController extends AppController {
         }
 
         // 合并数据
-        $fromArr = array(1 => array(), 2 => array(), 'one' => array('amount' => 0, 'pay' => 0), 'two' => array('amount' => 0, 'pay' => 0));
-        if (isset($this->appdata['applyList'][1])) {
-            foreach ($this->appdata['applyList'][1] as $k => $v) {
-                $fromArr[1][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0;
-                $fromArr[1][$k]['pay'] = isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0;
-                $fromArr['one']['amount'] += $fromArr[1][$k]['amount'];
-                $fromArr['one']['pay'] += $fromArr[1][$k]['pay'];
+        $fromArr = $sumArr = $totalArr = array();
+        foreach ($this->appdata['applyList'] as $k => $v) {
+            foreach ($v as $kv => $vv) {
+                $fromArr[$k][$kv]['amount'] = isset($startAmount[$kv]) ? $startAmount[$kv] : 0;
+                $fromArr[$k][$kv]['pay'] = isset($payTotalArr[$kv]) ? $payTotalArr[$kv] : 0;
+                $sumArr[$k]['amount'] += $fromArr[$k][$kv]['amount'];
+                $sumArr[$k]['pay'] += $fromArr[$k][$kv]['pay'];
             }
         }
 
-        if (isset($this->appdata['applyList'][2])) {
-            foreach ($this->appdata['applyList'][2] as $k => $v) {
-                $fromArr[2][$k]['amount'] = isset($startAmount[$k]) ? $startAmount[$k] : 0;
-                $fromArr[2][$k]['pay'] = isset($payTotalArr[$k]) ? $payTotalArr[$k] : 0;
-                $fromArr['two']['amount'] += $fromArr[2][$k]['amount'];
-                $fromArr['two']['pay'] += $fromArr[2][$k]['pay'];
-            }
+        foreach ($sumArr as $k => $v) {
+            $totalArr['amount'] += $v['amount'];
+            $totalArr['pay'] += $v['pay'];
         }
+
         $this->set('fromArr', $fromArr);
+        $this->set('sumArr', $sumArr);
+        $this->set('totalArr', $totalArr);
 
         if ($export) {
-            return $fromArr;
+            return true;
         }
 
         $this->render();
@@ -165,7 +164,7 @@ class ReportformsController extends AppController {
     //人事报表  请假单
     function leave($export = false) {
 
-        $export_xls_head = array('title' => '请假单汇总报表', 'cols' => array('ID','申请日期', '请假人', '单位或部门', '开始日期', '结束日期', '共计天数', '事由', '请假类型', '单位负责人', '医务室', '分管领导', '分管人事领导', '所长', '审批状态'));
+        $export_xls_head = array('title' => '请假单汇总报表', 'cols' => array('ID', '申请日期', '请假人', '单位或部门', '开始日期', '结束日期', '共计天数', '事由', '请假类型', '单位负责人', '医务室', '分管领导', '分管人事领导', '所长', '审批状态'));
         $this->set('xls_head', $export_xls_head);
 
         return true;
@@ -174,7 +173,7 @@ class ReportformsController extends AppController {
     //人事报表  出差审批单
     function chuchai($export = false) {
 
-        $export_xls_head = array('title' => '出差审批单汇总报表', 'cols' => array('ID','申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
+        $export_xls_head = array('title' => '出差审批单汇总报表', 'cols' => array('ID', '申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
         $this->set('xls_head', $export_xls_head);
 
         return true;
@@ -183,7 +182,7 @@ class ReportformsController extends AppController {
     //人事报表  田间作业包工单
     function baogong($export = false) {
 
-        $export_xls_head = array('title' => '田间作业包工单汇总报表', 'cols' => array('ID','申请日期', '申请人', '编号', '部门', '包工人员', '包工时间地点', '包工内容及工作量', '部门负责人', '科研办公室', '审批状态'));
+        $export_xls_head = array('title' => '田间作业包工单汇总报表', 'cols' => array('ID', '申请日期', '申请人', '编号', '部门', '包工人员', '包工时间地点', '包工内容及工作量', '部门负责人', '科研办公室', '审批状态'));
         $this->set('xls_head', $export_xls_head);
 
         return true;
@@ -192,7 +191,7 @@ class ReportformsController extends AppController {
     //人事报表 职工带薪年休假申请单
     function paidleave($export = false) {
 
-        $export_xls_head = array('title' => '职工带薪年休假申请单汇总报表', 'cols' => array('ID','申请日期', '申请人', '所在单位', '参加工作时间', '工作年限', '按规定享受年假天数', '本年度已休年假天数', '开始时间', '结束时间', '共几天', '个人申请', '所在单位负责人意见', '分管领导意见', '主管人事领导意见','审批状态'));
+        $export_xls_head = array('title' => '职工带薪年休假申请单汇总报表', 'cols' => array('ID', '申请日期', '申请人', '所在单位', '参加工作时间', '工作年限', '按规定享受年假天数', '本年度已休年假天数', '开始时间', '结束时间', '共几天', '个人申请', '所在单位负责人意见', '分管领导意见', '主管人事领导意见', '审批状态'));
         $this->set('xls_head', $export_xls_head);
 
         return true;
@@ -205,7 +204,7 @@ class ReportformsController extends AppController {
         $xls_suffix = 'xls';
         header("Content-Type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
-        
+
         if (!$type) {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             die;

@@ -44,11 +44,18 @@ class Team extends AppModel {
 
 
     
-    # 获取全部部门
+    # 获取全部团队
     public function getList(){
         $userArr = $fields = array();
         $fields = array('id','name');
         return  $this->find('list',array('conditions' => array('del'=>0),'fields'=>$fields));
+    }
+    
+     
+    # 获取指定团队
+    public function getListId($conditions = array()){
+        $conditions['del'] = 0;
+        return  $this->find('list',array('conditions' => $conditions,'fields'=>array('id','name')));
     }
     
     

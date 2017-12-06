@@ -45,7 +45,7 @@ class ResearchProject extends AppModel {
     }
     
   
-    # 获取全部项目
+    # 获取全部项目 按资金性质分类
 
     public function getApplyList($conditions = array()) {
         $userArr = $fields = array();
@@ -54,7 +54,16 @@ class ResearchProject extends AppModel {
         return $this->find('list', array('conditions' => $conditions, 'fields' => $fields));
     }
     
+    # 获取全部项目  按项目组分类
 
+    public function getApplyLisTeam($conditions = array()) {
+        $userArr = $fields = array();
+        $conditions['del'] = 0;
+        $fields = array('id', 'name','project_team_id');
+        return $this->find('list', array('conditions' => $conditions, 'fields' => $fields));
+    }
+    
+    
     # 获取全部项目
 
     public function getAll($conditions = array(), $limit = 0, $page = 0) {

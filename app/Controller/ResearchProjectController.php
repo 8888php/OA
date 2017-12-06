@@ -1091,13 +1091,20 @@ class ResearchProjectController extends AppController {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             die;
         }
+        $sheetname = '';
+        foreach($this->appdata['applyList'] as $v){
+            if(isset($v[$pid])){
+                $sheetname = $v[$pid] ;
+                break;
+            }
+        }
 
-        $xls_name = $this->appdata['applyList'][1][$pid] . '项目汇总报表-' . date("Y-m-d H:i:s");
+        $xls_name = $sheetname . '项目汇总报表-' . date("Y-m-d H:i:s");
         $xls_suffix = 'xls';
         header("Content-Type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
 
-        $export_xls_head = array('title' => $this->appdata['applyList'][1][$pid] . '项目汇总报表', 'cols' => array('日期', '报销人', '政府采购', '来源渠道', '文号', '摘要', '合计'));
+        $export_xls_head = array('title' => $sheetname . '项目汇总报表', 'cols' => array('日期', '报销人', '政府采购', '来源渠道', '文号', '摘要', '合计'));
         foreach (Configure::read('keyanlist') as $tdv) {
             foreach ($tdv as $lv) {
                 $cols[] = $lv;
