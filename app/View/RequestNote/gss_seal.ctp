@@ -67,12 +67,12 @@
                                     <input type='checkbox'class="filetype" name='filetype' value='7' > 其他  
                                 </td>
                              </tr>                           
-                            <tr>
+                            <!--tr>
                                 <td >文号/编号</td>
                                 <td colspan='6'>
                                     <input type="text" class='filenum'  name="filenum"  style='height:25px;width:500px;'>  
                                 </td>
-                            </tr>
+                            </tr-->
                            
                             <tr>
                                 <td style='height:50px;'> 部门负责人意见 </td>
@@ -80,10 +80,10 @@
                                 <td style='height:50px;'> 分管所领导意见 </td>
                                 <td  colspan='3' >   </td>
                             </tr>
-                            <tr>
+                            <!--tr>
                                 <td style='height:50px;'> 科室主任意见 </td>
                                 <td  colspan='6' >   </td>
-                            </tr>
+                            </tr-->
                             <tr >
                                 <td style='height:50px;'> 所长意见  </td>
                                 <td colspan='6'>   </td>
@@ -180,10 +180,10 @@ function printDIV(){
             $('.filetype').focus();
             return;
         }
-        if (filenum == '') {
-            $('.filenum').focus();
-            return;
-        }
+//        if (filenum == '') {
+//            $('.filenum').focus();
+//            return;
+//        }
         
         var data = {};
         data.applyname = applyname;

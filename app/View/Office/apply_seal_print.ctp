@@ -44,10 +44,10 @@
                                     }
                                     ?>  </td>
                              </tr>                           
-                            <tr>
+                            <!--tr>
                                 <td >文号/编号</td>
                                 <td colspan='6'> <?php echo $attr_arr[0][$table_name]['filenum'];?> </td>
-                            </tr>
+                            </tr-->
                            
                             <tr>
                                 <td style='height:50px;'> 部门负责人意见 </td>
@@ -71,12 +71,12 @@
                                 ?> 
                                 </td>
                             </tr>
-                            <tr>
+                            <!--tr>
                                 <td style='height:50px;'> 科室主任意见 </td>
                                 <td  colspan='6' >  
                                     <?php  echo $applyArr[27]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[27]['ctime'];  ?>   
                                 </td>
-                            </tr>
+                            </tr-->
                             <tr >
                                 <td style='height:50px;'> 所长意见  </td>
                                 <td colspan='6'>  <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?>    </td>

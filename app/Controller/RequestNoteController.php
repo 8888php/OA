@@ -1630,7 +1630,7 @@ class RequestNoteController extends AppController {
 
     //印信使用签批单保存
     private function gss_seal_save($datas) {
-        if (empty($datas['applyname']) || empty($datas['oddnum']) || empty($datas['sealtype']) || empty($datas['filetype']) || empty($datas['filenum'])) {
+        if (empty($datas['applyname']) || empty($datas['oddnum']) || empty($datas['sealtype']) || empty($datas['filetype']) /*|| empty($datas['filenum'])*/) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }

@@ -1,4 +1,4 @@
-<?php echo $this->element('head_frame'); ?>
+<?php //echo $this->element('head_frame'); ?>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:660px;'>
     <p class="btn btn-info btn-block" style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 部门资金来源管理 </span> <a onclick="window.parent.member_close();" class="close" data-dismiss="modal" >×</a></p>
