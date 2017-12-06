@@ -72,7 +72,7 @@
                             <!-- PAGE CONTENT BEGINS -->
 
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-xs-12 right_list">
 
                                     <div class="table-header">
                                         待审费用信息
@@ -152,14 +152,16 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- /.modal_storage -->
-                           <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
-    </div><!-- /.modal -->
-</div>   
+  
                                
                                 </div><!-- /.modal-content -->
+                                                                    <!-- /.modal_storage -->
+                           <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+                                <div class="modal-dialog">
+                                     <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+                                </div><!-- /.modal -->
+                            </div> 
+                                                                    
                             </div><!-- /.modal-dialog -->
                         </div>
                         <div class="modal-footer no-margin-top">
