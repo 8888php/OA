@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目详情 — 报表</title>		
+        <title> 汇总报表 — 人事报表</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,134 +38,74 @@
 
     <body>
         <?php echo $this->element('top'); ?>
-
         <?php echo $this->element('left'); ?>
 
         <div class="main-content">
-            <div class="breadcrumbs" id="breadcrumbs">
-                <script type="text/javascript">
-                    try {
-                        ace.settings.check('breadcrumbs', 'fixed')
-                    } catch (e) {
-                    }
-                </script>
-
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="icon-home home-icon"></i>
-                        <a href="#">Home</a>
-                    </li>
-
-                    <li>
-                        <a href="#">汇总报表</a>
-                    </li>
-                    <li class="active">人事汇总报表</li>
-                </ul><!-- .breadcrumb -->
-
-
-            </div>
-
             <div class="page-content">
-                <div class="page-header">
-                    <h1></h1>
-                </div><!-- /.page-header -->
-
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
 
-                        <div class="tabbable">
-                            <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
-                                <li style="min-width:150px;text-align: center;"  <?php echo $fromtype == 'leave' ? 'class="active"' : ''; ?> >
-                                    <a  href="/Reportforms/report_form/leave">
-                                        <i class="blue  icon-list-alt bigger-120"></i>
-                                        请假单
-                                    </a>
-                                </li>
+                        <div class="error-container">
+                            <div class="well">
+                                <h3 class="grey lighter smaller">
+                                    <span class="blue bigger-125">
+                                        <i class="icon-sitemap"></i>
+                                        人事
+                                    </span>
+                                    申请单汇总导出
+                                </h3>
+                                <hr />
+                                <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script> 
+                                    <div class="space"></div>
+                                    <h4 class="smaller"> 根据筛选导出汇总表：</h4>
 
-                                <li style="min-width:150px;text-align: center;"  <?php echo $fromtype == 'chuchai' ? 'class="active"' : ''; ?> >
-                                    <a href="/Reportforms/report_form/chuchai">
-                                        <i class="green icon-user bigger-120"></i>
-                                        出差审批单
-                                    </a>
-                                </li>
-
-                                <li style="min-width:150px;text-align: center;"  <?php echo $fromtype == 'baogong' ? 'class="active"' : ''; ?> >
-                                    <a  href="/Reportforms/report_form/baogong">
-                                        <i class="orange  icon-list-alt bigger-120"></i>
-                                        田间作业包工申请单
-                                    </a>
-                                </li>
-                                
-                                <li style="min-width:150px;text-align: center;"  <?php echo $fromtype == 'paidleave' ? 'class="active"' : ''; ?> >
-                                    <a href="/Reportforms/report_form/paidleave">
-                                        <i class="green icon-list-alt bigger-120"></i>
-                                        职工带薪年休假审批单
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <div class="tab-content no-border ">
-                                <div id="faq-tab-1" class="tab-pane fade in active" >
-                                    <div class="table-header">
-                                        <div style="float:right;">
-                                            <a href="/ResearchProject/personnel_export/<?php echo $fromtype; ?>" style="color:#fff;"><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>  &nbsp;&nbsp;&nbsp;&nbsp;
-                                        </div>
-                                       <?php echo $xls_head['title']; ?>
-                                    </div>
-                                    <div class="table-responsive" style='width:100%;overflow:auto;'>
-                                        <table class="table table-bordered " style="font-size:12px;text-align: center;table-layout: fixed;" style="margin-left:60%;">
-                                            <tbody>
-                                                <tr style='font-weight:700;' class="blue">
-                                                    <?php foreach($xls_head['cols'] as $v){  ?>
-                                                    <td width='130px'> <?php echo $v; ?> </td>
-                                                    <?php } ?>
-                                                </tr>
-                                                <tr style='background-color:#ADFEDC;'>
-                                                    <td>  </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                </tr>
+                                    <ul class="list-unstyled spaced inline bigger-110 margin-15">
+                                        <li>
+                                            <i class="icon-hand-right blue"></i>
+                                            <label class=" control-label no-padding-right" for="form-field-1"> 选择审批单 </label>
+                                                <select  name="sheettype"  id="form-field-1" style="width:215px;">
+                                                    <option value=""> 请选择 </option>
+                                                    <option value="chuchai"> 出差审批单 </option>
+                                                    <option value="leave"> 请假单 </option>
+                                                    <option value="baogong"> 田间作业包工申请单 </option>
+                                                    <option value="paidleave"> 职工带薪年休假审批单 </option>
+                                                </select>  
+                                        </li>
+                                        
+                                        <li>
+                                            <i class="icon-hand-right blue"></i>
+                                            <label class="control-label no-padding-right" for="form-field-1"> 选择日期 </label> 
+                                            <input readonly="readonly" type="text" class=" form_datetime1 start_date" name="start_date" value="<?php echo date('Y-m-d',strtotime('-1 Month'));?>">  
+                                                <script type="text/javascript">
+                                                    $(".form_datetime1").datetimepicker({
+                                                        format: 'yyyy-mm-dd',
+                                                        minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                                    });
+                                                </script>
                                                 
-                                              
-                                                <tr style='background-color:#fdf59a;'>
-                                                    <td>  </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td>  </td>
-                                                    <td> </td>
-                                                    <td> </td>
-                                                </tr>
-                                               
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                <input readonly="readonly" type="text"  class="form_datetime2 end_date" name="end_date"  value="<?php echo date('Y-m-d');?>"> 
+                                                <script type="text/javascript">
+                                                    $(".form_datetime2").datetimepicker({
+                                                        format: 'yyyy-mm-dd',
+                                                        minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                                    });
+                                                </script> 
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <hr />
+                                <div class="space"></div>
+
+                                <div class="center">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="icon-dashboard"></i>
+                                        导出汇总表
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- PAGE CONTENT ENDS -->
+                        </div><!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
@@ -189,7 +129,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+                                                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -231,11 +171,11 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 </script>
 <script type="text/javascript">
-    $('#modal').on('hidden.bs.modal', function(){
-    //关闭模态框时，清除数据，防止下次加雷有，缓存
-    $(this).removeData("bs.modal");
+    $('#modal').on('hidden.bs.modal', function () {
+        //关闭模态框时，清除数据，防止下次加雷有，缓存
+        $(this).removeData("bs.modal");
     });
-            show_left_select('reportforms', 'rsh_baobiao');
+    show_left_select('reportforms', 'rsh_baobiao');
 </script>
 </body>
 </html>
