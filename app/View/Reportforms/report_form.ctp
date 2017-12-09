@@ -46,6 +46,7 @@
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
 
+                        <form  method="post" action="/Reportforms/personnel_export" id="sheetexport" >
                         <div class="error-container">
                             <div class="well">
                                 <h3 class="grey lighter smaller">
@@ -59,24 +60,23 @@
                                 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script> 
                                     <div class="space"></div>
                                     <h4 class="smaller"> 根据筛选导出汇总表：</h4>
-
-                                    <ul class="list-unstyled spaced inline bigger-110 margin-15">
+                                    <ul class="list-unstyled spaced inline bigger-110 ">
                                         <li>
                                             <i class="icon-hand-right blue"></i>
-                                            <label class=" control-label no-padding-right" for="form-field-1"> 选择审批单 </label>
-                                                <select  name="sheettype"  id="form-field-1" style="width:215px;">
+                                            <label class=" control-label " for="form-field-1"> 选择审批单 </label>
+                                                <select  name="stype"  class="sheettype" style="width:255px;">
                                                     <option value=""> 请选择 </option>
-                                                    <option value="chuchai"> 出差审批单 </option>
-                                                    <option value="leave"> 请假单 </option>
-                                                    <option value="baogong"> 田间作业包工申请单 </option>
-                                                    <option value="paidleave"> 职工带薪年休假审批单 </option>
+                                                    <option value="chuchai"> 果树所差旅审批单 </option>
+                                                    <option value="leave"> 请假申请单 </option>
+                                                    <option value="baogong"> 田间作业包工申请表 </option>
+                                                    <option value="paidleave"> 果树所职工带薪年休假审批单 </option>
                                                 </select>  
                                         </li>
                                         
                                         <li>
                                             <i class="icon-hand-right blue"></i>
                                             <label class="control-label no-padding-right" for="form-field-1"> 选择日期 </label> 
-                                            <input readonly="readonly" type="text" class=" form_datetime1 start_date" name="start_date" value="<?php echo date('Y-m-d',strtotime('-1 Month'));?>">  
+                                            <input readonly="readonly" type="text" class=" form_datetime1 start_date" name="startdate" value="<?php echo date('Y-m-d',strtotime('-1 Month'));?>">  
                                                 <script type="text/javascript">
                                                     $(".form_datetime1").datetimepicker({
                                                         format: 'yyyy-mm-dd',
@@ -84,7 +84,7 @@
                                                     });
                                                 </script>
                                                 
-                                                <input readonly="readonly" type="text"  class="form_datetime2 end_date" name="end_date"  value="<?php echo date('Y-m-d');?>"> 
+                                                <input readonly="readonly" type="text"  class="form_datetime2 end_date" name="enddate"  value="<?php echo date('Y-m-d');?>"> 
                                                 <script type="text/javascript">
                                                     $(".form_datetime2").datetimepicker({
                                                         format: 'yyyy-mm-dd',
@@ -99,12 +99,13 @@
                                 <div class="space"></div>
 
                                 <div class="center">
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="#" id="exportsheet" class="btn btn-primary" onclick="exporttabel()">
                                         <i class="icon-dashboard"></i>
                                         导出汇总表
                                     </a>
                                 </div>
                             </div>
+                        </form>
                         </div><!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -129,7 +130,7 @@
 <![endif]-->
 <!--[if !IE]> -->
 <script type="text/javascript">
-                                                    window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+window.jQuery || document.write("<script src='/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
 </script>
 <!-- <![endif]-->
 
@@ -155,6 +156,26 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    function exporttabel(){
+        var datas = {};
+        if(!$('.sheettype').val()){
+            $('.sheettype').focus();
+            return ;
+        }
+        datas.stype = $('.sheettype').val();
+        if(!$('.start_date').val()){
+            $('.start_date').focus();
+            return ;
+        }
+        datas.startdate = $('.start_date').val();
+        if(!$('.end_date').val()){
+            $('.end_date').focus();
+            return ;
+        }
+        datas.enddate = $('.end_date').val();
+        console.info(datas);
+        $('#sheetexport').submit();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting

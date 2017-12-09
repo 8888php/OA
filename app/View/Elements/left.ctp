@@ -335,7 +335,7 @@
                             </a>
                         </li>
                         <li class="rsh_baobiao">
-                            <a href="/reportforms/report_form/leave">
+                            <a href="/reportforms/report_form">
                                 <i class="icon-double-angle-right"></i>
                                 人事报表
                             </a>
