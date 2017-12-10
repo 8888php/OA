@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class ReportformsController extends AppController {
 
     public $name = 'Reportforms';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'Department');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'Department', 'ApprovalInformation');
     private $ret_arr = array('code' => 0, 'msg' => '', 'class' => '');
 
     public function index($export = false) {
@@ -129,50 +129,65 @@ class ReportformsController extends AppController {
         $this->render();
     }
 
-     // 人事汇总报表
+    // 人事汇总报表
     function report_form() {
         $this->layout = 'blank';
         //header("Location:" . $_SERVER['HTTP_REFERER']);
         $this->render();
     }
-    
-   
+
     //人事报表  请假单
     private function leave() {
-        $this->layout = 'blank';
         $export_xls_head = array('title' => '请假申请单-汇总报表', 'cols' => array('ID', '申请日期', '请假人', '单位或部门', '开始日期', '结束日期', '共计天数', '事由', '请假类型', '单位负责人', '医务室', '分管领导', '分管人事领导', '所长', '审批状态'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
-        
+
         $wherestr = '';
-        if( $_POST['startdate'] && $_POST['enddate'] ){
-            $wherestr = " where s.ctime between '".$_POST['startdate']."' and '".$_POST['enddate']."'";
+        if ($_POST['startdate'] && $_POST['enddate']) {
+            $wherestr = " where s.ctime between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
         }
-        
+
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.* from t_apply_leave s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_leave' $wherestr");
-        
+
+        //获取审批信息
+        $mainIdArr = $applyList = array();
+        foreach ($sheetArr as $v) {
+            $mainIdArr[] = $v['m']['id'];
+        }
+        if (count($mainIdArr) > 0) {
+            $applyList = $this->ApprovalInformation->approveList($mainIdArr);
+        }
+
         $leavetype = Configure::read('apply_leave_type');
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
-        foreach($sheetArr as $k => $v){
-            $sheetList[$v['m']['id']][] = $v['m']['id'];
-            $sheetList[$v['m']['id']][] = $v['s']['ctime'];
-            $sheetList[$v['m']['id']][] = $v['s']['applyname'];
-            $sheetList[$v['m']['id']][] = $v['s']['department_name'];
-            $sheetList[$v['m']['id']][] = $v['s']['start_time'];
-            $sheetList[$v['m']['id']][] = $v['s']['end_time'];
-            $sheetList[$v['m']['id']][] = $v['s']['total_days'];
-            $sheetList[$v['m']['id']][] = $v['s']['about'];
-            $sheetList[$v['m']['id']][] = $leavetype[$v['s']['type_id']];
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = $applytype[$v['m']['code']];
+        foreach ($sheetArr as $k => $v) {
+            $m_id = $v['m']['id'];
+            $sheetList[$m_id][] = $m_id;
+            $sheetList[$m_id][] = $v['s']['ctime'];
+            $sheetList[$m_id][] = $v['s']['applyname'];
+            $sheetList[$m_id][] = $v['s']['department_name'];
+            $sheetList[$m_id][] = $v['s']['start_time'];
+            $sheetList[$m_id][] = $v['s']['end_time'];
+            $sheetList[$m_id][] = $v['s']['total_days'];
+            $sheetList[$m_id][] = $v['s']['about'];
+            $sheetList[$m_id][] = $leavetype[$v['s']['type_id']];
+            if ($v['s']['team_id'] == 0) {
+                $sheetList[$m_id][] = isset($applyList[$m_id][15]) ? $applyList[$m_id][15] : '';
+                $sheetList[$m_id][] = '';
+                $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
+            } else {
+                $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
+                $sheetList[$m_id][] = '';
+                $sheetList[$m_id][] = isset($applyList[$m_id][21]) ? $applyList[$m_id][21] : '';
+            }
+            $sheetList[$m_id][] = isset($applyList[$m_id][22]) ? $applyList[$m_id][22] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][6]) ? $applyList[$m_id][6] : '';
+            $sheetList[$m_id][] = $applytype[$v['m']['code']];
         }
+
         $this->set('sheetList', $sheetList);
-        
+
         return true;
     }
 
@@ -182,31 +197,45 @@ class ReportformsController extends AppController {
         $export_xls_head = array('title' => '果树所差旅审批单-汇总报表', 'cols' => array('ID', '申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
-        
+
         $wherestr = '';
-        if( $_POST['startdate'] && $_POST['enddate'] ){
-            $wherestr = " where s.ctime between '".$_POST['startdate']."' and '".$_POST['enddate']."'";
+        if ($_POST['startdate'] && $_POST['enddate']) {
+            $wherestr = " where s.ctime between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
         }
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.*,u.name from t_apply_chuchai s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_chuchai' left join t_user u on s.user_id = u.id $wherestr ");
-        
+
+        //获取审批信息
+        $mainIdArr = $applyList = array();
+        foreach ($sheetArr as $v) {
+            $mainIdArr[] = $v['m']['id'];
+        }
+        if (count($mainIdArr) > 0) {
+            $applyList = $this->ApprovalInformation->approveList($mainIdArr);
+        }
+
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
-        foreach($sheetArr as $k => $v){
-            $sheetList[$v['m']['id']][] = $v['m']['id'];
-            $sheetList[$v['m']['id']][] = $v['s']['ctime'];
-            $sheetList[$v['m']['id']][] = $v['u']['name'];
-            $sheetList[$v['m']['id']][] = $v['s']['personnel'];
-            $sheetList[$v['m']['id']][] = $v['s']['department_name'];
-            $sheetList[$v['m']['id']][] = $v['s']['reason'];
-            $sheetList[$v['m']['id']][] = $v['s']['start_date'];
-            $sheetList[$v['m']['id']][] = $v['s']['end_date'];
-            $sheetList[$v['m']['id']][] = $v['s']['days'];
-            $sheetList[$v['m']['id']][] = $v['s']['place'];
-            $sheetList[$v['m']['id']][] = $v['s']['mode_route'];
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = $applytype[$v['m']['code']];
+        foreach ($sheetArr as $k => $v) {
+            $m_id = $v['m']['id'];
+            $sheetList[$m_id][] = $m_id;
+            $sheetList[$m_id][] = $v['s']['ctime'];
+            $sheetList[$m_id][] = $v['u']['name'];
+            $sheetList[$m_id][] = $v['s']['personnel'];
+            $sheetList[$m_id][] = $v['s']['department_name'];
+            $sheetList[$m_id][] = $v['s']['reason'];
+            $sheetList[$m_id][] = $v['s']['start_date'];
+            $sheetList[$m_id][] = $v['s']['end_date'];
+            $sheetList[$m_id][] = $v['s']['days'];
+            $sheetList[$m_id][] = $v['s']['place'];
+            $sheetList[$m_id][] = $v['s']['mode_route'];
+            if ($v['s']['reason'] == 0) {
+                $sheetList[$m_id][] = isset($applyList[$m_id][15]) ? $applyList[$m_id][15] : '';
+            } else {
+                $sheetList[$m_id][] = isset($applyList[$m_id][11]) ? $applyList[$m_id][11] : '';
+            }
+            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][6]) ? $applyList[$m_id][6] : '';
+            $sheetList[$m_id][] = $applytype[$v['m']['code']];
         }
         $this->set('sheetList', $sheetList);
 
@@ -219,27 +248,37 @@ class ReportformsController extends AppController {
         $export_xls_head = array('title' => '田间作业包工申请表-汇总报表', 'cols' => array('ID', '申请日期', '申请人', '编号', '部门', '包工人员', '包工时间地点', '包工内容及工作量', '部门负责人', '科研办公室', '审批状态'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
-        
+
         $wherestr = '';
-        if( $_POST['startdate'] && $_POST['enddate'] ){
-            $wherestr = " where s.create_time between '".$_POST['startdate']."' and '".$_POST['enddate']."'";
-        } 
+        if ($_POST['startdate'] && $_POST['enddate']) {
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+        }
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.*,u.name from t_apply_baogong s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_baogong' left join t_user u on s.user_id = u.id $wherestr ");
+
+        //获取审批信息
+        $mainIdArr = $applyList = array();
+        foreach ($sheetArr as $v) {
+            $mainIdArr[] = $v['m']['id'];
+        }
+        if (count($mainIdArr) > 0) {
+            $applyList = $this->ApprovalInformation->approveList($mainIdArr);
+        }
         
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
-        foreach($sheetArr as $k => $v){
-            $sheetList[$v['m']['id']][] = $v['m']['id'];
-            $sheetList[$v['m']['id']][] = $v['s']['create_time'];
-            $sheetList[$v['m']['id']][] = $v['u']['name'];
-            $sheetList[$v['m']['id']][] = "`".$v['s']['number'] ;
-            $sheetList[$v['m']['id']][] = $v['s']['department_name'];
-            $sheetList[$v['m']['id']][] = $v['s']['personnel'];
-            $sheetList[$v['m']['id']][] = $v['s']['time_address'];
-            $sheetList[$v['m']['id']][] = $v['s']['content'];
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = $applytype[$v['m']['code']];
+        foreach ($sheetArr as $k => $v) {
+            $m_id = $v['m']['id'];
+            $sheetList[$m_id][] = $m_id;
+            $sheetList[$m_id][] = $v['s']['create_time'];
+            $sheetList[$m_id][] = $v['u']['name'];
+            $sheetList[$m_id][] = "`" . $v['s']['number'];
+            $sheetList[$m_id][] = $v['s']['department_name'];
+            $sheetList[$m_id][] = $v['s']['personnel'];
+            $sheetList[$m_id][] = $v['s']['time_address'];
+            $sheetList[$m_id][] = $v['s']['content'];
+            $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][4]) ? $applyList[$m_id][4] : '';
+            $sheetList[$m_id][] = $applytype[$v['m']['code']];
         }
         $this->set('sheetList', $sheetList);
 
@@ -252,32 +291,47 @@ class ReportformsController extends AppController {
         $export_xls_head = array('title' => '果树所职工带薪年休假审批单-汇总报表', 'cols' => array('ID', '申请日期', '申请人', '所在单位', '参加工作时间', '工作年限', '按规定享受年假天数', '本年度已休年假天数', '开始时间', '结束时间', '共几天', '个人申请', '所在单位负责人意见', '分管领导意见', '主管人事领导意见', '审批状态'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
-        
+
         $wherestr = '';
-        if( $_POST['startdate'] && $_POST['enddate'] ){
-            $wherestr = " where s.create_time between '".$_POST['startdate']."' and '".$_POST['enddate']."'";
-        } 
-        $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.* from t_apply_paidleave s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_paidleave' $wherestr ");
+        if ($_POST['startdate'] && $_POST['enddate']) {
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+        }
+        $sheetArr = $this->ApplyMain->query("select m.id,m.type,m.code,s.* from t_apply_paidleave s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_paidleave' $wherestr ");
+
+        //获取审批信息
+        $mainIdArr = $applyList = array();
+        foreach ($sheetArr as $v) {
+            $mainIdArr[] = $v['m']['id'];
+        }
+        if (count($mainIdArr) > 0) {
+            $applyList = $this->ApprovalInformation->approveList($mainIdArr);
+        }
         
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
-        foreach($sheetArr as $k => $v){
-            $sheetList[$v['m']['id']][] = $v['m']['id'];
-            $sheetList[$v['m']['id']][] = $v['s']['create_time'];
-            $sheetList[$v['m']['id']][] = $v['s']['user_name'];
-            $sheetList[$v['m']['id']][] = $v['s']['department_name'];
-            $sheetList[$v['m']['id']][] = $v['s']['start_work'];
-            $sheetList[$v['m']['id']][] = $v['s']['years'];
-            $sheetList[$v['m']['id']][] = $v['s']['vacation_days'];
-            $sheetList[$v['m']['id']][] = $v['s']['yx_vacation_days'];
-            $sheetList[$v['m']['id']][] = $v['s']['start_time'];
-            $sheetList[$v['m']['id']][] = $v['s']['end_time'];
-            $sheetList[$v['m']['id']][] = $v['s']['total_days'];
-            $sheetList[$v['m']['id']][] = $v['s']['grsq'];
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = '';
-            $sheetList[$v['m']['id']][] = $applytype[$v['m']['code']];
+        foreach ($sheetArr as $k => $v) {
+            $m_id = $v['m']['id'];
+            $sheetList[$m_id][] = $m_id;
+            $sheetList[$m_id][] = $v['s']['create_time'];
+            $sheetList[$m_id][] = $v['s']['user_name'];
+            $sheetList[$m_id][] = $v['s']['department_name'];
+            $sheetList[$m_id][] = $v['s']['start_work'];
+            $sheetList[$m_id][] = $v['s']['years'];
+            $sheetList[$m_id][] = $v['s']['vacation_days'];
+            $sheetList[$m_id][] = $v['s']['yx_vacation_days'];
+            $sheetList[$m_id][] = $v['s']['start_time'];
+            $sheetList[$m_id][] = $v['s']['end_time'];
+            $sheetList[$m_id][] = $v['s']['total_days'];
+            $sheetList[$m_id][] = $v['s']['grsq'];
+            if($v['m']['type'] == 3){
+            $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][21]) ? $applyList[$m_id][21] : '';
+            }else{
+            $sheetList[$m_id][] = isset($applyList[$m_id][15]) ? $applyList[$m_id][15] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';   
+            }
+            $sheetList[$m_id][] = isset($applyList[$m_id][22]) ? $applyList[$m_id][22] : '';
+            $sheetList[$m_id][] = $applytype[$v['m']['code']];
         }
         $this->set('sheetList', $sheetList);
 
@@ -293,9 +347,9 @@ class ReportformsController extends AppController {
             echo json_encode($msg);
             die;
         }
-        $sheetname = array('leave'=>'请假申请单','chuchai'=>'果树所差旅审批单','baogong'=>'田间作业包工申请表','paidleave'=>'果树所职工带薪年休假审批单');
-        
-        $xls_name = $sheetname[$_POST['stype']].'-汇总报表-' . date("Y-m-d H:i:s");
+        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单');
+
+        $xls_name = $sheetname[$_POST['stype']] . '-汇总报表-' . date("Y-m-d H:i:s");
         $xls_suffix = 'xls';
         header("Content-Type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
