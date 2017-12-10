@@ -240,7 +240,7 @@
                         </li>
 
                         <?php  foreach($selfTeamList as $tk=>$tv){  ?>
-                        <li class="lye">
+                        <li class="lye_<?php echo $tk;?>">
                             <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                  <?php echo $tv; ?>
@@ -251,7 +251,7 @@
                                 if(isset($applyList[$tk])){
                                 foreach($applyList[$tk] as $depk => $depv){    
                                 ?>
-                                <li class="lye_<?php echo $depk;?>">
+                                <li class="lye_s_<?php echo $depk;?>">
                                     <a href="/ResearchProject/index/<?php echo $depk; ?>">
                                         <i class="icon-pencil"></i>
                                         <?php echo $depv; ?>
@@ -264,51 +264,8 @@
                         
                         
                         
-                        
-                        
-                        
-                        <li class="lye">
-                            <a href="#" class="dropdown-toggle">
-                                <i class="icon-double-angle-right"></i>
-                                零余额项目
-                                <b class="arrow icon-angle-down"></b>
-                            </a>
-                            <ul class="submenu">
-                                <?php 
-                                if(isset($applyList[1])){
-                                foreach($applyList[1] as $depk => $depv){ 
-                                    
-                                ?>
-                                <li class="lye_<?php echo $depk;?>">
-                                    <a href="/ResearchProject/index/<?php echo $depk; ?>">
-                                        <i class="icon-pencil"></i>
-                                        <?php echo $depv; ?>
-                                    </a>
-                                </li>
-                                <?php  }  } ?>
-                            </ul>
-                        </li>
 
-                        <li class="jbh">
-                            <a href="#" class="dropdown-toggle">
-                                <i class="icon-double-angle-right"></i><!--i class="icon-eye-open"></i-->
-                                基本户项目
-                                <b class="arrow icon-angle-down"></b>
-                            </a>
-                            <ul class="submenu">
-                                <?php 
-                                if(isset($applyList[2])){
-                                foreach($applyList[2] as $appk => $appv){ 
-                                ?>
-                                <li class="jbh_<?php echo $appk;?>">
-                                    <a href="/ResearchProject/index/<?php echo $appk; ?>">
-                                        <i class="icon-pencil"></i>
-                                        <?php echo $appv; ?>
-                                    </a>
-                                </li>
-                                <?php  }  } ?>
-                            </ul>
-                        </li>
+                   
 
                     </ul>
                 </li>
@@ -487,7 +444,7 @@
                         <?php }?>
                         show_left_select(f_class,s_class,t_class );
                     }
-                    project_left_show();
+                    //project_left_show();
                 <?php }?>
             </script>
         </div>

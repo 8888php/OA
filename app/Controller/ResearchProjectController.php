@@ -79,7 +79,25 @@ class ResearchProjectController extends AppController {
 
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
-
+        {
+            //左侧栏单个项目下面的所有显示问题
+            $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
+            $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
+            $second_class = '';
+            $third_class = '';
+            foreach ($applyList as $ak=>$av) {
+                foreach ($av as $k=>$v) {
+                    if ($k == $pid) {
+                        $second_class = 'lye_'.$ak;
+                        $third_class = 'lye_s_'.$k;
+                        break 2;
+                    }
+                }
+            }
+            $this->set('sec_class', $second_class);
+            $this->set('thi_class', $third_class);
+        }
+        
         $this->set('pinfos', $pinfos);
         $this->set('members', $members);
         $this->set('source', $source);
