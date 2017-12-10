@@ -101,9 +101,9 @@ class ApplyReceived extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v, $type);
                 return $ret_arr;
             }
-            if ($v == 6) {
+            if ($v == 34) {
                 //所长办公室
-                if ($pos_id == $v) {
+                if ($user_id == $arr_get[$this->next_uid]) {
                     $ret_arr[$this->code] = 10000;
                     return $ret_arr;
                 } else {
@@ -151,9 +151,9 @@ class ApplyReceived extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v, $type);
                 return $ret_arr;
             }
-            if ($v == 6) {
+            if ($v == 34) {
                 //所长办公室
-                if ($pos_id == $v) {
+                if ($user_id == $arr_get[$this->next_uid]) {
                     $ret_arr[$this->code] = 10000;
                     return $ret_arr;
                 } else {
@@ -312,8 +312,8 @@ class ApplyReceived extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v, $type);
                 return $ret_arr;
             }
-            if ($v == 6) {
-                if ($pos_id == $v) {
+            if ($v == 34) {
+                if ($arr_get[$this->next_uid] == $user_id) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;
                     return $ret_arr;
@@ -371,7 +371,42 @@ class ApplyReceived extends AppModel {
             $arr_6 = $this->query($sql_6);
             $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
             $ret_arr[$this->next_id] = $pos_id;
-        } 
+        } elseif ($pos_id == 30) {
+            //乔永胜
+            $sql_6 = "select *from t_user where id=5 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            
+        } elseif ($pos_id == 31) {
+            //李登科
+            $sql_6 = "select *from t_user where id=9 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            
+        } elseif ($pos_id == 32) {
+            //吕英忠
+            $sql_6 = "select *from t_user where id=6 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            
+        } elseif ($pos_id == 33) {
+            //赵旗峰
+            $sql_6 = "select *from t_user where id=7 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            
+        } elseif ($pos_id == 34) {
+            //李全
+            $sql_6 = "select *from t_user where id=8 and del=0";
+            $arr_6 = $this->query($sql_6);
+            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            
+        }
         return $ret_arr;
     }
     private function team_approve($main_arr, $user_info, $status) {
@@ -416,8 +451,8 @@ class ApplyReceived extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v, $type);
                 return $ret_arr;
             }
-            if ($v == 6) {
-                if ($pos_id == $v) {
+            if ($v == 34) {
+                if ($user_id == $arr_get[$this->next_uid]) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;
                     return $ret_arr;

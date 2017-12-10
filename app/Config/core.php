@@ -433,7 +433,7 @@ Configure::write('applylist', array(
     '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
     '所办公室' => array('印信使用签批单' => '/RequestNote/gss_seal', '所内公文' => '#', '来文' => '/RequestNote/gss_received', '发文' => '/RequestNote/gss_send'),
     '采购中心' => array('采购申请单' => '/RequestNote/gss_purchase'),
-    '新闻发布' => array('新闻签发卡' => '#'),
+    '新闻发布' => array('新闻签发卡' => '/RequestNote/gss_news'),
     '所办档案' => array('档案借阅' => '/RequestNote/gss_borrow', '档案移交目录' => '#'),
     '国资科' => array('个人土地使用批准书' => '#', '科研课题组土地使用批准书' => '#'),
     '无类别模板' => array('事由呈报请示审批卡' => '#', '复本采购申请表' => '#'),
@@ -571,6 +571,18 @@ Configure::write('new_appprove_code_arr', array(
     57 => '书记拒绝',
     58 => '书记同意',
     
+    59 => '乔永胜拒绝',
+    60 => '乔永胜同意',
+    61 => '李登科拒绝',
+    62 => '李登科同意',
+    63 => '吕英忠拒绝',
+    64 => '吕英忠同意',
+    65 => '赵旗峰拒绝',
+    66 => '赵旗峰同意',
+    67 => '李全拒绝',
+    68 => '李全同意',
+    
+    
     10000 => '审核通过',
 ));
 
@@ -612,8 +624,8 @@ Configure::write('approval_process',array(
         3 => '20,21,6,28',   // 印信使用签批单 团队
     ),
     'apply_received' => array(
-        1 => '15,6',   // 印信使用签批单 所办 15所办主任
-        2 => '15,29,6',   // 印信使用签批单 党办 15党办主任，5党办副所长
+        1 => '15,6,29,30,31,32,33,34',   // 印信使用签批单 所办 15所办主任
+        2 => '15,29,6,30,31,32,33,34',   // 印信使用签批单 党办 15党办主任，5党办副所长
     ),
     'apply_dispatch' => array(
         2 => '15,28,5,6,25',   // 发文 部门 15：部门负责人；28：所长办公室负责

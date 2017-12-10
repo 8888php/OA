@@ -2169,5 +2169,11 @@ class RequestNoteController extends AppController {
         echo json_encode($this->ret_arr);
         exit;    
     }
+    /*
+     * 山西省农业科学院果树研究所门户网站新闻信息发布审批卡
+     */
+    public function gss_news() {
+        $this->render();
+    }
 
 }

@@ -51,11 +51,17 @@
                                 <td colspan='3' style="line-height: 50px;">  <?php echo $attr_arr[0][$table_name]['file_title'];?>  </td>
                             </tr>
                             <tr>
-                                <td colspan='1' rowspan="2" style='height:200px;line-height: 200px;'>领导同志批示</td>
-                                <td colspan='3' >  <?php  echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'];  ?>    </td>
-                            </tr>
-                            <tr>
-                                <td colspan='3'>  <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?>    </td>
+                                <td colspan='1' rowspan="1" style='height:200px;line-height: 200px;'>领导同志批示</td>
+                                <td colspan='3' style="text-align: center;">  
+                                    <?php  echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'<br/>';  ?>    
+                            
+                                    <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'<br/>';  ?>   
+                                    <?php  echo $applyArr[30]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[30]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[30]['ctime'].'<br/>';  ?>   
+                                    <?php  echo $applyArr[31]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[31]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[31]['ctime'].'<br/>';  ?>   
+                                    <?php  echo $applyArr[32]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[32]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[32]['ctime'].'<br/>';  ?>   
+                                    <?php  echo $applyArr[33]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[33]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[33]['ctime'].'<br/>';  ?>   
+                                    <?php  echo $applyArr[34]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[34]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[34]['ctime'].'<br/>';  ?>   
+                                </td>
                             </tr>
                             <tr >
                                 <td colspan='1' style='height:100px;line-height: 100px;'> 拟办意见</td>

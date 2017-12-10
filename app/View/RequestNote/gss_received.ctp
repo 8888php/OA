@@ -62,10 +62,7 @@
                                 <td colspan='3'> <input type="text" name='file_title' id="file_title" style='width:470px;height:25px;'/> </td>
                             </tr>
                             <tr>
-                                <td colspan='1' rowspan="2" style='height:50px;line-height: 100px;'>领导同志批示</td>
-                                <td colspan='3'>   </td>
-                            </tr>
-                            <tr>
+                                <td colspan='1' rowspan="1" style='height:50px;line-height: 100px;'>领导同志批示</td>
                                 <td colspan='3'>   </td>
                             </tr>
                             <tr >
