@@ -30,15 +30,15 @@ App::uses('ApprovalInformation', 'AppModel');
  * @package       app.Model
  */
 class ApprovalInformation extends AppModel {
+
     //记录审批的附表
     var $name = 'ApprovalInformation';
     var $useTable = 'approval_information';
-    
 
     public function __construct($id = false, $table = null, $ds = null) {
         parent::__construct($id, $table, $ds);
     }
-    
+
     /**
      * 添加数据
      * @param type $data
@@ -61,5 +61,22 @@ class ApprovalInformation extends AppModel {
         $this->id = $id;
         return $this->save($data);
     }
-    
+
+    /**
+     * 汇总报表 获取审批信息
+     * @param array $mid
+     * @return array
+     */
+    public function approveList($mid) {
+        $applyList = $this->find('all', array('conditions' => array('main_id' => $mid), 'fields' => array('main_id', 'position_id', 'name', 'remarks', 'ctime')));
+
+        $approveListArr = array();
+        if (count($applyList) > 0) {
+            foreach ($applyList as $v) {
+                $approveListArr[$v['ApprovalInformation']['main_id']][$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation']['name'] . ' ' . $v['ApprovalInformation']['ctime'] . ' ' . $v['ApprovalInformation']['remarks'];
+            }
+        }
+        return $approveListArr;
+    }
+
 }
