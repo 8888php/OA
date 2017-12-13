@@ -502,9 +502,10 @@ class ApprovalComponent extends Component {
                 break;
             case 2:
                 // 找对应行政部门 分管领导 副所长  ??????  科研部门、财务部门申请不需要本部门领导审批？？？？
-                if (in_array($department_id, array(3, 5))) { //如果是科研部门、财务部门 则直接跳过
+               /* if (in_array($department_id, array(3, 5))) { //如果是科研部门、财务部门 则直接跳过
                     return $uid;
                 }
+                */
 
                 //部门分管副所长
                 require_once('../Model/Department.php');
