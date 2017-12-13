@@ -53,9 +53,14 @@
                             <tr>
                                 <td colspan='1' rowspan="1" style='height:200px;line-height: 200px;'>领导同志批示</td>
                                 <td colspan='3' style="text-align: center;">  
-                                    <?php  echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'<br/>';  ?>    
+                                    <?php if ($attr_arr[0][$table_name]['type'] == 1) {
+                                        echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'<br/>'; 
+                                        echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'<br/>';
+                                    } else {
+                                        echo $applyArr[29]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[29]['ctime'].'<br/>';
+                                        echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'<br/>'; 
+                                     }?>
                             
-                                    <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'].'<br/>';  ?>   
                                     <?php  echo $applyArr[30]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[30]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[30]['ctime'].'<br/>';  ?>   
                                     <?php  echo $applyArr[31]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[31]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[31]['ctime'].'<br/>';  ?>   
                                     <?php  echo $applyArr[32]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[32]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[32]['ctime'].'<br/>';  ?>   
