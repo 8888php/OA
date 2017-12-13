@@ -413,7 +413,10 @@ class ApprovalComponent extends Component {
             return $pinfo['user_id'];
         }
         
-        $Team = $Project->query('select * from t_team_member as team where id = ' . $pinfo['project_team_id'] . '; ');
+       // $Team = $Project->query('select * from t_team_member as team where id = ' . $pinfo['project_team_id'] . '; ');
+        
+        $Team = $Project->query('select team.* from t_team t left join t_team_member team on t.fzr = team.id  where t.id = ' . $pinfo['project_team_id'] . '; ');
+                
         if( empty($Team) ){  // 无项目组 返回项目负责人id
             return $pinfo['user_id'];
         }
