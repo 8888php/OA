@@ -69,19 +69,17 @@
                                 <td style='height:100px;line-height:100px;'> 采购需求审核</td>
                                 <td colspan='3'>
                                     <?php  
+                                            echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
                                             if($applyArr[20]['name']){
                                                 echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
-                                            }else{
-                                                echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
                                             }
                                         ?>                                    
                                     </td>
                                     <td  colspan='3'>
                                         <?php  
+                                            echo '需求部门分管领导审核 <br /> &nbsp;&nbsp;';
                                             if($applyArr[5]['name']){
                                                 echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime']; 
-                                            }else{
-                                                echo '需求部门分管领导审核 <br /> &nbsp;&nbsp;';
                                             }
                                         ?>                                      
                                 </td>
@@ -89,20 +87,18 @@
                              <tr>
                                 <td style='height:100px;'> <br/><br/>财务及采购审核 </td>
                                 <td colspan='3'>
-                                        <?php  
+                                        <?php
+                                            echo '财务科审核 <br /> &nbsp;&nbsp;';
                                             if($applyArr[14]['name']){
                                                 echo $applyArr[14]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime']; 
-                                            }else{
-                                                echo '财务科审核 <br /> &nbsp;&nbsp;';
                                             }
                                         ?>                                     
                                     </td>
                                     <td  colspan='3'>
                                         <?php  
+                                            echo '采购内容核对 <br /> &nbsp;&nbsp;';
                                             if($applyArr[23]['name']){
                                                 echo $applyArr[23]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime']; 
-                                            }else{
-                                                echo '采购内容核对 <br /> &nbsp;&nbsp;';
                                             }
                                         ?> 
                                 </td>
