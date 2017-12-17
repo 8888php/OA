@@ -149,7 +149,7 @@
                                                     <td  width='50px'>打印</td>
                                                     <td  width='100px'>日期</td>
                                                     <td width='100px'>报销人</td>
-                                                    <td width='80px'>政府采购</td>
+                                                    <td width='80px'>核算</td>
                                                     <td width='80px'>来源渠道</td>
                                                     <td width='100px'>文号</td>
                                                     <td width='100px'>摘要</td>
@@ -173,7 +173,7 @@
                                                     <td> <a href="/ResearchProject/budget_print/<?php echo $d['m']['id'];  ?>" target="_blank"><i class='glyphicon glyphicon-print blue'></i> </a></td>
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
-                                                    <td><?php echo '否';  ?></td>
+                                                    <td><?php echo $d['m']['is_calculation'] == 1 ? '是' : '否';  ?></td>
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['s']['source_channel'];  ?> </td>
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['s']['file_number'];  ?> </td>
                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
@@ -201,7 +201,7 @@
                                                         if(!empty($d['m']['attachment'])){
                                                             $fileurlArr = explode('|',$d['m']['attachment']);
                                                             foreach($fileurlArr as $filev){
-                                                                echo  "<a href='/files/$filev' target='$filev'>".$filev.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
+                                                                echo  "<a href='/files/$filev' target='$filev'>".'附件'.'</a> &nbsp;&nbsp;&nbsp;&nbsp;';
                                                             } 
                                                         }
                                                         ?> </td>
@@ -288,7 +288,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
     });
-    show_left_select('research_project', '无效');
+    show_left_select('research_project', '<?php echo $sec_class;?>', '<?php echo $thi_class;?>');
 
 </script>
 

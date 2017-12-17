@@ -79,31 +79,14 @@ class ResearchProjectController extends AppController {
 
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
-        {
-            //左侧栏单个项目下面的所有显示问题
-            $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
-            $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
-            $second_class = '';
-            $third_class = '';
-            foreach ($applyList as $ak=>$av) {
-                foreach ($av as $k=>$v) {
-                    if ($k == $pid) {
-                        $second_class = 'lye_'.$ak;
-                        $third_class = 'lye_s_'.$k;
-                        break 2;
-                    }
-                }
-            }
-            $this->set('sec_class', $second_class);
-            $this->set('thi_class', $third_class);
-        }
+        $this->left_slect_project($pid);
         
         $this->set('pinfos', $pinfos);
         $this->set('members', $members);
         $this->set('source', $source);
         $this->render();
     }
-
+    
     /**
      * 详情 预算
      */
@@ -151,6 +134,7 @@ class ResearchProjectController extends AppController {
                 }
             }
         }
+        $this->left_slect_project($pid);
         $this->set('cost', $cost);
         $this->set('minus', $minus);
         $this->set('sum_minus', $cost['total'] - array_sum($minus));
@@ -168,6 +152,7 @@ class ResearchProjectController extends AppController {
             header("Location:/homes/index");
             die;
         }
+        $this->left_slect_project($pid);
 //根据项目id取出他的固定资产列表
         $fixedassets = $this->Fixedassets->query('select Fixedassets.*,project.code,project.name from t_fixed_assets Fixedassets left join t_research_project project  on Fixedassets.project_id=project.id  where project_id=' . "$pid");
         $this->set('fixedassets', $fixedassets);
@@ -251,8 +236,10 @@ class ResearchProjectController extends AppController {
                 }
             }
         }
+        $this->left_slect_project($pid);
 //var_dump($mainArr,$attrArr);        
         $this->set('keyanlist', Configure::read('keyanlist'));
+//        var_dump($declares_arr);die;
         $this->set('declares_arr', $declares_arr);
         $this->set('attr_arr', $attrArr);
         $this->set('pid', $pid);
@@ -525,7 +512,7 @@ class ResearchProjectController extends AppController {
         if ($export) {
             return true;
         }
-
+        $this->left_slect_project($pid);
         $this->render();
     }
 
@@ -543,7 +530,7 @@ class ResearchProjectController extends AppController {
         $this->set('pid', $pid);
 
         $sourcelist = $this->ResearchSource->getAll($pid);
-
+        $this->left_slect_project($pid);
         $this->render();
     }
 
@@ -1135,5 +1122,23 @@ class ResearchProjectController extends AppController {
 
         $this->render();
     }
-
+    //左侧栏的 选中
+    private function left_slect_project($projectId) {
+        //左侧栏单个项目下面的所有显示问题
+        $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
+        $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
+        $second_class = '';
+        $third_class = '';
+        foreach ($applyList as $ak=>$av) {
+            foreach ($av as $k=>$v) {
+                if ($k == $projectId) {
+                    $second_class = 'lye_'.$ak;
+                    $third_class = 'lye_s_'.$k;
+                    break 2;
+                }
+            }
+        }
+        $this->set('sec_class', $second_class);
+        $this->set('thi_class', $third_class);
+    }
 }

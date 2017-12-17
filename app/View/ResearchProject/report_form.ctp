@@ -321,7 +321,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             $(e.target).prev().children(0).removeClass('collapsed');
         })
     });
-    show_left_select('research_project', '无效');
+    show_left_select('research_project', '<?php echo $sec_class;?>', '<?php echo $thi_class;?>');
 
 </script>
 

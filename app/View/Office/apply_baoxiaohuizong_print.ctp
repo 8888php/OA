@@ -25,7 +25,7 @@
                             <td colspan=''>原始凭证页数</td>
                             <td>  <?php echo $attr_arr['page_number']; ?>  </td>
                             <td>核算</td>
-                                <td colspan=''> <?php echo $main_arr['ApplyMain']['is_calculation'] == 1 ? '是' : '否';?>  </td>
+                                <td colspan=''> <?php echo $main_arr['is_calculation'] == 1 ? '是' : '否';?>  </td>
                         </tr>
                         <tr>
                             <td style="width: 14%;">部门或项目</td>

@@ -242,7 +242,7 @@
                                                                     <!--td width='50px'>打印</td-->
                                                                     <td width='100px'>日期</td>
                                                                     <td width='100px'>报销人</td>
-                                                                    <td width='100px'>政府采购</td>
+                                                                    <td width='100px'>核算</td>
                                                                     <td width='100px'>摘要</td>
                                                                     <?php foreach(Configure::read('xizhenglist') as $tdv){  
                                                                     foreach($tdv as $lv){  
@@ -259,7 +259,7 @@
                                                                     <!--td> <i class='glyphicon glyphicon-print blue'></i> </td-->
                                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                                     <td><?php echo $d['u']['name']; ?> </td>
-                                                                    <td><?php echo  '是';  ?></td>
+                                                                    <td><?php echo  $d['m']['is_calculation'] == 1 ? '是' : '否';  ?></td>
                                                                     
                                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
                                                                     <?php 
