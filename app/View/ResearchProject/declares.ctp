@@ -170,7 +170,10 @@
                                                 ?>        
                                                 <tr>
                                                     <td><?php echo $d['m']['id'];  ?></td>
-                                                    <td> <a href="/ResearchProject/budget_print/<?php echo $d['m']['id'];  ?>" target="_blank"><i class='glyphicon glyphicon-print blue'></i> </a></td>
+                                                    <td> 
+                                                        <a data-toggle="modal" data-remote="true" data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $d['m']['table_name'];?>_print/<?php echo $d['m']['id'];?>');"><i class='glyphicon glyphicon-print blue'></i> </a>
+                                                        <!--<a href="/ResearchProject/budget_print/<?php echo $d['m']['id'];  ?>" target="_blank"><i class='glyphicon glyphicon-print blue'></i> </a>-->
+                                                    </td>
                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                     <td><?php echo $d['u']['name']; ?> </td>
                                                     <td><?php echo $d['m']['is_calculation'] == 1 ? '是' : '否';  ?></td>

@@ -40,6 +40,7 @@ class PageHelper extends AppHelper {
     private $subPage_link; //每个分页的链接
     private $subPage_type; //显示分页的类型
     private $table_name;//把表名也加进来
+    private $shqren;//把申请人也加进来
 
     /**
      * __construct是SubPages的构造函数，用来在创建类的时候自动运行.
@@ -59,7 +60,7 @@ class PageHelper extends AppHelper {
         
     }
 
-    function show($each_disNums, $nums, $current_page, $sub_pages, $subPage_link, $subPage_type, $table_name = '') {
+    function show($each_disNums, $nums, $current_page, $sub_pages, $subPage_link, $subPage_type, $table_name = '', $shqren) {
         $this->each_disNums = intval($each_disNums);
         $this->nums = intval($nums);
         if (!$current_page) {
@@ -71,6 +72,7 @@ class PageHelper extends AppHelper {
         $this->pageNums = ceil($nums / $each_disNums);
         $this->subPage_link = $subPage_link;
         $this->table_name = $table_name;
+        $this->shqren = $shqren;
         $this->show_SubPages($subPage_type);
 
         //echo $this->pageNums."--".$this->sub_pages;
@@ -325,8 +327,8 @@ class PageHelper extends AppHelper {
             $this->current_page = $this->pageNums;
         }
         if ($this->current_page > 1) {
-            $firstPageUrl = $this->subPage_link . "1" .'/'.$this->table_name. '/pageTotal:' . $this->pageNums;
-            $prewPageUrl = $this->subPage_link . ($this->current_page - 1) .'/'.$this->table_name. '/pageTotal:' . $this->pageNums;
+            $firstPageUrl = $this->subPage_link . "1" .'/'.$this->table_name.'/'.$this->shqren. '/pageTotal:' . $this->pageNums;
+            $prewPageUrl = $this->subPage_link . ($this->current_page - 1) .'/'.$this->table_name.'/'.$this->shqren. '/pageTotal:' . $this->pageNums;
 //            $subPageCss2Str .= "<a class='y-width' href='$firstPageUrl'>首页</a> ";
             $subPageCss2Str .= '<li class="">
                 <a href="' . $prewPageUrl . '">上一页
@@ -361,14 +363,14 @@ class PageHelper extends AppHelper {
                                                 <a href="#">' . $i . '</a>
                                             </li>';
             } else {
-                $url = $this->subPage_link . $i .'/'.$this->table_name. '/pageTotal:' . $this->pageNums;
+                $url = $this->subPage_link . $i .'/'.$this->table_name.'/'.$this->shqren. '/pageTotal:' . $this->pageNums;
                 $ul_select .= '<option value="' . $url . '">第' . $i . '页</option>';
             }
         }
         $ul_select .= '</li></select></ul>';
         if ($this->current_page < $this->pageNums) {
-            $lastPageUrl = $this->subPage_link . $this->pageNums .'/'.$this->table_name. '/pageTotal:' . $this->pageNums;
-            $nextPageUrl = $this->subPage_link . ($this->current_page + 1) .'/'.$this->table_name. '/pageTotal:' . $this->pageNums;
+            $lastPageUrl = $this->subPage_link . $this->pageNums .'/'.$this->table_name.'/'.$this->shqren. '/pageTotal:' . $this->pageNums;
+            $nextPageUrl = $this->subPage_link . ($this->current_page + 1) .'/'.$this->table_name.'/'.$this->shqren. '/pageTotal:' . $this->pageNums;
             $subPageCss2Str .= '<li class="next">
                                                 <a href="' . $nextPageUrl . '">
                                                     下一页

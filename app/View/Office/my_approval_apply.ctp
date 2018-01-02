@@ -75,18 +75,26 @@
                                 <div class="col-xs-12 right_list">
 
                                     <div class="table-header">
-                                        经审费用信息
-                                        <select style="float: right; margin-right: 4%; height: 38px;font-size: 13px;" onchange="change_table(this.value);">
-                                            <option value="0">请选择...</option>
+                                        经审费用信息  
+                                        <select id="sheqtable" style="float: right; margin-right: 4%; height: 38px;font-size: 13px;" onchange="change_table();">
+                                            <option value="0">请选择申请名...</option>
                                             <?php foreach(Configure::read('select_apply') as $k=>$v){?>
                                             <option value="<?php echo $k;?>" <?php echo $k==$table ? 'selected':'';?>><?php echo $v;?></option>
                                             <?php }?>
                                         </select>
+                                        <select id="shqren" style="float: right; /*margin-right: 4%;*/ height: 38px;font-size: 13px;" onchange="change_table();">
+                                            <option value="0">请选择申请人...</option>
+                                            <?php foreach($all_user_arr as $k=>$v){?>
+                                            <option value="<?php echo $k;?>" <?php echo $k==$shqren ? 'selected':'';?>><?php echo $v;?></option>
+                                            <?php }?>
+                                        </select>
                                     </div>
                                     <script type="text/javascript">
-                                        function change_table(table) {
+                                        function change_table() {
+                                            var table = $('#sheqtable option:selected').val();
+                                            var shqren = $('#shqren option:selected').val();
                                             var host = window.location.host;
-                                            var url = 'http://'+host+'/office/my_approval_apply/1/' + table;
+                                            var url = 'http://'+host+'/office/my_approval_apply/1/' + table + '/' + shqren;
                                             window.location.href = url;
                                         }
                                     </script>
@@ -213,7 +221,7 @@
                                     </script>
 
                                     <div class="modal-footer no-margin-top">
-                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/my_approval_apply/",5, $table ); ?>                                        
+                                        <?php echo $this->Page->show($limit, $total, $curpage, 1, "/office/my_approval_apply/",5, $table, $shqren ); ?>                                        
                                     </div>
                                 </div>
 

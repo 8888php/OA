@@ -349,7 +349,7 @@ class OfficeController extends AppController {
     /**
      * 经我审批 申请
      */
-    public function my_approval_apply($pages = 1, $table = '') {
+    public function my_approval_apply($pages = 1, $table = '', $shqren = '') {
         //取出当前用户职务id以及审批权限
         $user_id = $this->userInfo->id;
         $position_id = $this->userInfo->position_id;
@@ -363,6 +363,12 @@ class OfficeController extends AppController {
             $table_sql = '';
         } else {
             $table_sql = " and table_name='{$table}'";
+        }
+        if (empty($shqren)) {
+            $shqren = 0;
+            $table_sql .= " " ;
+        } else {
+            $table_sql .= "  and ApplyMain.user_id='{$shqren}'" ;
         }
         if ((int) $pages < 1) {
             $pages = 1;
@@ -385,6 +391,7 @@ class OfficeController extends AppController {
             $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' {$table_sql} group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
         }
         $this->set('table', $table);
+        $this->set('shqren', $shqren);
         $this->set('all_user_arr', $all_user_arr);
         $this->set('lists', $lists);
         $this->set('limit', $limit);       //limit      每页显示的条数
