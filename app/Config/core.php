@@ -406,7 +406,7 @@ Configure::write('keyanlist', array(
     array('labour' => '劳务费', 'consult' => '专家咨询费'),
     array('indirect_manage' => '间接费(管理)', 'indirect_performance' => '间接费(绩效)'),
     array('indirect_other' => '间接费(其他)', 'other' => '其他费用'),
-    array('other2' => '其他费用2', 'other3' => '其他费用3'),
+    array('other2' => '基地建设费', 'other3' => '培训费'),
 ));
 
 // 行政项目
