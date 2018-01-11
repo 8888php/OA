@@ -70,6 +70,7 @@
                                                     <option value="leave"> 请假申请单 </option>
                                                     <option value="baogong"> 田间作业包工申请表 </option>
                                                     <option value="paidleave"> 果树所职工带薪年休假审批单 </option>
+                                                    <option value="caigou"> 果树所采购申请单 </option>
                                                 </select>  
                                         </li>
                                         

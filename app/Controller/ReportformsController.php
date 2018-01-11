@@ -55,6 +55,14 @@ class ReportformsController extends AppController {
     //部门汇总报表
     public function department($export = false) {
         $this->layout = 'blank';
+
+        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+
         //部门对应总金额
         $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');
         $startAmount = array();
@@ -132,7 +140,13 @@ class ReportformsController extends AppController {
     // 人事汇总报表
     function report_form() {
         $this->layout = 'blank';
-        //header("Location:" . $_SERVER['HTTP_REFERER']);
+
+        // 验证是否有查看权限  可查看成员：所长室科室成员、财务分管领导、人事教育科科长（杨明霞）、侯东梅、物资采购中心科长（杨兆亮）、采购核对员（王海松）
+        if($this->userInfo->department_id != 27 && ($this->userInfo->position_id != 13 || $this->userInfo->department_id != 5) && !in_array($this->userInfo->id,array(33,35,84,85))  ){
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
         $this->render();
     }
 
@@ -338,6 +352,65 @@ class ReportformsController extends AppController {
         return true;
     }
 
+   //人事报表 采购申请单
+    private function caigou() {
+        $this->layout = 'blank';
+        $export_xls_head = array('title' => '果树所采购申请单-汇总报表', 'cols' => array('ID', '申报部门', '指出项目', '申报时间', '经办人', '预算指标文号', '资金性质', '采购物资名称', '单位', '数量', '单价', '合计金额', '采购理由', '需求部门负责人审核', '需求部门分管所领导审核', '财务科审核','采购内容核对','采购中心审核','财务及采购分管领导审核','所长审核','审核状态','采购完成时间','支出金额'));
+        $this->set('xls_head', $export_xls_head);
+        $this->set('colscount', count($export_xls_head['cols']));
+
+        $wherestr = '';
+        if ($_POST['startdate'] && $_POST['enddate']) {
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+        }
+        $sheetArr = $this->ApplyMain->query("select m.id,m.type,m.code,m.user_id,u.name,s.* from t_apply_caigou s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_caigou' left join t_user u on s.user_id = u.id $wherestr ");
+
+        //获取审批信息
+        $mainIdArr = $applyList = array();
+        foreach ($sheetArr as $v) {
+            $mainIdArr[] = $v['m']['id'];
+        }
+        if (count($mainIdArr) > 0) {
+            $applyList = $this->ApprovalInformation->approveList($mainIdArr);
+        }
+        
+        $applytype = Configure::read('new_appprove_code_arr');
+        $channelType = Configure::read('apply_caigou_type');
+        $sheetList = array();
+        foreach ($sheetArr as $k => $v) {
+            $m_id = $v['m']['id'];
+            $sheetList[$m_id][] = $m_id;
+            $sheetList[$m_id][] = $v['s']['team_name'];
+            $sheetList[$m_id][] = $v['s']['project'];
+            $sheetList[$m_id][] = $v['s']['ctime'];
+            $sheetList[$m_id][] = $v['u']['name'];
+            $sheetList[$m_id][] = $v['s']['file_number'];
+            $sheetList[$m_id][] = $channelType[$v['s']['channel_id']];
+            $sheetList[$m_id][] = $v['s']['purchase_name'];
+            $sheetList[$m_id][] = $v['s']['company'];
+            $sheetList[$m_id][] = $v['s']['number'];
+            $sheetList[$m_id][] = $v['s']['price'];
+            $sheetList[$m_id][] = $v['s']['amount'];
+            $sheetList[$m_id][] = $v['s']['reason'];
+            //'20,5,14,23,24,13,6'
+            $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
+            
+            $sheetList[$m_id][] = isset($applyList[$m_id][14]) ? $applyList[$m_id][14] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][23]) ? $applyList[$m_id][23] : '';   
+           
+            $sheetList[$m_id][] = isset($applyList[$m_id][24]) ? $applyList[$m_id][24] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][13]) ? $applyList[$m_id][13] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][6]) ? $applyList[$m_id][6] : '';
+
+            $sheetList[$m_id][] = $applytype[$v['m']['code']];
+        }
+        $this->set('sheetList', $sheetList);
+
+        return true;
+    }
+
+
     //人事报表 汇总 导出
     function personnel_export() {
         $this->layout = 'blank';
@@ -347,7 +420,7 @@ class ReportformsController extends AppController {
             echo json_encode($msg);
             die;
         }
-        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单');
+        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单','caigou' => '果树所采购申请单');
 
         $xls_name = $sheetname[$_POST['stype']] . '-汇总报表-' . date("Y-m-d H:i:s");
         $xls_suffix = 'xls';
@@ -371,6 +444,10 @@ class ReportformsController extends AppController {
             case 'paidleave':
                 $fromdata = $this->paidleave();
                 $this->set('fromtype', 'paidleave');
+                break;
+            case 'caigou':
+                $fromdata = $this->caigou();
+                $this->set('fromtype', 'caigou');
                 break;
             default:
                 $fromdata = false;

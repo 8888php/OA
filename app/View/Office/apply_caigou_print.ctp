@@ -33,7 +33,7 @@
                                 <td colspan='3'> <?php echo $attr_arr[0][$table_name]['file_number'];?>  </td>
                              </tr>
                              <tr>
-                                <td> 资金来源渠道 </td>
+                                <td> 资金性质 </td>
                                 <td colspan='6'>  <?php 
                                 $listattr = Configure::read('apply_caigou_type');
                                 echo $listattr[$attr_arr[0][$table_name]['channel_id']];

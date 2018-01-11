@@ -41,11 +41,13 @@
                                     <input type="text" class="file_number" name="file_number"  style='height:25px;width:280px;'>
                              </tr>
                              <tr>
-                                <td> 资金来源渠道 </td>
+                                <td> 资金性质 </td>
                                 <td colspan='6'>  
-                                    <label> <input type='radio' checked="checked" name="type" class="type" value='1' > 财政拨款公用经费 </label> &nbsp;&nbsp;
-                                   <label> <input type='radio' name="type" class="type" value='2' > 财政拨款专项资金 </label> &nbsp;&nbsp;
-                                   <label> <input type='radio' name="type" class="type" value='3' > 发展基金 </label>
+                                    <label> <input type='radio' checked="checked" name="type" class="type" value='1' > 财政公用经费 </label> &nbsp;&nbsp;
+                                   <label> <input type='radio' name="type" class="type" value='2' > 财政专项资金 </label> &nbsp;&nbsp;
+                                   <label> <input type='radio' name="type" class="type" value='3' > 国家级项目资金 </label>
+                                   <label> <input type='radio' name="type" class="type" value='4' > 科研计划项目资金 </label>
+                                   <label> <input type='radio' name="type" class="type" value='5' > 发展基金 </label>
                                 </td>
                              </tr>
                              <tr>
@@ -54,7 +56,7 @@
                              </tr>
                              <tr>
                                 <td> 规格型号及详细参数 </td>
-                                <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion" > </td>
+                                <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion"  > </td>
                              </tr> 
                               <tr>
                                 <td colspan='1'> 单位：<input  type="text" class="unit" name="unit"  style='height:25px;width:47px;'> </td>
