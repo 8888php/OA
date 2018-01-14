@@ -58,11 +58,12 @@ class AppController extends Controller {
         $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
         $this->appdata['applyList'] = $applyList;
         $this->set('applyList', $applyList);
-        
+      
         // 获取项目所在团队
         $teamId = array('id' => array_keys($applyList));
-        $selfTeamList = array('单个项目');
+        $selfTeamList = array();
         $selfTeamList += $this->Team->getListId($teamId);
+        $selfTeamList[0] = '单个项目';
         $this->appdata['selfTeamList'] = $selfTeamList;
         $this->set('selfTeamList', $selfTeamList);
 

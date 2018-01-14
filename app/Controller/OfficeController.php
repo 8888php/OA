@@ -634,7 +634,7 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
-            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
             
             $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
@@ -861,7 +861,7 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
-            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
             
             $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
@@ -984,7 +984,7 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
-            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
             
             $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
@@ -1068,7 +1068,7 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
-            $kemuSourceArr = $this->ResearchSource->findByProjectId($main_arr['ApplyMain']['project_id']);
+            $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
             
             $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
