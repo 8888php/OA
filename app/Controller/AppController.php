@@ -298,7 +298,7 @@ class AppController extends Controller {
                     . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
                     . "left join t_apply_jiekuandan j on m.project_id = j.project_id and j.source_id = $source_id and m.attr_id = j.id  "
                     . "left join t_apply_lingkuandan l on m.project_id = l.project_id and j.source_id = $source_id and m.attr_id = l.id  "
-                    . " where m.project_id = $project_id and type = 1 and m.code = 10000  and is_calculation = 1 ";
+                    . " where m.project_id = $project_id and m.source_id = $source_id and type = 1 and m.code = 10000  and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
