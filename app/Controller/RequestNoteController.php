@@ -107,6 +107,7 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $datas['page_number'];
         $attrArr['department_name'] = $datas['page_number'];
         $attrArr['project_id'] = $datas['projectname'];
+        $attrArr['source_id'] = $datas['filenumber'];
         $attrArr['subject'] = $datas['subject'];
         $attrArr['rmb_capital'] = $datas['rmb_capital'];
         $attrArr['amount'] = $datas['amount'];
@@ -126,6 +127,7 @@ class RequestNoteController extends AppController {
         $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $datas['projectname'];
+        $attrArr['source_id'] = $datas['filenumber'];
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['attr_id'] = $attrId;
@@ -636,7 +638,7 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = $department_name;
         $attrArr['project_id'] = $project_id;
-        $attrArr['source_id'] = $_POST['filenumber'];
+        $attrArr['source_id'] = $datas['filenumber'];
         $attrArr['apply_money_capital'] = $datas['big_amount'];
         $attrArr['apply_money'] = $datas['small_amount'];
         //创建时没有金额
@@ -660,7 +662,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['source_id'] = $_POST['filenumber'];
+        $mainArr['source_id'] = $datas['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -794,7 +796,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['is_calculation'] = 1;  // 是否合算  1是
         $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['source_id'] = $_POST['filenumber'];
+        $mainArr['source_id'] = $datas['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
@@ -1103,7 +1105,7 @@ class RequestNoteController extends AppController {
         $mainArr['type'] = $type;
         $mainArr['attachment'] = $datas['attachment'];
         $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
-        $mainArr['source_id'] = $_POST['filenumber'];
+        $mainArr['source_id'] = $datas['filenumber'];
         $mainArr['name'] = $datas['declarename'];
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
