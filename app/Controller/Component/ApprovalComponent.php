@@ -94,7 +94,7 @@ class ApprovalComponent extends Component {
                 } else {
                     $action_data = array(
                         'pid' => $applyinfo['project_id'], // 申请所属项目id
-                        'uid' => $applyinfo['user_id'], // 申请人id
+                        'uid' => $uinfo['id'], // 当前审核人id
                         'department_id' => $applyinfo['department_id'], // 申请所属部门
                         'type' => $applyinfo['type'], // 申请类型
                         'total' => $applyinfo['total'], // 申请总费用
