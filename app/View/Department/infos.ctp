@@ -158,7 +158,7 @@
                                                             部门预算
                                                         </a>
                                                     </li-->
-                                                <?php if($depInfo['Department']['type'] == 1){ ;?>
+                                                <?php if($depInfo['Department']['type'] == 1 && in_array($userInfo->id, array(2, 4, 6))){ ;?>
                                                     <li >
                                                         <a data-toggle="tab" href="#faq-tab-3">
                                                             <i class="blue icon-question-sign bigger-120"></i>
