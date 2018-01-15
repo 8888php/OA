@@ -223,7 +223,7 @@
                              $(".dropzone").dropzone({
                                  url: '/ResearchProject/upload_file',
                                  paramName: "file", // The name that will be used to transfer the file
-                                 maxFilesize: 0.5, // MB
+                                 maxFilesize: 1.0, // MB
 
                                  addRemoveLinks: true,
                                  dictDefaultMessage:
@@ -354,8 +354,8 @@ function printDIV(){
         {
             max = len_b;
         }
-        var tmp_sum = decimal_a * Math.pow(10, max) + decimal_b * Math.pow(10, max);
-        tmp_sum = tmp_sum / Math.pow(10, max);
+        var tmp_sum = (decimal_a  + decimal_b).toFixed(max) ;
+//        tmp_sum = tmp_sum / Math.pow(10, max);
         return tmp_sum;
     }
     //计算科目的费用
