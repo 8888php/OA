@@ -168,7 +168,7 @@
                                                 <td><?php  
                                                     if(isset($cost[$k]) || isset($minus[$k])){
                                                         if(isset($minus[$k])){
-                                                           echo ($cost[$k] >= $minus[$k]) ? $cost[$k] - $minus[$k] : '<a style="color:red;">'.($cost[$k] - $minus[$k]).'</a>'; 
+                                                           echo ($cost[$k] >= $minus[$k]) ? sprintf('%.2f', $cost[$k] - $minus[$k]) : '<a style="color:red;">'.sprintf('%.2f', ($cost[$k] - $minus[$k])).'</a>'; 
                                                         }else{
                                                             echo $cost[$k];
                                                         }
