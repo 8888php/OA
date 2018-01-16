@@ -293,12 +293,14 @@ class AppController extends Controller {
             }
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
             $source_id = empty($source_id) ? 0 : $source_id;
-            $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
+           /* $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
                     . "left join t_apply_baoxiaohuizong h on m.project_id = h.project_id and h.source_id = $source_id and m.attr_id = h.id "
                     . " left join t_apply_chuchai_bxd c on m.project_id = c.project_id and c.source_id = $source_id and m.attr_id = c.id  "
                     . "left join t_apply_jiekuandan j on m.project_id = j.project_id and j.source_id = $source_id and m.attr_id = j.id  "
                     . "left join t_apply_lingkuandan l on m.project_id = l.project_id and j.source_id = $source_id and m.attr_id = l.id  "
-                    . " where m.project_id = $project_id and m.source_id = $source_id and type = 1 and m.code = 10000  and is_calculation = 1 ";
+                    . " where m.project_id = $project_id and m.source_id = $source_id and m.type = 1 and m.code = 10000  and m.is_calculation = 1 ";
+*/
+            $sqlstr = "select sum(total) sum_total from t_apply_main where project_id = $project_id and source_id = $source_id and type = 1 and code = 10000  and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
@@ -427,12 +429,14 @@ class AppController extends Controller {
             }
             $source_amount = $source['ResearchSource']['amount']; // 资金来源总额
             $source_id = empty($source_id) ? 0 : $source_id;
-            $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
+           /* $sqlstr = "select sum(m.total) sum_total  from t_apply_main m "
                     . "left join t_apply_baoxiaohuizong h on m.department_id = h.department_id and h.source_id = $source_id and m.attr_id = h.id "
                     . " left join t_apply_chuchai_bxd c on m.department_id = c.department_id and c.source_id = $source_id and m.attr_id = c.id  "
                     . "left join t_apply_jiekuandan j on m.department_id = j.department_id and j.source_id = $source_id and m.attr_id = j.id  "
                     . "left join t_apply_lingkuandan l on m.department_id = l.department_id and j.source_id = $source_id and m.attr_id = l.id  "
-                    . " where m.department_id = $department_id and type = 2 and m.code = 10000  and is_calculation = 1 ";
+                    . " where m.department_id = $department_id and m.type = 2 and m.code = 10000  and m.is_calculation = 1 ";
+                    */
+            $sqlstr = "select sum(total) sum_total from t_apply_main where department_id = $department_id and source_id = $source_id and type = 2 and code = 10000 and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
             $residual = $source_amount - $total_cost; // 剩余金额
