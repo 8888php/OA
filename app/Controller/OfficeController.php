@@ -631,7 +631,7 @@ class OfficeController extends AppController {
 
         $kemuStr = '';
         // 科研类费用 检查所申请金额是否超项目总额
-        if ($main_arr['ApplyMain']['type'] == 1) {
+        if ($main_arr['ApplyMain']['type'] == 1 && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
@@ -656,7 +656,7 @@ class OfficeController extends AppController {
         }
 
 
-        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
+        if ($main_arr['ApplyMain']['type'] == 2 && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
@@ -858,7 +858,7 @@ class OfficeController extends AppController {
         $this->set('source_arr', $source_arr);
         $kemuStr = '';
         // 科研类费用 检查所申请金额是否超项目总额
-        if ($main_arr['ApplyMain']['type'] == 1) {
+        if ($main_arr['ApplyMain']['type'] == 1  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
@@ -892,7 +892,7 @@ class OfficeController extends AppController {
         $this->cwk_show_shenpi($main_arr);
 
 
-        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
+        if ($main_arr['ApplyMain']['type'] == 2  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
@@ -981,7 +981,7 @@ class OfficeController extends AppController {
         $this->set('source_arr', $source_arr);
         $kemuStr = '';
         // 科研类费用 检查所申请金额是否超项目总额
-        if ($main_arr['ApplyMain']['type'] == 1) {
+        if ($main_arr['ApplyMain']['type'] == 1  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
@@ -1008,7 +1008,7 @@ class OfficeController extends AppController {
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
 
-        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
+        if ($main_arr['ApplyMain']['type'] == 2  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
@@ -1065,7 +1065,7 @@ class OfficeController extends AppController {
 
         $kemuStr = '';
         // 科研类费用 检查所申请金额是否超项目总额
-        if ($main_arr['ApplyMain']['type'] == 1) {
+        if ($main_arr['ApplyMain']['type'] == 1  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
@@ -1090,7 +1090,7 @@ class OfficeController extends AppController {
         }
 
 
-        if ($main_arr['ApplyMain']['type'] == 2) { // 部门
+        if ($main_arr['ApplyMain']['type'] == 2  && $main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
