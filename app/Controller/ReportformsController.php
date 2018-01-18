@@ -141,8 +141,8 @@ class ReportformsController extends AppController {
     function report_form() {
         $this->layout = 'blank';
 
-        // 验证是否有查看权限  可查看成员：所长室科室成员、财务分管领导、人事教育科科长（杨明霞）、侯东梅、物资采购中心科长（杨兆亮）、采购核对员（王海松）
-        if($this->userInfo->department_id != 27 && ($this->userInfo->position_id != 13 || $this->userInfo->department_id != 5) && !in_array($this->userInfo->id,array(33,35,84,85))  ){
+        // 验证是否有查看权限  可查看成员：所长室科室成员、财务分管领导、人事教育科科长（杨明霞）、侯东梅、物资采购中心科长（杨兆亮）、采购核对员（王海松） 杨萍（1月18加的 36）
+        if($this->userInfo->department_id != 27 && ($this->userInfo->position_id != 13 || $this->userInfo->department_id != 5) && !in_array($this->userInfo->id,array(33,35,84,85, 36))  ){
             header("Location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
