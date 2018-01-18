@@ -181,7 +181,7 @@
                                             <?php   } ?>
                                             <tr>
                                               <td style="text-align:right;"> 剩余合计 </td>
-                                              <td><?php echo ($sum_minus >= 0) ? $sum_minus : '<a style="color:red;">'.$sum_minus.'</a>';  ?></td> 
+                                              <td><?php echo ($sum_minus >= 0) ? sprintf('%.2f', $sum_minus) : '<a style="color:red;">'.sprintf('%.2f', $sum_minus).'</a>';  ?></td> 
                                               <td style="text-align:right;">  </td>
                                               <td> </td>
                                             </tr>
