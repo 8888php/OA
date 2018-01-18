@@ -95,7 +95,24 @@
                                                 <tr>
                                                     <td><?php echo $sv['ResearchProject']['id'];  ?></td>
                                                     <td><?php echo $sv['ResearchProject']['name'];  ?></td>
-                                                    <td><?php echo $sv['ResearchProject']['type'] == 1 ? '零余额' : '基本户';  ?></td>
+                                                    <td><?php  
+                                                    $type_name = '';
+                                                    switch ($sv['ResearchProject']['type']){
+                                                        case 1:
+                                                            $type_name = '零余额';
+                                                            break;
+                                                        case 2:
+                                                            $type_name = '基本户';
+                                                            break;
+                                                        case 3:
+                                                            $type_name = '基地户';
+                                                            break;
+                                                        default :
+                                                            break;
+               
+                                                    } 
+                                                    echo $type_name;
+                                                    ?></td>
 
                                                     <td><?php echo $sv['ResearchProject']['ctime'];  ?></td>
                                                     <td><?php $code_arr =  Configure::read('code_arr');
