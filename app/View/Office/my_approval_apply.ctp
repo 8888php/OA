@@ -82,6 +82,7 @@
                                             <option value="<?php echo $k;?>" <?php echo $k==$table ? 'selected':'';?>><?php echo $v;?></option>
                                             <?php }?>
                                         </select>
+                                        <input type="text" style="float: right; /*margin-right: 4%;*/ height: 38px;font-size: 13px; width: 88px;" onkeyup="change_shqren(this.value)" />
                                         <select id="shqren" style="float: right; /*margin-right: 4%;*/ height: 38px;font-size: 13px;" onchange="change_table();">
                                             <option value="0">请选择申请人...</option>
                                             <?php foreach($all_user_arr as $k=>$v){?>
@@ -90,6 +91,28 @@
                                         </select>
                                     </div>
                                     <script type="text/javascript">
+                                        //根据Input的值去搜索 申请人的
+                                        function change_shqren(val) {
+                                            if (val == '') {
+                                                $('#shqren option').each(function(i){
+                                                    $(this).css('display', 'block');
+                                                });
+                                                return;
+                                            }
+                                            $('#shqren option').each(function(i){
+                                                if (i == 0) {
+                                                    return true;
+                                                }
+                                                var text = $(this).text();
+                                                if (text.indexOf(val) != -1) {
+                                                    //说明包含
+                                                    $(this).css('display', 'block');
+                                                } else {
+                                                    $(this).css('display', 'none');
+                                                }
+                                            });
+                                            
+                                        }
                                         function change_table() {
                                             var table = $('#sheqtable option:selected').val();
                                             var shqren = $('#shqren option:selected').val();
