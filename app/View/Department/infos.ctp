@@ -158,14 +158,14 @@
                                                             部门预算
                                                         </a>
                                                     </li-->
-                                                <?php if($depInfo['Department']['type'] == 1 && in_array($userInfo->id, array(2, 4, 6))){ ;?>
+                                                <?php if(in_array($userInfo->id, array(2, 4, 6, $depInfo['Department']['sld'], $depInfo['Department']['user_id'] ))){ ;?>
                                                     <li >
                                                         <a data-toggle="tab" href="#faq-tab-3">
                                                             <i class="blue icon-question-sign bigger-120"></i>
                                                             申报费用
                                                         </a>
                                                     </li>
-                                                <?php } ?>
+                                                
                                                 
                                                 <li >
                                                         <a  data-toggle="tab" href="#faq-tab-4">
@@ -173,7 +173,7 @@
                                                             资金来源
                                                         </a>
                                                     </li>
-                                                    
+                                                    <?php } ?>
                                                 </ul>
                                                 <div class="tab-content no-border ">
 
