@@ -506,6 +506,14 @@ class OfficeController extends AppController {
         $this->set('pid', $pid);
 
         $pinfos = $this->ResearchProject->findById($pid);
+        $create_user_info = $this->User->findById($pinfos['ResearchProject']['user_id']);
+        $team_name = '单个项目';
+        $team_arr = $this->Team->findById($pinfos['ResearchProject']['project_team_id']);
+        if (!empty($team_arr)) {
+            $team_name = $team_arr['Team']['name'];
+        }
+        $this->set('team_name', $team_name);
+        $this->set('create_user_info', $create_user_info);
         $pinfos = @$pinfos['ResearchProject'];
         $source = $this->ResearchSource->getAll($pid);
 

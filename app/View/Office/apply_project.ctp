@@ -36,6 +36,12 @@
                             <td> <?php echo $pinfos['end_date'];  ?> </td>
                         </tr>
                         <tr>
+                            <td>申请人</td>
+                            <td> <?php echo $create_user_info['User']['name'];  ?> </td>
+                            <td>所属项目组</td>
+                            <td> <?php echo $team_name;  ?> </td>
+                        </tr>
+                        <tr>
                             <td>任务书</td>
                             <td colspan="3"> 
                                 <?php 
