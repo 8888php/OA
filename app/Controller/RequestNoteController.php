@@ -1183,7 +1183,7 @@ var_dump($department_arr,$team_arr);
 
     // 果树所采购申请单
     private function gss_purchase_save($datas, $uploadfile = array()) {
-        if ( empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
+        if ( empty($datas['team']) || empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
             $this->ret_arr['msg'] = '参数有误';
             exit(json_encode($this->ret_arr));
         }
@@ -1191,23 +1191,21 @@ var_dump($department_arr,$team_arr);
         $table_name = 'apply_caigou';
         $p_id = 0; //审批流id
         $project_id = 0;
-        $type = 3; //类型暂定为0
+        if (!$datas['team']) {
+            $type = 2; // 部门类型
+        } else {
+            $type = 1; //项目类型
+        }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
-//        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
         $ret_arr = $this->ApplyCaigou->apply_create($type, $datas, (array) $this->userInfo);
         
         if (!empty($ret_arr['msg'])) {
             echo "<script>alert('".$ret_arr['msg']."'); window.location = '/office/draf'</script>";
             exit;
         }
-        #附表入库
-        //是部门，取当前用户的部门信息
-        $department_id = $this->userInfo->department_id;
-        $department_arr = $this->Department->findById($department_id);
-        $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
-        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
-
+        
+        // 保存上传文件
         $new_name = '';
         if (!empty($uploadfile['descripttion']['name']) && $uploadfile['descripttion']['error'] == 0) {
             $org_name = $uploadfile['descripttion']['name']; //原始名字
@@ -1225,14 +1223,30 @@ var_dump($department_arr,$team_arr);
                 $new_name = ''; //如果没有上传成功，先不处理
             }
         }
-        $team_arr = $this->Team->findById($datas['team']);
+
+        #附表入库
+        //是部门，取当前用户的部门信息
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $department_name = $department_arr['Department']['name'];
+        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
+
+        // 如果是 项目类型  取对应项目信息
+        if($type == 2){
+        	$project_arr = $this->ResearchProject->findById($datas['team']);
+        	$name_str = $project_arr['ResearchProject']['name'];	// 支出项目名
+        	$teams_str = $project_arr['ResearchProject']['project_team_id'];	// 所属项目组
+        }else{
+        	$name_str = $department_name;	// 支出项目名
+        	$teams_str = 0;   // 所属项目组
+        }
         
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['team_id'] = $datas['team'];
-        $attrArr['team_name'] = $team_arr['Team']['name'];
+        $attrArr['team_name'] = $team_name_str;
         $attrArr['project'] = $datas['project'];
-
+        $attrArr['type'] = $type;
         $attrArr['channel_id'] = $datas['type'];
         $attrArr['file_number'] = $datas['file_number'];
         $attrArr['purchase_name'] = $datas['material_name'];
@@ -1256,11 +1270,10 @@ var_dump($department_arr,$team_arr);
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
         $mainArr['name'] = '果树所采购申请单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
-        $mainArr['team_id'] = $datas['team'];
+        $mainArr['team_id'] = $teams_str;
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = 0;
@@ -1321,9 +1334,6 @@ var_dump($department_arr,$team_arr);
             exit;
         }
 
-
-//        echo json_encode($this->ret_arr);
-//        exit;
     }
 
     // 田间作业包工申请表

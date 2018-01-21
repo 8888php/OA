@@ -19,11 +19,11 @@
                             </tr>
                             
                              <tr>
-                                <td > 申报部门 </td>
+                                <td > 支出项目 </td>
                                 <td colspan='6'> <?php echo $attr_arr[0][$table_name]['team_name'];?>  </td>
                              </tr>
                              <tr>
-                                <td > 支出项目 </td>
+                                <td > 申报部门 </td>
                                 <td colspan='6'> <?php echo $attr_arr[0][$table_name]['project'];?> </td>
                             </tr>
                             <tr>

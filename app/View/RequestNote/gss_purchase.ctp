@@ -19,7 +19,7 @@
                             </tr>
                             
                              <tr>
-                                <td > 申报部门 </td>
+                                <td > 支出项目 </td>
                                 <td colspan='6'>  
                                     <select style="height:25px;width:580px;" name="team" class="dep_pro" >
                                         <?php if ($is_department == 1){?>
@@ -33,7 +33,7 @@
                                 </td>
                              </tr>
                              <tr>
-                                <td > 支出项目 </td>
+                                <td > 申报部门 </td>
                                 <td colspan='6'>  <input  type="text" class="project" name="project"  style='height:25px;width:575px;'> </td>
                             </tr>
                             <tr>
