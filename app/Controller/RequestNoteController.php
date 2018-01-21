@@ -265,9 +265,10 @@ class RequestNoteController extends AppController {
 
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
-
+var_dump($department_arr,$team_arr);
             $this->set('team_arr', $team_arr);
             $this->set('department_arr', $department_arr);
+            $this->set('is_department', empty($department_arr) ? 0 : $department_arr['Department']['type'] );
             $this->render();
         }
     }
@@ -1017,12 +1018,23 @@ class RequestNoteController extends AppController {
         // 如果是部门取部门资金来源
         $souces = ($pid == 0 && isset($depid)) ? $this->ResearchSource->getDepAll($depid) : $this->ResearchSource->getAll($pid);
         $ret_option = '';
+
+        // 获取资金来源剩余金额
+        $sourcesArr = array('sourceId'=>array(),'amount'=>array());
+        foreach ($souces as $key => $value) {
+        	$sourcesArr['sourceId'][$key] = $value['ResearchSource']['id'];
+        	$sourcesArr['amount'][$value['ResearchSource']['id']] = $value['ResearchSource']['amount'];
+        }
+
+        // 资金来源剩余金额
+        $surplusArr = $this->ApplyMain->getSurplus($sourcesArr);
+
         if (!empty($souces)) {
             foreach ($souces as $k => $v) {
                 $selected = ($souid == $v['ResearchSource']['id']) ? 'selected' : '';
                 $ret_option .= '<option value="' . $v['ResearchSource']['id'] . '"  ';
                 $ret_option .= $selected . ' > ';
-                $ret_option .= '【' . $v['ResearchSource']['source_channel'] . ' （' . $v['ResearchSource']['file_number'] . '） ' . $v['ResearchSource']['year'] . '】</option>';
+                $ret_option .= '【' . $v['ResearchSource']['source_channel'] . ' （' . $v['ResearchSource']['file_number'] . '） ￥' . $surplusArr[$v['ResearchSource']['id']] . '】</option>';
             }
         } else {
             $ret_option = '<option></option>';

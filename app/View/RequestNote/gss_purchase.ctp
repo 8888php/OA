@@ -22,6 +22,10 @@
                                 <td > 申报部门 </td>
                                 <td colspan='6'>  
                                     <select style="height:25px;width:580px;" name="team" class="dep_pro" >
+                                        <?php if ($is_department == 1){?>
+                                        <option value="0"><?php echo $department_arr['Department']['name'];?></option>
+                                        <?php }?>
+
                                         <?php foreach($team_arr as $v){?>
                                         <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
                                         <?php }?>
@@ -191,6 +195,7 @@ function printDIV(){
         var total = $('.total').val();
         var reason = $('.reason').val();
         var declarename = $('.declarename').val();
+        var dep_team = $('.dep_pro').val();
         
         if (department == '') {
             $('.department').focus();
@@ -244,6 +249,7 @@ function printDIV(){
         data.total = total;
         data.reason = reason;
         data.declarename = declarename;
+        data.dep_team = dep_team;
         $.ajax({
             url: '/RequestNote/gss_purchase',
             type: 'post',

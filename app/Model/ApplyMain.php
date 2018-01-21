@@ -67,4 +67,21 @@ class ApplyMain extends AppModel {
         return $this->find('all', array('conditions' => array('project_id' => $pid,'code'=>10000,'is_calculation' => 1), 'fields' => $fields));
     }
 
+    # 获取资金来源 剩余金额 
+    # $data : array  资金来源id，金额
+    public function getSurplus($data) {
+        $fields = array('id','total','source_id');
+        $surplusArr = $this->find('list', array('conditions' => array('source_id' => $data['sourceId'],'code'=>10000,'is_calculation' => 1), 'fields' => $fields));
+        $surplus = $data['amount'];
+        if($surplusArr){
+            foreach ($surplusArr as $key => $value) {
+                foreach ($value as $k => $v) {
+                    $surplus[$key] = sprintf("%0.2f",$data['amount'][$key] - $v);
+                }
+            }
+        } 
+        return $surplus;
+    }
+
+ 
 }
