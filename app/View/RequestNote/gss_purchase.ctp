@@ -26,8 +26,8 @@
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
 
-                                        <?php foreach($team_arr as $v){?>
-                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
+                                        <?php foreach($pro_arr as $v){?>
+                                        <option value="<?php echo $v['p']['id'];?>"><?php echo $v['p']['name'];?></option>
                                         <?php }?>
                                     </select>
                                 </td>

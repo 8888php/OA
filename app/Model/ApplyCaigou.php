@@ -78,7 +78,8 @@ class ApplyCaigou extends AppModel {
             $this->err_msg => ''
         );
         $dep_id = $user_info['department_id'];
-        $team_id = $data['team'];
+        // 项目 或 部门 id  $data['team'] == 0 时为 部门类型申请
+        $dep_pro_id = $data['team']; // 
         $user_id = $user_info['id'];        
         $pos_id = $user_info['position_id'];
         $shenpi_arr = $this->get_shengpin_arr();
@@ -91,7 +92,7 @@ class ApplyCaigou extends AppModel {
         $arr_tmp = array();//放所有的审批角色信息
         $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
-            $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);var_dump($v, $dep_id, $team_id,$arr_get);
+            $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -108,31 +109,38 @@ class ApplyCaigou extends AppModel {
                     break;
                 }
             }
-        }die;
+        }
         $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
         return $ret_arr; //这里结束
         //判断是不是所长  6
-        $arr_6 = $this->get_by_pos_dep(6, $dep_id, $team_id);
+        $arr_6 = $this->get_by_pos_dep(6, $dep_id, $dep_pro_id);
         
         //财务副所长  13
-        $arr_13 = $this->get_by_pos_dep(13, $dep_id, $team_id);
+        $arr_13 = $this->get_by_pos_dep(13, $dep_id, $dep_pro_id);
         
         //采购中心这个部门的负责人  24
-        $arr_24 = $this->get_by_pos_dep(24, $dep_id, $team_id);
+        $arr_24 = $this->get_by_pos_dep(24, $dep_id, $dep_pro_id);
         
         //采购内容核对员 23
-        $arr_23 = $this->get_by_pos_dep(23, $dep_id, $team_id);
+        $arr_23 = $this->get_by_pos_dep(23, $dep_id, $dep_pro_id);
         
         //财务科长 14
-        $arr_14 = $this->get_by_pos_dep(14, $dep_id, $team_id);
+        $arr_14 = $this->get_by_pos_dep(14, $dep_id, $dep_pro_id);
         
         //部门分管领导 5
-        $arr_5 = $this->get_by_pos_dep(5, $dep_id, $team_id);
-        
+        $arr_5 = $this->get_by_pos_dep(5, $dep_id, $dep_pro_id);
+    
         //团队负责人 20
-        $arr_20 = $this->get_by_pos_dep(20, $dep_id, $team_id);
+        $arr_20 = $this->get_by_pos_dep(20, $dep_id, $dep_pro_id);
+
+        //项目负责人 11
+        $arr_11 = $this->get_by_pos_dep(11, $dep_id, $dep_pro_id);
+
+        //或  部门负责人 15
+        $arr_15 = $this->get_by_pos_dep(15, $dep_id, $dep_pro_id);
+
     }
     //返回错误信息
     private function get_error_msg($pos_id = 0)  {
@@ -159,6 +167,12 @@ class ApplyCaigou extends AppModel {
                 break;
             case 20:
                 $msg = '团队负责人不存在';
+                break;
+            case 11:
+                $msg = '项目负责人不存在';
+                break;
+            case 15:
+                $msg = '部门负责人不存在';
                 break;
             default :
                 break;
@@ -225,63 +239,88 @@ class ApplyCaigou extends AppModel {
             
     
     //根据职务和部门取出用户信息 行政
-    private function get_by_pos_dep($pos_id, $dep_id, $team_id=0) {
+    private function get_by_pos_dep($pos_id, $dep_id, $dep_pro_id=0) {
         $ret_arr = array(
             $this->next_id => 0,
             $this->next_uid => 0
         );
+        
+        switch($pos_id) {
         //判断是不是所长  6
-        if ($pos_id == 6) {
+            case 6 :  
             $sql_6 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_6 = $this->query($sql_6);
             $ret_arr[$this->next_id] = $pos_id;
             $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
-        }
+            break;
         //财务副所长  13
-        elseif ($pos_id == 13) {
+            case 13 :
             $sql_13 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_13 = $this->query($sql_13);
             $ret_arr[$this->next_id] = $pos_id;
             $ret_arr[$this->next_uid] = empty($arr_13[0]['t_user']['id']) ? 0 : $arr_13[0]['t_user']['id'];
-        }
+            break;
         //采购中心这个部门的负责人  24
-        elseif ($pos_id == 24) {
+            case 24 : 
             $sql_24 = "select *from t_department where id=12 and del=0";
             $arr_24 = $this->query($sql_24);
             $ret_arr[$this->next_id] = $pos_id;
             $ret_arr[$this->next_uid] = empty($arr_24[0]['t_department']['user_id']) ? 0 : $arr_24[0]['t_department']['user_id'];
-        }
+            break;
         //采购内容核对员 23
-        elseif ($pos_id == 23) {
+            case 23 :
             $sql_23 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_23 = $this->query($sql_23);
             $ret_arr[$this->next_id] = $pos_id;
             $ret_arr[$this->next_uid] = empty($arr_23[0]['t_user']['id']) ? 0 : $arr_23[0]['t_user']['id'];
-        }
+            break;
         //财务科长 14
-        elseif ($pos_id == 14) {
+            case 14 :
             $sql_14 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_14 = $this->query($sql_14);
             $ret_arr[$this->next_id] = $pos_id;
             $ret_arr[$this->next_uid] = empty($arr_14[0]['t_user']['id']) ? 0 : $arr_14[0]['t_user']['id'];
-        }
+            break;
         //部门分管领导 5
-        elseif ($pos_id == 5) {
+            case 5 :
             $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
             $arr_5 = $this->query($sql_5);
             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
             $ret_arr[$this->next_id] = $pos_id;
-        }
-        //团队负责人 20
-        elseif ($pos_id == 20) {
-            $sql_20 = "select *from t_team t left join t_team_member m on m.team_id=t.id and t.fzr=m.id where t.id='{$team_id}' ";
+            break;
+        //团队负责人 20   可看作项目所属 项目组
+            case 20 :
+            $sql_20 = "select p.project_team_id,p.user_id,m.user_id from t_research_project p left join t_team t on p.project_team_id = t.id left join t_team_member m on m.team_id=t.id and t.fzr=m.id where p.id='{$dep_pro_id}' ";
             $arr_20 = $this->query($sql_20);
-            $ret_arr[$this->next_uid] = empty($arr_20[0]['m']['user_id']) ? 0 : $arr_20[0]['m']['user_id'];
+            // 若是单个项目 返回项目负责人id
+            if( $arr_20[0]['p']['project_team_id'] == 0 ){  
+                $ret_arr[$this->next_uid] = $arr_20[0]['p']['user_id'] ;
+            }else{
+                $ret_arr[$this->next_uid] = empty($arr_20[0]['m']['user_id']) ? 0 : $arr_20[0]['m']['user_id'];
+            }
             $ret_arr[$this->next_id] = $pos_id;
+            break;
+        //项目负责人 11
+            case 11 :
+            $sql_11 = "select id,user_id from t_research_project where id='{$dep_pro_id}' and del=0";
+            $arr_11 = $this->query($sql_11);
+            $ret_arr[$this->next_uid] = empty($arr_11[0]['t_research_project']['user_id']) ? 0 : $arr_11[0]['t_research_project']['user_id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            break;
+        //部门负责人 15
+            case 15 :
+            $sql_15 = "select *from t_department where id='{$dep_id}' and del=0";
+            $arr_15 = $this->query($sql_15);
+            $ret_arr[$this->next_uid] = empty($arr_15[0]['t_department']['user_id']) ? 0 : $arr_15[0]['t_department']['user_id'];
+            $ret_arr[$this->next_id] = $pos_id;
+            break;
         }
         
         return $ret_arr;
     }
+
+
+
     private function team_approve($main_arr, $user_info, $status) {
         $ret_arr = array(
             $this->next_id => 0,
@@ -304,19 +343,27 @@ class ApplyCaigou extends AppModel {
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
         $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $shenpi_arr = explode(',', $this->get_shengpin_arr());//反转数组
+
+        $type = $main_arr[0]['t_apply_main']['type'] ; // 申请单类型：1项目，2部门
+        $shenpi_arr = $this->get_shengpin_arr();
+        $shenpi_arr = explode(',', $shenpi_arr[$type]);
+        
         if (empty($shenpi_arr)) {
             $ret_arr[$this->err_msg] = '定义审批流异常';
             return $ret_arr;
         }
         $dep_id = $main_arr[0]['t_apply_main']['department_id'];
-        $team_id = $main_arr[0]['t_apply_main']['team_id'];
+        if($type == 1){
+            $dep_pro_id = $main_arr[0]['t_apply_main']['project_id'];
+        }else{
+            $dep_pro_id = $dep_id;
+        }
        
         foreach ($shenpi_arr as $k=>$v) {
             if ($v != $next_approver_id) {
                 continue;
             }
-            $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
+            $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
             
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -331,7 +378,7 @@ class ApplyCaigou extends AppModel {
             } else {
                 
                 if ($arr_get[$this->next_uid] == $user_id) {
-                    $arr_get = $this->get_by_pos_dep($shenpi_arr[$k+1], $dep_id, $team_id);//下一职务
+                    $arr_get = $this->get_by_pos_dep($shenpi_arr[$k+1], $dep_id, $dep_pro_id);//下一职务
                     if ($arr_get[$this->next_uid] == 0) {
                         //说明有问题
                         $ret_arr[$this->err_msg] = $this->get_error_msg($shenpi_arr[$k+1]);

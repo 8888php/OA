@@ -257,17 +257,18 @@ class RequestNoteController extends AppController {
             $this->gss_purchase_save($_POST, $_FILES);
         } else {
 
-            //获取部门和团队
+            //获取部门和 参与项目
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
 
-            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
-            $team_arr = $this->ApplyMain->query($sql);
-//var_dump($department_arr,$team_arr);
-            $this->set('team_arr', $team_arr);
+           // $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
+            $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and m.user_id='{$user_id}'";
+            $pro_arr = $this->ApplyMain->query($sql);
+
+            $this->set('pro_arr', $pro_arr);
             $this->set('department_arr', $department_arr);
-            $this->set('is_department', empty($department_arr) ? 0 : $department_arr['Department']['type'] );
+            $this->set('is_department', $department_arr['Department']['name'] == 1 ? 1 : 0 );
             $this->render();
         }
     }
@@ -1191,11 +1192,12 @@ class RequestNoteController extends AppController {
 
         $table_name = 'apply_caigou';
         $p_id = 0; //审批流id
-        $project_id = 0;
         if (!$datas['team']) {
             $type = 2; // 部门类型
+        	$project_id = 0;
         } else {
             $type = 1; //项目类型
+        	$project_id = $datas['team'];
         }
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
@@ -1233,7 +1235,7 @@ class RequestNoteController extends AppController {
         $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
 
         // 如果是 项目类型  取对应项目信息
-        if($type == 2){
+        if($type == 1){
         	$project_arr = $this->ResearchProject->findById($datas['team']);
         	$name_str = $project_arr['ResearchProject']['name'];	// 支出项目名
         	$teams_str = $project_arr['ResearchProject']['project_team_id'];	// 所属项目组
@@ -1245,7 +1247,7 @@ class RequestNoteController extends AppController {
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
         $attrArr['team_id'] = $datas['team'];
-        $attrArr['team_name'] = $team_name_str;
+        $attrArr['team_name'] = $name_str;
         $attrArr['project'] = $datas['project'];
         $attrArr['type'] = $type;
         $attrArr['channel_id'] = $datas['type'];
@@ -1291,7 +1293,6 @@ class RequestNoteController extends AppController {
             $this->ApplyCaigou->rollback();
         }
         $mainId ? $commitId = $this->ApplyCaigou->rollback() : $commitId = $this->ApplyCaigou->commit();
-
 
         if ($commitId) {
             //如果审批通过，且跳过下个则在表里记录一下
