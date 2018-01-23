@@ -50,15 +50,15 @@ class ApplyCaigou extends AppModel {
      * 创建时获取审批信息
      * 创建信息 $data
      * 创建者信息 $user_info
-     * 类型 $type 2是部门 3是团队，目前只有这两种
+     * 类型 $type 2是部门 1是科研科目，目前只有这两种
      */
     public function apply_create($type, $data, $user_info) {
         return $this->team_create($type, $data, $user_info);
     }
     //部门
     /**
-     * 行政部门：申请人—所在单位负责人—分管领导—分管人事领导（乔永胜）—所长
-          团队    ：申请人—所在团队负责人—分管领导（赵旗峰）—分管人事领导—所长
+     *  项目：申请人-项目负责人-团队负责人—部门分管领导（科研分管领导赵旗峰）-财务科主任-采购员（王海松）-采购中心主任（杨兆亮）-财务及采购分管领导（吕英忠）-所长
+        部门：申请人-行政部门负责人-行政部门分管领导-财务科主任-采购员（王海松）-采购中心主任（杨兆亮）-财务及采购分管领导（吕英忠）-所长
      */
     public $next_id = 'next_id';
     public $next_uid = 'next_uid';
@@ -81,7 +81,9 @@ class ApplyCaigou extends AppModel {
         $team_id = $data['team'];
         $user_id = $user_info['id'];        
         $pos_id = $user_info['position_id'];
-        $shenpi_arr = array_reverse(explode(',', $this->get_shengpin_arr()));//反转数组
+        $shenpi_arr = $this->get_shengpin_arr();
+        $shenpi_arr = array_reverse(explode(',', $shenpi_arr[$type]));//反转数组
+
         if (empty($shenpi_arr)) {
             $ret_arr[$this->err_msg] = '定义审批流异常';
             return $ret_arr;
@@ -89,7 +91,7 @@ class ApplyCaigou extends AppModel {
         $arr_tmp = array();//放所有的审批角色信息
         $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
-            $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
+            $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);var_dump($v, $dep_id, $team_id,$arr_get);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -106,7 +108,7 @@ class ApplyCaigou extends AppModel {
                     break;
                 }
             }
-        }
+        }die;
         $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];

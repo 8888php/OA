@@ -253,8 +253,7 @@ class RequestNoteController extends AppController {
 
     // 果树所采购申请单
     public function gss_purchase() {
-        $this->render();
-        if ( !empty($_POST['declarename']) && !empty($_POST['team']) && !empty($_POST['project']) && !empty($_POST['file_number']) && !empty($_POST['material_name']) && !empty($_POST['reason']) ) {
+        if ( !empty($_POST['declarename']) && ($_POST['team'] >= 0)  && !empty($_POST['project']) && !empty($_POST['file_number']) && !empty($_POST['material_name']) && !empty($_POST['reason']) ) {
             $this->gss_purchase_save($_POST, $_FILES);
         } else {
 
@@ -265,7 +264,7 @@ class RequestNoteController extends AppController {
 
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $team_arr = $this->ApplyMain->query($sql);
-var_dump($department_arr,$team_arr);
+//var_dump($department_arr,$team_arr);
             $this->set('team_arr', $team_arr);
             $this->set('department_arr', $department_arr);
             $this->set('is_department', empty($department_arr) ? 0 : $department_arr['Department']['type'] );
@@ -1183,11 +1182,13 @@ var_dump($department_arr,$team_arr);
 
     // 果树所采购申请单
     private function gss_purchase_save($datas, $uploadfile = array()) {
-        if ( empty($datas['team']) || empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
-            $this->ret_arr['msg'] = '参数有误';
-            exit(json_encode($this->ret_arr));
-        }
         header("Content-type: text/html; charset=utf-8");
+
+        if ( (empty($datas['team']) && $datas['team'] != 0) || empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
+            echo "<script>alert('参数有误'); window.location = '/office/draf';</script>";
+            exit;
+        }
+
         $table_name = 'apply_caigou';
         $p_id = 0; //审批流id
         $project_id = 0;

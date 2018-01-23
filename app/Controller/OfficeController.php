@@ -644,7 +644,7 @@ class OfficeController extends AppController {
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
-         var_dump($main_arr,$main_arr['ApplyMain']['source_id']);   
+ 
             if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
 
             $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
