@@ -67,11 +67,38 @@
                              
                             <tr>
                                 <td style='height:100px;line-height:100px;'> 采购需求审核</td>
+
+                                <?php if($attr_arr[0][$table_name]['type'] == 1){ ?>
+                                <td colspan='2'>
+                                    <?php  
+                                            echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
+                                            if($applyArr[11]['name']){
+                                                echo $applyArr[11]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[11]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[11]['ctime']; 
+                                            }
+                                        ?>                                    
+                                    </td>
+                                    <td colspan='2'>
+                                    <?php  
+                                            echo '需求团队负责人审核 <br /> &nbsp;&nbsp;';
+                                            if($applyArr[20]['name']){
+                                                echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
+                                            }
+                                        ?>                                    
+                                    </td>
+                                    <td  colspan='2'>
+                                        <?php  
+                                            echo '需求部门分管领导审核 <br /> &nbsp;&nbsp;';
+                                            if($applyArr[5]['name']){
+                                                echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime']; 
+                                            }
+                                        ?>                                      
+                                </td>
+                                <?php }else{  ?>
                                 <td colspan='3'>
                                     <?php  
                                             echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
-                                            if($applyArr[20]['name']){
-                                                echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
+                                            if($applyArr[15]['name']){
+                                                echo $applyArr[15]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime']; 
                                             }
                                         ?>                                    
                                     </td>
@@ -83,7 +110,11 @@
                                             }
                                         ?>                                      
                                 </td>
+                                <?php } ?>
                             </tr>
+
+
+
                              <tr>
                                 <td style='height:100px;'> <br/><br/>财务及采购审核 </td>
                                 <td colspan='3'>

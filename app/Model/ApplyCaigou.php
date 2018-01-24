@@ -84,7 +84,7 @@ class ApplyCaigou extends AppModel {
         $pos_id = $user_info['position_id'];
         $shenpi_arr = $this->get_shengpin_arr();
         $shenpi_arr = array_reverse(explode(',', $shenpi_arr[$type]));//反转数组
-
+//print_r($shenpi_arr);
         if (empty($shenpi_arr)) {
             $ret_arr[$this->err_msg] = '定义审批流异常';
             return $ret_arr;
@@ -93,6 +93,7 @@ class ApplyCaigou extends AppModel {
         $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
+//            var_dump($v, $dep_id, $dep_pro_id,$arr_get);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -113,6 +114,7 @@ class ApplyCaigou extends AppModel {
         $index = !$flag ? $k : $k -1;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
+//        print_r($ret_arr);die;
         return $ret_arr; //这里结束
         //判断是不是所长  6
         $arr_6 = $this->get_by_pos_dep(6, $dep_id, $dep_pro_id);
