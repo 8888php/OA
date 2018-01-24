@@ -388,7 +388,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select distinct ApplyMain.*  from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' {$table_sql} group by ApprovalInformation.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
+            $lists = $this->ApplyMain->query("select ApplyMain.*, ApprovalInformation.ctime from t_apply_main ApplyMain left join t_approval_information ApprovalInformation on ApplyMain.id=ApprovalInformation.main_id where ApprovalInformation.approve_id='$user_id' {$table_sql} group by ApplyMain.id order by ApprovalInformation.id desc limit " . ($pages - 1) * $limit . "," . $limit);
         }
         $this->set('table', $table);
         $this->set('shqren', $shqren);
@@ -1171,7 +1171,7 @@ class OfficeController extends AppController {
         $applyArr = array();
         $apply_12 = array(); //科研 项目组负责人
         foreach ($applylist as $k => $v) {
-            if ($v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id'] || $v['ApprovalInformation']['position_id'] == 15) {
+            if (($main_arr['ApplyMain']['type'] == 1 && $v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']) || ($main_arr['ApplyMain']['type'] == 2 && $v['ApprovalInformation']['position_id'] == 15)) {
                 $applyArr['ksfzr'] = $v['ApprovalInformation'];
             } else {
 //                if ($v['ApprovalInformation']['position_id'] == 12) {
@@ -1198,7 +1198,7 @@ class OfficeController extends AppController {
 //                    }
 //                }
 //            }
-//        }   //var_dump($applyArr);
+//        }  var_dump($applyArr);
         $this->set('applyArr', @$applyArr);
     }
 

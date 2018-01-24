@@ -55,9 +55,22 @@ class ApprovalComponent extends Component {
             $uinfo['position_id'] = 15 ;
         }
 
+        // 如果申请单是部门类中财务科提交的申请，则部门负责人、所领导 同审批流中 分管财务所长、财务科长相同，这两个角色在第一次审批时更改他们的 position_id 为负责人、所领导
+        if($applyinfo['type'] == 2 && $applyinfo['department_id'] == 5){
+        	// 财务科长  转  部门负责人
+        	if($applyinfo['code'] == 0 && $uinfo['position_id'] == 14){
+            	$uinfo['position_id'] = 15 ;
+        	}
+        	// 分管财务所长  转  所领导
+        	if($applyinfo['code'] == 30 && $uinfo['position_id'] == 13){
+            	$uinfo['position_id'] = 5 ;
+        	}
+
+        }
+
 
         // 当前用户角色是否有审核权 审核到分管副所长时不验证
-        if (($applyinfo['next_approver_id'] !=5) && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
+        if ($applyinfo['next_approver_id'] !=5 && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
             return false;
         }
         // 当前申请已通过
@@ -84,8 +97,7 @@ class ApprovalComponent extends Component {
                         break;
                     }
                 }
-
-              
+            
                 if ($next_three_id == $uinfo['position_id']  && $next_three_id != 15) {
                     // 当前审批角色已是审批流中最后一个
                     $contents['code'] = 10000;
@@ -127,7 +139,7 @@ class ApprovalComponent extends Component {
             default:
                 return false;
         }
-        
+
                
         // 审核成功 根据 申请所属部门 和 下一审核角色 取 下一审核人id
         if(empty($contents['next_id'])){
