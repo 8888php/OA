@@ -355,7 +355,7 @@ class ReportformsController extends AppController {
    //人事报表 采购申请单
     private function caigou() {
         $this->layout = 'blank';
-        $export_xls_head = array('title' => '果树所采购申请单-汇总报表', 'cols' => array('ID', '申报部门', '指出项目', '申报时间', '经办人', '预算指标文号', '资金性质', '采购物资名称', '单位', '数量', '单价', '合计金额', '采购理由', '需求部门负责人审核', '需求部门分管所领导审核', '财务科审核','采购内容核对','采购中心审核','财务及采购分管领导审核','所长审核','审核状态','采购完成时间','支出金额'));
+        $export_xls_head = array('title' => '果树所采购申请单-汇总报表', 'cols' => array('ID', '申报部门', '支出项目', '申报时间', '经办人', '预算指标文号', '资金性质', '采购物资名称', '单位', '数量', '单价', '合计金额', '采购理由', '需求部门负责人审核', '需求团队负责人审核', '需求部门分管所领导审核', '财务科审核','采购内容核对','采购中心审核','财务及采购分管领导审核','所长审核','审核状态','采购完成时间','支出金额'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
 
@@ -380,8 +380,8 @@ class ReportformsController extends AppController {
         foreach ($sheetArr as $k => $v) {
             $m_id = $v['m']['id'];
             $sheetList[$m_id][] = $m_id;
-            $sheetList[$m_id][] = $v['s']['team_name'];
             $sheetList[$m_id][] = $v['s']['project'];
+            $sheetList[$m_id][] = $v['s']['team_name'];
             $sheetList[$m_id][] = $v['s']['ctime'];
             $sheetList[$m_id][] = $v['u']['name'];
             $sheetList[$m_id][] = $v['s']['file_number'];
@@ -392,10 +392,12 @@ class ReportformsController extends AppController {
             $sheetList[$m_id][] = $v['s']['price'];
             $sheetList[$m_id][] = $v['s']['amount'];
             $sheetList[$m_id][] = $v['s']['reason'];
-            //'20,5,14,23,24,13,6'
-            $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
-            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
-            
+            //1 => '11,20,5,14,23,24,13,6'
+            //2 => '15,5,14,23,24,13,6'
+
+            $sheetList[$m_id][] = ($v['s']['type'] == 1) ? $applyList[$m_id][11] : $applyList[$m_id][15];
+            $sheetList[$m_id][] = ($v['s']['type'] == 1) ? $applyList[$m_id][20] : '';
+            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';            
             $sheetList[$m_id][] = isset($applyList[$m_id][14]) ? $applyList[$m_id][14] : '';
             $sheetList[$m_id][] = isset($applyList[$m_id][23]) ? $applyList[$m_id][23] : '';   
            
