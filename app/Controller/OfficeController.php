@@ -638,17 +638,17 @@ class OfficeController extends AppController {
 
 
         $kemuStr = '';
-        // 科研类费用 检查所申请金额是否超项目总额
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
  
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
 
-            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
-            if ($sourcelist['code'] == 0) {
+            // 科研类费用 检查所申请金额是否超项目总额
+            // $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            // if ($sourcelist['code'] == 0) {
                 // 科研类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_cost($main_arr, $attr_arr['ApplyBaoxiaohuizong']['source_id']);
                 if ($residual['code'] == 0) {
@@ -659,10 +659,10 @@ class OfficeController extends AppController {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         }
 
@@ -671,20 +671,20 @@ class OfficeController extends AppController {
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             // 部门类型费用 检查申请单金额是否超总额
-             $sourcelist = $this->residual_department_cost($main_arr);
-            if ($sourcelist['code'] == 0) {
+            //  $sourcelist = $this->residual_department_cost($main_arr);
+            // if ($sourcelist['code'] == 0) {
                 // 部门类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_department($main_arr, $attr_arr['ApplyBaoxiaohuizong']['source_id']);
                 if ($residual['code'] == 1) {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         } 
         $this->set('kemuStr', $kemuStr);
@@ -870,17 +870,17 @@ class OfficeController extends AppController {
         $source_arr = $this->ResearchSource->findById($source_id);
         $this->set('source_arr', $source_arr);
         $kemuStr = '';
-        // 科研类费用 检查所申请金额是否超项目总额
         if ($main_arr['ApplyMain']['type'] == 1 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
-            
-            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
-            if ($sourcelist['code'] == 0) {
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
+        
+            // 科研类费用 检查所申请金额是否超项目总额            
+            // $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            // if ($sourcelist['code'] == 0) {
                 // 科研类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 0) {
@@ -891,10 +891,10 @@ class OfficeController extends AppController {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         }
 
@@ -912,20 +912,20 @@ class OfficeController extends AppController {
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             // 部门类型费用 检查申请单金额是否超总额
-             $sourcelist = $this->residual_department_cost($main_arr);
-            if ($sourcelist['code'] == 0) {
+            //  $sourcelist = $this->residual_department_cost($main_arr);
+            // if ($sourcelist['code'] == 0) {
                 // 部门类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 1) {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         } 
         $this->set('kemuStr', $kemuStr);
@@ -998,17 +998,17 @@ class OfficeController extends AppController {
         $source_arr = $this->ResearchSource->findById($source_id);
         $this->set('source_arr', $source_arr);
         $kemuStr = '';
-        // 科研类费用 检查所申请金额是否超项目总额
         if ($main_arr['ApplyMain']['type'] == 1 ) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             
-            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
-            if ($sourcelist['code'] == 0) {
+            // 科研类费用 检查所申请金额是否超项目总额
+            // $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            // if ($sourcelist['code'] == 0) {
                 // 科研类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 0) {
@@ -1019,10 +1019,10 @@ class OfficeController extends AppController {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         }
 
@@ -1033,20 +1033,20 @@ class OfficeController extends AppController {
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             // 部门类型费用 检查申请单金额是否超总额
-             $sourcelist = $this->residual_department_cost($main_arr);
-            if ($sourcelist['code'] == 0) {
+            //  $sourcelist = $this->residual_department_cost($main_arr);
+            // if ($sourcelist['code'] == 0) {
                 // 部门类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 1) {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         } 
         $this->set('kemuStr', $kemuStr);
@@ -1087,17 +1087,17 @@ class OfficeController extends AppController {
         }
 
         $kemuStr = '';
-        // 科研类费用 检查所申请金额是否超项目总额
         if ($main_arr['ApplyMain']['type'] == 1) {
             $kemuArr = $this->ResearchProject->findById($main_arr['ApplyMain']['project_id']);
             $kemuStr = $kemuArr['ResearchProject']['name'];
             $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
             $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
-                
-            $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
-            if ($sourcelist['code'] == 0) {
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
+             
+            // 科研类费用 检查所申请金额是否超项目总额   
+            // $sourcelist = $this->residual_project_cost($main_arr, $kemuArr['ResearchProject']['amount']);
+            // if ($sourcelist['code'] == 0) {
                 // 科研类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_cost($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 0) {
@@ -1108,10 +1108,10 @@ class OfficeController extends AppController {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         }
 
@@ -1120,20 +1120,20 @@ class OfficeController extends AppController {
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
 
-            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 ){
+            if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             // 部门类型费用 检查申请单金额是否超总额
-             $sourcelist = $this->residual_department_cost($main_arr);
-            if ($sourcelist['code'] == 0) {
+            //  $sourcelist = $this->residual_department_cost($main_arr);
+            // if ($sourcelist['code'] == 0) {
                 // 部门类费用 检查所申请来源资金是否超额
                 $residual = $this->residual_department($main_arr, $attr_arr[0][$table_name]['source_id']);
                 if ($residual['code'] == 1) {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
                 }
-            } else {
-                $this->set('project_sum', $sourcelist);
-                $this->set('feedback', $sourcelist);
-            }
+            // } else {
+            //     $this->set('project_sum', $sourcelist);
+            //     $this->set('feedback', $sourcelist);
+            // }
         }
         } 
         $this->set('kemuStr', $kemuStr);

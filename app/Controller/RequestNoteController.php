@@ -268,7 +268,7 @@ class RequestNoteController extends AppController {
 
             $this->set('pro_arr', $pro_arr);
             $this->set('department_arr', $department_arr);
-            $this->set('is_department', $department_arr['Department']['name'] == 1 ? 1 : 0 );
+            $this->set('is_department', empty($department_arr['Department']['id']) ? 0 : 1 );
             $this->render();
         }
     }
@@ -1239,14 +1239,16 @@ class RequestNoteController extends AppController {
         	$project_arr = $this->ResearchProject->findById($datas['team']);
         	$name_str = $project_arr['ResearchProject']['name'];	// 支出项目名
         	$teams_str = $project_arr['ResearchProject']['project_team_id'];	// 所属项目组
+            $team_id = $datas['team'];
         }else{
         	$name_str = $department_name;	// 支出项目名
         	$teams_str = 0;   // 所属项目组
+            $team_id = $department_id;
         }
         
         $attrArr = array();
         $attrArr['ctime'] = $datas['ctime'];
-        $attrArr['team_id'] = $datas['team'];
+        $attrArr['team_id'] = $team_id;
         $attrArr['team_name'] = $name_str;
         $attrArr['project'] = $datas['project'];
         $attrArr['type'] = $type;
@@ -1276,7 +1278,7 @@ class RequestNoteController extends AppController {
         $mainArr['name'] = '果树所采购申请单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
-        $mainArr['team_id'] = $teams_str;
+        $mainArr['team_id'] = 0;
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = 0;
