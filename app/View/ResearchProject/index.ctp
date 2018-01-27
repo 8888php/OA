@@ -141,6 +141,7 @@
                                                     switch($pinfos['type']){
                                                     case 1 : echo '零余额';break; 
                                                     case 2 : echo '基本户';break; 
+                                                    case 3 : echo '基地户';break; 
                                                     }  ?> </td>
                                                 <td>金额</td>
                                                 <td><?php echo $pinfos['amount'];  ?></td>
