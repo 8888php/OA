@@ -488,7 +488,11 @@ function trim(s){
             applicant_str += applicant_arr[i] + ',';
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
-        var data = {declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment, is_calculation:is_calculation};
+       var old_main_id = 0;
+       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+               old_main_id = "<?php echo $mainInfo['id'];?>";
+       <?php }?>
+        var data = {old_main_id: old_main_id, declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment, is_calculation:is_calculation};
 
         $.ajax({
             url: '/ResearchProject/sub_declares',

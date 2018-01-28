@@ -133,9 +133,6 @@
                                                         </td>
                                                     <td><?php 
                                                         $new_appprove_code_arr = Configure::read('new_appprove_code_arr');
-                                                        if(($sv['ApplyMain']['code'] % 2) == 0){
-                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
-                                                        }else{
                                                         $resetchar = '#';
                                                         switch($sv['ApplyMain']['table_name']){ 
                                                             case 'apply_baoxiaohuizong':  
@@ -162,10 +159,17 @@
                                                             $resetchar = '/RequestNote/gss_send/'; break;
                                                             case 'apply_borrow':
                                                             $resetchar = '/RequestNote/gss_borrow/'; break;
-                                                         } 
+                                                        } 
+                                                        if(($sv['ApplyMain']['code'] % 2) == 0){
+                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
+                                                        }else{
+                                                            
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                     <?php   } ?>
+                                                          <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong'))) {?>
+                                                          <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo '撤销';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
+                                                          <?php }?>
                                                     </td>
                                                    
                                                 </tr>
@@ -189,6 +193,9 @@
                                                 $(this).removeData("bs.modal");
                                             })
                                         });
+                                        function declares_close() {
+                                            $('#modal_wait').click();
+                                        }
                                         //审批
                                         function approve(type) {
                                             var remarks = $('#remarks').val();//备注
