@@ -252,43 +252,45 @@ class ApplyCaigou extends AppModel {
             case 6 :  
             $sql_6 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_6 = $this->query($sql_6);
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 6;
             $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
             break;
         //财务副所长  13
             case 13 :
             $sql_13 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_13 = $this->query($sql_13);
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 13;
             $ret_arr[$this->next_uid] = empty($arr_13[0]['t_user']['id']) ? 0 : $arr_13[0]['t_user']['id'];
             break;
         //采购中心这个部门的负责人  24
             case 24 : 
             $sql_24 = "select *from t_department where id=12 and del=0";
             $arr_24 = $this->query($sql_24);
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 24;
             $ret_arr[$this->next_uid] = empty($arr_24[0]['t_department']['user_id']) ? 0 : $arr_24[0]['t_department']['user_id'];
             break;
         //采购内容核对员 23
             case 23 :
             $sql_23 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_23 = $this->query($sql_23);
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 23;
             $ret_arr[$this->next_uid] = empty($arr_23[0]['t_user']['id']) ? 0 : $arr_23[0]['t_user']['id'];
             break;
         //财务科长 14
             case 14 :
             $sql_14 = "select *from t_user where position_id='{$pos_id}' and del=0";
             $arr_14 = $this->query($sql_14);
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 14;
             $ret_arr[$this->next_uid] = empty($arr_14[0]['t_user']['id']) ? 0 : $arr_14[0]['t_user']['id'];
             break;
         //部门分管领导 5
             case 5 :
+            //当 dep_pro_id 不为0时，为项目申请，分管领导取科研部门所领导
+            $dep_id != 0 && $dep_id = 3;
             $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
             $arr_5 = $this->query($sql_5);
             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 5;
             break;
         //团队负责人 20   可看作项目所属 项目组
             case 20 :
@@ -300,21 +302,21 @@ class ApplyCaigou extends AppModel {
             }else{
                 $ret_arr[$this->next_uid] = empty($arr_20[0]['m']['user_id']) ? 0 : $arr_20[0]['m']['user_id'];
             }
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 20;
             break;
         //项目负责人 11
             case 11 :
             $sql_11 = "select id,user_id from t_research_project where id='{$dep_pro_id}' and del=0";
             $arr_11 = $this->query($sql_11);
             $ret_arr[$this->next_uid] = empty($arr_11[0]['t_research_project']['user_id']) ? 0 : $arr_11[0]['t_research_project']['user_id'];
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 11;
             break;
         //部门负责人 15
             case 15 :
             $sql_15 = "select *from t_department where id='{$dep_id}' and del=0";
             $arr_15 = $this->query($sql_15);
             $ret_arr[$this->next_uid] = empty($arr_15[0]['t_department']['user_id']) ? 0 : $arr_15[0]['t_department']['user_id'];
-            $ret_arr[$this->next_id] = $pos_id;
+            $ret_arr[$this->next_id] = 15;
             break;
         }
         
