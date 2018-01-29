@@ -97,8 +97,8 @@
                                 <td colspan='3'>
                                     <?php  
                                             echo '需求部门负责人审核 <br /> &nbsp;&nbsp;';
-                                            if($applyArr[15]['name']){
-                                                echo $applyArr[15]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[15]['ctime']; 
+                                            if($applyArr['ksfzr']['name']){
+                                                echo $applyArr['ksfzr']['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime']; 
                                             }
                                         ?>                                    
                                     </td>
