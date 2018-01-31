@@ -670,7 +670,9 @@ class OfficeController extends AppController {
         if ($main_arr['ApplyMain']['type'] == 2) { // 部门
             $kemuArr = $this->Department->findById($main_arr['ApplyMain']['department_id']);
             $kemuStr = $kemuArr['Department']['name'];
-
+            $kemuSourceArr = $this->ResearchSource->findById($main_arr['ApplyMain']['source_id']);
+            $kemuStr .= ' |【' . $kemuSourceArr['ResearchSource']['source_channel'] . ' （' . $kemuSourceArr['ResearchSource']['file_number'] . '） ' . $kemuSourceArr['ResearchSource']['year'] . '】';
+ 
             if($main_arr['ApplyMain']['code'] < 10000 && $main_arr['ApplyMain']['code'] % 2 == 0 && $main_arr['ApplyMain']['is_calculation'] == 1){
             // 部门类型费用 检查申请单金额是否超总额
             //  $sourcelist = $this->residual_department_cost($main_arr);
