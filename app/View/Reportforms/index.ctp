@@ -100,18 +100,18 @@
                                              <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td  rowspan="<?php echo count($applyList[$tk])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> <?php echo $tv; ?> </td>
                                                 <td style="text-align:center;">  -- </td>
-                                                <td> <?php echo $sumArr[$tk]['amount']; ?> </td>
-                                                <td> <?php echo $sumArr[$tk]['pay']; ?> </td>
-                                                <td> <?php echo $sumArr[$tk]['amount'] - $fromArr[$tk]['pay']; ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $sumArr[$tk]['amount']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $sumArr[$tk]['pay']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $sumArr[$tk]['amount'] - $fromArr[$tk]['pay']); ?> </td>
                                                 <td>  </td>
                                             </tr>
                                             
                                             <?php  foreach($applyList[$tk] as $k => $v){  ?>
                                             <tr style="text-align:center;">
                                                 <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
-                                                <td> <?php echo $fromArr[$tk][$k]['amount']; ?> </td>
-                                                <td> <?php echo $fromArr[$tk][$k]['pay']; ?> </td>
-                                                <td> <?php echo $fromArr[$tk][$k]['amount'] - $fromArr[$tk][$k]['pay']; ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $fromArr[$tk][$k]['amount']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $fromArr[$tk][$k]['pay']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $fromArr[$tk][$k]['amount'] - $fromArr[$tk][$k]['pay']); ?> </td>
                                                 <td>  <a href="/ResearchProject/report_form/<?php echo $k; ?>" > <i class='glyphicon glyphicon-list-alt'> </i> </a>  </td>
                                             </tr>
                                             <?php } } ?>
@@ -119,9 +119,9 @@
                                               <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
                                                 <td style="text-align:center;">  -- </td>
-                                                <td> <?php echo $totalArr['amount']; ?> </td>
-                                                <td> <?php echo $totalArr['pay']; ?> </td>
-                                                <td> <?php echo $totalArr['amount'] - $totalArr['pay']; ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $totalArr['amount']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $totalArr['pay']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $totalArr['amount'] - $totalArr['pay']); ?> </td>
                                                 <td> </td>
                                             </tr>  
                                             
