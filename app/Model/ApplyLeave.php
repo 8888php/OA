@@ -325,8 +325,8 @@ class ApplyLeave extends AppModel {
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
         $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
-        
-        if ($sum_day < 3) {
+        //请假类型是外出办公就只用审批一次
+        if ($sum_day < 3 || $qingjia_arr[0]['t_apply_leave']['type_id'] == 3) {
             //只要下一个审批就可以
             foreach ($shengpin_arr as $k=>$v) {
                 if ($v == $next_approver_id) {
@@ -486,7 +486,7 @@ class ApplyLeave extends AppModel {
         $shengpin_arr = explode(',', $this->get_shengpin_arr($main_arr[0]['t_apply_main']['type']));
         $dep_id = $qingjia_arr[0]['t_apply_leave']['department_id'];
         $team_id = $qingjia_arr[0]['t_apply_leave']['team_id'];
-        if ($sum_day < 3) {
+        if ($sum_day < 3 || $qingjia_arr[0]['t_apply_leave']['type_id'] == 3) {
             //只要下一个审批就可以
             foreach ($shengpin_arr as $k=>$v) {
                 if ($v == $next_approver_id) {

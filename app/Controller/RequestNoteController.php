@@ -1928,7 +1928,7 @@ class RequestNoteController extends AppController {
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
-            if ($department_arr['Department']['type'] == 1) {
+            if ($department_arr['Department']['type'] == 2) {
                 $department_arr = array();//只取行政
             }
             $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
