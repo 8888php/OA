@@ -321,6 +321,15 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+    $('#modal_wait').on('shown.bs.modal', function () {
+        
+        // 执行一些动作...
+        if (typeof chexiao == 'function' ) {
+            //汇总报销撤销
+            chexiao(); 
+        }
+        
+      })
     jQuery(function ($) {
         var oTable1 = $('#sample-table-2').dataTable({
             "aoColumns": [

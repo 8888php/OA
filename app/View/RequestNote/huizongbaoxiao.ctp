@@ -51,6 +51,72 @@
                                     </select>
                                 </td>
                         <script type="text/javascript">
+                            //撤销
+                           function chexiao(){
+                                <?php if (!empty($mainInfo)) {?>
+                                    $('.projectname option').each(function(){
+                                        if ($(this).val() == '<?php echo $mainInfo['department_id'] ? 0 : $mainInfo['project_id'];?>') {
+                                            $(this).attr('selected', 'selected');
+                                        }
+                                    });
+                                    change_filenumber();
+                                    //更改souce_id
+                                    $('.filenumber option').each(function(){
+                                        if ($(this).val() == '<?php echo $mainInfo['source_id'];?>') {
+                                            $(this).attr('selected', 'selected');
+                                        } 
+                                    });
+                                    var type = $('.projectname').val();//为0则是部门，
+                                    var select_obj_li = null;
+                                    var select_obj_div = null;
+                                    if (type == 0) {
+                                        select_obj_li = $('.multipleselect_bm li.multiple');
+                                        select_obj_div = $('.multipleselect_bm');
+                                    } else {
+                                        select_obj_li = $('.multipleselect_ky li.multiple');
+                                        select_obj_div = $('.multipleselect_ky');
+                                    }
+                                    select_obj_li.each(function(){
+                                        <?php 
+                                        $subject = ($mainInfo['subject']);
+                                        $xiaoshi = '';
+                                        foreach($subject as $k=>$v) {
+                                            $bm_ky_arr = array();
+                                            if ($mainInfo['department_id']) {
+                                                //部门
+                                                $bm_ky_arr = Configure::read('xizhenglist');
+                                            } else {
+                                                //科研
+                                                $bm_ky_arr = Configure::read('keyanlist');
+                                            }
+                                            $tmp_val = '';
+                                            foreach ($bm_ky_arr as $k1=>$v1) {
+                                                foreach ($v1 as $k2=>$v2) {
+                                                    if ($k2 == $k) {
+                                                        $tmp_val = $v2;
+                                                        break 2;
+                                                    }
+                                                }
+
+                                            }
+                                            if (!empty($tmp_val))
+                                                $xiaoshi .= $tmp_val . ' ,';
+                                            ?>
+                                                if ($(this).find('.first_inpuut').val() == '<?php echo $k;?>') {
+                                                    $(this).click();
+                                                    $(this).find('.first_inpuut').attr('checked', 'checked');
+                                                    $(this).find('.je').val('<?php echo $v;?>');
+                                                    $(this).find('.je').blur();
+                                                }
+                                        <?php
+                                        }
+                                        $xiaoshi = rtrim($xiaoshi, ',');
+                                        ?>
+                                        select_obj_div.find('.ms-choice span').text('<?php echo $xiaoshi;?>');
+                                    });
+                                <?php }?>;
+                            }
+                           
                             var depid = "<?php echo $department_arr['Department']['id']; ?>" ;
                             var class_name = 'multipleselect_bm';
                             if ($('#multipleselect_bm option').eq(0).val() != 0) {
@@ -65,6 +131,7 @@
                                         type:'post',
                                         data:data,
                                         dataType:'json',
+                                        async: false,
                                         success:function(res){
                                             var html = res['html'];
                                             $('.filenumber').html(html);
