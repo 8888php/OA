@@ -218,11 +218,11 @@ class ApplyChuchai extends AppModel {
         //课题组负责人  2 
         $xmz_flag = false;//是否 项目组负责人
         $por_id = $data['dep_pro'];
-        $xmz_sql = "select *from t_research_project t_p left join t_team_project t_t on t_p.project_team_id=t_t.id where t_t.id !=1 and t_t.del=0 and t_t.team_user_id > 0 and t_p.id='{$por_id}'";
+        $xmz_sql = "select t_t.user_id from t_research_project t_p left join t_team t_m on t_p.project_team_id = t_m.id left join t_team_member t_t on t_m.fzr = t_t.id where t_p.id='{$por_id}' limit 1";
         $xmz_arr = $this->query($xmz_sql);
         if (!empty($xmz_arr)) {
             $xmz_flag = true;//有项目组负责人
-            if ($xmz_arr[0]['t_t']['team_user_id'] < 1) {
+            if ($xmz_arr[0]['t_t']['user_id'] < 1) {
                 //项目负责人不存在
                 $ret_arr[$this->err_msg] = '项目组负责人不存在';
                 return $ret_arr;
@@ -230,7 +230,7 @@ class ApplyChuchai extends AppModel {
             //项目组负责人
             $sql_fenguan = "SELECT *FROM t_user u WHERE u.id={$pro_arr[0]['t_department']['sld']} ";
             $fenguan_arr = $this->query($sql_fenguan);
-            if ($xmz_arr[0]['t_t']['team_user_id'] == $user_info['id']) {
+            if ($xmz_arr[0]['t_t']['user_id'] == $user_info['id']) {
                 $ret_arr[$this->next_id] = 5;
                 $ret_arr[$this->next_uid] = $fenguan_arr[0]['u']['id'];
                 $ret_arr[$this->code_id][] = $user_info['id'];
@@ -260,7 +260,7 @@ class ApplyChuchai extends AppModel {
             if ($xmz_flag) {
                 //有项目组负责人
                 $ret_arr[$this->next_id] = 2;
-                $ret_arr[$this->next_uid] = $xmz_arr[0]['t_t']['team_user_id'];
+                $ret_arr[$this->next_uid] = $xmz_arr[0]['t_t']['user_id'];
                 $ret_arr[$this->code_id][] = $user_info['id'];
                 $ret_arr[$this->code] = $is_apply ? 11*2 : 0;
             } else {
