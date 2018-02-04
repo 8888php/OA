@@ -2063,10 +2063,19 @@ class OfficeController extends AppController {
             $table_name = 't_' . $main_arr[0]['t_apply_main']['table_name'];
             $attr_id = $main_arr[0]['t_apply_main']['attr_id'];
             $user_id = $this->userInfo->id;
+            $code = $main_arr[0]['t_apply_main']['code'];
             if ($user_id != $creat_user_id) {
                 $ret_arr = array(
                         'code' => 1,
                         'msg' => '您不是此单子的创建者'
+                    );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            if ($code != 0) {
+                $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '此单子已经被操作，不能删除'
                     );
                 echo json_encode($ret_arr);
                 exit;
