@@ -2045,5 +2045,41 @@ class OfficeController extends AppController {
         var_dump($this->check_subject_cost($project_id, $subject));
         exit;
     }
-
+    
+    public function ajax_del_main() {
+        if ($this->request->is('ajax')) {
+            //确定是ajax
+            $main_id = $this->request->data('main_id');
+            $main_arr = $this->ApplyMain->query("select *from t_apply_main where id='{$main_id}'");
+            if (empty($main_arr)) {
+                $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '此单子不存在，请刷新页面'
+                    );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            $creat_user_id = $main_arr[0]['t_apply_main']['user_id'];
+            $table_name = 't_' . $main_arr[0]['t_apply_main']['table_name'];
+            $attr_id = $main_arr[0]['t_apply_main']['attr_id'];
+            $user_id = $this->userInfo->id;
+            if ($user_id != $creat_user_id) {
+                $ret_arr = array(
+                        'code' => 1,
+                        'msg' => '您不是此单子的创建者'
+                    );
+                echo json_encode($ret_arr);
+                exit;
+            }
+            //删除单子信息
+            $this->ApplyMain->query("delete from t_apply_main where id='{$main_id}'");
+            $this->ApplyMain->query("delete from  $table_name where id='{$attr_id}'");
+            $ret_arr = array(
+                        'code' => 0,
+                        'msg' => '删除成功'
+                    );
+            echo json_encode($ret_arr);
+            exit;
+        }
+    }
 }

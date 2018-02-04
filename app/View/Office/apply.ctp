@@ -170,6 +170,9 @@
                                                           <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong'))) {?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo '撤销';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                           <?php }?>
+                                                          <?php if ($sv['ApplyMain']['code'] == 0) {?>
+                                                            <a  onclick="ajax_del_main('<?php echo $sv['ApplyMain']['id'];?>');" ><?php echo '删除';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
+                                                          <?php }?>
                                                     </td>
                                                    
                                                 </tr>
@@ -367,15 +370,13 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
     })
 
 
-    function ajax_del(did) {
-        if (!did) {
-            alert('删除失败');
-            return;
+    function ajax_del_main(main_id) {
+        if (!confirm('您确定要删除此单子?')) {
+            return ;
         }
-
-        var data = {did: did};
+        var data = {main_id: main_id};
         $.ajax({
-            url: '/user/ajax_del',
+            url: '/office/ajax_del_main',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -397,7 +398,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    location.href = '/user/index';
+                    window.location.reload();
                     return;
                 }
                 if (res.code == 2) {
