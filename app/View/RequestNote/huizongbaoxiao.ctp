@@ -224,9 +224,9 @@
                         <tr>
                             <td>金额</td>
                             <td>人民币大写</td>
-                            <td colspan='2'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:180px;height:25px;' />   </td>
-                            <td>￥</td>
-                            <td colspan='2'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:180px;height:25px;' />   </td>
+                            <td colspan='3'>  <input type="text" name='rmb_capital' class="rmb_capital" disabled="disabled"  style='width:280px;height:25px;' />   </td>
+                            <td width='60px'>￥</td>
+                            <td colspan='1'> <input type="text" name='amount' class="amount" disabled="disabled"  style='width:85px;height:25px;' />   </td>
                         </tr>
                         <tr>
                             <td>报销<br/>简要说明</td>
