@@ -286,7 +286,7 @@ class ApplyCaigou extends AppModel {
         //部门分管领导 5
             case 5 :
             //当 dep_pro_id 不为0时，为项目申请，分管领导取科研部门所领导
-            $dep_id != 0 && $dep_id = 3;
+            $dep_pro_id != 0 && $dep_id = 3;
             $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
             $arr_5 = $this->query($sql_5);
             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
@@ -360,7 +360,8 @@ class ApplyCaigou extends AppModel {
         if($type == 1){
             $dep_pro_id = $main_arr[0]['t_apply_main']['project_id'];
         }else{
-            $dep_pro_id = $dep_id;
+            //$dep_pro_id = $dep_id;
+            $dep_pro_id = 0;
         }
        
         foreach ($shenpi_arr as $k=>$v) {
