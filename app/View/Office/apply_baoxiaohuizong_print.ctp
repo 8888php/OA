@@ -57,8 +57,7 @@
                             <td>金额</td>
                             <td>人民币大写</td>
                             <td colspan='3'>  <?php echo $attr_arr['rmb_capital']; ?>   </td>
-                            <td>￥</td>
-                            <td colspan='1'> <?php echo $attr_arr['amount']; ?>     </td>
+                            <td colspan='2'> ￥ <?php echo $attr_arr['amount']; ?>     </td>
                         </tr>
                         <tr>
                             <td class='bx_jysm'>报销人<br/>简要说明</td>

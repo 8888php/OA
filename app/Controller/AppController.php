@@ -303,7 +303,7 @@ class AppController extends Controller {
             $sqlstr = "select sum(total) sum_total from t_apply_main where project_id = $project_id and source_id = $source_id and type = 1 and code = 10000  and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
-            $residual = $source_amount - $total_cost; // 剩余金额
+            $residual = round($source_amount - $total_cost , 4); // 剩余金额
         }
 
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
@@ -331,7 +331,7 @@ class AppController extends Controller {
         if ($apply['ApplyMain']['type'] == 1) {
             $project_id = $apply['ApplyMain']['project_id'];
             $sumTotal = $this->ResearchSource->query("select sum(total) sum_total from t_apply_main where project_id = $project_id  and type = 1 and code = 10000 and is_calculation = 1 ");
-            $residual = $project_sum_count - $sumTotal[0][0]['sum_total']; // 剩余金额
+            $residual = round($project_sum_count - $sumTotal[0][0]['sum_total'] , 4); // 剩余金额
         }
 
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
@@ -383,7 +383,7 @@ class AppController extends Controller {
                    break;
                 }else{
                     // 单科目剩余金额
-                    $overplus = $project_costArr[$k] - $subjectArr[$k];
+                    $overplus = round($project_costArr[$k] - $subjectArr[$k] , 4);
                     if ($v > $overplus) {
                         $keyanlist = Configure::read('keyanlist');
                         $kemu_name = '';
@@ -439,7 +439,7 @@ class AppController extends Controller {
             $sqlstr = "select sum(total) sum_total from t_apply_main where department_id = $department_id and source_id = $source_id and type = 2 and code = 10000 and is_calculation = 1 ";
             $amount_sum = $this->ResearchSource->query($sqlstr);
             $total_cost = $amount_sum[0][0]['sum_total'];
-            $residual = $source_amount - $total_cost; // 剩余金额
+            $residual = round($source_amount - $total_cost , 4); // 剩余金额
         }
 
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
@@ -475,7 +475,7 @@ class AppController extends Controller {
             // 部门总资金来源
             $sumSourceAmount = $this->ResearchSource->query("select sum(amount) sum_amount from t_research_source where department_id = $department_id  ");
             // 剩余金额
-            $residual = $sumSourceAmount[0][0]['sum_amount'] - $sumTotal[0][0]['sum_total']; 
+            $residual = round($sumSourceAmount[0][0]['sum_amount'] - $sumTotal[0][0]['sum_total'] , 4); 
         }
 
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
