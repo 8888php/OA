@@ -101,7 +101,7 @@
                                                     <th>申请人</th>
                                                     <th>附件</th>
                                                     <th>审核进度</th>
-                                                    <!--th>操作</th-->
+                                                    <th>下一审核人</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -173,6 +173,12 @@
                                                           <?php if ($sv['ApplyMain']['code'] == 0) {?>
                                                             <a  onclick="ajax_del_main('<?php echo $sv['ApplyMain']['id'];?>');" ><?php echo '删除';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                           <?php }?>
+                                                    </td>
+                                                    <td>
+                                                        <?php 
+                                                        if($sv['ApplyMain']['code'] != 10000 &&($sv['ApplyMain']['code'] % 2) == 0){
+                                                        echo $sv['u']['name'];
+                                                        }  ?>
                                                     </td>
                                                    
                                                 </tr>

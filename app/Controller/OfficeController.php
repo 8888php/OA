@@ -89,7 +89,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ApplyMain->query("select * from t_apply_main ApplyMain where user_id='{$user_id}' {$table_sql} order by id desc limit " . ($pages - 1) * $limit . ", $limit");
+            $lists = $this->ApplyMain->query("select ApplyMain.id,ApplyMain.name,ApplyMain.ctime,ApplyMain.table_name,ApplyMain.code,ApplyMain.user_id,ApplyMain.attachment,u.name from t_apply_main ApplyMain left join t_user u on ApplyMain.next_apprly_uid = u.id where user_id='{$user_id}' {$table_sql} order by id desc limit " . ($pages - 1) * $limit . ", $limit");
         }
         $this->set('table', $table);
         $this->set('all_user_arr', $all_user_arr);
