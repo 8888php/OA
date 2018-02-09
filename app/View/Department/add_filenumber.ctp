@@ -11,11 +11,11 @@
                     <tbody>
                         <tr style='font-weight:600;' class="blue">
                             <td> NO· </td>
-                            <td>来源渠道</td>
-                            <td>年度</td>
-                            <td>文号</td>
-                            <td>金额</td>
-                            <td>操作</td>
+                            <td style='text-align:center;'>来源渠道</td>
+                            <td style='text-align:center;'>年度</td>
+                            <td style='text-align:center;'>文号</td>
+                            <td style='text-align:center;'>金额</td>
+                            <td style='text-align:center;'>操作</td>
                         </tr>
 
                         <tr >
@@ -36,9 +36,13 @@
                             <td><?php echo $pk+1;  ?></td>
                             <td> <?php echo $pv['ResearchSource']['source_channel'];  ?> </td>
                             <td> <?php echo $pv['ResearchSource']['year'] ;  ?> </td>
-                            <td> <?php echo $pv['ResearchSource']['file_number'];  ?> </td>
-                            <td> <?php echo $pv['ResearchSource']['amount'];  ?> </td>
-                            <td> </td>                                
+                            <td> <input type="text" class='file_number<?php echo $pv['ResearchSource']['id']; ?>'  placeholder="文号" style="height:28px;line-height: 28px;width:115px;"  value="<?php echo $pv['ResearchSource']['file_number'];  ?>" /> </td>
+                            <td> <input type="text" class='amount<?php echo $pv['ResearchSource']['id']; ?>'  placeholder="金额" style="height:28px;line-height: 28px;width:115px;" value="<?php echo $pv['ResearchSource']['amount'];  ?>" />  </td>
+                            <td>
+                                <span class="glyphicon glyphicon-edit blue" onclick="source_edit(<?php echo $did; ?>,'edit',<?php echo $pv['ResearchSource']['id']; ?>);"  title='修改'></span>
+                                &nbsp;&nbsp;
+                                <a href="javascript:void(0);" onclick="source_edit(<?php echo $did; ?>,'del',<?php echo $pv['ResearchSource']['id']; ?>);"  title='删除'> <span class="glyphicon glyphicon-trash red" ></span> </a>   
+                         </td>                                
                         </tr>
                         <?php } ?>
 
@@ -55,26 +59,43 @@
 <script type="text/javascript">  
     //提交内容
     var click_flag = true;//是否可以点击
-    function source_edit(mid, type) {
+    function source_edit(mid, type, sid = 0) {
         if (!click_flag) {
             return;
         }
         var data_json = {};
         data_json.did = $('#did').val();
         data_json.type = type;
-        if (type == 'add') {
+        data_json.sid = sid;
+        switch(type) {
+            case 'add':
+            if($('.file_number').val() == '' || $('.amount').val() == ''){
+                alert('文号、金额不能为空！');
+                return;
+            }
             data_json.source_channel = $('.source_channel option:selected').val();
             data_json.year = $('.year').val();
             data_json.file_number = $('.file_number').val();
             data_json.amount = $('.amount').val();
-        }else{
-            if(type == 'del' && !confirm('确定删除？')){
-                return;
+            break;
+            case 'edit':
+            if(!confirm('确定修改？')){
+                return ;
             }
+            data_json.file_number = $(".file_number"+sid).val();
+            data_json.amount = $(".amount"+sid).val();
+            break;
+            case 'del':
+            if(!confirm('确定删除？')){
+                return ;
+            }
+            break;
+            default:
+                return;
         }
 
         $.ajax({
-            url: '/Department/sub_filenumber',
+            url: '/Department/sub_filenumber_dep',
             type: 'post',
             data: data_json,
             dataType: 'json',

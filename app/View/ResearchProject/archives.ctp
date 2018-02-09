@@ -154,7 +154,7 @@
                                             </tr>
 
 
-                                            <tr>
+                                            <!--tr>
                                                 <td>任务书</td>
                                                 <td> 赵琳</td>
                                                 <td> 2017-04-26 11:30:32 </td>
@@ -162,7 +162,7 @@
                                                 <td> 待审核 </td>
                                                 <td>  <a class="badge badge-info">上传</a>  
                                                     <a class="badge badge-success">查看</a> </td>
-                                            </tr>
+                                            </tr-->
 
                                         </tbody>
                                     </table>

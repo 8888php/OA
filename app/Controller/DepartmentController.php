@@ -214,6 +214,81 @@ class DepartmentController extends AppController {
 
 
 
+
+     /**
+     * 添加、修改、删除、 部门资金来源
+     */
+    public function sub_filenumber_dep() { 
+
+            #项目详情
+//            $proInfos = $this->Department->findById($_POST['did']);
+            // 是否项目负责人添加
+//            if($proInfos['Department']['user_id'] != $this->userInfo->id){
+            if(!$this->is_dailirong_yujing()){
+                $this->ret_arr['msg'] = '非部门负责人无权添加';
+                echo json_encode($this->ret_arr);
+                exit; 
+            }
+
+            $editArr = array();
+            switch ($_POST['type']) {
+                case 'add' :
+                    if (empty($_POST['did']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
+                        $this->ret_arr['msg'] = '参数有误';
+                        echo json_encode($this->ret_arr);
+                        die;
+                    } 
+                    $editArr['department_id'] = $_POST['did'];
+                    $editArr['source_channel'] = $_POST['source_channel'];
+                    $editArr['file_number'] = $_POST['file_number'];
+                    $editArr['amount'] = $_POST['amount'];
+                    $editArr['year'] = $_POST['year'];
+                    $sourceId = $this->ResearchSource->add($editArr);
+                    break;
+                case 'edit':
+                    if (empty($_POST['sid']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
+                        $this->ret_arr['msg'] = '参数有误';
+                        echo json_encode($this->ret_arr);
+                        die;
+                    } 
+                    $editArr['file_number'] = $_POST['file_number'];
+                    $editArr['amount'] = $_POST['amount'];
+                    $sourceId = $this->ResearchSource->edit($_POST['sid'], $editArr);
+                    break;
+                case 'del':
+                    if (empty($_POST['sid']) || empty($_POST['did'])) {
+                        $this->ret_arr['msg'] = '参数有误';
+                        echo json_encode($this->ret_arr);
+                        die;
+                    } 
+                    $exApply = $this->ApplyMain->find('first',['conditions'=>['source_id'=>$_POST['sid']]]);
+                    if(empty($exApply)){
+                       $sourceId = $this->ResearchSource->delete($_POST['sid']); 
+                   }else{
+                    $this->ret_arr['msg'] = '该资金来源已有申请单，请先删除申请单';
+                    echo json_encode($this->ret_arr);
+                    die;
+                   }
+                    break;
+                default:
+                    $this->ret_arr['msg'] = '参数有误';
+                    echo json_encode($this->ret_arr);
+                    die;
+            }
+
+            if ($sourceId) {
+                $this->ret_arr['code'] = 0;
+            } else {
+                $this->ret_arr['msg'] = '操作失败';
+            }
+
+        echo json_encode($this->ret_arr);
+        exit;
+    }
+
+
+
+
  
     
     /**
