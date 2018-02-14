@@ -64,6 +64,18 @@
                                 </td>
                             </tr>
                             <script type="text/javascript">
+                                 //撤销用
+                                    function chexiao() {
+                                       <?php if (!empty($mainInfo)) {?>
+                                               change_filenumber();
+                                               $('.filenumber option').each(function(){
+                                                    if (this.value == '<?php echo $mainInfo['source_id'];?>') {
+                                                        $(this).attr('selected', true);
+                                                    }
+                                                });
+                                       <?php }?>
+                                    }
+                                    
                                     function change_filenumber(sid = 0) {
                                         var depid = "<?php echo $department_arr['Department']['id']; ?>" ;
                                         var type = $('.dep_pro').val();
@@ -83,6 +95,7 @@
                                                 type:'post',
                                                 data:data,
                                                 dataType:'json',
+                                                async: false,
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
@@ -622,8 +635,11 @@ function trim(s){
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
        var attachment = $('#file_upload').val();
-       
-        var data = {attachment: attachment,declarename: declarename, applicant: applicant, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
+       var old_main_id = 0;
+       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+               old_main_id = "<?php echo $mainInfo['id'];?>";
+       <?php }?>
+        var data = {old_main_id: old_main_id, attachment: attachment,declarename: declarename, applicant: applicant, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_draw_money',
             type: 'post',

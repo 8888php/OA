@@ -60,6 +60,7 @@
                                                 type:'post',
                                                 data:data,
                                                 dataType:'json',
+                                                async: false,
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
@@ -314,6 +315,17 @@ function printDIV(){
     </div><!-- /.row -->
 </div>
 <script type="text/javascript">
+    //撤销用
+    function chexiao() {
+       <?php if (!empty($mainInfo)) {?>
+               change_filenumber()
+               $('.filenumber option').each(function(){
+                   if (this.value == '<?php echo $mainInfo['source_id'];?>') {
+                       $(this).attr('selected', true);
+                   }
+               });
+       <?php }?>
+    }
     var class_name = 'not_right_tmp_8888';//定义一个没有的class
 function printDIV(){
     $('.modal-footer').css('display', 'none');
@@ -747,7 +759,11 @@ function trim(s){
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
        var attachment = $('#file_upload').val();
-        var data = {attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename, is_calculation : is_calculation};
+       var old_main_id = 0;
+       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+               old_main_id = "<?php echo $mainInfo['id'];?>";
+       <?php }?>
+        var data = {old_main_id: old_main_id,attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename, is_calculation : is_calculation};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',

@@ -219,7 +219,7 @@ class RequestNoteController extends AppController {
 
     // 果树所差旅费报销单
     public function gss_evection_expense($mid = 0) {
-        $this->render();
+        //$this->render();
 
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_evection_expense_save($_POST);
@@ -716,6 +716,11 @@ class RequestNoteController extends AppController {
             } else {
                 //其他审批人 暂时不处理
             }
+             //删除老的单子信息，主表，附表
+            DELETE_OLD:{
+                //方法在AppController.php
+                $this->delete_old();
+            }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
         } else {
@@ -849,6 +854,11 @@ class RequestNoteController extends AppController {
                 }
             } else {
                 //其他审批人 暂时不处理
+            }
+             //删除老的单子信息，主表，附表
+            DELETE_OLD:{
+                //方法在AppController.php
+                $this->delete_old();
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
@@ -1169,6 +1179,11 @@ class RequestNoteController extends AppController {
                 }
             } else {
                 //其他审批人 暂时不处理
+            }
+            //删除老的单子信息，主表，附表
+            DELETE_OLD:{
+                //方法在AppController.php
+                $this->delete_old();
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';

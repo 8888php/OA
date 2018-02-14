@@ -167,7 +167,7 @@
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                     <?php   } ?>
-                                                          <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong'))) {?>
+                                                          <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong', 'apply_jiekuandan', 'apply_lingkuandan', 'apply_chuchai_bxd'))) {?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo '撤销';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                           <?php }?>
                                                           <?php if ($sv['ApplyMain']['code'] == 0) {?>
@@ -334,8 +334,8 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         
         // 执行一些动作...
         if (typeof chexiao == 'function' ) {
-            //汇总报销撤销
-            chexiao(); 
+            //汇总报销撤销 等财务4个单子
+            chexiao();
         }
         
       })

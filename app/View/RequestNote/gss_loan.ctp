@@ -65,6 +65,17 @@
                                     
                                 </td>
                                 <script type="text/javascript">
+                                    //撤销用
+                                    function chexiao() {
+                                       <?php if (!empty($mainInfo)) {?>
+                                               change_filenumber();
+                                               $('.filenumber option').each(function(){
+                                                    if (this.value == '<?php echo $mainInfo['source_id'];?>') {
+                                                        $(this).attr('selected', true);
+                                                    }
+                                                });
+                                       <?php }?>
+                                    }
                                     function change_filenumber(sid = 0) {
                                         var depid = "<?php echo $department_arr['Department']['id']; ?>" ;
                                         var type = $('.dep_pro').val();
@@ -84,6 +95,7 @@
                                                 type:'post',
                                                 data:data,
                                                 dataType:'json',
+                                                async: false,
                                                 success:function(res){
                                                     var html = res['html'];
                                                     $('.filenumber').html(html);
@@ -363,9 +375,12 @@ function printDIV(){
             $('.repayment_plan').focus();
             return;
         }
-        
+        var old_main_id = 0;
+       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+               old_main_id = "<?php echo $mainInfo['id'];?>";
+       <?php }?>
 
-        var data = {attachment: attachment,declarename: declarename, ctime: ctime, applicant: applicant,dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,subject: subject};
+        var data = {old_main_id: old_main_id,attachment: attachment,declarename: declarename, ctime: ctime, applicant: applicant,dep_pro: dep_pro, filenumber: filenumber, borrower: borrower, loan_reason: loan_reason, big_amount: big_amount, small_amount: small_amount, big_approval_amount: big_approval_amount,small_approval_amount: small_approval_amount,repayment_plan: repayment_plan,subject: subject};
         $.ajax({
             url: '/RequestNote/gss_loan',
             type: 'post',

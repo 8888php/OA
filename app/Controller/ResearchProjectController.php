@@ -406,17 +406,8 @@ class ResearchProjectController extends AppController {
             }
             //删除老的单子信息，主表，附表
             DELETE_OLD:{
-                $old_main_id = $_POST['old_main_id'];
-                if ($old_main_id > 0) {
-                    //取单子并删除
-                    $mainArr = $this->ApplyMain->query("select * from t_apply_main where id='{$old_main_id}'");
-                    if (!empty($mainArr)) {
-                        $attr_id = $mainArr[0]['t_apply_main']['attr_id'];
-                        $table_name = 't_'.$mainArr[0]['t_apply_main']['table_name'];
-                        $this->ApplyMain->query("delete from {$table_name} where id='{$attr_id}'");
-                    }
-                    $this->ApplyMain->query("delete from t_apply_main where id='{$old_main_id}'");
-                }
+                //方法在AppController.php
+                $this->delete_old();
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
