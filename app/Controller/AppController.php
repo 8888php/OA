@@ -375,7 +375,7 @@ class AppController extends Controller {
                 $kemu = json_decode($v, true);
                 foreach ($kemu as $k => $v) {
                     // 若单科目为合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
-                    in_array($k,$fourCost) ？ $fourCostSumPro -= $v ： $subjectArr[$k] += $v ;
+                    in_array($k,$fourCost) ? $fourCostSumPro -= $v : $subjectArr[$k] += $v ;
                 }
             }
 
