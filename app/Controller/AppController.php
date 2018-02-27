@@ -357,10 +357,15 @@ class AppController extends Controller {
      */
     public function check_subject_cost($project_id, $subject) {
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
+
         //1、项目所包含科目费用
         $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
+            
+            $fourCost = array('travel','vehicle','meeting','international'); // 合并核算单科目
+            $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 项目合并科目总额
+
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
             //3、取所选项目下已申报的科目的总费用
@@ -369,9 +374,24 @@ class AppController extends Controller {
             foreach ($costArr as $v) {
                 $kemu = json_decode($v, true);
                 foreach ($kemu as $k => $v) {
-                    $subjectArr[$k] += $v;
+                    // 若单科目为合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
+                    in_array($k,$fourCost) ？ $fourCostSumPro -= $v ： $subjectArr[$k] += $v ;
                 }
             }
+
+
+            //4.1 验证合并科目总额核算 
+            foreach ($subject as $k => $v) {
+                in_array($k,$fourCost) && $fourCostSumPro -= $v ; // 申请单中有合并核算单科目项，则项目合并科目总额减去对应金额
+            }
+            //若项目合并科目总额小于0，则该申请中合并科目项超额
+            if($fourCostSumPro < 0){
+                $feedback['code'] = 1;
+                $feedback['total'] = abs($fourCostSumPro); 
+                $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
+                return $feedback;
+            }
+
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
                 if(!$project_costArr[$k]){
