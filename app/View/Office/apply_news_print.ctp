@@ -46,7 +46,7 @@
                             </tr>
                             <tr >
                                 <td colspan='4' style='height:300px;/*line-height: 50px;*/'>
-                                    <?php echo $attr_arr[0]['t_apply_news']['title'];?>
+                                    <?php echo $attr_arr[0]['t_apply_news']['content'];?>
                                 </td>
                             </tr>
 
