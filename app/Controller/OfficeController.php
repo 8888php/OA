@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team', 'ApplyNews');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -1678,10 +1678,10 @@ class OfficeController extends AppController {
         $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
         //取用户信息
         $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
-
+        
         // 审核记录
         $this->cwk_show_shenpi($main_arr);
-
+        
         $this->set('apply', $flag);
         $this->set('table_name', $table_name);
         $this->set('main_arr', $main_arr);
@@ -2019,12 +2019,28 @@ class OfficeController extends AppController {
     public function apply_borrow_print($main_id, $flag = '') {
         $this->apply_print_model($main_id, $flag);
     }
+    
+    /**
+     * 新闻签发卡
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_news_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
 
     /**
      * 档案借阅申请单  审核
      */
     public function ajax_approve_borrow() {
         $this->ajax_approve_model('ApplyBorrow');
+    }
+    
+    /**
+     * news
+     */
+    public function ajax_approve_news() {
+        $this->ajax_approve_model('ApplyNews');
     }
 
     /**

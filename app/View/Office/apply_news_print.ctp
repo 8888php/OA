@@ -36,17 +36,17 @@
                             </tr>
                             <tr>
                                 <td  colspan='1'>拟稿部门</td>
-                                <td  colspan='1'><input type="text" readonly="readonly" name="dep" class="dep" style="width: 96%;" value="<?php echo $department_arr['Department']['name'];?>" /></td>
+                                <td  colspan='1'><input type="text" readonly="readonly" name="dep" class="dep" style="width: 96%;" value="<?php echo $attr_arr[0]['t_apply_news']['department_name'];?>" /></td>
                                 <td  colspan='1'>拟稿人</td>
-                                <td  colspan='1'><input type="text" readonly="readonly" name="user_name" class="user_name" style="width: 96%;" value="<?php echo $userInfo->name;?>" /></td>
+                                <td  colspan='1'><input type="text" readonly="readonly" name="user_name" class="user_name" style="width: 96%;" value="<?php echo $user_arr['User']['name'];?>" /></td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>标    题</td>
-                                <td  colspan='3'><input type="text"  name="title" class="title" style="width: 96%;" /></td>
+                                <td  colspan='3'><?php echo $attr_arr[0]['t_apply_news']['title'];?></td>
                             </tr>
                             <tr >
                                 <td colspan='4' style='height:300px;/*line-height: 50px;*/'>
-                                    <textarea name="content" class="content" style="min-width: 97%; min-height: 97%; max-width: 97%; max-height: 97%;"></textarea>
+                                    <?php echo $attr_arr[0]['t_apply_news']['title'];?>
                                 </td>
                             </tr>
 
@@ -55,45 +55,68 @@
                 </form>
             </div>
 
-
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
 
 
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+               <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
             </div>
             <script type="text/javascript">
-                var class_name = 'not_right_tmp_8888';//定义一个没有的class
-                function printDIV() {
-                    $('.modal-footer').css('display', 'none');
-                    $('#dropzone').css('display', 'none');
-                    //隐藏下拉框
-                    $('.' + class_name).css('display', 'none');
-                    {
-                        $('.navbar-default').css('display', 'none');
-                        $('#sidebar').css('display', 'none');
-                        $('.breadcrumbs').css('display', 'none');
-                        $('.ace-settings-container').css('display', 'none');
-                        $('#btn-scroll-up').css('display', 'none');
-                        $('.right_content').css('display', 'none');
-                    }
-                    window.print();//打印刚才新建的网页
-                    {
-                        $('.navbar-default').css('display', '');
-                        $('#sidebar').css('display', '');
-                        $('.breadcrumbs').css('display', '');
-                        $('.ace-settings-container').css('display', '');
-                        $('#btn-scroll-up').css('display', '');
-                        $('.right_content').css('display', '');
-                    }
-                    $('.modal-footer').css('display', '');
-                    $('#dropzone').css('display', '');
-                    $('.' + class_name).css('display', '');
-                    return false;
-                }
-            </script>
+    var class_name = 'not_right_tmp_8888';//定义一个没有的class
+function printDIV(){
+    $('.modal-footer').css('display', 'none');
+    $('#dropzone').css('display', 'none');
+    //隐藏下拉框
+    $('.' + class_name).css('display', 'none');
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', 'none');
+        $('#sidebar').css('display', 'none');
+        $('.breadcrumbs').css('display', 'none');
+        $('.ace-settings-container').css('display', 'none');
+        $('#btn-scroll-up').css('display', 'none');
+        $('.right_content,.right_list').css('display', 'none');
+    }
+    window.print();//打印刚才新建的网页
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', '');
+        $('#sidebar').css('display', '');
+        $('.breadcrumbs').css('display', '');
+        $('.ace-settings-container').css('display', '');
+        $('#btn-scroll-up').css('display', '');
+        $('.right_content,.right_list').css('display', '');
+    }
+    $('.modal-footer').css('display', '');
+    $('#dropzone').css('display', '');
+    $('.' + class_name).css('display', '');
+    return false;
+}
+</script>
 
         </div>
     </div><!-- /.row -->
@@ -101,29 +124,20 @@
 
 <script type="text/javascript">
 
-    function approve() {
-        
-        var declarename = $('.declarename').val();
-        <?php if (empty($department_arr)) {?>
-                alert('部门不存在')
-                return;
-        <?php }?>
-        var title = $('.title').val();
-        if (!title) {
-            $('.title').focus();
+    function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该项目？')) {
+            //取消
             return;
         }
-        var content = $('.content').val();
-        if (!content) {
-            $('.content').focus();
-            return;
-        }
-        var data = {};
-        data.title = title;
-        data.content = content;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_news',
+            url: '/Office/ajax_approve_news',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -146,8 +160,8 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

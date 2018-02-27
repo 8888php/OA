@@ -7,7 +7,7 @@ class RequestNoteController extends AppController {
 
     public $name = 'RequestNote';
 
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team', 'ApplyEndlessly','ApplySeal','ApplyReceived','ApplyBorrow','ApplyDispatch');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'Department', 'ApplyPaidleave', 'ChailvfeiSqd', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyLeave', 'ApplyChuchaiBxd', 'ApplyCaigou','ApplyChuchai', 'ApplyBaogong','Team', 'ApplyEndlessly','ApplySeal','ApplyReceived','ApplyBorrow','ApplyDispatch', 'ApplyNews');
 
 
     public $layout = 'blank';
@@ -2216,7 +2216,153 @@ class RequestNoteController extends AppController {
      * 山西省农业科学院果树研究所门户网站新闻信息发布审批卡
      */
     public function gss_news() {
-        $this->render();
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_news_save($_POST);
+        } else {
+             //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+            if ($department_arr['Department']['type'] != 1) {
+                //$department_arr = array();//只取行政
+            }
+//            print_r($department_arr['Department']['name']);die;
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+        
     }
+     //保存新闻卡
+    private function gss_news_save($datas) {
+        if ( empty($datas['title']) || empty($datas['content'])) {
+            $this->ret_arr['msg'] = '参数有误';
+            exit(json_encode($this->ret_arr));
+        }
+        $table_name = 'apply_news';
+        $p_id = 0; //审批流id
+        $type = 2; //部门
+        $team_id = 0;
+//        if (!$datas['dep_pro']) {
+//            //说明是部门
+//            $type = 2; //类型暂定为0
+//            $team_id = 0;
+//        } else {
+//            $type = 3; //团队类型
+//            $team_id = $datas['dep_pro'];
+//        }
+        $project_id = 0;
 
+        $ret_arr = $this->ApplyNews->apply_create($type, $datas, (array)$this->userInfo);
+        if (!empty($ret_arr['msg'])) {
+            //说明出问题了
+            $this->ret_arr['msg'] = $ret_arr['msg'];
+            echo json_encode($this->ret_arr);
+            exit;
+        }
+        #附表入库
+        //是部门，取当前用户的部门信息
+        $department_id = $this->userInfo->department_id;
+        $department_arr = $this->Department->findById($department_id);
+        $department_name = !empty($department_arr) ? $department_arr['Department']['name'] : '';
+        $department_fzr = !empty($department_arr) ? $department_arr['Department']['user_id'] : 0;  // 部门负责人
+
+        $attrArr = array();
+        $attrArr['user_id'] = $this->userInfo->id;
+        $attrArr['department_id'] = $department_id;
+        $attrArr['department_name'] = $department_name;
+        $attrArr['title'] = $datas['title'];
+        $attrArr['content'] = $datas['content'];
+        $attrArr['create_time'] = date('Y-m-d H:i:s', time());
+
+        # 开始入库
+        $this->ApplyNews->begin();
+        $attrId = $this->ApplyNews->add($attrArr);
+
+        # 主表入库
+        $mainArr = array();
+        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+        $mainArr['approval_process_id'] = $p_id; //审批流程id
+        $mainArr['type'] = $type;
+        $mainArr['attachment'] = '';
+        $mainArr['name'] = '新闻签发卡';
+        $mainArr['project_id'] = $project_id;
+        $mainArr['team_id'] = $team_id;
+        $mainArr['department_id'] = $department_id;
+        $mainArr['table_name'] = $table_name;
+        $mainArr['user_id'] = $this->userInfo->id;
+        $mainArr['total'] = 0;
+        $mainArr['attr_id'] = $attrId;
+        $mainArr['project_user_id'] = 0;
+        $mainArr['project_team_user_id'] = 0;
+        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+        $mainArr['subject'] = '';
+        if ($attrId) {
+            $mainId = $this->ApplyMain->add($mainArr);
+        } else {
+            $this->ApplyNews->rollback();
+        }
+        $mainId ? $commitId = $this->ApplyNews->rollback() : $commitId = $this->ApplyNews->commit();
+
+
+        if ($commitId) {
+            //如果审批通过，且跳过下个则在表里记录一下
+            if (!empty($ret_arr['code_id'])) {
+                foreach ($ret_arr['code_id'] as $k => $v) {
+                    if ($v == $this->userInfo->id) {
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $this->userInfo->position_id,
+                            'approve_id' => $this->userInfo->id,
+                            'remarks' => '',
+                            'name' => $this->userInfo->name,
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    } else {
+                        //根据id取出当前用户的信息
+                        $userinfo = $this->User->findById($v);
+                        $save_approve = array(
+                            'main_id' => $mainId,
+                            'position_id' => $userinfo['User']['position_id'],
+                            'approve_id' => $v,
+                            'remarks' => '',
+                            'name' => $userinfo['User']['name'],
+                            'ctime' => date('Y-m-d H:i:s', time()),
+                            'status' => 1
+                        );
+                    }
+                    $this->ApprovalInformation->add($save_approve);
+                }
+            } else {
+                //其他审批人 暂时不处理
+            }
+            $this->ret_arr['code'] = 0;
+            $this->ret_arr['msg'] = '申请成功';
+        } else {
+            $this->ret_arr['msg'] = '申请失败';
+        }
+        echo json_encode($this->ret_arr);
+        exit;    
+    }
+    
+    //果树研究所请示报告卡片
+    public function gss_request_report() {
+        if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
+            $this->gss_request_report_save($_POST);
+        } else {
+             //获取部门和团队
+            $user_id = $this->userInfo->id;
+            $department_id = $this->userInfo->department_id;
+            $department_arr = $this->Department->findById($department_id);
+            if ($department_arr['Department']['type'] != 1) {
+                //$department_arr = array();//只取行政
+            }
+//            print_r($department_arr['Department']['name']);die;
+            $this->set('department_arr', $department_arr);
+            $this->render();
+        }
+    }
 }
