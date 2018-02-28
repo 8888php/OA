@@ -20,14 +20,14 @@
                             </tr>
                             <tr>
                                 <td  colspan='2' style="height: 150px;text-align: left;">
-                                    <p>签发人（科室负责人）：</p>
+                                    <p>签发人（科室负责人）：<?php echo $applyArr['ksfzr']['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr['ksfzr']['name'];?>&nbsp;&nbsp;<?php echo $applyArr['ksfzr']['ctime'];?></p>
                                     <p> &nbsp;&nbsp; </p>
-                                    <p>分管领导：</p>
+                                    <p>分管领导：<?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?></p>
                                     <p> &nbsp;&nbsp; </p>
                                     <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
                                 </td>
                                 <td colspan='2' style="height: 150px;text-align: left;">  
-                                    <p>审核人：</p>
+                                    <p>审核人：<?php echo $applyArr[35]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[35]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[35]['ctime'];?></p>
                                     <p> &nbsp;&nbsp; </p>
                                     <p> &nbsp;&nbsp; </p>
                                     <p> &nbsp;&nbsp; </p>
