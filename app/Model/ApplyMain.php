@@ -76,7 +76,7 @@ class ApplyMain extends AppModel {
         if($surplusArr){
             foreach ($surplusArr as $key => $value) {
                 foreach ($value as $k => $v) {
-                    $surplus[$key] = sprintf("%0.2f",$data['amount'][$key] - $v);
+                    $surplus[$key] = sprintf("%0.2f",$surplus[$key] - $v);
                 }
             }
         } 
