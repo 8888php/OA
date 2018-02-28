@@ -361,7 +361,7 @@ class ApplyNews extends AppModel {
             $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
             $ret_arr[$this->next_id] = $pos_id;
         } elseif ($pos_id == 35) {
-            $sql_35 = "select *from t_department where id='{$dep_id}' and del=0";
+            $sql_35 = "select *from t_department where id=2 and del=0";
             $arr_35 = $this->query($sql_35);
             $ret_arr[$this->next_uid] = empty($arr_35[0]['t_department']['user_id']) ? 0 : $arr_35[0]['t_department']['user_id'];
             $ret_arr[$this->next_id] = $pos_id;
