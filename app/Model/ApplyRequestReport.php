@@ -109,7 +109,6 @@ class ApplyRequestReport extends AppModel {
         if ($is_apply) {
             //审批时间取创建单子的 部门id
             $dep_id = $data['dep_id'];
-            echo $dep_id;die;
         } else {
             $dep_id = $user_info['department_id'];
         }
