@@ -45,7 +45,7 @@
                                 <td  colspan='1'>填报单位</td>
                                 <td  colspan='1'>
                                     <select style="width:158px;/*height:25px;*/" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){  ?>
+                                        <?php if (true /*$is_department == 1*/){  ?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
                                         <?php 

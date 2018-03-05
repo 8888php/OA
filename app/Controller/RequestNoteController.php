@@ -2356,6 +2356,10 @@ class RequestNoteController extends AppController {
             // 当前用所参与科研项目
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
+            // 所参与项目 详情
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $projectInfo = $this->ResearchProject->find('list', $conditions);
+            //print_r($projectInfo);die;
              //获取部门
             $user_id = $this->userInfo->id;
             $department_id = $this->userInfo->department_id;
@@ -2366,6 +2370,7 @@ class RequestNoteController extends AppController {
             $this->set('is_department', !empty($department_arr) ? $department_arr['Department']['type'] : 2);
             $this->set('pro_arr', $proArr);
             $this->set('department_arr', $department_arr);
+            $this->set('projectInfo', $projectInfo);
             $this->render();
         }
     }
