@@ -715,4 +715,5 @@ Configure::write('select_apply',array(
     'apply_caigou' => '采购申请单',
     'apply_borrow' => '档案借阅',
     'apply_news' => '新闻签发卡',
+    'apply_request_report' => '果树研究所请示报告卡片',
 ));
