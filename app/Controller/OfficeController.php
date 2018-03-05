@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team', 'ApplyNews');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team', 'ApplyNews', 'ApplyRequestReport');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -1703,7 +1703,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->$tablename->apply_approve($main_id, (array) $this->userInfo, $status);
-
+            //print_r($tablename);die;
             if (!empty($ret_arr['msg'])) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -2030,6 +2030,15 @@ class OfficeController extends AppController {
     }
 
     /**
+     * 新闻签发卡
+     * @param type $main_id 主表id
+     * @param type $flag 
+     */
+    public function apply_request_report_print($main_id, $flag = '') {
+        $this->apply_print_model($main_id, $flag);
+    }
+    
+    /**
      * 档案借阅申请单  审核
      */
     public function ajax_approve_borrow() {
@@ -2043,6 +2052,13 @@ class OfficeController extends AppController {
         $this->ajax_approve_model('ApplyNews');
     }
 
+     /**
+     * news
+     */
+    public function ajax_approve_request_report() {
+        $this->ajax_approve_model('ApplyRequestReport');
+    }
+    
     /**
      * 申请单 附件页面
      */

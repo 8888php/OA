@@ -37,31 +37,21 @@
                             <tr>
                                 <td  colspan='4' style="height: 150px;text-align: left;">
                                     <p>请示报告内容：</p>
-                                    <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"></textarea>
+                                    <?php echo $attr_arr[0][$table_name]['content'];?>
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td  colspan='1'>填报单位</td>
                                 <td  colspan='1'>
-                                    <select style="width:158px;/*height:25px;*/" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){  ?>
-                                        <option value="0"><?php echo $department_arr['Department']['name'];?></option>
-                                        <?php }?>
-                                        <?php 
-                                        foreach($projectInfo as $pk=>$pv) {
-                                        $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
-                                        echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
-                                         }
-                                         ?>
-                                    </select>
+                                   <?php echo $attr_arr[0][$table_name]['department_name'];?>
                                 </td>
                                 <td  colspan='1'>单位负责人</td>
                                 <td  colspan='1'></td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>填 报 人</td>
-                                <td  colspan='1'><input type="text" readonly="readonly" name="user_name" class="user_name" style="width: 96%;" value="<?php echo $userInfo->name;?>" /></td>
+                                <td  colspan='1'><?php echo $userInfo->name;?></td>
                                 <td  colspan='1'>团队负责人</td>
                                 <td  colspan='1'></td>
                             </tr>
@@ -74,11 +64,22 @@
 
 
 
+            <?php if ($apply == 'apply') {?>
+                <div class="modal-body" style="padding:0 20px;">
+                    <input type="hidden" name="main_id" id="main_id" value="<?php echo $main_arr['ApplyMain']['id'];?>">
+                    <textarea id="remarks" placeholder="审批意见" rows="2" cols="85"></textarea>
+                </div>
+            <?php }?>
+            
             <div class="modal-footer" style='background-color: #fff;'>
-                <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
-
-                <button type="button" class="btn btn-primary" onclick="approve();"> <i class="icon-ok bigger-110"></i> 保存</button>
+                <?php if ($apply == 'apply') {?>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
+                <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <?php }?>
+                
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
+                <button  type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
+
             </div>
             <script type="text/javascript">
                 var class_name = 'not_right_tmp_8888';//定义一个没有的class
@@ -117,21 +118,20 @@
 
 <script type="text/javascript">
 
-    function approve() {
-        
-        var declarename = $('.declarename').val();
-        var content = $('.content').val();
-        if (!content) {
-            $('.content').focus();
+     function approve(type) {
+        var text = '拒绝';
+        if (type == 1) {
+            text = '同意';
+        } else {
+            type = 2;
+        }
+        if (!confirm('您确认 ' + text + ' 该审批单？')) {
+            //取消
             return;
         }
-        var dep_pro = $('.dep_pro').val();
-        var data = {};
-        data.content = content;
-        data.dep_pro = dep_pro;
-        data.declarename = declarename;
+        var data = {main_id: $('#main_id').val(), type: type, remarks: $('#remarks').val()};
         $.ajax({
-            url: '/RequestNote/gss_request_report',
+            url: '/Office/ajax_approve_request_report',
             type: 'post',
             data: data,
             dataType: 'json',
@@ -154,8 +154,8 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
-                    window.parent.declares_close();
-                    window.location.reload();
+                    $('.close').click();
+                    window.parent.location.reload();
                     return;
                 }
                 if (res.code == 2) {

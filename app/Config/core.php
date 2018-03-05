@@ -429,9 +429,8 @@ Configure::write('xizhenglist', array(
 
 // 起草申请
 Configure::write('applylist', array(
-    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '果树所差旅审批单' => '/RequestNote/gss_evection', '调休申请表' => '#','调整工作时间申请表' => '#','田间作业包工申请表' => '/RequestNote/gss_contractor','所内调动申请表'=>'#','所内调动移交表'=>'#','工作调动移交表'=>'#','职工离职移交表'=>'#','职工退休移交表'=>'#','年度考核登记表'=>'#','职工年休假安排计划表'=>'#','职工调整年休假安排表'=>'#','因公不休或不全休带薪休假审批表'=>'/RequestNote/gss_endlessly', '果树研究所请示报告卡片' => '/RequestNote/gss_request_report'
-        . ''),
-    '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', ),
+    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '果树所差旅审批单' => '/RequestNote/gss_evection', '调休申请表' => '#','调整工作时间申请表' => '#','田间作业包工申请表' => '/RequestNote/gss_contractor','所内调动申请表'=>'#','所内调动移交表'=>'#','工作调动移交表'=>'#','职工离职移交表'=>'#','职工退休移交表'=>'#','年度考核登记表'=>'#','职工年休假安排计划表'=>'#','职工调整年休假安排表'=>'#','因公不休或不全休带薪休假审批表'=>'/RequestNote/gss_endlessly'),
+    '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', '果树研究所请示报告卡片' => '/RequestNote/gss_request_report'),
     '所办公室' => array('印信使用签批单' => '/RequestNote/gss_seal', '所内公文' => '#', '来文' => '/RequestNote/gss_received', '发文' => '/RequestNote/gss_send'),
     '采购中心' => array('采购申请单' => '/RequestNote/gss_purchase'),
     '新闻发布' => array('新闻签发卡' => '/RequestNote/gss_news'),
