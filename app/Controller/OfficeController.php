@@ -1200,7 +1200,8 @@ class OfficeController extends AppController {
 //                    }
 //                }
 //            }
-//        }  var_dump($applyArr);
+//        }  
+//        var_dump($applyArr);die;
         $this->set('applyArr', @$applyArr);
     }
 

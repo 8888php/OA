@@ -2349,7 +2349,7 @@ class RequestNoteController extends AppController {
     }
     
     //果树研究所请示报告卡片
-    public function gss_request_report() {
+    public function gss_request_report($mid) {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_request_report_save($_POST);
         } else {
@@ -2371,6 +2371,13 @@ class RequestNoteController extends AppController {
             $this->set('pro_arr', $proArr);
             $this->set('department_arr', $department_arr);
             $this->set('projectInfo', $projectInfo);
+            // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'ApplyRequestReport');
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['ApplyRequestReport']);
+//                print_r($applyArr['ApplyRequestReport']);die;
+            }
             $this->render();
         }
     }
@@ -2430,7 +2437,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '果树研究所请示报告卡片';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
@@ -2483,6 +2490,11 @@ class RequestNoteController extends AppController {
                 }
             } else {
                 //其他审批人 暂时不处理
+            }
+            //删除老的单子信息，主表，附表
+            DELETE_OLD:{
+                //方法在AppController.php
+                $this->delete_old();
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';

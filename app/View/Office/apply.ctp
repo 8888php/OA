@@ -159,6 +159,11 @@
                                                             $resetchar = '/RequestNote/gss_send/'; break;
                                                             case 'apply_borrow':
                                                             $resetchar = '/RequestNote/gss_borrow/'; break;
+                                                            case 'apply_news':
+                                                            $resetchar = '/RequestNote/gss_news/'; break;
+                                                            case 'apply_request_report':
+                                                            $resetchar = '/RequestNote/gss_request_report/'; break;
+                                                            
                                                         } 
                                                         if(($sv['ApplyMain']['code'] % 2) == 0){
                                                         echo $new_appprove_code_arr[$sv['ApplyMain']['code']];
@@ -167,7 +172,7 @@
                                                         ?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                     <?php   } ?>
-                                                          <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong', 'apply_jiekuandan', 'apply_lingkuandan', 'apply_chuchai_bxd'))) {?>
+                                                          <?php if ($sv['ApplyMain']['code'] == 0 && in_array($sv['ApplyMain']['table_name'], array('apply_baoxiaohuizong', 'apply_jiekuandan', 'apply_lingkuandan', 'apply_chuchai_bxd', 'apply_request_report'))) {?>
                                                           <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $resetchar.$sv['ApplyMain']['id'];?>');" ><?php echo '撤销';//$new_appprove_code_arr[$sv['ApplyMain']['code']];  ?> </a>
                                                           <?php }?>
                                                           <?php if ($sv['ApplyMain']['code'] == 0) {?>

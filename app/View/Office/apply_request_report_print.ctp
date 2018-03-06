@@ -22,15 +22,14 @@
                                 <td  colspan='4' style="height: 150px;text-align: left;">
                                     <p>所长批示：</p>
                                     
-                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                    <?php echo $applyArr[6]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[6]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[6]['ctime'];?>
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td  colspan='4' style="height: 150px;text-align: left;">
                                     <p>分管所长批示：</p>
-                                    
-                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                    <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>
                                 </td>
                                 
                             </tr>
@@ -47,13 +46,25 @@
                                    <?php echo $attr_arr[0][$table_name]['department_name'];?>
                                 </td>
                                 <td  colspan='1'>单位负责人</td>
-                                <td  colspan='1'></td>
+                                <td  colspan='1'>
+                                    <?php
+                                    if (!empty($applyArr[15])) {
+                                        echo $applyArr[15]['name'];
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>填 报 人</td>
                                 <td  colspan='1'><?php echo $userInfo->name;?></td>
                                 <td  colspan='1'>团队负责人</td>
-                                <td  colspan='1'></td>
+                                <td  colspan='1'>
+                                    <?php
+                                    if (!empty($applyArr[2])) {
+                                        echo $applyArr[2]['name'];
+                                    }
+                                    ?>
+                                </td>
                             </tr>
 
                         </tbody>
@@ -83,33 +94,49 @@
             </div>
             <script type="text/javascript">
                 var class_name = 'not_right_tmp_8888';//定义一个没有的class
-                function printDIV() {
-                    $('.modal-footer').css('display', 'none');
-                    $('#dropzone').css('display', 'none');
-                    //隐藏下拉框
-                    $('.' + class_name).css('display', 'none');
-                    {
-                        $('.navbar-default').css('display', 'none');
-                        $('#sidebar').css('display', 'none');
-                        $('.breadcrumbs').css('display', 'none');
-                        $('.ace-settings-container').css('display', 'none');
-                        $('#btn-scroll-up').css('display', 'none');
-                        $('.right_content').css('display', 'none');
-                    }
-                    window.print();//打印刚才新建的网页
-                    {
-                        $('.navbar-default').css('display', '');
-                        $('#sidebar').css('display', '');
-                        $('.breadcrumbs').css('display', '');
-                        $('.ace-settings-container').css('display', '');
-                        $('#btn-scroll-up').css('display', '');
-                        $('.right_content').css('display', '');
-                    }
-                    $('.modal-footer').css('display', '');
-                    $('#dropzone').css('display', '');
-                    $('.' + class_name).css('display', '');
-                    return false;
-                }
+                function printDIV(){
+    $('.modal-footer').css('display', 'none');
+    $('#dropzone').css('display', 'none');
+    //隐藏下拉框
+    $('.' + class_name).css('display', 'none');
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', 'none');
+        $('#sidebar').css('display', 'none');
+        $('.breadcrumbs').css('display', 'none');
+        $('.ace-settings-container').css('display', 'none');
+        $('#btn-scroll-up').css('display', 'none');
+        $('.right_content,.right_list').css('display', 'none');
+    }
+    window.print();//打印刚才新建的网页
+    {
+        /**
+         * navbar-default
+            id sidebar 
+            breadcrumbs
+            ace-settings-container
+            id btn-scroll-up
+            right_content
+         */
+        $('.navbar-default').css('display', '');
+        $('#sidebar').css('display', '');
+        $('.breadcrumbs').css('display', '');
+        $('.ace-settings-container').css('display', '');
+        $('#btn-scroll-up').css('display', '');
+        $('.right_content,.right_list').css('display', '');
+    }
+    $('.modal-footer').css('display', '');
+    $('#dropzone').css('display', '');
+    $('.' + class_name).css('display', '');
+    return false;
+}
             </script>
 
         </div>

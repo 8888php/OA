@@ -35,13 +35,13 @@
                             
                              <tr>
                                 <td>参加工作时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class="start_work" name="start_work"  style='height:25px;width:180px;'>  
-                                    <script type="text/javascript">
+                                <td colspan='2'>  <input  type="text" class="start_work" name="start_work"  style='height:25px;width:180px;'>  
+<!--                                    <script type="text/javascript">
                                         $(".start_work").datetimepicker({
                                             format: 'yyyy-mm-dd',
                                             minView: "month", //选择日期后，不会再跳转去选择时分秒 
                                         });
-                                    </script> </td>
+                                    </script> </td>-->
                                 <td>工作年限</td>
                                 <td colspan='3'> <input type="text" class="years" name="years" style='width:200px;height:25px;'/>  </td>
                              </tr>

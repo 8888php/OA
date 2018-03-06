@@ -37,7 +37,7 @@
                             <tr>
                                 <td  colspan='4' style="height: 150px;text-align: left;">
                                     <p>请示报告内容：</p>
-                                    <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"></textarea>
+                                    <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"><?php echo $attrInfo['content'];?></textarea>
                                 </td>
                                 
                             </tr>
@@ -70,7 +70,108 @@
                     </table>
                 </form>
             </div>
+ <!-- PAGE CONTENT BEGINS -->
+            <div id="dropzone">
+                
+                <?php if($mainInfo['id']){ ?>
+                 <div class="alert alert-warning alert-dismissable center ">
+                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                         &times;
+                     </button>
+                     <strong>请再次提交附件！ </strong>
+                 </div>
+                 <?php   } ?>
+                 
+                <span>点击添加上传附件</span>
+                <form  class="dropzone" style='min-height:100px;' enctype="multipart/form-data" id="upfiles"  method="post" >
+                    
+                    <div class="fallback" >
+                        <input name="file[]" type="file" multiple="" />
+                    </div>
 
+                 <input type="hidden" id="file_upload" name="file_upload[]" value="" />  
+                </form>
+            </div><!-- PAGE CONTENT ENDS -->
+            <!-- basic scripts -->
+            <script src="/js/jquery-2.0.3.min.js"></script>
+            <script src="/assets/js/dropzone.min.js"></script>
+            <script type="text/javascript">
+                      jQuery(function ($) {
+                         try {
+                             $(".dropzone").dropzone({
+                                 url: '/ResearchProject/upload_file',
+                                 paramName: "file", // The name that will be used to transfer the file
+                                 maxFilesize: 5.0, // MB
+
+                                 addRemoveLinks: true,
+                                 dictDefaultMessage:
+                                         '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
+                <span class="smaller-80 grey">(or click)</span> <br /> \
+                <i class="upload-icon icon-cloud-upload blue icon-3x"></i>'
+                                 ,
+                                 dictResponseError: 'Error while uploading file!',
+
+                                 //change the previewTemplate to use Bootstrap progress bars
+                                 previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+                                 removedfile: function (file) {
+                                     //删除文件
+                                     var file_name = file.name;
+                                     file.previewElement.remove();
+                                     var file_all_arr = $('#file_upload').val().split('|');
+                                     var index_ = $.inArray(file_name, file_all_arr);
+                                     if (index_ != -1) {
+                                         //去掉他
+                                         file_all_arr.splice(index_, 1);
+                                     }
+                                     $('#file_upload').val(file_all_arr.join('|'));
+                                 },
+                                 success: function (file, res) {
+                                     //把json转成Obj
+                                     var res = JSON.parse(res);
+                                     if (res.code == -1) {
+                                         //登录过期
+                                         window.location.href = '/homes/index';
+                                         return;
+                                     }
+                                     if (res.code == -2) {
+                                         //权限不足
+                                         alert('权限不足');
+                                         return;
+                                     }
+                                     if (res.code == 1) {
+                                         //重名
+                                         (file.previewElement.classList.add("dz-error"));
+                                         //file.previewElement.remove();
+                                         alert(res.msg);
+
+                                         return;
+                                     }
+                                     if (res.code == 0) {
+                                         //上传成功什么也不干   
+                                         (file.previewElement.classList.add("dz-success"));
+                                         var file_all_str = $('#file_upload').val();
+                                         if (file_all_str) {
+                                             file_all_str += '|' + file.name;
+                                         } else {
+                                             file_all_str = file.name;
+                                         }
+                                         $('#file_upload').val(file_all_str)
+                                         return;
+                                     }
+                                     if (res.code == 2) {
+                                         //失败
+                                         alert(res.msg);
+                                         return;
+                                     }
+                                 }
+
+                             });
+                         } catch (e) {
+                             alert('Dropzone.js does not support older browsers!');
+                         }
+
+                     });  
+            </script>
 
 
 
@@ -130,6 +231,13 @@
         data.content = content;
         data.dep_pro = dep_pro;
         data.declarename = declarename;
+        var attachment = $('#file_upload').val();
+        data.attachment = attachment;
+        var old_main_id = 0;
+       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+               old_main_id = "<?php echo $mainInfo['id'];?>";
+       <?php }?>
+           data.old_main_id = old_main_id;
         $.ajax({
             url: '/RequestNote/gss_request_report',
             type: 'post',
