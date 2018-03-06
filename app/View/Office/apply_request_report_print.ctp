@@ -27,20 +27,20 @@
                                 
                             </tr>
                             <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
+                                <td  colspan='4' style="height: 250px;text-align: left;">
                                     <p>分管所长批示：</p>
                                     <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>
                                 </td>
                                 
                             </tr>
                             <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
+                                <td  colspan='4' style="height: 250px;text-align: left;">
                                     <p>请示报告内容：</p>
                                     <?php echo $attr_arr[0][$table_name]['content'];?>
                                 </td>
                                 
                             </tr>
-                            <tr>
+                            <tr style="height: 70px;">
                                 <td  colspan='1'>填报单位</td>
                                 <td  colspan='1'>
                                    <?php echo $attr_arr[0][$table_name]['department_name'];?>
@@ -49,19 +49,27 @@
                                 <td  colspan='1'>
                                     <?php
                                     if (!empty($applyArr[15])) {
-                                        echo $applyArr[15]['name'];
+                                        echo $applyArr[15]['remarks'].'<br />';
+                                        echo $applyArr[15]['name'].'<br />';
+                                        echo $applyArr[15]['ctime'];
+                                    } else {
+                                        echo $applyArr['ksfzr']['remarks'].'<br />';
+                                        echo $applyArr['ksfzr']['name'].'<br />';
+                                        echo $applyArr['ksfzr']['ctime'];
                                     }
                                     ?>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="height: 70px;">
                                 <td  colspan='1'>填 报 人</td>
-                                <td  colspan='1'><?php echo $userInfo->name;?></td>
+                                <td  colspan='1'><?php echo $user_arr['User']['name'];?></td>
                                 <td  colspan='1'>团队负责人</td>
                                 <td  colspan='1'>
                                     <?php
                                     if (!empty($applyArr[2])) {
-                                        echo $applyArr[2]['name'];
+                                        echo $applyArr[2]['remarks'].'<br />';
+                                        echo $applyArr[2]['name'].'<br />';
+                                        echo $applyArr[2]['ctime'];
                                     }
                                     ?>
                                 </td>

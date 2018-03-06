@@ -35,7 +35,7 @@
                                 
                             </tr>
                             <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
+                                <td  colspan='4' style="height: 250px;text-align: left;">
                                     <p>请示报告内容：</p>
                                     <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"><?php echo $attrInfo['content'];?></textarea>
                                 </td>
@@ -43,7 +43,7 @@
                             </tr>
                             <tr>
                                 <td  colspan='1'>填报单位</td>
-                                <td  colspan='1'>
+                                <td  colspan='1'  style="height: 70px;">
                                     <select style="width:158px;/*height:25px;*/" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         <?php if (true /*$is_department == 1*/){  ?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
@@ -59,7 +59,7 @@
                                 <td  colspan='1'>单位负责人</td>
                                 <td  colspan='1'></td>
                             </tr>
-                            <tr>
+                            <tr style="height: 70px;">
                                 <td  colspan='1'>填 报 人</td>
                                 <td  colspan='1'><input type="text" readonly="readonly" name="user_name" class="user_name" style="width: 96%;" value="<?php echo $userInfo->name;?>" /></td>
                                 <td  colspan='1'>团队负责人</td>
