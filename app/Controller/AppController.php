@@ -402,6 +402,12 @@ class AppController extends Controller {
                    $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
                    break;
                 }else{
+                	//若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;
+                	//若属于合并项科目，则不比较直接跳过
+                	if(in_array($k,$fourCost)){
+                		break;
+                	}
+                	
                     // 单科目剩余金额
                     $overplus = round($project_costArr[$k] - $subjectArr[$k] , 4);
                     if ($v > $overplus) {
