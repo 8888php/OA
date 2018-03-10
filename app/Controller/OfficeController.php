@@ -2125,4 +2125,9 @@ class OfficeController extends AppController {
             exit;
         }
     }
+    
+    //根据main id查看是否有过审批
+    public function has_approval_information($main_id = 0) {
+        return $this->User->query("select id from t_approval_information where main_id='{$main_id}' limit 1") ? true : false;
+    }
 }
