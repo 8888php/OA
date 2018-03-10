@@ -86,9 +86,7 @@
                         <label  for="form-field-1" style="width:81px;float: left;"></label>
                         <select style="float:left;width:105px;" name="source[source_channel][]" class="source_channel"  >
                             <?php 
-//                            $qd_arr = array('省级','中央','同级','企业','非本级','本级横向');
-                            $qd_arr = array('省级', '国家级', '其它');
-                            foreach($qd_arr as $qd){?>
+                            foreach(Configure::read('qd_arr') as $qd){?>
                             <option value="<?php  echo $qd;?>"><?php  echo $qd;?></option>
                             <?php }?>
                         </select>

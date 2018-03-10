@@ -394,12 +394,17 @@ class AppController extends Controller {
 
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
+
+				//若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;
+                //若属于合并项科目，则不比较直接跳过
+                if(in_array($k,$fourCost)){
+                	break;
+                }
+
                 if(!$project_costArr[$k]){
-                   $keyanlist = Configure::read('keyanlist');
-                   $kemu_name = '';
                    $feedback['code'] = 1;
                    $feedback['total'] = $v; 
-                   $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                   $feedback['msg'] = ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
                    break;
                 }else{
                     // 单科目剩余金额
