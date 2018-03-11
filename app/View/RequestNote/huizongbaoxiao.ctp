@@ -55,7 +55,7 @@
                            function chexiao(){
                                 <?php if (!empty($mainInfo)) {?>
                                     $('.projectname option').each(function(){
-                                        if ($(this).val() == '<?php echo $mainInfo['department_id'] ? 0 : $mainInfo['project_id'];?>') {
+                                        if ($(this).val() == '<?php echo $mainInfo['project_id'] ? $mainInfo['project_id'] : 0 ;?>') {
                                             $(this).attr('selected', 'selected');
                                         }
                                     });
@@ -80,15 +80,15 @@
                                         <?php 
                                         $subject = ($mainInfo['subject']);
                                         $xiaoshi = '';
+                                        $bm_ky_arr = array();
+                                        if (!$mainInfo['project_id']) {
+                                            //部门
+                                            $bm_ky_arr = Configure::read('xizhenglist');
+                                        } else {
+                                            //科研
+                                            $bm_ky_arr = Configure::read('keyanlist');
+                                        }
                                         foreach($subject as $k=>$v) {
-                                            $bm_ky_arr = array();
-                                            if ($mainInfo['department_id']) {
-                                                //部门
-                                                $bm_ky_arr = Configure::read('xizhenglist');
-                                            } else {
-                                                //科研
-                                                $bm_ky_arr = Configure::read('keyanlist');
-                                            }
                                             $tmp_val = '';
                                             foreach ($bm_ky_arr as $k1=>$v1) {
                                                 foreach ($v1 as $k2=>$v2) {
@@ -103,7 +103,11 @@
                                                 $xiaoshi .= $tmp_val . ' ,';
                                             ?>
                                                 if ($(this).find('.first_inpuut').val() == '<?php echo $k;?>') {
-                                                    $(this).click();
+                                                    if (type == 0) {
+                                                        $(this).click();
+                                                    } else {
+                                                        $(this).find('.first_inpuut').click();
+                                                    }
                                                     $(this).find('.first_inpuut').attr('checked', 'checked');
                                                     $(this).find('.je').val('<?php echo $v;?>');
                                                     $(this).find('.je').blur();
@@ -112,6 +116,7 @@
                                         }
                                         $xiaoshi = rtrim($xiaoshi, ',');
                                         ?>
+                                                    
                                         select_obj_div.find('.ms-choice span').text('<?php echo $xiaoshi;?>');
                                     });
                                 <?php }?>;
@@ -555,7 +560,7 @@ function trim(s){
        }
        applicant = applicant_str.substring(0, applicant_str.length - 1);
        var old_main_id = 0;
-       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+       <?php if (isset($mainInfo)) {?>
                old_main_id = "<?php echo $mainInfo['id'];?>";
        <?php }?>
         var data = {old_main_id: old_main_id, declarename: declarename, ctime: ctime, applicant: applicant, page_number: page_number, projectname: projectname, filenumber: filenumber, subject: subject, rmb_capital: rmb_capital, amount: amount, description: description, attachment:attachment, is_calculation:is_calculation};

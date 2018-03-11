@@ -234,7 +234,7 @@
         var attachment = $('#file_upload').val();
         data.attachment = attachment;
         var old_main_id = 0;
-       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+       <?php if (isset($mainInfo)) {?>
                old_main_id = "<?php echo $mainInfo['id'];?>";
        <?php }?>
            data.old_main_id = old_main_id;

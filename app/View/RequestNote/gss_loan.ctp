@@ -376,7 +376,7 @@ function printDIV(){
             return;
         }
         var old_main_id = 0;
-       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+       <?php if (isset($mainInfo)) {?>
                old_main_id = "<?php echo $mainInfo['id'];?>";
        <?php }?>
 

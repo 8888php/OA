@@ -636,7 +636,7 @@ function trim(s){
        applicant = applicant_str.substring(0, applicant_str.length - 1);
        var attachment = $('#file_upload').val();
        var old_main_id = 0;
-       <?php if (isset($mainInfo) && $mainInfo['code'] == 0) {?>
+       <?php if (isset($mainInfo)) {?>
                old_main_id = "<?php echo $mainInfo['id'];?>";
        <?php }?>
         var data = {old_main_id: old_main_id, attachment: attachment,declarename: declarename, applicant: applicant, filenumber: filenumber ,dp_json_str:dp_json_str,ctime: ctime, dep_pro: dep_pro, sheets_num: sheets_num, small_total: small_total, big_total: big_total,declarename: declarename,subject: subject};

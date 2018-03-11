@@ -2107,12 +2107,16 @@ class OfficeController extends AppController {
                 exit;
             }
             if ($code != 0) {
-                $ret_arr = array(
+                if ($code != 100 && !$this->has_approval_information($main_arr[0]['t_apply_main']['id'])) {
+                    //跳过
+                } else {
+                    $ret_arr = array(
                         'code' => 1,
                         'msg' => '此单子已经被操作，不能删除'
                     );
-                echo json_encode($ret_arr);
-                exit;
+                    echo json_encode($ret_arr);
+                    exit;
+                }  
             }
             //删除单子信息
             $this->ApplyMain->query("delete from t_apply_main where id='{$main_id}'");
