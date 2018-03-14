@@ -373,19 +373,22 @@ class AppController extends Controller {
             $subjectArr = array();
             foreach ($costArr as $v) {
                 $kemu = json_decode($v, true);
-                foreach ($kemu as $k => $v) {
+                foreach ($kemu as $k => $vv) {
                     // 若单科目为合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
-                    in_array($k,$fourCost) ? $fourCostSumPro -= $v : $subjectArr[$k] += $v ;
+                    in_array($k,$fourCost) ? $fourCostSumPro -= $vv : $subjectArr[$k] += $vv ;
                 }
             }
 
-
+            $is_four_subject = 0; // 统计提交申请中是否有合并计算科目
             //4.1 验证合并科目总额核算 
-            foreach ($subject as $k => $v) {
-                in_array($k,$fourCost) && $fourCostSumPro -= $v ; // 申请单中有合并核算单科目项，则项目合并科目总额减去对应金额
+            foreach ($subject as $k => $vvv) {
+                if(in_array($k,$fourCost)){
+                    $fourCostSumPro -= $vvv ; // 申请单中有合并核算单科目项，则项目合并科目总额减去对应金额
+                    ++$is_four_subject; //存在合并计算科目则加 1
+                }
             }
             //若项目合并科目总额小于0，则该申请中合并科目项超额
-            if($fourCostSumPro < 0){
+            if($fourCostSumPro < 0 && $is_four_subject > 0){
                 $feedback['code'] = 1;
                 $feedback['total'] = abs($fourCostSumPro); 
                 $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
