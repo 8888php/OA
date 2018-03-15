@@ -19,7 +19,15 @@
                             </tr>
                             <tr>
                                 <td >填表日期</td>
-                                <td colspan='4'>  <input readonly="readonly" type="text" class=" ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:290px;'>   </td>
+                                <td colspan='4'>
+                                    <input readonly="readonly" type="text" class=" ctime" name="ctime"  value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:290px;'>
+                                    <script type="text/javascript">
+                                        $(".ctime").datetimepicker({
+                                            format: 'yyyy-mm-dd',
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                        });
+                                    </script>
+                                </td>
                                 <td > 附单据张数 </td>
                                 <td > <input type="text" name='sheets_num' class="sheets_num" style='width:80px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : ''; ?>"  /> </td>
                             </tr>
