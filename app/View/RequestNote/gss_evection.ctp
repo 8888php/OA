@@ -30,7 +30,15 @@
                                     </select>
                                 </td>
                                 <td >填表时间</td>
-                                <td colspan='2'>  <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:180px;'>  </td>
+                                <td colspan='2'>  
+                                    <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:180px;'>  
+                                    <script type="text/javascript">
+                                        $(".ctime").datetimepicker({
+                                            format: 'yyyy-mm-dd',
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                        });
+                                    </script>
+                                </td>
                             </tr>
                             
                              <tr>

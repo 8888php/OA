@@ -40,6 +40,12 @@
                                 <td >申报日期</td>
                                 <td colspan='2'> 
                                     <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
+                                    <script type="text/javascript">
+                                        $(".ctime").datetimepicker({
+                                            format: 'yyyy-mm-dd',
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                        });
+                                    </script>
                                 <td >预算指标文号</td>
                                 <td colspan='3'> 
                                     <input type="text" class="file_number" name="file_number"  style='height:25px;width:280px;'>

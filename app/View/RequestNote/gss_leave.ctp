@@ -21,6 +21,13 @@
                                 <td colspan='3'>填表日期</td>
                                 <td colspan='4'> 
                                     <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo date('Y-m-d'); ?>" style='height:25px;width:180px;'>
+                                    <script type="text/javascript">
+                                        $(".ctime").datetimepicker({
+                                            format: 'yyyy-mm-dd',
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                        });
+                                    </script>
+                                </td>
                              </tr>
                              <tr>
                                 <td > 单位或部门 </td>
