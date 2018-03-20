@@ -32,11 +32,18 @@
                     </li> 
                     <li class="input-group">
                         <label class="input-group-addon " for="form-field-1">所属项目组 </label>
-                        <select  name="project_team_id" class="project_team_id input-width" id="form-field-1" style="width:215px;">
+                        <select  name="project_team_id" class="project_team_id input-width" id="form-field-1" style="width:140px;">
                             <option value="0">单个项目</option>
-                            <?php $project_team_arr = Configure::read('project_team');?>
                             <?php foreach($team as $pk=>$pv) {?>
                                 <option value="<?php echo $pk;?>"><?php echo $pv;?></option>
+                            <?php }?>
+                            
+                        </select>                
+                    
+                        <label class="input-group-addon " for="form-field-1">分管所领导 </label>
+                        <select  name="sld" class="sld input-width" id="form-field-1" style="width:140px;">
+                            <?php foreach(Configure::read('approval_sld') as $sk=>$sv) {?>
+                                <option value="<?php echo $sk;?>"><?php echo $sv;?></option>
                             <?php }?>
                             
                         </select>                
@@ -154,7 +161,7 @@
         var qdly_add_length = $('.qdly_add').length;
         var project_team_id = $('.project_team_id option:selected').val();
         var sumamount = $('.sumamount').val();
-        
+        var sld = $('.sld option:selected').val();
         var type = $('.type option:selected').val();
         var overview = $('.overview').val();
         var remark = $('.remark').val();
@@ -175,6 +182,11 @@
             return;
         }
         data_json.sumamount = sumamount;
+        if (sld == '') {
+            $('.sld').focus();
+            return;
+        }
+        data_json.sld = sld;
         if (start_date == '') {
             $('.start_date').focus();
             return;

@@ -712,7 +712,7 @@ class ResearchProjectController extends AppController {
      * 添加 添加项目
      */
     public function step1() {
-
+print_r(CookieDecode($this->Cookie->read('research_project9'))); 
         //$team = $this->TeamProject->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
         $team = $this->Team->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
         $this->set('team', $team);
@@ -738,6 +738,7 @@ class ResearchProjectController extends AppController {
         $saveArr['remark'] = $this->request->data('remark');
         $saveArr['source'] = $this->request->data('source');
         $saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
+        $saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
         $saveArr['type'] = $this->request->data('type');
 
         $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
@@ -884,6 +885,7 @@ class ResearchProjectController extends AppController {
                 $saveArr['overview'] = $this->request->data('overview');
                 $saveArr['remark'] = $this->request->data('remark');
                 $saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
+                $saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
                 $saveArr['type'] = $this->request->data('type');
                 $saveArr['qdly'] = $this->request->data('qdly'); //这里放的是数组
 //                $saveArr['source_channel'] = $this->request->data('source_channel');
