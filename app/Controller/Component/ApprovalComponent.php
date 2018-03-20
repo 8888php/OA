@@ -69,10 +69,16 @@ class ApprovalComponent extends Component {
         }
 
 
-        // 当前用户角色是否有审核权 审核到分管副所长时不验证
-        if ($applyinfo['next_approver_id'] !=5 && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
+        // 当前用户角色是否有审核权 审核到分管副所长时不验证 (验证下一审核人职务id)
+        // if ($applyinfo['next_approver_id'] !=5 && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
+        //     return false;
+        // }
+
+        // 当前用户角色是否有审核权 审核到分管副所长时不验证 (验证下一审核人uid)
+        if ($applyinfo['next_approver_id'] !=5 && $uinfo['id'] != $applyinfo['next_apprly_uid']) {
             return false;
         }
+        
         // 当前申请已通过
         if ($applyinfo['code'] == 10000) {
             return false;
