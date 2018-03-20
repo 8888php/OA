@@ -79,7 +79,7 @@
                                 <td colspan='6' >  <input  type="text" class="reason" name="reason"  style='height:25px;width:575px;'> </td>
                              </tr>
                              
-                            <tr>
+                             <tr style="height: 100px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
@@ -90,7 +90,7 @@
                                      
                                 </td>
                             </tr>
-                             <tr>
+                             <tr style="height: 100px;">
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
                                     财务科审核 <br /> &nbsp;&nbsp;
