@@ -2134,4 +2134,30 @@ class OfficeController extends AppController {
     public function has_approval_information($main_id = 0) {
         return $this->User->query("select id from t_approval_information where main_id='{$main_id}' limit 1") ? true : false;
     }
+
+
+
+    // 测试审批流
+    public function approve_test(){
+        header('Content-Type:text/html;charset=utf-8;');
+            $applyinfo = $this->ApplyMain->findById(1594);
+            $applyinfo = $applyinfo['ApplyMain'];
+            $contents = ['next_id'=>5];
+            var_dump($this->Approval->applyUser($applyinfo,$contents));
+
+            $aid = 5;
+            $data = [
+                        'pid' => $applyinfo['project_id'], // 申请所属项目id
+                        'uid' => $this->userInfo->id, // 当前审核人id
+                        'department_id' => $applyinfo['department_id'], // 申请所属部门
+                        'type' => $applyinfo['type'], // 申请类型
+                        'total' => $applyinfo['total'], // 申请总费用
+                    ];
+
+            var_dump($data);
+           // var_dump($this->Approval->apply_action($aid, $data));
+            die;
+    }
+
+
 }

@@ -78,7 +78,7 @@ class ApprovalComponent extends Component {
         if ($applyinfo['next_approver_id'] !=5 && $uinfo['id'] != $applyinfo['next_apprly_uid']) {
             return false;
         }
-        
+
         // 当前申请已通过
         if ($applyinfo['code'] == 10000) {
             return false;
@@ -188,17 +188,22 @@ class ApprovalComponent extends Component {
                 break;
             case 5:
                 //分管副所长
-                require_once('../Model/Department.php');
-                $depinfo = new Department();
                 switch($applyinfo['type']){
                     case 1:
-                        $dep_info = $depinfo->findById(3);
+                    // 科研项目申请单，查找该项目分管所领导
+                        require_once('../Model/ResearchProject.php');
+                        $depinfo = new ResearchProject();
+                        $dep_info = $depinfo->findById($applyinfo['project_id']);
+                        return $dep_info['ResearchProject']['approval_sld'];
                         break;
                     case 2:
+                    // 部门申请单，查找该部门分管所领导
+                        require_once('../Model/Department.php');
+                        $depinfo = new Department();
                         $dep_info = $depinfo->findById($applyinfo['department_id']);
+                        return $dep_info['Department']['sld'];
                         break;
                 }
-                return $dep_info['Department']['sld'];
                 break;
             case 6:
                 //所长
@@ -332,7 +337,7 @@ class ApprovalComponent extends Component {
                 return $this->apply_4($data['department_id'], $data['type'], $data['uid']);
                 break;
             case 5:
-                return $this->apply_5($data['department_id'], $data['type'], $data['uid']);
+                return $this->apply_5($data);
                 break;
             case 6:
                 return $this->apply_6($data['total'], $data['uid']);
@@ -499,28 +504,24 @@ class ApprovalComponent extends Component {
      *  3、
      *
      *   对应副所长（科研副所长）
-     *  @params: $department_id 部门id;$type 申请类型：1科研、2行政; $uid 申请人id
+     *  @params: $applyinfo 申请单信息 $department_id 部门id;$type 申请类型：1科研、2行政; $uid 申请人id
      *  @response:
      */
-    public function apply_5($department_id = 0, $type = 0, $uid = 0) {
+    public function apply_5($applyinfo) {
 
-        // 根据$type 为1 去查项目所属 科研主任(department_id:3)
-        // 为2 则去查 对应行政部门 办公室主任(position_id:4)
-        switch ($type) {
+        // 根据$type 为1 去查项目所属 科研主任($applyinfo['department_id']:3)
+        // 为2 则去查 对应行政部门 办公室主任($applyinfo['position_id']:4)
+        switch ($applyinfo['type']) {
             case 1:
-                // 找科研副所长
-                require_once('../Model/User.php');
-                $Uinfo = new User();
-                $fusuozhang = $Uinfo->find('list', array('conditions' => array('department_id' => 3, 'position_id' => 5 ,'del'=>0), 'fields' => array('id')));
-                if (in_array($uid, $fusuozhang)) {
-                    return $uid;
-                } else {
-                    return false;
-                }
+            // 科研项目申请单，查找该项目分管科研所领导
+                require_once('../Model/ResearchProject.php');
+                $depinfo = new ResearchProject();
+                $dep_info = $depinfo->findById($applyinfo['pid']);
+                return ($applyinfo['uid'] == $dep_info['ResearchProject']['approval_sld']) ? $applyinfo['uid'] : false ;
                 break;
             case 2:
                 // 找对应行政部门 分管领导 副所长  ??????  科研部门、财务部门申请不需要本部门领导审批？？？？
-               /* if (in_array($department_id, array(3, 5))) { //如果是科研部门、财务部门 则直接跳过
+               /* if (in_array($applyinfo['department_id'], array(3, 5))) { //如果是科研部门、财务部门 则直接跳过
                     return $uid;
                 }
                 */
@@ -528,9 +529,9 @@ class ApprovalComponent extends Component {
                 //部门分管副所长
                 require_once('../Model/Department.php');
                 $Department = new Department();
-                $fusuozhang = $Department->findById($department_id);
+                $fusuozhang = $Department->findById($applyinfo['department_id']);
                 $fusuozhang = $fusuozhang['Department'];
-                if ($uid == $fusuozhang['sld']) {
+                if ($applyinfo['uid'] == $fusuozhang['sld']) {
                     return $fusuozhang['sld'];
                 } else {
                     return false;

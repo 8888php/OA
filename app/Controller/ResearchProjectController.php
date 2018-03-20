@@ -77,6 +77,10 @@ class ResearchProjectController extends AppController {
             $pinfos['project_team_user'] = $uinfos['TeamMember']['name'];
         }
 
+        // 项目所属分管领导
+        $uinfos = $this->User->findById($pinfos['approval_sld']);
+        $pinfos['approval_sld'] = $uinfos['User']['name'];
+
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
         $this->left_slect_project($pid);
@@ -712,7 +716,6 @@ class ResearchProjectController extends AppController {
      * 添加 添加项目
      */
     public function step1() {
-print_r(CookieDecode($this->Cookie->read('research_project9'))); 
         //$team = $this->TeamProject->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
         $team = $this->Team->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
         $this->set('team', $team);

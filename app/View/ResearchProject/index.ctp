@@ -159,6 +159,10 @@
                                                 <td> <?php echo $pinfos['project_team_user'];  ?> </td>
                                             </tr>
                                             <tr>
+                                                <td>分管所领导</td>
+                                                <td colspan="3"> <?php echo $pinfos['approval_sld'];  ?> </td>
+                                            </tr>
+                                            <tr>
                                                 <td>任务书</td>
                                                 <td colspan="3"> 
                                                     <?php 

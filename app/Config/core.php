@@ -724,6 +724,7 @@ Configure::write('select_apply',array(
 Configure::write('qd_arr',array('国家级','省级','院级','其它'));
 
 
+
 //科研项目所属分管领导
 Configure::write('approval_sld',array(7=>'赵旗峰',9=>'李登科'));
 
