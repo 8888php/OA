@@ -761,6 +761,10 @@ class ResearchProjectController extends AppController {
 
         $this->set('list', Configure::read('keyanlist'));
 
+        //获取step1中资金总额
+        $step1Arr = CookieDecode($this->Cookie->read('research_project'. $this->userInfo->id));
+        $this->set('proAmount',$step1Arr['amount']);
+        
         $this->render();
     }
 

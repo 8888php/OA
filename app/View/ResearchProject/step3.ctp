@@ -93,6 +93,11 @@
         if (!click_flag) {
             return;
         }
+        if($('.total').val() != <?php echo $proAmount;?>){
+            $('.total').focus();
+            alert('合计金额与项目金额不符，请调整单科目金额！');
+            return;
+        }
         var data_json = {};
         data_json.data_fee = $('.data_fee').val();
         data_json.collection = $('.collection').val();
