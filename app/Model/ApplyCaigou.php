@@ -83,8 +83,7 @@ class ApplyCaigou extends AppModel {
         $user_id = $user_info['id'];        
         $pos_id = $user_info['position_id'];
         $shenpi_arr = $this->get_shengpin_arr();
-        $shenpi_arr = array_reverse(explode(',', $shenpi_arr[$type]));//反转数组
-//print_r($shenpi_arr);
+        $shenpi_arr = explode(',', $shenpi_arr[$type]);
         if (empty($shenpi_arr)) {
             $ret_arr[$this->err_msg] = '定义审批流异常';
             return $ret_arr;
@@ -100,18 +99,20 @@ class ApplyCaigou extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($pos_id == 6) {
+//            if ($pos_id == 6) {
+            if (false) {
                 //所长
                 $ret_arr[$this->code] = 10000;
                 return $ret_arr;
             } else {
-                if ($arr_get[$this->next_uid] == $user_id) {
-                    $flag = true;
+                if ($arr_get[$this->next_uid] != $user_id) {
+//                    print_r($arr_get);die;
+                    $flag = false;
                     break;
                 }
             }
         }
-        $index = !$flag ? $k : $k -1;
+        $index = $k;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
 //        print_r($ret_arr);die;

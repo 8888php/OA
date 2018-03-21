@@ -1217,7 +1217,7 @@ class RequestNoteController extends AppController {
 
         $applyArr = array('type' => $type, 'project_team_user_id' => 0, 'project_user_id' => 0);
         $ret_arr = $this->ApplyCaigou->apply_create($type, $datas, (array) $this->userInfo);
-        
+
         if (!empty($ret_arr['msg'])) {
             echo "<script>alert('".$ret_arr['msg']."'); window.location = '/office/draf'</script>";
             exit;
