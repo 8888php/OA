@@ -57,7 +57,7 @@
                                    <label> <input type='radio' name="type" class="type" value='2' > 财政专项资金 </label> &nbsp;&nbsp;
                                    <label> <input type='radio' name="type" class="type" value='3' > 国家级项目资金 </label>
                                    <label> <input type='radio' name="type" class="type" value='4' > 科研计划项目资金 </label>
-                                   <label> <input type='radio' name="type" class="type" value='5' > 发展基金 </label>
+                                   <label> <input type='radio' name="type" class="type" value='5' > 其他资金 </label>
                                 </td>
                              </tr>
                              <tr>
