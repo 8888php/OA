@@ -40,7 +40,7 @@
                             
                         </select>                
                     
-                        <label class="input-group-addon " for="form-field-1">分管所领导 </label>
+                        <label class="input-group-addon " for="form-field-1">项目性质 </label>
                         <select  name="sld" class="sld input-width" id="form-field-1" style="width:140px;">
                             <?php foreach(Configure::read('approval_sld') as $sk=>$sv) {?>
                                 <option value="<?php echo $sk;?>"><?php echo $sv;?></option>
