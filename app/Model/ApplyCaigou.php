@@ -99,7 +99,8 @@ class ApplyCaigou extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($pos_id == 6) {
+//            if ($pos_id == 6) {
+            if (false) {
                 //所长
                 $ret_arr[$this->code] = 10000;
                 return $ret_arr;
