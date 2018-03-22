@@ -78,8 +78,9 @@ class ResearchProjectController extends AppController {
         }
 
         // 项目所属分管领导
-        $uinfos = $this->User->findById($pinfos['approval_sld']);
-        $pinfos['approval_sld'] = $uinfos['User']['name'];
+       // $sld = $this->User->findById($pinfos['approval_sld']);
+        $sld = Configure::read('approval_sld');
+        $pinfos['approval_sld'] = $sld[$pinfos['approval_sld']];
 
         $source = $this->ResearchSource->getAll($pid);
         $members = $this->ProjectMember->getList($pid);
