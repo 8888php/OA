@@ -272,7 +272,7 @@
                         disabled ? ' disabled="disabled"' : '',
                         sprintf(' data-group="%s"', group)),
                     sprintf('<span  style="float:left">%s</span>', text),
-                    sprintf('<input  style="float:right;width:50px;margin-right: 22px" type="text" class="je je_%s" value="0" />', i + 1),//给每项添加一个输入框
+                    sprintf('<input  style="float:right;width:70px;margin-right: 22px" type="text" class="je je_%s" value="0" />', i + 1),//给每项添加一个输入框
                     '</label>',
                     '</li>'
                 ].join(''));
