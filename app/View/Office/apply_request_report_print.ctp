@@ -52,7 +52,15 @@
                                         echo $applyArr[15]['remarks'].'<br />';
                                         echo $applyArr[15]['name'].'<br />';
                                         echo $applyArr[15]['ctime'];
-                                    } else {
+                                    }else if (!empty($applyArr[11])) {
+                                        echo $applyArr[11]['remarks'].'<br />';
+                                        echo $applyArr[11]['name'].'<br />';
+                                        echo $applyArr[11]['ctime'];
+                                    }else if (!empty($applyArr[4])) {
+                                        echo $applyArr[4]['remarks'].'<br />';
+                                        echo $applyArr[4]['name'].'<br />';
+                                        echo $applyArr[4]['ctime'];
+                                    }else{
                                         echo $applyArr['ksfzr']['remarks'].'<br />';
                                         echo $applyArr['ksfzr']['name'].'<br />';
                                         echo $applyArr['ksfzr']['ctime'];
