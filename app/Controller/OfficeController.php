@@ -1705,7 +1705,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
 
             $ret_arr = $this->$tablename->apply_approve($main_id, (array) $this->userInfo, $status);
-            //print_r($tablename);die;
+
             if (!empty($ret_arr['msg'])) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;

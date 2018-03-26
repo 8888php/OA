@@ -62,7 +62,7 @@
                                     } else if( $applyArr['ksfzr']['name'] ){
                                         echo $applyArr['ksfzr']['remarks'].'<br/>'.$applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'];  
                                     }else if( $applyArr[11]['name'] ){
-                                        echo $applyArr['ksfzr']['remarks'].'<br/>'.$applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'];  
+                                        echo $applyArr[11]['remarks'].'<br/>'.$applyArr[11]['name'].'<br/>'.$applyArr[11]['ctime'];  
                                     }else{
                                         echo $applyArr[15]['remarks'].'<br/>'.$applyArr[15]['name'].'<br/>'.$applyArr[15]['ctime'];  
                                     }
