@@ -1,7 +1,7 @@
 <?php
 
 /* *
- *  采购申请单
+ *  项目 出入库
  */
 
 App::uses('ApplyCaigou', 'AppModel');
@@ -92,7 +92,7 @@ class ApplyCaigou extends AppModel {
         $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
-//           var_dump($v, $dep_id, $dep_pro_id,$arr_get);
+//            var_dump($v, $dep_id, $dep_pro_id,$arr_get);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -166,7 +166,7 @@ class ApplyCaigou extends AppModel {
                 $msg = '财务科长不存在';
                 break;
             case 5:
-                $msg = '分管所领导不存在';
+                $msg = '部门分管领导不存在';
                 break;
             case 20:
                 $msg = '团队负责人不存在';
@@ -286,18 +286,11 @@ class ApplyCaigou extends AppModel {
             break;
         //部门分管领导 5
             case 5 :
-            $sld_id = 0 ;
-            //当 dep_pro_id 不为0时，为项目申请，分管领导取该科研项目所属领导
-            if($dep_pro_id){
-                $arr_5 = $this->query("select p.approval_sld from t_research_project p where p.id = {$dep_pro_id} limit 1 ");
-                $sld_id = $arr_5[0]['p']['approval_sld'];
-            }else{
-                //$dep_pro_id != 0 && $dep_id = 3;
-                $arr_5 = $this->query("select sld from t_department where id='{$dep_id}' and del=0");
-                $sld_id = $arr_5[0]['t_department']['sld'];               
-            }
-
-            $ret_arr[$this->next_uid] = $sld_id;
+            //当 dep_pro_id 不为0时，为项目申请，分管领导取科研部门所领导
+            $dep_pro_id != 0 && $dep_id = 3;
+            $sql_5 = "select *from t_department where id='{$dep_id}' and del=0";
+            $arr_5 = $this->query($sql_5);
+            $ret_arr[$this->next_uid] = empty($arr_5[0]['t_department']['sld']) ? 0 : $arr_5[0]['t_department']['sld'];
             $ret_arr[$this->next_id] = 5;
             break;
         //团队负责人 20   可看作项目所属 项目组
