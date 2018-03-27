@@ -252,7 +252,7 @@ class RequestNoteController extends AppController {
     }
 
     // 果树所采购申请单
-    public function gss_purchase() {
+    public function gss_purchase($mid = 0) {
         if ( !empty($_POST['declarename']) && ($_POST['team'] >= 0)  && !empty($_POST['project']) && !empty($_POST['file_number']) && !empty($_POST['material_name']) && !empty($_POST['reason']) ) {
             $this->gss_purchase_save($_POST, $_FILES);
         } else {
@@ -265,7 +265,13 @@ class RequestNoteController extends AppController {
            // $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
             $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and m.user_id='{$user_id}'";
             $pro_arr = $this->ApplyMain->query($sql);
-
+             // 重新提交申请  获取旧申请数据
+            if ($mid) {
+                $applyArr = $this->applyInfos($mid, 'ApplyCaigou');
+                //var_dump($applyArr);die;
+                $this->set('mainInfo', $applyArr['ApplyMain']);
+                $this->set('attrInfo', $applyArr['ApplyCaigou']);
+            }
             $this->set('pro_arr', $pro_arr);
             $this->set('department_arr', $department_arr);
             $this->set('is_department', empty($department_arr['Department']['id']) ? 0 : 1 );
@@ -1198,6 +1204,7 @@ class RequestNoteController extends AppController {
 
     // 果树所采购申请单
     private function gss_purchase_save($datas, $uploadfile = array()) {
+//        print_r($datas);die;
         header("Content-type: text/html; charset=utf-8");
 
         if ( (empty($datas['team']) && $datas['team'] != 0) || empty($datas['ctime']) || empty($datas['file_number']) || empty($datas['material_name']) || empty($datas['unit']) || empty($datas['nums']) || empty($datas['price']) || empty($datas['reason']) ) {
@@ -1342,6 +1349,11 @@ class RequestNoteController extends AppController {
                 }
             } else {
                 //其他审批人 暂时不处理
+            }
+            //删除老的单子信息，主表，附表
+            DELETE_OLD:{
+                //方法在AppController.php
+                $this->delete_old();
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
