@@ -94,14 +94,24 @@
 
 
                         <?php  
+                        $all_money = 0;
                         foreach($costList as $ysk => $ysv){  ?>
                         <tr>
                             <?php foreach($ysv as $k => $v){ ?>
                             <td><?php echo $v;  ?></td>
                             <td><?php echo $cost[$k] ? $cost[$k] : '0.00';  ?></td>
+                            <?php 
+                            if ($cost[$k]) {
+                                $all_money += $cost[$k];
+                            }
+                            ?>
                             <?php   } ?>
                         </tr>
                         <?php   } ?>
+                        <tr>
+                            <td>预算合计</td>
+                            <td colspan="3"><?php echo sprintf('%.2f', $all_money); ?></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
