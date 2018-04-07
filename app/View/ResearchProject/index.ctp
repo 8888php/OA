@@ -121,7 +121,14 @@
                                         出入库
                                     </a>
                                 </li>-->
-
+                            <?php if ($userInfo->position_id == 14) {?>
+                                <li style="float: right;">
+                                    <a data-toggle="modal" data-remote="true" data-target="#modal_wait" href="/ResearchProject/step1_edit" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/step1_edit/<?php echo $pid;?>');"> 
+                                        <i class="orange icon-credit-card bigger-120"></i>
+                                        项目信息修改
+                                    </a>
+                                </li>
+                            <?php }?>
                             </ul>
 
                             <div class="tab-content no-border ">

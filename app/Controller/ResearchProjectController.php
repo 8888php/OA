@@ -1156,4 +1156,128 @@ class ResearchProjectController extends AppController {
         $this->set('sec_class', $second_class);
         $this->set('thi_class', $third_class);
     }
+    
+    //财务科长修改 step1
+    public function step1_edit($id=0){
+        $pro_arr = $this->ResearchProject->findById($id);
+        if (empty($pro_arr)) {
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script>alert('参数有误');window.location.reload();</script>";
+            exit;
+        }
+        $res_arr = $this->ResearchSource->find("all",array('conditions'=>array('project_id'=> $id)));
+        $team = $this->Team->find('list', array('conditions' => array('del' => 0), 'fields' => array('id', 'name')));
+        $this->set('team', $team);
+        $this->set('pro_arr', $pro_arr['ResearchProject']);
+        $this->set('res_arr', $res_arr);
+        $this->render();
+    }
+    
+    public function ajax_step1_edit() {
+        $saveArr = array();
+
+        if ($this->request->is('ajax')) {
+            if ($this->request->data('upstep') == 'step1') {
+                //$saveArr['user_id'] = $this->userInfo->id;
+                $saveArr['name'] = $this->request->data('name');
+                $saveArr['alias'] = $this->request->data('alias');
+                //$saveArr['amount'] = $this->request->data('sumamount');
+                $saveArr['start_date'] = $this->request->data('start_date');
+                $saveArr['end_date'] = $this->request->data('end_date');
+                $saveArr['overview'] = $this->request->data('overview');
+                $saveArr['remark'] = $this->request->data('remark');
+                //$saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
+                //$saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
+                $saveArr['type'] = $this->request->data('type');
+                $qdly = $this->request->data('qdly'); //这里放的是数组
+//                $saveArr['source_channel'] = $this->request->data('source_channel');
+//                $saveArr['file_number'] = $this->request->data('file_number');
+//                $saveArr['amount'] = $this->request->data('amount');
+//                $saveArr['year'] = $this->request->data('year');
+
+                $this->ResearchProject->edit($this->request->data('pid'), $saveArr);
+                foreach ($qdly as $k=>$v) {
+                    $s_arr = $v;
+                    $s_id = $v['s_id'];
+                    unset($s_arr['s_id']);
+                    unset($s_arr['amount']);
+                    $this->ResearchSource->edit($s_id, $s_arr);
+                }
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '修改成功';
+
+                echo json_encode($this->ret_arr);
+                die;
+            }
+        }
+    }
+    
+    //财务科长修改 step1
+    public function step3_edit($id=0) {
+        $this->set('list', Configure::read('keyanlist'));
+        $pro_arr = $this->ResearchProject->findById($id);
+        if (empty($pro_arr)) {
+            header("Content-type:text/html;charset=utf-8");
+            echo "<script>alert('参数有误');window.location.reload();</script>";
+            exit;
+        }
+        $r_const = $this->ResearchCost->findByProjectId($id);
+        $this->set('res_const', $r_const['ResearchCost']);
+        $this->set('pro_arr', $pro_arr['ResearchProject']);
+        $this->render();
+    }
+    
+    public function ajax_step3_edit() {
+        
+
+        $saveArr = array();
+        if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
+            $cid = $_POST['c_id'];
+            !empty($_POST['data_fee']) && $saveArr['data_fee'] = $_POST['data_fee'];
+            !empty($_POST['collection']) && $saveArr['collection'] = $_POST['collection'];
+            !empty($_POST['facility']) && $saveArr['facility'] = $_POST['facility'];
+            !empty($_POST['material']) && $saveArr['material'] = $_POST['material'];
+            !empty($_POST['assay']) && $saveArr['assay'] = $_POST['assay'];
+            !empty($_POST['elding']) && $saveArr['elding'] = $_POST['elding'];
+            !empty($_POST['publish']) && $saveArr['publish'] = $_POST['publish'];
+            !empty($_POST['property_right']) && $saveArr['property_right'] = $_POST['property_right'];
+            !empty($_POST['office']) && $saveArr['office'] = $_POST['office'];
+            !empty($_POST['vehicle']) && $saveArr['vehicle'] = $_POST['vehicle'];
+            !empty($_POST['travel']) && $saveArr['travel'] = $_POST['travel'];
+            !empty($_POST['meeting']) && $saveArr['meeting'] = $_POST['meeting'];
+            !empty($_POST['travel']) && $saveArr['travel'] = $_POST['travel'];
+            !empty($_POST['international']) && $saveArr['international'] = $_POST['international'];
+            !empty($_POST['cooperation']) && $saveArr['cooperation'] = $_POST['cooperation'];
+            !empty($_POST['labour']) && $saveArr['labour'] = $_POST['labour'];
+            !empty($_POST['consult']) && $saveArr['consult'] = $_POST['consult'];
+            !empty($_POST['indirect_manage']) && $saveArr['indirect_manage'] = $_POST['indirect_manage'];
+            !empty($_POST['indirect_performance']) && $saveArr['indirect_performance'] = $_POST['indirect_performance'];
+            !empty($_POST['indirect_other']) && $saveArr['indirect_other'] = $_POST['indirect_other'];
+            !empty($_POST['other']) && $saveArr['other'] = $_POST['other'];
+            !empty($_POST['other2']) && $saveArr['other2'] = $_POST['other2'];
+            !empty($_POST['other3']) && $saveArr['other3'] = $_POST['other3'];
+
+            $saveArr['total'] = array_sum($saveArr);  // 总额
+            !empty($_POST['remarks']) && $saveArr['remarks'] = $_POST['remarks'];
+            
+            
+            
+
+
+            if ($this->ResearchCost->edit($cid, $saveArr)) {
+                $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '修改成功';
+            } else {
+                $this->ret_arr['code'] = 1;
+                $this->ret_arr['msg'] = '修改失败！';
+            }
+        } else {
+            $this->ret_arr['code'] = 1;
+            $this->ret_arr['msg'] = '参数有误';
+        }
+
+        echo json_encode($this->ret_arr);
+        exit;
+        $this->render();
+    }
 }

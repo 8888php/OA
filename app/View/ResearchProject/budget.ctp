@@ -121,7 +121,14 @@
                                         出入库
                                     </a>
                                 </li>-->
-
+                                <?php if ($userInfo->position_id == 14) {?>
+                                <li style="float: right;">
+                                    <a data-toggle="modal" data-remote="true" data-target="#modal_wait" href="/ResearchProject/step3_edit" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/step3_edit/<?php echo $pid;?>');"> 
+                                        <i class="orange icon-credit-card bigger-120"></i>
+                                        项目预算修改
+                                    </a>
+                                </li>
+                                <?php }?>
                             </ul>
 
                             <div class="tab-content no-border ">
@@ -199,7 +206,11 @@
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
         </div><!-- /.main-content -->
-
+<div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，申请单加载不出来  </div>
+    </div><!-- /.modal -->
+</div>
         <?php echo $this->element('acebox'); ?>
     </div><!-- /.main-container-inner -->
 
