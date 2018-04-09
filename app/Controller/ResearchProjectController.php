@@ -1187,7 +1187,7 @@ class ResearchProjectController extends AppController {
                 $saveArr['overview'] = $this->request->data('overview');
                 $saveArr['remark'] = $this->request->data('remark');
                 //$saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
-                //$saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
+                $saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
                 $saveArr['type'] = $this->request->data('type');
                 $qdly = $this->request->data('qdly'); //这里放的是数组
 //                $saveArr['source_channel'] = $this->request->data('source_channel');
