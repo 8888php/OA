@@ -108,7 +108,7 @@
                              $(".dropzone").dropzone({
                                  url: '/ResearchProject/upload_file',
                                  paramName: "file", // The name that will be used to transfer the file
-                                 maxFilesize: 5.0, // MB
+                                 maxFilesize: 8.0, // MB
 
                                  addRemoveLinks: true,
                                  dictDefaultMessage:
