@@ -133,7 +133,10 @@
 						    echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
                                                
                                                     <?php  if($sv['ApplyMain']['table_name']){  ?>
-                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>/apply');"  >审核 </a> </td>
+                                                        <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>/apply');"  >审核 </a> 
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/department/add_approval/<?php echo $sv['ApplyMain']['id'];?>');"  >加签 </a>
+                                                        </td>
                                                    
                                                     <?php  }else{  ?>
                                                         <td>审核</td>

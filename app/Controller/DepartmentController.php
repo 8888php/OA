@@ -6,7 +6,7 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department', 'User', 'Position', 'DepartmentCost','ResearchSource');
+    public $uses = array('Department', 'User', 'Position', 'DepartmentCost', 'ResearchSource');
     public $layout = 'blank';
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
@@ -69,7 +69,7 @@ class DepartmentController extends AppController {
         # 职务
         $posArr = $this->Position->getList();
         $source = $this->ResearchSource->getDepAll($id);
-        
+
         $this->set('d_id', $id);
         $this->set('source', $source);
         $this->set('posArr', $posArr);
@@ -82,7 +82,7 @@ class DepartmentController extends AppController {
           $this->set('cost', $cost);
          */
         // 费用申报
-        if ($depInfo['Department']['type'] == 1 && (in_array($this->userInfo->position_id,array(6,13,14)) || $this->userInfo->department_id == $id) ) {
+        if ($depInfo['Department']['type'] == 1 && (in_array($this->userInfo->position_id, array(6, 13, 14)) || $this->userInfo->department_id == $id)) {
             $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 and m.code = 10000 and m.table_name in ('apply_baoxiaohuizong', 'apply_chuchai_bxd', 'apply_lingkuandan', 'apply_jiekuandan')");
 
 
@@ -129,8 +129,7 @@ class DepartmentController extends AppController {
         $this->render();
     }
 
-    
-       /**
+    /**
      * 添加 添加项目资金来源表
      */
     public function add_filenumber($did = 0) {
@@ -144,9 +143,9 @@ class DepartmentController extends AppController {
 
         // 是否项目负责人添加
 //        if($depInfos['Department']['user_id'] != $this->userInfo->id){
-        if(!$this->is_dailirong_yujing()){
+        if (!$this->is_dailirong_yujing()) {
             header("Location:/homes/index");
-            die;    
+            die;
         }
 
         # 项目资金来源
@@ -157,10 +156,10 @@ class DepartmentController extends AppController {
         $this->render();
     }
 
-     /**
+    /**
      * 添加 添加部门资金来源
      */
-    public function sub_filenumber() {        
+    public function sub_filenumber() {
         if (empty($_POST['did']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
             $this->ret_arr['msg'] = '参数有误';
         } else {
@@ -169,20 +168,20 @@ class DepartmentController extends AppController {
 
             // 是否项目负责人添加
 //            if($proInfos['Department']['user_id'] != $this->userInfo->id){
-            if(!$this->is_dailirong_yujing()){
+            if (!$this->is_dailirong_yujing()) {
                 $this->ret_arr['msg'] = '非部门负责人无权添加';
                 echo json_encode($this->ret_arr);
-                exit; 
+                exit;
             }
             # 项目资金来源 总额
-  /*          部门没总额  暂不验证
-               $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where department_id = '.$_POST['did']);
-            if(($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']){
-                $this->ret_arr['msg'] = '资金来源总额超过 项目总金额';
-                echo json_encode($this->ret_arr);
-                exit; 
-            }
-*/
+            /*          部门没总额  暂不验证
+              $proSource = $this->ResearchSource->query('select sum(amount) sum from t_research_source where department_id = '.$_POST['did']);
+              if(($proSource[0][0]['sum'] + $_POST['amount']) > $proInfos['ResearchProject']['amount']){
+              $this->ret_arr['msg'] = '资金来源总额超过 项目总金额';
+              echo json_encode($this->ret_arr);
+              exit;
+              }
+             */
             $editArr = array();
             switch ($_POST['type']) {
                 case 'add' :
@@ -212,85 +211,77 @@ class DepartmentController extends AppController {
         exit;
     }
 
-
-
-
-     /**
+    /**
      * 添加、修改、删除、 部门资金来源
      */
-    public function sub_filenumber_dep() { 
+    public function sub_filenumber_dep() {
 
-            #项目详情
+        #项目详情
 //            $proInfos = $this->Department->findById($_POST['did']);
-            // 是否项目负责人添加
+        // 是否项目负责人添加
 //            if($proInfos['Department']['user_id'] != $this->userInfo->id){
-            if(!$this->is_dailirong_yujing()){
-                $this->ret_arr['msg'] = '非部门负责人无权添加';
-                echo json_encode($this->ret_arr);
-                exit; 
-            }
+        if (!$this->is_dailirong_yujing()) {
+            $this->ret_arr['msg'] = '非部门负责人无权添加';
+            echo json_encode($this->ret_arr);
+            exit;
+        }
 
-            $editArr = array();
-            switch ($_POST['type']) {
-                case 'add' :
-                    if (empty($_POST['did']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
-                        $this->ret_arr['msg'] = '参数有误';
-                        echo json_encode($this->ret_arr);
-                        die;
-                    } 
-                    $editArr['department_id'] = $_POST['did'];
-                    $editArr['source_channel'] = $_POST['source_channel'];
-                    $editArr['file_number'] = $_POST['file_number'];
-                    $editArr['amount'] = $_POST['amount'];
-                    $editArr['year'] = $_POST['year'];
-                    $sourceId = $this->ResearchSource->add($editArr);
-                    break;
-                case 'edit':
-                    if (empty($_POST['sid']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
-                        $this->ret_arr['msg'] = '参数有误';
-                        echo json_encode($this->ret_arr);
-                        die;
-                    } 
-                    $editArr['file_number'] = $_POST['file_number'];
-                    $editArr['amount'] = $_POST['amount'];
-                    $sourceId = $this->ResearchSource->edit($_POST['sid'], $editArr);
-                    break;
-                case 'del':
-                    if (empty($_POST['sid']) || empty($_POST['did'])) {
-                        $this->ret_arr['msg'] = '参数有误';
-                        echo json_encode($this->ret_arr);
-                        die;
-                    } 
-                    $exApply = $this->ApplyMain->find('first',['conditions'=>['source_id'=>$_POST['sid']]]);
-                    if(empty($exApply)){
-                       $sourceId = $this->ResearchSource->delete($_POST['sid']); 
-                   }else{
-                    $this->ret_arr['msg'] = '该资金来源已有申请单，请先删除申请单';
-                    echo json_encode($this->ret_arr);
-                    die;
-                   }
-                    break;
-                default:
+        $editArr = array();
+        switch ($_POST['type']) {
+            case 'add' :
+                if (empty($_POST['did']) || empty($_POST['source_channel']) || empty($_POST['year']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
                     $this->ret_arr['msg'] = '参数有误';
                     echo json_encode($this->ret_arr);
                     die;
-            }
+                }
+                $editArr['department_id'] = $_POST['did'];
+                $editArr['source_channel'] = $_POST['source_channel'];
+                $editArr['file_number'] = $_POST['file_number'];
+                $editArr['amount'] = $_POST['amount'];
+                $editArr['year'] = $_POST['year'];
+                $sourceId = $this->ResearchSource->add($editArr);
+                break;
+            case 'edit':
+                if (empty($_POST['sid']) || empty($_POST['file_number']) || empty($_POST['amount'])) {
+                    $this->ret_arr['msg'] = '参数有误';
+                    echo json_encode($this->ret_arr);
+                    die;
+                }
+                $editArr['file_number'] = $_POST['file_number'];
+                $editArr['amount'] = $_POST['amount'];
+                $sourceId = $this->ResearchSource->edit($_POST['sid'], $editArr);
+                break;
+            case 'del':
+                if (empty($_POST['sid']) || empty($_POST['did'])) {
+                    $this->ret_arr['msg'] = '参数有误';
+                    echo json_encode($this->ret_arr);
+                    die;
+                }
+                $exApply = $this->ApplyMain->find('first', ['conditions' => ['source_id' => $_POST['sid']]]);
+                if (empty($exApply)) {
+                    $sourceId = $this->ResearchSource->delete($_POST['sid']);
+                } else {
+                    $this->ret_arr['msg'] = '该资金来源已有申请单，请先删除申请单';
+                    echo json_encode($this->ret_arr);
+                    die;
+                }
+                break;
+            default:
+                $this->ret_arr['msg'] = '参数有误';
+                echo json_encode($this->ret_arr);
+                die;
+        }
 
-            if ($sourceId) {
-                $this->ret_arr['code'] = 0;
-            } else {
-                $this->ret_arr['msg'] = '操作失败';
-            }
+        if ($sourceId) {
+            $this->ret_arr['code'] = 0;
+        } else {
+            $this->ret_arr['msg'] = '操作失败';
+        }
 
         echo json_encode($this->ret_arr);
         exit;
     }
 
-
-
-
- 
-    
     /**
      * 部门编辑
      */
@@ -316,7 +307,7 @@ class DepartmentController extends AppController {
         }
 
         # 分管所领导
-        $sld_conditions = array('del' => 0, 'position_id' => array(5, 6,13));
+        $sld_conditions = array('del' => 0, 'position_id' => array(5, 6, 13));
         $suolingdao = $this->User->find('list', array('conditions' => $sld_conditions, 'fileds' => array('id', 'name')));
         $this->set('suolingdao', $suolingdao);
         $this->render();
@@ -530,6 +521,7 @@ class DepartmentController extends AppController {
         echo json_encode($ret_arr);
         exit;
     }
+
     //戴丽蓉 于静添加部门的资金来源 
     public function is_dailirong_yujing() {
         $return = false;
@@ -539,4 +531,117 @@ class DepartmentController extends AppController {
         $this->set('is_dailirong_yujing', $return);
         return $return;
     }
+
+    /**
+     * 待我审批-加签页
+     */
+    public function add_approval($pid) {
+        if (empty($pid)) {
+            header("Location:/homes/index");
+            die;
+        }
+
+        // 所有职务
+        $positionArr = $this->Position->getList();
+        $this->set('positionArr', $positionArr);
+        // var_dump($positionArr);
+        // # 非项目内成员
+//         $notInMember = $this->User->not_project_member($pid);
+//         $this->set('notInMember', $notInMember);
+        // #项目内成员
+        //     $projectMember = $this->ProjectMember->getList($pid);
+        //     $this->set('projectMember', $projectMember);
+        $this->set('mid', $pid);
+        $this->render();
+    }
+
+    /**
+     * 待我审批-加签页-获取成员列表
+     */
+    public function userlist() {
+        $ret_arr = array(
+            'code' => 1,
+            'msg' => '参数有误',
+            'content' => ''
+        );
+        
+        $data = $_POST;
+
+        if ($data['type'] == 'xingzheng' || $data['type'] == 'keyan') {
+            // 按部门取 成员列表
+            $conditions = array('department_id' => $data['depval'] , 'status' => 0 , 'del' => 0 );
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+        }
+
+        if ($data['type'] == 'zhiwu') {
+            // 按职务id取 成员列表
+            $conditions = array('position_id' => $data['depval'] , 'status' => 0 , 'del' => 0 );
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+        }
+
+        if($userList){
+            $ret_arr['code'] = 0; 
+            $ret_arr['msg'] = 'success'; 
+            $ret_arr['content'] = $userList; 
+        }
+        
+        echo json_encode($ret_arr);
+        exit;
+    }
+
+    /**
+     * 待我审批-加签页-添加加签人
+     */  
+    public function approve_jiaqian(){
+        $ret_arr = array(
+            'code' => 1,
+            'msg' => '参数有误',
+            'content' => ''
+        );
+        
+        // 待审核页面列表中  加签人不能赋予加签权限
+        // 验证当前添加加签人是否该审批单 当前进度审核人
+        
+        $data = $_POST;
+        switch($_POST['type']){
+            case 'add': //添加
+                if( empty($_POST['pid']) || empty($_POST['user']) ){
+                        exit( json_encode($ret_arr) ) ;
+                }
+                $sqlstr = "insert" ;
+                break;
+            case 'del': //删除
+                if( empty($_POST['pid']) || empty($_POST['mid']) ){
+                        exit( json_encode($ret_arr) ) ;
+                }
+                $sqlstr = "delete " ;
+                break;    
+        }
+ 
+        if ($data['type'] == '' || $data['user'] == 'keyan') {
+            // 按部门取 成员列表
+            $conditions = array('department_id' => $data['depval'] , 'status' => 0 , 'del' => 0 );
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+        }
+
+        if ($data['type'] == 'zhiwu') {
+            // 按职务id取 成员列表
+            $conditions = array('position_id' => $data['depval'] , 'status' => 0 , 'del' => 0 );
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+        }
+
+        if($userList){
+            $ret_arr['code'] = 0; 
+            $ret_arr['msg'] = 'success'; 
+            $ret_arr['content'] = $userList; 
+        }
+        
+        echo json_encode($ret_arr);
+        exit;
+        
+    }
+    
+    
+    
+    
 }
