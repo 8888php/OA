@@ -8,7 +8,7 @@
                 <table class="table table-bordered table-striped" style=''>
                     <tbody>
                         <tr style='font-weight:600;' class="blue">
-                            <td> 人员选择 </td>
+                            <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130" alt='人员选择'></i> </td>
                             <td colspan="2">
 <!--                                <input type="text" style="width: 100px;" onkeyup="change_select(this.value);" />-->
                                 <select name="types"  id='types' style='height:28px;line-height: 28px;'> 
@@ -116,27 +116,18 @@
                                 
                                 <select name="user" id='user' style='height:28px;line-height: 58px; min-width: 100px;' > </select> 
                             </td>
-                            <td>  &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add')" ></i>  </td>
+                            <td>  &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');" ></i>  </td>
                         </tr>
 
-                        <tr >
-                            <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130"></i> </td>
-                            <td> 
-                            </td>
-                            <td>  </td>
-                            <!--td> <input type='text' name='remark' id='remark' style='width:50px;height:28px;line-height: 28px;' /> </td-->
-                            <td> &nbsp;&nbsp; <!--i class="icon-plus arrow blue" title='添加' onclick="mem_edit(<?php echo $pid; ?>, 'add')" ></i-->  </td>
-                        </tr>
-
-                        <?php  foreach($projectMember as $pk => $pv){  ?>
+                        <?php  foreach($lists as $pk => $pv){  ?>
                         <tr>
                             <td><?php echo $pk+1;  ?></td>
-                            <td>  <?php echo $pv['ProjectMember']['name'];  ?> </td>
-                            <td>   </td>
+                            <td><?php echo $pv['AddLots']['name'];  ?> </td>
+                            <td> <?php echo $pv['AddLots']['is_apply'] ? "<span style='color:#6fb3e0'>已审批 </span>" : '未审批' ;  ?>  </td>
                             <td>
                                 &nbsp;&nbsp;
-                                <?php if($pv['ProjectMember']['type'] != 1){ ?>
-                                    <i class="glyphicon glyphicon-trash red" title='删除' onclick="mem_edit( 'del',<?php echo $pv['ProjectMember']['id'];?>)" ></i> 
+                                <?php if(!$pv['AddLots']['is_apply']){ ?>
+                                    <i class="glyphicon glyphicon-trash red" title='删除' onclick="approve_edit('del',<?php echo $pv['AddLots']['id'];?>)" ></i> 
                                 <?php } ?>
                                 </td>
                         </tr>
@@ -154,7 +145,7 @@
 
 <script type="text/javascript">  
 var click_flag = true;
-function approve_edit(type , mid = 0) {
+function approve_edit(type , mid = 0){
         if (!click_flag) {
              return;
         }
