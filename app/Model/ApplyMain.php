@@ -83,5 +83,41 @@ class ApplyMain extends AppModel {
         return $surplus;
     }
 
+    
+    
+  
+    /**
+     * 修改加签人
+     * @param type $id
+     * @param type $add_uid 加签人id
+     * @param type $data
+     * @param type $type add:添加加签人  del:删除加签人
+     * @return type
+     */
+    public function addLots($id , $add_uid , $type = 'add', $data = '') {
+        $this->setDataSource('write');
+        $this->id = $id;
+        // 取 当前申请单中加签人
+        if(empty($data)){
+            $infos = $this->findById($id);
+            $save_add_lots = $infos['ApplyMain']['add_lots'] ;
+        }else{
+            $save_add_lots = $data ;
+        }
+        
+        switch($type){
+            case 'add':
+                $save_add_lots .= ','.$add_uid ;
+                break;
+            case 'del':
+                $lotStr = str_replace(",$add_uid,", ',', $save_add_lots, $count) ;
+                $count == 0 && $lotStr = str_replace(",$add_uid", '', $save_add_lots, $nums) ;
+                $save_add_lots = $lotStr ;
+                break;
+        }
+        return $this->saveField('add_lots', $save_add_lots);
+    }  
+    
+    
  
 }

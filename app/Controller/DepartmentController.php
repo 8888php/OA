@@ -6,7 +6,7 @@ App::uses('DepartmentController', 'AppController');
 class DepartmentController extends AppController {
 
     public $name = 'Department';
-    public $uses = array('Department', 'User', 'Position', 'DepartmentCost', 'ResearchSource','AddLots');
+    public $uses = array('Department', 'User', 'Position', 'DepartmentCost', 'ResearchSource', 'AddLots');
     public $layout = 'blank';
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
 
@@ -544,12 +544,12 @@ class DepartmentController extends AppController {
         // 所有职务
         $positionArr = $this->Position->getList();
         $this->set('positionArr', $positionArr);
-        
-        $conditions = array('main_id' => $pid ,'del' => 0);
-        $fields = array('id','name','is_apply');
-        $lists = $this->AddLots->find('all', array('conditions' => $conditions,'fields'=> $fields));
+
+        $conditions = array('main_id' => $pid, 'del' => 0);
+        $fields = array('id', 'name', 'is_apply');
+        $lists = $this->AddLots->find('all', array('conditions' => $conditions, 'fields' => $fields));
         $this->set('lists', $lists);
-        
+
         $this->set('pid', $pid);
         $this->render();
     }
@@ -563,95 +563,121 @@ class DepartmentController extends AppController {
             'msg' => '参数有误',
             'content' => ''
         );
-        
+
         $data = $_POST;
 
         if ($data['type'] == 'xingzheng' || $data['type'] == 'keyan') {
             // 按部门取 成员列表
-            $conditions = array('department_id' => $data['depval'] , 'status' => 0 , 'del' => 0 ,'id >' => 1);
+            $conditions = array('department_id' => $data['depval'], 'status' => 0, 'del' => 0, 'id >' => 1);
             $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
         }
 
         if ($data['type'] == 'zhiwu') {
             // 按职务id取 成员列表
-            $conditions = array('position_id' => $data['depval'] , 'status' => 0 , 'del' => 0 );
+            $conditions = array('position_id' => $data['depval'], 'status' => 0, 'del' => 0);
             $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
         }
 
-        if($userList){
-            $ret_arr['code'] = 0; 
-            $ret_arr['msg'] = 'success'; 
-            $ret_arr['content'] = $userList; 
+        if ($userList) {
+            $ret_arr['code'] = 0;
+            $ret_arr['msg'] = 'success';
+            $ret_arr['content'] = $userList;
         }
-        
+
         echo json_encode($ret_arr);
         exit;
     }
 
     /**
      * 待我审批-加签页-添加加签人
-     */  
-    public function approve_jiaqian(){
+     */
+    public function approve_jiaqian() {
         $ret_arr = array(
             'code' => 1,
             'msg' => '参数有误',
             'content' => ''
         );
-        
+
         // 待审核页面列表中  加签人不能赋予加签权限
         // 
         // 
         // 验证当前添加加签人是否该审批单 当前进度审核人
         $mainInfo = $this->ApplyMain->findById($_POST['pid']);
-        if($this->userInfo->id != $mainInfo['ApplyMain']['next_apprly_uid']){
+        if ($this->userInfo->id != $mainInfo['ApplyMain']['next_apprly_uid']) {
             $ret_arr['msg'] = '当前审批节点您无加签权限';
             exit(json_encode($ret_arr));
         }
-        
-        
-        switch($_POST['type']){
+
+
+        switch ($_POST['type']) {
             case 'add': //添加
-                if( empty($_POST['pid']) || empty($_POST['user']) ){
-                        exit( json_encode($ret_arr) ) ;
+                if (empty($_POST['pid']) || empty($_POST['user'])) {
+                    exit(json_encode($ret_arr));
                 }
                 $uinfo = $this->User->findById($_POST['user']);
-                
+
                 $data = array();
                 $data['user_id'] = $uinfo['User']['id'];
                 $data['name'] = $uinfo['User']['name'];
                 $data['main_id'] = $_POST['pid'];
                 $data['position_id'] = $mainInfo['ApplyMain']['next_approver_id'];
                 $data['ctime'] = date('Y-m-d H:i:s');
-                
+
                 //同一申请单同一节点单人仅添加一次
-                if($this->AddLots->findAdd($data)){
+                if ($this->AddLots->findAdd($data)) {
                     $ret_arr['msg'] = '该审批人已在当前审批节点加签人中';
-                    exit( json_encode($ret_arr) ) ;
+                    exit(json_encode($ret_arr));
                 }
-                $res = $this->AddLots->add($data);
+
+                $this->ApplyMain->begin();
+                if ($this->ApplyMain->addLots($data['main_id'], $data['user_id'], 'add', $mainInfo['ApplyMain']['add_lots'])) {
+                    if ($res = $this->AddLots->add($data)) {
+                        $this->ApplyMain->commit();
+                    } else {
+                        $this->ApplyMain->rollback();
+                    }
+                }
                 break;
             case 'del': //删除
-                if( empty($_POST['pid']) || empty($_POST['mid']) ){
-                     exit( json_encode($ret_arr) ) ;
+                if (empty($_POST['pid']) || empty($_POST['mid'])) {
+                    exit(json_encode($ret_arr));
                 }
                 $data = array();
                 $data['del'] = 1;
-                $res = $this->AddLots->edit($_POST['mid'] , $data);
-                break;    
+
+                $lotsInfo = $this->AddLots->findById($_POST['mid']);
+                $lotsInfo = $lotsInfo['AddLots'] ;
+                
+                $this->ApplyMain->begin();
+                if ( $content = $this->ApplyMain->addLots($_POST['pid'], $lotsInfo['user_id'], 'del', $mainInfo['ApplyMain']['add_lots']) ) {
+                    if ($res = $this->AddLots->del($_POST['mid'])) {
+                        $this->ApplyMain->commit();
+                    } else {
+                        $this->ApplyMain->rollback();
+                    }
+                }
+                break;
         }
 
-        if($res){
-            $ret_arr['code'] = 0; 
-            $ret_arr['msg'] = 'success'; 
-            $ret_arr['content'] = $res; 
+                if ($res) {
+                    $ret_arr['code'] = 0;
+                    $ret_arr['msg'] = $content;
+                    $ret_arr['content'] = $mainInfo['ApplyMain']['add_lots'];
+                }
+
+                echo json_encode($ret_arr);
+                exit;
         }
         
-        echo json_encode($ret_arr);
-        exit;
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
     }
     
-    
-    
-    
-}
