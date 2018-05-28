@@ -319,12 +319,24 @@ class ApplyRequestReport extends AppModel {
             $this->code_id=>array()
         );
         //根据main_id取出信息
-        $main_arr = $this->query("select m.type,m.project_id,m.department_id,m.code,m.next_apprly_uid,m.next_approver_id from t_apply_main m where m.id='{$main_id}' limit 1 ");
+        $main_arr = $this->query("select m.id,m.type,m.project_id,m.department_id,m.code,m.next_apprly_uid,m.next_approver_id,m.add_lots,m.table_name,m.subject from t_apply_main m where m.id='{$main_id}' limit 1 ");
         $main_arr = $main_arr[0];
         if (empty($main_arr)) {
             $ret_arr[$this->err_msg] = '申请单不存在';
             return $ret_arr;
         }
+        
+        // 加签审核
+        // 先判断当前节点是否有加签审批人，如果有走加签审批流程
+        if ($main_arr['m']['add_lots'] != '0') {
+            require_once('AddLots.php');
+            $AddLots = new AddLots();
+            $reserve = $AddLots->addLotsApply($user_info, $main_arr['m']) ; 
+            exit( json_encode($reserve) );
+        }
+        
+        
+        
         $code = $main_arr['m']['code'];
         $next_id = $main_arr['m']['next_apprly_uid'];
         $next_approver_id = $main_arr['m']['next_approver_id'];
