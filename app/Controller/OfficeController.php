@@ -249,9 +249,9 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
-        $userId = $this->userInfo->;
+        $userId = $this->userInfo->id;
 
-        if (!isset(Configure::read('select_apply')[$table])) {
+        if (!isset(Configure::read('select_apply')[$table])){
             //没有设置默认空
             $table = 'fish';
             $table_sql = '';
@@ -272,7 +272,7 @@ class OfficeController extends AppController {
             //有审批权限
             $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
             $wheresql = ' next_apprly_uid = ' . $this->userInfo->id;
-            $wheresql .= " or find_in_set(  , add_lots) " ; 
+            $wheresql .= " or find_in_set( $userId , add_lots) " ; 
             $sql .= $wheresql;
             $sql .= " ) and code%2=0 {$table_sql} and code !='$this->succ_code'";
 
@@ -712,10 +712,14 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
  
             //加签所需
-            $this->userInfo['app_remarks'] = $this->request->data('remarks');
-            $this->userInfo['app_status'] = $this->request->data('type');
-            $this->userInfo['app_small'] = $this->request->data('small_approval_amount');
-            $this->userInfo['app_big'] = $this->request->data('big_approval_amount');
+//            $this->userInfo['app_remarks'] = $this->request->data('remarks');
+//            $this->userInfo['app_status'] = $this->request->data('type');
+//            $this->userInfo['app_small'] = $this->request->data('small_approval_amount');
+//            $this->userInfo['app_big'] = $this->request->data('big_approval_amount');
+            $this->userInfo->app_remarks = $this->request->data('remarks');
+            $this->userInfo->app_status = $this->request->data('type');
+            $this->userInfo->app_small = $this->request->data('small_approval_amount');
+            $this->userInfo->app_big = $this->request->data('big_approval_amount');
 
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
 
