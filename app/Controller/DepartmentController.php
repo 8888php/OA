@@ -634,6 +634,11 @@ class DepartmentController extends AppController {
                     $ret_arr['msg'] = '该审批人已在当前审批节点加签人中';
                     exit(json_encode($ret_arr));
                 }
+                //当前节点审批人不参与加签
+                if ($uinfo['User']['id'] == $mainInfo['ApplyMain']['next_apprly_uid']) {
+                    $ret_arr['msg'] = '该审批人已是当前节点审批人，无需再次加签审批';
+                    exit(json_encode($ret_arr));
+                }
 
                 $this->ApplyMain->begin();
                 if ($this->ApplyMain->addLots($data['main_id'], $data['user_id'], 'add', $mainInfo['ApplyMain']['add_lots'])) {
