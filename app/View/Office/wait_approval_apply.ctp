@@ -135,7 +135,10 @@
                                                     <?php  if($sv['ApplyMain']['table_name']){  ?>
                                                         <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>/apply');"  >审核 </a> 
                                                             &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            
+                                                             <?php  if( ($sv['ApplyMain']['next_apprly_uid']  == $userInfo->id) && in_array($sv['ApplyMain']['table_name'] , Configure::read('jiaqian_apply') ) ){  ?>
                                                             <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/department/add_approval/<?php echo $sv['ApplyMain']['id'];?>');"  >加签 </a>
+                                                             <?php  } ?>
                                                         </td>
                                                    
                                                     <?php  }else{  ?>

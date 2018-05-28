@@ -249,6 +249,7 @@ class OfficeController extends AppController {
         $can_approval = $this->userInfo->can_approval;
         $type_arr = Configure::read('type_number');
         $user_department_id = $this->userInfo->department_id;
+        $userId = $this->userInfo->id;
 
         if (!isset(Configure::read('select_apply')[$table])) {
             //没有设置默认空
@@ -271,6 +272,7 @@ class OfficeController extends AppController {
             //有审批权限
             $sql = "select count(*) count from t_apply_main ApplyMain where ( ";
             $wheresql = ' next_apprly_uid = ' . $this->userInfo->id;
+            $wheresql .= " or find_in_set( '$userId' , add_lots) " ; 
             $sql .= $wheresql;
             $sql .= " ) and code%2=0 {$table_sql} and code !='$this->succ_code'";
 

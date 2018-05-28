@@ -607,6 +607,12 @@ class DepartmentController extends AppController {
             $ret_arr['msg'] = '当前审批节点您无加签权限';
             exit(json_encode($ret_arr));
         }
+        
+        // 验证当前添加加签申请单 ，是否能加签
+        if( !in_array($mainInfo['ApplyMain']['table_name'] , Configure::read('jiaqian_apply')) ){
+            $ret_arr['msg'] = '该申请单不能添加加签';
+            exit(json_encode($ret_arr));
+        }
 
 
         switch ($_POST['type']) {
