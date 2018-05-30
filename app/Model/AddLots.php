@@ -54,14 +54,21 @@ class AddLots extends AppModel {
         return $this->delete($id);
     }
 
-    
+   //  初始化mysqli
+    private function mysqli_start(){
+         $dbsource = $this->getdatasource() ; 
+         $dbconfig = $dbsource->config ;
+         $mysqli  = new  mysqli( $dbconfig['host'] , $dbconfig['login'] , $dbconfig['password'] , $dbconfig['database'] );
+         return $mysqli ;
+    }
+     
     
     /**
      *  加签审批人审批
      *  @params:  $uinfo 审批人信息;$applyinfo 审批单信息 
      *  @response:
      */
-    public function addLotsApply($uinfo, $applyinfo) {
+    public function addLotsApply($uinfo, $applyinfo) { 
         $ret_arr = array('code' => 2, 'msg' => '审批失败');
 
         $add_lotsArr = explode(',', $applyinfo['add_lots']);
@@ -88,28 +95,28 @@ class AddLots extends AppModel {
 
             }
     
-            $this->begin();
-            if(!$this->query($upSql)) {
+            $mysqli = $this->mysqli_start();
+            $mysqli->autocommit(true) ;
+            if(!$mysqli->query($upSql)) {
                 // 更新失败 直接返回json
-                echo $upSql;
+                $ret_arr['msg'] = $upSql ;
                return $ret_arr;
             }
 
             // 添加审批日志
-            
-            $saveStr = " insert into t_approval_information('main_id','approve_id','remarks','position_id','name','ctime','status') value(%d ,%d , '%s' ,%d ,'%s' ,'%s' , %d) " ;
+            $saveStr = " insert into t_approval_information(main_id,approve_id,remarks,position_id,name,ctime,status) values(%d ,%d , '%s' ,%d ,'%s' ,'%s' , %d) " ;
             
             $remarks = !$uinfo['app_remarks'] ? '' : $uinfo['app_remarks'] ;
             $ctime = date('Y-m-d H:i:s', time()) ;
             $uname = $uinfo['name'];
-            $saveSql = sprintf($saveStr , $mid ,$uid , $remarks ,$applyinfo['next_approver_id'] ,$uname ,$ctime , $uinfo['app_status'] );  var_dump($this->query($saveSql));
-            if( !$this->query($saveSql) ){
+            $saveSql = sprintf($saveStr , $mid ,$uid , $remarks ,$applyinfo['next_approver_id'] ,$uname ,$ctime , $uinfo['app_status'] );  echo $saveSql;
+            if( !$mysqli->query($saveSql) ){
                 // 修改失败 直接返回json
-                $this->rollback(); echo 'saveSql';
+                $mysqli->rollback(); 
+                $ret_arr['msg'] = $saveSql ;
                 return $ret_arr;
             }
-            
-                   
+      
             //判断如果有审批金额则写到表里面
                 if ($uinfo['app_small'] && $applyinfo['table_name'] == 'apply_jiekuandan') {
                     $total = $uinfo['app_small'];
@@ -122,17 +129,20 @@ class AddLots extends AppModel {
                     $big_total = $uinfo['app_big'];
                     
                     $jiekuanSql = "update t_apply_main m left join t_apply_jiekuandan j on m.attr_id = j.id set m.total = $total , m.subject = $subject ,j.approve_money = $total , j.approve_money_capital = $big_total  where m.id = $mid ";
-                    if( !$this->query($jiekuanSql)){
+                    if( !$mysqli->query($jiekuanSql)){
                         // 修改失败 直接返回json
-                        $this->rollback();echo 'jiekuanSql';
+                        $mysqli->rollback();
+                        $ret_arr['msg'] = $jiekuanSql ;
                         return $ret_arr;
                     }
                 }
                 
-            $this->commit();
-
-            $ret_arr['code'] = 0;
-            $ret_arr['msg'] = '审批成功';
+            if( $mysqli->commit() ){
+                $ret_arr['code'] = 0;
+                $ret_arr['msg'] = '审批成功';
+            }
+            $mysqli->autocommit(false) ;
+            $mysqli->close();
         }
         
         return $ret_arr;

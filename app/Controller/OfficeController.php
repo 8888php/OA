@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class OfficeController extends AppController {
 
     public $name = 'Office';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team', 'ApplyNews', 'ApplyRequestReport');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'ApplyBaoxiaohuizong', 'ApprovalInformation', 'DepartmentCost', 'Department', 'ApplyJiekuandan', 'ApplyLeave', 'ApplyChuchai', 'ApplyBaogong', 'ApplyPaidleave', 'ApplyEndlessly', 'ApplyCaigou', 'ApplySeal', 'ApplyReceived', 'ApplyBorrow', 'ApplyDispatch', 'Team', 'ApplyNews', 'ApplyRequestReport','AddLots');
     public $layout = 'blank';
     public $components = array('Cookie', 'Approval');
     private $ret_arr = array('code' => 1, 'msg' => '', 'class' => '');
@@ -2178,5 +2178,24 @@ class OfficeController extends AppController {
             die;
     }
 
+    
+    public function jiaqian_test(){
+        
+        $dbsource =  $this->ApplyMain->getdatasource(); 
+         $dbconfig = $dbsource->config ;
+         $mysqli  = new  mysqli( $dbconfig['host'] , $dbconfig['login'] , $dbconfig['password'] , $dbconfig['database'] );
+         $mysqli->autocommit(false);
+       
+         $upSql = "update t_apply_main m set m.add_lots = '0,24,7,35'where m.id = 1728 ";
+       var_dump($mysqli->query($upSql));
+       
+      var_dump( $mysqli->commit() );
+       
+       $mysqli->autocommit(false);
+        $mysqli->close();
+       die;
+        
+    }
+    
 
 }
