@@ -59,6 +59,7 @@ class AddLots extends AppModel {
          $dbsource = $this->getdatasource() ; 
          $dbconfig = $dbsource->config ;
          $mysqli  = new  mysqli( $dbconfig['host'] , $dbconfig['login'] , $dbconfig['password'] , $dbconfig['database'] );
+         $mysqli->set_charset('utf8');
          return $mysqli ;
     }
      
@@ -72,7 +73,6 @@ class AddLots extends AppModel {
         $ret_arr = array('code' => 2, 'msg' => '审批失败');
 
         $add_lotsArr = explode(',', $applyinfo['add_lots']);
-
         $uinfo = (array)$uinfo;
         //是加签审批人
         if (in_array($uinfo['id'], $add_lotsArr)) {
@@ -96,24 +96,24 @@ class AddLots extends AppModel {
             }
     
             $mysqli = $this->mysqli_start();
-            $mysqli->autocommit(true) ;
+            $mysqli->autocommit(false) ;
             if(!$mysqli->query($upSql)) {
                 // 更新失败 直接返回json
-                $ret_arr['msg'] = $upSql ;
+               // $ret_arr['msg'] = $upSql ;
                return $ret_arr;
             }
 
             // 添加审批日志
-            $saveStr = " insert into t_approval_information(main_id,approve_id,remarks,position_id,name,ctime,status) values(%d ,%d , '%s' ,%d ,'%s' ,'%s' , %d) " ;
+            $saveStr = " insert into t_approval_information(main_id,approve_id,remarks,position_id,name,ctime,status,type) values(%d ,%d , '%s' ,%d ,'%s' ,'%s' , %d,1) " ;
             
             $remarks = !$uinfo['app_remarks'] ? '' : $uinfo['app_remarks'] ;
             $ctime = date('Y-m-d H:i:s', time()) ;
             $uname = $uinfo['name'];
-            $saveSql = sprintf($saveStr , $mid ,$uid , $remarks ,$applyinfo['next_approver_id'] ,$uname ,$ctime , $uinfo['app_status'] );  echo $saveSql;
+            $saveSql = sprintf($saveStr , $mid ,$uid , $remarks ,$applyinfo['next_approver_id'] ,$uname ,$ctime , $uinfo['app_status'] ); 
             if( !$mysqli->query($saveSql) ){
                 // 修改失败 直接返回json
                 $mysqli->rollback(); 
-                $ret_arr['msg'] = $saveSql ;
+               // $ret_arr['msg'] = $saveSql ;
                 return $ret_arr;
             }
       
@@ -132,7 +132,7 @@ class AddLots extends AppModel {
                     if( !$mysqli->query($jiekuanSql)){
                         // 修改失败 直接返回json
                         $mysqli->rollback();
-                        $ret_arr['msg'] = $jiekuanSql ;
+                      //  $ret_arr['msg'] = $jiekuanSql ;
                         return $ret_arr;
                     }
                 }
@@ -141,7 +141,8 @@ class AddLots extends AppModel {
                 $ret_arr['code'] = 0;
                 $ret_arr['msg'] = '审批成功';
             }
-            $mysqli->autocommit(false) ;
+            $mysqli->autocommit(true) ;
+           // var_dump($mysqli->error);
             $mysqli->close();
         }
         
