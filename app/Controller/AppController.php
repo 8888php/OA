@@ -11,7 +11,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd', 'Team');
+    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd','ApplyChuchai', 'Team');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code'; //返回的状态

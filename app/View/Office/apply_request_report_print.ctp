@@ -48,23 +48,29 @@
                                 <td  colspan='1'>单位负责人</td>
                                 <td  colspan='1'>
                                     <?php
-                                    if (!empty($applyArr[15])) {
+                                    if ($applyArr[15]) {
                                         echo $applyArr[15]['remarks'].'<br />';
                                         echo $applyArr[15]['name'].'<br />';
                                         echo $applyArr[15]['ctime'];
-                                    }else if (!empty($applyArr[11])) {
+                                    }else if ($applyArr[11]) {
                                         echo $applyArr[11]['remarks'].'<br />';
                                         echo $applyArr[11]['name'].'<br />';
                                         echo $applyArr[11]['ctime'];
-                                    }else if (!empty($applyArr[4])) {
+                                    }else if ($applyArr[4]) {
                                         echo $applyArr[4]['remarks'].'<br />';
                                         echo $applyArr[4]['name'].'<br />';
                                         echo $applyArr[4]['ctime'];
-                                    }else{
+                                    }else if($applyArr['ksfzr']){
                                         echo $applyArr['ksfzr']['remarks'].'<br />';
                                         echo $applyArr['ksfzr']['name'].'<br />';
                                         echo $applyArr['ksfzr']['ctime'];
+                                    }else{
+                                        echo '<br /><br />';
                                     }
+                                    echo @$jiaqian[15] ;
+                                    echo @$jiaqian[11] ;
+                                    echo @$jiaqian[4] ;
+                                    echo @$jiaqian['ksfzr'] ;
                                     ?>
                                 </td>
                             </tr>
@@ -74,11 +80,12 @@
                                 <td  colspan='1'>团队负责人</td>
                                 <td  colspan='1'>
                                     <?php
-                                    if (!empty($applyArr[2])) {
+                                    if ($applyArr[2]) {
                                         echo $applyArr[2]['remarks'].'<br />';
                                         echo $applyArr[2]['name'].'<br />';
                                         echo $applyArr[2]['ctime'];
                                     }
+                                    echo @$jiaqian[2] ;
                                     ?>
                                 </td>
                             </tr>

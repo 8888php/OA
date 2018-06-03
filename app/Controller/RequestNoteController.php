@@ -177,9 +177,9 @@ class RequestNoteController extends AppController {
 
             // 重新提交申请  获取旧申请数据
             if ($mid) {
-                $applyArr = $this->applyInfos($mid, 'Applychuchai');
+                $applyArr = $this->applyInfos($mid, 'ApplyChuchai');
                 $this->set('mainInfo', $applyArr['ApplyMain']);
-                $this->set('attrInfo', $applyArr['Applychuchai']);
+                $this->set('attrInfo', $applyArr['ApplyChuchai']);
             }
             $this->render();
         }

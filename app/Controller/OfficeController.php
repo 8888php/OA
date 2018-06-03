@@ -1165,13 +1165,25 @@ class OfficeController extends AppController {
     }
 
     /**
-     * 财务科  4个单子的 审批信息
+     * 申请单 主审批流审批信息
      * @param type $main_arr
-     * 
      */
-    public function cwk_show_shenpi($main_arr) {
+    public function cwk_show_shenpi($main_arr) { 
+        // 先取加签信息
+        if(in_array($main_arr['ApplyMain']['table_name'], Configure::read('jiaqian_apply'))){
+            $this->cwk_show_jiaqian($main_arr) ;
+        }
+        
+        $applyArr = array();
         // 审核记录
-        $applylist = $this->ApprovalInformation->find('all', array('conditions' => array('main_id' => $main_arr['ApplyMain']['id']), 'fields' => array('position_id', 'name', 'remarks', 'ctime')));
+        $applylist = $this->ApprovalInformation->find('all', array('conditions' => array('main_id' => $main_arr['ApplyMain']['id'] , 'type'=>0), 'fields' => array('position_id', 'name', 'remarks', 'ctime')));
+
+        //无审批信息
+        if(empty($applylist)){
+           $this->set('applyArr', @$applyArr);
+           return $applyArr;
+       }
+       
         // 获取部门负责人
         switch ($main_arr['ApplyMain']['type']) {
             case 2:
@@ -1182,40 +1194,65 @@ class OfficeController extends AppController {
                 break;
         }
 
-        $applyArr = array();
         $apply_12 = array(); //科研 项目组负责人
         foreach ($applylist as $k => $v) {
             if (($main_arr['ApplyMain']['type'] == 1 && $v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']) || ($main_arr['ApplyMain']['type'] == 2 && $v['ApprovalInformation']['position_id'] == 15)) {
                 $applyArr['ksfzr'] = $v['ApprovalInformation'];
             } else {
-//                if ($v['ApprovalInformation']['position_id'] == 12) {
-//                    //项目组负责人先保存起来
-//                    $apply_12 = $v['ApprovalInformation'];
-//                    continue;
-//                }
                 $applyArr[$v['ApprovalInformation']['position_id']] = $v['ApprovalInformation'];
             }
         }
-        //如果是科研
-//        if ($main_arr['ApplyMain']['type'] == 1) {
-//            if (!empty($apply_12)) {
-//                //把项目负责人的信息给项目负责人,用与打印显示
-//                $applyArr[11] = $apply_12;
-//            } else {
-//                //判断next_approve_id是不12
-//                if (!empty($applyArr[11])) {
-//                    //看看 项目负责人在不
-//                    //取出下一审核人的 next_approve_id
-//                    if ($main_arr['ApplyMain']['next_approver_id'] == 12) {
-//                        //如果是项目组负责人，那么就不显示项目负责人
-//                        unset($applyArr[11]);
-//                    }
-//                }
-//            }
-//        }  
-//        var_dump($applyArr);die;
+        
         $this->set('applyArr', @$applyArr);
     }
+    
+    
+    /**
+     * 申请单 加签审批信息
+     * @param type $main_arr
+     */
+    public function cwk_show_jiaqian($main_arr){
+       $applyArr = array();
+       $applylist = $this->ApprovalInformation->find('all', array('conditions' => array('main_id' => $main_arr['ApplyMain']['id'] , 'type'=>1), 'fields' => array('position_id', 'name', 'remarks', 'ctime')));
+
+       if(empty($applylist)){
+           $this->set('jiaqian', @$applyArr);
+           return $applyArr;
+       }
+       
+       // 获取部门负责人
+        switch ($main_arr['ApplyMain']['type']) {
+            case 2:
+                $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = ' . $main_arr['ApplyMain']['department_id'] . ' limit 1');
+                break;
+            case 1:
+                $bmfzr = $this->User->query('select u.name,u.position_id from t_department d left join t_user u on d.user_id = u.id where d.id = 3 limit 1');
+                break;
+        }
+
+        $apply_12 = array(); //科研 项目组负责人
+        foreach ($applylist as $k => $v) {
+            if (($main_arr['ApplyMain']['type'] == 1 && $v['ApprovalInformation']['position_id'] == $bmfzr[0]['u']['position_id']) || ($main_arr['ApplyMain']['type'] == 2 && $v['ApprovalInformation']['position_id'] == 15)) {
+                $applyArr['ksfzr'] .= '<br />';
+                $applyArr['ksfzr'] .= $v['ApprovalInformation']['remarks'];
+                $applyArr['ksfzr'] .= '<br />';
+                $applyArr['ksfzr'] .= $v['ApprovalInformation']['name'];
+                $applyArr['ksfzr'] .= '<br />';
+                $applyArr['ksfzr'] .= $v['ApprovalInformation']['ctime'];
+            } else {
+                $applyArr[$v['ApprovalInformation']['position_id']] .= '<br />';
+                $applyArr[$v['ApprovalInformation']['position_id']] .= $v['ApprovalInformation']['remarks'];
+                $applyArr[$v['ApprovalInformation']['position_id']] .= '<br />';
+                $applyArr[$v['ApprovalInformation']['position_id']] .= $v['ApprovalInformation']['name'];
+                $applyArr[$v['ApprovalInformation']['position_id']] .= '<br />';
+                $applyArr[$v['ApprovalInformation']['position_id']] .= $v['ApprovalInformation']['ctime'];
+            }
+        }
+        
+        $this->set('jiaqian', @$applyArr);
+        
+    }
+    
 
     /**
      * 果树所请假单 打印
@@ -2178,24 +2215,6 @@ class OfficeController extends AppController {
             die;
     }
 
-    
-    public function jiaqian_test(){
-        
-        $dbsource =  $this->ApplyMain->getdatasource(); 
-         $dbconfig = $dbsource->config ;
-         $mysqli  = new  mysqli( $dbconfig['host'] , $dbconfig['login'] , $dbconfig['password'] , $dbconfig['database'] );
-         $mysqli->autocommit(false);
-       
-         $upSql = "update t_apply_main m set m.add_lots = '0,24,7,35'where m.id = 1728 ";
-       var_dump($mysqli->query($upSql));
-       
-      var_dump( $mysqli->commit() );
-       
-       $mysqli->autocommit(false);
-        $mysqli->close();
-       die;
-        
-    }
-    
+  
 
 }
