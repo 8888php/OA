@@ -90,7 +90,7 @@
                                         echo @$applyArr['11']['name']; 
                                         echo '<br />';
                                         echo @$applyArr['11']['ctime'];
-                                    else if ($applyArr['12']) {
+                                    } else if ($applyArr['12']) {
                                         echo '<br />';
                                         echo @$applyArr['12']['remarks'];
                                         echo '<br />';

@@ -1756,8 +1756,8 @@ class OfficeController extends AppController {
             
             //加签所需
             if($tablename == 'ApplyRequestReport'){
-                $this->userInfo['app_remarks'] = $this->request->data('remarks');
-                $this->userInfo['app_status'] = $this->request->data('type');
+                $this->userInfo->app_remarks = $this->request->data('remarks');
+                $this->userInfo->app_status = $this->request->data('type');
             }
             
             $ret_arr = $this->$tablename->apply_approve($main_id, (array) $this->userInfo, $status);
