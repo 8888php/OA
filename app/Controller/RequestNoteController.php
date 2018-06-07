@@ -177,9 +177,9 @@ class RequestNoteController extends AppController {
 
             // 重新提交申请  获取旧申请数据
             if ($mid) {
-                $applyArr = $this->applyInfos($mid, 'Applychuchai');
+                $applyArr = $this->applyInfos($mid, 'ApplyChuchai');
                 $this->set('mainInfo', $applyArr['ApplyMain']);
-                $this->set('attrInfo', $applyArr['Applychuchai']);
+                $this->set('attrInfo', $applyArr['ApplyChuchai']);
             }
             $this->render();
         }
@@ -2297,7 +2297,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '新闻签发卡';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
