@@ -2297,7 +2297,7 @@ class RequestNoteController extends AppController {
         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
         $mainArr['approval_process_id'] = $p_id; //审批流程id
         $mainArr['type'] = $type;
-        $mainArr['attachment'] = '';
+        $mainArr['attachment'] = $datas['attachment'];
         $mainArr['name'] = '新闻签发卡';
         $mainArr['project_id'] = $project_id;
         $mainArr['team_id'] = $team_id;
