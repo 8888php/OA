@@ -8,9 +8,18 @@
                 <table class="table table-bordered table-striped" style=''>
                     <tbody>
                         <tr style='font-weight:600;' class="blue">
-                            <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130" alt='人员选择'></i> </td>
+                            <td > &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130" alt='人员选择' style="margin-top:25px;"></i> </td>
                             <td colspan="2">
-<!--                                <input type="text" style="width: 100px;" onkeyup="change_select(this.value);" />-->
+                                <input type="text" style="font-size: 13px; width: 88px;" onkeyup="change_shqren(this.value)"  placeholder="输入姓名筛选" />
+                                <select id="shqren" style="font-size: 13px;" onchange="change_table();">
+                                    <option value="0">请选择加签人...</option>
+                                    <?php foreach($all_user_arr as $k=>$v){?>
+                                    <option value="<?php echo $k;?>" <?php echo $k==$shqren ? 'selected':'';?>><?php echo $v;?></option>
+                                    <?php }?>
+                                </select>
+                                
+                                <br /> <br />
+                                
                                 <select name="types"  id='types' style='height:28px;line-height: 28px;'> 
                                     <option value="xingzheng"> 按行政部门选择 </option> 
                                     <option value="keyan"> 按科研部门选择 </option>
@@ -81,7 +90,7 @@
                                             show_error($(res.class), res.msg);
                                             return;
                                             case 0 : //说明添加或修改成功
-                                                    var textStr = '';
+                                                    var textStr = '<option value="0">请选择加签人...</option>';
                                             $.each(res.content, function(key, val){
                                             textStr += "<option value='" + key + "'>" + val + '</option>';
                                             });
@@ -114,9 +123,11 @@
                                     <?php } ?>
                                     </select>
                                 
-                                <select name="user" id='user' style='height:28px;line-height: 58px; min-width: 100px;' > </select> 
+                                <select name="user" id='user' style='height:28px;line-height: 58px; min-width: 100px;' onchange="approve_edit('add');" >
+                                <option value="0">请选择加签人...</option>
+                                </select> 
                             </td>
-                            <td>  &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');" ></i>  </td>
+                            <td>  &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');"  style="margin-top:25px;" ></i>  </td>
                         </tr>
 
                         <?php  foreach($lists as $pk => $pv){  ?>
@@ -204,6 +215,67 @@ $('input.col-xs-10').keyup(function () {
            hide_error($(this));
         }
 });
+
+
+//根据Input的值去搜索 申请人的
+function change_shqren(val) {
+        if (val == '') {
+            $('#shqren option').each(function(i){
+                $(this).css('display', 'block');
+            });
+             return;
+        }
+        $('#shqren option').each(function(i){
+            if (i == 0) {
+               return true;
+            }
+            var text = $(this).text();
+            if (text.indexOf(val) != -1) {
+                //说明包含
+                $(this).css('display', 'block');
+            } else {
+                $(this).css('display', 'none');
+            }
+        });                                      
+}
+
+function change_table() {
+    var shqren = $('#shqren option:selected').val();
+    
+    var data_json = {};
+        data_json.pid = $('#pid').val();
+        data_json.type = 'add';
+        data_json.user = shqren;
+
+        $.ajax({
+            url: '/Department/approve_jiaqian',
+            type: 'post',
+            data: data_json,
+            dataType: 'json',
+            success: function(res) {
+                    switch(res.code){
+                        case 1 : 
+                            alert(res.msg);
+                            $('.middle').removeClass('text-danger').text('');
+                            show_error($(res.class), res.msg);
+                            return;
+                        case 0 : //成功
+                            $('#modal-body').load('/Department/add_approval/<?php echo $pid;?>');
+                            return;
+                        case 2 : //失败
+                             alert(res.msg);
+                            return;
+                        case -1 :
+                            window.location.href = '/homes/index';
+                            return;
+                        case -2 : 
+                            alert('权限不足');
+                            return;
+                    }
+                }
+        });
+}
 </script>
+                                    
 
 <?php echo $this->element('foot_frame'); ?>
