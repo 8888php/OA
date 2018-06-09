@@ -22,14 +22,14 @@
                                 <td  colspan='4' style="height: 150px;text-align: left;">
                                     <p>所长批示：</p>
                                     
-                                    <?php echo $applyArr[6]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[6]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[6]['ctime'];?>
+                                    <?php echo $applyArr[6]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[6]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[6]['ctime'];?>&nbsp;&nbsp;<?php echo echo @$jiaqian[6] ;?>
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td  colspan='4' style="height: 250px;text-align: left;">
                                     <p>分管所长批示：</p>
-                                    <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>
+                                    <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>&nbsp;&nbsp;<?php echo echo @$jiaqian[5] ;?>
                                 </td>
                                 
                             </tr>
@@ -67,10 +67,6 @@
                                     }else{
                                         echo '<br /><br />';
                                     }
-                                    echo @$jiaqian[15] ;
-                                    echo @$jiaqian[11] ;
-                                    echo @$jiaqian[4] ;
-                                    echo @$jiaqian['ksfzr'] ;
                                     ?>
                                 </td>
                             </tr>
@@ -85,7 +81,6 @@
                                         echo $applyArr[2]['name'].'<br />';
                                         echo $applyArr[2]['ctime'];
                                     }
-                                    echo @$jiaqian[2] ;
                                     ?>
                                 </td>
                             </tr>
