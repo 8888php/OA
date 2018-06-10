@@ -736,4 +736,4 @@ Configure::write('approval_sld',array(7=>'其他',9=>'推广'));
 Configure::write('jiaqian_apply',array('apply_jiekuandan' , 'apply_lingkuandan' , 'apply_chuchai_bxd' , 'apply_baoxiaohuizong' , 'apply_request_report','apply_caigou'));
 
 //加签申请单 表名
-Configure::write('jiaqian_apply',array('ApplyJiekuandan' , 'ApplyLingkuandan' , 'ApplyChuchaiBxd' , 'ApplyBaoxiaohuizong' , 'ApplyRequestReport','ApplyCaigou'));
+Configure::write('jiaqian_apply_table',array('ApplyJiekuandan' , 'ApplyLingkuandan' , 'ApplyChuchaiBxd' , 'ApplyBaoxiaohuizong' , 'ApplyRequestReport','ApplyCaigou'));

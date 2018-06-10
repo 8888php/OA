@@ -1754,7 +1754,7 @@ class OfficeController extends AppController {
             $approve_id = $this->userInfo->id;
             
             //加签所需
-            if( in_array( $tablename , Configure::read('jiaqian_apply')) ){
+            if( in_array( $tablename , Configure::read('jiaqian_apply_table')) ){
                 $this->userInfo->app_remarks = $this->request->data('remarks');
                 $this->userInfo->app_status = $this->request->data('type');
             }
