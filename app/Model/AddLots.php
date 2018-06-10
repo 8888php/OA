@@ -77,7 +77,7 @@ class AddLots extends AppModel {
         //是加签审批人
         if (in_array($uinfo['id'], $add_lotsArr)) {
             $uid = $uinfo['id'];
-            $mid = $applyinfo['id'];
+            $mid = $applyinfo['id']; 
             // main表 加签人id移除
             switch($uinfo['app_status']){
                 case 1 :
@@ -92,7 +92,9 @@ class AddLots extends AppModel {
                     $fail_code = $applyinfo['next_approver_id'] * 2 - 1; 
                     $upSql = "update t_apply_main m left join t_add_lots l on m.id = l.main_id and l.user_id = $uid  set m.add_lots = '$lotStr' ,m.code = $fail_code ,l.is_apply = 1 where m.id = $mid ";
                     break;
-
+                default :
+                    $ret_arr['msg'] = '审批数据有误！';
+                    return $ret_arr;
             }
     
             $mysqli = $this->mysqli_start();

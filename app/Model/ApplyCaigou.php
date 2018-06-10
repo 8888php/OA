@@ -199,7 +199,7 @@ class ApplyCaigou extends AppModel {
             $this->code_id=>array()
         );
         //根据main_id取出信息
-        $main_sql = "select *from t_apply_main where id='{$main_id}' limit 1 ";
+        $main_sql = "select * from t_apply_main where id='{$main_id}' limit 1 ";
         $main_arr = $this->query($main_sql);
         if (empty($main_arr)) {
             $ret_arr[$this->err_msg] = '该申请单不存在';
