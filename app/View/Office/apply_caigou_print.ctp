@@ -75,6 +75,7 @@
                                             if($applyArr[11]['name']){
                                                 echo $applyArr[11]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[11]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[11]['ctime']; 
                                             }
+                                            echo @$jiaqian[11] ;
                                         ?>                                    
                                     </td>
                                     <td colspan='2'>
@@ -83,6 +84,7 @@
                                             if($applyArr[20]['name']){
                                                 echo $applyArr[20]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[20]['ctime']; 
                                             }
+                                            echo @$jiaqian[20] ;
                                         ?>                                    
                                     </td>
                                     <td  colspan='2'>
@@ -91,6 +93,7 @@
                                             if($applyArr[5]['name']){
                                                 echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime']; 
                                             }
+                                            echo @$jiaqian[5] ;
                                         ?>                                      
                                 </td>
                                 <?php }else{  ?>
@@ -100,6 +103,7 @@
                                             if($applyArr['ksfzr']['name']){
                                                 echo $applyArr['ksfzr']['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr['ksfzr']['ctime']; 
                                             }
+                                            echo @$jiaqian['ksfzr'] ;
                                         ?>                                    
                                     </td>
                                     <td  colspan='3'>
@@ -108,6 +112,7 @@
                                             if($applyArr[5]['name']){
                                                 echo $applyArr[5]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[5]['ctime']; 
                                             }
+                                            echo @$jiaqian[5] ;
                                         ?>                                      
                                 </td>
                                 <?php } ?>
@@ -123,6 +128,7 @@
                                             if($applyArr[14]['name']){
                                                 echo $applyArr[14]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime']; 
                                             }
+                                            echo @$jiaqian[14] ;
                                         ?>                                     
                                     </td>
                                     <td  colspan='3'>
@@ -131,21 +137,31 @@
                                             if($applyArr[23]['name']){
                                                 echo $applyArr[23]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime']; 
                                             }
+                                            echo @$jiaqian[23] ;
                                         ?> 
                                 </td>
                             </tr>
                            
                             <tr >
                                 <td colspan='2' style='height:50px;line-height:50px;'> 采购中心审核 </td>
-                                <td colspan='5'>  <?php  echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  ?>  </td>
+                                <td colspan='5'>  <?php  
+                                    echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  
+                                    echo @$jiaqian[24] ;
+                                    ?>  </td>
                             </tr>
                             <tr>
                                 <td colspan='2' style='height:50px;line-height:50px;'> 财务及采购分管领导审核 </td>
-                                <td  colspan='5' >   <?php  echo $applyArr[13]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'];  ?>    </td>
+                                <td  colspan='5' >   <?php  
+                                    echo $applyArr[13]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'];  
+                                    echo @$jiaqian[13] ;
+                                    ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style='height:50px;line-height:50px;'> 所长审核 </td>
-                                <td colspan='5'>  <?php  echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime'];  ?>    </td>
+                                <td colspan='5'>  <?php  
+                                    echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime']; 
+                                    echo @$jiaqian[6] ;
+                                    ?>    </td>
                             </tr>
                             <tr >
                                 <td colspan='2' style="line-height: 90px;"> 备注 </td>
