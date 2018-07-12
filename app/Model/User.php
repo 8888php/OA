@@ -158,7 +158,7 @@ class User extends AppModel {
     public function get_all_user_id_name() {
         $table_name = 'User';
         $all_user_arr = array();
-        $sql = "select id,name from t_user {$table_name} where 1";
+        $sql = "select id,name from t_user {$table_name} where id > 1 and del = 0  ";
         $tmp_arr = $this->query($sql);
         if (!$tmp_arr) {
             return $all_user_arr;

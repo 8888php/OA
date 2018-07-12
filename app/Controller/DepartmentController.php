@@ -549,6 +549,9 @@ class DepartmentController extends AppController {
         $fields = array('id', 'name', 'is_apply');
         $lists = $this->AddLots->find('all', array('conditions' => $conditions, 'fields' => $fields));
         $this->set('lists', $lists);
+        
+        $all_user_arr = $this->User->get_all_user_id_name();
+        $this->set('all_user_arr', $all_user_arr);
 
         $this->set('pid', $pid);
         $this->render();

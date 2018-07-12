@@ -199,25 +199,37 @@ class ApplyCaigou extends AppModel {
             $this->code_id=>array()
         );
         //根据main_id取出信息
-        $main_sql = "select *from t_apply_main where id='{$main_id}'";
+        $main_sql = "select * from t_apply_main where id='{$main_id}' limit 1 ";
         $main_arr = $this->query($main_sql);
         if (empty($main_arr)) {
-            $ret_arr[$this->err_msg] = '单子信息不存在';
+            $ret_arr[$this->err_msg] = '该申请单不存在';
             return $ret_arr;
         }
+        
+        // 加签审核
+        // 先判断当前节点是否有加签审批人，如果有走加签审批流程
+        if ($main_arr[0]['t_apply_main']['add_lots'] != '0') {
+            require_once('AddLots.php');
+            $AddLots = new AddLots();
+            $reserve = $AddLots->addLotsApply($user_info, $main_arr[0]['t_apply_main']) ; 
+            exit( json_encode($reserve) );
+        }
+        
+        
+        
         $code = $main_arr[0]['t_apply_main']['code'];
         $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
         $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
         if ($code == 10000) {
-            $ret_arr[$this->err_msg] = '单子已经审批通过了';
+            $ret_arr[$this->err_msg] = '该申请单已经审批通过了';
             return $ret_arr;
         }
         if ($code%2 !=0) {
-            $ret_arr[$this->err_msg] = '单子已经被拒绝';
+            $ret_arr[$this->err_msg] = '该申请单已经被拒绝';
             return $ret_arr;
         }
         if ($next_id != $user_info['id']) {
-            $ret_arr[$this->err_msg] = '您无权审批此单子';
+            $ret_arr[$this->err_msg] = '您无权审批此申请单';
             return $ret_arr;
         }
         //拒绝直接返回
@@ -346,7 +358,7 @@ class ApplyCaigou extends AppModel {
         $sql_baogong = "select *from t_apply_caigou where id='{$attr_id}'";
         $baogong_arr = $this->query($sql_baogong);
         if (empty($baogong_arr)) {
-            $ret_arr[$this->err_msg] = '单子信息不存在';
+            $ret_arr[$this->err_msg] = '该申请单不存在';
             return $ret_arr;
         }
         $user_id = $user_info['id'];
