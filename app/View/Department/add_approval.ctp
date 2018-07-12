@@ -127,7 +127,11 @@
                                 <option value="0">请选择加签人...</option>
                                 </select> 
                             </td>
-                            <td>  &nbsp;&nbsp; <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');"  style="margin-top:25px;" ></i>  </td>
+                            <td>  &nbsp;&nbsp; 
+                                <?php  if(false){ ?>
+                                <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');"  style="margin-top:25px;" ></i> 
+                                <?php } ?>
+                            </td>
                         </tr>
 
                         <?php  foreach($lists as $pk => $pv){  ?>
