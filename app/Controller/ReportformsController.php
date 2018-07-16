@@ -61,8 +61,6 @@ class ReportformsController extends AppController {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
-
-
         //部门对应总金额
         $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');
         $startAmount = array();
@@ -458,4 +456,104 @@ class ReportformsController extends AppController {
         $this->render();
     }
 
+    
+    public function summary($export = false){
+        $this->layout = 'blank';
+
+//        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+//        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+//            header("Location:" . $_SERVER['HTTP_REFERER']);
+//            exit;
+//        }
+               
+        // 1、取当前所有 未关闭、未删除状态下的 科研项目
+        $proArr = $this->ResearchProject->summary_pro() ;
+        // 2、取符合条件的所有科研项目的 总额、科目总额
+        $proCountSum = $this->ResearchProject->summary_ky($proArr);
+        $proCountSum = $proCountSum[0][0];
+        
+        // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
+        $expend = array();
+        // 1 差旅报销单
+        
+        // 2 报销汇总单
+        
+        // 3 借款单
+        
+        // 4 领款单
+        
+        
+        
+        
+        // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
+
+//        
+
+//        //部门对应总金额
+//        $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');
+//        $startAmount = array();
+//        foreach ($totalArr as $v) {
+//            $startAmount[$v['t_research_source']['department_id']][$v['t_research_source']['id']] = $v['t_research_source'];
+//        }
+//
+//        // 各项目已支出累计金额
+//        $payTotal = $this->ApplyMain->query("SELECT department_id,source_id,SUM(total) sum_amount FROM t_apply_main WHERE type = 1 AND is_calculation = 1 AND CODE = 10000  and  table_name in('apply_baoxiaohuizong','apply_jiekuandan','apply_lingkuandan','apply_chuchai_bxd')  GROUP BY source_id ");
+//        $payTotalArr = array();
+//        foreach ($payTotal as $v) {
+//            $payTotalArr[$v['t_apply_main']['department_id']][$v['t_apply_main']['source_id']] = $v[0]['sum_amount'];
+//        }
+//
+//        // 合并数据
+//        $fromArr = array();
+//        $total = array('amount' => 0, 'pay' => 0);
+//        foreach ($this->appdata['deplist'][1] as $k => $v) {
+//            if (isset($startAmount[$k])) {
+//                $fromArr[$k]['amount'] = $fromArr[$k]['pay'] = 0;
+//                foreach ($startAmount[$k] as $dk => $dv) {
+//                    $fromArr[$k]['amount'] += isset($dv['amount']) ? $dv['amount'] : 0;
+//                    $startAmount[$k][$dk]['pay'] = isset($payTotalArr[$k][$dk]) ? $payTotalArr[$k][$dk] : 0;
+//                    $fromArr[$k]['pay'] += $startAmount[$k][$dk]['pay'];
+//                }
+//            } else {
+//                $fromArr[$k]['amount'] = 0;
+//                $fromArr[$k]['pay'] = 0;
+//            }
+//            $total['amount'] += $fromArr[$k]['amount'];
+//            $total['pay'] += $fromArr[$k]['pay'];
+//        }
+
+        $this->set('fromArr', $fromArr);
+        $this->set('total', $total);
+        $this->set('proCountSum', $proCountSum);
+
+        if ($export) {
+            return array('fromArr' => $fromArr, 'total' => $total, 'startAmount' => $startAmount);
+        }
+        $this->render();
+        
+    }
+    
+    //人事报表 汇总 导出
+    function summary_export() {
+        $this->layout = 'blank';
+        $msg = $this->ret_arr;
+        if (!$_POST['stype'] || !$_POST['startdate'] || !$_POST['enddate']) {
+            $msg['msg'] = '参数有误';
+            echo json_encode($msg);
+            die;
+        }
+        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单','caigou' => '果树所采购申请单');
+
+        $xls_name = $sheetname[$_POST['stype']] . '-汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $fromdata = $this->summary();
+        
+        $this->render();
+    }
+
+    
+    
 }
