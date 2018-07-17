@@ -469,10 +469,11 @@ class ReportformsController extends AppController {
     public function summary($export = false) {
         $this->layout = 'blank';
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
-//        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
-//            header("Location:" . $_SERVER['HTTP_REFERER']);
-//            exit;
-//        }
+        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
         // 1、取当前所有 未关闭、未删除状态下的 科研项目
         $proArr = $this->ResearchProject->summary_pro();
         // 2、取符合条件的所有科研项目的 总额、科目总额
@@ -492,9 +493,6 @@ class ReportformsController extends AppController {
             $surplusSum[$v] = $proCountSum[$v] - $expendSum[$v]; 
             $percentage[$v] = round($expendSum[$v] / $proCountSum[$v] * 100 , 2) ;
         }
-        
-//        $surplusSum['total'] = $proCountSum['total'] - $expendSum['total']; 
-//        $percentage['total'] = round($expendSum['total'] / $proCountSum['total'] * 100 , 2) ;
 
         $this->set('proCountSum', $proCountSum);
         $this->set('expendSum', $expendSum);
@@ -513,10 +511,10 @@ class ReportformsController extends AppController {
         $this->layout = 'blank';
         $msg = $this->ret_arr;
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
-//      if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
-//         header("Location:" . $_SERVER['HTTP_REFERER']);
-//         exit;
-//      }
+      if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+         header("Location:" . $_SERVER['HTTP_REFERER']);
+         exit;
+      }
 
         //$export_xls_head = array('title' => '科研项目汇总报表', 'cols' => array('ID', '申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
         $this->set('title', '科研项目汇总报表');
