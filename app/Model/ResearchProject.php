@@ -94,7 +94,6 @@ class ResearchProject extends AppModel {
     // 获取当前所有 未关闭、未删除状态下的 科研项目
     public function summary_pro(){
         $conditions = array();
-        $conditions['type'] = 1;
         $conditions['code'] = 4;
         $conditions['del'] = 0;
         $fields = array('id');

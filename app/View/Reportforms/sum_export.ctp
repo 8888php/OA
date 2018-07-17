@@ -8,113 +8,92 @@
                     <body>
                         <table border=1 cellpadding=0 cellspacing=0 width="100%" >
                             <tr>
-                                <td colspan="<?php echo count($xls_head['cols'])+1;?>" align="center">
-                                    <h2><?php echo $xls_head['title']; ?></h2>
+                                <td colspan="5" align="center">
+                                    <h2><?php echo $title; ?></h2>
                                 </td>
                             </tr>
-                            <tr style='font-size:12pt;font-weight:700;height:22pt;' class="blue">
-                                <?php foreach($xls_head['cols'] as $hv){ ?>
-                                <td  align="center"> <?php echo $hv; ?> </td> 
-                                <?php } ?>
-                                <td width='120'>审批进度</td>
+                            
+                                <tr style='text-align: center;font-size: 14px;' height="30" class="blue">
+                                    <b>
+                                    <td >科目</td>
+                                    <td > 预算 </td>
+                                    <td > 支出 </td>
+                                    <td > 结余 </td>
+                                    <td> 进度 </td>
+                                    </b>
+                                </tr> 
+                                <?php foreach($keyanlist['key'] as $key => $val){ ?>
+                                <tr height="25" style='padding-left:10px;' >
+                                   <td > <?php echo $keyanlist['val'][$key]; ?> </td>
+                                   <td > <?php echo isset($proCountSum[$val]) ? $proCountSum[$val] : 0; ?> </td>
+                                   <td > <?php echo isset($expendSum[$val]) ? $expendSum[$val] : 0; ?>  </td>
+                                   <td > <?php echo isset($surplusSum[$val]) ? $surplusSum[$val] : 0; ?>  </td>
+                                   <td > <?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?> % </td>
+                                </tr>
+                                <?php }  ?>
+                            
+                            
+                            <?php if(false){  ?>
+                            <tr>
+                                <td colspan="<?php echo count($keyanlist['val'])+1;?>" align="center">
+                                    <h2><?php echo $title; ?></h2>
+                                </td>
                             </tr>
-                            <tr style='text-align:center;height:20pt;font-weight:700;'>
-                                <td style='background-color:#ADFEDC;'> 预算 </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> <?php echo $pcost['total']; ?>  </td>
-                                <?php 
-                                foreach($keyanlist as $k) {
-                                foreach($k as $kk=>$kv) {
-                                echo "<td style='background-color:#ADFEDC;'>";
-                                echo isset($pcost[$kk]) ? $pcost[$kk] : 0;
-                                echo '</td>';
-                                }
-                                }
-                                ?>
-                                <td style='background-color:#ADFEDC;'> </td>
-                            </tr>
+                            
+                                <tr style='font-weight:600;' class="blue">
+                                    <td width='100px'>科目</td>
+                                        <?php 
+                                            foreach($keyanlist['val'] as $lv){ 
+                                                echo  "<td width='120'>" . $lv . '</td>'; 
+                                            }
+                                        ?>  
+                                </tr>
+                                <tr >
+                                    <td> 预算 </td>
+                                        <?php  
+                                            foreach($keyanlist['key'] as $k) {
+                                                echo  "<td style='background-color:#ADFEDC;'>";
+                                                echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
+                                                echo '</td>';
+                                            }
+                                        ?>
+                                </tr>
 
+                                <tr >
+                                    <td> 支出 </td>
+                                        <?php  
+                                            foreach($keyanlist['key'] as $k) {
+                                                echo  "<td style='background-color:#fdf59a;'>";
+                                                echo isset($expendSum[$k]) ? $expendSum[$k] : 0;
+                                                echo '</td>';
+                                            }
+                                        ?>
+                                </tr>
 
-                            <?php 
-                            foreach($declares_arr as $d){  
-                            $json_data = json_decode($d['m']['subject'],true);
-                            ?>        
-                            <tr style='text-align:center;height:20pt;'>
-                                <td><?php echo $d['m']['ctime'];  ?></td>
-                                <td><?php echo $d['u']['name']; ?> </td>
-                                <td><?php echo '否';  ?></td>
-                                <td> <?php echo $attr_arr[$d['m']['id']]['s']['source_channel'];  ?> </td>
-                                <td> <?php echo $attr_arr[$d['m']['id']]['s']['file_number'];  ?> </td>
-                                <td style='text-align:left;'> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
-                                <td> <?php echo $attr_arr[$d['m']['id']]['b']['amount'];  ?>  </td>
-                                <?php 
-                                foreach($keyanlist as $k) {
-                                if($d['m']['table_name'] == 'apply_jiekuandan'){
-                                foreach($k as $kk=>$kv) {
-                                echo  '<td>';
-                                echo isset($json_data[$kk]) ?  $attr_arr[$d['m']['id']]['b']['amount'] : 0;
-                                echo '</td>';
-                                }
-                                }else{
-                                foreach($k as $kk=>$kv) {
-                                echo  '<td>';
-                                echo isset($json_data[$kk]) ?  $json_data[$kk]: 0;
-                                echo '</td>';
-                                }
-                                }
-                                }
-                                ?>
-                                <td> <?php $code_bxd_arr = Configure::read('code_bxd_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
-                            </tr>
-                            <?php }?>
+                                <tr >
+                                    <td> 结余 </td>
+                                        <?php  
+                                            foreach($keyanlist['key'] as $k) {
+                                                echo  "<td style='background-color:#fdf59a;'>";
+                                                echo isset($surplusSum[$k]) ? $surplusSum[$k] : 0;
+                                                echo '</td>';
+                                            }
+                                        ?>
+                                </tr>
 
-                            <tr style='text-align:center;height:20pt;font-weight:700;'>
-                                <td style='background-color:#fdf59a;'> 支出合计 </td>
-                                <td style='background-color:#fdf59a;'> </td>
-                                <td style='background-color:#fdf59a;'> </td>
-                                <td style='background-color:#fdf59a;'> </td>
-                                <td style='background-color:#fdf59a;'> </td>
-                                <td style='background-color:#fdf59a;'> </td>
-                                <td style='background-color:#fdf59a;'> <?php echo array_sum($expent); ?>  </td>
-                                <?php 
-                                foreach($keyanlist as $k) {
-                                foreach($k as $kk=>$kv) {
-                                echo  "<td style='background-color:#fdf59a;'>";
-                                echo isset($expent[$kk]) ? $expent[$kk] : 0;
-                                echo '</td>';
-                                }
-                                }
-                                ?>
-                                <td style='background-color:#fdf59a;'> </td>
-                            </tr>
-
-                            <tr style='text-align:center;height:20pt;font-weight:700;'>
-                                <td style='background-color:#ADFEDC;'> 结余 </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> </td>
-                                <td style='background-color:#ADFEDC;'> <?php echo $pcost['total'] - array_sum($expent); ?>  </td>
-                                <?php 
-                                foreach($keyanlist as $k) {
-                                foreach($k as $kk=>$kv) {
-                                echo  "<td style='background-color:#ADFEDC;'>";
-                                if(isset($expent[$kk])){
-                                echo ($pcost[$kk] >= $expent[$kk]) ? ($pcost[$kk] - $expent[$kk]) : '<a style="color:red;">'.($pcost[$kk] - $expent[$kk]).'</a>'; 
-                                }else{
-                                echo isset($pcost[$kk]) ? $pcost[$kk] : 0;
-                                }
-                                echo '</td>';
-                                }
-                                }
-                                ?>
-                                <td style='background-color:#ADFEDC;'> </td>
-                            </tr>
+                                <tr >
+                                    <td> 进度 </td>
+                                        <?php  
+                                            foreach($keyanlist['key'] as $k) {
+                                                echo  "<td style='background-color:#ADFEDC;'>";
+                                                echo isset($percentage[$k]) ? $percentage[$k] : 0;
+                                                echo ' % ';
+                                                echo '</td>';
+                                            }
+                                        ?>
+                                </tr>
+                            
+                            <?php } ?>
                         </table>
                     </body>
                     </html>

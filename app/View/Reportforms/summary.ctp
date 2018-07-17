@@ -66,40 +66,61 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-
                         <div class="tabbable">
                             <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
-                                
                             </ul>
 
                             <div class="tab-content no-border ">
                                 <div id="faq-tab-1" class="tab-pane fade in active" >
                                     <div class="table-header">
                                         <div style="float:right;">
-                                            <a href="/reportforms/summary_export" style="color:#fff;"><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>  &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="/reportforms/sum_export" style="color:#fff;"><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>  &nbsp;&nbsp;&nbsp;&nbsp;
                                         </div>
                                         科研项目经费汇总  
                                     </div>
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>
-                                        <table class="table table-bordered " style="font-size:12px;text-align: center;table-layout: fixed;" style="margin-left:60%;">
+                                        <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" style="margin-left:60%;">
+                                            <tbody>
+                                                <tr style='font-weight:600;' class="blue">
+                                                    <td width="15%" >科目</td>
+                                                    <td width="15%"> 预算 </td>
+                                                    <td width="15%"> 支出 </td>
+                                                    <td width="15%"> 结余 </td>
+                                                    <td> 进度 </td>
+                                                </tr> 
+                                                <?php foreach($keyanlist['key'] as $key => $val){ ?>
+                                                <tr >
+                                                        <td> <?php echo $keyanlist['val'][$key]; ?> </td>
+                                                        <td> <?php echo isset($proCountSum[$val]) ? $proCountSum[$val] : 0; ?> </td>
+                                                        <td> <?php echo isset($expendSum[$val]) ? $expendSum[$val] : 0; ?>  </td>
+                                                        <td> <?php echo isset($surplusSum[$val]) ? $surplusSum[$val] : 0; ?>  </td>
+                                                        <td> 
+                                                            <div class="progress progress-striped active" style="margin:3px auto;border-radius:8px;">
+                                                                <div class="progress-bar" role="progressbar"
+                                                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                                                         style="width: <?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?>%;">
+                                                                </div>
+                                                            </div>
+                                                            <span style="position:absolute;margin-top:-20px;"><?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?> % </span>
+                                                        </td>
+                                                    </tr>
+                                                <?php }  ?>
+                                            </tbody>
+                                            
+                                            <?php if(false){    // 旧样式   ?>
                                             <tbody>
                                                 <tr style='font-weight:600;' class="blue">
                                                     <td width='100px'>科目</td>
-                                                    <td width='100px'>合计</td>
                                                     <?php 
-                                                    $keyanlist = ['total'];
-                                                    foreach(Configure::read('keyanlist') as $tdv){  
-                                                        foreach($tdv as $lk => $lv){ 
-                                                            $keyanlist[] = $lk;
+                                                        foreach($keyanlist['val'] as $lv){ 
                                                             echo  "<td width='120'>" . $lv . '</td>'; 
                                                         }
-                                                    }
                                                     ?>  
                                                 </tr>
                                                 <tr style='background-color:#ADFEDC;'>
                                                     <td> 预算 </td>
                                                     <?php  
-                                                    foreach($keyanlist as $k) {
+                                                    foreach($keyanlist['key'] as $k) {
                                                             echo  '<td>';
                                                             echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
                                                             echo '</td>';
@@ -110,9 +131,9 @@
                                                <tr style='background-color:#fdf59a;'>
                                                     <td> 支出 </td>
                                                     <?php  
-                                                    foreach($keyanlist as $k) {
+                                                    foreach($keyanlist['key'] as $k) {
                                                             echo  '<td>';
-                                                            echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
+                                                            echo isset($expendSum[$k]) ? $expendSum[$k] : 0;
                                                             echo '</td>';
                                                     }
                                                     ?>
@@ -121,9 +142,9 @@
                                                 <tr style='background-color:#fdf59a;'>
                                                     <td> 结余 </td>
                                                     <?php  
-                                                    foreach($keyanlist as $k) {
+                                                    foreach($keyanlist['key'] as $k) {
                                                             echo  '<td>';
-                                                            echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
+                                                            echo isset($surplusSum[$k]) ? $surplusSum[$k] : 0;
                                                             echo '</td>';
                                                     }
                                                     ?>
@@ -132,15 +153,17 @@
                                                 <tr style='background-color:#ADFEDC;'>
                                                     <td> 进度 </td>
                                                     <?php  
-                                                    foreach($keyanlist as $k) {
+                                                    foreach($keyanlist['key'] as $k) {
                                                             echo  '<td>';
-                                                            echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
+                                                            echo isset($percentage[$k]) ? $percentage[$k] : 0;
+                                                            echo ' % ';
                                                             echo '</td>';
                                                     }
                                                     ?>
                                                 </tr>
                                                 
                                             </tbody>
+                                            <?php }  ?>
                                         </table>
                                     </div>
                                 </div>

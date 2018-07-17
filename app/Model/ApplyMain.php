@@ -118,6 +118,31 @@ class ApplyMain extends AppModel {
         return $this->saveField('add_lots', $save_add_lots);
     }  
     
+   
+    // 取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
+    public function summary_keyan_pro($proArr){
+        $conditions = array();
+        $conditions['project_id'] = $proArr ? $proArr : 1 ; 
+        $conditions['type'] = 1;
+        $conditions['code'] = 10000;
+        $conditions['is_calculation'] = 1;
+        $conditions['table_name'] = ['apply_chuchai_bxd','apply_lingkuandan','apply_baoxiaohuizong','apply_jiekuandan'];
+        $fields = array('id','subject','total');  
+        $summaryArr = $this->find('all',array('conditions' =>$conditions, 'fields' => $fields ));
+        if(empty($summaryArr)){
+            return [];
+        }
+        $summary = ['total'=>0];
+        foreach ($summaryArr as $k => $v){
+            $summary['total'] += $v['ApplyMain']['total'];
+            foreach(json_decode($v['ApplyMain']['subject'],true) as $key => $val){
+                !isset($summary[$key]) && $summary[$key] = 0;
+                $summary[$key] += $val;
+            }
+        }
+        return $summary ;
+    } 
+    
     
  
 }
