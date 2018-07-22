@@ -261,12 +261,6 @@
                             </ul>
                         </li>
                          <?php   } ?>
-                        
-                        
-                        
-
-                   
-
                     </ul>
                 </li>
 
@@ -297,31 +291,14 @@
                                 人事报表
                             </a>
                         </li>
-                    </ul>
-                </li>
-
-
-                <!--li class="guding">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-calendar"></i>
-                        <span class="menu-text"> 固定资产 </span>
-                        <span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
-                            <i class="icon-warning-sign red bigger-130"></i>
-                        </span>
-                        <b class="arrow icon-angle-down"></b>
-                    </a>
-
-                    <ul class="submenu">
-                        <li class="guding_index">
-                            <a href="/fixedassets/index">
+                        <li class="sum_baobiao">
+                            <a href="/reportforms/summary">
                                 <i class="icon-double-angle-right"></i>
-                                固定资产
+                                项目汇总报表
                             </a>
                         </li>
-
                     </ul>
-                </li-->
-
+                </li>
 
                 <?php if((new AppController())->sytem_auth(true)){?>
                 <li class="system_set">
@@ -352,29 +329,12 @@
                                 团队管理
                             </a>
                         </li>
-
                         <li class="set_position">
                             <a href="/position/index">
                                 <i class="icon-double-angle-right"></i>
                                 职务管理
                             </a>
                         </li>
-
-<!--                        <li>
-                            <a href="#">
-                                <i class="icon-double-angle-right"></i>
-                                个人信息
-                            </a>
-                        </li>
-
-                        <li>-->
-                            <!--a href="/setting/index"-->
-<!--                            <a href="#">
-                                <i class="icon-double-angle-right"></i>
-                                档案项管理
-                            </a>
-                        </li>-->
-
                     </ul>
                 </li>
                 <?php }?>

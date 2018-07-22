@@ -57,12 +57,10 @@ class ReportformsController extends AppController {
         $this->layout = 'blank';
 
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
-        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+        if ($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6) {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
-
-
         //部门对应总金额
         $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');
         $startAmount = array();
@@ -142,7 +140,7 @@ class ReportformsController extends AppController {
         $this->layout = 'blank';
 
         // 验证是否有查看权限  可查看成员：所长室科室成员、财务分管领导、人事教育科科长（杨明霞）、侯东梅、物资采购中心科长（杨兆亮）、采购核对员（王海松） 杨萍（1月18加的 36）
-        if($this->userInfo->department_id != 27 && ($this->userInfo->position_id != 13 || $this->userInfo->department_id != 5) && !in_array($this->userInfo->id,array(33,35,84,85, 36))  ){
+        if ($this->userInfo->department_id != 27 && ($this->userInfo->position_id != 13 || $this->userInfo->department_id != 5) && !in_array($this->userInfo->id, array(33, 35, 84, 85, 36))) {
             header("Location:" . $_SERVER['HTTP_REFERER']);
             exit;
         }
@@ -277,7 +275,7 @@ class ReportformsController extends AppController {
         if (count($mainIdArr) > 0) {
             $applyList = $this->ApprovalInformation->approveList($mainIdArr);
         }
-        
+
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
         foreach ($sheetArr as $k => $v) {
@@ -320,7 +318,7 @@ class ReportformsController extends AppController {
         if (count($mainIdArr) > 0) {
             $applyList = $this->ApprovalInformation->approveList($mainIdArr);
         }
-        
+
         $applytype = Configure::read('new_appprove_code_arr');
         $sheetList = array();
         foreach ($sheetArr as $k => $v) {
@@ -337,12 +335,12 @@ class ReportformsController extends AppController {
             $sheetList[$m_id][] = $v['s']['end_time'];
             $sheetList[$m_id][] = $v['s']['total_days'];
             $sheetList[$m_id][] = $v['s']['grsq'];
-            if($v['m']['type'] == 3){
-            $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
-            $sheetList[$m_id][] = isset($applyList[$m_id][21]) ? $applyList[$m_id][21] : '';
-            }else{
-            $sheetList[$m_id][] = isset($applyList[$m_id][15]) ? $applyList[$m_id][15] : '';
-            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';   
+            if ($v['m']['type'] == 3) {
+                $sheetList[$m_id][] = isset($applyList[$m_id][20]) ? $applyList[$m_id][20] : '';
+                $sheetList[$m_id][] = isset($applyList[$m_id][21]) ? $applyList[$m_id][21] : '';
+            } else {
+                $sheetList[$m_id][] = isset($applyList[$m_id][15]) ? $applyList[$m_id][15] : '';
+                $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
             }
             $sheetList[$m_id][] = isset($applyList[$m_id][22]) ? $applyList[$m_id][22] : '';
             $sheetList[$m_id][] = $applytype[$v['m']['code']];
@@ -352,10 +350,10 @@ class ReportformsController extends AppController {
         return true;
     }
 
-   //人事报表 采购申请单
+    //人事报表 采购申请单
     private function caigou() {
         $this->layout = 'blank';
-        $export_xls_head = array('title' => '果树所采购申请单-汇总报表', 'cols' => array('ID', '申报部门', '支出项目', '申报时间', '经办人', '预算指标文号', '资金性质', '采购物资名称', '单位', '数量', '单价', '合计金额', '采购理由', '需求部门负责人审核', '需求团队负责人审核', '需求部门分管所领导审核', '财务科审核','采购内容核对','采购中心审核','财务及采购分管领导审核','所长审核','审核状态','采购完成时间','支出金额'));
+        $export_xls_head = array('title' => '果树所采购申请单-汇总报表', 'cols' => array('ID', '申报部门', '支出项目', '申报时间', '经办人', '预算指标文号', '资金性质', '采购物资名称', '单位', '数量', '单价', '合计金额', '采购理由', '需求部门负责人审核', '需求团队负责人审核', '需求部门分管所领导审核', '财务科审核', '采购内容核对', '采购中心审核', '财务及采购分管领导审核', '所长审核', '审核状态', '采购完成时间', '支出金额'));
         $this->set('xls_head', $export_xls_head);
         $this->set('colscount', count($export_xls_head['cols']));
 
@@ -373,7 +371,7 @@ class ReportformsController extends AppController {
         if (count($mainIdArr) > 0) {
             $applyList = $this->ApprovalInformation->approveList($mainIdArr);
         }
-        
+
         $applytype = Configure::read('new_appprove_code_arr');
         $channelType = Configure::read('apply_caigou_type');
         $sheetList = array();
@@ -397,10 +395,10 @@ class ReportformsController extends AppController {
 
             $sheetList[$m_id][] = ($v['s']['type'] == 1) ? $applyList[$m_id][11] : $applyList[$m_id][15];
             $sheetList[$m_id][] = ($v['s']['type'] == 1) ? $applyList[$m_id][20] : '';
-            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';            
+            $sheetList[$m_id][] = isset($applyList[$m_id][5]) ? $applyList[$m_id][5] : '';
             $sheetList[$m_id][] = isset($applyList[$m_id][14]) ? $applyList[$m_id][14] : '';
-            $sheetList[$m_id][] = isset($applyList[$m_id][23]) ? $applyList[$m_id][23] : '';   
-           
+            $sheetList[$m_id][] = isset($applyList[$m_id][23]) ? $applyList[$m_id][23] : '';
+
             $sheetList[$m_id][] = isset($applyList[$m_id][24]) ? $applyList[$m_id][24] : '';
             $sheetList[$m_id][] = isset($applyList[$m_id][13]) ? $applyList[$m_id][13] : '';
             $sheetList[$m_id][] = isset($applyList[$m_id][6]) ? $applyList[$m_id][6] : '';
@@ -412,7 +410,6 @@ class ReportformsController extends AppController {
         return true;
     }
 
-
     //人事报表 汇总 导出
     function personnel_export() {
         $this->layout = 'blank';
@@ -422,7 +419,7 @@ class ReportformsController extends AppController {
             echo json_encode($msg);
             die;
         }
-        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单','caigou' => '果树所采购申请单');
+        $sheetname = array('leave' => '请假申请单', 'chuchai' => '果树所差旅审批单', 'baogong' => '田间作业包工申请表', 'paidleave' => '果树所职工带薪年休假审批单', 'caigou' => '果树所采购申请单');
 
         $xls_name = $sheetname[$_POST['stype']] . '-汇总报表-' . date("Y-m-d H:i:s");
         $xls_suffix = 'xls';
@@ -454,6 +451,79 @@ class ReportformsController extends AppController {
             default:
                 $fromdata = false;
         }
+
+        $this->render();
+    }
+
+    protected function keyankemu() {
+        $keyanlist = ['key' => [], 'val' => []];
+        foreach (Configure::read('keyanlist') as $tdv) {
+            foreach ($tdv as $lk => $lv) {
+                $keyanlist['key'][] = $lk;
+                $keyanlist['val'][] = $lv;
+            }
+        }
+        return $keyanlist;
+    }
+
+    public function summary($export = false) {
+        $this->layout = 'blank';
+        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        // 1、取当前所有 未关闭、未删除状态下的 科研项目
+        $proArr = $this->ResearchProject->summary_pro();
+        // 2、取符合条件的所有科研项目的 总额、科目总额
+        $proCountSum = $this->ResearchProject->summary_ky($proArr);
+        $proCountSum = $proCountSum[0][0];
+
+        // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
+        $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);
+        
+        // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
+        $surplusSum = $percentage = [];  // 结余总额、支出百分比
+        $keyanlist = $this->keyankemu();
+        $keyanlist['key'][] = 'total'; 
+        $keyanlist['val'][] = '总计'; 
+        
+        foreach($keyanlist['key'] as $v){
+            $surplusSum[$v] = $proCountSum[$v] - $expendSum[$v]; 
+            $percentage[$v] = round($expendSum[$v] / $proCountSum[$v] * 100 , 2) ;
+        }
+
+        $this->set('proCountSum', $proCountSum);
+        $this->set('expendSum', $expendSum);
+        $this->set('surplusSum', $surplusSum);
+        $this->set('percentage', $percentage);
+        $this->set('keyanlist', $keyanlist);
+
+        if ($export) {
+            return array('proCountSum' => $proCountSum, 'expendSum' => $expendSum, 'surplusSum' => $surplusSum, 'percentage' => $percentage, 'keyanlist' => $keyanlist);
+        }
+        $this->render();
+    }
+
+    //人事报表 汇总 导出
+    function sum_export() {
+        $this->layout = 'blank';
+        $msg = $this->ret_arr;
+        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+      if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+         header("Location:" . $_SERVER['HTTP_REFERER']);
+         exit;
+      }
+
+        //$export_xls_head = array('title' => '科研项目汇总报表', 'cols' => array('ID', '申请日期', '申请人', '出差人员', '单位或部门', '出差事由', '开始时间', '结束时间', '出差天数', '出差地点', '交通方式及路线', '部门负责人', '分管领导', '所长', '审批状态'));
+        $this->set('title', '科研项目汇总报表');
+        $xls_name = '科研项目汇总报表-' . date("Y-m-d H:i:s");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $fromdata = $this->summary();
 
         $this->render();
     }
