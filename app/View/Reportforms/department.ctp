@@ -107,7 +107,7 @@
                                                 <td> <?php  echo $vf['file_number'] ; ?> </td>
                                                 <td> <?php  echo $vf['amount'] ; ?> </td>
                                                 <td> <?php  echo $vf['pay'] ; ?> </td>
-                                                <td> <?php  echo $vf['amount'] - $vf['pay'] ; ?> </td>
+                                                <td> <?php  echo round($vf['amount'] - $vf['pay'], 2) ; ?> </td>
                                             </tr>
                                             <?php 
                                                 }

@@ -1047,10 +1047,13 @@ class RequestNoteController extends AppController {
 
         if (!empty($souces)) {
             foreach ($souces as $k => $v) {
+                // 剩余金额大于0则显示
+                if($surplusArr[$v['ResearchSource']['id']] > 0){
                 $selected = ($souid == $v['ResearchSource']['id']) ? 'selected' : '';
                 $ret_option .= '<option value="' . $v['ResearchSource']['id'] . '"  ';
                 $ret_option .= $selected . ' > ';
                 $ret_option .= '【' . $v['ResearchSource']['source_channel'] . ' （' . $v['ResearchSource']['file_number'] . '） ￥' . $surplusArr[$v['ResearchSource']['id']] . '】</option>';
+                }
             }
         } else {
             $ret_option = '<option></option>';

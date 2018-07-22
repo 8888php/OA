@@ -311,7 +311,7 @@ class AppController extends Controller {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该来源资金已超出金额 ' . -$residual . ' 元!';
-        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+        } else if ($residual >= 0 && $residual < $apply['ApplyMain']['total']) {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该来源资金剩余金额 ' . $residual . ' 元，不足申请金额！';
@@ -339,7 +339,7 @@ class AppController extends Controller {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该项目已超出总金额 ' . -$residual . ' 元';
-        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+        } else if ($residual >= 0 && $residual < $apply['ApplyMain']['total']) {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该项目剩余总金额 ' . $residual . ' 元，不足申请金额！';
@@ -475,7 +475,7 @@ class AppController extends Controller {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '部门该来源资金已超出金额 ' . -$residual . ' 元!';
-        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+        } else if ($residual >= 0 && $residual < $apply['ApplyMain']['total']) {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '部门该来源资金剩余金额 ' . $residual . ' 元，不足申请金额！';
@@ -511,7 +511,7 @@ class AppController extends Controller {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该部门已超出总金额 ' . -$residual . ' 元';
-        } else if ($residual > 0 && $residual < $apply['ApplyMain']['total']) {
+        } else if ($residual >= 0 && $residual < $apply['ApplyMain']['total']) {
             $feedback['code'] = 1;
             $feedback['total'] = $residual;
             $feedback['msg'] = '该部门剩余总金额 ' . $residual . ' 元，不足申请金额！';
