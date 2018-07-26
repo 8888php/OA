@@ -239,29 +239,32 @@
                                                             <tbody>
                                                                 <tr style='font-weight:600;' class="blue">
                                                                     <td width='50px'> · </td>
-                                                                    <!--td width='50px'>打印</td-->
+                                                                    <td width='50px'>打印</td>
                                                                     <td width='100px'>日期</td>
                                                                     <td width='100px'>报销人</td>
                                                                     <td width='100px'>核算</td>
                                                                     <td width='100px'>摘要</td>
+                                                                    <td width='100'>申报总额</td>
                                                                     <?php foreach(Configure::read('xizhenglist') as $tdv){  
                                                                     foreach($tdv as $lv){  
                                                                     echo  "<td width='130'>" . $lv . '</td>'; 
                                                                     }
                                                                     }
                                                                     ?>  
-                                                                    <td width='100'>申报总额</td>
                                                                     <td width='100'>审批进度</td>
                                                                 </tr>
                                                                 <?php foreach($declares_arr as $d){?>        
                                                                 <tr>
                                                                     <td><?php echo $d['m']['id'];  ?></td>
-                                                                    <!--td> <i class='glyphicon glyphicon-print blue'></i> </td-->
+                                                                    <td> 
+                                                                    <a data-toggle="modal" data-remote="true" data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $d['m']['table_name'];?>_print/<?php echo $d['m']['id'];?>');"><i class='glyphicon glyphicon-print blue'></i> </a>
+                                                                    </td>
                                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                                     <td><?php echo $d['u']['name']; ?> </td>
                                                                     <td><?php echo  $d['m']['is_calculation'] == 1 ? '是' : '否';  ?></td>
                                                                     
                                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
+                                                                    <td> <?php echo $d['m']['total'];  ?> </td>
                                                                     <?php 
                                                                     $json_data = json_decode($d['m']['subject'],true);
                                                                     foreach($xizhenglist as $k) {
@@ -272,7 +275,6 @@
                                                                     }
                                                                     }
                                                                     ?>
-                                                                    <td> <?php echo $d['m']['total'];  ?> </td>
                                                                     <td> <?php $code_bxd_arr = Configure::read('new_appprove_code_arr');echo $code_bxd_arr[$d['m']['code']];  ?> </td>
                                                                 </tr>
                                                                 <?php }?>

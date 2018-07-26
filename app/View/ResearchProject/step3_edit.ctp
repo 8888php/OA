@@ -95,7 +95,7 @@
             return;
         }
         if($('.total').val() != <?php echo $pro_arr['amount'];?>){
-            $('.total').focus();
+            $('.total').focus();  console.log($('.total').val()); console.log(<?php echo $pro_arr['amount'];?>);
             alert('合计金额与项目金额不符，请调整单科目金额！');
             return;
         }
