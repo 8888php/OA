@@ -101,6 +101,7 @@
         }
         var data_json = {};
         data_json.c_id = '<?php echo $res_const['id'];?>';
+        data_json.pro_id = '<?php echo $pro_arr['id'];?>';
         data_json.data_fee = $('.data_fee').val();
         data_json.collection = $('.collection').val();
         data_json.facility = $('.facility').val();
@@ -125,7 +126,7 @@
         data_json.other3 = $('.other3').val();
         data_json.total = $('.total').val();
         data_json.remarks = $('.remarks').val();
-        data_json.upstep = 'step3';
+        data_json.upstep = 'step3'; 
         click_flag = false;
         $.ajax({
             url: '/ResearchProject/ajax_step3_edit',

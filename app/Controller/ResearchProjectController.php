@@ -1227,9 +1227,7 @@ class ResearchProjectController extends AppController {
         $this->render();
     }
     
-    public function ajax_step3_edit() {
-        
-
+    public function ajax_step3_edit() { 
         $saveArr = array();
         if ($this->request->is('ajax') && $this->request->data('upstep') == 'step3') {
             $cid = $_POST['c_id'];
@@ -1259,11 +1257,8 @@ class ResearchProjectController extends AppController {
 
             $saveArr['total'] = array_sum($saveArr);  // 总额
             !empty($_POST['remarks']) && $saveArr['remarks'] = $_POST['remarks'];
+            !empty($_POST['pro_id']) && $saveArr['project_id'] = $_POST['pro_id'];  // 项目id
             
-            
-            
-
-
             if ($this->ResearchCost->edit($cid, $saveArr)) {
                 $this->ret_arr['code'] = 0;
                 $this->ret_arr['msg'] = '修改成功';
