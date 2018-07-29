@@ -97,8 +97,8 @@
             
             <div class="modal-footer" style='background-color: #fff;'>
                  <?php if ($apply == 'apply') {?>
-                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
+                <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <?php }?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
                 <button  type="button" class="btn btn-primary" onclick="/*window.parent.declares_close();*/" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
