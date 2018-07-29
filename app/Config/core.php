@@ -423,7 +423,7 @@ Configure::write('xizhenglist', array(
     array('entrust' => '委托业务费', 'labour_union' => '工会经费'),
     array('welfare' => '福利费', 'traffic' => '其他交通费用'),
     array('tax' => '税金及附加费用', 'service_fee' => '其他商品和服务支出'),
-    array('other1' => '其他费用1', 'other2' => '其他费用2'),
+    array('other1' => '其他费用1', 'other2' => '设备费'),
 ));
 
 
