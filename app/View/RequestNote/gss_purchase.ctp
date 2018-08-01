@@ -80,7 +80,7 @@
                                 <td colspan='6' >  <input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'> </td>
                              </tr>
                              
-                             <tr style="height: 100px;">
+                             <tr style="height: 130px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
@@ -91,7 +91,7 @@
                                      
                                 </td>
                             </tr>
-                             <tr style="height: 100px;">
+                             <tr style="height: 130px;">
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
                                     财务科审核 <br /> &nbsp;&nbsp;
@@ -103,15 +103,15 @@
                                 </td>
                             </tr>
                            
-                            <tr>
+                            <tr style="height: 80px;">
                                 <td colspan='2'> 采购中心审核 </td>
                                 <td colspan='5'>  </td>
                             </tr>
-                            <tr>
+                            <tr style="height: 80px;">
                                 <td colspan='2'> 财务及采购分管领导审核 </td>
                                 <td  colspan='5' >    </td>
                             </tr>
-                            <tr >
+                            <tr style="height: 60px;">
                                 <td colspan='2'> 所长审核 </td>
                                 <td colspan='5'>    </td>
                             </tr>
