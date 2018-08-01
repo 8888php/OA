@@ -70,7 +70,7 @@ class AddLots extends AppModel {
      *  @response:
      */
     public function addLotsApply($uinfo, $applyinfo) { 
-        $ret_arr = array('code' => 2, 'msg' => '审批失败');
+        $ret_arr = array('code' => 2, 'msg' => '加签审批失败');
 
         $add_lotsArr = explode(',', $applyinfo['add_lots']);
         $uinfo = (array)$uinfo;
@@ -93,7 +93,7 @@ class AddLots extends AppModel {
                     $upSql = "update t_apply_main m left join t_add_lots l on m.id = l.main_id and l.user_id = $uid  set m.add_lots = '$lotStr' ,m.code = $fail_code ,l.is_apply = 1 where m.id = $mid ";
                     break;
                 default :
-                    $ret_arr['msg'] = '审批数据有误！';
+                    $ret_arr['msg'] = '加签审批数据有误！';
                     return $ret_arr;
             }
     
@@ -141,11 +141,13 @@ class AddLots extends AppModel {
                 
             if( $mysqli->commit() ){
                 $ret_arr['code'] = 0;
-                $ret_arr['msg'] = '审批成功';
+                $ret_arr['msg'] = '加签审批成功';
             }
             $mysqli->autocommit(true) ;
            // var_dump($mysqli->error);
             $mysqli->close();
+        }else{
+            $ret_arr['msg'] = '请等待加签人审批结束后再审批';
         }
         
         return $ret_arr;
