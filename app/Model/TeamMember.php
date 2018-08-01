@@ -45,8 +45,7 @@ class TeamMember extends AppModel{
      */
     public function del($tid,$mid) {
         $this->setDataSource('write');
-        $this->deleteAll(array('team_id'=>$tid,'id'=>$mid));
-       return $this->id;
+       return $this->deleteAll(array('team_id'=>$tid,'id'=>$mid));
     }
     
     

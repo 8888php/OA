@@ -277,6 +277,7 @@ class TeamController extends AppController {
 
             if ($memberId) {
                 $this->ret_arr['code'] = 0;
+                $this->ret_arr['msg'] = '操作成功';
             } else {
                 $this->ret_arr['msg'] = '操作失败';
             }

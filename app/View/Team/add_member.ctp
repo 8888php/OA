@@ -7,9 +7,9 @@
         <div class="col-xs-12">
             <form class="form-horizontal"   role="form">
                 <input type="hidden" name="tid" id='tid' value="<?php echo $tid; ?>" />
-                <table class="table table-bordered table-striped" style=''>
+                <table class="table table-bordered table-striped" style='text-align:left;'>
                     <tbody>
-                        <tr style='font-weight:600;' class="blue">
+                        <tr style='font-weight:600;text-align:center;' class="blue">
                             <td> NO· </td>
                             <td>姓名</td>
                             <td>权限</td>
@@ -19,8 +19,10 @@
 
                         <tr >
                             <td> &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130"></i> </td>
-                            <td> <select name="member" id='member' style='height:28px;line-height: 28px;' > 
-                                    <option value=""> 请选 </option> 
+                            <td> 
+                                 <input type="text" style="font-size: 13px; width: 108px;height:28px;" onkeyup="change_member(this.value)"  placeholder="输入姓名筛选" />
+                                <select name="member" id='member' style='width: 110px;height:28px;line-height: 28px;' > 
+                                    <option value=""> 请选择 </option> 
                                 <?php foreach($notInMember as $mk => $mv){  ?>
                                     <option value="<?php echo $mv['u']['id']; ?>"> <?php echo $mv['u']['name']; ?> </option> 
                                 <?php } ?>
@@ -69,6 +71,29 @@
 </div>
 
 <script type="text/javascript">  
+    //根据Input的值去搜索 申请人的
+function change_member(val) {
+        if (val == '') {
+            $('#member option').each(function(i){
+                $(this).css('display', 'block');
+            });
+             return;
+        }
+        $('#member option').each(function(i){
+            if (i == 0) {
+               return true;
+            }
+            var text = $(this).text();
+            if (text.indexOf(val) != -1) {
+                //说明包含
+                $(this).css('display', 'block');
+            } else {
+                $(this).css('display', 'none');
+            }
+        });                                      
+}
+   
+    
     //提交内容
     var click_flag = true;//是否可以点击
     function mem_edit(mid, type) {
