@@ -8,18 +8,19 @@
                 <table class="table table-bordered table-striped" style=''>
                     <tbody>
                         <tr style='font-weight:600;' class="blue">
-                            <td > &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130" alt='人员选择' style="margin-top:25px;"></i> </td>
+                            <td > &nbsp;&nbsp;<i class="glyphicon glyphicon-star-empty blue bigger-130" alt='人员选择' style="margin-top:5px;"></i> </td>
                             <td colspan="2">
-                                <input type="text" style="font-size: 13px; width: 88px;" onkeyup="change_shqren(this.value)"  placeholder="输入姓名筛选" />
-                                <select id="shqren" style="font-size: 13px;" onchange="change_table();">
+                                <input type="text" style="font-size: 13px; width: 168px;height:30px;" onkeyup="change_shqren(this.value)"  placeholder="输入姓名筛选" />
+                                <select id="shqren" style="font-size: 13px;width: 168px;">
                                     <option value="0">请选择加签人...</option>
                                     <?php foreach($all_user_arr as $k=>$v){?>
                                     <option value="<?php echo $k;?>" <?php echo $k==$shqren ? 'selected':'';?>><?php echo $v;?></option>
                                     <?php }?>
                                 </select>
                                 
+                            <?php if(false){ ?> 
+                            <!--暂时隐藏-->
                                 <br /> <br />
-                                
                                 <select name="types"  id='types' style='height:28px;line-height: 28px;'> 
                                     <option value="xingzheng"> 按行政部门选择 </option> 
                                     <option value="keyan"> 按科研部门选择 </option>
@@ -126,11 +127,11 @@
                                 <select name="user" id='user' style='height:28px;line-height: 58px; min-width: 100px;' onchange="approve_edit('add');" >
                                 <option value="0">请选择加签人...</option>
                                 </select> 
+                            <!--暂时隐藏-->    
+                            <?php } ?>
                             </td>
-                            <td>  &nbsp;&nbsp; 
-                                <?php  if(false){ ?>
-                                <i class="icon-plus arrow blue" title='添加' onclick="approve_edit('add');"  style="margin-top:25px;" ></i> 
-                                <?php } ?>
+                            <td>  &nbsp;&nbsp;  
+                                <button type="button" class="btn btn-primary" onclick="change_table();" style="border:none;border-radius:6px;"> <i class="icon-plus arrow"></i> 添加</button>
                             </td>
                         </tr>
 
@@ -244,8 +245,11 @@ function change_shqren(val) {
 }
 
 function change_table() {
-    var shqren = $('#shqren option:selected').val();
-    
+    var shqren = $('#shqren option:selected').val(); 
+    if(!shqren || shqren == 0){
+        alert('提交有误');
+        return false;
+    }
     var data_json = {};
         data_json.pid = $('#pid').val();
         data_json.type = 'add';
