@@ -70,6 +70,8 @@
 
                                 <div class="table-header">
                                     成员列表信息
+                                    <input type="button" id="search" style="float: right; margin-left:10px; height: 38px;font-size: 16px;font-weight: 600; width: 88px;color:#307ecc;" onkeyup="change_shqren(this.value)" value="搜索"/>
+                                    <input type="text" id="searchuname" placeholder="请输入姓名" style="float: right; height: 38px;font-size: 13px; width: 188px;" />
                                 </div>
 
                                 <div class="table-responsive">
@@ -85,7 +87,6 @@
                                                 <th>ID</th>
                                                 <th>用户名</th>
                                                 <th class="hidden-480">部门</th>
-
                                                 <th>姓名</th>
                                                 <th class="hidden-480">职务</th>
                                                 <th class="hidden-480">电话</th>
@@ -269,6 +270,17 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 
 
 <script>
+    $("#search").click(function(){
+        var uname = $("#searchuname").val(); 
+        if(!uname){
+            $("#searchuname").focus();
+            return false;
+        }
+        //console.log('/user/index?uname='+ uname );
+        location.href='/user/index?uname='+uname ;
+    });
+    
+    
             function ajax_del(did) {
             if (!did) {
             alert('删除失败');

@@ -45,14 +45,20 @@ class UserController extends AppController {
     public function index($pages = 1) {
         //判断权限
         $this->sytem_auth();
+        $wherestr = '';
+        $_GET['uname'] && $wherestr = " where name like '".$_GET['uname']."%' " ;
+//        $search_link = $_GET['uname'] ?  $pages.'?uname='.$_GET['uname'] : ''; 
+//        $this->set('search_link',$search_link);
+        
         if ((int) $pages < 1) {
             $pages = 1;
         }
-        $limit = 20;
+        
+        $limit = $_GET['uname'] ? 200 : 20;
         $total = 0;
         $curpage = 0;
         $all_page = 0;
-        $u_count = $this->User->query('select count(*) as c from t_user');
+        $u_count = $this->User->query('select count(*) as c from t_user ' . $wherestr);
         $total = $u_count[0][0]['c'];
         
         $userArr = array();
@@ -62,9 +68,8 @@ class UserController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-
-            $userArr = $this->User->query('select * from t_user as User order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
-  
+            
+            $userArr = $this->User->query('select * from t_user as User ' . $wherestr . ' order by id desc limit ' . (($pages - 1) * $limit) . ',' . $limit);
         }
         $this->set('userArr', $userArr);
 
