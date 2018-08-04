@@ -372,7 +372,8 @@ class ApplyNews extends AppModel {
             $ret_arr[$this->next_id] = $pos_id;
         } elseif ($pos_id == 36) {
             //贺晋瑜 id:252  因住院 暂时改为 孟庆仙  id:256
-            $sql_36 = "select *from t_user where id='256' and del=0";
+			// 最新已改回 贺晋瑜
+            $sql_36 = "select *from t_user where id='252' and del=0";
             $arr_36 = $this->query($sql_36);
             $ret_arr[$this->next_uid] = empty($arr_36[0]['t_user']['id']) ? 0 : $arr_36[0]['t_user']['id'];
             $ret_arr[$this->next_id] = $pos_id;
