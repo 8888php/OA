@@ -30,14 +30,10 @@
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='7'>
-                                    <?php if ($attr_arr[0][$table_name]['project_id']) {?>
-                                        <?php echo $project_arr['ResearchProject']['name'];?>  
-                                        <?php if(!empty($source_arr)){
-                                            echo '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
-                                        }?>
-                                    <?php }else {?>
-                                        <?php  echo $attr_arr[0][$table_name]['department_name'];?>
-                                    <?php }?>
+                                    <?php 
+                                        echo ($attr_arr[0][$table_name]['project_id']) ? $project_arr['ResearchProject']['name'] : $attr_arr[0][$table_name]['department_name'];
+                                        echo empty($source_arr) ? '' : '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
+                                    ?>
                                 </td>
                                 </tr>
                             
