@@ -43,7 +43,7 @@
                                 <td>部门或项目</td>
                                 <td colspan='7'>
                                     <select style="width:335px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){?>
+                                        <?php if ($is_department){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
                                         <?php 

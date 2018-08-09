@@ -42,7 +42,7 @@
                                 <td>部门或项目</td>
                                 <td colspan='6'> 
                                     <select style="width:300px;height:25px;" name="projectname" class="projectname" onchange="change_filenumber();" >
-                                        <?php if ($is_department == 1){?>
+                                        <?php if ($is_department ){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
                                         <?php foreach($projectInfo as $pk=>$pv) {
@@ -196,7 +196,7 @@
                                             }
                                          }?>
                                 </select>
-                                <?php if($is_department == 1){?>
+                                <?php if($is_department ){?>
                                 <select id="multipleselect_bm" multiple="multiple">
                                     <?php 
                                         foreach($xizhenglist as $lk=>$lv){
@@ -219,7 +219,7 @@
                             minimumCountSelected: 9
                         });
                                 </script>
-                                <?php if($is_department == 1){?>
+                                <?php if($is_department ){?>
                                 <script>
                                     $("#multipleselect_bm").multipleSelect({
                                         class:'multipleselect_bm',
