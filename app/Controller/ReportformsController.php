@@ -78,7 +78,9 @@ class ReportformsController extends AppController {
         // 合并数据
         $fromArr = array();
         $total = array('amount' => 0, 'pay' => 0);
-        foreach ($this->appdata['deplist'][1] as $k => $v) {
+        // 取行政、科研部门
+        $depArr = $this->appdata['deplist'][1] + $this->appdata['deplist'][2];
+        foreach ($depArr as $k => $v) {
             if (isset($startAmount[$k])) {
                 $fromArr[$k]['amount'] = $fromArr[$k]['pay'] = 0;
                 foreach ($startAmount[$k] as $dk => $dv) {
@@ -97,6 +99,7 @@ class ReportformsController extends AppController {
         $this->set('fromArr', $fromArr);
         $this->set('total', $total);
         $this->set('startAmount', $startAmount);
+        $this->set('depArr', $depArr);
 
         if ($export) {
             return array('fromArr' => $fromArr, 'total' => $total, 'startAmount' => $startAmount);

@@ -92,7 +92,7 @@
                                             </tr>
 
                                             
-                                            <?php  foreach($deplist[1] as $k => $v){ ?>
+                                            <?php  foreach($depArr as $k => $v){ ?>
                                              <tr style="text-align:center;border-top:2px solid #ddd;">
                                                  <td rowspan = "<?php echo isset($startAmount[$k]) ? count($startAmount[$k])+1 : 1;  ?>" style="text-indent:2rem;text-align:left;vertical-align:middle;font-size:12px;font-weight:600;"> <?php  echo $v ; ?> </td>
                                                 <td> -- </td>
