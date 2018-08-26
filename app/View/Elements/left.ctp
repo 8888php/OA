@@ -294,7 +294,7 @@
                         <li class="sum_baobiao">
                             <a href="/reportforms/summary">
                                 <i class="icon-double-angle-right"></i>
-                                项目汇总报表
+                                团队进度表
                             </a>
                         </li>
                     </ul>
