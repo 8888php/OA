@@ -101,12 +101,26 @@ class ResearchProject extends AppModel {
     } 
   
     // 获取所有科研项目 科目费用总金额
-    public function summary_ky($proArr){
+    public function summary_ky_bak($proArr){
         $conditions = $proArr ? implode(',', $proArr) : 1 ; 
         $fields = 'SUM(data_fee) data_fee,SUM(collection) collection,SUM(facility) facility,SUM(material) material,SUM(assay) assay,SUM(elding) elding,SUM(publish) publish,SUM(property_right) property_right,SUM(office) office,SUM(vehicle) vehicle,SUM(travel) travel,SUM(meeting) meeting,SUM(international) international,SUM(cooperation) cooperation,SUM(labour) labour,SUM(consult) consult,SUM(indirect_manage) indirect_manage,SUM(indirect_performance) indirect_performance,SUM(indirect_other) indirect_other,SUM(other) other,SUM(other2) other2,SUM(other3) other3,SUM(total) total,count(id) nums';
        $sqlstr = "SELECT $fields FROM t_research_cost where project_id in( $conditions ) ";
        return  $this->query($sqlstr);
     } 
+ 
+    // 获取所有科研项目 科目费用总金额
+    public function summary_ky($proArr){
+        $conditions = $proArr ? implode(',', $proArr) : 1 ; 
+        $fields = 'p.project_team_id, SUM(c.data_fee) data_fee,SUM(c.collection) collection,SUM(c.facility) facility,SUM(c.material) material,SUM(c.assay) assay,SUM(c.elding) elding,SUM(c.publish) publish,SUM(c.property_right) property_right,SUM(c.office) office,SUM(c.vehicle) vehicle,SUM(c.travel) travel,SUM(c.meeting) meeting,SUM(c.international) international,SUM(c.cooperation) cooperation,SUM(c.labour) labour,SUM(c.consult) consult,SUM(c.indirect_manage) indirect_manage,SUM(c.indirect_performance) indirect_performance,SUM(c.indirect_other) indirect_other,SUM(c.other) other,SUM(c.other2) other2,SUM(c.other3) other3,SUM(c.total) total,count(c.id) nums';
+       $sqlstr = "SELECT $fields FROM t_research_cost c left join t_research_project p on c.project_id = p.id where c.project_id in( $conditions ) group by p.project_team_id ";
+       $pro_sum = $this->query($sqlstr);
+       $pro_sum_arr = array();  
+       foreach($pro_sum as $k => $v){
+           $pro_sum_arr[$v['p']['project_team_id']] = $v[0] ;
+       }
+       return  $pro_sum_arr;
+    }   
+    
     
 
 }

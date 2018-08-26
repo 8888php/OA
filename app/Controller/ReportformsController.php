@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
 class ReportformsController extends AppController {
 
     public $name = 'Reportforms';
-    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'Department', 'ApprovalInformation');
+    public $uses = array('ResearchProject', 'User', 'ResearchCost', 'ResearchSource', 'ProjectMember', 'ApplyMain', 'Department', 'ApprovalInformation','Team');
     private $ret_arr = array('code' => 0, 'msg' => '', 'class' => '');
 
     public function index($export = false) {
@@ -468,8 +468,18 @@ class ReportformsController extends AppController {
         }
         return $keyanlist;
     }
-
-    public function summary($export = false) {
+    
+    protected function keyankemuArr() {
+        $keyanlist = [];
+        foreach (Configure::read('keyanlist') as $tdv) {
+            foreach ($tdv as $lk => $lv) {
+                $keyanlist[$lk] = $lv;
+            }
+        }
+        return $keyanlist;
+    }
+    
+    public function summary_bak($export = false) {
         $this->layout = 'blank';
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
         if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
@@ -480,11 +490,11 @@ class ReportformsController extends AppController {
         // 1、取当前所有 未关闭、未删除状态下的 科研项目
         $proArr = $this->ResearchProject->summary_pro();
         // 2、取符合条件的所有科研项目的 总额、科目总额
-        $proCountSum = $this->ResearchProject->summary_ky($proArr);
+        $proCountSum = $this->ResearchProject->summary_ky_bak($proArr);
         $proCountSum = $proCountSum[0][0];
 
         // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
-        $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);
+        $expendSum = $this->ApplyMain->summary_keyan_pro_bak($proArr);
         
         // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
         $surplusSum = $percentage = [];  // 结余总额、支出百分比
@@ -510,7 +520,7 @@ class ReportformsController extends AppController {
     }
 
     //人事报表 汇总 导出
-    function sum_export() {
+    function sum_export_bak() {
         $this->layout = 'blank';
         $msg = $this->ret_arr;
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
@@ -531,4 +541,85 @@ class ReportformsController extends AppController {
         $this->render();
     }
 
+
+ public function summary($export = false) {
+        $this->layout = 'blank';
+        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+        if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+            header("Location:" . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+
+        // 1、取当前所有 未关闭、未删除状态下的 科研项目
+        $proArr = $this->ResearchProject->summary_pro();
+        // 2、取符合条件的所有科研项目的 总额、科目总额
+        $proCountSum = $this->ResearchProject->summary_ky($proArr); 
+        //var_dump($proCountSum);die;
+
+        // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
+        $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);  
+        //var_dump($expendSum);die;
+        
+        // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
+        $surplusSum = $percentage = [];  // 结余总额、支出百分比
+        $keyanlist = $this->keyankemuArr();
+        $keyanlist = ['total' => '合计'] + $keyanlist;  
+       
+        foreach($proCountSum as $key => $val){
+            foreach($val as $k => $v){
+                if(isset($expendSum[$key][$k])){
+                    $surplusSum[$key][$k] = $v - $expendSum[$key][$k] ; 
+                    $percentage[$key][$k] = round($expendSum[$key][$k] / $v * 100 , 2) ;
+                }else if( $v > 0 ){
+                    $surplusSum[$key][$k] = $v ; 
+                    $percentage[$key][$k] = 100 ;
+                }else{
+                    $surplusSum[$key][$k] = 0 ; 
+                    $percentage[$key][$k] = 0 ;
+                }
+            }
+        }
+//var_dump($surplusSum);die;
+//var_dump($percentage);die;
+        $teamlist = $this->Team->getList();
+        // $teamlist = $teamlist + [0 => '单个项目'];
+        $this->set('teamlist', $teamlist);
+        $this->set('proCountSum', $proCountSum);
+        $this->set('expendSum', $expendSum);
+        $this->set('surplusSum', $surplusSum);
+        $this->set('percentage', $percentage);
+        $this->set('keyanlist', $keyanlist);
+
+        if ($export) {
+            return array('teamlist' => $teamlist, 'proCountSum' => $proCountSum, 'expendSum' => $expendSum, 'surplusSum' => $surplusSum, 'percentage' => $percentage, 'keyanlist' => $keyanlist);
+        }
+        $this->render();
+    }
+
+    //人事报表 汇总 导出
+    function sum_export() {
+        $this->layout = 'blank';
+        $msg = $this->ret_arr;
+        // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
+      if($this->userInfo->department_id != 5 && $this->userInfo->position_id != 6){
+         header("Location:" . $_SERVER['HTTP_REFERER']);
+         exit;
+      }
+
+      $fromdata = $this->summary();
+      
+      $export_xls_head = array('title' => '团队进度表', 'cols' => $fromdata['keyanlist']);
+      $this->set('xls_head', $export_xls_head);
+        
+        $xls_name = '团队进度表-' . date("Y-m-d-Hi");
+        $xls_suffix = 'xls';
+        header("Content-Type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
+
+        $this->render();
+    }    
+    
+    
+    
+    
 }

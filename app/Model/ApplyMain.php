@@ -52,40 +52,38 @@ class ApplyMain extends AppModel {
         $fields = array();
         return $this->find('all', array('conditions' => array('project_id' => $pid, 'code' => 10000), 'fields' => $fields));
     }
-    
+
     # 获取项目全部 费用信息
 
     public function getSubject($pid) {
-        $fields = array('id','subject');
-        return $this->find('list', array('conditions' => array('project_id' => $pid,'code'=>10000), 'fields' => $fields));
+        $fields = array('id', 'subject');
+        return $this->find('list', array('conditions' => array('project_id' => $pid, 'code' => 10000), 'fields' => $fields));
     }
 
-    
-        # 获取项目全部 费用信息 
+    # 获取项目全部 费用信息 
+
     public function getSubjectTwo($pid) {
-        $fields = array('id','subject','table_name','attr_id');
-        return $this->find('all', array('conditions' => array('project_id' => $pid,'code'=>10000,'is_calculation' => 1), 'fields' => $fields));
+        $fields = array('id', 'subject', 'table_name', 'attr_id');
+        return $this->find('all', array('conditions' => array('project_id' => $pid, 'code' => 10000, 'is_calculation' => 1), 'fields' => $fields));
     }
 
     # 获取资金来源 剩余金额 
     # $data : array  资金来源id，金额
+
     public function getSurplus($data) {
-        $fields = array('id','total','source_id');
-        $surplusArr = $this->find('list', array('conditions' => array('source_id' => $data['sourceId'],'code'=>10000,'is_calculation' => 1), 'fields' => $fields));
+        $fields = array('id', 'total', 'source_id');
+        $surplusArr = $this->find('list', array('conditions' => array('source_id' => $data['sourceId'], 'code' => 10000, 'is_calculation' => 1), 'fields' => $fields));
         $surplus = $data['amount'];
-        if($surplusArr){
+        if ($surplusArr) {
             foreach ($surplusArr as $key => $value) {
                 foreach ($value as $k => $v) {
-                    $surplus[$key] = sprintf("%0.2f",$surplus[$key] - $v);
+                    $surplus[$key] = sprintf("%0.2f", $surplus[$key] - $v);
                 }
             }
-        } 
+        }
         return $surplus;
     }
 
-    
-    
-  
     /**
      * 修改加签人
      * @param type $id
@@ -94,55 +92,85 @@ class ApplyMain extends AppModel {
      * @param type $type add:添加加签人  del:删除加签人
      * @return type
      */
-    public function addLots($id , $add_uid , $type = 'add', $data = '') {
+    public function addLots($id, $add_uid, $type = 'add', $data = '') {
         $this->setDataSource('write');
         $this->id = $id;
         // 取 当前申请单中加签人
-        if(empty($data)){
+        if (empty($data)) {
             $infos = $this->findById($id);
-            $save_add_lots = $infos['ApplyMain']['add_lots'] ;
-        }else{
-            $save_add_lots = $data ;
+            $save_add_lots = $infos['ApplyMain']['add_lots'];
+        } else {
+            $save_add_lots = $data;
         }
-        
-        switch($type){
+
+        switch ($type) {
             case 'add':
-                $save_add_lots .= ','.$add_uid ;
+                $save_add_lots .= ',' . $add_uid;
                 break;
             case 'del':
-                $lotStr = str_replace(",$add_uid,", ',', $save_add_lots, $count) ;
-                $count == 0 && $lotStr = str_replace(",$add_uid", '', $save_add_lots, $nums) ;
-                $save_add_lots = $lotStr ;
+                $lotStr = str_replace(",$add_uid,", ',', $save_add_lots, $count);
+                $count == 0 && $lotStr = str_replace(",$add_uid", '', $save_add_lots, $nums);
+                $save_add_lots = $lotStr;
                 break;
         }
         return $this->saveField('add_lots', $save_add_lots);
-    }  
-    
-   
+    }
+
     // 取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
-    public function summary_keyan_pro($proArr){
+    public function summary_keyan_pro_bak($proArr) {
         $conditions = array();
-        $conditions['project_id'] = $proArr ? $proArr : 1 ; 
+        $conditions['project_id'] = $proArr ? $proArr : 1;
         $conditions['type'] = 1;
         $conditions['code'] = 10000;
         $conditions['is_calculation'] = 1;
-        $conditions['table_name'] = ['apply_chuchai_bxd','apply_lingkuandan','apply_baoxiaohuizong','apply_jiekuandan'];
-        $fields = array('id','subject','total');  
-        $summaryArr = $this->find('all',array('conditions' =>$conditions, 'fields' => $fields ));
-        if(empty($summaryArr)){
+        $conditions['table_name'] = ['apply_chuchai_bxd', 'apply_lingkuandan', 'apply_baoxiaohuizong', 'apply_jiekuandan'];
+        $fields = array('id', 'subject', 'total');
+        $summaryArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields));
+        if (empty($summaryArr)) {
             return [];
         }
-        $summary = ['total'=>0];
-        foreach ($summaryArr as $k => $v){
+        $summary = ['total' => 0];
+        foreach ($summaryArr as $k => $v) {
             $summary['total'] += $v['ApplyMain']['total'];
-            foreach(json_decode($v['ApplyMain']['subject'],true) as $key => $val){
+            foreach (json_decode($v['ApplyMain']['subject'], true) as $key => $val) {
                 !isset($summary[$key]) && $summary[$key] = 0;
                 $summary[$key] += $val;
             }
         }
-        return $summary ;
-    } 
-    
-    
- 
+        return $summary;
+    }
+
+    // 取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
+    public function summary_keyan_pro($proArr) {
+        $conditions = array();
+        $conditions['ApplyMain.project_id'] = $proArr ? $proArr : 1;
+        $conditions['ApplyMain.type'] = 1;
+        $conditions['ApplyMain.code'] = 10000;
+        $conditions['ApplyMain.is_calculation'] = 1;
+        $conditions['ApplyMain.table_name'] = ['apply_chuchai_bxd', 'apply_lingkuandan', 'apply_baoxiaohuizong', 'apply_jiekuandan'];
+        $fields = array('id', 'subject', 'total','p.project_team_id');
+        $summaryArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields , 'alias' => 'm' , 'joins' => array(
+        array(
+        'alias' => 'p',
+        'table' => 't_research_project',
+        'type' => 'LEFT',
+        'conditions' => ' project_id = p.id ',
+        ),
+        )));
+        
+        if (empty($summaryArr)) {
+            return [];
+        }
+        $summary = [];
+        foreach ($summaryArr as $k => $v) {
+            !isset($summary[$v['p']['project_team_id']]['total']) && $summary[$v['p']['project_team_id']]['total'] = 0;
+            $summary[$v['p']['project_team_id']]['total'] += $v['ApplyMain']['total'];
+            foreach (json_decode($v['ApplyMain']['subject'], true) as $key => $val) {
+                !isset($summary[$v['p']['project_team_id']][$key]) && $summary[$v['p']['project_team_id']][$key] = 0;
+                $summary[$v['p']['project_team_id']][$key] += $val;
+            }
+        }
+        return $summary;
+    }
+
 }

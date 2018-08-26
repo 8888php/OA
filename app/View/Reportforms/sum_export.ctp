@@ -8,92 +8,61 @@
                     <body>
                         <table border=1 cellpadding=0 cellspacing=0 width="100%" >
                             <tr>
-                                <td colspan="5" align="center">
-                                    <h2><?php echo $title; ?></h2>
+                                <td colspan="25" align="center">
+                                    <h2><?php echo $xls_head['title']; ?></h2>
                                 </td>
                             </tr>
-                            
-                                <tr style='text-align: center;font-size: 14px;' height="30" class="blue">
-                                    <b>
-                                    <td >科目</td>
-                                    <td > 预算 </td>
-                                    <td > 支出 </td>
-                                    <td > 结余 </td>
-                                    <td> 进度 </td>
-                                    </b>
-                                </tr> 
-                                <?php foreach($keyanlist['key'] as $key => $val){ ?>
-                                <tr height="25" style='padding-left:10px;' >
-                                   <td > <?php echo $keyanlist['val'][$key]; ?> </td>
-                                   <td > <?php echo isset($proCountSum[$val]) ? $proCountSum[$val] : 0; ?> </td>
-                                   <td > <?php echo isset($expendSum[$val]) ? $expendSum[$val] : 0; ?>  </td>
-                                   <td > <?php echo isset($surplusSum[$val]) ? $surplusSum[$val] : 0; ?>  </td>
-                                   <td > <?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?> % </td>
-                                </tr>
-                                <?php }  ?>
-                            
-                            
-                            <?php if(false){  ?>
+
+                            <tr style='text-align: center;font-size: 14px;' height="50" class="blue">
+                                <b>
+                                    <td > 团队 </td>
+                                    <td >汇总项</td>
+                                    <?php 
+                                    foreach($keyanlist as $lv){  
+                                    echo  "<td width='120'>" . $lv . '</td>'; 
+                                    }
+                                    ?>
+                                </b>
+                            </tr> 
+                            <?php  foreach($teamlist as $k => $v){ ?>  
                             <tr>
-                                <td colspan="<?php echo count($keyanlist['val'])+1;?>" align="center">
-                                    <h2><?php echo $title; ?></h2>
-                                </td>
+                                <td rowspan="4"> <br/><br/><br/> <?php echo $v;  ?></td>
+                                <td width='100'>预算</td>
+                                <?php  
+                                foreach($keyanlist as $lk => $lv){  
+                                $money = $proCountSum[$k][$lk] ? $proCountSum[$k][$lk] : 0 ;
+                                echo '<td>'.$money .'</td>';
+                                }
+                                ?>
                             </tr>
-                            
-                                <tr style='font-weight:600;' class="blue">
-                                    <td width='100px'>科目</td>
-                                        <?php 
-                                            foreach($keyanlist['val'] as $lv){ 
-                                                echo  "<td width='120'>" . $lv . '</td>'; 
-                                            }
-                                        ?>  
-                                </tr>
-                                <tr >
-                                    <td> 预算 </td>
-                                        <?php  
-                                            foreach($keyanlist['key'] as $k) {
-                                                echo  "<td style='background-color:#ADFEDC;'>";
-                                                echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
-                                                echo '</td>';
-                                            }
-                                        ?>
-                                </tr>
-
-                                <tr >
-                                    <td> 支出 </td>
-                                        <?php  
-                                            foreach($keyanlist['key'] as $k) {
-                                                echo  "<td style='background-color:#fdf59a;'>";
-                                                echo isset($expendSum[$k]) ? $expendSum[$k] : 0;
-                                                echo '</td>';
-                                            }
-                                        ?>
-                                </tr>
-
-                                <tr >
-                                    <td> 结余 </td>
-                                        <?php  
-                                            foreach($keyanlist['key'] as $k) {
-                                                echo  "<td style='background-color:#fdf59a;'>";
-                                                echo isset($surplusSum[$k]) ? $surplusSum[$k] : 0;
-                                                echo '</td>';
-                                            }
-                                        ?>
-                                </tr>
-
-                                <tr >
-                                    <td> 进度 </td>
-                                        <?php  
-                                            foreach($keyanlist['key'] as $k) {
-                                                echo  "<td style='background-color:#ADFEDC;'>";
-                                                echo isset($percentage[$k]) ? $percentage[$k] : 0;
-                                                echo ' % ';
-                                                echo '</td>';
-                                            }
-                                        ?>
-                                </tr>
-                            
-                            <?php } ?>
+                            <tr>
+                                <td width='100'>支出合计</td>
+                                <?php  
+                                foreach($keyanlist as $lk => $lv){  
+                                $money = $expendSum[$k][$lk] ? $expendSum[$k][$lk] : 0 ;
+                                echo '<td>'.$money .'</td>';
+                                }
+                                ?>
+                            </tr>
+                            <tr>
+                                <td width='100'>结余</td>
+                                <?php  
+                                foreach($keyanlist as $lk => $lv){ 
+                                $money = $surplusSum[$k][$lk] ? $surplusSum[$k][$lk] : 0 ;
+                                echo '<td>'.$money .'</td>';
+                                }
+                                ?>
+                            </tr>
+                            <tr>
+                                <td width='100'>进度</td>
+                                <?php  
+                                foreach($keyanlist as $lk => $lv){ 
+                                $money = $percentage[$k][$lk] ? $percentage[$k][$lk] : 0 ;
+                                echo '<td>'.$money .' % </td>';
+                                }
+                                ?>
+                            </tr>
+                            <?php }?>
                         </table>
                     </body>
                     </html>

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 项目汇总报表</title>		
+        <title> 汇总报表 — 团队进度表</title>		
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,7 +38,6 @@
 
     <body>
         <?php echo $this->element('top'); ?>
-
         <?php echo $this->element('left'); ?>
 
         <div class="main-content">
@@ -49,12 +48,16 @@
                     } catch (e) {
                     }
                 </script>
+
                 <ul class="breadcrumb">
                     <li>
                         <i class="icon-home home-icon"></i>
                         <a href="#">Home</a>
                     </li>
-                    <li class="active">项目汇总报表</li>
+                    <li>
+                        <a href="#">汇总报表</a>
+                    </li>
+                    <li class="active">团队进度表</li>
                 </ul><!-- .breadcrumb -->
             </div>
 
@@ -67,109 +70,77 @@
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="tabbable">
-                            <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
-                            </ul>
-
                             <div class="tab-content no-border ">
-                                <div id="faq-tab-1" class="tab-pane fade in active" >
+                                <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
                                     <div class="table-header">
                                         <div style="float:right;">
                                             <a href="/reportforms/sum_export" style="color:#fff;"><i class="glyphicon glyphicon-cloud-download"></i>导出 </a>  &nbsp;&nbsp;&nbsp;&nbsp;
                                         </div>
-                                        科研项目经费汇总  
+                                        团队进度表 
                                     </div>
                                     <div class="table-responsive" style='width:100%;overflow:auto;'>
-                                        <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" style="margin-left:60%;">
+                                        <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" >
                                             <tbody>
-                                                <tr style='font-weight:600;' class="blue">
-                                                    <td width="15%" >科目</td>
-                                                    <td width="15%"> 预算 </td>
-                                                    <td width="15%"> 支出 </td>
-                                                    <td width="15%"> 结余 </td>
-                                                    <td> 进度 </td>
-                                                </tr> 
-                                                <?php foreach($keyanlist['key'] as $key => $val){ ?>
-                                                <tr >
-                                                        <td> <?php echo $keyanlist['val'][$key]; ?> </td>
-                                                        <td> <?php echo isset($proCountSum[$val]) ? $proCountSum[$val] : 0; ?> </td>
-                                                        <td> <?php echo isset($expendSum[$val]) ? $expendSum[$val] : 0; ?>  </td>
-                                                        <td> <?php echo isset($surplusSum[$val]) ? $surplusSum[$val] : 0; ?>  </td>
-                                                        <td> 
-                                                            <div class="progress progress-striped active" style="margin:3px auto;border-radius:8px;">
-                                                                <div class="progress-bar" role="progressbar"
-                                                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                                                         style="width: <?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?>%;">
-                                                                </div>
-                                                            </div>
-                                                            <span style="position:absolute;margin-top:-20px;"><?php echo isset($percentage[$val]) ? $percentage[$val] : 0; ?> % </span>
-                                                        </td>
-                                                    </tr>
-                                                <?php }  ?>
-                                            </tbody>
-                                            
-                                            <?php if(false){    // 旧样式   ?>
-                                            <tbody>
-                                                <tr style='font-weight:600;' class="blue">
-                                                    <td width='100px'>科目</td>
+                                                <tr style='font-weight:600;' class="blue first">
+                                                    <td  width='150px'> 团队 </td>
+                                                    <td  width='100px'>汇总项</td>
                                                     <?php 
-                                                        foreach($keyanlist['val'] as $lv){ 
-                                                            echo  "<td width='120'>" . $lv . '</td>'; 
-                                                        }
+                                                    foreach($keyanlist as $lv){  
+                                                        echo  "<td width='120'>" . $lv . '</td>'; 
+                                                    }
                                                     ?>  
                                                 </tr>
-                                                <tr style='background-color:#ADFEDC;'>
-                                                    <td> 预算 </td>
+                                                <?php  foreach($teamlist as $k => $v){ ?>  
+                                                 <tr>
+                                                    <td rowspan="4"> <br/><br/><br/> <?php echo $v;  ?></td>
+                                                    <td width='100'>预算</td>
                                                     <?php  
-                                                    foreach($keyanlist['key'] as $k) {
-                                                            echo  '<td>';
-                                                            echo isset($proCountSum[$k]) ? $proCountSum[$k] : 0;
-                                                            echo '</td>';
-                                                    }
-                                                    ?>
+                                                    foreach($keyanlist as $lk => $lv){  
+                                                        $money = $proCountSum[$k][$lk] ? $proCountSum[$k][$lk] : 0 ;
+                                                        echo '<td>'.$money .'</td>';
+                                                     }
+                                                     ?>
                                                 </tr>
-                                                
-                                               <tr style='background-color:#fdf59a;'>
-                                                    <td> 支出 </td>
+                                                 <tr>
+                                                    <td width='100'>支出合计</td>
                                                     <?php  
-                                                    foreach($keyanlist['key'] as $k) {
-                                                            echo  '<td>';
-                                                            echo isset($expendSum[$k]) ? $expendSum[$k] : 0;
-                                                            echo '</td>';
-                                                    }
-                                                    ?>
+                                                    foreach($keyanlist as $lk => $lv){  
+                                                        $money = $expendSum[$k][$lk] ? $expendSum[$k][$lk] : 0 ;
+                                                        echo '<td>'.$money .'</td>';
+                                                     }
+                                                     ?>
                                                 </tr>
-                                                
-                                                <tr style='background-color:#fdf59a;'>
-                                                    <td> 结余 </td>
+                                                <tr>
+                                                    <td width='100'>结余</td>
                                                     <?php  
-                                                    foreach($keyanlist['key'] as $k) {
-                                                            echo  '<td>';
-                                                            echo isset($surplusSum[$k]) ? $surplusSum[$k] : 0;
-                                                            echo '</td>';
-                                                    }
-                                                    ?>
+                                                    foreach($keyanlist as $lk => $lv){ 
+                                                        $money = $surplusSum[$k][$lk] ? $surplusSum[$k][$lk] : 0 ;
+                                                        echo '<td>'.$money .'</td>';
+                                                     }
+                                                     ?>
                                                 </tr>
-                                                
-                                                <tr style='background-color:#ADFEDC;'>
-                                                    <td> 进度 </td>
+                                                 <tr>
+                                                    <td width='100'>进度</td>
                                                     <?php  
-                                                    foreach($keyanlist['key'] as $k) {
-                                                            echo  '<td>';
-                                                            echo isset($percentage[$k]) ? $percentage[$k] : 0;
-                                                            echo ' % ';
-                                                            echo '</td>';
-                                                    }
-                                                    ?>
+                                                    foreach($keyanlist as $lk => $lv){ 
+                                                        $money = $percentage[$k][$lk] ? $percentage[$k][$lk] : 0 ;
+                                                        echo '<td>'.$money .' % </td>';
+                                                     }
+                                                     ?>
                                                 </tr>
-                                                
+                                                <?php }?>
                                             </tbody>
-                                            <?php }  ?>
                                         </table>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.modal_declares -->
 
+                        <div class="modal fade" id="modal_wait" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+         <div class="modal-body" id="modal-body"> （-_-)抱歉，内容加载不出来  </div>
+    </div><!-- /.modal -->
+</div>  
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -220,6 +191,13 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
 <!-- inline scripts related to this page -->
 
 <script type="text/javascript">
+     $('#modal_wait').on('shown.bs.modal', function () {
+        // 执行一些动作...
+        bumeng_change(); 
+      })
+    function declares_close() {
+        $('#declares_close').click();
+    }
     //left页面用与判断
     function research_prject_flag() {
         //do noting
