@@ -578,9 +578,9 @@ class ReportformsController extends AppController {
                     $percentage[$key][$k] = 0 ;
                 }
                 // 合计项
-                $proCountSum['sum'][$k] += $v ; 
-                $surplusSum['sum'][$k] += isset($surplusSum[$key][$k]) ?  $surplusSum[$key][$k] : 0 ;
-                $expendSum['sum'][$k] += isset($expendSum[$key][$k]) ? $expendSum[$key][$k] : 0 ;
+                @$proCountSum['sum'][$k] += $v ; 
+                @$surplusSum['sum'][$k] += isset($surplusSum[$key][$k]) ?  @$surplusSum[$key][$k] : 0 ;
+                @$expendSum['sum'][$k] += isset($expendSum[$key][$k]) ? @$expendSum[$key][$k] : 0 ;
             }
         }
         
