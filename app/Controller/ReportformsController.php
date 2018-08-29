@@ -586,7 +586,7 @@ class ReportformsController extends AppController {
         
         // 合计进度
         foreach($proCountSum['sum'] as $k => $v){
-            $percentage['sum'][$k] = round(bcdiv($expendSum['sum'][$k] , $proCountSum['sum'][$k] , 4) * 100 , 2) ; 
+            $percentage['sum'][$k] = round($expendSum['sum'][$k] / $proCountSum['sum'][$k] * 100 , 2) ; 
         }
         
 //var_dump($surplusSum);die;
