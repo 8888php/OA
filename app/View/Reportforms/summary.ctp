@@ -96,7 +96,7 @@
                                                     <td width='100'>预算</td>
                                                     <?php  
                                                     foreach($keyanlist as $lk => $lv){  
-                                                        $money = $proCountSum[$k][$lk] ? $proCountSum[$k][$lk] : 0 ;
+                                                        $money = isset($proCountSum[$k][$lk]) ? $proCountSum[$k][$lk] : 0 ;
                                                         echo '<td>'.$money .'</td>';
                                                      }
                                                      ?>
@@ -105,7 +105,7 @@
                                                     <td width='100'>支出合计</td>
                                                     <?php  
                                                     foreach($keyanlist as $lk => $lv){  
-                                                        $money = $expendSum[$k][$lk] ? $expendSum[$k][$lk] : 0 ;
+                                                       $money = isset($expendSum[$k][$lk]) ? $expendSum[$k][$lk] : 0 ;
                                                         echo '<td>'.$money .'</td>';
                                                      }
                                                      ?>
@@ -114,7 +114,7 @@
                                                     <td width='100'>结余</td>
                                                     <?php  
                                                     foreach($keyanlist as $lk => $lv){ 
-                                                        $money = $surplusSum[$k][$lk] ? $surplusSum[$k][$lk] : 0 ;
+                                                        $money = isset($surplusSum[$k][$lk]) ? $surplusSum[$k][$lk] : 0 ;
                                                         echo '<td>'.$money .'</td>';
                                                      }
                                                      ?>
@@ -123,7 +123,7 @@
                                                     <td width='100'>进度</td>
                                                     <?php  
                                                     foreach($keyanlist as $lk => $lv){ 
-                                                        $money = $percentage[$k][$lk] ? $percentage[$k][$lk] : 0 ;
+                                                        $money = isset($percentage[$k][$lk]) ? $percentage[$k][$lk] : 0 ;
                                                         echo '<td>'.$money .' % </td>';
                                                      }
                                                      ?>

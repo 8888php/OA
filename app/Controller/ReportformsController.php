@@ -569,7 +569,7 @@ class ReportformsController extends AppController {
             foreach($val as $k => $v){
                 if(isset($expendSum[$key][$k])){
                     $surplusSum[$key][$k] = $v - $expendSum[$key][$k] ; 
-                    $percentage[$key][$k] = round($expendSum[$key][$k] / $v * 100 , 2) ;
+                    @$percentage[$key][$k] = round($expendSum[$key][$k] / $v * 100 , 2);
                 }else if( $v > 0 ){
                     $surplusSum[$key][$k] = $v ; 
                     $percentage[$key][$k] = 100 ;
@@ -579,8 +579,8 @@ class ReportformsController extends AppController {
                 }
                 // 合计项
                 @$proCountSum['sum'][$k] += $v ; 
-                @$surplusSum['sum'][$k] += isset($surplusSum[$key][$k]) ?  @$surplusSum[$key][$k] : 0 ;
-                @$expendSum['sum'][$k] += isset($expendSum[$key][$k]) ? @$expendSum[$key][$k] : 0 ;
+                @$surplusSum['sum'][$k] += isset($surplusSum[$key][$k]) ?  $surplusSum[$key][$k] : 0 ;
+                @$expendSum['sum'][$k] += isset($expendSum[$key][$k]) ? $expendSum[$key][$k] : 0 ;
             }
         }
         
