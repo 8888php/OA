@@ -554,7 +554,7 @@ class ReportformsController extends AppController {
         $proArr = $this->ResearchProject->summary_pro();
         // 2、取符合条件的所有科研项目的 总额、科目总额
         $proCountSum = $this->ResearchProject->summary_ky($proArr); 
-        //var_dump($proCountSum);die;
+       // var_dump($proCountSum);die;
 
         // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
         $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);  
@@ -577,12 +577,22 @@ class ReportformsController extends AppController {
                     $surplusSum[$key][$k] = 0 ; 
                     $percentage[$key][$k] = 0 ;
                 }
+                // 合计项
+                $proCountSum['sum'][$k] += $v ; 
+                $surplusSum['sum'][$k] += $surplusSum[$key][$k] ;
+                $expendSum['sum'][$k] += $expendSum[$key][$k] ;
             }
         }
+        
+        // 合计进度
+        foreach($proCountSum['sum'] as $k => $v){
+            $percentage['sum'][$k] = round(bcdiv($expendSum['sum'][$k] , $proCountSum['sum'][$k] , 4) * 100 , 2) ; 
+        }
+        
 //var_dump($surplusSum);die;
 //var_dump($percentage);die;
         $teamlist = $this->Team->getList();
-        // $teamlist = $teamlist + [0 => '单个项目'];
+        $teamlist = $teamlist + ['sum' => '合计'];
         $this->set('teamlist', $teamlist);
         $this->set('proCountSum', $proCountSum);
         $this->set('expendSum', $expendSum);
