@@ -60,7 +60,7 @@ class PageHelper extends AppHelper {
         
     }
 
-    function show($each_disNums, $nums, $current_page, $sub_pages, $subPage_link, $subPage_type, $table_name = '', $shqren) {
+    function show($each_disNums, $nums, $current_page, $sub_pages, $subPage_link, $subPage_type, $table_name = '', $shqren = '') {
         $this->each_disNums = intval($each_disNums);
         $this->nums = intval($nums);
         if (!$current_page) {

@@ -516,7 +516,8 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = ($type == 1) ? $project_arr['ResearchProject']['name'] : $department_name;
         $attrArr['project_id'] = $project_id;
-        $attrArr['personnel'] = $datas['personnel'];
+       // $attrArr['personnel'] = $datas['personnel'];
+        $attrArr['personnel'] = $this->userInfo->name ;
         $attrArr['start_date'] = $datas['start_day'];
         $attrArr['end_date'] = $datas['end_day'];
         $attrArr['days'] = $datas['sum_day'];

@@ -47,7 +47,7 @@
                              </tr>
                              <tr>
                                 <td>出差人员</td>
-                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:575px;height:25px;' value="<?php echo $userInfo->name; ?>" /> </td>
+                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:575px;height:25px;' value="<?php echo $userInfo->name; ?>" readonly="readonly"  /> </td>
                             </tr>
                             
                             <tr>
