@@ -880,17 +880,7 @@ class RequestNoteController extends AppController {
 
     // 果树所请假单
     private function gss_leave_save($datas) {
-//        var_dump($datas);die;
-        /*
-         * 'ctime' => string '2017-07-31' (length=10)
-          'applyname' => string 'admin123' (length=8)
-          'dep_pro' => string '23r' (length=3)
-          'leave_type' => string '1' (length=1)
-          'reason' => string 'sdfasd' (length=6)
-          'start_time' => string '2017-06-27' (length=10)
-          'end_time' => string '2017-07-05' (length=10)
-          'sum_days' => string '0' (length=1)
-         */
+
         if (empty($datas['ctime']) || empty($datas['reason']) || empty($datas['start_time']) || empty($datas['end_time']) || empty($datas['leave_type'])
         ) {
             $this->ret_arr['msg'] = '参数有误';
@@ -919,12 +909,7 @@ class RequestNoteController extends AppController {
             echo json_encode($this->ret_arr);
             exit;
         }
-//        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
-//
-//        if ($ret_arr[$this->code] == 1) {
-//            $this->ret_arr['msg'] = $ret_arr[$this->msg];
-//            exit(json_encode($this->ret_arr));
-//        }
+
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -940,7 +925,8 @@ class RequestNoteController extends AppController {
 //        $attrArr['project_id'] = $project_id;
         $attrArr['team_id'] = $team_id;
 
-        $attrArr['applyname'] = $datas['applyname']; //请假人姓名
+        //$attrArr['applyname'] = $datas['applyname']; //请假人姓名
+        $attrArr['applyname'] = $this->userInfo->name ;
         $attrArr['about'] = $datas['reason']; //事由
         
         $attrArr['start_time'] = $datas['start_time'];

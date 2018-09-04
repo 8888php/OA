@@ -58,7 +58,7 @@
                                     </select>
                                 </td>
                                 <td> 请假人 </td>
-                                <td colspan='3'> <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' value="<?php echo $userInfo->name;?>"> </td>
+                                <td colspan='3'> <input  type="text" class="applyname" name="applyname"  style='height:25px;width:190px;' value="<?php echo $userInfo->name;?>" readonly="readonly"  > </td>
                              </tr>
                              <tr>
                                 <td> 事由 </td>

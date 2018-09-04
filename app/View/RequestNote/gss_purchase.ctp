@@ -80,7 +80,7 @@
                                 <td colspan='6' >  <input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'> </td>
                              </tr>
                              
-                             <tr style="height: 130px;">
+                             <tr style="height: 110px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
@@ -91,7 +91,7 @@
                                      
                                 </td>
                             </tr>
-                             <tr style="height: 130px;">
+                             <tr style="height: 120px;">
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
                                     财务科审核 <br /> &nbsp;&nbsp;
@@ -111,7 +111,7 @@
                                 <td colspan='2'> 财务及采购分管领导审核 </td>
                                 <td  colspan='5' >    </td>
                             </tr>
-                            <tr style="height: 60px;">
+                            <tr style="height: 80px;">
                                 <td colspan='2'> 所长审核 </td>
                                 <td colspan='5'>    </td>
                             </tr>
@@ -122,7 +122,7 @@
 				    2、购买农家肥时，必须在“采购理由”一栏注明施肥面积；<br />
 				    3、科研项目填写此表时，支出项目名称必须准确填写，与计划任务书（或项目合同书）完全一致；<br />
 				    4、科研项目和财政项目的预算指标文号必须准确填写，一般为“晋财……”；<br />
-				    5、“资金性质”一栏必须根据项目性质准确选择。<br />
+				    5、“资金性质”一栏必须根据项目性质准确选择。
                                 </td>
                             </tr>
                         </tbody>
