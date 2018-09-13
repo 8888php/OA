@@ -171,7 +171,10 @@ class RequestNoteController extends AppController {
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 
             $this->set('department', $department);
-
+            if ($department) {
+                //如果当前用户行政部门，只能选行政
+                $projectInfo = array();
+            }
             $this->set('projectInfo', $projectInfo);
             $this->set('list', Configure::read('xizhenglist'));
 
@@ -516,8 +519,8 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = ($type == 1) ? $project_arr['ResearchProject']['name'] : $department_name;
         $attrArr['project_id'] = $project_id;
-       // $attrArr['personnel'] = $datas['personnel'];
-        $attrArr['personnel'] = $this->userInfo->name ;
+        $attrArr['personnel'] = $datas['personnel'];
+//        $attrArr['personnel'] = $this->userInfo->name ;
         $attrArr['start_date'] = $datas['start_day'];
         $attrArr['end_date'] = $datas['end_day'];
         $attrArr['days'] = $datas['sum_day'];
@@ -2505,5 +2508,31 @@ class RequestNoteController extends AppController {
         }
         echo json_encode($this->ret_arr);
         exit;    
+    }
+    
+    /**
+     * ajax 根据部门id或是项目id取出user
+     */
+    public function get_users_by_dep() {
+        if ($this->request->is('ajax')) {
+            $pid = $_POST['pid'];
+            if ($pid == 0) {
+                //部门
+                $user_dep_id = $this->userInfo->department_id;
+                $users = $this->User->query("select *from t_user User where department_id='{$user_dep_id}'");
+//                var_dump(count($users));die;
+            } else {
+                //去除部门
+                $sql = "select User.* from t_user User left join t_project_member t_p_m on User.id=t_p_m.user_id left join t_department t_d on t_d.id=User.department_id where t_d.type!=1 and t_p_m.project_id={$pid}";
+//                echo $sql;die;
+                $users = $this->User->query($sql);
+            }
+            echo json_encode(array(
+                'code' => 0,
+                'data' => $users
+            ));
+            exit;
+        }
+        
     }
 }

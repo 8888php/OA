@@ -1,5 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-select.min.js"></script>
+<link href="/assets/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
@@ -20,7 +22,7 @@
                             <tr>
                                 <td > 单位或部门 </td>
                                 <td colspan='3'>  
-                                    <select style="height:25px;width: 280px;" name="dep_pro" class="dep_pro" onchange="">
+                                    <select style="height:25px;width: 280px;" name="dep_pro" class="dep_pro" onchange="change_personnel();">
                                         <?php foreach($department as $v){?>
                                         <option value="0"><?php echo $v['name'];?></option>
                                         <?php }?>
@@ -29,6 +31,65 @@
                                         <?php }?>
                                     </select>
                                 </td>
+                        <script type="text/javascript">
+                            //当更改  dep_pro的值时，personnel 的值清空
+                            var dep_pro_sel_val = $('.dep_pro').val();
+                            function change_personnel() {
+                                $('.personnel').val('');
+                                dep_pro_sel_val = $('.dep_pro').val();
+                                var data = {};
+                                data.pid = dep_pro_sel_val;
+                                $.ajax({
+                                    url: '/RequestNote/get_users_by_dep',
+                                    type: 'post',
+                                    data: data,
+                                    dataType: 'json',
+                                    success: function (res) {
+                                        if (res.code == -1) {
+                                            //登录过期
+                                            window.location.href = '/homes/index';
+                                            return;
+                                        }
+                                        if (res.code == -2) {
+                                            //权限不足
+                                            alert('权限不足');
+                                            return;
+                                        }
+                                        if (res.code == 1) {
+                                            //说明有错误
+                                            alert(res.msg);
+
+                                            return;
+                                        }
+                                        if (res.code == 0) {
+                                            var str = '';
+                                            for(var i in res.data) {
+                                                str += '<option data-tokens="'+res.data[i]['User']['name']+'">'+res.data[i]['User']['name']+'</option>';
+                                            }
+                                            $('#tokens').html(str);
+                                            $('#tokens').selectpicker('destroy');
+                                            $('#tokens').selectpicker({
+                                                actionsBox:true,
+                                                width: 'css-width',
+                                            });
+                                            $('#tokens').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                                                var sel_val = $(this).val();
+                                                $('.personnel').val(sel_val);
+                                            });
+                                            
+                                        }
+                                        if (res.code == 2) {
+                                            //失败
+                                            alert(res.msg);
+                                            return;
+                                        }
+                                    }
+                                });
+                            }
+                            change_personnel();
+                            
+                            
+                        </script>
                                 <td >填表时间</td>
                                 <td colspan='2'>  
                                     <input readonly="readonly" type="text" class="ctime" name="ctime"   value="<?php echo date('Y-m-d'); ?>"  style='height:25px;width:180px;'>  
@@ -46,10 +107,20 @@
                                 <td colspan='6'> <input type="text" name='reason' class="reason" style='width:575px;height:25px;'/>  </td>
                              </tr>
                              <tr>
+                                
                                 <td>出差人员</td>
-                                <td colspan='6'> <input type="text" class="personnel" name="personnel" style='width:575px;height:25px;' value="<?php echo $userInfo->name; ?>" readonly="readonly"  /> </td>
+                                <td colspan='6'> 
+                                    <select id="tokens" class="selectpicker form-control" style="color: white; height: 200px; overflow:scroll;" multiple data-live-search="true">
+                                        
+                                    </select>
+                                    <input type="hidden" class="personnel" name="personnel" style='width:575px;height:25px;' value=""  /> </td>
                             </tr>
-                            
+                            <style type="text/css">
+                                .dropdown-menu{
+                                    max-height: 200px;
+                                    overflow:scroll;
+                                }
+                            </style>
                             <tr>
                                 <td >出差时间</td>
                                 <td colspan='4'>
@@ -165,7 +236,8 @@ function printDIV(){
             return;
         }
         if (personnel == '') {
-            $('.personnel').focus();
+            $('.filter-option').click();
+//            $('.personnel').focus();
             return;
         }
         if (start_day == '') {
