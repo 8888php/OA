@@ -75,7 +75,7 @@
                                                 selectAllText:'全选',
                                                 deselectAllText:'清空',
                                                 doneButton:true,
-                                                doneButtonText: '关闭',
+                                                doneButtonText: '确定',
                                                 width: 'css-width',
                                             });
                                             $('#tokens').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
