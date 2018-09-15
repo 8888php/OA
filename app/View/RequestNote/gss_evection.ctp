@@ -69,7 +69,13 @@
                                             $('#tokens').html(str);
                                             $('#tokens').selectpicker('destroy');
                                             $('#tokens').selectpicker({
+                                                noneSelectedText:'请选择出差人员',
+                                                noneResultsText:'未搜到{0}',
                                                 actionsBox:true,
+                                                selectAllText:'全选',
+                                                deselectAllText:'清空',
+                                                doneButton:true,
+                                                doneButtonText: '关闭',
                                                 width: 'css-width',
                                             });
                                             $('#tokens').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
@@ -110,7 +116,7 @@
                                 
                                 <td>出差人员</td>
                                 <td colspan='6'> 
-                                    <select id="tokens" class="selectpicker form-control" style="color: white; height: 200px; overflow:scroll;" multiple data-live-search="true">
+                                    <select id="tokens" class="selectpicker form-control" style="color: white; height: 190px; overflow:scroll;" multiple data-live-search="true">
                                         
                                     </select>
                                     <input type="hidden" class="personnel" name="personnel" style='width:575px;height:25px;' value=""  /> </td>
