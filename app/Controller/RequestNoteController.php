@@ -169,12 +169,19 @@ class RequestNoteController extends AppController {
             // 所参与项目 详情
             $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
-
-            $this->set('department', $department);
+            
             if ($department) {
-                //如果当前用户行政部门，只能选行政
-                $projectInfo = array();
+                //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
+                if (in_array($this->userInfo->id, array(2, 6, 5, 8, 9, 7, 3))) {
+                    $department = array();
+                } else {
+                    //如果当前用户行政部门，只能选行政
+                    $projectInfo = array();
+                }
+                
             }
+            $this->set('department', $department);
+            
             $this->set('projectInfo', $projectInfo);
             $this->set('list', Configure::read('xizhenglist'));
 
@@ -2516,14 +2523,23 @@ class RequestNoteController extends AppController {
     public function get_users_by_dep() {
         if ($this->request->is('ajax')) {
             $pid = $_POST['pid'];
-            if ($pid == 0) {
+            if ($pid === '') {
+                echo json_encode(array(
+                    'code' => 0,
+                    'data' => array()
+                ));
+                exit;
+            }
+            if ($pid === '0') {
                 //部门
                 $user_dep_id = $this->userInfo->department_id;
                 $users = $this->User->query("select *from t_user User where department_id='{$user_dep_id}'");
 //                var_dump(count($users));die;
             } else {
+                //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
+                //array(2, 6, 5, 8, 9, 7, 3)
                 //去除部门
-                $sql = "select User.* from t_user User left join t_project_member t_p_m on User.id=t_p_m.user_id left join t_department t_d on t_d.id=User.department_id where t_d.type!=1 and t_p_m.project_id={$pid}";
+                $sql = "select User.* from t_user User left join t_project_member t_p_m on User.id=t_p_m.user_id left join t_department t_d on t_d.id=User.department_id where (t_d.type!=1 or (t_d.type=1 and User.id in (2, 6, 5, 8, 9, 7, 3))) and t_p_m.project_id={$pid}";
 //                echo $sql;die;
                 $users = $this->User->query($sql);
             }
