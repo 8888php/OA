@@ -106,8 +106,8 @@
                                 <tr class="json_str">
                                     <td colspan="2" style="height:25px;"> 小计</td>
                                     <td> <?php echo get_value($json_arr, 3, 'fare');?></td>
-                                    <td> <?php echo get_value($json_arr, 3, 'allowance_days');?></td>
-                                    <td> <?php echo get_value($json_arr, 3, 'supply_needs');?></td>
+                                    <td> <?php echo '' /*get_value($json_arr, 3, 'allowance_days')*/;?></td>
+                                    <td> <?php echo '' /*get_value($json_arr, 3, 'supply_needs')*/;?></td>
                                     <td> <?php echo get_value($json_arr, 3, 'subsidy_amount');?></td>
                                     <td> <?php echo get_value($json_arr, 3, 'hotel_expense');?></td>
                                     <td> <?php echo get_value($json_arr, 3, 'other_expense');?></td>
