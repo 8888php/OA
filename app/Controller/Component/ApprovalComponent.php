@@ -89,7 +89,7 @@ class ApprovalComponent extends Component {
             return false;
         }
 
-        $contents = array('code' => '', 'next_id' => 0, 'code_id' => '', 'next_uid' => 0);
+        $contents = array('code' => '', 'next_id' => 0, 'code_id' => array(), 'next_uid' => 0);
         $contents['code_id'][0] = $uinfo['id'];
 
         switch ($applytype) {
@@ -150,7 +150,7 @@ class ApprovalComponent extends Component {
             default:
                 return false;
         }
-
+        
 
         // 审核成功 根据 申请所属部门 和 下一审核角色 取 下一审核人id
         if (empty($contents['next_id'])) {

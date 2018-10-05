@@ -710,7 +710,9 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
- 
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
             //加签所需
 //            $this->userInfo['app_remarks'] = $this->request->data('remarks');
 //            $this->userInfo['app_status'] = $this->request->data('type');
@@ -1320,6 +1322,9 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
 
             $ret_arr = $this->ApplyLeave->apply_approve($main_id, (array) $this->userInfo, $status);
 
@@ -1418,7 +1423,7 @@ class OfficeController extends AppController {
         }
     }
 
-    public function apply_baogong_print($main_id, $flag) {
+    public function apply_baogong_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
@@ -1451,6 +1456,10 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+            
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
 
             $ret_arr = $this->ApplyBaogong->apply_approve($main_id, (array) $this->userInfo, $status);
 
@@ -1586,6 +1595,9 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
 
             $ret_arr = $this->ApplyChuchai->apply_approve($main_id, (array) $this->userInfo, $status);
 
@@ -1710,6 +1722,9 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
             
             //加签所需
             if( in_array( $tablename , Configure::read('jiaqian_apply_table')) ){
@@ -1825,7 +1840,7 @@ class OfficeController extends AppController {
         $this->ajax_approve_model('ApplyPaidleave');
     }
 
-    public function apply_endlessly_print($main_id, $flag) {
+    public function apply_endlessly_print($main_id, $flag='') {
         //根据main_id取数据
         $main_arr = $this->ApplyMain->findById($main_id);
         $table_name = self::Table_fix . $main_arr['ApplyMain']['table_name'];
@@ -1858,6 +1873,10 @@ class OfficeController extends AppController {
             $remarks = $this->request->data('remarks');
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
+            
+            if ($status == 2) {
+                $remarks = "已拒绝" . $remarks;
+            }
 
             $ret_arr = $this->ApplyEndlessly->apply_approve($main_id, (array) $this->userInfo, $status);
 
