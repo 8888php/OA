@@ -53,9 +53,22 @@ class AppController extends Controller {
         $this->appdata['projectId'] = $projectId;
 
         // 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
-        $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
+        $pro_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 0) : array('code' => 4, 'id' => $projectId, 'is_finish' => 0);
 
         $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
+        
+        //结束项目
+        $finish_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 1) : array('code' => 4, 'id' => $projectId, 'is_finish' => 1);
+        $finisList = $this->ResearchProject->getApplyLisTeam($finish_conditions);
+        if (!empty($finisList)) {
+            foreach ($finisList as $k=>$v) {
+                $finisList[-1] = $v;
+                unset($finisList[$k]);
+            }
+            $applyList += $finisList;
+        }
+        
+        
         $this->appdata['applyList'] = $applyList;
         $this->set('applyList', $applyList);
       
@@ -64,6 +77,7 @@ class AppController extends Controller {
         $selfTeamList = array();
         $selfTeamList += $this->Team->getListId($teamId);
         $selfTeamList[0] = '单个项目';
+        $selfTeamList[-1] = '结束项目';
         $this->appdata['selfTeamList'] = $selfTeamList;
         $this->set('selfTeamList', $selfTeamList);
 

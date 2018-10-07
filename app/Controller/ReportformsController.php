@@ -28,6 +28,10 @@ class ReportformsController extends AppController {
         // 合并数据
         $fromArr = $sumArr = $totalArr = array();
         foreach ($this->appdata['applyList'] as $k => $v) {
+            //结束项目不参与
+            if ($k == -1) {
+                continue;
+            }
             foreach ($v as $kv => $vv) {
                 $fromArr[$k][$kv]['amount'] = isset($startAmount[$kv]) ? $startAmount[$kv] : 0;
                 $fromArr[$k][$kv]['pay'] = isset($payTotalArr[$kv]) ? $payTotalArr[$kv] : 0;

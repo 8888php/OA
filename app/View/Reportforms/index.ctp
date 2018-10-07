@@ -96,7 +96,7 @@
                                                 <td> 期末数 </td>
                                                 <td> 详细 </td>
                                             </tr>
-                                            <?php  foreach($selfTeamList as $tk => $tv){  ?>
+                                            <?php  foreach($selfTeamList as $tk => $tv){ if($tk == -1) {continue;} ?>
                                              <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td  rowspan="<?php echo count($applyList[$tk])+1; ?>" style="vertical-align:middle;font-size:14px;font-weight:600;"> <?php echo $tv; ?> </td>
                                                 <td style="text-align:center;">  -- </td>

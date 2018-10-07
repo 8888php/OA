@@ -62,7 +62,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 //        $source = $this->ResearchSource->getAll($pid);
             $department_id = $this->userInfo->department_id;
@@ -167,7 +167,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
             
             if ($department) {
@@ -205,7 +205,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 
 //            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
@@ -238,7 +238,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
 
 //            $conditions = array( 'conditions' => array('user_id'=>$this->userInfo->id, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
@@ -273,7 +273,7 @@ class RequestNoteController extends AppController {
             $department_arr = $this->Department->findById($department_id);
 
            // $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
-            $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and m.user_id='{$user_id}'";
+            $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and p.is_finish=0 and m.user_id='{$user_id}'";
             $pro_arr = $this->ApplyMain->query($sql);
              // 重新提交申请  获取旧申请数据
             if ($mid) {
@@ -300,7 +300,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
             $department_id = $this->userInfo->department_id;
             $department_arr = $this->Department->findById($department_id);
@@ -2361,7 +2361,7 @@ class RequestNoteController extends AppController {
     }
     
     //果树研究所请示报告卡片
-    public function gss_request_report($mid) {
+    public function gss_request_report($mid = 0) {
         if ($this->request->is('ajax') && !empty($_POST['declarename'])) {
             $this->gss_request_report_save($_POST);
         } else {
@@ -2369,7 +2369,7 @@ class RequestNoteController extends AppController {
             $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
             $proArr = $this->ProjectMember->find('list', $pro_conditions);
             // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4), 'fields' => array('id', 'name'));
+            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
             $projectInfo = $this->ResearchProject->find('list', $conditions);
             //print_r($projectInfo);die;
              //获取部门

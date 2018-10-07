@@ -147,6 +147,7 @@ class ApplyMain extends AppModel {
         $conditions['ApplyMain.type'] = 1;
         $conditions['ApplyMain.code'] = 10000;
         $conditions['ApplyMain.is_calculation'] = 1;
+        $conditions['p.is_finish'] = 0;
         $conditions['ApplyMain.table_name'] = ['apply_chuchai_bxd', 'apply_lingkuandan', 'apply_baoxiaohuizong', 'apply_jiekuandan'];
         $fields = array('id', 'subject', 'total','p.project_team_id');
         $summaryArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields , 'alias' => 'm' , 'joins' => array(
@@ -157,7 +158,7 @@ class ApplyMain extends AppModel {
         'conditions' => ' project_id = p.id ',
         ),
         )));
-        
+
         if (empty($summaryArr)) {
             return [];
         }

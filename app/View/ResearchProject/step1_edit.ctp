@@ -48,6 +48,13 @@
                             
                         </select>                
                     </li> 
+                    <li class="input-group">
+                        <label class="input-group-addon " for="form-field-1">是否结束项目 </label>
+                        <select  name="is_finish" class="is_finish input-width" id="form-field-1" style="width:140px;">
+                            <option value="0">否</option>
+                            <option value="1" <?php  echo $pro_arr['is_finish'] == 1 ? 'selected' : '';?>>结束</option>
+                        </select> 
+                    </li> 
 
                     <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
                     <li class="input-group">
@@ -169,9 +176,11 @@
         var overview = $('.overview').val();
         var remark = $('.remark').val();
         var pid = '<?php echo $pro_arr['id'];?>';
+        var is_finish = $('.is_finish').val();
         data_json.project_team_id = project_team_id;
         data_json.pid = pid;
         data_json.type = type;
+        data_json.is_finish = is_finish;
         if (name == '') {
             $('.name').focus();
             return;

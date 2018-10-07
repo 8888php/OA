@@ -96,6 +96,7 @@ class ResearchProject extends AppModel {
         $conditions = array();
         $conditions['code'] = 4;
         $conditions['del'] = 0;
+        $conditions['is_finish'] = 0;
         $fields = array('id');
         return $this->find('list',array('conditions' =>$conditions, 'fields' => $fields ));
     } 

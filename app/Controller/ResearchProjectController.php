@@ -1140,8 +1140,20 @@ class ResearchProjectController extends AppController {
     //左侧栏的 选中
     private function left_slect_project($projectId) {
         //左侧栏单个项目下面的所有显示问题
-        $pro_conditions = ($this->is_who() != false) ? array('code' => 4) : array('code' => 4, 'id' => $projectId);
+        $pro_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 0) : array('code' => 4, 'id' => $projectId, 'is_finish' => 0);
         $applyList = $this->ResearchProject->getApplyLisTeam($pro_conditions);
+        
+         //结束项目
+        $finish_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 1) : array('code' => 4, 'id' => $projectId, 'is_finish' => 1);
+        $finisList = $this->ResearchProject->getApplyLisTeam($finish_conditions);
+        if (!empty($finisList)) {
+            foreach ($finisList as $k=>$v) {
+                $finisList[-1] = $v;
+                unset($finisList[$k]);
+            }
+            $applyList += $finisList;
+        }
+        
         $second_class = '';
         $third_class = '';
         foreach ($applyList as $ak=>$av) {
@@ -1189,6 +1201,7 @@ class ResearchProjectController extends AppController {
                 //$saveArr['project_team_id'] = $this->request->data('project_team_id'); //所属项目组id
                 $saveArr['approval_sld'] = $this->request->data('sld'); // 分管所领导
                 $saveArr['type'] = $this->request->data('type');
+                $saveArr['is_finish'] = $this->request->data('is_finish');//是否结束
                 $qdly = $this->request->data('qdly'); //这里放的是数组
 //                $saveArr['source_channel'] = $this->request->data('source_channel');
 //                $saveArr['file_number'] = $this->request->data('file_number');
