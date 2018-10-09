@@ -273,7 +273,7 @@ class RequestNoteController extends AppController {
             $department_arr = $this->Department->findById($department_id);
 
            // $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$user_id}'";
-            $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and p.is_finish=0 and m.user_id='{$user_id}'";
+            $sql = "select p.id,p.name from t_research_project p left join t_project_member m on p.id=m.project_id where p.del=0 and p.is_finish=0 and p.code=4 and m.user_id='{$user_id}'";
             $pro_arr = $this->ApplyMain->query($sql);
              // 重新提交申请  获取旧申请数据
             if ($mid) {
