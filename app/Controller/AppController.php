@@ -11,7 +11,7 @@ App::uses('AppController', 'Controller');
  */
 class AppController extends Controller {
 
-    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd','ApplyChuchai', 'Team');
+    public $uses = array('User', 'Department', 'ResearchProject', 'ProjectMember', 'ResearchSource', 'ApplyMain', 'ApplyJiekuandan', 'ApplyLingkuandan', 'ApplyBaoxiaohuizong', 'ApplyChuchaiBxd','ApplyChuchai', 'Team', 'TeamMember');
     public $userInfo = array();
     public $appdata = array();
     public $code = 'code'; //返回的状态
@@ -49,7 +49,25 @@ class AppController extends Controller {
 
         #当前用户所属项目
         $projectId = $this->ProjectMember->find('list', array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id')));
-        $projectId = empty($projectId) ? array(-1) : array_values($projectId);   //当前用户所属项目
+        $projectId = array_values($projectId);
+        
+        //取出自己是项目组负责人的 项目
+        $team_fzr_ids = $this->TeamMember->find('list', array('conditions' => array('user_id' => $this->userInfo->id, 'code' => 1), 'fields' => array('team_id')));
+        if(!empty($team_fzr_ids)) {
+            $team_fzr_ids =array_values($team_fzr_ids);
+            //根据项目组去找项目id
+            $team_pro_ids = $this->ResearchProject->find('list', array('conditions' => array('project_team_id' => $team_fzr_ids), 'fields' => array('id')));
+            
+            if (!empty($team_pro_ids)) {
+                foreach ($team_pro_ids as $t_p_i) {
+                    $projectId[] = $t_p_i;
+                }
+                //去重复
+                $projectId = array_unique($projectId);
+            }
+            
+        }
+        $projectId = empty($projectId) ? array(-1) : $projectId;   //当前用户所属项目
         $this->appdata['projectId'] = $projectId;
 
         // 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
