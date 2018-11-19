@@ -465,7 +465,7 @@ function printDIV(){
     }
     //当输入框输入后，再改变一下总金额
     $('input.je').blur(function () {
-        var reg = /^[-]?[1-9]+[0-9]*/;
+        var reg = /^[-]?[0-9]+[0-9]*/;
         if (!reg.test(this.value)) {
             this.value = '';
         }
