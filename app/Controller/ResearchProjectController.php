@@ -311,6 +311,7 @@ class ResearchProjectController extends AppController {
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
             $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
+        $datas = $_POST;
         $negative = false;
         if ($datas['amount'] < 0) {
             $negative = true;
