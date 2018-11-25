@@ -638,10 +638,13 @@ class RequestNoteController extends AppController {
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
             $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
-
+        //默认正数
+        $negative = false;
+        if ($datas['small_amount'] < 0) {
+            $negative = true;
+        }
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
-
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr, $negative);
         #附表入库
         //是部门，取当前用户的部门信息
         $department_id = $this->userInfo->department_id;
@@ -775,9 +778,14 @@ class RequestNoteController extends AppController {
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
             $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
-
+        //默认正数
+        $negative = false;
+        if ($datas['small_total'] < 0) {
+            $negative = true;
+        }
+        
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr, $negative);
 
 //        $ret_arr = $this->get_create_approval_process_by_table_name($table_name,$type, $this->userInfo->department_id);
 //
@@ -1091,9 +1099,14 @@ class RequestNoteController extends AppController {
             $project_user_id = $project_and_team_arr[0]['p']['user_id']; //项目负责人user_id
             $project_team_user_id = empty($project_and_team_arr[0]['tm']['user_id']) ? 1 : $project_and_team_arr[0]['tm']['user_id'] ; //项目组负责人user_id 若为空则为单个项目
         }
-
+        //默认正数
+        $negative = false;
+        if ($datas['small_total'] < 0) {
+            $negative = true;
+        }
+        
         $applyArr = array('type' => $type, 'project_team_user_id' => $project_team_user_id, 'project_user_id' => $project_user_id);
-        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr);
+        $ret_arr = $this->Approval->apply_create($p_id, $this->userInfo, $project_id, $applyArr, $negative);
 
 
         #附表入库

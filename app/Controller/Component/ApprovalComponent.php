@@ -244,17 +244,23 @@ class ApprovalComponent extends Component {
 
     /**
      *  创建申请时验证 下一审核人角色
-     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;$project_id 项目id;$applyArr 申请附属信息
+     *  @params: $apply_process_id 申请单审批流id; $uinfo 当前审核人信息;$project_id 项目id;$applyArr 申请附属信息 $negative如果是负数则取最后一位审批人
      *  @response:
      */
-    public function apply_create($apply_process_id, $uinfo, $project_id = 0, $applyArr) {
+    public function apply_create($apply_process_id, $uinfo, $project_id = 0, $applyArr, $negative = false) {
         // 获取审批流
         $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
         $liuArr = explode(',', $apply_liu['approve_ids']);
 
         $contents = array('code' => '', 'next_id' => 0, 'code_id' => '', 'next_uid' => 0);
-
+        if ($negative) {
+            $contents['code'] = 0;
+            $contents['next_id'] = 14;
+            $contents['code_id'] = 0;
+            $contents['next_uid'] = 4;
+            return $contents;
+        }
         foreach ($liuArr as $k => $v) {
             // 需科研角色审核
             switch ($v) {
