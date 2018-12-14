@@ -649,7 +649,12 @@ function trim(s){
                 //合计
                 var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
-                $('.big_total').val(convertCurrency(total));
+                var big_total_str = '';
+                if (total < 0) {
+                    big_total_str = '负';
+                }
+                big_total_str += convertCurrency(Math.abs(total));
+                $('.big_total').val(big_total_str);
                 return false;//中止，已经到结束了
             }
             var start_end_day = $(this).find('.start_end_day' + i).val();
