@@ -69,7 +69,17 @@ class DepartmentController extends AppController {
         # 职务
         $posArr = $this->Position->getList();
         $source = $this->ResearchSource->getDepAll($id);
-
+        
+        //取出今年
+        $year = date('Y', time());
+        if ($source) {
+            foreach ($source as $sk => $dv) {
+                if ($dv['ResearchSource']['year'] != $year) {
+                    unset($source[$sk]);
+                }
+            }
+        }
+        
         $this->set('d_id', $id);
         $this->set('source', $source);
         $this->set('posArr', $posArr);
@@ -120,7 +130,15 @@ class DepartmentController extends AppController {
                 }
             }
 
-            //var_dump($mainArr,$attrArr);       
+            //var_dump($mainArr,$attrArr);
+            if ($declares_arr) {
+                foreach ($declares_arr as $dk => $dv) {
+                    //不是本年的就不显示
+                    if (date('Y', strtotime($dv['m']['ctime'])) != $year) {
+                        unset($declares_arr[$dk]);
+                    }
+                }
+            }
             $this->set('declares_arr', $declares_arr);
             $this->set('attr_arr', $attrArr);
         }
