@@ -395,8 +395,10 @@ class AppController extends Controller {
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
             
-            $fourCost = array('travel','vehicle','meeting','international'); // 合并核算单科目
-            $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 项目合并科目总额
+           // $fourCost = array('travel','vehicle','meeting','international'); // 原始4项合并核算单科目
+            $fourCost = array('travel','vehicle','meeting','international','facility','labour','consult','indirect_manage','indirect_performance'); // 新增五项合并核算单科目
+           // $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始4项 项目合并科目总额
+             $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] + $project_costArr['facility'] + $project_costArr['labour'] + $project_costArr['consult'] + $project_costArr['indirect_manage'] + $project_costArr['indirect_performance'] ; // 新增五项 项目合并科目总额
 
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
@@ -423,14 +425,14 @@ class AppController extends Controller {
             if($fourCostSumPro < 0 && $is_four_subject > 0){
                 $feedback['code'] = 1;
                 $feedback['total'] = abs($fourCostSumPro); 
-                $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
+             //   $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
+                $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费、设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）总额 ' . $feedback['total'] . ' 元';
                 return $feedback;
             }
 
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
-
-				//若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;
+                //若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;
                 //若属于合并项科目，则不比较直接跳过
                 if(in_array($k,$fourCost)){
                 	break;
