@@ -395,10 +395,8 @@ class AppController extends Controller {
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
             
-           // $fourCost = array('travel','vehicle','meeting','international'); // 原始4项合并核算单科目
-            $fourCost = array('travel','vehicle','meeting','international','facility','labour','consult','indirect_manage','indirect_performance'); // 新增五项合并核算单科目
-           // $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始4项 项目合并科目总额
-             $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] + $project_costArr['facility'] + $project_costArr['labour'] + $project_costArr['consult'] + $project_costArr['indirect_manage'] + $project_costArr['indirect_performance'] ; // 新增五项 项目合并科目总额
+            $fourCost = array('travel','vehicle','meeting','international'); // 原始4项合并核算单科目
+            $fourCostSumPro = $project_costArr['travel'] + $project_costArr['vehicle'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始4项 项目合并科目总额
 
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
@@ -425,8 +423,7 @@ class AppController extends Controller {
             if($fourCostSumPro < 0 && $is_four_subject > 0){
                 $feedback['code'] = 1;
                 $feedback['total'] = abs($fourCostSumPro); 
-             //   $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
-                $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费、设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）总额 ' . $feedback['total'] . ' 元';
+                $feedback['msg'] = ' 已超出差旅费、车辆使用费、会议会务费、国际合作交流费总额 ' . $feedback['total'] . ' 元';
                 return $feedback;
             }
 
@@ -437,11 +434,12 @@ class AppController extends Controller {
                 if(in_array($k,$fourCost)){
                 	break;
                 }
-
+                
+                $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance'); // 五项科目核算超出预算 不让审批通过
                 if(!$project_costArr[$k]){
-                   $feedback['code'] = 1;
+                   $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
                    $feedback['total'] = $v; 
-                   $feedback['msg'] = ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                   $feedback['msg'] = '已超出该科目总额 ' . $feedback['total'] . ' 元';
                    break;
                 }else{
                     // 单科目剩余金额
@@ -457,7 +455,7 @@ class AppController extends Controller {
                                 }
                             }
                         }
-                        $feedback['code'] = 1;  
+                        $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
                         $feedback['total'] = $v - $overplus;
                         $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
                         break ;

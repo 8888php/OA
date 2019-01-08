@@ -204,7 +204,7 @@
         <?php   } ?>
         
         <?php if($seecode == 'apply'){  ?>
-        <?php if($project_sum['code'] == 0){  ?>
+        <?php if($project_sum['code'] == 0 && $feedback['code'] != -1){  ?>
         <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
         <?php  } ?>
         <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>

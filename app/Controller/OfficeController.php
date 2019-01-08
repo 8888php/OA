@@ -657,6 +657,7 @@ class OfficeController extends AppController {
                     //检查 单科目费用是否超过 科目总额
                     $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], $main_arr['ApplyMain']['subject']);
                     $this->set('feedback', $is_subject_check_cost);
+                    $this->set('project_sum', $residual);
                 } else {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
@@ -903,6 +904,7 @@ class OfficeController extends AppController {
                     //检查 单科目费用是否超过 科目总额
                     $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
                     $this->set('feedback', $is_subject_check_cost);
+                    $this->set('project_sum', $residual);
                 } else {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
@@ -1031,6 +1033,7 @@ class OfficeController extends AppController {
                     //检查 单科目费用是否超过 科目总额
                     $is_subject_check_cost = $this->check_subject_cost($main_arr['ApplyMain']['project_id'], json_decode($main_arr['ApplyMain']['subject'], true));
                     $this->set('feedback', $is_subject_check_cost);
+                    $this->set('project_sum', $residual);
                 } else {
                     $this->set('project_sum', $residual);
                     $this->set('feedback', $residual);
