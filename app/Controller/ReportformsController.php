@@ -66,7 +66,16 @@ class ReportformsController extends AppController {
             exit;
         }
         //部门对应总金额
-        $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number from t_research_source where project_id = 0  ');
+        $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number,year from t_research_source where project_id = 0  ');
+        
+        $year = date('Y', time());
+        if ($totalArr) {
+            foreach ($totalArr as $k=>$v) {
+                if ($v['t_research_source']['year'] != $year) {
+                    unset($totalArr[$k]);
+                }
+            }
+        }
         $startAmount = array();
         foreach ($totalArr as $v) {
             $startAmount[$v['t_research_source']['department_id']][$v['t_research_source']['id']] = $v['t_research_source'];

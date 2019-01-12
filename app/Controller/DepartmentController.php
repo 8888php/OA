@@ -169,6 +169,15 @@ class DepartmentController extends AppController {
 
         # 项目资金来源
         $proSource = $this->ResearchSource->getDepAll($did);
+        $year = date('Y', time());
+        if ($proSource) {
+            foreach ($proSource as $k=>$v) {
+                if ($v['ResearchSource']['year'] != $year) {
+                    unset($proSource[$k]);
+                }
+            }
+        }
+        
         $this->set('proSource', $proSource);
 
         $this->set('did', $did);

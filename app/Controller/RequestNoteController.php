@@ -1042,7 +1042,13 @@ class RequestNoteController extends AppController {
 
         // 获取资金来源剩余金额
         $sourcesArr = array('sourceId'=>array(),'amount'=>array());
+        $year = date('Y', time());
         foreach ($souces as $key => $value) {
+            if ($value['ResearchSource']['year'] != $year) {
+                //不是本年的去掉
+                unset($souces[$key]);
+                continue;
+            }
         	$sourcesArr['sourceId'][$key] = $value['ResearchSource']['id'];
         	$sourcesArr['amount'][$value['ResearchSource']['id']] = $value['ResearchSource']['amount'];
         }
