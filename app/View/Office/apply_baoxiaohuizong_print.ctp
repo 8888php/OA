@@ -121,6 +121,7 @@
                             </td>
                             <td style="width:100px;">
                                 <?php 
+                                /*
                                 if ($applyArr[14]) {
                                     echo @$applyArr['14']['remarks'];
                                     echo '<br />';
@@ -129,6 +130,7 @@
                                     echo @$applyArr['14']['ctime'];
                                 }
                                 echo @$jiaqian[14] ;
+                                */
                                 ?> 
                             </td>
                             <td style="width:100px;">
