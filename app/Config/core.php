@@ -510,6 +510,7 @@ Configure::write('approval_process', array(
   13    财务部门所领导
   14    财务部门负责人
   15    部门负责人
+  27    出纳
  * 
  * // 人事单子
  * 20   团队负责人
@@ -739,3 +740,7 @@ Configure::write('jiaqian_apply',array('apply_jiekuandan' , 'apply_lingkuandan' 
 
 //加签申请单 表名
 Configure::write('jiaqian_apply_table',array('ApplyJiekuandan' , 'ApplyLingkuandan' , 'ApplyChuchaiBxd' , 'ApplyBaoxiaohuizong' , 'ApplyRequestReport','ApplyCaigou'));
+
+
+//财务部门id
+Configure::write('caiwu_dep_id', 5);

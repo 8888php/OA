@@ -94,9 +94,26 @@
                                                 </div>
                                             </div>
                                             
+                                            <div class="space-4"></div>
+                                            <?php if(@$depArr['Department']['id'] == $caiwu_dep_id ){  ?>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">出纳</label>
+
+                                                <div class="col-sm-9">
+                                                    <select style="float: left;" name="chuna" class="chuna" id="form-field-1">
+                                                        <option value="0" > 请选择 </option>
+                                                        <?php foreach($fuzeren as $fk=>$fv){  ?>
+                                                        <option value="<?php echo @$fv['User']['id'];?>" <?php echo @$fv['User']['id'] == @$chuna['id'] ? 'selected' : '';?> > <?php echo @$fv['User']['name'];?> </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                        <span class="middle"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <?php }?>
                                             
                                             <div class="space-4"></div>
-
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-2">部门介绍</label>
 
@@ -202,6 +219,7 @@
             var type = $('.type option:selected').val();
             var fzr = $('.fzr option:selected').val();
             var sld = $('.sld option:selected').val();
+            var chuna = $('.chuna option:selected').val();
 
             if (!dname) {
                 show_error($('.d_name'), '部门名为空');
@@ -219,7 +237,7 @@
                 return;
             }
             
-            var data = {id: did, name: dname, desc: desc, type: type, fzr: fzr,sld: sld};
+            var data = {id: did, name: dname, desc: desc, type: type, fzr: fzr,sld: sld, chuna: chuna};
             $.ajax({
                 url: '/department/ajax_edit',
                 type: 'post',
@@ -246,7 +264,8 @@
                     }
                     if (res.code == 0) {
                         //说明添加或修改成功
-                       location.href = '/department/index';
+                       //location.href = '/department/index';
+                       window.history.back();
                         return;
                     }
                     if (res.code == 2) {

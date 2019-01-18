@@ -17,7 +17,7 @@ class DepartmentController extends AppController {
      */
     public function index($pages = 1) {
         //判断权限
-        $this->sytem_auth();
+        $this->sytem_auth();  
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -314,13 +314,13 @@ class DepartmentController extends AppController {
      * 部门编辑
      */
     public function add($id = 0) {
-
+        $this->set('caiwu_dep_id', Configure::read('caiwu_dep_id'));
         $conditions = array('del' => 0, 'department_id' => 0);
         if ($id && is_numeric($id)) {
             $depArr = $this->Department->findById($id);
             $this->set('depArr', $depArr);
             #  未指定部门成员
-            $members = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+            $members = $this->User->find('list', array('conditions' => $conditions, 'fields' => array('id', 'name')));
             $this->set('members', $members);
 
             # 该部门id
@@ -329,14 +329,21 @@ class DepartmentController extends AppController {
         # 该部门所属成员
         if (!empty($depArr)) {
             //$conditions['position_id'] = array(1,4);//职员，科室主任
-            $fuzeren = $this->User->find('all', array('conditions' => $conditions, 'fileds' => array('id', 'name', 'position_id')));
+            $fuzeren = $this->User->find('all', array('conditions' => $conditions, 'fields' => array('id', 'name', 'position_id')));
 
             $this->set('fuzeren', $fuzeren);
+        }
+        
+        # 财务部门 出纳
+        if ($id == 5) {
+            $wheres['position_id'] = 27;//职务：出纳
+            $chuna = $this->User->find('first', array('conditions' => $wheres, 'fields' => array('id', 'name')));
+            $this->set('chuna', $chuna['User']);
         }
 
         # 分管所领导
         $sld_conditions = array('del' => 0, 'position_id' => array(5, 6, 13));
-        $suolingdao = $this->User->find('list', array('conditions' => $sld_conditions, 'fileds' => array('id', 'name')));
+        $suolingdao = $this->User->find('list', array('conditions' => $sld_conditions, 'fields' => array('id', 'name')));
         $this->set('suolingdao', $suolingdao);
         $this->render();
     }
@@ -391,6 +398,7 @@ class DepartmentController extends AppController {
             $type = $this->request->data('type');
             $fzr = $this->request->data('fzr');
             $sld = $this->request->data('sld');
+            $caiwu_dep_id = Configure::read('caiwu_dep_id');
             $save_arr = array(
                 'name' => $name,
                 'description' => $desc,
@@ -424,6 +432,20 @@ class DepartmentController extends AppController {
                 }
                 //save
                 if ($this->Department->add($save_arr)) {
+                     // 如果是财务部门，指定出纳
+                    if($id == $caiwu_dep_id){
+                        $chuna = $this->request->data('chuna');
+                        if( $chuna && !$this->edit_chuna($chuna) ){
+                            $ret_arr = array(
+                                'code' => 2,
+                                'msg' => '指定出纳失败',
+                                'class' => ''
+                            );
+                            echo json_encode($ret_arr);
+                            exit;
+                        }; 
+                    }
+                    
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '添加成功',
@@ -468,6 +490,21 @@ class DepartmentController extends AppController {
                       }
 
                      */
+                    
+                    // 如果是财务部门，指定出纳
+                    if($id == $caiwu_dep_id){
+                        $chuna = $this->request->data('chuna');
+                        if( $chuna && !$this->edit_chuna($chuna) ){
+                            $ret_arr = array(
+                                'code' => 2,
+                                'msg' => '指定出纳失败',
+                                'class' => ''
+                            );
+                            echo json_encode($ret_arr);
+                            exit;
+                        };  
+                    }
+                    
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
@@ -496,6 +533,19 @@ class DepartmentController extends AppController {
         exit;
     }
 
+    
+    /*
+     * 指定财务部门出纳
+     */
+    private function edit_chuna($uid){
+        $this->User->query("update t_user set position_id = 1 where position_id = 27");
+        if( $this->User->edit($uid,array('position_id' => 27)) ){
+            return true;
+        }
+        return false;
+    }
+    
+    
     /**
      * ajax 保存添加/修改
      */
@@ -600,13 +650,13 @@ class DepartmentController extends AppController {
         if ($data['type'] == 'xingzheng' || $data['type'] == 'keyan') {
             // 按部门取 成员列表
             $conditions = array('department_id' => $data['depval'], 'status' => 0, 'del' => 0, 'id >' => 1);
-            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fields' => array('id', 'name')));
         }
 
         if ($data['type'] == 'zhiwu') {
             // 按职务id取 成员列表
             $conditions = array('position_id' => $data['depval'], 'status' => 0, 'del' => 0);
-            $userList = $this->User->find('list', array('conditions' => $conditions, 'fileds' => array('id', 'name')));
+            $userList = $this->User->find('list', array('conditions' => $conditions, 'fields' => array('id', 'name')));
         }
 
         if ($userList) {

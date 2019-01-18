@@ -157,10 +157,10 @@
                                 <td >领款人</td>
                                 <td >项目负责人</td>
                                 <td >科室负责人</td>
-                                <td >分管所领导</td>
-                                <td >所长</td>
-                                <td >分管财务所长</td>
                                 <td >财务科长</td>
+                                <td >分管所领导</td>
+                                <td >分管财务所长</td>
+                                <td >所长</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
                                 <td > 

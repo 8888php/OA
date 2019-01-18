@@ -76,10 +76,10 @@
                             <tr>
                                 <td >项目负责人</td>
                                 <td style="width: 15%;">科室负责人</td>
+                                <td style="width: 16%;">财务科长</td>
                                 <td style="width: 15%;">分管所领导</td>
-                                <td  style="width: 16%;">所长</td>
                                 <td style="width: 16%;">分管财务所长</td>
-                                <td colspan='2'>财务科长</td>
+                                <td colspan='2' >所长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;">
                                 <td > 
@@ -116,6 +116,17 @@
                                     echo @$jiaqian['ksfzr'] ;
                                     ?> 
                                 </td>
+                                <td > 
+                                    <?php 
+                                    if ($applyArr[14]) {
+                                        echo @$applyArr['14']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['14']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['14']['ctime'];
+                                    }
+                                    echo @$jiaqian[14] ;
+                                    ?> </td>
                                 <td >
                                     <?php 
                                     if ($applyArr[5]) {
@@ -130,18 +141,6 @@
                                 </td>
                                 <td >
                                     <?php 
-                                    if ($applyArr[6]) {
-                                        echo @$applyArr['6']['remarks'];
-                                        echo '<br />';
-                                        echo @$applyArr['6']['name']; 
-                                        echo '<br />';
-                                        echo @$applyArr['6']['ctime'];
-                                    }
-                                    echo @$jiaqian[6] ;
-                                    ?> 
-                                </td>
-                                <td >
-                                    <?php 
                                     if ($applyArr[13]) {
                                         echo @$applyArr['13']['remarks'];
                                         echo '<br />';
@@ -152,17 +151,18 @@
                                     echo @$jiaqian[13] ;
                                     ?> 
                                 </td>
-                                <td colspan='2'> 
+                                <td colspan='2'>
                                     <?php 
-                                    if ($applyArr[14]) {
-                                        echo @$applyArr['14']['remarks'];
+                                    if ($applyArr[6]) {
+                                        echo @$applyArr['6']['remarks'];
                                         echo '<br />';
-                                        echo @$applyArr['14']['name']; 
+                                        echo @$applyArr['6']['name']; 
                                         echo '<br />';
-                                        echo @$applyArr['14']['ctime'];
+                                        echo @$applyArr['6']['ctime'];
                                     }
-                                    echo @$jiaqian[14] ;
-                                    ?> </td>
+                                    echo @$jiaqian[6] ;
+                                    ?> 
+                                </td>
                             </tr>
                            
                         </tbody>

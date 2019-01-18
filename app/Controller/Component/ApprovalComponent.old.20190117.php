@@ -1,4 +1,5 @@
 <?php
+//2019年前财务四表执行的审批流
 
 class ApprovalComponent extends Component {
 
@@ -34,7 +35,7 @@ class ApprovalComponent extends Component {
         }
         // 获取审批流
         $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
-        $liuArr = explode(',', $apply_liu['approve_ids_new']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
 
 
         // 项目负责人、项目组负责人 特殊处理
@@ -237,13 +238,6 @@ class ApprovalComponent extends Component {
                 $dep_info = $depinfo->findById($applyinfo['department_id']);
                 return $dep_info['Department']['user_id'];
                 break;
-            case 27:
-                //出纳
-                require_once('../Model/User.php');
-                $uinfo = new User();
-                $u_info = $uinfo->findByPositionId(27);
-                return $u_info['User']['id'];
-                break;
             default:
                 return false;
         }
@@ -258,7 +252,7 @@ class ApprovalComponent extends Component {
         // 获取审批流
         $uinfo = (array) $uinfo;
         $apply_liu = $this->apply_process($apply_process_id);
-        $liuArr = explode(',', $apply_liu['approve_ids_new']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
 
         $contents = array('code' => '', 'next_id' => 0, 'code_id' => '', 'next_uid' => 0);
         if ($negative) {
@@ -364,9 +358,6 @@ class ApprovalComponent extends Component {
                 break;
             case 15:
                 return $this->apply_15($data['department_id'], $data['uid']);
-                break;
-            case 27:
-                return $this->apply_27($data['uid']);
                 break;
         }
     }
@@ -639,27 +630,6 @@ class ApprovalComponent extends Component {
         }
     }
 
-    
-     /**
-     *  1、审批人是否出纳，是：直接跳过
-     *
-     *   出纳
-     *  @params:  $uid 申请人id
-     *  @response:
-     */
-    public function apply_27($uid = 0) {
-        require_once('../Model/User.php');
-        $Uinfo = new User();
-        $userinfo = $Uinfo->findByPositionId(27);
-        
-        if ($uid == $userinfo['User']['id']) {
-            return $uid;
-        } else {
-            return false;
-        }
-    }
-
-    
     /**
      *  加签审批人审批
      *  @params:  $uinfo 审批人信息;$applyinfo 审批单信息
@@ -693,7 +663,7 @@ class ApprovalComponent extends Component {
         $applyinfo = $this->apply_info($apply_id);
         // 获取审批流
         $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
-        $liuArr = explode(',', $apply_liu['approve_ids_new']);
+        $liuArr = explode(',', $apply_liu['approve_ids']);
 
 
         // 项目负责人、项目组负责人 特殊处理
