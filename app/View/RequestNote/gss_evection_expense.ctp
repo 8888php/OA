@@ -155,9 +155,9 @@
                                 <td style="width:260px;" >申报人</td>
                                 <td  style="width:260px;">项目负责人</td>
                                 <td >科室负责人</td>
-                                <td  style="width:260px;" >财务科长</td>
                                 <td  style="width:260px;" >分管所领导</td>
                                 <td >分管财务所长</td>
+                                <td  style="width:260px;" >财务科长</td>
                                 <td  colspan='2'style="width:260px;">所长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >

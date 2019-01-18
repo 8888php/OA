@@ -76,9 +76,9 @@
                             <tr>
                                 <td >项目负责人</td>
                                 <td style="width: 15%;">科室负责人</td>
-                                <td style="width: 16%;">财务科长</td>
                                 <td style="width: 15%;">分管所领导</td>
                                 <td style="width: 16%;">分管财务所长</td>
+                                <td style="width: 16%;">财务科长</td>
                                 <td colspan='2' >所长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;">
@@ -116,19 +116,6 @@
                                     echo @$jiaqian['ksfzr'] ;
                                     ?> 
                                 </td>
-                                <td > 
-                                    <?php 
-                                    /*
-                                    if ($applyArr[14]) {
-                                        echo @$applyArr['14']['remarks'];
-                                        echo '<br />';
-                                        echo @$applyArr['14']['name']; 
-                                        echo '<br />';
-                                        echo @$applyArr['14']['ctime'];
-                                    }
-                                    echo @$jiaqian[14] ;
-                                    */
-                                    ?> </td>
                                 <td >
                                     <?php 
                                     if ($applyArr[5]) {
@@ -153,6 +140,19 @@
                                     echo @$jiaqian[13] ;
                                     ?> 
                                 </td>
+                                <td > 
+                                    <?php 
+                                    /*
+                                    if ($applyArr[14]) {
+                                        echo @$applyArr['14']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['14']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['14']['ctime'];
+                                    }
+                                    echo @$jiaqian[14] ;
+                                    */
+                                    ?> </td>
                                 <td colspan='2'>
                                     <?php 
                                     if ($applyArr[6]) {
