@@ -123,9 +123,17 @@ class ApplyRequestReport extends AppModel {
             $resultArr['next_id'] = 2 ;
             $resultArr['next_uid'] = $data['xmz_uid'] ;
         } else {
+            /*
             $resultArr['state'] = 200 ;
             $resultArr['code_id'] = $data['xmz_uid'] ;
             $resultArr['code'] = 4 ;
+            $resultArr['next_id'] = 5 ;
+            $resultArr['next_uid'] = $data['approval_sld'] ;
+             */
+            // 如果是团队负责人申请/审核 则直接审核结束
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $data['xmz_uid'] ;
+            $resultArr['code'] = 10000 ;
             $resultArr['next_id'] = 5 ;
             $resultArr['next_uid'] = $data['approval_sld'] ;
         }
@@ -148,7 +156,6 @@ class ApplyRequestReport extends AppModel {
             $resultArr['next_id'] = 5 ;
             $resultArr['next_uid'] = $data['approval_sld'] ;
         } else {
-            /*
             $resultArr['state'] = 200 ;
             $resultArr['code_id'] = $data['approval_sld'] ;
             $resultArr['code'] = 10 ;
@@ -156,12 +163,6 @@ class ApplyRequestReport extends AppModel {
 
             $suo_zhang = $this->query("select id from t_user where position_id='".self::SUOZHANG_ID."' and del=0 limit 1 ");
             $resultArr['next_uid'] = $suo_zhang[0]['t_user']['id'] ;
-            */
-            // 如果是科研部门副所长申请/审核 则直接审核通过
-            $resultArr['state'] = 200 ;
-            $resultArr['code_id'] = $data['approval_sld'] ;
-            $resultArr['code'] = 10000 ;
-            $resultArr['next_id'] = 6 ;
         }
         return $resultArr;
     }
@@ -205,7 +206,7 @@ class ApplyRequestReport extends AppModel {
             $resultArr['next_id'] = 5 ;
             $resultArr['next_uid'] = $dep[0]['d']['sld'] ; 
              */
-            // 如果是部门负责人申请/审核 则直接审核通过
+            // 如果是部门负责人申请/审核 则直接审核结束
             $resultArr['state'] = 200 ;
             $resultArr['code_id'] = $dep[0]['d']['user_id'] ;
             $resultArr['code'] = 10000 ;
