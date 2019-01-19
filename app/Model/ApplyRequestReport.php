@@ -148,6 +148,7 @@ class ApplyRequestReport extends AppModel {
             $resultArr['next_id'] = 5 ;
             $resultArr['next_uid'] = $data['approval_sld'] ;
         } else {
+            /*
             $resultArr['state'] = 200 ;
             $resultArr['code_id'] = $data['approval_sld'] ;
             $resultArr['code'] = 10 ;
@@ -155,7 +156,12 @@ class ApplyRequestReport extends AppModel {
 
             $suo_zhang = $this->query("select id from t_user where position_id='".self::SUOZHANG_ID."' and del=0 limit 1 ");
             $resultArr['next_uid'] = $suo_zhang[0]['t_user']['id'] ;
-            
+            */
+            // 如果是科研部门副所长申请/审核 则直接审核通过
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $data['approval_sld'] ;
+            $resultArr['code'] = 10000 ;
+            $resultArr['next_id'] = 6 ;
         }
         return $resultArr;
     }
@@ -185,18 +191,26 @@ class ApplyRequestReport extends AppModel {
         $resultArr = $this->resultArr ;
 
         $dep = $this->query("SELECT d.user_id,d.sld FROM t_department d WHERE d.id={$data['dep_id']} limit 1 ");
-
+ //       var_dump($dep,$user_info);
         // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
         if ($user_info['id'] != $dep[0]['d']['user_id']) {
             $resultArr['err_msg'] = '非该部门负责人，审核失败' ;
             $resultArr['next_id'] = 15 ;
             $resultArr['next_uid'] = $dep[0]['d']['user_id'] ; 
         } else {
+            /*
             $resultArr['state'] = 200 ;
             $resultArr['code_id'] = $dep[0]['d']['user_id'] ;
             $resultArr['code'] = 30 ;
             $resultArr['next_id'] = 5 ;
             $resultArr['next_uid'] = $dep[0]['d']['sld'] ; 
+             */
+            // 如果是部门负责人申请/审核 则直接审核通过
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $dep[0]['d']['user_id'] ;
+            $resultArr['code'] = 10000 ;
+            $resultArr['next_id'] = 15 ;
+            $resultArr['next_uid'] = $dep[0]['d']['user_id'] ; 
         }
         return $resultArr ;
     }
@@ -264,7 +278,7 @@ class ApplyRequestReport extends AppModel {
             array_unshift($liu , 2);
         }
 
-        $previousInfo = $applyInfo = [];
+        $previousInfo = $applyInfo = [];  
         foreach($liu as $lk => $lv){
             $apply_name = 'apply_'.$lv;
 //print_r($apply_name);
@@ -297,7 +311,7 @@ class ApplyRequestReport extends AppModel {
         if($is_apply == true){
             $ret_arr[$this->err_msg] = $applyInfo['err_msg'];
         }
-//print_r($ret_arr);die;
+//var_dump($ret_arr);die;
         return $ret_arr;
 
     }

@@ -57,8 +57,8 @@ class ApplyCaigou extends AppModel {
     }
     //部门
     /**
-     *  项目：申请人-项目负责人-团队负责人—部门分管领导（科研分管领导赵旗峰）-财务科主任-采购员（王海松）-采购中心主任（杨兆亮）-财务及采购分管领导（吕英忠）-所长
-        部门：申请人-行政部门负责人-行政部门分管领导-财务科主任-采购员（王海松）-采购中心主任（杨兆亮）-财务及采购分管领导（吕英忠）-所长
+     *  项目：申请人-项目负责人-团队负责人
+        部门：申请人-行政部门负责人
      */
     public $next_id = 'next_id';
     public $next_uid = 'next_uid';
@@ -92,7 +92,7 @@ class ApplyCaigou extends AppModel {
         $flag = false;//标志是否有相同的
         foreach ($shenpi_arr as $k=>$v) {
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
-//           var_dump($v, $dep_id, $dep_pro_id,$arr_get);
+        //   var_dump($v, $dep_id, $dep_pro_id,$arr_get);
             $arr_tmp[$k] = $arr_get;//把所有的都记录下来
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
@@ -115,7 +115,12 @@ class ApplyCaigou extends AppModel {
         $index = $k;
         $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
         $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
-//        print_r($ret_arr);die;
+    
+        // 如果是部门负责人申请 则直接审核通过
+        if($type == 2 && $ret_arr[$this->next_id] == 15 && $ret_arr[$this->next_uid] == $user_id){
+            $ret_arr[$this->code] = 10000;
+        }
+       // print_r($ret_arr);die;
         return $ret_arr; //这里结束
         //判断是不是所长  6
         $arr_6 = $this->get_by_pos_dep(6, $dep_id, $dep_pro_id);
@@ -389,12 +394,12 @@ class ApplyCaigou extends AppModel {
                 continue;
             }
             $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
-            
             if ($arr_get[$this->next_uid] == 0) {
                 //说明有问题
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
+            
             if ($v == 6 && $pos_id == $v) {
                 //所长
                 $ret_arr[$this->code] = 10000;
@@ -403,6 +408,15 @@ class ApplyCaigou extends AppModel {
             } else {
                 
                 if ($arr_get[$this->next_uid] == $user_id) {
+                    //如果是部门负责人、团队负责人审核 则审核完结
+                    if($arr_get[$this->next_id] == 20 || $arr_get[$this->next_id] == 15 ){
+                           $ret_arr[$this->next_id] = $arr_get[$this->next_id];
+                           $ret_arr[$this->next_uid] = $arr_get[$this->next_uid];
+                           $ret_arr[$this->code] = 10000;
+                           $ret_arr[$this->code_id][] = $user_id;
+                           return $ret_arr;
+                    }
+                    
                     $arr_get = $this->get_by_pos_dep($shenpi_arr[$k+1], $dep_id, $dep_pro_id);//下一职务
                     if ($arr_get[$this->next_uid] == 0) {
                         //说明有问题
