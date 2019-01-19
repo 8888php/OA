@@ -16,7 +16,11 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所差旅费报销单 </td>
+                                <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;">
+                                    <span style='float: left;font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;
+                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款':'' ?>
+                                </span>
+                                    果树所差旅费报销单 </td>
                             </tr>
                             <tr>
                                 <td style="width: 14%;">填表时间</td>
@@ -129,7 +133,7 @@
                                 <td  style="width:260px;" >申报人</td>
                                 <td  style="width:260px;">项目负责人</td>
                                 <td >科室负责人</td>
-                                <td  style="width:260px;" >分管所领导</td>
+                                <td  style="width:260px;" >分管所长</td>
                                 <td style="font-size: 12px;">分管财务所长</td>
                                 <td style="width:260px;" >财务科长</td>
                                 <td  colspan='2' style="width:260px;">所长</td>

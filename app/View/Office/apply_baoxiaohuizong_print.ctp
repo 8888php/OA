@@ -15,7 +15,11 @@
                 <table class="table  table-condensed" style="text-align: center;border-color:#000;" >
                     <tbody>
                         <tr>
-                            <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  报销汇总单 </td>
+                            <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;"> 
+                                <span style='float: left;font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['id']; ?> &nbsp;&nbsp;
+                                 <?php  echo $main_arr['code'] == 10000 ? '已付款':'' ?>
+                                </span>
+                                报销汇总单 </td>
                         </tr>
                         <tr>
                             <td colspan=''>填表日期</td>
@@ -68,7 +72,7 @@
                             <td style="width:90px;">报销人</td>
                             <td style="width:100px;">项目负责人</td>
                             <td style="width:90px;">科室负责人</td>
-                            <td style="width:90px;">分管所领导</td>
+                            <td style="width:90px;">分管所长</td>
                             <td style="width:130px;">分管财务所长</td>
                             <td style="width:100px;">财务科长</td>
                             <td style="width:100px;">所长</td>

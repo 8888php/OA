@@ -247,7 +247,7 @@
                             <td style="width:90px;">报销人</td>
                             <td style="width:100px;">项目负责人</td>
                             <td style="width:90px;">科室负责人</td>
-                            <td style="width:90px;">分管所领导</td>
+                            <td style="width:90px;">分管所长</td>
                             <td style="width:130px;">分管财务所长</td>
                             <td style="width:100px;">财务科长</td>
                             <td style="width:100px;">所长</td>

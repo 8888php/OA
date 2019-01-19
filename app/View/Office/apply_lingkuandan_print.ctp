@@ -15,7 +15,11 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所领款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所领款单 </td>
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">
+                                <span style='float: left;font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;
+                                 <?php  echo$main_arr['ApplyMain']['code'] == 10000 ? '已付款':'' ?>
+                                </span>
+                                      果树所领款单 </td>
                             </tr>
                             <tr>
                                 <td style="width: 14%;">填表日期</td>
@@ -101,7 +105,7 @@
                                 <td >领款人</td>
                                 <td >项目负责人</td>
                                 <td >科室负责人</td>
-                                <td >分管所领导</td>
+                                <td >分管所长</td>
                                 <td >分管财务所长</td>
                                 <td >财务科长</td>
                                 <td >所长</td>
