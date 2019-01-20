@@ -17,9 +17,10 @@
                         <tbody>
                             <tr>
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;"> 
-                                    <span style='float: left;font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;
-                                 <?php  echo$main_arr['ApplyMain']['code'] == 10000 ? '已付款':'' ?>
+                                <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
+                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款':'' ?>
                                 </span>
+                                <span style='font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;</span>
                                     果树所借款单 </td>
                             </tr>
                             <tr>
@@ -80,8 +81,8 @@
                             <tr>
                                 <td >项目负责人</td>
                                 <td style="width: 15%;">科室负责人</td>
-                                <td style="width: 15%;">分管所长</td>
-                                <td style="width: 16%;">分管财务所长</td>
+                                <td style="width: 15%;">分管领导</td>
+                                <td style="width: 16%;">分管财务领导</td>
                                 <td style="width: 16%;">财务科长</td>
                                 <td colspan='2' >所长</td>
                             </tr>
@@ -146,16 +147,11 @@
                                 </td>
                                 <td > 
                                     <?php 
-                                    /*
                                     if ($applyArr[14]) {
                                         echo @$applyArr['14']['remarks'];
                                         echo '<br />';
-                                        echo @$applyArr['14']['name']; 
-                                        echo '<br />';
-                                        echo @$applyArr['14']['ctime'];
                                     }
                                     echo @$jiaqian[14] ;
-                                    */
                                     ?> </td>
                                 <td colspan='2'>
                                     <?php 

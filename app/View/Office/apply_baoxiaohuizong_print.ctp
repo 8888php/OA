@@ -16,9 +16,10 @@
                     <tbody>
                         <tr>
                             <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;"> 
-                                <span style='float: left;font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['id']; ?> &nbsp;&nbsp;
+                                <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
                                  <?php  echo $main_arr['code'] == 10000 ? '已付款':'' ?>
                                 </span>
+                                <span style='font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['id']; ?> &nbsp;&nbsp;</span>
                                 报销汇总单 </td>
                         </tr>
                         <tr>
@@ -72,8 +73,8 @@
                             <td style="width:90px;">报销人</td>
                             <td style="width:100px;">项目负责人</td>
                             <td style="width:90px;">科室负责人</td>
-                            <td style="width:90px;">分管所长</td>
-                            <td style="width:130px;">分管财务所长</td>
+                            <td style="width:90px;">分管领导</td>
+                            <td style="width:130px;">分管财务领导</td>
                             <td style="width:100px;">财务科长</td>
                             <td style="width:100px;">所长</td>
                         </tr>
@@ -149,16 +150,11 @@
                             </td>
                             <td style="width:100px;">
                                 <?php 
-                                /*
                                 if ($applyArr[14]) {
                                     echo @$applyArr['14']['remarks'];
                                     echo '<br />';
-                                    echo @$applyArr['14']['name']; 
-                                    echo '<br />';
-                                    echo @$applyArr['14']['ctime'];
                                 }
                                 echo @$jiaqian[14] ;
-                                */
                                 ?> 
                             </td>
                             <td style="width:100px;">
