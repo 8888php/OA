@@ -405,7 +405,7 @@ Configure::write('keyanlist', array(
     array('international' => '国际合作与交流费', 'cooperation' => '国内协作费'),
     array('labour' => '劳务费', 'consult' => '专家咨询费'),
     array('indirect_manage' => '间接费(管理)', 'indirect_performance' => '间接费(绩效)'),
-    array('indirect_other' => '备用科目', 'other' => '其他费用'),
+    array('indirect_other' => '间接费(其他)', 'other' => '其他费用'),
     array('other2' => '基地建设费', 'other3' => '培训费'),
 ));
 

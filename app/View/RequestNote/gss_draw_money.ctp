@@ -131,20 +131,20 @@
                                 <td> <input type="text" name="dp[0]['remarks']" class="remarks0" style='width:80px;height:25px;' value="<?php echo $attrInfo['json_str'][0]['remarks'];   ?>" /> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'  disabled="disabled" /></td>
-                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[1]['amount']" class="amount1" disabled="disabled"  style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td colspan="2"><input type="text" name="dp[1]['pro']" class="pro1" style='width:175px;height:25px;'   /></td>
+                                <td> <input type="text" name="dp[1]['unit']" class="unit1" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[1]['nums']" class="nums1" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[1]['unit_price']" class="unit_price1 jisuan" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[1]['amount']" class="amount1"   style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[1]['remarks']" class="remarks1" style='width:80px;height:25px;'  /> </td>
                             </tr>
                             <tr class="dp">
-                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:175px;height:25px;' disabled="disabled" /></td>
-                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:80px;height:25px;' disabled="disabled" /> </td>
-                                <td> <input type="text" name="dp[2]['amount']" class="amount2" disabled="disabled"  style='width:80px;height:25px;'/> </td>
-                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:80px;height:25px;' disabled="disabled" /> </td>
+                                <td colspan="2"><input type="text" name="dp[2]['pro']" class="pro2" style='width:175px;height:25px;'  /></td>
+                                <td> <input type="text" name="dp[2]['unit']" class="unit2" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[2]['nums']" class="nums2" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[2]['unit_price']" class="unit_price2 jisuan" style='width:80px;height:25px;'  /> </td>
+                                <td> <input type="text" name="dp[2]['amount']" class="amount2"   style='width:80px;height:25px;'/> </td>
+                                <td> <input type="text" name="dp[2]['remarks']" class="remarks2" style='width:80px;height:25px;'  /> </td>
                             </tr>
                             
                             <tr>
