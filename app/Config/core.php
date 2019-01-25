@@ -756,3 +756,25 @@ Configure::write('jiaqian_apply_table',array('ApplyJiekuandan' , 'ApplyLingkuand
 
 //财务部门id
 Configure::write('caiwu_dep_id', 5);
+
+// 财务四表名
+Configure::write('caiwu_table_name', array('apply_jiekuandan' , 'apply_lingkuandan' , 'apply_chuchai_bxd' , 'apply_baoxiaohuizong'));
+//表对应model
+Configure::write('table_to_model',array(
+    'apply_jiekuandan'=> 'ApplyJiekuandan' , 
+    'apply_lingkuandan'=> 'ApplyLingkuandan' ,
+    'apply_chuchai_bxd'=> 'ApplyChuchaiBxd' ,
+    'apply_baoxiaohuizong'=> 'ApplyBaoxiaohuizong' ,
+    'apply_request_report'=> 'ApplyRequestReport' ,
+    'apply_caigou'=> 'ApplyCaigou',
+    'apply_baogong' => 'ApplyBaogong',
+    'apply_borrow'=> 'ApplyBorrow' ,
+    'apply_chuchai'=> 'ApplyChuchai' ,
+    'apply_dispatch'=> 'ApplyDispatch' ,
+    'apply_endlessly'=> 'ApplyEndlessly' ,
+    'apply_leave'=> 'ApplyLeave' ,
+    'apply_news'=> 'ApplyNews' ,
+    'apply_paidleave'=> 'ApplyPaidleave' ,
+    'apply_received'=> 'ApplyReceived' ,
+    'apply_seal'=> 'ApplySeal' ,
+    ));

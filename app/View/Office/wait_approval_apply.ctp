@@ -82,6 +82,7 @@
                                             <option value="<?php echo $k;?>" <?php echo $k==$table ? 'selected':'';?>><?php echo $v;?></option>
                                             <?php }?>
                                         </select>
+                                        <input type="button" name="batch" id="batch_approve" value="批量审批通过" style="float:right;height:33px;line-height:33px;margin:3px 10px 0 0;">
                                     </div>
                                     <script type="text/javascript">
                                         function change_table(table) {
@@ -94,6 +95,7 @@
                                         <table  class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
+                                                    <th>多选</th>
                                                     <th>ID</th>
                                                     <th>申请名</th>
                                                     <th>申请时间</th>
@@ -107,6 +109,7 @@
                                             <tbody>
                                                 <?php  foreach($lists as $sk => $sv){  ?>
                                                 <tr>
+                                                    <td><input type='checkbox' name="applyboxid"  data-id="<?php echo $sv['ApplyMain']['id'];  ?>" data-tname="<?php echo $sv['ApplyMain']['table_name'];  ?>" ></td>
                                                     <td><?php echo $sv['ApplyMain']['id'];  ?></td>
                                                     <?php  if($sv['ApplyMain']['table_name']){  ?>
                                                         <td>  <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $sv['ApplyMain']['table_name'].'_print/'.$sv['ApplyMain']['id'];?>');"  ><?php echo $sv['ApplyMain']['name'];  ?> </a> </td>
@@ -266,7 +269,61 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
                 return 'right';
             return 'left';
         }
-    })
+    });
+    
+    $('#batch_approve').click(function(){
+        var applybox = $('input[name=applyboxid]:checked');
+        var applyid_arr =[] , applytname_arr = [];
+        var i = 0;
+        applybox.each(function(){
+            applyid_arr[i] = $(this)[0].dataset.id;
+            applytname_arr[i] = $(this)[0].dataset.tname;
+            i++;
+        });
+        if(applyid_arr.length <= 0){
+            alert('请先选择要批量审批的申请单！');
+            return false;
+        }
+        if (!confirm('您确认批量通过选中的项目？')) {//取消
+            return false;
+        }
+        var data = {main_id: applyid_arr, status: 'agree', main_tname: applytname_arr};
+        $.ajax({
+            url: '/Office/batch_approves',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+                    window.parent.location.reload();
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    window.parent.location.reload();
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
+        });  
+    });
+    
 
     function wait_close() {
         $('#wait_close').click();
