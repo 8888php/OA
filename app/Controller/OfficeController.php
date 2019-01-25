@@ -2223,9 +2223,10 @@ class OfficeController extends AppController {
                             echo json_encode($this->ret_arr);
                             exit;
                         }
+                    }else{
+                        //未通过  approve_fail_msg 暂存未通过的验证消息
+                        $approve_fail_msg .= 'ID为 ' . $v . ' 的申请单：' . $resource['msg'] . ";\r\n";
                     }
-                    //未通过  approve_fail_msg 暂存未通过的验证消息
-                    $approve_fail_msg .= 'ID为 ' . $v . ' 的申请单：' . $resource['msg'] . ";\r\n";
                     break;
                 default:
                     // 其他错误
