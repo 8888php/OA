@@ -613,8 +613,13 @@ Configure::write('project_team', array(
  */
 Configure::write('approval_process',array(
     'apply_leave' => array(
+        /*
         2 => '15,5,22,6',   // 请假申请单 部门
         3 => '20,21,22,6',   // 请假申请单 团队
+        */
+        // 2019年开始 采用新审批流
+        2 => '15',   // 请假申请单 部门
+        3 => '20',   // 请假申请单 团队
     ),
     'apply_chuchai' => array(
         1 => '11,5,6',// 差旅审批单  科研项目  如项目有所属项目组，增加项目组负责人审批 2项目组负责人， 5是科研部门副所长
