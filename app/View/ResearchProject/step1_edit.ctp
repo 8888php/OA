@@ -53,6 +53,7 @@
                         <select  name="is_finish" class="is_finish input-width" id="form-field-1" style="width:140px;">
                             <option value="0">否</option>
                             <option value="1" <?php  echo $pro_arr['is_finish'] == 1 ? 'selected' : '';?>>结束</option>
+                            <option value="2" <?php  echo $pro_arr['is_finish'] == 2 ? 'selected' : '';?>>删除</option>
                         </select> 
                     </li> 
 
@@ -277,6 +278,11 @@
                 }
                 if (res.code == 0) {
                     //说明添加或修改成功
+                    if (is_finish == 2) {
+                        //如果是删除那就让他跳到首页
+                        window.location.href = '/';
+                        return;
+                    }
                     alert(res.msg);
                     $('button[data-dismiss="modal"]').click();
                     window.location.reload();
