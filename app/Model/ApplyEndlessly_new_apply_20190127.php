@@ -64,8 +64,8 @@ class ApplyEndlessly extends AppModel {
     }
     //部门
     /**
-     * 行政部门：申请人—所在单位负责人—分管领导—分管人事领导（乔永胜）—所长
-          团队    ：申请人—所在团队负责人—分管领导（赵旗峰）—分管人事领导—所长
+     * 行政部门：申请人—所在单位负责人        //—分管领导—分管人事领导（乔永胜）—所长
+          团队    ：申请人—所在团队负责人     //—分管领导（赵旗峰）—分管人事领导—所长
      */
     public $next_id = 'next_id';
     public $next_uid = 'next_uid';
@@ -86,17 +86,7 @@ class ApplyEndlessly extends AppModel {
         $dep_id = $user_info['department_id'];
         $team_id = $data['dep_pro'];
         $user_id = $user_info['id'];
-        //取出 职务为5
-        $arr_5 = $this->get_by_pos_dep(5, $dep_id, $team_id);
-        if (empty($arr_5['next_uid'])) {
-            $ret_arr[$this->err_msg] = '部门分管领导不存在';
-            return $ret_arr;
-        }
-        if ($arr_5[$this->next_uid] == $user_id) {
-            //说明是部门分管领导的单子
-            $ret_arr[$this->code] = 10000;
-            return $ret_arr;
-        }
+        
         //取出 职务15
         $arr_15 = $this->get_by_pos_dep(15, $dep_id, $team_id);
         if (empty($arr_15['next_uid'])) {
@@ -105,8 +95,7 @@ class ApplyEndlessly extends AppModel {
         }
         if ($arr_15[$this->next_uid] == $user_id) {
             //说明是部门负责人，取分管领导
-            $ret_arr[$this->next_id] = 5;
-            $ret_arr[$this->next_uid] = $arr_5[$this->next_uid];
+            $ret_arr[$this->next_id] = 10000;
             return $ret_arr;
         }
         //这里是职员
@@ -125,17 +114,7 @@ class ApplyEndlessly extends AppModel {
         $dep_id = $user_info['department_id'];
         $team_id = $data['dep_pro'];
         $user_id = $user_info['id'];
-        //取出 职务为21
-        $arr_21 = $this->get_by_pos_dep(21, $dep_id, $team_id);
-        if (empty($arr_21[$this->next_uid])) {
-            $ret_arr[$this->err_msg] = '部门分管领导不存在';
-            return $ret_arr;
-        }
-        if ($arr_21[$this->next_uid] == $user_id) {
-            //说明是部门分管领导的单子
-            $ret_arr[$this->code] = 10000;
-            return $ret_arr;
-        }
+        
         //取出 职务20
         $arr_20 = $this->get_by_pos_dep(20, $dep_id, $team_id);
         if (empty($arr_20[$this->next_uid])) {
@@ -144,8 +123,7 @@ class ApplyEndlessly extends AppModel {
         }
         if ($arr_20[$this->next_uid] == $user_id) {
             //说明是部门负责人，取分管领导
-            $ret_arr[$this->next_id] = 21;
-            $ret_arr[$this->next_uid] = $arr_21[$this->next_uid];
+            $ret_arr[$this->next_id] = 10000;
             return $ret_arr;
         }
         //这里是职员
@@ -246,19 +224,15 @@ class ApplyEndlessly extends AppModel {
         foreach ($shengpin_arr as $k=>$v) {
             if ($v == $next_approver_id) {
                 $arr_get = $this->get_by_pos_dep($v, $dep_id);
-                if ($next_approver_id == 5 && $arr_get[$this->next_uid] == $user_id) {
+                if ($next_approver_id == 15 && $arr_get[$this->next_uid] == $user_id) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;
+                    return $ret_arr;
                 } else {
-                    if ($next_approver_id == 15 && $arr_get[$this->next_uid] == $user_id) {
-                        $arr_get = $this->get_by_pos_dep(5, $dep_id);
-                        $next_approver_id = 5;
-                        $ret_arr[$this->code] = 15 * 2;
-                        $ret_arr[$this->code_id][] = $user_id;
-                        $ret_arr[$this->next_uid] = empty($arr_get['next_uid']) ? 0 : $arr_get['next_uid'];
-                        $ret_arr[$this->next_id] = 5;
-                    }
+                    $ret_arr[$this->err_msg][] = '非部门负责人角色审批';
                 }
+            }else{
+                $ret_arr[$this->err_msg][] = '非当前审批进度审批人';
             }
         }
         
@@ -324,19 +298,15 @@ class ApplyEndlessly extends AppModel {
         foreach ($shengpin_arr as $k=>$v) {
             if ($v == $next_approver_id) {
                 $arr_get = $this->get_by_pos_dep($v, $dep_id, $team_id);
-                if ($next_approver_id == 21 && $arr_get[$this->next_uid] == $user_id) {
+                if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $user_id) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;
+                    return $ret_arr;
                 } else {
-                    if ($next_approver_id == 20 && $arr_get[$this->next_uid] == $user_id) {
-                        $arr_get = $this->get_by_pos_dep(21, $dep_id, $team_id);
-                        $next_approver_id = 21;
-                        $ret_arr[$this->code] = 20 * 2;
-                        $ret_arr[$this->code_id][] = $user_id;
-                        $ret_arr[$this->next_uid] = empty($arr_get[$this->next_uid]) ? 0 : $arr_get[$this->next_uid];
-                        $ret_arr[$this->next_id] =21;
-                    }
+                    $ret_arr[$this->err_msg][] = '非团队负责人角色审批';
                 }
+            }else{
+                $ret_arr[$this->err_msg][] = '非当前审批进度审批人';
             }
         }
         

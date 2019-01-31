@@ -64,8 +64,8 @@ class ApplySeal extends AppModel {
     }
     //部门
     /**
-     * 行政部门：申请人—所在单位负责人       //—分管领导—分管人事领导（乔永胜）—所长
-          团队    ：申请人—所在团队负责人       //—分管领导（赵旗峰）—分管人事领导—所长
+     * 行政部门：申请人—所在单位负责人—分管领导—分管人事领导（乔永胜）—所长
+          团队    ：申请人—所在团队负责人—分管领导（赵旗峰）—分管人事领导—所长
      */
     public $next_id = 'next_id';
     public $next_uid = 'next_uid';
@@ -106,8 +106,9 @@ class ApplySeal extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($v == 15) {
-                if ($user_id == $arr_get[$this->next_uid]) {
+            if ($v == 28) {
+                //所长办公室
+                if ($pos_id == $v && $user_id == $arr_get[$this->next_uid]) {
                     $ret_arr[$this->code] = 10000;
                     return $ret_arr;
                 } else {
@@ -154,8 +155,9 @@ class ApplySeal extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($v == 20) {
-                if ($user_id == $arr_get[$this->next_uid]) {
+            if ($v == 28) {
+                //所长办公室
+                if ($pos_id == $v && $user_id == $arr_get[$this->next_uid]) {
                     $ret_arr[$this->code] = 10000;
                     return $ret_arr;
                 } else {
@@ -316,7 +318,7 @@ class ApplySeal extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($v == 15) {
+            if ($v == 28) {
                 if ($arr_get[$this->next_uid] == $user_id) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;
@@ -438,7 +440,7 @@ class ApplySeal extends AppModel {
                 $ret_arr[$this->err_msg] = $this->get_error_msg($v);
                 return $ret_arr;
             }
-            if ($v == 20) {
+            if ($v == 28) {
                 if ($arr_get[$this->next_uid] == $user_id) {
                     $ret_arr[$this->code] = 10000;
                     $ret_arr[$this->code_id][] = $user_id;

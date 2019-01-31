@@ -59,142 +59,258 @@ class ApplyChuchai extends AppModel {
 
     
     
-      /**
+    
+    /**
      * 创建时获取审批信息
      * 创建信息 $data
      * 创建者信息 $user_info
-     * 类型 $type 2是部门 1是科研科目，目前只有这两种
+     * 类型 $type 1是科研项目 2是部门 3是团队，目前只有这两种
      */
-    public function apply_create($type, $data, $user_info) {
-        return $this->team_create($type, $data, $user_info);
+    public function apply_create($type, $data, $user_info) { 
+        if($type != 1 && $type != 2){
+                return false;
+        }
+        return $this->auditing($type, $data, $user_info);
     }
-    //部门
-    /**
-     *  项目：申请人-项目负责人-团队负责人
-        部门：申请人-行政部门负责人
+ 
+
+    // 11 验证项目组负责人
+    public function apply_11($data,$user_info) {
+        $resultArr = $this->resultArr ;
+
+        // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
+        if ($data['user_id'] != $user_info['id']) {
+            $resultArr['err_msg'] = '非项目负责人，审核失败' ;
+            $resultArr['next_id'] = 11 ;
+            $resultArr['next_uid'] = $data['user_id'] ; 
+            return $resultArr ;
+        }
+
+        //1.2 当前用户是项目负责人
+        $resultArr['state'] = 200 ;
+        $resultArr['code_id'] = $data['user_id'] ;
+        $resultArr['code'] = 22 ;
+
+        //2.1 如果该项目组负责人存在，则验证项目组负责人
+        if( isset($data['xmz_uid']) ){
+            $result = $this->apply_2($data,$user_info);
+
+            //3.1 如果验证项目组负责人是当前用户，则直接返回项目组验证结果
+            if( $result['state'] == 200 ){
+                return $result ;
+            }else{
+                //3.2 如果该项目组验证失败，则返回项目组为下已审批
+                $resultArr['next_id'] = $result['next_id'] ;
+                $resultArr['next_uid'] = $result['next_uid'] ;  
+            }
+        }else{
+        //2.2 如果该项目无项目组负责人，则下一审批不需要验证项目组
+            $resultArr['next_id'] = 5 ;
+            $resultArr['next_uid'] = $data['approval_sld'] ; 
+        }
+        
+        return $resultArr;
+        
+    }
+
+
+    // 2 验证项目组负责人
+    public function apply_2($data,$user_info) {
+        $resultArr = $this->resultArr ;
+
+        // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
+        if ( $data['xmz_uid'] != $user_info['id'] ) {
+            $resultArr['err_msg'] = '非项目组负责人，审核失败' ;
+            $resultArr['next_id'] = 2 ;
+            $resultArr['next_uid'] = $data['xmz_uid'] ;
+        } else {
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $data['xmz_uid'] ;
+            $resultArr['code'] = 4 ;
+            $resultArr['next_id'] = 5 ;
+            $resultArr['next_uid'] = $data['approval_sld'] ;
+        }
+        return $resultArr;
+    }
+
+    // 5 验证项目分管所领导
+    public function apply_5($data,$user_info) {
+        $resultArr = $this->resultArr ;
+
+        // 行政部门类申请单 ，则取对应部门所领导,更改approval_sld
+        if($data['type'] == 2){
+            $dep = $this->query("SELECT d.user_id,d.sld FROM t_department d WHERE d.id={$data['dep_id']} limit 1 ");
+            $data['approval_sld'] = $dep[0]['d']['sld'] ;
+        }
+
+        // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
+        if ($data['approval_sld'] != $user_info['id']) {
+            $resultArr['err_msg'] = '非项目分管所领导，审核失败' ;
+            $resultArr['next_id'] = 5 ;
+            $resultArr['next_uid'] = $data['approval_sld'] ;
+        } else {
+
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $data['approval_sld'] ;
+
+            // 3天以内 所领导审，3天以上 需所长最终审批
+            if($data['sum_day'] <= 3){ 
+                $resultArr['code'] = 10000 ;
+            }else{
+                $suo_zhang = $this->query("select id from t_user where position_id='".self::SUOZHANG_ID."' and del=0 limit 1 ");
+                $resultArr['code'] = 10 ;
+                $resultArr['next_id'] = 6 ;
+                $resultArr['next_uid'] = $suo_zhang[0]['t_user']['id'] ;
+            }
+        }
+        return $resultArr;
+    }
+
+    // 6 验证所长审批
+    public function apply_6($data,$user_info) {
+        $resultArr = $this->resultArr ;
+        $sz_pid = self::SUOZHANG_ID;
+
+        // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
+        if ($user_info['position_id'] != $sz_pid) {
+            $dep = $this->query("SELECT u.id FROM t_user u WHERE u.position_id = {$sz_pid} and u.del = 0 limit 1 ");
+            $resultArr['err_msg'] = '非所长，审核失败' ;
+            $resultArr['next_id'] = self::SUOZHANG_ID ;
+            $resultArr['next_uid'] = $dep[0]['u']['id'] ;
+        } else {
+            $resultArr['state'] = 200 ;
+            $resultArr['code'] = 10000 ;
+            $resultArr['code_id'] = $user_info['id'] ;
+        }
+        return $resultArr;
+    }
+
+
+    // 15 验证部门负责人审批
+    public function apply_15($data,$user_info) {
+        $resultArr = $this->resultArr ;
+
+        $dep = $this->query("SELECT d.user_id,d.sld FROM t_department d WHERE d.id={$data['dep_id']} limit 1 ");
+
+        // 验证通过返回下一审批角色和审批人id，不通过返回当前审批进度角色和当前进度审批人id
+        if ($user_info['id'] != $dep[0]['d']['user_id']) {
+            $resultArr['err_msg'] = '非该部门负责人，审核失败' ;
+            $resultArr['next_id'] = 15 ;
+            $resultArr['next_uid'] = $dep[0]['d']['user_id'] ; 
+        } else {
+            $resultArr['state'] = 200 ;
+            $resultArr['code_id'] = $dep[0]['d']['user_id'] ;
+            $resultArr['code'] = 30 ;
+            $resultArr['next_id'] = 5 ;
+            $resultArr['next_uid'] = $dep[0]['d']['sld'] ; 
+        }
+        return $resultArr ;
+    }
+
+
+    /** 
+     * 行政部门：申请人—所在部门负责人—分管所领导—所长
+     * 科研项目：申请人—所在项目负责人—项目所属分管所领导（赵旗峰/李登科）—所长
+     *
+     * 申请单 审核验证
+     * @param   $type  申请单类型
+     * @param   $data   ['dep_pro'] ['sum_day'] ['department_id']
+     * @param   $user_info  当前用户信息
+     * @param   $is_apply 为false时是创建申请单审批验证，为true时是审批验证
+     * @return   $ret_arr
      */
-  
-    //团队
-    private function team_create($type, $data, $user_info) {
+    private function auditing($type,$data, $user_info, $is_apply = false) {
         $ret_arr = array(
             $this->next_id => 0,
             $this->next_uid => 0,
             $this->code => 0,
-            $this->err_msg => ''
+            $this->err_msg => '',
+            $this->code_id=>array(),
         );
-        $dep_id = $user_info['department_id'];
-        // 项目 或 部门 id  $data['dep_pro'] == 0 时为 部门类型申请
-        $dep_pro_id = $data['dep_pro']; // 
-        $user_id = $user_info['id'];        
-        $pos_id = $user_info['position_id'];
-        $shenpi_arr = $this->get_shengpin_arr();
-        $shenpi_arr = explode(',', $shenpi_arr[$type]);
-        if (empty($shenpi_arr)) {
-            $ret_arr[$this->err_msg] = '定义审批流异常';
-            return $ret_arr;
-        }
-        $arr_tmp = array();//放所有的审批角色信息
-        $flag = false;//标志是否有相同的
-        foreach ($shenpi_arr as $k=>$v) {
-            $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
-        //   var_dump($v, $dep_id, $dep_pro_id,$arr_get);
-            $arr_tmp[$k] = $arr_get;//把所有的都记录下来
-            if ($arr_get[$this->next_uid] == 0) {
-                //说明有问题
-                $ret_arr[$this->err_msg] = $this->get_error_msg($v);
+
+        $proArr = [];
+        $pro_team_id = 0 ;
+
+        // 如果type为1是科研项目，则获取项目负责人、所领导、项目组负责人
+        if($type == 1){
+            $pro_infos = $this->query("select p.user_id,p.approval_sld,p.project_team_id from t_research_project p where p.id = {$data['dep_pro']} limit 1 ");
+            // 项目负责人不存在 直接返回
+            if( $pro_infos[0]['p']['user_id'] <= 0 ){
+                $ret_arr[$this->err_msg] = '该科研项目负责人不存在';
                 return $ret_arr;
             }
-//            if ($pos_id == 6) {
-            if (false) {
-                //所长
-                $ret_arr[$this->code] = 10000;
-                return $ret_arr;
-            } else {
-                if ($arr_get[$this->next_uid] != $user_id) {
-//                    print_r($arr_get);die;
-                    $flag = false;
+            $proArr = $pro_infos[0]['p'];
+            $pro_team_id = $proArr['project_team_id'];
+        }
+        $proArr['sum_day'] = $data['sum_day'];//天数
+        $proArr['type'] = $type;
+        $proArr['dep_id'] = ( $is_apply == true ) ? $data['department_id'] : $user_info['department_id']; //项目所属部门 
+
+        // 如果项目属于项目组  则获取项目组负责人
+        if( $pro_team_id > 0 ){
+            $team_infos = $this->query("select m.user_id from t_team t left join t_team_member m on t.fzr = m.id where t.id = {$pro_team_id} limit 1 ");
+            $proArr['xmz_uid'] = $team_infos[0]['m']['user_id'];
+        }
+
+        $liu = explode(',', $this->get_shengpin_arr($type)); // 获取审批流
+
+        // 如果是审批验证，移动审批到当前审批位置
+        if($is_apply == true && in_array($data['next_id'], $liu)){
+            foreach($liu as $ak => $av){
+                if( $av != $data['next_id'] )
+                     array_shift($liu);
+                else
                     break;
-                }
             }
         }
-        $index = $k;
-        $ret_arr[$this->next_id] = $arr_tmp[$index][$this->next_id];
-        $ret_arr[$this->next_uid] = $arr_tmp[$index][$this->next_uid];
-    
-        // 如果是部门负责人申请 则直接审核通过
-        if($type == 2 && $ret_arr[$this->next_id] == 15 && $ret_arr[$this->next_uid] == $user_id){
-            $ret_arr[$this->code] = 10000;
+
+        // 如果当前审批角色为2，则在审批流中增加2
+        if($is_apply == true && $data['next_id'] == 2){
+            array_shift($liu); 
+            array_unshift($liu , 2);
         }
-       // print_r($ret_arr);die;
-        return $ret_arr; //这里结束
-        //判断是不是所长  6
-        $arr_6 = $this->get_by_pos_dep(6, $dep_id, $dep_pro_id);
-        
-        //财务副所长  13
-        $arr_13 = $this->get_by_pos_dep(13, $dep_id, $dep_pro_id);
-        
-        //采购中心这个部门的负责人  24
-        $arr_24 = $this->get_by_pos_dep(24, $dep_id, $dep_pro_id);
-        
-        //采购内容核对员 23
-        $arr_23 = $this->get_by_pos_dep(23, $dep_id, $dep_pro_id);
-        
-        //财务科长 14
-        $arr_14 = $this->get_by_pos_dep(14, $dep_id, $dep_pro_id);
-        
-        //部门分管领导 5
-        $arr_5 = $this->get_by_pos_dep(5, $dep_id, $dep_pro_id);
-    
-        //团队负责人 20
-        $arr_20 = $this->get_by_pos_dep(20, $dep_id, $dep_pro_id);
 
-        //项目负责人 11
-        $arr_11 = $this->get_by_pos_dep(11, $dep_id, $dep_pro_id);
+        $previousInfo = $applyInfo = [];
+        foreach($liu as $lk => $lv){
+            $apply_name = 'apply_'.$lv;
+//print_r($apply_name);
+            // 11 项目负责人 项目id、user_id
+            // 2 项目组负责人  项目id、user_id 
+            // 5 科研项目分管领导 项目分管所领导id、user_id
+            // 6 所长 多于3天所长审  user_position_id
 
-        //或  部门负责人 15
-        $arr_15 = $this->get_by_pos_dep(15, $dep_id, $dep_pro_id);
+            $applyInfo = $this->$apply_name($proArr,$user_info);
+//print_r($applyInfo);
+            // 验证状态为0则验证未通过，或code为10000审核完成，跳出循环验证，返回上一验证结果，如果为初次验证则返回初次验证结果  
+            if( $applyInfo['state'] == 0 || $applyInfo['code'] == 10000 ){
+               $applyInfo = ($lk == 0) ? $applyInfo : $previousInfo ;
+                break ;
+            }
+            // 暂存上一验证结果
+            $previousInfo = $applyInfo ;
+
+        }
+//print_r($applyInfo);
+        if(empty($applyInfo)){
+            return false;
+        }
+
+        $ret_arr[$this->code] = $applyInfo['code'] ;
+        !empty($applyInfo['code_id']) && $ret_arr[$this->code_id][] = $applyInfo['code_id'];
+        $ret_arr[$this->next_uid] = $applyInfo['next_uid'];
+        $ret_arr[$this->next_id] = $applyInfo['next_id'];
+        //如果是审批验证 不返回提示信息
+        if($is_apply == true){
+            $ret_arr[$this->err_msg] = $applyInfo['err_msg'];
+        }
+//print_r($ret_arr);die;
+        return $ret_arr;
 
     }
-    //返回错误信息
-    private function get_error_msg($pos_id = 0)  {
-        $msg = '审批参数有误';
-        //20,5,14,23,24,13,6
-        switch ($pos_id) {
-            case 6:
-                $msg = '所长不存在';
-                break;
-            case 13:
-                $msg = '财务副所长不存在';
-                break;
-            case 24:
-                $msg = '采购中心负责人不存在';
-                break;
-            case 23:
-                $msg = '采购内容核对员不存在';
-                break;
-            case 14:
-                $msg = '财务科长不存在';
-                break;
-            case 5:
-                $msg = '分管所领导不存在';
-                break;
-            case 20:
-                $msg = '团队负责人不存在';
-                break;
-            case 11:
-                $msg = '项目负责人不存在';
-                break;
-            case 15:
-                $msg = '部门负责人不存在';
-                break;
-            default :
-                break;
-        }
-        return $msg;
-    }
 
-    /**
-     * 
+
+ /**
+     * 审核
      * @param type $main_id
      * @param type $user_info
      * @param type $status
@@ -209,33 +325,21 @@ class ApplyChuchai extends AppModel {
             $this->code_id=>array()
         );
         //根据main_id取出信息
-        $main_sql = "select * from t_apply_main where id='{$main_id}' limit 1 ";
-        $main_arr = $this->query($main_sql);
+        $main_arr = $this->query("select m.type,m.project_id,m.department_id,m.code,m.next_apprly_uid,m.next_approver_id,c.days from t_apply_main m left join t_apply_chuchai c on m.attr_id = c.id where m.id='{$main_id}' limit 1 ");
+        $main_arr = $main_arr[0];
         if (empty($main_arr)) {
-            $ret_arr[$this->err_msg] = '该申请单不存在';
+            $ret_arr[$this->err_msg] = '申请单不存在';
             return $ret_arr;
         }
-        
-        // 加签审核
-        // 先判断当前节点是否有加签审批人，如果有走加签审批流程
-        if ($main_arr[0]['t_apply_main']['add_lots'] != '0') {
-            require_once('AddLots.php');
-            $AddLots = new AddLots();
-            $reserve = $AddLots->addLotsApply($user_info, $main_arr[0]['t_apply_main']) ; 
-            exit( json_encode($reserve) );
-        }
-        
-        
-        
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
+        $code = $main_arr['m']['code'];
+        $next_id = $main_arr['m']['next_apprly_uid'];
+        $next_approver_id = $main_arr['m']['next_approver_id'];
         if ($code == 10000) {
-            $ret_arr[$this->err_msg] = '该申请单已经审批通过了';
+            $ret_arr[$this->err_msg] = '申请单已经审批通过了';
             return $ret_arr;
         }
         if ($code%2 !=0) {
-            $ret_arr[$this->err_msg] = '该申请单已经被拒绝';
+            $ret_arr[$this->err_msg] = '申请单已经被拒绝';
             return $ret_arr;
         }
         if ($next_id != $user_info['id']) {
@@ -249,198 +353,29 @@ class ApplyChuchai extends AppModel {
             $ret_arr[$this->code_id][] = $user_info['id'];
             return $ret_arr;
         }
-        //团队
-        return $this->team_approve($main_arr, $user_info, $status);
-       
+        $type = $main_arr['m']['type'];
+
+        $data = array();
+        $data['sum_day'] = $main_arr['c']['days'];
+        $data['dep_pro'] = $main_arr['m']['project_id'];
+        $data['department_id'] = $main_arr['m']['department_id'];
+        $data['next_id'] = $main_arr['m']['next_approver_id'];
+
+        return $this->auditing($type, $data, $user_info, true) ;
+
     }
+
+
     
     /**
-    获取审批流
+     * 获取出差审批单 审批流
+     * @param type $type 1科研项目，2行政
+     * @return array()
      */
-    private function get_shengpin_arr () {
-        $listarr = Configure::read('approval_process');
-        return  $listarr['apply_chuchai'];
-    }
-            
-    
-    //根据职务和部门取出用户信息 行政
-    private function get_by_pos_dep($pos_id, $dep_id, $dep_pro_id=0) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0
-        );
-        
-        switch($pos_id) {
-        //判断是不是所长  6
-            case 6 :  
-            $sql_6 = "select *from t_user where position_id='{$pos_id}' and del=0";
-            $arr_6 = $this->query($sql_6);
-            $ret_arr[$this->next_id] = 6;
-            $ret_arr[$this->next_uid] = empty($arr_6[0]['t_user']['id']) ? 0 : $arr_6[0]['t_user']['id'];
-            break;
-        //财务副所长  13
-            case 13 :
-            $sql_13 = "select *from t_user where position_id='{$pos_id}' and del=0";
-            $arr_13 = $this->query($sql_13);
-            $ret_arr[$this->next_id] = 13;
-            $ret_arr[$this->next_uid] = empty($arr_13[0]['t_user']['id']) ? 0 : $arr_13[0]['t_user']['id'];
-            break;
-        //采购中心这个部门的负责人  24
-            case 24 : 
-            $sql_24 = "select *from t_department where id=12 and del=0";
-            $arr_24 = $this->query($sql_24);
-            $ret_arr[$this->next_id] = 24;
-            $ret_arr[$this->next_uid] = empty($arr_24[0]['t_department']['user_id']) ? 0 : $arr_24[0]['t_department']['user_id'];
-            break;
-        //采购内容核对员 23
-            case 23 :
-            $sql_23 = "select *from t_user where position_id='{$pos_id}' and del=0";
-            $arr_23 = $this->query($sql_23);
-            $ret_arr[$this->next_id] = 23;
-            $ret_arr[$this->next_uid] = empty($arr_23[0]['t_user']['id']) ? 0 : $arr_23[0]['t_user']['id'];
-            break;
-        //财务科长 14
-            case 14 :
-            $sql_14 = "select *from t_user where position_id='{$pos_id}' and del=0";
-            $arr_14 = $this->query($sql_14);
-            $ret_arr[$this->next_id] = 14;
-            $ret_arr[$this->next_uid] = empty($arr_14[0]['t_user']['id']) ? 0 : $arr_14[0]['t_user']['id'];
-            break;
-        //部门分管领导 5
-            case 5 :
-            $sld_id = 0 ;
-            //当 dep_pro_id 不为0时，为项目申请，分管领导取该科研项目所属领导
-            if($dep_pro_id){
-                $arr_5 = $this->query("select p.approval_sld from t_research_project p where p.id = {$dep_pro_id} limit 1 ");
-                $sld_id = $arr_5[0]['p']['approval_sld'];
-            }else{
-                //$dep_pro_id != 0 && $dep_id = 3;
-                $arr_5 = $this->query("select sld from t_department where id='{$dep_id}' and del=0");
-                $sld_id = $arr_5[0]['t_department']['sld'];               
-            }
-
-            $ret_arr[$this->next_uid] = $sld_id;
-            $ret_arr[$this->next_id] = 5;
-            break;
-        //团队负责人 20   可看作项目所属 项目组
-            case 20 :
-            $sql_20 = "select p.project_team_id,p.user_id,m.user_id from t_research_project p left join t_team t on p.project_team_id = t.id left join t_team_member m on m.team_id=t.id and t.fzr=m.id where p.id='{$dep_pro_id}' ";
-            $arr_20 = $this->query($sql_20);
-            // 若是单个项目 返回项目负责人id
-            if( $arr_20[0]['p']['project_team_id'] == 0 ){  
-                $ret_arr[$this->next_uid] = $arr_20[0]['p']['user_id'] ;
-            }else{
-                $ret_arr[$this->next_uid] = empty($arr_20[0]['m']['user_id']) ? 0 : $arr_20[0]['m']['user_id'];
-            }
-            $ret_arr[$this->next_id] = 20;
-            break;
-        //项目负责人 11
-            case 11 :
-            $sql_11 = "select id,user_id from t_research_project where id='{$dep_pro_id}' and del=0";
-            $arr_11 = $this->query($sql_11);
-            $ret_arr[$this->next_uid] = empty($arr_11[0]['t_research_project']['user_id']) ? 0 : $arr_11[0]['t_research_project']['user_id'];
-            $ret_arr[$this->next_id] = 11;
-            break;
-        //部门负责人 15
-            case 15 :
-            $sql_15 = "select *from t_department where id='{$dep_id}' and del=0";
-            $arr_15 = $this->query($sql_15);
-            $ret_arr[$this->next_uid] = empty($arr_15[0]['t_department']['user_id']) ? 0 : $arr_15[0]['t_department']['user_id'];
-            $ret_arr[$this->next_id] = 15;
-            break;
-        }
-        
-        return $ret_arr;
+    private function get_shengpin_arr ($type = 2) {
+        return Configure::read('approval_process')['apply_chuchai'][$type];
     }
 
-
-
-    private function team_approve($main_arr, $user_info, $status) {
-        $ret_arr = array(
-            $this->next_id => 0,
-            $this->next_uid => 0,
-            $this->code => 0,
-            $this->err_msg => '',
-            $this->code_id=>array()
-        );
-        $attr_id = $main_arr[0]['t_apply_main']['attr_id'];
-        //取出单子信息
-        $sql_baogong = "select *from t_apply_chuchai where id='{$attr_id}'";
-        $baogong_arr = $this->query($sql_baogong);
-        if (empty($baogong_arr)) {
-            $ret_arr[$this->err_msg] = '该申请单不存在';
-            return $ret_arr;
-        }
-        $user_id = $user_info['id'];
-        $pos_id = $user_info['position_id'];
-        $code = $main_arr[0]['t_apply_main']['code'];
-        $next_id = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-        $next_approver_id = $main_arr[0]['t_apply_main']['next_approver_id'];
-        $next_apprly_uid = $main_arr[0]['t_apply_main']['next_apprly_uid'];
-
-        $type = $main_arr[0]['t_apply_main']['type'] ; // 申请单类型：1项目，2部门
-        $shenpi_arr = $this->get_shengpin_arr();
-        $shenpi_arr = explode(',', $shenpi_arr[$type]);
-        
-        if (empty($shenpi_arr)) {
-            $ret_arr[$this->err_msg] = '定义审批流异常';
-            return $ret_arr;
-        }
-        $dep_id = $main_arr[0]['t_apply_main']['department_id'];
-        if($type == 1){
-            $dep_pro_id = $main_arr[0]['t_apply_main']['project_id'];
-        }else{
-            //$dep_pro_id = $dep_id;
-            $dep_pro_id = 0;
-        }
-       
-        foreach ($shenpi_arr as $k=>$v) {
-            if ($v != $next_approver_id) {
-                continue;
-            }
-            $arr_get = $this->get_by_pos_dep($v, $dep_id, $dep_pro_id);
-            if ($arr_get[$this->next_uid] == 0) {
-                //说明有问题
-                $ret_arr[$this->err_msg] = $this->get_error_msg($v);
-                return $ret_arr;
-            }
-            
-            if ($v == 6 && $pos_id == $v) {
-                //所长
-                $ret_arr[$this->code] = 10000;
-                $ret_arr[$this->code_id][] = $user_id;
-                return $ret_arr;
-            } else {
-                
-                if ($arr_get[$this->next_uid] == $user_id) {
-                    //如果是部门负责人、团队负责人审核 则审核完结
-                    if($arr_get[$this->next_id] == 20 || $arr_get[$this->next_id] == 15 ){
-                           $ret_arr[$this->next_id] = $arr_get[$this->next_id];
-                           $ret_arr[$this->next_uid] = $arr_get[$this->next_uid];
-                           $ret_arr[$this->code] = 10000;
-                           $ret_arr[$this->code_id][] = $user_id;
-                           return $ret_arr;
-                    }
-                    
-                    $arr_get = $this->get_by_pos_dep($shenpi_arr[$k+1], $dep_id, $dep_pro_id);//下一职务
-                    if ($arr_get[$this->next_uid] == 0) {
-                        //说明有问题
-                        $ret_arr[$this->err_msg] = $this->get_error_msg($shenpi_arr[$k+1]);
-                        return $ret_arr;
-                    }
-                    $next_approver_id = $arr_get[$this->next_id];
-                    $ret_arr[$this->next_id] = $arr_get[$this->next_id];
-                    $ret_arr[$this->next_uid] = $arr_get[$this->next_uid];
-                    $ret_arr[$this->code] = $v * 2;
-                    $ret_arr[$this->code_id][] = $user_id;
-                }
-            }
-        } 
-       if ($ret_arr[$this->code] == 0 && $ret_arr[$this->err_msg] == '') {
-           $ret_arr[$this->err_msg] = '审批失败';
-       }
-       return $ret_arr;
-    }
-
+  
     
 }
