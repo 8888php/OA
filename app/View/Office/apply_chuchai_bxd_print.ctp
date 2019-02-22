@@ -155,19 +155,40 @@
                                 <td > 
                                     <?php 
                                     if($applyArr[11]){
-                                        echo @$applyArr['11']['remarks'];
-                                        echo '<br />';
+                                        //如果没有省去一下br
+                                        if (!empty($applyArr['11']['remarks']))
+                                        {
+                                            echo @$applyArr['11']['remarks'];
+                                            echo '<br />';
+                                        }
+                                        
                                         echo @$applyArr['11']['name']; 
                                         echo '<br />';
-                                        echo @$applyArr['11']['ctime'];
+                                        //两个同时存在，取时间的前 10位
+                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
+                                            echo substr($applyArr['11']['ctime'], 0, 10);
+                                        } else {
+                                            echo @$applyArr['11']['ctime'];
+                                        }
+                                        
                                     }
                                     if ($applyArr['12']) {
-                                        echo '<br />';
-                                        echo @$applyArr['12']['remarks'];
+                                        //如果没有省去一下br
+                                        if (!empty($applyArr['12']['remarks']))
+                                        {
+                                            echo '<br />';
+                                            echo @$applyArr['12']['remarks'];
+                                        }
                                         echo '<br />';
                                         echo @$applyArr['12']['name']; 
                                         echo '<br />';
-                                        echo @$applyArr['12']['ctime'];
+                                        //两个同时存在，取时间的前 10位
+                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
+                                            echo substr($applyArr['12']['ctime'], 0, 10);
+                                        } else {
+                                            echo @$applyArr['12']['ctime'];
+                                        }
+                                        
                                     }
                                      echo @$jiaqian['11'] ;
                                      echo @$jiaqian['12'] ;
