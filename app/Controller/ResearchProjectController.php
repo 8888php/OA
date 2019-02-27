@@ -1151,12 +1151,15 @@ class ResearchProjectController extends AppController {
          //结束项目
         $finish_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 1) : array('code' => 4, 'id' => $projectId, 'is_finish' => 1);
         $finisList = $this->ResearchProject->getApplyLisTeam($finish_conditions);
+        $tmp_fish_merge_list = array();
         if (!empty($finisList)) {
             foreach ($finisList as $k=>$v) {
-                $finisList[-1] = $v;
-                unset($finisList[$k]);
+                $tmp_fish_merge_list += $v;
+//                $finisList[-1] = $v;
+//                unset($finisList[$k]);
             }
-            $applyList += $finisList;
+            $tmp_fish_merge_list[-1] = $tmp_fish_merge_list;
+            $applyList += $tmp_fish_merge_list;
         }
         
         $second_class = '';
