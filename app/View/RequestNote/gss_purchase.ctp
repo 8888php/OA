@@ -1,4 +1,4 @@
-<?php echo $this->element('head_frame'); ?>
+<?php // echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
@@ -75,12 +75,15 @@
                                 <td colspan='2'> 单价：<input  type="text" class="price" name="price"  value="<?php echo $attrInfo['price'];?>"  style='height:25px;width:90px;'> </td>
                                 <td colspan='2'> 合计金额：<input readonly="readonly" type="text" class="total" name="total" value="<?php echo $attrInfo['amount'];?>"   style='height:25px;width:90px;'> </td>
                              </tr>
-                              <tr>
+                              <tr style="height: 50px;">
                                 <td> 采购理由 </td>
-                                <td colspan='6' >  <input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'> </td>
+                                <td colspan='6' >  
+                                    <!--<input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'>--> 
+                                    <textarea class="reason" name="reason" style="height:45px;width:575px;"><?php echo $attrInfo['reason'];?></textarea>
+                                </td>
                              </tr>
                              
-                             <tr style="height: 110px;">
+                             <tr style="height: 100px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
@@ -91,7 +94,7 @@
                                      
                                 </td>
                             </tr>
-                             <tr style="height: 120px;">
+                             <tr style="height: 105px;">
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
                                     财务科审核 <br /> &nbsp;&nbsp;
@@ -103,15 +106,15 @@
                                 </td>
                             </tr>
                            
-                            <tr style="height: 80px;">
+                            <tr style="height: 75px;">
                                 <td colspan='2'> 采购中心审核 </td>
                                 <td colspan='5'>  </td>
                             </tr>
-                            <tr style="height: 80px;">
+                            <tr style="height: 75px;">
                                 <td colspan='2'> 财务及采购分管领导审核 </td>
                                 <td  colspan='5' >    </td>
                             </tr>
-                            <tr style="height: 80px;">
+                            <tr style="height: 75px;">
                                 <td colspan='2'> 所长审核 </td>
                                 <td colspan='5'>    </td>
                             </tr>

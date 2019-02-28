@@ -60,13 +60,13 @@
                                 <td colspan='2'> 单价：<?php echo $attr_arr[0][$table_name]['price'];?>  </td>
                                 <td colspan='2'> 合计金额：<?php echo $attr_arr[0][$table_name]['amount'];?>  </td>
                              </tr>
-                              <tr>
-                                <td> 采购理由 </td>
+                             <tr style="/*height: 50px*/">
+                                 <td style="height: 50px; line-height: 50px; padding: 0px;"> 采购理由 </td>
                                 <td colspan='6' >  <?php echo $attr_arr[0][$table_name]['reason'];?>  </td>
                              </tr>
                              
                             <tr>
-                                <td style='height:130px;line-height:130px;'> 采购需求审核</td>
+                                <td style='height:110px;line-height:110px;'> 采购需求审核</td>
 
                                 <?php if($attr_arr[0][$table_name]['type'] == 1){ ?>
                                 <td colspan='2'>
@@ -121,7 +121,7 @@
 
 
                              <tr>
-                                <td style='height:130px;'> <br/><br/>财务及采购审核 </td>
+                                <td style='height:110px;'> <br/><br/>财务及采购审核 </td>
                                 <td colspan='3'>
                                         <?php
                                             echo '财务科审核 <br /> &nbsp;&nbsp;';
@@ -143,21 +143,21 @@
                             </tr>
                            
                             <tr >
-                                <td colspan='2' style='height:80px;line-height:80px;'> 采购中心审核 </td>
+                                <td colspan='2' style='height:65px;line-height:65px;'> 采购中心审核 </td>
                                 <td colspan='5'>  <?php  
                                     echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  
                                     echo @$jiaqian[24] ;
                                     ?>  </td>
                             </tr>
                             <tr>
-                                <td colspan='2' style='height:80px;line-height:80px;'> 财务及采购分管领导审核 </td>
+                                <td colspan='2' style='height:65px;line-height:65px;'> 财务及采购分管领导审核 </td>
                                 <td  colspan='5' >   <?php  
                                     echo $applyArr[13]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'];  
                                     echo @$jiaqian[13] ;
                                     ?>    </td>
                             </tr>
                             <tr >
-                                <td colspan='2' style='height:70px;line-height:70px;'> 所长审核 </td>
+                                <td colspan='2' style='height:65px;line-height:65px;'> 所长审核 </td>
                                 <td colspan='5'>  <?php  
                                     echo $applyArr[6]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[6]['ctime']; 
                                     echo @$jiaqian[6] ;
