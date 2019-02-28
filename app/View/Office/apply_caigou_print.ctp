@@ -61,7 +61,7 @@
                                 <td colspan='2'> 合计金额：<?php echo $attr_arr[0][$table_name]['amount'];?>  </td>
                              </tr>
                              <tr style="/*height: 50px*/">
-                                 <td style="height: 50px; line-height: 50px; padding: 0px;"> 采购理由 </td>
+                                 <td style="height: 65px; line-height: 65px; padding: 0px;"> 采购理由 </td>
                                 <td colspan='6' >  <?php echo $attr_arr[0][$table_name]['reason'];?>  </td>
                              </tr>
                              

@@ -75,15 +75,15 @@
                                 <td colspan='2'> 单价：<input  type="text" class="price" name="price"  value="<?php echo $attrInfo['price'];?>"  style='height:25px;width:90px;'> </td>
                                 <td colspan='2'> 合计金额：<input readonly="readonly" type="text" class="total" name="total" value="<?php echo $attrInfo['amount'];?>"   style='height:25px;width:90px;'> </td>
                              </tr>
-                              <tr style="height: 50px;">
-                                <td> 采购理由 </td>
+                              <tr>
+                                <td  style="height: 56px; line-height: 56px;"> 采购理由 </td>
                                 <td colspan='6' >  
                                     <!--<input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'>--> 
-                                    <textarea class="reason" name="reason" style="height:45px;width:575px;"><?php echo $attrInfo['reason'];?></textarea>
+                                    <textarea class="reason" name="reason" style="height: 56px;width:575px;"><?php echo $attrInfo['reason'];?></textarea>
                                 </td>
                              </tr>
                              
-                             <tr style="height: 100px;">
+                             <tr style="height: 90px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
@@ -94,7 +94,7 @@
                                      
                                 </td>
                             </tr>
-                             <tr style="height: 105px;">
+                             <tr style="height: 95px;">
                                 <td > 财务及采购审核 </td>
                                 <td colspan='3'>
                                     财务科审核 <br /> &nbsp;&nbsp;
