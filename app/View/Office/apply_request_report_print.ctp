@@ -16,29 +16,7 @@
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
                         <tbody>
                             <tr>
-                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;border-left-color: white;border-right-color: white; border-top-color: white;">  果树研究所请示报告卡片 </td>
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
-                                    <p>所长批示：</p>
-                                    
-                                    <?php echo $applyArr[6]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[6]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[6]['ctime'];?>&nbsp;&nbsp;<?php echo @$jiaqian[6] ;?>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 250px;text-align: left;">
-                                    <p>分管所长批示：</p>
-                                    <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>&nbsp;&nbsp;<?php echo @$jiaqian[5] ;?>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 250px;text-align: left;">
-                                    <p>请示报告内容：</p>
-                                    <?php echo $attr_arr[0][$table_name]['content'];?>
-                                </td>
-                                
+                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;/*border-left-color: white;border-right-color: white; border-top-color: white;*/">  果树研究所请示报告卡片 </td>
                             </tr>
                             <tr style="height: 70px;">
                                 <td  colspan='1'>填报单位</td>
@@ -84,6 +62,44 @@
                                     ?>
                                 </td>
                             </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 220px;text-align: left;">
+                                    <p>请示报告内容：</p>
+                                    <?php echo $attr_arr[0][$table_name]['content'];?>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 130px;text-align: left;">
+                                    <p>分管所长批示：</p>
+                                    <?php echo $applyArr[5]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[5]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[5]['ctime'];?>&nbsp;&nbsp;<?php echo @$jiaqian[5] ;?>
+                                </td>
+                                
+                            </tr>
+                            
+                            <tr>
+                                <td  colspan='4' style="height: 130px;text-align: left;">
+                                    <p>财务科长审核：</p>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 130px;text-align: left;">
+                                    <p>分管财务所长批示：</p>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 130px;text-align: left;">
+                                    <p>所长批示：</p>
+                                    
+                                    <?php echo $applyArr[6]['remarks'];?> &nbsp;&nbsp;<?php echo $applyArr[6]['name'];?>&nbsp;&nbsp;<?php echo $applyArr[6]['ctime'];?>&nbsp;&nbsp;<?php echo @$jiaqian[6] ;?>
+                                </td>
+                                
+                            </tr>
+                            
+                            
+                            
 
                         </tbody>
                     </table>

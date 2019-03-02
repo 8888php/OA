@@ -16,30 +16,7 @@
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
                         <tbody>
                             <tr>
-                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;border-left-color: white;border-right-color: white; border-top-color: white;">  果树研究所请示报告卡片 </td>
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
-                                    <p>所长批示：</p>
-                                    
-                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 150px;text-align: left;">
-                                    <p>分管所长批示：</p>
-                                    
-                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td  colspan='4' style="height: 250px;text-align: left;">
-                                    <p>请示报告内容：</p>
-                                    <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"><?php echo $attrInfo['content'];?></textarea>
-                                </td>
-                                
+                                <td colspan="4" style="font-size:24px;font-weight: 600;border-color:#000;/*border-left-color: white;border-right-color: white; border-top-color: white;*/">  果树研究所请示报告卡片 </td>
                             </tr>
                             <tr>
                                 <td  colspan='1'>填报单位</td>
@@ -65,6 +42,48 @@
                                 <td  colspan='1'>团队负责人</td>
                                 <td  colspan='1'></td>
                             </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 230px;text-align: left;">
+                                    <p>请示报告内容：</p>
+                                    <textarea class="content" style="min-height: 109px; max-height: 109px; min-width: 672px; max-width: 672px;"><?php echo $attrInfo['content'];?></textarea>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 120px;text-align: left;">
+                                    <p>分管所长批示：</p>
+                                    
+                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 120px;text-align: left;">
+                                    <p>财务科长审核：</p>
+                                    
+                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 120px;text-align: left;">
+                                    <p>分管财务所长批示：</p>
+                                    
+                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td  colspan='4' style="height: 120px;text-align: left;">
+                                    <p>所长批示：</p>
+                                    
+                                    <!--<p style="text-align:right;"> 年&nbsp;&nbsp;月&nbsp;&nbsp;日 </p>-->
+                                </td>
+                                
+                            </tr>
+                            
+                            
+                            
 
                         </tbody>
                     </table>
