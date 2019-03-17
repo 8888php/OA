@@ -167,7 +167,9 @@
                                                     </td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
                                                         echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?>
-                                                        <span style='color: #006dcc;margin-left: 10px;' onclick="approvetoo(<?php echo $sv['ApplyMain']['id']; ?>);" > <?php echo $sv['ApplyMain']['code'] == 28 ? '拒绝' : '';  ?> </span>
+                                                        <?php if($sv['ApplyMain']['code'] == 28 && $userInfo->position_id == 14 && $userInfo->department_id == 5){   ?>
+                                                        <span style='color: #006dcc;margin-left: 10px;' onclick="approvetoo(<?php echo $sv['ApplyMain']['id']; ?>);" > 拒绝 </span>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                                 <?php   } ?>
