@@ -30,12 +30,14 @@ class ApprovalComponent extends Component {
 
         // 不属当前用户审核
         if ($applyinfo['next_apprly_uid'] != $uinfo['id']) {
-            return false;
+            // 因业务需要 财务科长可二次审核拒绝
+            if($applyinfo['code'] != 28 || $uinfo['position_id'] != 14 || $applytype != 2 || $uinfo['department_id'] != 5){
+               return false;
+            }
         }
         // 获取审批流
         $apply_liu = $this->apply_process($applyinfo['approval_process_id']);
         $liuArr = explode(',', $apply_liu['approve_ids_new']);
-
 
         // 项目负责人、项目组负责人 特殊处理
         // 获取审批流中为11，12角色的 code值
@@ -74,14 +76,16 @@ class ApprovalComponent extends Component {
             }
         }
 
-
         // 当前用户角色是否有审核权 审核到分管副所长时不验证 (验证下一审核人职务id)
         // if ($applyinfo['next_approver_id'] !=5 && $uinfo['position_id'] != $applyinfo['next_approver_id']) {
         //     return false;
         // }
         // 当前用户角色是否有审核权 审核到分管副所长时不验证 (验证下一审核人uid)
         if ($applyinfo['next_approver_id'] != 5 && $uinfo['id'] != $applyinfo['next_apprly_uid']) {
-            return false;
+            // 因业务需要 财务科长可二次审核拒绝
+            if($applyinfo['code'] != 28 || $uinfo['position_id'] != 14 || $applytype != 2 || $uinfo['department_id'] != 5){
+               return false;
+            }
         }
 
         // 当前申请已通过

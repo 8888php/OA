@@ -712,7 +712,7 @@ class OfficeController extends AppController {
             $status = $this->request->data('type');
             $approve_id = $this->userInfo->id;
             if ($status == 2) {
-                $remarks = "已拒绝" . $remarks;
+               $remarks = empty($remarks) ? "拒绝 " :  $remarks;
             }
             //加签所需
 //            $this->userInfo['app_remarks'] = $this->request->data('remarks');
@@ -753,7 +753,12 @@ class OfficeController extends AppController {
 
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
-            $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
+             // 因业务需要 财务科长可二次审核拒绝
+             if($mainInfos['code'] == 28 || $this->userInfo->position_id == 14 || $status == 2 || $this->userInfo->department_id == 5){
+               $approve_position_id = 14;
+            }else{
+               $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
+            }
 
             //判断如果有审批金额则写到表里面
             if ($this->request->data('small_approval_amount')) {

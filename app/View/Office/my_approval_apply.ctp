@@ -166,7 +166,9 @@
                                                         
                                                     </td>
                                                     <td><?php $new_appprove_code_arr =  Configure::read('new_appprove_code_arr');
-                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?></td>
+                                                        echo $new_appprove_code_arr[$sv['ApplyMain']['code']];  ?>
+                                                        <span style='color: #006dcc;margin-left: 10px;' onclick="approvetoo(<?php echo $sv['ApplyMain']['id']; ?>);" > <?php echo $sv['ApplyMain']['code'] == 28 ? '拒绝' : '';  ?> </span>
+                                                    </td>
                                                 </tr>
                                                 <?php   } ?>
                                             </tbody>
@@ -438,7 +440,53 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         $('#wait_close').click();
     }
     
-    
+       function approvetoo(subid) {
+        var text = '拒绝';
+        if (!subid) {
+           alert('提交信息有误');
+           return ;
+        }
+        content = prompt('您确认拒绝该项目？可输入拒绝原因');
+        if(content == null){
+            return;
+        }
+        var data = {main_id: subid, type: 2, remarks: content};
+        $.ajax({
+            url: '/Office/ajax_approve_reimbursement',
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code == -1) {
+                    //登录过期
+                    window.location.href = '/homes/index';
+                    return;
+                }
+                if (res.code == -2) {
+                    //权限不足
+                    alert('权限不足');
+                    return;
+                }
+                if (res.code == 1) {
+                    //说明有错误
+                    alert(res.msg);
+
+                    return;
+                }
+                if (res.code == 0) {
+                    //说明添加或修改成功
+                    $('.close').click();
+                    window.parent.location.reload();
+                    return;
+                }
+                if (res.code == 2) {
+                    //失败
+                    alert(res.msg);
+                    return;
+                }
+            }
+        });
+    } 
     
 </script>
 <script type="text/javascript">
