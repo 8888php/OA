@@ -754,7 +754,7 @@ class OfficeController extends AppController {
             // 获取申请详情 取出审核前下一审核角色id
             $mainInfos = $this->ApplyMain->findById($main_id);
              // 因业务需要 财务科长可二次审核拒绝
-             if($mainInfos['code'] == 28 || $this->userInfo->position_id == 14 || $status == 2 || $this->userInfo->department_id == 5){
+             if($mainInfos['code'] == 28 && $this->userInfo->position_id == 14 && $status == 2 && $this->userInfo->department_id == 5){
                $approve_position_id = 14;
             }else{
                $approve_position_id = $mainInfos['ApplyMain']['next_approver_id'];
