@@ -45,16 +45,10 @@
                             
                              <tr>
                                 <td> 请假类型 </td>
-                                <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >    
-                                        <option value="1"  >  婚假 </option>
-                                        <option value="2"  >  生育产假 </option>
-                                        <option value="3"  >  外出办公 </option>
-                                        <option value="4"  >  事假 </option>
-                                        <option value="5"  >  丧假 </option>
-                                        <option value="6"  >  计生假 </option>
-                                        <option value="7"  >  病假 </option>
-                                        <option value="8"  >  女工假 </option>
-                                        <option value="9"  >  男职工护理假 </option>
+                                <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >
+                                        <?php foreach (Configure::read('apply_leave_type') as $k=>$v) {?>
+                                            <option value="<?php echo $k;?>"  >  <?php echo $v;?> </option>
+                                        <?php }?>
                                     </select>
                                 </td>
                                 <td> 请假人 </td>
