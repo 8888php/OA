@@ -110,7 +110,7 @@
         data_json.elding = $('.elding').val();
         data_json.publish = $('.publish').val();
         data_json.property_right = $('.property_right').val();
-        data_json.office = $('.office').val();
+        data_json.office = $('input.office').val();
         data_json.vehicle = $('.vehicle').val();
         data_json.travel = $('.travel').val();
         data_json.meeting = $('.meeting').val();
