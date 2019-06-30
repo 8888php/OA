@@ -67,7 +67,7 @@ class ApplyMain extends AppModel {
         return $this->find('all', array('conditions' => array('project_id' => $pid, 'code' => 10000, 'is_calculation' => 1), 'fields' => $fields));
     }
 
-    # 获取资金来源 剩余金额 
+    # 获取资金来源 剩余金额    只统计已审批
     # $data : array  资金来源id，金额
 
     public function getSurplus($data) {
@@ -79,6 +79,25 @@ class ApplyMain extends AppModel {
                 foreach ($value as $k => $v) {
                     $surplus[$key] = sprintf("%0.2f", $surplus[$key] - $v);
                 }
+            }
+        }
+        return $surplus;
+    }
+
+    # 获取资金来源 剩余金额  已审批和未审批都统计
+    # $data : array  资金来源id，金额
+
+    public function getSurplusnew($data) {
+        $fields = array('id', 'total', 'source_id');
+        $sourceId = implode(',', $data['sourceId']);
+        $sql = 'select id,total,source_id from t_apply_main where source_id in( ' . $sourceId . ') and is_calculation = 1 and code % 2 = 0';
+        $surplusArr = $this->query($sql);
+
+        if ($surplusArr) {
+            $surplus = $data['amount'];
+            foreach ($surplusArr as $key => $val) {
+                $surpkey = $val['t_apply_main']['source_id'];
+                $surplus[$surpkey] = sprintf("%0.2f", $surplus[$surpkey] - $val['t_apply_main']['total']);
             }
         }
         return $surplus;
@@ -149,14 +168,14 @@ class ApplyMain extends AppModel {
         $conditions['ApplyMain.is_calculation'] = 1;
         $conditions['p.is_finish'] = 0;
         $conditions['ApplyMain.table_name'] = ['apply_chuchai_bxd', 'apply_lingkuandan', 'apply_baoxiaohuizong', 'apply_jiekuandan'];
-        $fields = array('id', 'subject', 'total','p.project_team_id');
-        $summaryArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields , 'alias' => 'm' , 'joins' => array(
-        array(
-        'alias' => 'p',
-        'table' => 't_research_project',
-        'type' => 'LEFT',
-        'conditions' => ' project_id = p.id ',
-        ),
+        $fields = array('id', 'subject', 'total', 'p.project_team_id');
+        $summaryArr = $this->find('all', array('conditions' => $conditions, 'fields' => $fields, 'alias' => 'm', 'joins' => array(
+                array(
+                    'alias' => 'p',
+                    'table' => 't_research_project',
+                    'type' => 'LEFT',
+                    'conditions' => ' project_id = p.id ',
+                ),
         )));
 
         if (empty($summaryArr)) {

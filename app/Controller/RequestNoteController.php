@@ -1058,7 +1058,7 @@ class RequestNoteController extends AppController {
         }
 
         // 资金来源剩余金额
-        $surplusArr = $this->ApplyMain->getSurplus($sourcesArr);
+        $surplusArr = $this->ApplyMain->getSurplusnew($sourcesArr);
 
         if (!empty($souces)) {
             foreach ($souces as $k => $v) {
