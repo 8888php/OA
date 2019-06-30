@@ -102,6 +102,23 @@ class ApplyMain extends AppModel {
         }
         return $surplus;
     }
+    
+   
+    # 获取资金来源 剩余金额  已审批和未审批都统计
+    # $sourceid : array  资金来源id，
+    # $source_amount 资金来源总金额
+    # $pro_amount 申请单金额
+    public function getSourceTotal($sourceid, $source_amount, $pro_amount) {
+        $sql = 'select sum(`total`) sums from t_apply_main where source_id = ' . $sourceid . ' and is_calculation = 1 and code % 2 = 0';
+        $surplusArr = $this->query($sql);
+        if ($surplusArr) {
+           $surplus = sprintf("%0.2f", $source_amount - $surplusArr[0][0]['sums'] - $pro_amount);
+        }else{
+            $surplus = sprintf("%0.2f", $source_amount - $pro_amount);
+        }
+        return $surplus;
+    }
+   
 
     /**
      * 修改加签人

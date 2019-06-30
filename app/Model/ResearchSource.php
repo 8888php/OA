@@ -61,6 +61,9 @@ class ResearchSource extends AppModel {
         return  $this->find('all',array('conditions' => array('department_id'=>$depid)));
     }  
     
-    
+    # 获取来源信息
+    public function getamount($sid){
+        return  $this->findById($sid);
+    }    
     
 }
