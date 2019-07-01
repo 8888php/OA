@@ -620,7 +620,7 @@ class RequestNoteController extends AppController {
          // 统计 该资金来源 （已审批、未审批） 剩余资金不足
         $source = $this->ResearchSource->getamount($_POST['filenumber']);
         $surplus = $this->ApplyMain->getSourceTotal($_POST['filenumber'], $source['ResearchSource']['amount'], $_POST['small_amount']);
-        if($surplus <= 0){
+        if($surplus < 0){
             $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
             exit(json_encode($this->ret_arr));
         }
@@ -767,7 +767,7 @@ class RequestNoteController extends AppController {
          // 统计 该资金来源 （已审批、未审批） 剩余资金不足
         $source = $this->ResearchSource->getamount($_POST['filenumber']);
         $surplus = $this->ApplyMain->getSourceTotal($_POST['filenumber'], $source['ResearchSource']['amount'], $_POST['small_total']);
-        if($surplus <= 0){
+        if($surplus < 0){
             $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
             exit(json_encode($this->ret_arr));
         }
@@ -1106,7 +1106,7 @@ class RequestNoteController extends AppController {
         // 统计 该资金来源 （已审批、未审批） 剩余资金不足
         $source = $this->ResearchSource->getamount($_POST['filenumber']);
         $surplus = $this->ApplyMain->getSourceTotal($_POST['filenumber'], $source['ResearchSource']['amount'], $_POST['small_total']);
-        if($surplus <= 0){
+        if($surplus < 0){
             $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
             exit(json_encode($this->ret_arr));
         }
