@@ -18,7 +18,7 @@
                             <tr>
                                 <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;">
                                 <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
-                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款':'' ?>
+                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款': ($main_arr['ApplyMain']['code'] % 2 != 0 ? '已拒绝' : ''); ?>
                                 </span>
                                 <span style='font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;</span>
                                     果树所差旅费报销单 </td>
