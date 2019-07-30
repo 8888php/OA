@@ -290,12 +290,14 @@ class ResearchProjectController extends AppController {
         }
         $table_name = 'apply_baoxiaohuizong';
         
-        // 统计 该资金来源 （已审批、未审批） 剩余资金不足
-        $source = $this->ResearchSource->getamount($_POST['filenumber']);
-        $surplus = $this->ApplyMain->getSourceTotal($_POST['filenumber'], $source['ResearchSource']['amount'], $_POST['amount']);
-        if($surplus < 0){
-            $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
-            exit(json_encode($this->ret_arr));
+        // 统计 该资金来源 （已审批、未审批） 剩余资金不足  || 单子不参与核算的不统计
+        if($_POST['is_calculation'] == 1){
+            $source = $this->ResearchSource->getamount($_POST['filenumber']);
+            $surplus = $this->ApplyMain->getSourceTotal($_POST['filenumber'], $source['ResearchSource']['amount'], $_POST['amount']);
+            if($surplus < 0){
+                $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
+                exit(json_encode($this->ret_arr));
+            }
         }
 
         $type = Configure::read('type_number'); //行政费用
