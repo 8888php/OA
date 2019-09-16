@@ -403,8 +403,8 @@ class AppController extends Controller {
             $fourCostSumPro = $project_costArr['travel'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始3项 项目合并科目总额
             
             //B、合并核算科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
-            $sixCost = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); // 原始6项合并核算单科目
-            $sixCostSumPro = $project_costArr['facility'] + $project_costArr['labour'] + $project_costArr['consult'] + $project_costArr['indirect_manage'] + $project_costArr['indirect_performance'] + $project_costArr['indirect_other'] ; // 原始6项 项目合并科目总额
+//            $sixCost = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); // 原始6项合并核算单科目
+//            $sixCostSumPro = $project_costArr['facility'] + $project_costArr['labour'] + $project_costArr['consult'] + $project_costArr['indirect_manage'] + $project_costArr['indirect_performance'] + $project_costArr['indirect_other'] ; // 原始6项 项目合并科目总额
 
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
@@ -416,7 +416,7 @@ class AppController extends Controller {
                 foreach ($kemu as $k => $vv) {
                     // 若单科目为A、B合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
                     in_array($k,$fourCost) ? $fourCostSumPro -= $vv : $subjectArr[$k] += $vv ;
-                    in_array($k,$sixCost) ? $sixCostSumPro -= $vv : $subjectArr[$k] += $vv ;
+//                    in_array($k,$sixCost) ? $sixCostSumPro -= $vv : $subjectArr[$k] += $vv ;
                 }
             }
 
@@ -427,10 +427,10 @@ class AppController extends Controller {
                     $fourCostSumPro -= $vvv ; // 申请单中有A类合并核算单科目项，则项目合并科目总额减去对应金额
                     ++$is_four_subject; //存在合并计算科目则加 1
                 }
-                if(in_array($k,$sixCost)){
-                    $sixCostSumPro -= $vvv ; // 申请单中有B类合并核算单科目项，则项目合并科目总额减去对应金额
-                    ++$is_six_subject; //存在合并计算科目则加 1
-                }
+//                if(in_array($k,$sixCost)){
+//                    $sixCostSumPro -= $vvv ; // 申请单中有B类合并核算单科目项，则项目合并科目总额减去对应金额
+//                    ++$is_six_subject; //存在合并计算科目则加 1
+//                }
             }
             //若A类项目合并科目总额小于0，则该申请中合并科目项超额
             if($fourCostSumPro < 0 && $is_four_subject > 0){
@@ -442,14 +442,14 @@ class AppController extends Controller {
                 );
             }
             
-            if($sixCostSumPro < 0 && $is_six_subject > 0){
-                $sixtotal = abs($sixCostSumPro);
-                return array(
-                    'code'  => 1,
-                    'total' => $sixtotal,
-                    'msg'   => ' 已超出设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）总额 ' . $sixtotal . ' 元',
-                );
-            }
+//            if($sixCostSumPro < 0 && $is_six_subject > 0){
+//                $sixtotal = abs($sixCostSumPro);
+//                return array(
+//                    'code'  => 1,
+//                    'total' => $sixtotal,
+//                    'msg'   => ' 已超出设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）总额 ' . $sixtotal . ' 元',
+//                );
+//            }
             
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
@@ -459,7 +459,8 @@ class AppController extends Controller {
                 	break;
                 }
                 
-                $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance'); // 五项科目核算超出预算 不让审批通过
+                //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
+                $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); // 六项科目核算超出预算 不让审批通过
                 if(!$project_costArr[$k]){
                    $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
                    $feedback['total'] = $v; 
