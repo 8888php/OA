@@ -298,6 +298,14 @@ class ResearchProjectController extends AppController {
                 $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
                 exit(json_encode($this->ret_arr));
             }
+            //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+            if($_POST['projectname'] != 0 ){
+                $checkcost = $this->check_subject_cost($_POST['projectname'], $_POST['subject']);
+                if($checkcost['code'] != 0){
+                    $this->ret_arr['msg'] = $checkcost['msg'];
+                    exit(json_encode($this->ret_arr));
+                }
+            }
         }
 
         $type = Configure::read('type_number'); //行政费用

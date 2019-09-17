@@ -624,6 +624,15 @@ class RequestNoteController extends AppController {
             $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
             exit(json_encode($this->ret_arr));
         }
+        
+        //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+        if ($_POST['dep_pro'] != 0) {
+            $checkcost = $this->check_subject_cost($_POST['dep_pro'], array($datas['subject'] => $datas['small_amount']));
+            if ($checkcost['code'] != 0) {
+                $this->ret_arr['msg'] = $checkcost['msg'];
+                exit(json_encode($this->ret_arr));
+            }
+        }
 
         $project_user_id = 0; //项目负责人user_id
         $project_team_user_id = 0; //项目组负责人user_id
@@ -771,7 +780,16 @@ class RequestNoteController extends AppController {
             $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
             exit(json_encode($this->ret_arr));
         }
-
+        
+        //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+        if ($_POST['dep_pro'] != 0) {
+            $checkcost = $this->check_subject_cost($_POST['dep_pro'], array($datas['subject'] => $datas['small_total']));
+            if ($checkcost['code'] != 0) {
+                $this->ret_arr['msg'] = $checkcost['msg'];
+                exit(json_encode($this->ret_arr));
+            }
+        }
+        
         $project_user_id = 0; //项目负责人user_id
         $project_team_user_id = 0; //项目组负责人user_id
         $_POST['projectname'] = $_POST['dep_pro'];
@@ -1110,6 +1128,14 @@ class RequestNoteController extends AppController {
             if($surplus < 0){
                 $this->ret_arr['msg'] = '当前已超出资金来源剩余金额';
                 exit(json_encode($this->ret_arr));
+            }
+            //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+            if ($_POST['dep_pro'] != 0) {
+                $checkcost = $this->check_subject_cost($_POST['dep_pro'], array('travel' => $datas['small_total']));
+                if ($checkcost['code'] != 0) {
+                    $this->ret_arr['msg'] = $checkcost['msg'];
+                    exit(json_encode($this->ret_arr));
+                }
             }
         }
 
