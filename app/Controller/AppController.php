@@ -386,11 +386,116 @@ class AppController extends Controller {
     }
 
     /**
+     * 审核验证
      * 验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
      * @param $project_id 申请单所选项目  $subject 科目金额
      * @return array();
      */
     public function check_subject_cost($project_id, $subject) {
+        $feedback = array('code' => 0, 'total' => '', 'msg' => '');
+
+        //1、项目所包含科目费用
+        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
+        if ($project_costArr) {
+            $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
+            
+            //A、合并核算科目：差旅费，会议、会务费，国际合作与交流费
+            $fourCost = array('travel','meeting','international'); // 原始3项合并核算单科目
+            $fourCostSumPro = $project_costArr['travel'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始3项 项目合并科目总额
+            //
+            //2、申请单所选科目费用
+            //$subject = json_decode($subject,true);
+            //3、取所选项目下已申报的科目的总费用
+            $costArr = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => 10000, 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
+            $subjectArr = array();
+            foreach ($costArr as $v) {
+                $kemu = json_decode($v, true);
+                foreach ($kemu as $k => $vv) {
+                    // 若单科目为A、B合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
+                    in_array($k,$fourCost) ? $fourCostSumPro -= $vv : $subjectArr[$k] += $vv ;
+                }
+            }
+
+            $is_four_subject = $is_six_subject = 0; // 统计提交申请中是否有合并计算科目
+            //4.1 验证合并科目总额核算 
+            foreach ($subject as $k => $vvv) {
+                if(in_array($k,$fourCost)){
+                    $fourCostSumPro -= $vvv ; // 申请单中有A类合并核算单科目项，则项目合并科目总额减去对应金额
+                    ++$is_four_subject; //存在合并计算科目则加 1
+                }
+            }
+            //若A类项目合并科目总额小于0，则该申请中合并科目项超额
+            if($fourCostSumPro < 0 && $is_four_subject > 0){
+                $fourtotal = abs($fourCostSumPro);
+                return array(
+                    'code'  => 1,
+                    'total' => $fourtotal,
+                    'msg'   => '  已超出差旅费、会议会务费、国际合作交流费总额 ' . $fourtotal . ' 元',
+                );
+            }
+            
+            //4、比较单科目是否超额
+            //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
+            // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额
+            $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); 
+            //取所选项目下申报中的科目总费用
+//            $costArring = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => array(0,2,4,8,10,12,16,18,20,22,24,26,28,30,40,42,44,46,48,52,54,56,58,60,62,64,66,68,70,72), 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
+//            foreach ($costArring as $ving) {
+//                $kemuing = json_decode($ving, true);
+//                foreach ($kemuing as $king => $vving) {
+//                    // 若单科目为六项科目,则项目单合计六项科目总额
+//                    in_array($king,$fivekm) ? $project_costArr[$king] = round($project_costArr[$king] - $vving , 4) : '';
+//                }
+//            }
+            
+            foreach ($subject as $k => $v) {
+                //若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;若属于合并项科目，则不比较直接跳过
+                if(in_array($k,$fourCost)){
+                	break;
+                }
+
+                if(!$project_costArr[$k]){
+                   $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
+                   $feedback['total'] = $v; 
+                   $feedback['msg'] = '已超出该科目总额 ' . $feedback['total'] . ' 元';
+                   break;
+                }else{
+                    // 单科目剩余金额
+                    $overplus = round($project_costArr[$k] - $subjectArr[$k] , 4);
+                    if ($v > $overplus) {
+                        $keyanlist = Configure::read('keyanlist');
+                        $kemu_name = '';
+                        foreach ($keyanlist as $lk => $lv) {
+                            foreach ($lv as $lkey => $lval) {
+                                if ($lkey == $k) {
+                                    $kemu_name = $lval;
+                                    break 2;
+                                }
+                            }
+                        }
+                        $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
+                        $feedback['total'] = $v - $overplus;
+                        $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
+                        break ;
+                    }
+                }
+            }
+            
+        }else{
+            $feedback['code'] = 1;  
+            $feedback['total'] = 0;
+            $feedback['msg'] = '未找到该项目所包含科目费用！'; 
+        }
+        return $feedback;
+    }
+
+    /**
+     * 提交申请单时验证
+     * 验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
+     * @param $project_id 申请单所选项目  $subject 科目金额
+     * @return array();
+     */
+    public function check_subject_cost_submit($project_id, $subject) {
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
 
         //1、项目所包含科目费用
@@ -506,6 +611,7 @@ class AppController extends Controller {
         return $feedback;
     }
 
+    
 
    /**
      * 部门

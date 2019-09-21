@@ -300,7 +300,7 @@ class ResearchProjectController extends AppController {
             }
             //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
             if($_POST['projectname'] != 0 ){
-                $checkcost = $this->check_subject_cost($_POST['projectname'], $_POST['subject']);
+                $checkcost = $this->check_subject_cost_submit($_POST['projectname'], $_POST['subject']);
                 if($checkcost['code'] == -1){
                     $this->ret_arr['msg'] = $checkcost['msg'];
                     exit(json_encode($this->ret_arr));
