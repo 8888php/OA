@@ -438,15 +438,6 @@ class AppController extends Controller {
             //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
             // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额
             $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); 
-            //取所选项目下申报中的科目总费用
-//            $costArring = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => array(0,2,4,8,10,12,16,18,20,22,24,26,28,30,40,42,44,46,48,52,54,56,58,60,62,64,66,68,70,72), 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
-//            foreach ($costArring as $ving) {
-//                $kemuing = json_decode($ving, true);
-//                foreach ($kemuing as $king => $vving) {
-//                    // 若单科目为六项科目,则项目单合计六项科目总额
-//                    in_array($king,$fivekm) ? $project_costArr[$king] = round($project_costArr[$king] - $vving , 4) : '';
-//                }
-//            }
             
             foreach ($subject as $k => $v) {
                 //若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;若属于合并项科目，则不比较直接跳过
@@ -513,8 +504,11 @@ class AppController extends Controller {
 
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
-            //3、取所选项目下已申报的科目的总费用
-            $costArr = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => 10000, 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
+            //3、取所选项目下已申报、申报中的科目的总费用
+            //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
+            // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额
+            $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); 
+            $costArr = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => array(0,2,4,8,10,12,16,18,20,22,24,26,28,30,40,42,44,46,48,52,54,56,58,60,62,64,66,68,70,72,10000), 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
             $subjectArr = array();
             foreach ($costArr as $v) {
                 $kemu = json_decode($v, true);
@@ -522,6 +516,8 @@ class AppController extends Controller {
                     // 若单科目为A、B合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
                     in_array($k,$fourCost) ? $fourCostSumPro -= $vv : $subjectArr[$k] += $vv ;
 //                    in_array($k,$sixCost) ? $sixCostSumPro -= $vv : $subjectArr[$k] += $vv ;
+                    // 若单科目为六项科目,则项目单合计六项科目总额
+                    in_array($k,$fivekm) ? $project_costArr[$k] = round($project_costArr[$k] - $vv , 4) : '';
                 }
             }
 
@@ -557,19 +553,6 @@ class AppController extends Controller {
 //            }
             
             //4、比较单科目是否超额
-            //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
-            // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额
-            $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); 
-            //取所选项目下申报中的科目总费用
-            $costArring = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => array(0,2,4,8,10,12,16,18,20,22,24,26,28,30,40,42,44,46,48,52,54,56,58,60,62,64,66,68,70,72), 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
-            foreach ($costArring as $ving) {
-                $kemuing = json_decode($ving, true);
-                foreach ($kemuing as $king => $vving) {
-                    // 若单科目为六项科目,则项目单合计六项科目总额
-                    in_array($king,$fivekm) ? $project_costArr[$king] = round($project_costArr[$king] - $vving , 4) : '';
-                }
-            }
-            
             foreach ($subject as $k => $v) {
                 //若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;若属于合并项科目，则不比较直接跳过
                 if(in_array($k,$fourCost)){
