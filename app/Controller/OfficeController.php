@@ -1571,6 +1571,13 @@ class OfficeController extends AppController {
         $attr_id = $main_arr['ApplyMain']['attr_id'];
         //取附表
         $attr_arr = $this->ApplyMain->query("select *from " . $table_name . " where id=$attr_id");
+        if ($main_arr['ApplyMain']['type'] == 3) {
+            //取团队名称
+            $team_id = $main_arr['ApplyMain']['team_id'];
+            $team_arr = $this->Team->findById($team_id);
+            $attr_arr[0][$table_name]['department_name'] = $team_arr['Team']['name'];
+        }
+        
         //取用户信息
         $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
 

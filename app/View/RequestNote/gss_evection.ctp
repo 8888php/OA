@@ -26,8 +26,8 @@
                                         <?php foreach($department as $v){?>
                                         <option value="0"><?php echo $v['name'];?></option>
                                         <?php }?>
-                                        <?php foreach($projectInfo as $k=>$v){?>
-                                        <option value="<?php echo $k;?>"><?php echo $v;?></option>
+                                        <?php foreach($team_arr as $v){?>
+                                        <option value="<?php echo $v['team']['id'];?>"><?php echo $v['team']['name'];?></option>
                                         <?php }?>
                                     </select>
                                 </td>

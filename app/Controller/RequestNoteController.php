@@ -163,26 +163,35 @@ class RequestNoteController extends AppController {
         } else {
             //当前用户所属部门
             $department = $this->Department->find('first',array('conditions'=>array('id' => $this->userInfo->department_id, 'type' => 1)));
-            // 当前用户所参与科研项目
-            $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
-            $proArr = $this->ProjectMember->find('list', $pro_conditions);
-            // 所参与项目 详情
-            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
-            $projectInfo = $this->ResearchProject->find('list', $conditions);
-            
-            if ($department) {
-                //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
-                if (in_array($this->userInfo->id, array(2, 6, 5, 8, 9, 7, 3))) {
+            // 当前用户所参与科研项目    取消科研项目 改为 团队
+//            $pro_conditions = array('conditions' => array('user_id' => $this->userInfo->id), 'fields' => array('project_id'));
+//            $proArr = $this->ProjectMember->find('list', $pro_conditions);
+//            // 所参与项目 详情
+//            $conditions = array('conditions' => array('id' => $proArr, 'del' => 0, 'code' => 4, 'is_finish' => 0), 'fields' => array('id', 'name'));
+//            $projectInfo = $this->ResearchProject->find('list', $conditions);
+//            
+//            if ($department) {
+//                //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
+//                if (in_array($this->userInfo->id, array(2, 6, 5, 8, 9, 7, 3))) {
+//                    $department = array();
+//                } else {
+//                    //如果当前用户行政部门，只能选行政
+//                    $projectInfo = array();
+//                }
+//            }
+//            $this->set('projectInfo', $projectInfo);
+//            
+            //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
+            if ($department && in_array($this->userInfo->id, array(2, 6, 5, 8, 9, 7, 3)) ) {
                     $department = array();
-                } else {
-                    //如果当前用户行政部门，只能选行政
-                    $projectInfo = array();
-                }
-                
             }
             $this->set('department', $department);
             
-            $this->set('projectInfo', $projectInfo);
+            // 当前用户所属团队
+            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$this->userInfo->id}'";
+            $team_arr = $this->ApplyMain->query($sql);
+            $this->set('team_arr', $team_arr);
+            
             $this->set('list', Configure::read('xizhenglist'));
 
             // 重新提交申请  获取旧申请数据
@@ -494,13 +503,18 @@ class RequestNoteController extends AppController {
         $table_name = 'apply_chuchai';
         //$p_id = 0; //审批流id
         if (!$datas['dep_pro']) {
-            //说明是部门
+            //说明是部门 
             $type = 2; //行政
             $project_id = 0;
+            $team_id = 0;
         } else {
-            $type = 1; //科研
-            $project_id = $datas['dep_pro'];
-            $project_arr = $this->ResearchProject->findById($project_id);
+//            $type = 1; //科研   
+//            $project_id = $datas['dep_pro'];
+//            $project_arr = $this->ResearchProject->findById($project_id);
+            $type = 3;  //改为团队
+            $project_id = 0;
+            $team_id = $datas['dep_pro'];
+            $datas['team_id'] = $datas['dep_pro'];
         }
        
         //获取审批信息
@@ -526,6 +540,7 @@ class RequestNoteController extends AppController {
         $attrArr['department_id'] = $department_id;
         $attrArr['department_name'] = ($type == 1) ? $project_arr['ResearchProject']['name'] : $department_name;
         $attrArr['project_id'] = $project_id;
+        $attrArr['team_id'] = $team_id;
         $attrArr['personnel'] = $datas['personnel'];
 //        $attrArr['personnel'] = $this->userInfo->name ;
         $attrArr['start_date'] = $datas['start_day'];
@@ -551,6 +566,7 @@ class RequestNoteController extends AppController {
         $mainArr['name'] = '果树所差旅审批单';
         $mainArr['project_id'] = $project_id;
         $mainArr['department_id'] = $department_id;
+        $mainArr['team_id'] = $team_id;
         $mainArr['table_name'] = $table_name;
         $mainArr['user_id'] = $this->userInfo->id;
         $mainArr['total'] = 0;

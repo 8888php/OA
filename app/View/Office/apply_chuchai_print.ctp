@@ -63,12 +63,20 @@
                                         echo $applyArr['ksfzr']['remarks'].'<br/>'.$applyArr['ksfzr']['name'].'<br/>'.$applyArr['ksfzr']['ctime'];  
                                     }else if( $applyArr[11]['name'] ){
                                         echo $applyArr[11]['remarks'].'<br/>'.$applyArr[11]['name'].'<br/>'.$applyArr[11]['ctime'];  
+                                    }else if( $applyArr[20]['name'] ){
+                                        echo $applyArr[20]['remarks'].'<br/>'.$applyArr[20]['name'].'<br/>'.$applyArr[20]['ctime'];  
                                     }else{
                                         echo $applyArr[15]['remarks'].'<br/>'.$applyArr[15]['name'].'<br/>'.$applyArr[15]['ctime'];  
                                     }
                                     ?> 
                                 </td>
-                                <td colspan='2'  > <?php  echo $applyArr[5]['remarks'].'<br/>'.$applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'];  ?>
+                                <td colspan='2'  > <?php  
+                                    if($applyArr[5]['name']){
+                                        echo $applyArr[5]['remarks'].'<br/>'.$applyArr[5]['name'].'<br/>'.$applyArr[5]['ctime'];  
+                                    }else if( $applyArr[21]['name'] ){
+                                        echo $applyArr[21]['remarks'].'<br/>'.$applyArr[21]['name'].'<br/>'.$applyArr[21]['ctime'];  
+                                    }
+                                    ?>
                                 </td>
                                 <td colspan='3' > <?php  echo $applyArr[6]['remarks'].'<br/>'.$applyArr[6]['name'].'<br/>'.$applyArr[6]['ctime'];  ?> </td>
                             </tr>
