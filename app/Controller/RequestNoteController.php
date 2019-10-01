@@ -2640,4 +2640,37 @@ class RequestNoteController extends AppController {
         }
         
     }
+    
+    /**
+     * ajax 根据部门id或是团队id取出user
+     */
+    public function get_users_by_team() {
+        if ($this->request->is('ajax')) {
+            $pid = $_POST['pid'];
+            if ($pid === '') {
+                echo json_encode(array(
+                    'code' => 0,
+                    'data' => array()
+                ));
+                exit;
+            }
+            if ($pid === '0') {
+                //部门
+                $user_dep_id = $this->userInfo->department_id;
+                $users = $this->User->query("select *from t_user User where department_id='{$user_dep_id}'");
+            } else {
+                //团队
+                $sql = "select User.name from t_team_member User where User.team_id = {$pid} ;" ;
+                $users = $this->User->query($sql);
+            }
+            echo json_encode(array(
+                'code' => 0,
+                'data' => $users
+            ));
+            exit;
+        }
+        
+    }
+    
+    
 }

@@ -40,7 +40,7 @@
                                 var data = {};
                                 data.pid = dep_pro_sel_val;
                                 $.ajax({
-                                    url: '/RequestNote/get_users_by_dep',
+                                    url: '/RequestNote/get_users_by_team',
                                     type: 'post',
                                     data: data,
                                     dataType: 'json',
@@ -122,10 +122,8 @@
                                     <input type="hidden" class="personnel" name="personnel" style='width:575px;height:25px;' value=""  /> </td>
                             </tr>
                             <style type="text/css">
-                                .dropdown-menu{
-                                    max-height: 200px;
-                                    overflow:scroll;
-                                }
+                                .dropdown-menu{ max-height: 200px; overflow:scroll;}
+                                .bs-actionsbox .btn-group button { width: 49%;}
                             </style>
                             <tr>
                                 <td >出差时间</td>
