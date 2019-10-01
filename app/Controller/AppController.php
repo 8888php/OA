@@ -537,7 +537,7 @@ class AppController extends Controller {
             if($fourCostSumPro < 0 && $is_four_subject > 0){
                 $fourtotal = abs($fourCostSumPro);
                 return array(
-                    'code'  => 1,
+                    'code'  => -1,
                     'total' => $fourtotal,
                     'msg'   => '  已超出差旅费、会议会务费、国际合作交流费总额 ' . $fourtotal . ' 元',
                 );
