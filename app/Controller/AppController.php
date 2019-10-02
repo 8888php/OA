@@ -498,10 +498,6 @@ class AppController extends Controller {
             $fourCost = array('travel','meeting','international'); // 原始3项合并核算单科目
             $fourCostSumPro = $project_costArr['travel'] + $project_costArr['meeting'] + $project_costArr['international'] ; // 原始3项 项目合并科目总额
             
-            //B、合并核算科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
-//            $sixCost = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); // 原始6项合并核算单科目
-//            $sixCostSumPro = $project_costArr['facility'] + $project_costArr['labour'] + $project_costArr['consult'] + $project_costArr['indirect_manage'] + $project_costArr['indirect_performance'] + $project_costArr['indirect_other'] ; // 原始6项 项目合并科目总额
-
             //2、申请单所选科目费用
             //$subject = json_decode($subject,true);
             //3、取所选项目下已申报、申报中的科目的总费用
@@ -515,9 +511,8 @@ class AppController extends Controller {
                 foreach ($kemu as $k => $vv) {
                     // 若单科目为A、B合并核算科目,则项目合并科目总额减去对应金额，否则 存对应科目总额
                     in_array($k,$fourCost) ? $fourCostSumPro -= $vv : $subjectArr[$k] += $vv ;
-//                    in_array($k,$sixCost) ? $sixCostSumPro -= $vv : $subjectArr[$k] += $vv ;
-                    // 若单科目为六项科目,则项目单合计六项科目总额
-                    in_array($k,$fivekm) ? $project_costArr[$k] = round($project_costArr[$k] - $vv , 4) : '';
+                    // 若单科目为六项科目,则项目单合计六项科目总额  此处不核算，单科目都存 $subjectArr
+                    //in_array($k,$fivekm) ? $project_costArr[$k] = round($project_costArr[$k] - $vv , 4) : '';
                 }
             }
 

@@ -50,7 +50,7 @@
                             </tr>
                             
                             <tr>
-                                <td colspan='2' style="width:260px;" >部门负责人</td>
+                                <td colspan='2' style="width:260px;" >部门/团队负责人</td>
                                 <td  colspan='2'  style="width:260px;">分管所领导</td>
                                 <td  colspan='3' >所长</td>
                             </tr>
