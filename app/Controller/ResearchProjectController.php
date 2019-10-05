@@ -840,7 +840,7 @@ class ResearchProjectController extends AppController {
             $filesArr = CookieDecode($files);
             $projectArr['filename'] = $filesArr[0];
             $projectArr['ctime'] = date("Y-m-d H:i:s");
-            $projectArr['code'] = 2;//默认让他走 财务科班主任
+            $projectArr['code'] = 0;//默认让他走 财务科班主任;  初级行政审批改为财务科长审批，由2改为0；
 
 # 开始入库
             $this->ResearchProject->begin();

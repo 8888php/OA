@@ -46,7 +46,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, 'user_id' => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ResearchProject->getAll(array('del' => 0, 'user_id' => $this->userInfo->id), $limit, $pages, ['id' => 'desc']);
         }
 
         $this->set('lists', $lists);
@@ -117,7 +117,10 @@ class OfficeController extends AppController {
 
         // 行政审批 还是财务审批
         $isWho = $this->is_who();
-        if ($isWho == 'keyanzhuren') {
+        if ($isWho == 'caiwufusuozhang') {
+            $wherestr = ' and code = 0 ';
+            $conditions = array('code' => 0, 'del' => 0);
+        }else if ($isWho == 'keyanzhuren') {
             $wherestr = ' and code = 0 ';
             $conditions = array('code' => 0, 'del' => 0);
         } else if ($isWho == 'caiwukezhang') {
@@ -320,7 +323,9 @@ class OfficeController extends AppController {
 
         // 行政审批 还是财务审批
         $isWho = $this->is_who();
-        if ($isWho == 'keyanzhuren') {
+        if ($isWho == 'caiwufusuozhang') {
+            $wherestr = 'project_approver_id';
+        }else if ($isWho == 'keyanzhuren') {
             $wherestr = 'project_approver_id';
         } else if ($isWho == 'caiwukezhang') {
             $wherestr = 'financial_approver_id';
@@ -337,7 +342,7 @@ class OfficeController extends AppController {
             if ($pages > $all_page) {
                 $pages = $all_page;
             }
-            $lists = $this->ResearchProject->getAll(array('del' => 0, $wherestr => $this->userInfo->id), $limit, $pages);
+            $lists = $this->ResearchProject->getAll(array('del' => 0, $wherestr => $this->userInfo->id), $limit, $pages, ['id' => 'desc']);
         }
 
         $this->set('lists', $lists);
@@ -425,6 +430,8 @@ class OfficeController extends AppController {
             switch ($isWho) {
                 case 'keyanzhuren' : $codestatus = 0;
                     break;
+                case 'caiwufusuozhang': $codestatus = 0;
+                    break;
                 case 'caiwukezhang' : $codestatus = 2;
                     break;
                 default :
@@ -440,8 +447,16 @@ class OfficeController extends AppController {
             }
             $approveStatus = 0;
 
-            //判断当前用户是 科研办公室 主任3 4、财务科 科长5 11
-            if ($isWho == 'keyanzhuren') {
+            //判断当前用户是 财务科副所长， 科研办公室 主任3 4、财务科 科长5 11
+            if ($isWho == 'caiwufusuozhang') {
+                // 财务科副所长
+                $save_arr = array(
+                    'project_approver_remarks' => $remarks,
+                    'project_approver_id' => $approve_id,
+                    'code' => $type == 2 ? 2 : 1,
+                );
+                $approveStatus = $this->ResearchProject->edit($pid, $save_arr);
+            }else if ($isWho == 'keyanzhuren') {
                 // 科研办公室 主任
                 $save_arr = array(
                     'project_approver_remarks' => $remarks,
