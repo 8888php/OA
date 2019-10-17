@@ -121,36 +121,36 @@
 
 
                              <tr>
-                                <td style='height:110px;'> <br/><br/>财务及采购审核 </td>
-                                <td colspan='3'>
+                                <td style='height:110px;'> <br/><br/><!--财务及采购审核-->财务科审核 </td>
+                                <td colspan='6'>
                                         <?php
-                                            echo '财务科审核 <br /> &nbsp;&nbsp;';
+                                            //echo '财务科审核 <br /> &nbsp;&nbsp;';
                                             if($applyArr[14]['name']){
                                                 echo $applyArr[14]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[14]['ctime']; 
                                             }
                                             echo @$jiaqian[14] ;
                                         ?>                                     
                                     </td>
-                                    <td  colspan='3'>
+                                    <!--td  colspan='3'>
                                         <?php  
-                                            echo '采购内容核对 <br /> &nbsp;&nbsp;';
-                                            if($applyArr[23]['name']){
-                                                echo $applyArr[23]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime']; 
-                                            }
-                                            echo @$jiaqian[23] ;
+//                                            echo '采购内容核对 <br /> &nbsp;&nbsp;';
+//                                            if($applyArr[23]['name']){
+//                                                echo $applyArr[23]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[23]['ctime']; 
+//                                            }
+//                                            echo @$jiaqian[23] ;
                                         ?> 
-                                </td>
+                                </td-->
                             </tr>
                            
-                            <tr >
+                            <!--tr >
                                 <td colspan='2' style='height:65px;line-height:65px;'> 采购中心审核 </td>
                                 <td colspan='5'>  <?php  
-                                    echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  
-                                    echo @$jiaqian[24] ;
+                                    //echo $applyArr[24]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[24]['ctime'];  
+                                    //echo @$jiaqian[24] ;
                                     ?>  </td>
-                            </tr>
+                            </tr-->
                             <tr>
-                                <td colspan='2' style='height:65px;line-height:65px;'> 财务及采购分管领导审核 </td>
+                                <td colspan='2' style='height:65px;line-height:65px;'> 财务<!--及采购-->分管领导审核 </td>
                                 <td  colspan='5' >   <?php  
                                     echo $applyArr[13]['remarks'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['name'].'&nbsp;&nbsp;&nbsp;&nbsp;'.$applyArr[13]['ctime'];  
                                     echo @$jiaqian[13] ;

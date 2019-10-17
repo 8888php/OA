@@ -95,23 +95,23 @@
                                 </td>
                             </tr>
                              <tr style="height: 95px;">
-                                <td > 财务及采购审核 </td>
-                                <td colspan='3'>
-                                    财务科审核 <br /> &nbsp;&nbsp;
+                                <td > <!--财务及采购审核-->财务科审核 </td>
+                                <td colspan='6'>
+                                    <!--财务科审核 <br /> &nbsp;&nbsp;-->
                                     
                                     </td>
-                                    <td  colspan='3'>
+                                    <!--td  colspan='3'>
                                         采购内容核对 <br /> &nbsp;&nbsp;
                                      
-                                </td>
+                                </td-->
                             </tr>
                            
-                            <tr style="height: 75px;">
+                            <!--tr style="height: 75px;">
                                 <td colspan='2'> 采购中心审核 </td>
                                 <td colspan='5'>  </td>
-                            </tr>
+                            </tr-->
                             <tr style="height: 75px;">
-                                <td colspan='2'> 财务及采购分管领导审核 </td>
+                                <td colspan='2'> 财务<!--及采购-->分管领导审核 </td>
                                 <td  colspan='5' >    </td>
                             </tr>
                             <tr style="height: 75px;">
