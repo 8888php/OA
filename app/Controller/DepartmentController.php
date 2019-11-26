@@ -94,7 +94,7 @@ class DepartmentController extends AppController {
           // 费用申报  科研、行政 部门都显示
        // if ($depInfo['Department']['type'] == 1 && (in_array($this->userInfo->position_id, array(6, 13, 14)) || $this->userInfo->department_id == $id)) {
          if (in_array($this->userInfo->position_id, array(6, 13, 14)) || $this->userInfo->department_id == $id) {
-            $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 and m.code = 10000 and m.table_name in ('apply_baoxiaohuizong', 'apply_chuchai_bxd', 'apply_lingkuandan', 'apply_jiekuandan')");
+            $declares_arr = $this->DepartmentCost->query("SELECT m.*,u.name FROM t_apply_main m LEFT JOIN t_user u ON m.user_id = u.id WHERE m.department_id = '$id' and m.project_id=0 /*and m.code = 10000*/ and m.table_name in ('apply_baoxiaohuizong', 'apply_chuchai_bxd', 'apply_lingkuandan', 'apply_jiekuandan')");
 
 
             $mainArr = array();
