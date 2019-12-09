@@ -187,11 +187,16 @@ class RequestNoteController extends AppController {
             }
             $this->set('department', $department);
             
-            // 当前用户所属团队
-            $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$this->userInfo->id}'";
-            $team_arr = $this->ApplyMain->query($sql);
-            $this->set('team_arr', $team_arr);
-            
+            // 当前用户所属团队  行政部门成员不用查团队
+            $dep_type = $this->Department->find('first', array('conditions' => array('id' => $this->userInfo->department_id), 'fields' => array('type')));
+            if($dep_type['Department']['type'] != 2){
+                $this->set('team_arr', []);
+            }else{
+                $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$this->userInfo->id}'";
+                $team_arr = $this->ApplyMain->query($sql);
+                $this->set('team_arr', $team_arr);
+            }
+           
             $this->set('list', Configure::read('xizhenglist'));
 
             // 重新提交申请  获取旧申请数据
