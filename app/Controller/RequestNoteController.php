@@ -1096,7 +1096,7 @@ class RequestNoteController extends AppController {
         // 获取资金来源剩余金额
         $sourcesArr = array('sourceId'=>array(),'amount'=>array());
         $year = date('Y', time());
-        
+    
         foreach ($souces as $key => $value) {
             if ($pid == 0) {
                 if ($value['ResearchSource']['year'] != $year) {
@@ -1108,6 +1108,14 @@ class RequestNoteController extends AppController {
             
         	$sourcesArr['sourceId'][$key] = $value['ResearchSource']['id'];
         	$sourcesArr['amount'][$value['ResearchSource']['id']] = $value['ResearchSource']['amount'];
+        }
+
+        // 如果资金来源为空 直接返回空
+        if(empty($sourcesArr['sourceId'])){
+            echo json_encode(array(
+                'html' => ''
+            ));
+            exit;
         }
 
         // 资金来源剩余金额

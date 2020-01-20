@@ -121,6 +121,9 @@
         data_json.other = $('.other').val();
         data_json.other2 = $('.other2').val();
         data_json.other3 = $('.other3').val();
+        data_json.activitiesfee = $('.activitiesfee').val();
+        data_json.servicefee = $('.servicefee').val();
+        data_json.subsidy = $('.subsidy').val();
         data_json.total = $('.total').val();
         data_json.remarks = $('.remarks').val();
         data_json.upstep = 'step3';

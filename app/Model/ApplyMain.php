@@ -99,6 +99,10 @@ class ApplyMain extends AppModel {
                 $surpkey = $val['t_apply_main']['source_id'];
                 $surplus[$surpkey] = sprintf("%0.2f", $surplus[$surpkey] - $val['t_apply_main']['total']);
             }
+        }else{
+            foreach ($data['sourceId'] as $val) {
+                $surplus[$val] = $data['amount'][$val];
+            }
         }
         return $surplus;
     }

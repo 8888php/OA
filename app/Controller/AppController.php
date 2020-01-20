@@ -395,7 +395,7 @@ class AppController extends Controller {
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
 
         //1、项目所包含科目费用
-        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
+        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3,activitiesfee,servicefee,subsidy  from t_research_cost cost where project_id = $project_id ;");
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
             
@@ -490,7 +490,7 @@ class AppController extends Controller {
         $feedback = array('code' => 0, 'total' => '', 'msg' => '');
 
         //1、项目所包含科目费用
-        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3  from t_research_cost cost where project_id = $project_id ;");
+        $project_costArr = $this->ResearchSource->query("select data_fee,collection,facility,material,assay,elding,publish,property_right,office,vehicle,travel,meeting,international,cooperation,labour,consult,indirect_manage,indirect_performance,indirect_other,other,other2,other3,activitiesfee,servicefee,subsidy  from t_research_cost cost where project_id = $project_id ;");
         if ($project_costArr) {
             $project_costArr = $project_costArr[0]['cost']; // 项目科目费用
             

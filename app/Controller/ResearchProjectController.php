@@ -830,6 +830,9 @@ class ResearchProjectController extends AppController {
             !empty($_POST['other']) && $saveArr['other'] = $_POST['other'];
             !empty($_POST['other2']) && $saveArr['other2'] = $_POST['other2'];
             !empty($_POST['other3']) && $saveArr['other3'] = $_POST['other3'];
+            !empty($_POST['activitiesfee']) && $saveArr['activitiesfee'] = $_POST['activitiesfee'];
+            !empty($_POST['servicefee']) && $saveArr['servicefee'] = $_POST['servicefee'];
+            !empty($_POST['subsidy']) && $saveArr['subsidy'] = $_POST['subsidy'];
 
             $saveArr['total'] = array_sum($saveArr);  // 总额
             !empty($_POST['remarks']) && $saveArr['remarks'] = $_POST['remarks'];
