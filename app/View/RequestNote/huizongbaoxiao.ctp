@@ -245,12 +245,11 @@
                         </tr>
                         <tr>
                             <td style="width:90px;">报销人</td>
-                            <td style="width:100px;">项目负责人</td>
-                            <td style="width:90px;">科室负责人</td>
+                            <td style="width:100px;">项目/科室负责人</td>
                             <td style="width:90px;">分管领导</td>
                             <td style="width:130px;">分管财务领导</td>
-                            <td style="width:100px;">财务科长</td>
-                            <td style="width:100px;">所长</td>
+                            <td style="width:100px;">财务审核</td>
+                            <td style="width:100px;" colspan="2">所长</td>
                         </tr>
                         <tr >
                             <td > 
@@ -261,8 +260,7 @@
                             <td style="width:100px;"> </td>
                             <td style="width:100px;"> </td>
                             <td style="width:100px;"> </td>
-                            <td style="width:100px;"> </td>
-                            <td style="width:100px;"> </td>
+                            <td style="width:100px;" colspan="2"> </td>
                         </tr>
                         </tbody>
                     </table>

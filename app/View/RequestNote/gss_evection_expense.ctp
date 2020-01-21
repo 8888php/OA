@@ -153,11 +153,10 @@
                             
                             <tr>
                                 <td style="width:260px;" >申报人</td>
-                                <td  style="width:260px;">项目负责人</td>
-                                <td >科室负责人</td>
+                                <td  style="width:260px;" colspan="2">项目/科室负责人</td>
                                 <td  style="width:260px;" >分管领导</td>
                                 <td >分管财务领导</td>
-                                <td  style="width:260px;" >财务科长</td>
+                                <td  style="width:260px;" >财务审核</td>
                                 <td  colspan='2'style="width:260px;">所长</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
@@ -165,8 +164,7 @@
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
                                     <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
-                                <td > </td>
-                                <td > </td>
+                                <td colspan="2"> </td>
                                 <td>  </td>
                                 <td > </td>
                                 <td > </td>
