@@ -79,7 +79,7 @@
                             </tr>
           
                             <tr>
-                                <td style="width: 15%;" colspan="2">项目/科室负责人</td>
+                                <td style="width: 30%;" colspan="2">项目/科室负责人</td>
                                 <td style="width: 15%;">分管领导</td>
                                 <td style="width: 16%;">分管财务领导</td>
                                 <td style="width: 16%;">财务审核</td>
