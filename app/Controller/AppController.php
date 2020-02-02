@@ -547,6 +547,10 @@ class AppController extends Controller {
 //                );
 //            }
             
+            //2020年2月2日,财务科四个单子发起时选择的科目的金额加已审批金额加待审批金额只能小于等于预算的110%（如发起金额大于的话不能发起）
+            //1资料费2材料费3测试化验加工费4燃料动力费5印刷、出版费6知识产权事务费7办公费8数据或样本采集费9车辆使用费10国内协作费11其他费用12基地建设费13培训费
+            $km_dy_110 = array('data_fee', 'material', 'assay', 'elding', 'publish', 'property_right', 'office' , 'collection', 'vehicle', 'cooperation', 'other', 'other2', 'other3');
+            
             //4、比较单科目是否超额
             foreach ($subject as $k => $v) {
                 //若首次提交该资金来源申请单，则不比较合并项科目，因为上边已比较过合并科目总额，fourCostSumPro > 0 说明合并项未超出;若属于合并项科目，则不比较直接跳过
@@ -555,13 +559,17 @@ class AppController extends Controller {
                 }
                 
                 if(!$project_costArr[$k]){
-                   $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
+                   $feedback['code'] = in_array($k, $fivekm) || in_array($k, $km_dy_110) ? -1 : 1;  
                    $feedback['total'] = $v; 
                    $feedback['msg'] = '已超出该科目总额 ' . $feedback['total'] . ' 元';
                    break;
                 }else{
                     // 单科目剩余金额
                     $overplus = round($project_costArr[$k] - $subjectArr[$k] , 4);
+                    if (in_array($k, $km_dy_110)) {
+                        //如果在小于等于110%
+                        $overplus = round($project_costArr[$k] * 1.1 - $subjectArr[$k] , 4);
+                    }
                     if ($v > $overplus) {
                         $keyanlist = Configure::read('keyanlist');
                         $kemu_name = '';
@@ -573,7 +581,7 @@ class AppController extends Controller {
                                 }
                             }
                         }
-                        $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
+                        $feedback['code'] = in_array($k, $fivekm) || in_array($k, $km_dy_110) ? -1 : 1;  
                         $feedback['total'] = $v - $overplus;
                         $feedback['msg'] = $kemu_name . ' 已超出该科目总额 ' . $feedback['total'] . ' 元';
                         break ;
