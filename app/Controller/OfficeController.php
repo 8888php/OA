@@ -740,7 +740,7 @@ class OfficeController extends AppController {
             $this->userInfo->app_big = $this->request->data('big_approval_amount');
 
             $ret_arr = $this->Approval->apply($main_id, $this->userInfo, $status);
-
+            
             if ($ret_arr['code'] == false) {
                 //说明审批出错
                 $this->ret_arr['code'] = 1;
@@ -783,6 +783,19 @@ class OfficeController extends AppController {
                     $main_subject[$mk] = $this->request->data('small_approval_amount');
                 }
                 $save_main['subject'] = json_encode($main_subject);
+            } elseif ($ret_arr['code'] == 10000) {
+                //这是兼容,如果没有账务科审批,那么在最后,就把审请的金额,写到审批的地方
+                $attr_id = $mainInfos['ApplyMain']['attr_id'];
+                $attr_arr_info = $this->ApplyJiekuandan->findById($attr_id);
+                //对比一下,是否有审批金额,如果没有则加入
+                if (!$attr_arr_info['ApplyJiekuandan']['approve_money_capital']) {
+                    $save_main['total'] = $attr_arr_info['ApplyJiekuandan']['apply_money'];
+                    $main_subject = json_decode($mainInfos['ApplyMain']['subject'], true);
+                    foreach ($main_subject as $mk => $mv) {
+                        $main_subject[$mk] = $attr_arr_info['ApplyJiekuandan']['apply_money'];
+                    }
+                    $save_main['subject'] = json_encode($main_subject);
+                }
             }
 
             //开启事务
@@ -829,6 +842,20 @@ class OfficeController extends AppController {
                         'approve_money_capital' => $big_approval_amount
                     );
                     $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+                } elseif ($ret_arr['code'] == 10000) {
+                    //这是兼容,如果没有账务科审批,那么在最后,就把审请的金额,写到审批的地方
+                    $attr_id = $mainInfos['ApplyMain']['attr_id'];
+                    $attr_arr_info = $this->ApplyJiekuandan->findById($attr_id);
+                    //对比一下,是否有审批金额,如果没有则加入
+                    if (!$attr_arr_info['ApplyJiekuandan']['approve_money_capital']) {
+                        $small_approval_amount = $attr_arr_info['ApplyJiekuandan']['apply_money'];
+                        $big_approval_amount = $attr_arr_info['ApplyJiekuandan']['apply_money_capital'];
+                        $save_arr = array(
+                            'approve_money' => $small_approval_amount,
+                            'approve_money_capital' => $big_approval_amount
+                        );
+                        $attr_arr = $this->ApplyJiekuandan->edit($attr_id, $save_arr);
+                    }
                 }
 
                 //成功
