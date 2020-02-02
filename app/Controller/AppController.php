@@ -502,8 +502,8 @@ class AppController extends Controller {
             //$subject = json_decode($subject,true);
             //3、取所选项目下已申报、申报中的科目的总费用
             //科目：设备费、劳务费、专家咨询费、间接费（管理）、间接费（绩效）、间接费（其他）
-            // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额
-            $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other'); 
+            // 六项科目核算超出预算 不让审批通过,且统计六项科目在审批中的金额, 2020年2月2日,新加3种(7科研活动费8科研服务费9人员和劳务补助费)
+            $fivekm = array('facility','labour','consult','indirect_manage','indirect_performance','indirect_other', 'activitiesfee', 'servicefee', 'subsidy'); 
             $costArr = $this->ApplyMain->find('list', array('conditions' => array('project_id' => $project_id, 'code' => array(0,2,4,8,10,12,16,18,20,22,24,26,28,30,40,42,44,46,48,52,54,56,58,60,62,64,66,68,70,72,10000), 'is_calculation' => 1, 'total != ' => 0), 'fields' => array('id', 'subject')));
             $subjectArr = array();
             foreach ($costArr as $v) {
@@ -553,7 +553,7 @@ class AppController extends Controller {
                 if(in_array($k,$fourCost)){
                 	break;
                 }
-
+                
                 if(!$project_costArr[$k]){
                    $feedback['code'] = in_array($k, $fivekm) ? -1 : 1;  
                    $feedback['total'] = $v; 
