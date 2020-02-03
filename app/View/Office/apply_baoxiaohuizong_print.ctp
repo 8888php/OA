@@ -71,11 +71,11 @@
                         </tr>
                         <tr>
                             <td style="width:90px;">报销人</td>
-                            <td style="width:120px;" colspan='2'>项目/科室负责人</td>
-                            <td style="width:120px;">分管领导</td>
-                            <td style="width:130px;">分管财务领导</td>
+                            <td style="width:120px;" colspan='2'>团队/科室<br/>负责人审核</td>
+                            <td style="width:120px;">分管领导审核</td>
+                            <td style="width:130px;">分管财务<br/>领导审核</td>
                             <td style="width:120px;">财务审核</td>
-                            <td style="width:140px;">所长</td>
+                            <td style="width:140px;">所长审核</td>
                         </tr>
                         <tr >
                             <td style="/*height:40px;line-height: 40px;*/"> 

@@ -153,11 +153,11 @@
                             
                             <tr>
                                 <td style="width:260px;" >申报人</td>
-                                <td  style="width:260px;" colspan="2">项目/科室负责人</td>
-                                <td  style="width:260px;" >分管领导</td>
-                                <td >分管财务领导</td>
+                                <td  style="width:260px;" colspan="2">团队/科室<br/>负责人审核</td>
+                                <td  style="width:260px;" >分管领导<br/>审核</td>
+                                <td >分管财务<br/>领导审核</td>
                                 <td  style="width:260px;" >财务审核</td>
-                                <td  colspan='2'style="width:260px;">所长</td>
+                                <td  colspan='2'style="width:260px;">所长审核</td>
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
                                 <td > 

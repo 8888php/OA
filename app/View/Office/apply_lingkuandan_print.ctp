@@ -103,11 +103,11 @@
                 
                             <tr>
                                 <td >领款人</td>
-                                <td >项目/科室负责人</td>
-                                <td >分管领导</td>
-                                <td >分管财务领导</td>
+                                <td >团队/科室<br/>负责人审核</td>
+                                <td >分管领导审核</td>
+                                <td >分管财务<br/>领导审核</td>
                                 <td >财务审核</td>
-                                <td colspan="2" >所长</td>
+                                <td colspan="2" >所长审核</td>
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
                                 <td style=""> 
