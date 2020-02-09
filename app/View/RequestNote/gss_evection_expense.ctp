@@ -42,7 +42,7 @@
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='7'>
-                                    <select style="width:335px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
+                                    <select style="width:220px;height:25px;" name='dep_pro' class="dep_pro"  onchange="change_filenumber();" >
                                         <?php if ($is_department){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
@@ -52,8 +52,28 @@
                                         echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
                                          }?>
                                     </select>
-                                    <select style="width:215px;height:25px;" name="filenumber" class="filenumber"  >
+                                    <select style="width:155px;height:25px;" name="filenumber" class="filenumber"  >
                                         <option></option>
+                                    </select>
+                                    <select style="width:120px;height:25px;" name='xzsubject' class="xzsubject" >     <option value='0'> 请选择科目 </option>
+                                        <?php 
+                                            foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    $selectedstr = ($mainInfo['type'] == 2 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key' $selectedstr> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <select style="width:120px;height:25px;display:none;" name='kysubject' class="kysubject" >         <option value='0'> 请选择科目 </option>
+                                         <?php 
+                                            foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
+                                                foreach($kyv as $key=>$val) {
+                                                    $selectedstr = ($mainInfo['type'] == 1 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
+                                                    echo "<option value='$key' $selectedstr> $val </option>" ;
+                                                }
+                                            }
+                                        ?>
                                     </select>
                                 </td>
                                 </tr>
@@ -63,6 +83,14 @@
                                         var type = $('.dep_pro').val();
                                             var data = {pid:type,sid:sid};
                                                 data.depid = (type == 0) ? depid : 0 ;
+                                                if (type ==0) {
+                                                    //部门
+                                                    $('.xzsubject').css('display','inline-block');
+                                                    $('.kysubject').css('display','none');
+                                                } else {
+                                                    $('.xzsubject').css('display','none');
+                                                    $('.kysubject').css('display','inline-block');
+                                                }
                                             $.ajax({
                                                 url:'/RequestNote/ajax_get_souce',
                                                 type:'post',
@@ -591,7 +619,7 @@ function trim(s){
         var payee = $('.payee').val();
         var declarename = $('.declarename').val();
         var applicant = $('.applicant').val();
-        
+        var subject = (dep_pro == 0) ? $('.xzsubject').val() : $('.kysubject').val();
         if (ctime == '') {
             $('.ctime').focus();
             return;
@@ -774,7 +802,7 @@ function trim(s){
        <?php if (isset($mainInfo)) {?>
                old_main_id = "<?php echo $mainInfo['id'];?>";
        <?php }?>
-        var data = {old_main_id: old_main_id,attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename, is_calculation : is_calculation};
+        var data = {old_main_id: old_main_id,attachment: attachment,filenumber: filenumber, declarename: declarename, applicant: applicant, json_str: json_str,ctime: ctime, reason: reason, sheets_num: sheets_num, dep_pro: dep_pro, personnel: personnel, sums: sums, big_total: big_total,small_total: small_total,payee: payee,declarename: declarename, is_calculation : is_calculation, subject: subject};
         $.ajax({
             url: '/RequestNote/gss_evection_expense',
             type: 'post',

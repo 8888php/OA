@@ -39,6 +39,9 @@
                                         echo ($attr_arr[0][$table_name]['project_id']) ? $project_arr['ResearchProject']['name'] : $attr_arr[0][$table_name]['department_name'];
                                         echo empty($source_arr) ? '' : '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
                                     ?>
+                                    <?php if(!empty($feiyong)) {
+                                        echo '| ' . $feiyong;
+                                    }?>
                                 </td>
                                 </tr>
                             

@@ -1148,6 +1148,41 @@ class OfficeController extends AppController {
         $user_arr = $this->User->findById($main_arr['ApplyMain']['user_id']);
         //取项目信息
         $projecct_id = $attr_arr[0][$table_name]['project_id'];
+        //取项目信息
+        $subject = $main_arr['ApplyMain']['subject'];
+        $feiyong = '';
+        if ($projecct_id) {
+            $project_arr = $this->ResearchProject->findById($projecct_id);
+            $this->set('project_arr', $project_arr);
+            //科研
+            if (!empty($subject)) {
+                $subject = json_decode($subject);
+                foreach ($subject as $k => $v) {
+                    foreach (Configure::read('keyanlist') as $ky => $vy) {
+                        if (array_key_exists($k, $vy)) {
+                            $feiyong = $vy[$k];
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        } else {
+            //行政
+            if (!empty($subject)) {
+                $subject = json_decode($subject);
+                foreach ($subject as $k => $v) {
+                    foreach (Configure::read('xizhenglist') as $ky => $vy) {
+                        if (array_key_exists($k, $vy)) {
+                            $feiyong = $vy[$k];
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        $this->set('feiyong', $feiyong);
         if ($projecct_id) {
             $project_arr = $this->ResearchProject->findById($projecct_id);
             $this->set('project_arr', $project_arr);

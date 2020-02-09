@@ -1160,7 +1160,8 @@ class RequestNoteController extends AppController {
             }
             //验证审批单申请 单科目费用 是否超过 项目对应单科目总金额
             if ($_POST['dep_pro'] != 0) {
-                $checkcost = $this->check_subject_cost_submit($_POST['dep_pro'], array('travel' => $datas['small_total']));
+//                $checkcost = $this->check_subject_cost_submit($_POST['dep_pro'], array('travel' => $datas['small_total']));
+                $checkcost = $this->check_subject_cost_submit($_POST['dep_pro'], array($datas['subject'] => $datas['small_total']));
                 if ($checkcost['code'] == -1) {
                     $this->ret_arr['msg'] = $checkcost['msg'];
                     exit(json_encode($this->ret_arr));
@@ -1247,7 +1248,8 @@ class RequestNoteController extends AppController {
         $mainArr['project_team_user_id'] = $project_team_user_id;
         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = json_encode(array('travel' => $datas['small_total']));
+//        $mainArr['subject'] = json_encode(array('travel' => $datas['small_total']));
+        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
         if ($attrId) {
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
