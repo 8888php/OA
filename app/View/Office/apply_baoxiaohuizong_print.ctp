@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:730px;'>
 
     <!--p class="btn btn-info btn-block"  style="border-radius:4px 4px 0 0;padding:0 12px;"> <span style="font-size:16px;"> 审核申请</span> <a onclick="window.parent.wait_close();" class="close" data-dismiss="modal" >×</a></p-->
 
@@ -23,23 +23,23 @@
                                 报销汇总单 </td>
                         </tr>
                         <tr>
-                            <td colspan=''>填表日期</td>
-                            <td colspan='2'>
+                            <td style="height: 40px;" colspan=''>填表日期</td>
+                            <td style="width: 14%;" colspan='2'>
                                 <?php echo $main_arr['ctime']; ?>
                             </td>
-                            <td colspan=''>原始凭证页数</td>
-                            <td>  <?php echo $attr_arr['page_number']; ?>  </td>
+                            <td style="width: 24%" colspan=''>原始凭证页数</td>
+                            <td style="width: 16%;">  <?php echo $attr_arr['page_number']; ?>  </td>
                             <td>核算</td>
                                 <td colspan=''> <?php echo $main_arr['is_calculation'] == 1 ? '是' : '否';?>  </td>
                         </tr>
                         <tr>
-                            <td style="width: 14%;">部门或项目</td>
+                            <td style="width: 14%; height: 40px;">部门或项目</td>
                             <td colspan='6'> 
                                 <?php echo $kemuStr; ?>   
                             </td>
                         </tr>
                         <tr>
-                            <td>科目</td>
+                            <td style="height: 40px;">科目</td>
                             <td colspan='6'> <?php 
                                 if($main_arr['department_id'] > 0 && $main_arr['project_id'] <= 0){ // 部门
                                 $bumenArr = Configure::read('xizhenglist'); 
@@ -59,17 +59,17 @@
                                 ?>  </td>
                         </tr>
                         <tr>
-                            <td>金额</td>
+                            <td style="height: 40px;">金额</td>
                             <td>人民币大写</td>
                             <td colspan='3'>  <?php echo $attr_arr['rmb_capital']; ?>   </td>
                             <td colspan='2'> ￥ <?php echo $attr_arr['amount']; ?>     </td>
                         </tr>
                         <tr>
-                            <td class='bx_jysm'>报销人<br/>简要说明</td>
+                            <td style="height: 40px;" class='bx_jysm'>报销人<br/>简要说明</td>
                             <td colspan='6'>  <?php echo $attr_arr['description']; ?>   </textarea>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="display: none;">
                             <td style="width:90px;">报销人</td>
                             <td style="width:120px;" colspan='2'>团队/科室<br/>负责人审核</td>
                             <td style="width:120px;">分管领导审核</td>
@@ -77,7 +77,7 @@
                             <td style="width:130px;">财务审核</td>
                             <td style="width:130px;">所长审核</td>
                         </tr>
-                        <tr >
+                        <tr style="display: none;">
                             <td style="/*height:40px;line-height: 40px;*/"> 
                                 <?php 
                                     $applicant = $attr_arr['applicant'];
@@ -190,6 +190,117 @@
                         ?>
                     </tbody>
                 </table>
+                <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
+                    <tbody>
+                        <tr>
+                            <td style="width: 16.6%; height: 120px;">
+                                报销人:
+                                <?php 
+                                    $applicant = $attr_arr['applicant'];
+                                    if (!empty($applicant)) {
+                                        $applicant_arr = explode(',', $applicant);
+                                        foreach($applicant_arr as $ak=>$av) {
+                                            echo "<span style='display: block;text-align: left; height: 17px;'>".$av."</span>";
+                                        }
+                                    }
+                                     echo '<br /><br />';
+                                ?>
+                            </td>
+                            <td style="width: 16.6%; height: 120px;">
+                                团队/科室负责人:
+                                <?php 
+                                    if ($applyArr[11]) {
+                                        echo @$applyArr['11']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['11']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['11']['ctime'];
+                                    }
+                                    if ($applyArr['12']) {
+                                        echo '<br />';
+                                        echo @$applyArr['12']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['12']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['12']['ctime'];
+                                    }
+                                    if ($applyArr['ksfzr']) {
+                                        echo @$applyArr['ksfzr']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['ksfzr']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['ksfzr']['ctime'];
+                                    }
+                                   echo @$jiaqian[11] ;
+                                   echo @$jiaqian[12] ;
+                                   echo @$jiaqian['ksfzr'] ;
+                                ?> 
+                            </td>
+                            <td style="width: 16.6%; height: 120px;">
+                                分管领导:
+                                <?php 
+                                if($seecode == 'apply'){
+                                    if ($applyArr[5]) {
+                                        echo @$applyArr['5']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['5']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['5']['ctime'];
+                                    }
+                                    echo @$jiaqian[5] ;
+                                }
+                                ?> 
+                            </td>
+                            <td style="width: 16.6%; height: 120px;">
+                                分管财务领导:
+                                <?php 
+                                if($seecode == 'apply'){
+                                    if ($applyArr[13]) {
+                                        echo @$applyArr['13']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['13']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['13']['ctime'];
+                                    }
+                                    echo @$jiaqian[13] ;
+                                }
+                                ?> 
+                            </td>
+                            <td style="width: 16.6%; height: 120px;">
+                                财务审核:
+                                <?php 
+                                if($seecode == 'apply'){
+                                    if ($applyArr[14]) {
+                                        echo @$applyArr['14']['remarks'];
+                                        echo '<br />';
+                                    }
+                                    if ($applyArr[27]) {
+                                        echo @$applyArr['27']['remarks'];
+                                        echo '<br />';
+                                    }
+                                    echo @$jiaqian[14] ;
+                                    echo @$jiaqian[27] ;
+                                }
+                                ?> 
+                            </td>
+                            <td style="width: 16.6%; height: 120px;">
+                                所长审核:
+                                <?php 
+                                if($seecode == 'apply'){
+                                    if ($applyArr[6]) {
+                                        echo @$applyArr['6']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['6']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['6']['ctime'];
+                                    }
+                                    echo @$jiaqian[6] ;
+                                }
+                                ?> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </form>
         </div>
     </div>
@@ -201,7 +312,7 @@
     </div>
  <?php } ?>
  <!--<hr class="hr" style="display: none; border: 1px solid #666666;" />-->
-    <div class="modal-footer" style='background-color: #fff;'>
+    <div class="modal-footer" style='background-color: #fff; border-top: 0px;'>
         <?php if($feedback['code']){ ?>
         <div class="alert alert-danger alert-dismissable center ">
             <button type="button" class="close" data-dismiss="alert"
@@ -248,7 +359,7 @@ function printDIV(){
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
         //$('.hr').css('display', '');
-        $('.container').css('border-bottom', '1px solid black');
+//        $('.container').css('border-bottom', '1px solid black');
         $('.container').css('height', '438px');
         //<td class='bx_jysm'>报销人<br/>简要说明</td>
         $('.bx_jysm').text('简要说明');
