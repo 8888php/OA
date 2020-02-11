@@ -15,12 +15,13 @@
                 <table class="table  table-condensed" style="text-align: center;border-color:#000;" >
                     <tbody>
                         <tr>
-                            <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;"> 
+                            <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000; border-top-color: white; border-left-color: white; border-right-color: white;"> 
                                 <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
                                  <?php  echo $main_arr['code'] == 10000 ? '已付款': ($main_arr['code'] % 2 != 0 ? '已拒绝' : ''); ?>
                                 </span>
-                                <span style='font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['id']; ?> &nbsp;&nbsp;</span>
-                                报销汇总单 </td>
+                                果树所报销汇总单
+                                <span style='font-size:14px;font-weight: 400; position: absolute; right: 15px; top: 25px;'> ID:<?php echo $main_arr['id']; ?> &nbsp;&nbsp;</span>
+                            </td>
                         </tr>
                         <tr>
                             <td style="height: 40px;" colspan=''>填表日期</td>
@@ -33,7 +34,7 @@
                                 <td colspan=''> <?php echo $main_arr['is_calculation'] == 1 ? '是' : '否';?>  </td>
                         </tr>
                         <tr>
-                            <td style="width: 14%; height: 40px;">部门或项目</td>
+                            <td style="width: 118px; height: 40px;">部门或项目</td>
                             <td colspan='6'> 
                                 <?php echo $kemuStr; ?>   
                             </td>
@@ -208,6 +209,7 @@
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 团队/科室负责人:
+                                <br/>
                                 <?php 
                                     if ($applyArr[11]) {
                                         echo @$applyArr['11']['remarks'];
@@ -238,6 +240,7 @@
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 分管领导:
+                                <br/>
                                 <?php 
                                 if($seecode == 'apply'){
                                     if ($applyArr[5]) {
@@ -253,6 +256,7 @@
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 分管财务领导:
+                                <br/>
                                 <?php 
                                 if($seecode == 'apply'){
                                     if ($applyArr[13]) {
@@ -268,6 +272,7 @@
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 财务审核:
+                                <br/>
                                 <?php 
                                 if($seecode == 'apply'){
                                     if ($applyArr[14]) {
@@ -284,7 +289,8 @@
                                 ?> 
                             </td>
                             <td style="width: 16.6%; height: 120px;">
-                                所长审核:
+                                所长:
+                                <br/>
                                 <?php 
                                 if($seecode == 'apply'){
                                     if ($applyArr[6]) {

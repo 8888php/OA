@@ -1,7 +1,7 @@
 <?php //echo $this->element('head_frame'); ?>
 <script type="text/javascript" src="/assets/js/bootstrap-datetimepicker.min.js"></script>
 
-<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:700px;'>
+<div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:730px;'>
 
     <style>
         .table tr, .table td{border:1px solid #000;}
@@ -16,20 +16,21 @@
                         <input type="hidden" name='declarename' class='declarename' value='果树所借款单' /> 
                         <tbody>
                             <tr>
-                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;"> 
+                                <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;  border-top-color: white; border-left-color: white; border-right-color: white;"> 
                                 <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
-                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款': ($main_arr['ApplyMain']['code'] % 2 != 0 ? '已拒绝' : ''); ?>
+                                 <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款': ($main_arr['ApplyMain']['code'] % 2 != 0 ? '已拒绝' : '已拒绝'); ?>
                                 </span>
-                                <span style='font-size:14px;font-weight: 400;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;</span>
-                                    果树所借款单 </td>
+                                    果树所借款单
+                                    <span style='font-size:14px;font-weight: 400; position: absolute; right: 15px; top: 25px;'> ID:<?php echo $main_arr['ApplyMain']['id']; ?> &nbsp;&nbsp;</span>
+                                </td>
                             </tr>
                             <tr>
-                                <td style="width: 14%;">填表日期</td>
+                                <td style="width: 20%; height: 40px;">填表日期</td>
                                 <td colspan='6'>  <?php echo $attr_arr[0][$table_name]['ctime'];?>  </td>
                             </tr>
                             
                              <tr>
-                                <td>部门或项目</td>
+                                <td style="height: 40px;">部门或项目</td>
                                 <td colspan='4'>  
                                     <?php if ($attr_arr[0][$table_name]['project_id']) {?>
                                         <?php echo $project_arr['ResearchProject']['name'];?>  
@@ -45,22 +46,22 @@
                                     }?>
                                 </td>
                                 <td style="width: 13%;">借款人姓名</td>
-                                <td > <?php echo $user_arr['User']['name'];?> </td>
+                                <td style="width: 70px;"> <?php echo $user_arr['User']['name'];?> </td>
                             </tr>
 
-                            <tr>
+                            <tr style="height: 40px;">
                                 <td>借款事由</td>
                                 <td colspan='6'> <?php echo $attr_arr[0][$table_name]['reason'];?> </td>
                             </tr>
                             
-                            <tr>
+                            <tr style="height: 40px;">
                                 <td>申请借款金额</td>
                                 <td>金额大写</td>
                                 <td colspan='3'> <?php echo $attr_arr[0][$table_name]['apply_money_capital'];?> </td>
                                 <td colspan='2'> ￥ <?php echo $attr_arr[0][$table_name]['apply_money'];?> </td>
                             </tr>
                             
-                            <tr>
+                            <tr style="height: 40px;">
                                 <td>批准金额</td>
                                 <td>金额大写</td>
                                 <?php if ($apply == 'apply' && $caiwukezhang_flag) {?>
@@ -73,19 +74,19 @@
                             </tr>
                             
                             
-                            <tr>
+                            <tr style="height: 40px;">
                                 <td  >还款计划</td>
                                 <td colspan='6'>  <?php echo $attr_arr[0][$table_name]['repayment'];?></td>
                             </tr>
           
-                            <tr>
+                            <tr style="display: none;">
                                 <td style="width: 30%;" colspan="2">团队/科室<br/>负责人审核</td>
                                 <td style="width: 15%;">分管领导审核</td>
                                 <td style="width: 16%;">分管财务<br/>领导审核</td>
                                 <td style="width: 16%;">财务审核</td>
                                 <td colspan='2' >所长审核</td>
                             </tr>
-                            <tr style="height:60px;line-height: 20px;">
+                            <tr style="height:60px;line-height: 20px; display: none;">
                                 <td colspan="2"> 
                                     <?php 
                                     if($applyArr[11]){
@@ -192,6 +193,126 @@
                            
                         </tbody>
                     </table>
+                    <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
+                    <tbody>
+                        <tr>
+                            <td style="width: 20%; height: 120px;">
+                                团队/科室负责人:
+                                <br/>
+                                <?php 
+                                    if($applyArr[11]){
+                                        //如果没有省去一下br
+                                        if (!empty($applyArr['11']['remarks']))
+                                        {
+                                            echo @$applyArr['11']['remarks'];
+                                            echo '<br />';
+                                        }
+                                        
+                                        echo @$applyArr['11']['name']; 
+                                        echo '<br />';
+                                        //两个同时存在，取时间的前 10位
+                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
+                                            echo substr($applyArr['11']['ctime'], 0, 10);
+                                        } else {
+                                            echo @$applyArr['11']['ctime'];
+                                        }
+                                        
+                                    }
+                                    if ($applyArr['12']) {
+                                        //如果没有省去一下br
+                                        if (!empty($applyArr['12']['remarks']))
+                                        {
+                                            echo '<br />';
+                                            echo @$applyArr['12']['remarks'];
+                                        }
+                                        echo '<br />';
+                                        echo @$applyArr['12']['name']; 
+                                        echo '<br />';
+                                        //两个同时存在，取时间的前 10位
+                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
+                                            echo substr($applyArr['12']['ctime'], 0, 10);
+                                        } else {
+                                            echo @$applyArr['12']['ctime'];
+                                        }
+                                        
+                                    }
+                                    if ($applyArr['ksfzr']) {
+                                        echo @$applyArr['ksfzr']['remarks'];
+                                        echo '<br />';
+                                        echo @$applyArr['ksfzr']['name']; 
+                                        echo '<br />';
+                                        echo @$applyArr['ksfzr']['ctime'];
+                                    }
+                                    echo @$jiaqian['11'] ;
+                                    echo @$jiaqian['12'] ;
+                                    echo @$jiaqian['ksfzr'] ;
+                                ?>  
+                            </td>
+                            <td style="width: 20%; height: 120px;">
+                                分管领导:
+                                <br/>
+                                <?php 
+                                    if($apply == 'apply'){
+                                        if ($applyArr[5]) {
+                                            echo @$applyArr['5']['remarks'];
+                                            echo '<br />';
+                                            echo @$applyArr['5']['name']; 
+                                            echo '<br />';
+                                            echo @$applyArr['5']['ctime']; 
+                                        }
+                                        echo @$jiaqian[5] ;
+                                    }
+                                ?> 
+                            </td>
+                            <td style="width: 20%; height: 120px;">
+                                分管财务:
+                                <br/>
+                                <?php 
+                                    if($apply == 'apply'){
+                                        if ($applyArr[13]) {
+                                            echo @$applyArr['13']['remarks'];
+                                            echo '<br />';
+                                            echo @$applyArr['13']['name']; 
+                                            echo '<br />';
+                                            echo @$applyArr['13']['ctime'];
+                                        }
+                                        echo @$jiaqian[13] ;
+                                    }
+                                ?> 
+                            </td>
+                            <td style="width: 20%; height: 120px;">
+                                财务审核:
+                                <br/>
+                                <?php 
+                                    if($apply == 'apply'){
+                                        if ($applyArr[14]) {
+                                            echo @$applyArr['14']['remarks'];
+                                            echo '<br />';
+                                        }
+                                        echo @$jiaqian[14] ;
+                                    }
+                                ?>
+                            </td>
+                            <td style="width: 20%; height: 120px;">
+                                所长:
+                                <br/>
+                                <?php 
+                                    if($apply == 'apply'){
+                                        if ($applyArr[6]) {
+                                            echo @$applyArr['6']['remarks'];
+                                            echo '<br />';
+                                            echo @$applyArr['6']['name']; 
+                                            echo '<br />';
+                                            echo @$applyArr['6']['ctime'];
+                                        }
+                                        echo @$jiaqian[6] ;
+                                    }
+                                ?> 
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                    </table>
                 </form>               
             </div>
             <?php if ($apply == 'apply') {?>
@@ -201,7 +322,7 @@
                 </div>
             <?php }?>
             <!--<hr class="hr" style="display: none; border: 1px solid #666666;" />-->
-            <div class="modal-footer" style='background-color: #fff;'>
+            <div class="modal-footer" style='background-color: #fff; border-top: 0px;'>
                 <?php if($feedback['code']){ ?>
                  <div class="alert alert-danger alert-dismissable center ">
                      <button type="button" class="close" data-dismiss="alert"
@@ -248,7 +369,7 @@ function printDIV(){
         $('.table-striped').css('display', 'none');
         $('.right_list').css('display', 'none');
         //$('.hr').css('display', '');
-        $('.container').css('border-bottom', '1px solid black');
+//        $('.container').css('border-bottom', '1px solid black');
         $('.container').css('height', '438px');
     }
     window.print();//打印刚才新建的网页
