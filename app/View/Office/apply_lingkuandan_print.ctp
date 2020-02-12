@@ -5,6 +5,9 @@
 
     <style>
         .table tr, .table td{border:1px solid #000;}
+        .second-table tbody>tr>td{
+             border: 1px solid black;
+        }
     </style>
 
     <div  style='padding:0;'>
@@ -231,7 +234,7 @@
                            
                         </tbody>
                     </table>
-                    <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
+                    <table class="table  table-condensed  second-table" style="text-align: left;border-color:#000; margin-top: -21px;" >
                     <tbody>
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
