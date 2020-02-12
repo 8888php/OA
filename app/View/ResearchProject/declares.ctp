@@ -66,7 +66,7 @@
             </div>
 
             <div class="page-content">
-                <div class="page-header">
+                <div class="page-header not_right_tmp_8888">
                     <h1></h1>
                 </div><!-- /.page-header -->
 
@@ -75,7 +75,7 @@
                         <!-- PAGE CONTENT BEGINS -->
 
                         <div class="tabbable">
-                            <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
+                            <ul class="nav nav-tabs padding-18 tab-size-bigger not_right_tmp_8888" id="myTab">
                                 <li >
                                     <a  href="/ResearchProject/index/<?php echo $pid;?>">
                                         <i class="blue icon-question-sign bigger-120"></i>
@@ -126,7 +126,7 @@
 
                             <div class="tab-content no-border ">
                                 <div id="faq-tab-1" class="tab-pane fade in active" style='width:100%;overflow:auto;'>
-                                    <div class="table-header">
+                                    <div class="table-header not_right_tmp_8888">
                                         项目经费 
 
                                         &nbsp;&nbsp;&nbsp;&nbsp;
