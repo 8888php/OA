@@ -6,6 +6,9 @@
     <style>
         .table tr, .table td{border:1px solid #000;}
         .table-condensed tbody>tr>td{padding: 3px;}
+        .second-table tbody>tr>td{
+             border: 1px solid black;
+        }
     </style>
 
     <div  style='padding:0;'>
@@ -262,7 +265,7 @@
                             
                         </tbody>
                     </table>
-                    <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
+                    <table class="table  table-condensed second-table" style="text-align: left;border-color:#000; margin-top: -21px;" >
                     <tbody>
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
@@ -451,7 +454,7 @@ function printDIV(){
         $('.right_list').css('display', 'none');
         //$('.hr').css('display', '');
 //        $('.container').css('border-bottom', '1px solid black');
-        $('.container').css('height', '438px');
+//        $('.container').css('height', '500px');
     }
     window.print();//打印刚才新建的网页
     {
