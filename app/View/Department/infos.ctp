@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col-sm-10 col-sm-offset-1">
                                 <div class="widget-box transparent invoice-box">
-                                    <div class="widget-header widget-header-large">
+                                    <div class="widget-header widget-header-large not_right_tmp_8888">
                                         <h3 class="grey lighter pull-left position-relative">
                                             <?php
                                             if($depInfo['Department']['type'] == 1){
@@ -144,7 +144,7 @@
                                             <div class="space"></div>
 
                                             <div class="tabbable">
-                                                <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
+                                                <ul class="nav nav-tabs padding-18 tab-size-bigger not_right_tmp_8888" id="myTab">
                                                     <li class="active">
                                                         <a  data-toggle="tab" href="#faq-tab-1">
                                                             <i class="green icon-user bigger-120"></i>
@@ -317,7 +317,7 @@
 
                                                 </div>
 
-                                                <div class="hr hr8 hr-double hr-dotted"></div>
+                                                <div class="hr hr8 hr-double hr-dotted not_right_tmp_8888"></div>
 
                                             </div> <!--tabbable-->
                                         </div>
