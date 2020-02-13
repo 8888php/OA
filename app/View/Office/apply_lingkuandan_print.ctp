@@ -8,6 +8,9 @@
         .second-table tbody>tr>td{
              border: 1px solid black;
         }
+        @page{
+            margin: 33mm 5mm 33mm 60mm;
+        }
     </style>
 
     <div  style='padding:0;'>

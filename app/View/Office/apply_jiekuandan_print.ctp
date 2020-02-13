@@ -6,6 +6,9 @@
     <style>
         .table tr, .table td{border:1px solid #000;}
         .tab-content{z-index:0;}
+        @page{
+            margin: 33mm 5mm 33mm 60mm;
+        }
     </style>
 
     <div  style='padding:0;'>

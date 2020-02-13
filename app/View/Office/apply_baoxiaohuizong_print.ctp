@@ -7,6 +7,9 @@
 
     <style>
         .table tr, .table td{border:1px solid #000;}
+        @page{
+            margin: 33mm 5mm 33mm 60mm;
+        }
     </style>
 
     <div class="tab-content no-border ">
