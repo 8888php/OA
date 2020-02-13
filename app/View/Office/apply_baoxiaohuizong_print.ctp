@@ -7,6 +7,9 @@
 
     <style>
         .table tr, .table td{border:1px solid #000;}
+        .second-table tbody>tr>td{
+             border: 1px solid black;
+        }
         @page{
             margin: 33mm 5mm 33mm 60mm;
         }
@@ -194,7 +197,7 @@
                         ?>
                     </tbody>
                 </table>
-                <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -21px;" >
+                <table class="table  table-condensed second-table" style="text-align: left;border-color:#000; margin-top: -21px;" >
                     <tbody>
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
