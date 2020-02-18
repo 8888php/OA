@@ -268,7 +268,7 @@
                                 ?> 
                             </td>
                             <td style="width: 20%; height: 120px;">
-                                分管财务:
+                                分管财务领导:
                                 <br/>
                                 <?php 
                                     if($apply == 'apply'){
