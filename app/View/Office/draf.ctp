@@ -86,11 +86,18 @@
                                                 <tr> <td >
                                                         <ul>
                                                             <?php  foreach($v as $ak => $av){  
-                                                             if($av == '#' || empty($av)){  ?>  
+                                                             if($av == '#' || empty($av)){  ?> 
+
                                                             <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a href="<?php echo $av;  ?>" style="text-decoration:none;"> <?php echo $ak;  ?> </a></li>
-                                                            <?php }else{  ?>
+                                                            <?php }else{  
+
+                                                             if($k == '财务科申请单下载'){ ?> 
+                                                             <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-download-alt " style="color: #87b87f;"></i> <a href="<?php echo $av;  ?>" style="text-decoration:none; color: #87b87f;" > <?php echo $ak;  ?> </a></li>
+
+                                                             <?php  }else{  ?>
+
                                                             <li style="float:left;width:24%;list-style:none;line-height: 30px;height:30px;"> <i class="glyphicon glyphicon-list-alt blue"></i> <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="<?php echo $av;  ?>" style="text-decoration:none;" onclick="$('#modal-body').load('<?php echo $av;  ?>');"  > <?php echo $ak;  ?> </a></li>
-                                                            <?php  } } ?>
+                                                            <?php  } } } ?>
                                                         </ul>
                                                     </td></tr>
                                             </tbody>
