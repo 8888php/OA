@@ -141,7 +141,7 @@
                                         </a>
 					<?php } ?>
                                     </div>
-                                    <div class="table-responsive" style='width:100%;overflow:auto;'>
+                                    <div class="table-responsive not_right_tmp_8888" style='width:100%;overflow:auto;'>
                                         <table class="table table-bordered table-striped" style="font-size:12px;text-align: center;table-layout: fixed;" >
                                             <tbody>
                                                 <tr style='font-weight:600;' class="blue first">
