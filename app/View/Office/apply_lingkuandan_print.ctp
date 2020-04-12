@@ -283,6 +283,7 @@ function printDIV(){
     var div_height = $('.container').height();
     $('.modal-footer').css('display', 'none');
     $('#dropzone').css('display', 'none');
+    $('.modal').css('overflow-y', 'hidden');
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
@@ -331,6 +332,7 @@ function printDIV(){
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
     $('.' + class_name).css('display', '');
+    $('.modal').css('overflow-y', 'scroll');
     return false;
 }
 </script>

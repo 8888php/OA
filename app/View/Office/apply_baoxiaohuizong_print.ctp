@@ -13,6 +13,7 @@
         @page{
             margin: 33mm 5mm 33mm 60mm;
         }
+        /*.modal {overflow-y: hidden;}*/
     </style>
 
     <div class="tab-content no-border ">
@@ -245,6 +246,7 @@ function printDIV(){
     var div_height = $('.container').height();
     $('.modal-footer').css('display', 'none');
     $('#dropzone').css('display', 'none');
+    $('.modal').css('overflow-y', 'hidden');
     //隐藏下拉框
     $('.' + class_name).css('display', 'none');
     {
@@ -297,6 +299,7 @@ function printDIV(){
     $('.modal-footer').css('display', '');
     $('#dropzone').css('display', '');
     $('.' + class_name).css('display', '');
+    $('.modal').css('overflow-y', 'scroll');
     return false;
 }
 </script>
