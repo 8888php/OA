@@ -87,7 +87,7 @@
                     <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
                     <tbody>
                         <tr>
-                            <td style="width: 20%; height: 120px;">
+                            <td style="width: 30%; height: 120px;">
                                 团队/科室负责人:
                                 <br/>
                                 <?php 
@@ -139,9 +139,8 @@
                                     echo @$jiaqian['ksfzr'] ;
                                 ?>  
                             </td>
-                            <td style="width: 20%; height: 120px;">
+                            <td style="width: 30%; height: 120px;">
                                 分管领导:
-                                <br/>
                                 <div style="text-align: center; line-height: 100px;">
                                 <?php 
                                     if($apply == 'apply'){

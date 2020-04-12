@@ -158,9 +158,8 @@
                                     echo '<br /><br />';
                                 ?>
                             </td>
-                            <td style="width: 16.6%; height: 120px;">
+                            <td style="width: 25.6%; height: 120px;">
                                 团队/科室负责人:
-                                <br/>
                                 <?php 
                                         if($applyArr[11]){
                                             //如果没有省去一下br
@@ -210,9 +209,8 @@
                                         echo @$jiaqian['ksfzr'] ;
                                 ?>  
                             </td>
-                            <td style="width: 16.6%; height: 120px;">
+                            <td style="width: 25.6%; height: 120px;">
                                 分管领导:
-                                <br/>
                                 <div style="text-align: center; line-height: 100px;">
                                 <?php 
                                     if($apply == 'apply'){
