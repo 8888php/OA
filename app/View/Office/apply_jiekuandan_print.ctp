@@ -81,119 +81,7 @@
                                 <td  >还款计划</td>
                                 <td colspan='6'>  <?php echo $attr_arr[0][$table_name]['repayment'];?></td>
                             </tr>
-          
-                            <tr style="display: none;">
-                                <td style="width: 30%;" colspan="2">团队/科室<br/>负责人审核</td>
-                                <td style="width: 15%;">分管领导审核</td>
-                                <td style="width: 16%;">分管财务<br/>领导审核</td>
-                                <td style="width: 16%;">财务审核</td>
-                                <td colspan='2' >所长审核</td>
-                            </tr>
-                            <tr style="height:60px;line-height: 20px; display: none;">
-                                <td colspan="2"> 
-                                    <?php 
-                                    if($applyArr[11]){
-                                        //如果没有省去一下br
-                                        if (!empty($applyArr['11']['remarks']))
-                                        {
-                                            echo @$applyArr['11']['remarks'];
-                                            echo '<br />';
-                                        }
-                                        
-                                        echo @$applyArr['11']['name']; 
-                                        echo '<br />';
-                                        //两个同时存在，取时间的前 10位
-                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
-                                            echo substr($applyArr['11']['ctime'], 0, 10);
-                                        } else {
-                                            echo @$applyArr['11']['ctime'];
-                                        }
-                                        
-                                    }
-                                    if ($applyArr['12']) {
-                                        //如果没有省去一下br
-                                        if (!empty($applyArr['12']['remarks']))
-                                        {
-                                            echo '<br />';
-                                            echo @$applyArr['12']['remarks'];
-                                        }
-                                        echo '<br />';
-                                        echo @$applyArr['12']['name']; 
-                                        echo '<br />';
-                                        //两个同时存在，取时间的前 10位
-                                        if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
-                                            echo substr($applyArr['12']['ctime'], 0, 10);
-                                        } else {
-                                            echo @$applyArr['12']['ctime'];
-                                        }
-                                        
-                                    }
-                                    if ($applyArr['ksfzr']) {
-                                        echo @$applyArr['ksfzr']['remarks'];
-                                        echo '<br />';
-                                        echo @$applyArr['ksfzr']['name']; 
-                                        echo '<br />';
-                                        echo @$applyArr['ksfzr']['ctime'];
-                                    }
-                                    echo @$jiaqian['11'] ;
-                                    echo @$jiaqian['12'] ;
-                                    echo @$jiaqian['ksfzr'] ;
-                                    ?>   
-                                </td>
-                                <td >
-                                    <?php 
-                                    if($apply == 'apply'){
-                                        if ($applyArr[5]) {
-                                            echo @$applyArr['5']['remarks'];
-                                            echo '<br />';
-                                            echo @$applyArr['5']['name']; 
-                                            echo '<br />';
-                                            echo @$applyArr['5']['ctime']; 
-                                        }
-                                        echo @$jiaqian[5] ;
-                                    }
-                                    ?> 
-                                </td>
-                                <td >
-                                    <?php 
-                                    if($apply == 'apply'){
-                                        if ($applyArr[13]) {
-                                            echo @$applyArr['13']['remarks'];
-                                            echo '<br />';
-                                            echo @$applyArr['13']['name']; 
-                                            echo '<br />';
-                                            echo @$applyArr['13']['ctime'];
-                                        }
-                                        echo @$jiaqian[13] ;
-                                    }
-                                    ?> 
-                                </td>
-                                <td > 
-                                    <?php 
-                                    if($apply == 'apply'){
-                                        if ($applyArr[14]) {
-                                            echo @$applyArr['14']['remarks'];
-                                            echo '<br />';
-                                        }
-                                        echo @$jiaqian[14] ;
-                                    }
-                                    ?> </td>
-                                <td colspan='2'>
-                                    <?php 
-                                    if($apply == 'apply'){
-                                        if ($applyArr[6]) {
-                                            echo @$applyArr['6']['remarks'];
-                                            echo '<br />';
-                                            echo @$applyArr['6']['name']; 
-                                            echo '<br />';
-                                            echo @$applyArr['6']['ctime'];
-                                        }
-                                        echo @$jiaqian[6] ;
-                                    }
-                                    ?> 
-                                </td>
-                            </tr>
-                           
+                            
                         </tbody>
                     </table>
                     <table class="table  table-condensed" style="text-align: left;border-color:#000; margin-top: -20px;" >
@@ -254,6 +142,7 @@
                             <td style="width: 20%; height: 120px;">
                                 分管领导:
                                 <br/>
+                                <div style="text-align: center; line-height: 100px;">
                                 <?php 
                                     if($apply == 'apply'){
                                         if ($applyArr[5]) {
@@ -264,25 +153,28 @@
                                             echo @$applyArr['5']['ctime']; 
                                         }
                                         echo @$jiaqian[5] ;
+                                    }else{
+                                        echo  ' : ';
                                     }
                                 ?> 
+                                </div>
                             </td>
-                            <td style="width: 20%; height: 120px;">
+                            <!-- <td style="width: 20%; height: 120px;">
                                 分管财务领导:
                                 <br/>
                                 <?php 
-                                    if($apply == 'apply'){
-                                        if ($applyArr[13]) {
-                                            echo @$applyArr['13']['remarks'];
-                                            echo '<br />';
-                                            echo @$applyArr['13']['name']; 
-                                            echo '<br />';
-                                            echo @$applyArr['13']['ctime'];
-                                        }
-                                        echo @$jiaqian[13] ;
-                                    }
+                                    // if($apply == 'apply'){
+                                    //     if ($applyArr[13]) {
+                                    //         echo @$applyArr['13']['remarks'];
+                                    //         echo '<br />';
+                                    //         echo @$applyArr['13']['name']; 
+                                    //         echo '<br />';
+                                    //         echo @$applyArr['13']['ctime'];
+                                    //     }
+                                    //     echo @$jiaqian[13] ;
+                                    // }
                                 ?> 
-                            </td>
+                            </td> -->
                             <td style="width: 20%; height: 120px;">
                                 财务审核:
                                 <br/>

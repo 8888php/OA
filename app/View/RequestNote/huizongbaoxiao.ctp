@@ -245,22 +245,19 @@
                         </tr>
                         <tr>
                             <td style="width:90px;">报销人</td>
-                            <td style="width:100px;">团队/科室<br/>负责人审核</td>
-                            <td style="width:90px;">分管领导审核</td>
-                            <td style="width:130px;">分管财务<br/>领导审核</td>
+                            <td style="width:130px;" colspan="2">团队/科室 负责人审核</td>
+                            <td style="width:130px;" colspan="2">分管领导审核</td>
                             <td style="width:100px;">财务审核</td>
-                            <td style="width:100px;" colspan="2">所长审核</td>
+                            <td style="width:100px;">所长审核</td>
                         </tr>
                         <tr >
                             <td > 
-                                    <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
                                     <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
+                            <td colspan="2"> <div style="text-align: center; line-height:60px;"> : </div> </td>
+                            <td colspan="2"> <div style="text-align: center; line-height:60px;"> : </div> </td>
                             <td > </td>
-                            <td style="width:100px;"> </td>
-                            <td style="width:100px;"> </td>
-                            <td style="width:100px;"> </td>
-                            <td style="width:100px;" colspan="2"> </td>
+                            <td > </td>
                         </tr>
                         </tbody>
                     </table>
