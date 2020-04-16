@@ -158,7 +158,7 @@
                                     echo '<br /><br />';
                                 ?>
                             </td>
-                            <td style="width: 25.6%; height: 120px;">
+                            <td style="width: 16.6%; height: 120px;">
                                 团队/科室负责人:
                                 <?php 
                                         if($applyArr[11]){
@@ -209,9 +209,8 @@
                                         echo @$jiaqian['ksfzr'] ;
                                 ?>  
                             </td>
-                            <td style="width: 25.6%; height: 120px;">
-                                分管领导:
-                                <div style="text-align: center; line-height: 100px;">
+                            <td style="width: 16.6%; height: 120px;">
+                                分管业务领导:
                                 <?php 
                                     if($apply == 'apply'){
                                         if($applyArr[5]){
@@ -222,28 +221,25 @@
                                             echo @$applyArr['5']['ctime'];
                                         }
                                         echo @$jiaqian['5'] ;
-                                    }else{
-                                        echo  ' : ';
                                     }
-                                ?>
-                                </div> 
+                                ?> 
                             </td>
-                            <!-- <td style="width: 16.6%; height: 120px;">
+                            <td style="width: 16.6%; height: 120px;">
                                 分管财务领导:
                                 <br/>
                                 <?php 
-                                    // if($apply == 'apply'){
-                                    //     if($applyArr[13]){
-                                    //         echo @$applyArr['13']['remarks'];
-                                    //         echo '<br />';
-                                    //         echo @$applyArr['13']['name']; 
-                                    //         echo '<br />';
-                                    //         echo @$applyArr['13']['ctime'];
-                                    //     }
-                                    //     echo @$jiaqian['13'] ;
-                                    // }
+                                    if($apply == 'apply'){
+                                        if($applyArr[13]){
+                                            echo @$applyArr['13']['remarks'];
+                                            echo '<br />';
+                                            echo @$applyArr['13']['name']; 
+                                            echo '<br />';
+                                            echo @$applyArr['13']['ctime'];
+                                        }
+                                        echo @$jiaqian['13'] ;
+                                    }
                                 ?> 
-                            </td> -->
+                            </td>
                             <td style="width: 16.6%; height: 120px;">
                                 财务审核:
                                 <br/>
