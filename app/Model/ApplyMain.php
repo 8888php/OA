@@ -214,4 +214,53 @@ class ApplyMain extends AppModel {
         return $summary;
     }
 
+
+    // 规范财务四表申请 主表入库字段
+    // $ret_arr 审批信息
+    // $datas 主表入库信息
+    public function add_main_fields($ret_arr, $datas){
+        $mainArr = array();
+
+        // 如果申请金额为负数，则直接交给 出纳 审批，将当前审批进度改为财务科长；
+        if($datas['total'] < 0){
+            $ret_arr['next_id'] = 27;
+
+            // require_once('./User.php');
+            $Uinfo = new User();
+            $userinfo = $Uinfo->findByPositionId($ret_arr['next_id']);
+
+            $ret_arr['next_uid'] = $userinfo['User']['id'];
+            $ret_arr['code'] = 28; // 财务科长同意
+        }
+        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+        
+        $mainArr['approval_process_id'] = $datas['pid']; //审批流程id
+        $mainArr['type'] = $datas['type'];
+        $mainArr['attachment'] = $datas['attachment'];
+        $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
+        $mainArr['source_id'] = $datas['filenumber'];
+        $mainArr['name'] = $datas['declarename'];
+        $mainArr['project_id'] = $datas['project_id'];
+        $mainArr['department_id'] = $datas['department_id'];
+        $mainArr['table_name'] = $datas['table_name'];
+        $mainArr['user_id'] = $datas['user_id'];
+        $mainArr['total'] = $datas['total'];
+        $mainArr['attr_id'] = $datas['attr_id'];
+        $mainArr['project_user_id'] = $datas['project_user_id'];
+        $mainArr['project_team_user_id'] = $datas['project_team_user_id'];
+        $mainArr['department_fzr'] = $datas['department_fzr']; // 行政 申请所属部门负责人
+        $mainArr['ctime'] = $datas['ctime'];
+        $mainArr['subject'] = $datas['subject'];
+
+        return $mainArr;
+    }
+
+
+
+
+
+
+
 }

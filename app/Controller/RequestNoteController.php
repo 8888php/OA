@@ -711,29 +711,49 @@ class RequestNoteController extends AppController {
         $this->ApplyJiekuandan->begin();
         $attrId = $this->ApplyJiekuandan->add($attrArr);
 
-        # 主表入库
-        $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
-        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
-        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
-        $mainArr['approval_process_id'] = $p_id; //审批流程id
-        $mainArr['type'] = $type;
-        $mainArr['is_calculation'] = 1;  // 是否合算  1是
-        $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['source_id'] = $datas['filenumber'];
-        $mainArr['name'] = $datas['declarename'];
-        $mainArr['project_id'] = $project_id;
-        $mainArr['department_id'] = $department_id;
-        $mainArr['table_name'] = $table_name;
-        $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = $datas['small_amount'];
-        $mainArr['attr_id'] = $attrId;
-        $mainArr['project_user_id'] = $project_user_id;
-        $mainArr['project_team_user_id'] = $project_team_user_id;
-        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
-        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_amount']));
+        // # 主表入库
+        // $mainArr = array();
+        // $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        // $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        // $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+        // $mainArr['approval_process_id'] = $p_id; //审批流程id
+        // $mainArr['type'] = $type;
+        // $mainArr['is_calculation'] = 1;  // 是否合算  1是
+        // $mainArr['attachment'] = $datas['attachment'];
+        // $mainArr['source_id'] = $datas['filenumber'];
+        // $mainArr['name'] = $datas['declarename'];
+        // $mainArr['project_id'] = $project_id;
+        // $mainArr['department_id'] = $department_id;
+        // $mainArr['table_name'] = $table_name;
+        // $mainArr['user_id'] = $this->userInfo->id;
+        // $mainArr['total'] = $datas['small_amount'];
+        // $mainArr['attr_id'] = $attrId;
+        // $mainArr['project_user_id'] = $project_user_id;
+        // $mainArr['project_team_user_id'] = $project_team_user_id;
+        // $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        // $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+        // $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_amount']));
+
         if ($attrId) {
+            //主表入库
+            $datas['pid'] = $p_id;  //审批流程id
+            $datas['type'] = $type;
+            $datas['is_calculation'] = 1;  // 是否合算  1是
+            $datas['project_id'] = $project_id;
+            $datas['department_id'] = $department_id;
+            $datas['table_name'] = $table_name;
+            $datas['user_id'] = $this->userInfo->id;
+            $datas['total'] = $datas['small_amount'];
+            $datas['attr_id'] = $attrId;
+            $datas['project_user_id'] = $project_user_id;
+            $datas['project_team_user_id'] = $project_team_user_id;
+            $datas['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+            $datas['ctime'] = date('Y-m-d H:i:s', time());
+            $datas['subject'] = json_encode(array($datas['subject'] => $datas['small_amount']));
+
+            $mainArr = array();
+            $mainArr = $this->ApplyMain->add_main_fields($ret_arr, $datas);
+
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
             $this->ApplyJiekuandan->rollback();
@@ -871,29 +891,49 @@ class RequestNoteController extends AppController {
         $this->ApplyLingkuandan->begin();
         $attrId = $this->ApplyLingkuandan->add($attrArr);
 
-        # 主表入库
-        $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
-        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
-        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
-        $mainArr['approval_process_id'] = $p_id; //审批流程id
-        $mainArr['type'] = $type;
-        $mainArr['is_calculation'] = 1;  // 是否合算  1是
-        $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['source_id'] = $datas['filenumber'];
-        $mainArr['name'] = $datas['declarename'];
-        $mainArr['project_id'] = $project_id;
-        $mainArr['department_id'] = $department_id;
-        $mainArr['table_name'] = $table_name;
-        $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = $datas['small_total'];
-        $mainArr['attr_id'] = $attrId;
-        $mainArr['project_user_id'] = $project_user_id;
-        $mainArr['project_team_user_id'] = $project_team_user_id;
-        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
-        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+        // # 主表入库
+        // $mainArr = array();
+        // $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        // $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        // $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+        // $mainArr['approval_process_id'] = $p_id; //审批流程id
+        // $mainArr['type'] = $type;
+        // $mainArr['is_calculation'] = 1;  // 是否合算  1是
+        // $mainArr['attachment'] = $datas['attachment'];
+        // $mainArr['source_id'] = $datas['filenumber'];
+        // $mainArr['name'] = $datas['declarename'];
+        // $mainArr['project_id'] = $project_id;
+        // $mainArr['department_id'] = $department_id;
+        // $mainArr['table_name'] = $table_name;
+        // $mainArr['user_id'] = $this->userInfo->id;
+        // $mainArr['total'] = $datas['small_total'];
+        // $mainArr['attr_id'] = $attrId;
+        // $mainArr['project_user_id'] = $project_user_id;
+        // $mainArr['project_team_user_id'] = $project_team_user_id;
+        // $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        // $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+        // $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+
         if ($attrId) {
+            //主表入库
+            $datas['pid'] = $p_id;  //审批流程id
+            $datas['type'] = $type;
+            $datas['is_calculation'] = 1;  // 是否合算  1是
+            $datas['project_id'] = $project_id;
+            $datas['department_id'] = $department_id;
+            $datas['table_name'] = $table_name;
+            $datas['user_id'] = $this->userInfo->id;
+            $datas['total'] = $datas['small_total'];
+            $datas['attr_id'] = $attrId;
+            $datas['project_user_id'] = $project_user_id;
+            $datas['project_team_user_id'] = $project_team_user_id;
+            $datas['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+            $datas['ctime'] = date('Y-m-d H:i:s', time());
+            $datas['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+
+            $mainArr = array();
+            $mainArr = $this->ApplyMain->add_main_fields($ret_arr, $datas);
+
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
             $this->ApplyLingkuandan->rollback();
@@ -1227,30 +1267,49 @@ class RequestNoteController extends AppController {
         $this->ApplyChuchaiBxd->begin();
         $attrId = $this->ApplyChuchaiBxd->add($attrArr);
 
-        # 主表入库
-        $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
-        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
-        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
-        $mainArr['approval_process_id'] = $p_id; //审批流程id
-        $mainArr['type'] = $type;
-        $mainArr['attachment'] = $datas['attachment'];
-        $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
-        $mainArr['source_id'] = $datas['filenumber'];
-        $mainArr['name'] = $datas['declarename'];
-        $mainArr['project_id'] = $project_id;
-        $mainArr['department_id'] = $department_id;
-        $mainArr['table_name'] = $table_name;
-        $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = $datas['small_total'];
-        $mainArr['attr_id'] = $attrId;
-        $mainArr['project_user_id'] = $project_user_id;
-        $mainArr['project_team_user_id'] = $project_team_user_id;
-        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
-        $mainArr['ctime'] = date('Y-m-d H:i:s', time());
-//        $mainArr['subject'] = json_encode(array('travel' => $datas['small_total']));
-        $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+//         # 主表入库
+//         $mainArr = array();
+//         $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+//         $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+//         $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+
+//         $mainArr['approval_process_id'] = $p_id; //审批流程id
+//         $mainArr['type'] = $type;
+//         $mainArr['attachment'] = $datas['attachment'];
+//         $mainArr['is_calculation'] = $datas['is_calculation'] == 1 ? 1 : 0;
+//         $mainArr['source_id'] = $datas['filenumber'];
+//         $mainArr['name'] = $datas['declarename'];
+//         $mainArr['project_id'] = $project_id;
+//         $mainArr['department_id'] = $department_id;
+//         $mainArr['table_name'] = $table_name;
+//         $mainArr['user_id'] = $this->userInfo->id;
+//         $mainArr['total'] = $datas['small_total'];
+//         $mainArr['attr_id'] = $attrId;
+//         $mainArr['project_user_id'] = $project_user_id;
+//         $mainArr['project_team_user_id'] = $project_team_user_id;
+//         $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+//         $mainArr['ctime'] = date('Y-m-d H:i:s', time());
+// //        $mainArr['subject'] = json_encode(array('travel' => $datas['small_total']));
+//         $mainArr['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+
         if ($attrId) {
+            //主表入库
+            $datas['pid'] = $p_id;  //审批流程id
+            $datas['type'] = $type;
+            $datas['project_id'] = $project_id;
+            $datas['department_id'] = $department_id;
+            $datas['table_name'] = $table_name;
+            $datas['user_id'] = $this->userInfo->id;
+            $datas['total'] = $datas['small_total'];
+            $datas['attr_id'] = $attrId;
+            $datas['project_user_id'] = $project_user_id;
+            $datas['project_team_user_id'] = $project_team_user_id;
+            $datas['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+            $datas['ctime'] = date('Y-m-d H:i:s', time());
+            $datas['subject'] = json_encode(array($datas['subject'] => $datas['small_total']));
+            $mainArr = array();
+            $mainArr = $this->ApplyMain->add_main_fields($ret_arr, $datas);
+
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
             $this->ApplyChuchaiBxd->rollback();

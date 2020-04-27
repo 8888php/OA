@@ -371,28 +371,48 @@ class ResearchProjectController extends AppController {
         $attrId = $this->ApplyBaoxiaohuizong->add($attrArr);
 
 # 主表入库
-        $mainArr = array();
-        $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
-        $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
-        $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
-        $mainArr['approval_process_id'] = $p_id; //审批流程id
-        $mainArr['type'] = $type;
-        $mainArr['is_calculation'] = $_POST['is_calculation'] == 1 ? 1 : 0;
-        $mainArr['attachment'] = $_POST['attachment'];
-        $mainArr['source_id'] = $_POST['filenumber'];
-        $mainArr['name'] = $_POST['declarename'];
-        $mainArr['project_id'] = $project_id;
-        $mainArr['department_id'] = $department_id;
-        $mainArr['table_name'] = $table_name;
-        $mainArr['user_id'] = $this->userInfo->id;
-        $mainArr['total'] = $_POST['amount'];
-        $mainArr['attr_id'] = $attrId;
-        $mainArr['project_user_id'] = $project_user_id;
-        $mainArr['project_team_user_id'] = $project_team_user_id;
-        $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
-        $mainArr['ctime'] = $_POST['ctime'];
-        $mainArr['subject'] = json_encode($_POST['subject']);
+        // $mainArr = array();
+        // $mainArr['next_approver_id'] = $ret_arr['next_id']; //下一个审批职务的id
+        // $mainArr['next_apprly_uid'] = $ret_arr['next_uid']; //下一个审批人id
+        // $mainArr['code'] = $ret_arr['code']; //当前单子审批的状态码
+
+        // $mainArr['approval_process_id'] = $p_id; //审批流程id
+        // $mainArr['type'] = $type;
+        // $mainArr['is_calculation'] = $_POST['is_calculation'] == 1 ? 1 : 0;
+        // $mainArr['attachment'] = $_POST['attachment'];
+        // $mainArr['source_id'] = $_POST['filenumber'];
+        // $mainArr['name'] = $_POST['declarename'];
+        // $mainArr['project_id'] = $project_id;
+        // $mainArr['department_id'] = $department_id;
+        // $mainArr['table_name'] = $table_name;
+        // $mainArr['user_id'] = $this->userInfo->id;
+        // $mainArr['total'] = $_POST['amount'];
+        // $mainArr['attr_id'] = $attrId;
+        // $mainArr['project_user_id'] = $project_user_id;
+        // $mainArr['project_team_user_id'] = $project_team_user_id;
+        // $mainArr['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+        // $mainArr['ctime'] = $_POST['ctime'];
+        // $mainArr['subject'] = json_encode($_POST['subject']);
+
         if ($attrId) {
+            //主表入库
+            $_POST['pid'] = $p_id;  //审批流程id
+            $_POST['type'] = $type;
+            $_POST['project_id'] = $project_id;
+            $_POST['department_id'] = $department_id;
+            $_POST['table_name'] = $table_name;
+            $_POST['user_id'] = $this->userInfo->id;
+            $_POST['total'] = $_POST['amount'];
+            $_POST['attr_id'] = $attrId;
+            $_POST['project_user_id'] = $project_user_id;
+            $_POST['project_team_user_id'] = $project_team_user_id;
+            $_POST['department_fzr'] = $department_fzr; // 行政 申请所属部门负责人
+            $_POST['ctime'] = $_POST['ctime'];
+            $_POST['subject'] = json_encode($_POST['subject']);
+
+            $mainArr = array();
+            $mainArr = $this->ApplyMain->add_main_fields($ret_arr, $_POST);
+
             $mainId = $this->ApplyMain->add($mainArr);
         } else {
             $this->ApplyBaoxiaohuizong->rollback();
@@ -439,6 +459,7 @@ class ResearchProjectController extends AppController {
             }
             $this->ret_arr['code'] = 0;
             $this->ret_arr['msg'] = '申请成功';
+
         } else {
             $this->ret_arr['msg'] = '申请失败';
         }
