@@ -82,6 +82,14 @@ class ApplyLeave extends AppModel {
             $this->code => 0,
             $this->err_msg => ''
         );
+
+        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
+        $teshu_apply = $this->teshuApply($user_info['id']);
+        if($teshu_apply != false){
+            return $teshu_apply;
+        }
+
+
         $sum_days = $data['sum_days'];//天数
         if ($user_info['position_id'] == self::SUOZHANG_ID) {
             //说明他是所长
@@ -156,6 +164,14 @@ class ApplyLeave extends AppModel {
             $this->code => 0,
             $this->err_msg => ''
         );
+
+        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
+        $teshu_apply = $this->teshuApply($user_info['id']);
+        if($teshu_apply != false){
+            return $teshu_apply;
+        }
+
+        
         $sum_days = $data['sum_days'];//天数
         if ($user_info['position_id'] == self::SUOZHANG_ID) {
             //说明他是所长

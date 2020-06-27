@@ -30,4 +30,35 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+
+	// 请假单、差旅审批单  
+	// 判断是否  6 吕英忠、7 赵旗峰、9 李登科、8 李全、5 乔永胜，是则直接交给所长审批 
+    public function teshuApply($uid){
+    	$ret_arr = array(
+            'next_id' => 0,
+            'next_uid' => 0,
+            'code' => 0,
+            'msg' => '',
+        );
+        $teshu_uid = [5, 6, 7, 8, 9];
+        
+        if(in_array($uid, $teshu_uid)){
+            $suo_zhang = $this->query("select id from t_user where position_id=6 and del=0 limit 1 ");
+            if (empty($suo_zhang)) {
+                $ret_arr['msg'] = '所长不存在';
+                return $ret_arr;
+            }
+            $ret_arr['code'] = 10 ;
+            $ret_arr['next_uid'] = $suo_zhang[0]['t_user']['id'];
+            $ret_arr['next_id'] = 6;
+
+            return $ret_arr;
+        }else{
+        	return false;
+        }
+
+    }
+
+
 }

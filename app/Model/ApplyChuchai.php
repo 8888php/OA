@@ -293,6 +293,12 @@ class ApplyChuchai extends AppModel {
         $proArr = [];
         $pro_team_id = 0 ;
 
+        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
+        $teshu_apply = $this->teshuApply($user_info['id']);
+        if($teshu_apply != false){
+            return $teshu_apply;
+        }
+
         // 如果type为1是科研项目，则获取项目负责人、所领导、项目组负责人
         if($type == 1){
             $pro_infos = $this->query("select p.user_id,p.approval_sld,p.project_team_id from t_research_project p where p.id = {$data['dep_pro']} limit 1 ");
@@ -469,6 +475,12 @@ class ApplyChuchai extends AppModel {
             $this->err_msg => '',
             $this->code_id=>array(),
         );
+
+        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
+        $teshu_apply = $this->teshuApply($user_info['id']);
+        if($teshu_apply != false){
+            return $teshu_apply;
+        }
 
 //        1、获取团队审批流
         $liu = explode(',', $this->get_shengpin_arr($type)); 
