@@ -181,21 +181,24 @@ class RequestNoteController extends AppController {
 //            }
 //            $this->set('projectInfo', $projectInfo);
 //            
-            //李捷 2、吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7、李志平 3 这几个人的话是用科研项目
-            if ($department && in_array($this->userInfo->id, array(2, 6, 5, 8, 9, 7, 3)) ) {
+            //李捷 2、李志平 3 这几个人的话是用科研项目
+            // 吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7 移除
+            if ($department && in_array($this->userInfo->id, array(2, 3)) ) {
                     $department = array();
             }
             $this->set('department', $department);
             
-            // 当前用户所属团队  行政部门成员不用查团队
+            // 当前用户所属团队  行政部门成员不用查团队 && 吕英忠 6、乔永胜 5、李全 8、李登科 9、赵旗峰 7这5人取所有团队
             $dep_type = $this->Department->find('first', array('conditions' => array('id' => $this->userInfo->department_id), 'fields' => array('type')));
-            if($dep_type['Department']['type'] != 2){
+            if($dep_type['Department']['type'] != 2 && !in_array($this->userInfo->id, [5,6,7,8,9])){
                 $this->set('team_arr', []);
             }else{
                 $sql = "select team.* from t_team team left join t_team_member team_member on team.id=team_member.team_id where team.del=0 and team_member.user_id='{$this->userInfo->id}'";
                 $team_arr = $this->ApplyMain->query($sql);
                 $this->set('team_arr', $team_arr);
             }
+
+            //获取所有团队
            
             $this->set('list', Configure::read('xizhenglist'));
 
