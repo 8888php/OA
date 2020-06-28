@@ -294,9 +294,11 @@ class ApplyChuchai extends AppModel {
         $pro_team_id = 0 ;
 
         // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
-        $teshu_apply = $this->teshuApply($user_info['id']);
-        if($teshu_apply != false){
-            return $teshu_apply;
+        if($is_apply == false){
+            $teshu_apply = $this->teshuApply($user_info['id']);
+            if($teshu_apply != false){
+                return $teshu_apply;
+            }
         }
 
         // 如果type为1是科研项目，则获取项目负责人、所领导、项目组负责人
@@ -477,9 +479,11 @@ class ApplyChuchai extends AppModel {
         );
 
         // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
-        $teshu_apply = $this->teshuApply($user_info['id']);
-        if($teshu_apply != false){
-            return $teshu_apply;
+        if($is_apply == false){
+            $teshu_apply = $this->teshuApply($user_info['id']);
+            if($teshu_apply != false){
+                return $teshu_apply;
+            }
         }
 
 //        1、获取团队审批流

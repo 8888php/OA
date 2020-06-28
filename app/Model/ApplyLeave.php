@@ -84,9 +84,11 @@ class ApplyLeave extends AppModel {
         );
 
         // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
-        $teshu_apply = $this->teshuApply($user_info['id']);
-        if($teshu_apply != false){
-            return $teshu_apply;
+        if($is_apply == false){
+            $teshu_apply = $this->teshuApply($user_info['id']);
+            if($teshu_apply != false){
+                return $teshu_apply;
+            }
         }
 
 
@@ -165,10 +167,12 @@ class ApplyLeave extends AppModel {
             $this->err_msg => ''
         );
 
-        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批 
-        $teshu_apply = $this->teshuApply($user_info['id']);
-        if($teshu_apply != false){
-            return $teshu_apply;
+        // 判断是否 吕英忠、赵旗峰、李登科、李全、乔永胜，是则直接交给所长审批
+        if($is_apply == false){ 
+            $teshu_apply = $this->teshuApply($user_info['id']);
+            if($teshu_apply != false){
+                return $teshu_apply;
+            }
         }
 
         
