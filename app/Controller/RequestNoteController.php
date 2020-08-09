@@ -1187,8 +1187,8 @@ class RequestNoteController extends AppController {
     // 果树所差旅费报销单
     private function gss_evection_expense_save($datas) {
 
-        if (empty($datas['ctime']) || empty($datas['reason']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0) || empty($datas['filenumber'])) {
-            $this->ret_arr['msg'] = '参数有误';
+        if (empty($datas['ctime']) || empty($datas['reason']) || (empty($datas['sheets_num']) && $datas['sheets_num'] != 0) || empty($datas['filenumber']) || !$datas['subject']) {
+            $this->ret_arr['msg'] = '提交数据有误';
             exit(json_encode($this->ret_arr));
         }
         $table_name = 'apply_chuchai_bxd';

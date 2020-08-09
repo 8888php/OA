@@ -643,6 +643,11 @@ function trim(s){
             $('.sums').focus();
             return;
         }
+        if(!subject || subject == 0){
+        	(dep_pro == 0) ? $('.xzsubject').focus() : 
+        	$('.kysubject').focus();
+            return;
+        }
         
         var json_str = [{}];
         var mast_one = false;//必须有一个
