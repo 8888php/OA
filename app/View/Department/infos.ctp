@@ -158,7 +158,8 @@
                                                             部门预算
                                                         </a>
                                                     </li-->
-                                                <?php if(in_array($userInfo->id, array(2, 4, 6, $depInfo['Department']['sld'], $depInfo['Department']['user_id'] ))){ ;?>
+                                                    <!--如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44-->
+                                                <?php if(in_array($userInfo->id, array(2, 4, 6, 44, $depInfo['Department']['sld'], $depInfo['Department']['user_id'] ))){ ;?>
                                                     <li >
                                                         <a data-toggle="tab" href="#faq-tab-3">
                                                             <i class="blue icon-question-sign bigger-120"></i>
