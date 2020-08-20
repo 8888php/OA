@@ -191,6 +191,10 @@ class ResearchProjectController extends AppController {
                 $sql_fzr = ' and m.user_id = ' . $this->userInfo->id;
             }
         }
+        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44
+        if (in_array($this->userInfo->id, array(44))) {
+            $sql_fzr = '';
+        }
 
 //费用申报的内容
 //        $declares_arr = $this->ResearchSource->query("SELECT m.*,b.page_number,b.id,b.subject,b.rmb_capital,b.amount,b.description,u.name,s.* FROM t_apply_main m LEFT JOIN t_apply_baoxiaohuizong b ON m.attr_id = b.id  LEFT JOIN t_user u ON m.user_id = u.id LEFT JOIN t_research_source s ON b.source_id = s.id  WHERE m.project_id = '$pid' $sql_fzr ");

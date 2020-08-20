@@ -72,7 +72,7 @@ class AppController extends Controller {
 
         // 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
         $pro_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 0) : array('code' => 4, 'id' => $projectId, 'is_finish' => 0);
-        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销
+        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44
         if (in_array($this->userInfo->id, array(44))) {
             $pro_conditions = array('code' => 4, 'is_finish' => 0);
         }
@@ -80,7 +80,7 @@ class AppController extends Controller {
         
         //结束项目
         $finish_conditions = ($this->is_who() != false) ? array('code' => 4, 'is_finish' => 1) : array('code' => 4, 'id' => $projectId, 'is_finish' => 1);
-        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销
+        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44
         if (in_array($this->userInfo->id, array(44))) {
             $finish_conditions = array('code' => 4, 'is_finish' => 1);
         }
