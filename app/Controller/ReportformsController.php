@@ -172,7 +172,7 @@ class ReportformsController extends AppController {
 
         $wherestr = '';
         if ($_POST['startdate'] && $_POST['enddate']) {
-            $wherestr = " where s.ctime between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . ($_POST['enddate'] . ' 23:59:59') . "'";
         }
 
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.* from t_apply_leave s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_leave' $wherestr");
@@ -228,7 +228,7 @@ class ReportformsController extends AppController {
 
         $wherestr = '';
         if ($_POST['startdate'] && $_POST['enddate']) {
-            $wherestr = " where s.ctime between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+            $wherestr = " where s.ctime between '" . $_POST['startdate'] . "' and '" . ($_POST['enddate'] . ' 23:59:59') . "'";
         }
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.*,u.name from t_apply_chuchai s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_chuchai' left join t_user u on s.user_id = u.id $wherestr ");
 
@@ -279,7 +279,7 @@ class ReportformsController extends AppController {
 
         $wherestr = '';
         if ($_POST['startdate'] && $_POST['enddate']) {
-            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . ($_POST['enddate'] . ' 23:59:59') . "'";
         }
         $sheetArr = $this->ApplyMain->query("select m.id,m.code,s.*,u.name from t_apply_baogong s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_baogong' left join t_user u on s.user_id = u.id $wherestr ");
 
@@ -322,7 +322,7 @@ class ReportformsController extends AppController {
 
         $wherestr = '';
         if ($_POST['startdate'] && $_POST['enddate']) {
-            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . ($_POST['enddate'] . ' 23:59:59') . "'";
         }
         $sheetArr = $this->ApplyMain->query("select m.id,m.type,m.code,s.* from t_apply_paidleave s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_paidleave' $wherestr ");
 
@@ -375,7 +375,7 @@ class ReportformsController extends AppController {
 
         $wherestr = '';
         if ($_POST['startdate'] && $_POST['enddate']) {
-            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . $_POST['enddate'] . "'";
+            $wherestr = " where s.create_time between '" . $_POST['startdate'] . "' and '" . ($_POST['enddate'] . ' 23:59:59') . "'";
         }
         $sheetArr = $this->ApplyMain->query("select m.id,m.type,m.code,m.user_id,u.name,s.* from t_apply_caigou s left join t_apply_main m on m.attr_id = s.id and m.table_name = 'apply_caigou' left join t_user u on s.user_id = u.id $wherestr ");
 
