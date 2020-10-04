@@ -46,7 +46,10 @@
                              <tr>
                                 <td> 请假类型 </td>
                                 <td colspan='2'>   <select style="width:145px;height:25px;" name="leave_type" class="leave_type" >
-                                        <?php foreach (Configure::read('apply_leave_type') as $k=>$v) {?>
+                                        <?php foreach (Configure::read('apply_leave_type') as $k=>$v) {
+                                            //取消掉 9 => '男职工护理假',但是之前申请的还得保留
+                                            if ($k == 9) continue;
+                                            ?>
                                             <option value="<?php echo $k;?>"  >  <?php echo $v;?> </option>
                                         <?php }?>
                                     </select>
