@@ -182,7 +182,7 @@
                                             </tr>
                                             <tr>
                                                 <td>项目成员 &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <?php if($pinfos['user_id'] == $userInfo->id){  ?>
+                                                <?php if($pinfos['user_id'] == $userInfo->id || in_array($userInfo->id, array(1))){  ?>
                                                     <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/ResearchProject/add_member/<?php echo $pid;?>');"  >
                                                     <i class="icon-plus arrow blue"></i> </a> 
                                                 <?php  } ?>

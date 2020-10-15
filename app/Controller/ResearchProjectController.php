@@ -42,8 +42,8 @@ class ResearchProjectController extends AppController {
      */
     private function is_project_self($pid) {
 // 所长、财务副所长、财务科长、科研科室主任、科研副所长 显示所有项目
-        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44
-        if ($this->is_who() != false || in_array($this->userInfo->id, array(44))) {
+        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44; admin也要看到 id=1 是admin
+        if ($this->is_who() != false || in_array($this->userInfo->id, array(44, 1))) {
             return true;
         }
         return in_array($pid, $this->appdata['projectId']) ? true : false;
@@ -480,8 +480,8 @@ class ResearchProjectController extends AppController {
     public function report_form($pid = 0, $export = false) {
         $is_pro = in_array($pid, $this->appdata['projectId']) ? true : false;
         $this->set('is_pro', $is_pro);
-        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44
-        if (empty($pid) || (!($this->is_who() || in_array($this->userInfo->id, array(44))))) {
+        //如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44; admin也要看到 id=1 是admin
+        if (empty($pid) || (!($this->is_who() || in_array($this->userInfo->id, array(44, 1))))) {
             // 不属于五个职务的 请求用户
             if ($is_pro == false) {
                 // 不属于五个职务的 且不是该项目成员的 请求用户
