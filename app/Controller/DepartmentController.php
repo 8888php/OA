@@ -17,7 +17,7 @@ class DepartmentController extends AppController {
      */
     public function index($pages = 1) {
         //判断权限
-        $this->sytem_auth();  
+        $this->sytem_auth();
         if ((int) $pages < 1) {
             $pages = 1;
         }
@@ -42,7 +42,7 @@ class DepartmentController extends AppController {
         $this->set('depArr', $depArr);
 
         $this->set('limit', $limit);       //limit      每页显示的条数
-        $this->set('total', $total);      //total      总条数       
+        $this->set('total', $total);      //total      总条数
         $this->set('curpage', $pages);      //curpage    当前页
         $this->set('all_page', $all_page);
         $this->render();
@@ -65,21 +65,32 @@ class DepartmentController extends AppController {
         $conditions = array('or' => array('and' => array('del' => 0, 'department_id' => $id), 'id' => array($depInfo['Department']['user_id'], $depInfo['Department']['sld'])));
         $depMember = $this->User->getAlluser(0, 100, $conditions);
         $this->set('depMember', $depMember);
-//var_dump($depMember);        
+//var_dump($depMember);
         # 职务
         $posArr = $this->Position->getList();
         $source = $this->ResearchSource->getDepAll($id);
-        
-        //取出今年
-        $year = date('Y', time());
-        if ($source) {
-            foreach ($source as $sk => $dv) {
-                if ($dv['ResearchSource']['year'] != $year) {
-                    unset($source[$sk]);
-                }
-            }
-        }
-        
+
+		$str_1_11 = '01-11';
+//取出今年
+		$year = date('Y', time());
+		$day = date('Y-m-d', time());
+		$day_01_11 = $year . '-' . $str_1_11;//当年的1月11号
+
+		$arr_get_year = array();
+//默认取今年的
+		$arr_get_year[] = $year;
+		if ($day < $day_01_11) {
+			//再取去年的
+			$arr_get_year[] = date('Y', strtotime('-1 year'));
+		}
+		if ($source) {
+			foreach ($source as $sk => $dv) {
+				if (!in_array($dv['ResearchSource']['year'], $arr_get_year)) {
+					unset($source[$sk]);
+				}
+			}
+		}
+
         $this->set('d_id', $id);
         $this->set('source', $source);
         $this->set('posArr', $posArr);
@@ -134,7 +145,7 @@ class DepartmentController extends AppController {
             if ($declares_arr) {
                 foreach ($declares_arr as $dk => $dv) {
                     //不是本年的就不显示
-                    if (date('Y', strtotime($dv['m']['ctime'])) != $year) {
+                    if (!in_array(date('Y', strtotime($dv['m']['ctime'])), $arr_get_year)) {
                         unset($declares_arr[$dk]);
                     }
                 }
@@ -177,7 +188,7 @@ class DepartmentController extends AppController {
                 }
             }
         }
-        
+
         $this->set('proSource', $proSource);
 
         $this->set('did', $did);
@@ -333,7 +344,7 @@ class DepartmentController extends AppController {
 
             $this->set('fuzeren', $fuzeren);
         }
-        
+
         # 财务部门 出纳
         if ($id == 5) {
             $wheres['position_id'] = 27;//职务：出纳
@@ -443,9 +454,9 @@ class DepartmentController extends AppController {
                             );
                             echo json_encode($ret_arr);
                             exit;
-                        }; 
+                        };
                     }
-                    
+
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '添加成功',
@@ -490,7 +501,7 @@ class DepartmentController extends AppController {
                       }
 
                      */
-                    
+
                     // 如果是财务部门，指定出纳
                     if($id == $caiwu_dep_id){
                         $chuna = $this->request->data('chuna');
@@ -502,9 +513,9 @@ class DepartmentController extends AppController {
                             );
                             echo json_encode($ret_arr);
                             exit;
-                        };  
+                        };
                     }
-                    
+
                     $ret_arr = array(
                         'code' => 0,
                         'msg' => '修改成功',
@@ -533,7 +544,7 @@ class DepartmentController extends AppController {
         exit;
     }
 
-    
+
     /*
      * 指定财务部门出纳
      */
@@ -544,8 +555,8 @@ class DepartmentController extends AppController {
         }
         return false;
     }
-    
-    
+
+
     /**
      * ajax 保存添加/修改
      */
@@ -600,7 +611,7 @@ class DepartmentController extends AppController {
         exit;
     }
 
-    //戴丽蓉 于静添加部门的资金来源 
+    //戴丽蓉 于静添加部门的资金来源
     public function is_dailirong_yujing() {
         $return = false;
         if (in_array($this->userInfo->id, array(4, 40))) {
@@ -627,7 +638,7 @@ class DepartmentController extends AppController {
         $fields = array('id', 'name', 'is_apply');
         $lists = $this->AddLots->find('all', array('conditions' => $conditions, 'fields' => $fields));
         $this->set('lists', $lists);
-        
+
         $all_user_arr = $this->User->get_all_user_id_name();
         $this->set('all_user_arr', $all_user_arr);
 
@@ -680,15 +691,15 @@ class DepartmentController extends AppController {
         );
 
         // 待审核页面列表中  加签人不能赋予加签权限
-        // 
-        // 
+        //
+        //
         // 验证当前添加加签人是否该审批单 当前进度审核人
         $mainInfo = $this->ApplyMain->findById($_POST['pid']);
         if ($this->userInfo->id != $mainInfo['ApplyMain']['next_apprly_uid']) {
             $ret_arr['msg'] = '当前审批节点您无加签权限';
             exit(json_encode($ret_arr));
         }
-        
+
         // 验证当前添加加签申请单 ，是否能加签
         if( !in_array($mainInfo['ApplyMain']['table_name'] , Configure::read('jiaqian_apply')) ){
             $ret_arr['msg'] = '该申请单不能添加加签';
@@ -739,7 +750,7 @@ class DepartmentController extends AppController {
 
                 $lotsInfo = $this->AddLots->findById($_POST['mid']);
                 $lotsInfo = $lotsInfo['AddLots'] ;
-                
+
                 $this->ApplyMain->begin();
                 if ( $content = $this->ApplyMain->addLots($_POST['pid'], $lotsInfo['user_id'], 'del', $mainInfo['ApplyMain']['add_lots']) ) {
                     if ($res = $this->AddLots->del($_POST['mid'])) {
@@ -760,16 +771,15 @@ class DepartmentController extends AppController {
                 echo json_encode($ret_arr);
                 exit;
         }
+
+
+
+
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
     }
-    
