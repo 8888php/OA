@@ -32,8 +32,8 @@ App::uses('AppModel', 'Model');
 class AppModel extends Model {
 
 
-	// 请假单、差旅审批单    // 9 李登科、 移除
-	// 判断是否  6 吕英忠、7 赵旗峰、8 李全、5 乔永胜，是则直接交给所长审批 ,再加上 325 史高川、182 王勇
+	// 请假单、差旅审批单    // 9 李登科、   8 李全、5 乔永胜  移除
+	// 判断是否  6 吕英忠、7 赵旗峰、，是则直接交给所长审批 ,再加上 325 史高川、182 王勇
     public function teshuApply($uid){
     	$ret_arr = array(
             'next_id' => 0,
@@ -42,7 +42,7 @@ class AppModel extends Model {
             'msg' => '',
         );
         //$teshu_uid = [5, 6, 7, 8, 9];
-        $teshu_uid = [5, 6, 7, 8, 182, 325];
+        $teshu_uid = [6, 7, 182, 325];
 
         if(in_array($uid, $teshu_uid)){
             $suo_zhang = $this->query("select id from t_user where position_id=6 and del=0 limit 1 ");
