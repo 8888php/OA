@@ -431,7 +431,7 @@ Configure::write('xizhenglist', array(
 
 // 起草申请
 Configure::write('applylist', array(
-    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '/RequestNote/gss_furlough', '果树所差旅审批单' => '/RequestNote/gss_evection', '调休申请表' => '#','调整工作时间申请表' => '#','田间作业包工申请表' => '/RequestNote/gss_contractor','所内调动申请表'=>'#','所内调动移交表'=>'#','工作调动移交表'=>'#','职工离职移交表'=>'#','职工退休移交表'=>'#','年度考核登记表'=>'#','职工年休假安排计划表'=>'#','职工调整年休假安排表'=>'#','因公不休或不全休带薪休假审批表'=>'/RequestNote/gss_endlessly'),
+    '人事科' => array('请假申请单' => '/RequestNote/gss_leave', '果树所职工带薪年休假审批单' => '#', '果树所差旅审批单' => '/RequestNote/gss_evection', '调休申请表' => '#','调整工作时间申请表' => '#','田间作业包工申请表' => '/RequestNote/gss_contractor','所内调动申请表'=>'#','所内调动移交表'=>'#','工作调动移交表'=>'#','职工离职移交表'=>'#','职工退休移交表'=>'#','年度考核登记表'=>'#','职工年休假安排计划表'=>'#','职工调整年休假安排表'=>'#','因公不休或不全休带薪休假审批表'=>'/RequestNote/gss_endlessly'),
     '财务科' => array('果树所借款单' => '/RequestNote/gss_loan', '果树所领款单' => '/RequestNote/gss_draw_money', '果树所差旅费报销单' => '/RequestNote/gss_evection_expense', '果树所报销汇总单' => '/RequestNote/huizongbaoxiao', '果树研究所请示报告卡片' => '/RequestNote/gss_request_report', '采购申请单' => '/RequestNote/gss_purchase'),
     '财务科申请单下载' => array('劳务费汇总表、劳务用工原始记录表' => '/downfile/laowuhuizongbaoxiaodan.xls', '专家评审验收费领款表' => '/downfile/zhuanjiapingshenfei.xls', '专家授课费领款表' => '/downfile/zhuanjiashoukefei.xls', '专家咨询费领款表' => '/downfile/zhuanjiazixunfei.xls', '示范基地（所区外）材料使用表' => '/downfile/cailiaoshiyong.xls', '原始票据报销 粘贴单' => '/downfile/piaojvbaoxiao.doc', '会议培训 预决算表' => '/downfile/huiyipeixun.doc'),
     '所办公室' => array('印信使用签批单' => '/RequestNote/gss_seal', '所内公文' => '#', '来文' => '/RequestNote/gss_received', '发文' => '/RequestNote/gss_send'),
@@ -484,7 +484,7 @@ Configure::write('code_bxd_arr', array(
 //审核 类型
 Configure::write('type_number', array(
     1,//科研费用
-    2,//行政费用 
+    2,//行政费用
 ));
 
 //审核 类型
@@ -516,7 +516,7 @@ Configure::write('approval_process', array(
   14    财务部门负责人
   15    部门负责人
   27    出纳
- * 
+ *
  * // 人事单子
  * 20   团队负责人
  * 21   团队分管所领导
@@ -578,7 +578,7 @@ Configure::write('new_appprove_code_arr', array(
     56 => '所长办公室负责人同意',
     57 => '书记拒绝',
     58 => '书记同意',
-    
+
     59 => '乔永胜拒绝',
     60 => '乔永胜同意',
     61 => '拒绝', //'李登科拒绝',
@@ -589,7 +589,7 @@ Configure::write('new_appprove_code_arr', array(
     66 => '赵旗峰同意',
     67 => '李全拒绝',
     68 => '李全同意',
-    
+
     //新闻信息发布审批卡
     69 => '党委办公室主任拒绝',
     70 => '党委办公室主任同意',
@@ -597,14 +597,14 @@ Configure::write('new_appprove_code_arr', array(
     72 => '贺晋瑜同意',
     //71 => '孟庆仙拒绝',
     //72 => '孟庆仙同意',
-    
-    
+
+
     10000 => '审核通过',
 ));
 
 /**
  * 定义项目组
- * 
+ *
  */
 Configure::write('project_team', array(
     1 => '单个项目',
@@ -620,7 +620,7 @@ Configure::write('approval_process',array(
     'apply_leave' => array(
         2 => '15,5,22,6',   // 请假申请单 部门
         3 => '20,21,22,6',   // 请假申请单 团队
-        
+
         // 2019年开始 采用新审批流
         //2 => '15',   // 请假申请单 部门
         //3 => '20',   // 请假申请单 团队
@@ -629,12 +629,12 @@ Configure::write('approval_process',array(
         1 => '11,5,6',// 差旅审批单  科研项目  如项目有所属项目组，增加项目组负责人审批 2项目组负责人， 5是科研部门副所长
         2 => '15,5,6', // 差旅审批单 行政
         3 => '20,21,6', // 差旅审批单 团队  21 固定为（赵旗峰）
-        
+
         // 2019年开始 采用新审批流
-       // 1 => '11,20',// 差旅审批单  科研项目 
+       // 1 => '11,20',// 差旅审批单  科研项目
        // 2 => '15', // 差旅审批单 行政
-        
-    ) , 
+
+    ) ,
     'apply_baogong' => '20,4', // 田间作业包工单  4是科研部门负责人
     'apply_paidleave' => array(
         2 => '15,5,22',   // 年假申请单 部门
@@ -646,7 +646,7 @@ Configure::write('approval_process',array(
     'apply_endlessly' => array(
         2 => '15,5',   // 带薪假申请单 部门
         3 => '20,21',   // 带薪假申请单 团队
-        
+
         // 2019年开始 采用新审批流
         //2 => '15',   // 带薪假申请单 部门
         //3 => '20',   // 带薪假申请单 团队
@@ -664,7 +664,7 @@ Configure::write('approval_process',array(
     'apply_seal' => array(
         2 => '15,5,6,28',   // 印信使用签批单 部门
         3 => '20,21,6,28',   // 印信使用签批单 团队
-        
+
         // 2019年开始 采用新审批流
         //2 => '15',   // 印信使用签批单 部门
         //3 => '20',   // 印信使用签批单 团队
@@ -683,7 +683,7 @@ Configure::write('approval_process',array(
     ),
     'apply_news' => array(   // 新闻签发卡
         2 => '15,5,35,28,36',
-        
+
         // 2019年开始 采用新审批流
        // 2 => '15',
     ),
@@ -791,7 +791,7 @@ Configure::write('caiwu_dep_id', 5);
 Configure::write('caiwu_table_name', array('apply_jiekuandan' , 'apply_lingkuandan' , 'apply_chuchai_bxd' , 'apply_baoxiaohuizong'));
 //表对应model
 Configure::write('table_to_model',array(
-    'apply_jiekuandan'=> 'ApplyJiekuandan' , 
+    'apply_jiekuandan'=> 'ApplyJiekuandan' ,
     'apply_lingkuandan'=> 'ApplyLingkuandan' ,
     'apply_chuchai_bxd'=> 'ApplyChuchaiBxd' ,
     'apply_baoxiaohuizong'=> 'ApplyBaoxiaohuizong' ,
