@@ -67,11 +67,23 @@ class ReportformsController extends AppController {
         }
         //部门对应总金额
         $totalArr = $this->ResearchSource->query('select id,department_id,amount,file_number,year from t_research_source where project_id = 0  ');
-        
-        $year = date('Y', time());
+
+		$str_1_11 = '01-11';
+//取出今年
+		$year = date('Y', time());
+		$day = date('Y-m-d', time());
+		$day_01_11 = $year . '-' . $str_1_11;//当年的1月11号
+
+		$arr_get_year = array();
+//默认取今年的
+		$arr_get_year[] = $year;
+		if ($day < $day_01_11) {
+			//再取去年的
+			$arr_get_year[] = date('Y', strtotime('-1 year'));
+		}
         if ($totalArr) {
             foreach ($totalArr as $k=>$v) {
-                if ($v['t_research_source']['year'] != $year) {
+                if (!in_array($v['t_research_source']['year'], $arr_get_year)) {
                     unset($totalArr[$k]);
                 }
             }
@@ -481,7 +493,7 @@ class ReportformsController extends AppController {
         }
         return $keyanlist;
     }
-    
+
     protected function keyankemuArr() {
         $keyanlist = [];
         foreach (Configure::read('keyanlist') as $tdv) {
@@ -491,7 +503,7 @@ class ReportformsController extends AppController {
         }
         return $keyanlist;
     }
-    
+
     public function summary_bak($export = false) {
         $this->layout = 'blank';
         // 验证是否有查看权限  财务科成员、所长、分管财务所长可查看
@@ -508,15 +520,15 @@ class ReportformsController extends AppController {
 
         // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
         $expendSum = $this->ApplyMain->summary_keyan_pro_bak($proArr);
-        
+
         // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
         $surplusSum = $percentage = [];  // 结余总额、支出百分比
         $keyanlist = $this->keyankemu();
-        $keyanlist['key'][] = 'total'; 
-        $keyanlist['val'][] = '总计'; 
-        
+        $keyanlist['key'][] = 'total';
+        $keyanlist['val'][] = '总计';
+
         foreach($keyanlist['key'] as $v){
-            $surplusSum[$v] = $proCountSum[$v] - $expendSum[$v]; 
+            $surplusSum[$v] = $proCountSum[$v] - $expendSum[$v];
             $percentage[$v] = round($expendSum[$v] / $proCountSum[$v] * 100 , 2) ;
         }
 
@@ -566,42 +578,42 @@ class ReportformsController extends AppController {
         // 1、取当前所有 未关闭、未删除状态下的 科研项目
         $proArr = $this->ResearchProject->summary_pro();
         // 2、取符合条件的所有科研项目的 总额、科目总额
-        $proCountSum = $this->ResearchProject->summary_ky($proArr); 
+        $proCountSum = $this->ResearchProject->summary_ky($proArr);
        // var_dump($proCountSum);die;
 
         // 3、取符合条件的所有科研项目的 申请单（已申请通过）的总额、科目总额
-        $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);  
+        $expendSum = $this->ApplyMain->summary_keyan_pro($proArr);
         //var_dump($expendSum);die;
-        
+
         // 4、计算科目的支出剩余总金额、科目剩余总额；支出进度；
         $surplusSum = $percentage = [];  // 结余总额、支出百分比
         $keyanlist = $this->keyankemuArr();
-        $keyanlist = ['total' => '合计'] + $keyanlist;  
-       
+        $keyanlist = ['total' => '合计'] + $keyanlist;
+
         foreach($proCountSum as $key => $val){
             foreach($val as $k => $v){
                 if(isset($expendSum[$key][$k])){
-                    $surplusSum[$key][$k] = $v - $expendSum[$key][$k] ; 
+                    $surplusSum[$key][$k] = $v - $expendSum[$key][$k] ;
                     @$percentage[$key][$k] = round($expendSum[$key][$k] / $v * 100 , 2);
                 }else if( $v > 0 ){
-                    $surplusSum[$key][$k] = $v ; 
+                    $surplusSum[$key][$k] = $v ;
                     $percentage[$key][$k] = 100 ;
                 }else{
-                    $surplusSum[$key][$k] = 0 ; 
+                    $surplusSum[$key][$k] = 0 ;
                     $percentage[$key][$k] = 0 ;
                 }
                 // 合计项
-                @$proCountSum['sum'][$k] += $v ; 
+                @$proCountSum['sum'][$k] += $v ;
                 @$surplusSum['sum'][$k] += isset($surplusSum[$key][$k]) ?  $surplusSum[$key][$k] : 0 ;
                 @$expendSum['sum'][$k] += isset($expendSum[$key][$k]) ? $expendSum[$key][$k] : 0 ;
             }
         }
-        
+
         // 合计进度
         foreach($proCountSum['sum'] as $k => $v){
-            $percentage['sum'][$k] = $expendSum['sum'][$k] == 0 ? 100 : round($expendSum['sum'][$k] / $proCountSum['sum'][$k] * 100 , 2) ; 
+            $percentage['sum'][$k] = $expendSum['sum'][$k] == 0 ? 100 : round($expendSum['sum'][$k] / $proCountSum['sum'][$k] * 100 , 2) ;
         }
-        
+
 //var_dump($surplusSum);die;
 //var_dump($percentage);die;
         $teamlist = $this->Team->getList();
@@ -630,19 +642,19 @@ class ReportformsController extends AppController {
       }
 
       $fromdata = $this->summary();
-      
+
       $export_xls_head = array('title' => '团队进度表', 'cols' => $fromdata['keyanlist']);
       $this->set('xls_head', $export_xls_head);
-        
+
         $xls_name = '团队进度表-' . date("Y-m-d-Hi");
         $xls_suffix = 'xls';
         header("Content-Type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=$xls_name.$xls_suffix");
 
         $this->render();
-    }    
-    
-    
-    
-    
+    }
+
+
+
+
 }
