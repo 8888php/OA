@@ -21,7 +21,7 @@
                     <table class="table  table-condensed" style="/*table-layout: fixed;*/text-align: center;border-color:#000;" >
                         <input type="hidden" name='declarename' class='declarename' value='果树所领款单' /> 
                         <tbody>
-                            <tr>
+                            <tr style="border-top:0;">
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;  border-top-color: white; border-left-color: white; border-right-color: white;">
                                 <span style='position:absolute;left:20px;top:25px;font-size:14px;font-weight: 400;'>
                                  <?php  echo $main_arr['ApplyMain']['code'] == 10000 ? '已付款': ($main_arr['ApplyMain']['code'] % 2 != 0 ? '已拒绝' : ''); ?>
@@ -113,7 +113,7 @@
                            
                         </tbody>
                     </table>
-                    <table class="table  table-condensed  second-table" style="text-align: left; margin-top: -20px;" >
+                    <table class="table  table-condensed  second-table" style="text-align: left; margin-top: -21px;" >
                     <tbody>
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
