@@ -4,7 +4,10 @@
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
+        table{ width: 100%; text-align: center;border-color:#000;table-layout: fixed;}
         .table tr, .table td{border:1px solid #000;}
+        .table tbody>tr>td{border-top: 0px solid #000;}
+        .table2 tr>td{width: 20%;text-align: center;}
     </style>
 
     <div  style='padding:0;'>
@@ -152,28 +155,28 @@
                                 <td colspan='4'> <input type="text" name='big_total' class="big_total" readonly="readonly" style='width:345px;height:25px;' value="<?php echo $attrInfo['big_total'];   ?>"  /> </td>
                                 <td colspan='2'> ￥ <input type="text" name='small_total' class="small_total" readonly="readonly"  style='width:158px;height:25px;' value="<?php echo $attrInfo['small_total'];   ?>"  /> </td>
                             </tr>
-                
-                            <tr>
+                        </tbody>
+                    </table>
+                    <table class="table  table-condensed table2" style="margin-top: -21px;">
+                        <tr>
                                 <td >领款人</td>
-                                <td colspan="2">团队/科室 负责人审核</td>
+                                <td >团队/科室 负责人审核</td>
                                 <td >分管业务领导审核</td>
                                 <td >分管财务领导审核</td>
                                 <td >财务审核</td>
-                                <td >所长审核</td>
+                                <!--<td >所长审核</td>-->
                             </tr>
                             <tr style="min-height:60px;line-height: 20px;">
                                 <td > 
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
                                     <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
-                                <td colspan="2"> </td>
+                                <td > </td>
                                 <td > </td>
                                 <td > </td>
                                 <td >  </td>
-                                <td > </td>
+                                <!--<td > </td>-->
                             </tr>
-                           
-                        </tbody>
                     </table>
                 </form>
             </div>

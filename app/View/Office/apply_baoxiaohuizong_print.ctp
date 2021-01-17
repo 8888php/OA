@@ -175,10 +175,11 @@
                                 }
                                 ?> 
                             </td>
-                            <td style="width: 16.6%; height: 120px;">
+<!--                            <td style="width: 16.6%; height: 120px;">
                                 所长:
                                 <br/>
                                 <?php 
+                                /*
                                 if($seecode == 'apply'){
                                     if ($applyArr[6]) {
                                         echo @$applyArr['6']['remarks'];
@@ -189,8 +190,9 @@
                                     }
                                     echo @$jiaqian[6] ;
                                 }
+                                */
                                 ?> 
-                            </td>
+                            </td>-->
                         </tr>
                         <?php 
                         if(false && !empty($main_arr['attachment'])){

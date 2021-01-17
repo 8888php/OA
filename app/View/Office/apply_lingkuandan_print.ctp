@@ -5,6 +5,7 @@
 
     <style>
         .table tr, .table td{border:1px solid #000;}
+        .table tbody>tr>td{border-top: 0px solid #000;}
         .second-table tbody>tr>td{
              border: 1px solid black;
         }
@@ -112,7 +113,7 @@
                            
                         </tbody>
                     </table>
-                    <table class="table  table-condensed  second-table" style="text-align: left;border-color:#000; margin-top: -21px;" >
+                    <table class="table  table-condensed  second-table" style="text-align: left; margin-top: -20px;" >
                     <tbody>
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
@@ -223,10 +224,11 @@
                                     }
                                 ?>
                             </td>
-                            <td style="width: 16.6%; height: 120px;">
+<!--                            <td style="width: 16.6%; height: 120px;">
                                 所长:
                                 <br/>
                                 <?php 
+                                /*
                                     if($apply == 'apply'){
                                         if ($applyArr[6]) {
                                             echo @$applyArr['6']['remarks'];
@@ -237,8 +239,9 @@
                                         } 
                                         echo @$jiaqian[6] ;
                                     }
+                                    */
                                 ?>
-                            </td>
+                            </td>-->
                         </tr>
                     </tbody>
                     </table>

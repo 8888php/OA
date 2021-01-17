@@ -76,7 +76,6 @@
                                 <?php }?>
                             </tr>
                             
-                            
                             <tr style="height: 40px;">
                                 <td  >还款计划</td>
                                 <td colspan='6'>  <?php echo $attr_arr[0][$table_name]['repayment'];?></td>
@@ -183,10 +182,11 @@
                                     }
                                 ?>
                             </td>
-                            <td style="width: 20%; height: 120px;">
+<!--                            <td style="width: 20%; height: 120px;">
                                 所长:
                                 <br/>
                                 <?php 
+                                /*
                                     if($apply == 'apply'){
                                         if ($applyArr[6]) {
                                             echo @$applyArr['6']['remarks'];
@@ -197,8 +197,9 @@
                                         }
                                         echo @$jiaqian[6] ;
                                     }
+                                    */
                                 ?> 
-                            </td>
+                            </td>-->
                             
                         </tr>
                     </tbody>

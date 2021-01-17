@@ -253,10 +253,10 @@
                                     }
                                 ?>
                             </td>
-                            <td style="width: 16.6%; height: 120px;">
+<!--                            <td style="width: 16.6%; height: 120px;">
                                 所长:
                                 <br/>
-                                <?php 
+                                <?php  /*
                                     if($apply == 'apply'){
                                         if($applyArr[6]){
                                             echo @$applyArr['6']['remarks'];
@@ -266,9 +266,9 @@
                                             echo @$applyArr['6']['ctime'];
                                         }
                                         echo @$jiaqian['6'] ;
-                                    }
+                                    }  */
                                  ?> 
-                            </td>
+                            </td>-->
                         </tr>
                     </tbody>
                     </table>

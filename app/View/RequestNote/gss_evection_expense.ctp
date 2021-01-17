@@ -3,8 +3,11 @@
 <link rel="stylesheet" href="/assets/css/dropzone.css" />
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
-    <style>
+    <style>.
+        table{ width: 100%; text-align: center;border-color:#000;table-layout: fixed;}
         .table tr, .table td{border:1px solid #000;}
+        .table tbody>tr>td{border-top: 0px solid #000;}
+        .table2 tr>td{width: 20%;text-align: center;}
     </style>
 
     <div  style='padding:0;'>
@@ -178,28 +181,28 @@
                                 <td>事由</td>
                                 <td colspan='7'> <input type="text" name='reason' class="reason" style='width:570px;height:25px;'  value="<?php echo $attrInfo['reason']; ?>"  /> </td>
                             </tr>
-                            
-                            <tr>
+                        </tbody>
+                    </table>
+                    <table class="table  table-condensed table2" style="margin-top: -21px;">
+                        <tr>
                                 <td >申报人</td>
-                                <td colspan="2">团队/科室 负责人审核</td>
+                                <td >团队/科室 负责人审核</td>
                                 <td >分管业务领导审核</td>
                                 <td >分管财务领导审核</td>
                                 <td >财务审核</td>
-                                <td  colspan='2'>所长审核</td>
+                                <!--<td  colspan='2'>所长审核</td>-->
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
                                 <td > 
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
                                     <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
-                                <td colspan="2"> </td>
+                                <td> </td>
                                 <td > </td>
                                 <td > </td>
                                 <td > </td>
-                                <td  colspan='2'>  </td>
+                                <!--<td  colspan='2'>  </td>-->
                             </tr>
-                            
-                        </tbody>
                     </table>
                 </form>
             </div>

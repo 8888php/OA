@@ -4,7 +4,9 @@
 <div class="container" style='background-color:#fff;border-radius:4px;padding:0px;overflow-y:hidden;width:710px;'>
 
     <style>
+        .table{ width: 100%; text-align: center;border-color:#000;table-layout: fixed;}
         .table tr, .table td{border:1px solid #000;}
+        .table tbody>tr>td{border-top: 0px solid #000;}
         .tab-content{z-index:0;}
     </style>
 
@@ -141,23 +143,23 @@
                                 <td  >还款计划</td>
                                 <td colspan='6'> <input type="text" name='repayment_plan' class="repayment_plan" style='width:567px;height:25px;'  value="<?php echo $attrInfo['repayment']; ?>"  /> </td>
                             </tr>
-          
+                        </tbody>
+                    </table>
+                    <table class="table  table-condensed table2" style="margin-top: -21px;">
                             <tr>
-                                <td colspan="2">团队/科室 负责人审核</td>
+                                <td >团队/科室 负责人审核</td>
                                 <td >分管业务领导审核</td>
                                 <td >分管财务领导审核</td>
                                 <td >财务审核</td>
-                                <td colspan='2'>所长审核</td>
+                                <!--<td >所长审核</td>-->
                             </tr>
                             <tr style="height:60px;line-height: 20px;">
-                                <td colspan="2"> </td>
                                 <td > </td>
                                 <td > </td>
                                 <td > </td>
-                                <td colspan='2'>  </td>
+                                <td > </td>
+                                <!--<td >  </td>-->
                             </tr>
-                           
-                        </tbody>
                     </table>
                 </form>
             </div>
