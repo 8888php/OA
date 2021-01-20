@@ -19,7 +19,7 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="/*table-layout: fixed;*/text-align: center;border-color:#000;padding: 3px;" >
-                        <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' />
                         <tbody>
                             <tr>
                                 <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;  border-top-color: white; border-left-color: white; border-right-color: white;">
@@ -38,11 +38,11 @@
                                 <td>核算</td>
                                 <td colspan=''> <?php echo $main_arr['ApplyMain']['is_calculation'] == 1 ? '是' : '否';?>  </td>
                             </tr>
-                            
+
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='7'>
-                                    <?php 
+                                    <?php
                                         echo ($attr_arr[0][$table_name]['project_id']) ? $project_arr['ResearchProject']['name'] : $attr_arr[0][$table_name]['department_name'];
                                         echo empty($source_arr) ? '' : '| 【'.$source_arr['ResearchSource']['source_channel'].' （'.$source_arr['ResearchSource']['file_number'].'） '.$source_arr['ResearchSource']['year'].'】';
                                     ?>
@@ -51,7 +51,7 @@
                                     }?>
                                 </td>
                                 </tr>
-                            
+
                              <tr>
                                 <td > 出差人姓名 </td>
                                 <td colspan='6'>
@@ -64,13 +64,13 @@
                                  <td>起止日期</td>
                                 <td style="width: 13%;">起讫地点</td>
                                 <td style="width: 11%;">车船费</td>
-                                <td style="font-size: 12px;width: 13%;">差旅补助天数</td>
-                                <td style="font-size: 12px;width: 13%;">差旅补助标准</td>
-                                <td style="font-size: 12px;width: 13%;">差旅补助金额</td>
+                                <td style="font-size: 12px;width: 13%;">天数×人数</td>
+                                <td style="font-size: 12px;width: 13%;">补助标准</td>
+                                <td style="font-size: 12px;width: 13%;">补助金额</td>
                                 <td style="width: 11%;">住宿费</td>
                                 <td>其他费用</td>
                             </tr>
-                            <?php 
+                            <?php
                                 $json_str = $attr_arr[0][$table_name]['json_str'];
                                 $json_arr = json_decode($json_str, true);
                                 function get_value($json_arr, $key, $key_name, $default = '') {
@@ -96,7 +96,7 @@
                                 <td> <?php echo get_value($json_arr, 0, 'hotel_expense');?></td>
                                 <td> <?php echo get_value($json_arr, 0, 'other_expense');?></td>
                             </tr>
-                                
+
                             <tr class="json_str">
                                 <td style="height:25px;"> <?php echo get_value($json_arr, 1, 'start_end_day');?></td>
                                 <td> <?php echo get_value($json_arr, 1, 'start_end_address');?></td>
@@ -107,7 +107,7 @@
                                 <td> <?php echo get_value($json_arr, 1, 'hotel_expense');?></td>
                                 <td> <?php echo get_value($json_arr, 1, 'other_expense');?></td>
                             </tr>
-                                
+
                             <tr class="json_str">
                                 <td style="height:25px;"> <?php echo get_value($json_arr, 2, 'start_end_day');?></td>
                                 <td> <?php echo get_value($json_arr, 2, 'start_end_address');?></td>
@@ -127,19 +127,19 @@
                                     <td> <?php echo get_value($json_arr, 3, 'hotel_expense');?></td>
                                     <td> <?php echo get_value($json_arr, 3, 'other_expense');?></td>
                                 </tr>
-                           
+
                             <tr>
                                 <td style="width:90px;font-size: 12px;">合计（大写）</td>
                                 <td colspan='4'>  <?php echo $attr_arr[0][$table_name]['total_capital'];?></td>
                                 <td style="width:40px;"> ￥ </td>
                                 <td colspan='2'>  <?php echo $attr_arr[0][$table_name]['total'];?></td>
                             </tr>
-                           
+
                             <tr>
                                 <td>事由</td>
                                 <td colspan='7'> <?php echo $attr_arr[0][$table_name]['reason'];?> </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                     <table class="table  table-condensed second-table" style="text-align: left;border-color:#000; margin-top: -21px;" >
@@ -147,7 +147,7 @@
                         <tr>
                             <td style="width: 16.6%; height: 120px;">
                                 申报人:
-                                <?php 
+                                <?php
                                     $applicant = $attr_arr[0][$table_name]['applicant'];
                                     if (!empty($applicant)) {
                                         $applicant_arr = explode(',', $applicant);
@@ -160,7 +160,7 @@
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 团队/科室负责人:
-                                <?php 
+                                <?php
                                         if($applyArr[11]){
                                             //如果没有省去一下br
                                             if (!empty($applyArr['11']['remarks']))
@@ -168,8 +168,8 @@
                                                 echo @$applyArr['11']['remarks'];
                                                 echo '<br />';
                                             }
-                                            
-                                            echo @$applyArr['11']['name']; 
+
+                                            echo @$applyArr['11']['name'];
                                             echo '<br />';
                                             //两个同时存在，取时间的前 10位
                                             if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
@@ -177,7 +177,7 @@
                                             } else {
                                                 echo @$applyArr['11']['ctime'];
                                             }
-                                            
+
                                         }
                                         if ($applyArr['12']) {
                                             //如果没有省去一下br
@@ -187,7 +187,7 @@
                                                 echo @$applyArr['12']['remarks'];
                                             }
                                             echo '<br />';
-                                            echo @$applyArr['12']['name']; 
+                                            echo @$applyArr['12']['name'];
                                             echo '<br />';
                                             //两个同时存在，取时间的前 10位
                                             if (!empty($applyArr['11']['ctime']) && !empty($applyArr['12']['ctime'])) {
@@ -195,55 +195,55 @@
                                             } else {
                                                 echo @$applyArr['12']['ctime'];
                                             }
-                                            
+
                                         }
                                         if($applyArr['ksfzr']){
                                             echo @$applyArr['ksfzr']['remarks'];
                                             echo '<br />';
-                                            echo @$applyArr['ksfzr']['name']; 
+                                            echo @$applyArr['ksfzr']['name'];
                                             echo '<br />';
                                             echo @$applyArr['ksfzr']['ctime'];
                                         }
                                         echo @$jiaqian['11'] ;
                                         echo @$jiaqian['12'] ;
                                         echo @$jiaqian['ksfzr'] ;
-                                ?>  
+                                ?>
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 分管业务领导:
-                                <?php 
+                                <?php
                                     if($apply == 'apply'){
                                         if($applyArr[5]){
                                             echo @$applyArr['5']['remarks'];
                                             echo '<br />';
-                                            echo @$applyArr['5']['name']; 
+                                            echo @$applyArr['5']['name'];
                                             echo '<br />';
                                             echo @$applyArr['5']['ctime'];
                                         }
                                         echo @$jiaqian['5'] ;
                                     }
-                                ?> 
+                                ?>
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 分管财务领导:
                                 <br/>
-                                <?php 
+                                <?php
                                     if($apply == 'apply'){
                                         if($applyArr[13]){
                                             echo @$applyArr['13']['remarks'];
                                             echo '<br />';
-                                            echo @$applyArr['13']['name']; 
+                                            echo @$applyArr['13']['name'];
                                             echo '<br />';
                                             echo @$applyArr['13']['ctime'];
                                         }
                                         echo @$jiaqian['13'] ;
                                     }
-                                ?> 
+                                ?>
                             </td>
                             <td style="width: 16.6%; height: 120px;">
                                 财务审核:
                                 <br/>
-                                <?php 
+                                <?php
                                     if($apply == 'apply'){
                                         if($applyArr[14]){
                                             echo @$applyArr['14']['remarks'];
@@ -261,13 +261,13 @@
                                         if($applyArr[6]){
                                             echo @$applyArr['6']['remarks'];
                                             echo '<br />';
-                                            echo @$applyArr['6']['name']; 
+                                            echo @$applyArr['6']['name'];
                                             echo '<br />';
                                             echo @$applyArr['6']['ctime'];
                                         }
                                         echo @$jiaqian['6'] ;
                                     }  */
-                                 ?> 
+                                 ?>
                             </td>-->
                         </tr>
                     </tbody>
@@ -292,11 +292,11 @@
                      <?php   echo ($project_sum['code'] == 1) ? $project_sum['msg'] : $feedback['msg'];  ?>
                  </div>
                  <?php   } ?>
-                        
+
                 <?php if ($apply == 'apply') {?>
                 <?php if($project_sum['code'] == 0){  ?>
                 <button type="button" class="btn btn-primary" onclick="approve(1);"> <i class="icon-ok bigger-110"></i> 同意</button>
-                <?php } ?> 
+                <?php } ?>
                 <button type="button" class="btn btn-primary" onclick="approve(2);"><i class="icon-undo bigger-110"></i> 拒绝</button>
                 <?php  } ?>
                 <button type="button" class="btn btn-primary" onclick="printDIV();"><i class="glyphicon glyphicon-print bigger-110"></i> 打印</button>
@@ -314,7 +314,7 @@ function printDIV(){
     {
         /**
          * navbar-default
-            id sidebar 
+            id sidebar
             breadcrumbs
             ace-settings-container
             id btn-scroll-up
@@ -336,7 +336,7 @@ function printDIV(){
     {
         /**
          * navbar-default
-            id sidebar 
+            id sidebar
             breadcrumbs
             ace-settings-container
             id btn-scroll-up
@@ -395,7 +395,7 @@ function printDIV(){
                 $(this).find('.other_expense' + i).val(other_expense_xj);
                 tmp_str.other_expense = other_expense_xj;
 //                json_str[i] = tmp_str;
-                
+
                 //合计
                 var total = fare_xj + subsidy_amount_xj + hotel_expense_xj + other_expense_xj;
                 $('.small_total').val(total);
@@ -484,7 +484,7 @@ function printDIV(){
     $('.json_str input').blur(function(){
         jisuan();
     });
-    
+
     function approve(type) {
         var text = '拒绝';
         if (type == 1) {

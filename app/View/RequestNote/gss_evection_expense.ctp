@@ -15,7 +15,7 @@
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" role="form">
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;" >
-                        <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' /> 
+                        <input type="hidden" name='declarename' class='declarename' value='果树所差旅费报销单' />
                         <tbody>
                             <tr>
                                 <td colspan="8" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所差旅费报销单 </td>
@@ -27,21 +27,21 @@
                                     <script type="text/javascript">
                                         $(".ctime").datetimepicker({
                                             format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒
                                         });
                                     </script>
                                 </td>
                                 <td>附单据张数</td>
                                 <td colspan='2'> <input type="text" name='sheets_num' class="sheets_num" style='width:140px;height:25px;' value="<?php echo $attrInfo['page_number'] ? $attrInfo['page_number'] : ''; ?>"  />  </td>
                                 <td>核算</td>
-                                <td > 
+                                <td >
                                     <select  name='is_calculation' class="is_calculation" style='width:60px;height:25px;' >
                                         <option value="1" > 是 </option>
                                         <option value="0"  <?php echo $attrInfo['is_calculation'] === 0 ? 'selected' : ''; ?> > 否 </option>
                                     </select>
                                 </td>
                             </tr>
-                            
+
                              <tr>
                                 <td>部门或项目</td>
                                 <td colspan='7'>
@@ -49,7 +49,7 @@
                                         <?php if ($is_department){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
                                         <?php }?>
-                                        <?php 
+                                        <?php
                                         foreach($projectInfo as $pk=>$pv) {
                                         $selectedstr = ($mainInfo['project_id'] == $pk) ? 'selected' : '';
                                         echo "<option value='".$pk ."'". $selectedstr . '>' . $pv . "</option>";
@@ -59,7 +59,7 @@
                                         <option></option>
                                     </select>
                                     <select style="width:120px;height:25px;" name='xzsubject' class="xzsubject" >     <option value='0'> 请选择科目 </option>
-                                        <?php 
+                                        <?php
                                             foreach(Configure::read('xizhenglist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
                                                     $selectedstr = ($mainInfo['type'] == 2 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
@@ -69,7 +69,7 @@
                                         ?>
                                     </select>
                                     <select style="width:120px;height:25px;display:none;" name='kysubject' class="kysubject" >         <option value='0'> 请选择科目 </option>
-                                         <?php 
+                                         <?php
                                             foreach(Configure::read('keyanlist') as $kyk=>$kyv) {
                                                 foreach($kyv as $key=>$val) {
                                                     $selectedstr = ($mainInfo['type'] == 1 && isset($mainInfo['subject'][$key])) ? 'selected' : '';
@@ -121,13 +121,13 @@
                                 <td>起止日期</td>
                                 <td>起讫地点</td>
                                 <td>车船费</td>
-                                <td>差旅补助天数</td>
-                                <td>差旅补助标准</td>
-                                <td>差旅补助金额</td>
+                                <td>天数×人数</td>
+                                <td>补助标准</td>
+                                <td>补助金额</td>
                                 <td>住宿费</td>
                                 <td>其他费用</td>
                             </tr>
-                            
+
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day0" name="dp[0]['start_end_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][0]['start_end_day']; ?>" > </td>
                                 <td> <input type="text" class="start_end_address0" name="dp[0]['start_day']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['start_end_address']; ?>" > </td>
@@ -138,7 +138,7 @@
                                 <td> <input type="text" class="hotel_expense0" name="dp[0]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['hotel_expense'] ? $attrInfo['json_str'][0]['hotel_expense'] : 0; ?>"> </td>
                                 <td> <input type="text" class="other_expense0" name="dp[0]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][0]['other_expense'] ? $attrInfo['json_str'][0]['other_expense'] : 0; ?>"> </td>
                                 </tr>
-                                
+
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day1" name="dp[1]['start_end_day']"  style='height:25px;width:75px;'value="<?php echo $attrInfo['json_str'][1]['start_end_day']; ?>"  > </td>
                                 <td> <input type="text" class="start_end_address1" name="dp[1]['start_day']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['start_end_address']; ?>" > </td>
@@ -149,7 +149,7 @@
                                 <td> <input type="text" class="hotel_expense1" name="dp[1]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['hotel_expense'] ? $attrInfo['json_str'][1]['hotel_expense'] : 0; ?>"> </td>
                                 <td> <input type="text" class="other_expense1" name="dp[1]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][1]['other_expense'] ? $attrInfo['json_str'][1]['other_expense'] : 0; ?>"> </td>
                                 </tr>
-                                
+
                             <tr class="json_str">
                                 <td > <input type="text" class="start_end_day2" name="dp[2]['start_end_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['start_end_day']; ?>" > </td>
                                 <td> <input type="text" class="start_end_address2" name="dp[2]['start_day']"  style='height:25px;width:75px;' value="<?php echo $attrInfo['json_str'][2]['start_end_address']; ?>" > </td>
@@ -169,14 +169,14 @@
                                     <td> <input readonly="readonly" type="text" class="hotel_expense3" name="dp[3]['hotel_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][3]['hotel_expense'] ? $attrInfo['json_str'][3]['hotel_expense'] : 0; ?>"> </td>
                                     <td> <input readonly="readonly" type="text" class="other_expense3" name="dp[3]['other_expense']"  style='height:25px;width:75px;'  value="<?php echo $attrInfo['json_str'][3]['other_expense'] ? $attrInfo['json_str'][3]['other_expense'] : 0; ?>"> </td>
                                 </tr>
-                           
+
                             <tr>
                                 <td style="width:90px;">合计（大写）</td>
                                 <td colspan='4'>  <input readonly="readonly" type="text" name='big_total' class='big_total'  value="<?php echo $attrInfo['total_capital']; ?>"   style="width:315px;" /> </td>
                                 <td style="width:40px;"> ￥ </td>
                                 <td colspan='2'>  <input readonly="readonly" type="text" name='small_total' class='small_total'  value="<?php echo $attrInfo['total']; ?>"   style="width:150px;" /> </td>
                             </tr>
-                           
+
                             <tr>
                                 <td>事由</td>
                                 <td colspan='7'> <input type="text" name='reason' class="reason" style='width:570px;height:25px;'  value="<?php echo $attrInfo['reason']; ?>"  /> </td>
@@ -193,7 +193,7 @@
                                 <!--<td  colspan='2'>所长审核</td>-->
                             </tr>
                             <tr style="height:60px;line-height: 20px;" >
-                                <td > 
+                                <td >
                                     <!--<input style="width: 60px;" type='text' class="applicant" name="applicant" value="<?php echo $userInfo->name;?>" />-->
                                     <textarea title="回车换行分割" placeholder="回车换行分割" style="width: 75px; height: 63px;min-width: 75px;max-height: 63px;max-width: 75px;min-height: 63px;" class="applicant" name="applicant"><?php echo $attrInfo['applicant'] ? $attrInfo['applicant'] : trim($userInfo->name);?></textarea>
                                 </td>
@@ -207,10 +207,10 @@
                 </form>
             </div>
 
-            
+
              <!-- PAGE CONTENT BEGINS -->
             <div id="dropzone">
-                
+
                 <?php if($mainInfo['id']){ ?>
                  <div class="alert alert-warning alert-dismissable center ">
                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -219,15 +219,15 @@
                      <strong>请再次提交附件！ </strong>
                  </div>
                  <?php   } ?>
-                 
+
                 <span>点击添加上传附件</span>
                 <form  class="dropzone" style='min-height:100px;' enctype="multipart/form-data" id="upfiles"  method="post" >
-                    
+
                     <div class="fallback" >
                         <input name="file[]" type="file" multiple="" />
                     </div>
 
-                 <input type="hidden" id="file_upload" name="file_upload[]" value="" />  
+                 <input type="hidden" id="file_upload" name="file_upload[]" value="" />
                 </form>
             </div><!-- PAGE CONTENT ENDS -->
             <!-- basic scripts -->
@@ -285,7 +285,7 @@
                                          return;
                                      }
                                      if (res.code == 0) {
-                                         //上传成功什么也不干   
+                                         //上传成功什么也不干
                                          (file.previewElement.classList.add("dz-success"));
                                          var file_all_str = $('#file_upload').val();
                                          if (file_all_str) {
@@ -308,9 +308,9 @@
                              alert('Dropzone.js does not support older browsers!');
                          }
 
-                     });  
+                     });
             </script>
-            
+
             <div class="modal-footer" style='background-color: #fff;'>
                 <button style="margin-left:-50px;" type="button" class="btn btn-primary" onclick="window.parent.declares_close();" data-dismiss="modal"> <i class="icon-undo bigger-110"></i> 关闭</button>
 
@@ -410,7 +410,7 @@ function printDIV(){
             var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
             var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
             var max = len_a;//最大的小数位数
-            if (len_b > len_a) 
+            if (len_b > len_a)
             {
                 max = len_b;
             }
@@ -436,7 +436,7 @@ function printDIV(){
             var len_a = decimal_a.toString().indexOf('.') == -1 ? 0 : decimal_a.toString().split(".")[1].length;
             var len_b = decimal_b.toString().indexOf('.') == -1 ? 0 : decimal_b.toString().split(".")[1].length;
             var max = len_a;//最大的小数位数
-            if (len_b > len_a) 
+            if (len_b > len_a)
             {
                 max = len_b;
                 decimal_b = parseFloat(decimal_b.toString().split(".")[0] + decimal_b.toString().split(".")[1]);
@@ -467,10 +467,10 @@ function printDIV(){
                     for(var i=0; i < len_a - len_b; i++) {
                         decimal_b = decimal_b.toString() + '0';
                     }
-                } 
+                }
                  decimal_b = parseFloat(decimal_b);
             }
-            
+
             var tmp_sum = decimal_a  * decimal_b;
             tmp_sum = tmp_sum / (Math.pow(10, max) * Math.pow(10, max));
             return tmp_sum;
@@ -504,7 +504,7 @@ function printDIV(){
                 $(this).find('.other_expense' + i).val(other_expense_xj);
                 tmp_str.other_expense = other_expense_xj;
 //                json_str[i] = tmp_str;
-                
+
                 //合计
                 var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
@@ -647,11 +647,11 @@ function trim(s){
             return;
         }
         if(!subject || subject == 0){
-        	(dep_pro == 0) ? $('.xzsubject').focus() : 
+        	(dep_pro == 0) ? $('.xzsubject').focus() :
         	$('.kysubject').focus();
             return;
         }
-        
+
         var json_str = [{}];
         var mast_one = false;//必须有一个
         var error_flag = false;//记录错误标示
@@ -681,7 +681,7 @@ function trim(s){
                 $(this).find('.other_expense' + i).val(other_expense_xj);
                 tmp_str.other_expense = other_expense_xj;
                 json_str[i] = tmp_str;
-                
+
                 //合计
                 var total = add_decimal(add_decimal(fare_xj + subsidy_amount_xj), add_decimal(hotel_expense_xj + other_expense_xj));
                 $('.small_total').val(total);
@@ -759,7 +759,7 @@ function trim(s){
             other_expense_xj += parseFloat(other_expense)
             json_str[i] = tmp_str;
         });
-        
+
         if (!mast_one) {
             //说明没有写
             $('.json_str').find('.start_end_day' + 0).focus();
