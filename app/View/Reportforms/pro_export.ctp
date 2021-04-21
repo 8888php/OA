@@ -25,7 +25,7 @@
                                 <td style="text-align:center;">  -- </td>
                                 <td> <?php echo $sumArr[$tk]['amount']; ?> </td>
                                 <td> <?php echo $sumArr[$tk]['pay']; ?> </td>
-                                <td> <?php echo $sumArr[$tk]['amount'] - $fromArr[$tk]['pay']; ?> </td>
+                                <td> <?php echo $sumArr[$tk]['amount'] - $sumArr[$tk]['pay']; ?> </td>
                             </tr>
 
                             <?php  foreach($applyList[$tk] as $k => $v){  ?>
@@ -43,7 +43,7 @@
                                 <td> <?php echo $totalArr['amount']; ?> </td>
                                 <td> <?php echo $totalArr['pay']; ?> </td>
                                 <td> <?php echo $totalArr['amount'] - $totalArr['pay']; ?> </td>
-                            </tr>  
+                            </tr>
 
                         </table>
                     </body>
