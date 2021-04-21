@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title> 汇总报表 — 项目报表</title>		
+        <title> 汇总报表 — 项目报表</title>
         <meta name="keywords" content="OA" />
         <meta name="description" content="OA" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +33,7 @@
         <![endif]-->
         <style>
             table{font-size:12px;}
-        </style>   
+        </style>
     </head>
 
     <body>
@@ -74,7 +74,7 @@
 
                         <div class="tabbable">
                             <div class="tab-content no-border ">
-   
+
                                 <div id="faq-tab-1" class="tab-pane fade in active">
                                     <table class="table table-bordered table-striped" style=''>
                                         <thead>
@@ -102,10 +102,10 @@
                                                 <td style="text-align:center;">  -- </td>
                                                 <td> <?php echo sprintf('%.2f', $sumArr[$tk]['amount']); ?> </td>
                                                 <td> <?php echo sprintf('%.2f', $sumArr[$tk]['pay']); ?> </td>
-                                                <td> <?php echo sprintf('%.2f', $sumArr[$tk]['amount'] - $fromArr[$tk]['pay']); ?> </td>
+                                                <td> <?php echo sprintf('%.2f', $sumArr[$tk]['amount'] - $sumArr[$tk]['pay']); ?> </td>
                                                 <td>  </td>
                                             </tr>
-                                            
+
                                             <?php  foreach($applyList[$tk] as $k => $v){  ?>
                                             <tr style="text-align:center;">
                                                 <td style="text-indent:2rem;text-align:left;"> <?php  echo $v; ?> </td>
@@ -115,7 +115,7 @@
                                                 <td>  <a href="/ResearchProject/report_form/<?php echo $k; ?>" > <i class='glyphicon glyphicon-list-alt'> </i> </a>  </td>
                                             </tr>
                                             <?php } } ?>
-                                            
+
                                               <tr style="text-align:center;border-top:2px solid #478;">
                                                 <td style="vertical-align:middle;font-size:14px;font-weight:600;"> 总合计 </td>
                                                 <td style="text-align:center;">  -- </td>
@@ -123,8 +123,8 @@
                                                 <td> <?php echo sprintf('%.2f', $totalArr['pay']); ?> </td>
                                                 <td> <?php echo sprintf('%.2f', $totalArr['amount'] - $totalArr['pay']); ?> </td>
                                                 <td> </td>
-                                            </tr>  
-                                            
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -195,7 +195,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
         })
     });
     //show_left_select('reportforms', '无效');
-    
+
 </script>
 <script type="text/javascript">
     $('#modal').on('hidden.bs.modal', function(){
