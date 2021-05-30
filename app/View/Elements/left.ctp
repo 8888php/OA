@@ -8,7 +8,7 @@
 <style>
     a:link{text-decoration:none;} a:visited{text-decoration:none;} a:active{text-decoration:none;}
 </style>
-    
+
     <div class="main-container-inner">
         <a class="menu-toggler " id="menu-toggler" href="#">
             <span class="menu-text"></span>
@@ -89,7 +89,7 @@
                                         项目
                                     </a>
                                 </li>
-                                
+
                                 <li class="shengqing">
                                     <a href="/office/apply">
                                         <i class="icon-pencil"></i>
@@ -105,7 +105,7 @@
                                 待我审批
                                  <b class="arrow icon-angle-down"></b>
                             </a>
-                            
+
                              <ul class="submenu">
                                 <li class="wait_approval_project">
                                     <a href="/office/wait_approval">
@@ -113,7 +113,7 @@
                                         待审项目
                                     </a>
                                 </li>
-                                
+
                                 <li class="wait_approval_apply">
                                     <a href="/office/wait_approval_apply">
                                         <i class="icon-pencil"></i>
@@ -122,14 +122,14 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="my_approval">
                             <a href="#"  class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                 经我审批
                                  <b class="arrow icon-angle-down"></b>
                             </a>
-                            
+
                               <ul class="submenu">
                                 <li class="my_approval_project">
                                     <a href="/office/my_approval">
@@ -137,7 +137,7 @@
                                         经审项目
                                     </a>
                                 </li>
-                                
+
                                 <li class="my_approval_apply">
                                     <a href="/office/my_approval_apply">
                                         <i class="icon-pencil"></i>
@@ -175,9 +175,9 @@
                             </a>
 
                             <ul class="submenu">
-                                <?php 
+                                <?php
                                 if(isset($deplist[1])){
-                                foreach($deplist[1] as $depk => $depv){ 
+                                foreach($deplist[1] as $depk => $depv){
                                 ?>
                                 <li class="administration_<?php echo  $depk;?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
@@ -198,9 +198,9 @@
                             </a>
 
                             <ul class="submenu">
-                                <?php 
+                                <?php
                                 if(isset($deplist[1])){
-                                foreach($deplist[2] as $depk => $depv){ 
+                                foreach($deplist[2] as $depk => $depv){
                                 ?>
                                 <li class="research_<?php echo $depk; ?>">
                                     <a href="/department/infos/<?php echo $depk; ?>">
@@ -224,7 +224,13 @@
                     </a>
 
                     <ul class="submenu">
-                        <li > 
+						<li >
+							<a  data-toggle="modal" href="#"  class="">
+								<input type="text" id="searchProject" name="searchProject" placeholder="输入搜索" style="width: 90%;" />
+							</a>
+
+						</li>
+                        <li >
                             <a  data-toggle="modal" href="#" data-target="#modal_left" class="step1_js">
                                 <i class="icon-double-angle-right"></i>
                                 <i class="icon-plus arrow blue"></i>
@@ -235,21 +241,21 @@
                                 <button type="button" class="close" id="step_close" data-dismiss="modal" aria-hidden="true"></button>
                                 <iframe id="iframe_1" src="/ResearchProject/step1" style="width:560px;min-height:400px;border-radius:4px; "  frameborder="0"> </iframe>
                             </div>
-                            
-                            
+
+
                         </li>
 
                         <?php  foreach($selfTeamList as $tk=>$tv){  ?>
-                        <li class="lye_<?php echo $tk;?>">
+                        <li class="lye_<?php echo $tk;?> project">
                             <a href="#" class="dropdown-toggle">
                                 <i class="icon-double-angle-right"></i>
                                  <?php echo $tv; ?>
                                 <b class="arrow icon-angle-down"></b>
                             </a>
                             <ul class="submenu">
-                                <?php 
+                                <?php
                                 if(isset($applyList[$tk])){
-                                foreach($applyList[$tk] as $depk => $depv){    
+                                foreach($applyList[$tk] as $depk => $depv){
                                 ?>
                                 <li class="lye_s_<?php echo $depk;?>">
                                     <a href="/ResearchProject/index/<?php echo $depk; ?>">
@@ -307,7 +313,7 @@
                         <span class="menu-text"> 系统设置 </span>
                         <b class="arrow icon-angle-down"></b>
                     </a>
-                
+
                     <ul class="submenu">
                         <li class="set_user">
                             <a href="/user/index">
@@ -322,7 +328,7 @@
                                 部门管理
                             </a>
                         </li>
-                        
+
                         <li class="set_team">
                             <a href="/Team/index">
                                 <i class="icon-double-angle-right"></i>
@@ -355,7 +361,7 @@
                     }
                     /**
                      * 左侧栏选中
-                     * f_li_class 左侧大栏的class 
+                     * f_li_class 左侧大栏的class
                      * s_li_class 大栏下面li的class
                      * t_li_class 第三栏li的class
                      * @returns {undefined}
@@ -406,5 +412,41 @@
                     }
                     //project_left_show();
                 <?php }?>
+
+				$('#searchProject').keyup(function () {
+					var search = $(this).val();
+					var parent = $(this).parent().parent().parent();
+					var project = parent.find(".project");
+					var len = project.length;
+					for(var i=0 ;i < len; i++) {
+						var displayProject = false;
+						//.project
+						project.eq(i).each(function () {
+							//li
+							$(this).find(".submenu li").each(function () {
+								var text = $(this).find("a").text();
+								if (text == "") {
+									//如果为空,恢复所有
+									$(this).css("display", "");
+									displayProject = true;
+									return true;
+								}
+								if (text.indexOf(search) > -1) {
+									//找到,清除隐藏
+									displayProject = true;
+									$(this).css("display", "");
+								} else {
+									//隐藏当前的
+									$(this).css("display", "none");
+								}
+							});
+						});
+						if (displayProject == false) {
+							project.eq(i).css("display", "none")
+						} else {
+							project.eq(i).css("display", "")
+						}
+					}
+				});
             </script>
         </div>
