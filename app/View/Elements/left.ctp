@@ -442,9 +442,13 @@
 							});
 						});
 						if (displayProject == false) {
-							project.eq(i).css("display", "none")
+							project.eq(i).css("display", "none");
 						} else {
-							project.eq(i).css("display", "")
+							project.eq(i).css("display", "");
+						}
+						//如果search为空,且下面没有Li,那也得恢复
+						if (search == "") {
+							project.eq(i).css("display", "");
 						}
 					}
 				});
