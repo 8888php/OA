@@ -11,17 +11,17 @@
         <div class="tab-content no-border ">
             <div id="faq-tab-1" class="tab-pane fade in active">
                 <form class="form-horizontal" enctype="multipart/form-data" action="/RequestNote/gss_purchase" method="post" role="form">
-                    <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' /> 
+                    <input type="hidden" name='declarename' class='declarename' value='果树所采购申请单' />
                     <input type="hidden" name="old_main_id" class="old_main_id" value="<?php echo $mainInfo['id'];?>" />
                     <table class="table  table-condensed" style="table-layout: fixed;text-align: center;border-color:#000;table-layout: fixed;" >
                         <tbody>
                             <tr>
                                 <td colspan="7" style="font-size:24px;font-weight: 600;border-color:#000;">  果树所采购申请单 </td>
                             </tr>
-                            
+
                              <tr>
                                 <td > 支出项目 </td>
-                                <td colspan='6'>  
+                                <td colspan='6'>
                                     <select style="height:25px;width:580px;" name="team" class="dep_pro" >
                                         <?php if ($is_department == 1){?>
                                         <option value="0"><?php echo $department_arr['Department']['name'];?></option>
@@ -35,25 +35,25 @@
                              </tr>
                              <tr>
                                 <td > 申报部门 </td>
-                                <td colspan='6'>  <input  type="text" class="project" name="project" value="<?php echo $attrInfo['project'];?>" style='height:25px;width:575px;'> </td>
+                                <td colspan='6'>  <input  type="text" class="project project_cgd" name="project" value="<?php echo $attrInfo['project'];?>" style='height:25px;width:575px;'> </td>
                             </tr>
                             <tr>
                                 <td >申报日期</td>
-                                <td colspan='2'> 
+                                <td colspan='2'>
                                     <input readonly="readonly" type="text" class="ctime" name="ctime" value="<?php echo !empty($attrInfo['ctime']) ? $attrInfo['ctime'] : date('Y-m-d'); ?>" style='height:25px;width:180px;'>
                                     <script type="text/javascript">
                                         $(".ctime").datetimepicker({
                                             format: 'yyyy-mm-dd',
-                                            minView: "month", //选择日期后，不会再跳转去选择时分秒 
+                                            minView: "month", //选择日期后，不会再跳转去选择时分秒
                                         });
                                     </script>
                                 <td >预算指标文号</td>
-                                <td colspan='3'> 
+                                <td colspan='3'>
                                     <input type="text" class="file_number" name="file_number" value="<?php echo $attrInfo['file_number'];?>"  style='height:25px;width:280px;'>
                              </tr>
                              <tr>
                                 <td> 资金性质 </td>
-                                <td colspan='6'>  
+                                <td colspan='6'>
                                     <label> <input type='radio' checked="checked" name="type" class="type" value='1' <?php if ($attrInfo['channel_id'] == 1){ echo "checked";}?> > 财政公用经费 </label> &nbsp;&nbsp;
                                    <label> <input type='radio' name="type" class="type" value='2' <?php if ($attrInfo['channel_id'] == 2){ echo "checked";}?> > 财政专项资金 </label> &nbsp;&nbsp;
                                    <label> <input type='radio' name="type" class="type" value='3' <?php if ($attrInfo['channel_id'] == 3){ echo "checked";}?> > 国家级项目资金 </label>
@@ -68,7 +68,7 @@
                              <tr>
                                 <td> 规格型号及详细参数 </td>
                                 <td colspan='6' >  <input  type="file" class="descripttion" name="descripttion"  > </td>
-                             </tr> 
+                             </tr>
                               <tr>
                                 <td colspan='1'> 单位：<input  type="text" class="unit" name="unit" value="<?php echo $attrInfo['company'];?>"   style='height:25px;width:47px;'> </td>
                                 <td colspan='2'> 数量：<input  type="text" class="nums" name="nums" value="<?php echo $attrInfo['number'];?>"   style='height:25px;width:90px;'> </td>
@@ -77,35 +77,35 @@
                              </tr>
                               <tr>
                                 <td  style="height: 56px; line-height: 56px;"> 采购理由 </td>
-                                <td colspan='6' >  
-                                    <!--<input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'>--> 
+                                <td colspan='6' >
+                                    <!--<input  type="text" class="reason" name="reason" value="<?php echo $attrInfo['reason'];?>" style='height:25px;width:575px;'>-->
                                     <textarea class="reason" name="reason" style="height: 56px;width:575px;"><?php echo $attrInfo['reason'];?></textarea>
                                 </td>
                              </tr>
-                             
+
                              <tr style="height: 90px;">
                                 <td > 采购需求审核</td>
                                 <td colspan='3'>
                                     需求部门负责人审核 <br /> &nbsp;&nbsp;
-                                    
+
                                     </td>
                                     <td  colspan='3'>
                                         需求部门分管领导审核 <br /> &nbsp;&nbsp;
-                                     
+
                                 </td>
                             </tr>
                              <tr style="height: 95px;">
                                 <td > <!--财务及采购审核-->财务科审核 </td>
                                 <td colspan='6'>
                                     <!--财务科审核 <br /> &nbsp;&nbsp;-->
-                                    
+
                                     </td>
                                     <!--td  colspan='3'>
                                         采购内容核对 <br /> &nbsp;&nbsp;
-                                     
+
                                 </td-->
                             </tr>
-                           
+
                             <!--tr style="height: 75px;">
                                 <td colspan='2'> 采购中心审核 </td>
                                 <td colspan='5'>  </td>
@@ -120,7 +120,7 @@
                             </tr>
                             <tr >
                                 <td colspan='2' style="line-height: 90px;"> 备注 </td>
-                                <td colspan='5' style="text-align:left;"> 
+                                <td colspan='5' style="text-align:left;">
                                     1、详细的采购物资名称和规格参数，请点击“规格型号及详细参数”一栏的“选择文件”，将提前编辑好的《采购明细表》作为附件上传；<br />
 				    2、购买农家肥时，必须在“采购理由”一栏注明施肥面积；<br />
 				    3、科研项目填写此表时，支出项目名称必须准确填写，与计划任务书（或项目合同书）完全一致；<br />
@@ -195,7 +195,7 @@ function printDIV(){
     function approve() {
         var ctime = $('.ctime').val();
         var department = $('.department').val();
-        var project = $('.project').val();
+        var project = $('.project_cgd').val();
         var type = $('.type:checked').val();
         var file_number = $('.file_number').val();
         var material_name = $('.material_name').val();
@@ -207,7 +207,7 @@ function printDIV(){
         var reason = $('.reason').val();
         var declarename = $('.declarename').val();
         var dep_team = $('.dep_pro').val();
-        
+
         if (department == '') {
             $('.department').focus();
             return;
