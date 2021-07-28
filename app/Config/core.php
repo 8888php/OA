@@ -774,7 +774,7 @@ Configure::write('select_apply',array(
 
 //资金来源类型
 //Configure::write('qd_arr', array('省级','中央','同级','企业','非本级','本级横向'));
-Configure::write('qd_arr',array('国家级','省级','院级','其它'));
+Configure::write('qd_arr',array('国家级','省级','院级','校级','其它'));
 
 
 
