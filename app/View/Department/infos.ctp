@@ -104,7 +104,7 @@
 
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                类型: <?php switch($depInfo['Department']['type']){   
+                                                                类型: <?php switch($depInfo['Department']['type']){
                                                                 case 1: echo '行政';break;
                                                                 case 2: echo '科研';break;
                                                                 }
@@ -112,23 +112,23 @@
                                                             </li>
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                分管所领导：<b class="blue"> <?php  
+                                                                分管所领导：<b class="blue"> <?php
                                                                     foreach($depMember as $mk => $mv){
                                                                     if($depInfo['Department']['sld'] == $mv['User']['id']){
                                                                     echo $mv['User']['name'];
                                                                     }                                                                                                        } ?> </b>
                                                             </li>
-                                                            
+
                                                             <li>
                                                                 <i class="icon-caret-right blue"></i>
-                                                                负责人：<b class="blue"> <?php  
+                                                                负责人：<b class="blue"> <?php
                                                                     foreach($depMember as $mk => $mv){
                                                                     if($depInfo['Department']['user_id'] == $mv['User']['id']){
                                                                     echo $mv['User']['name'];
                                                                     }                                                                                                        } ?>  </b>
                                                             </li>
-                                                            
-                                                            
+
+
 
                                                             <li class="divider"></li>
 
@@ -159,15 +159,15 @@
                                                         </a>
                                                     </li-->
                                                     <!--如果是茹爱玲,显示所有的党证总站,科研项目,汇总报销,id=44-->
-                                                <?php if(in_array($userInfo->id, array(2, 4, 6, 44, $depInfo['Department']['sld'], $depInfo['Department']['user_id'] ))){ ;?>
+                                                <?php if(in_array($userInfo->id, array(1 ,2, 4, 6, 44, $depInfo['Department']['sld'], $depInfo['Department']['user_id'] ))){ ;?>
                                                     <li >
                                                         <a data-toggle="tab" href="#faq-tab-3">
                                                             <i class="blue icon-question-sign bigger-120"></i>
                                                             申报费用
                                                         </a>
                                                     </li>
-                                                
-                                                
+
+
                                                 <li >
                                                         <a  data-toggle="tab" href="#faq-tab-4">
                                                             <i class="orange icon-list-alt bigger-120"></i>
@@ -220,7 +220,7 @@
                                                                 </tr-->
                                                             </thead>
                                                             <tbody>
-                                                                <?php  
+                                                                <?php
                                                                 foreach($costList as $ysk => $ysv){  ?>
                                                                 <tr>
                                                                     <?php foreach($ysv as $k => $v){ ?>
@@ -246,27 +246,27 @@
                                                                     <td width='100px'>核算</td>
                                                                     <td width='100px'>摘要</td>
                                                                     <td width='100'>申报总额</td>
-                                                                    <?php foreach(Configure::read('xizhenglist') as $tdv){  
-                                                                    foreach($tdv as $lv){  
-                                                                    echo  "<td width='130'>" . $lv . '</td>'; 
+                                                                    <?php foreach(Configure::read('xizhenglist') as $tdv){
+                                                                    foreach($tdv as $lv){
+                                                                    echo  "<td width='130'>" . $lv . '</td>';
                                                                     }
                                                                     }
-                                                                    ?>  
+                                                                    ?>
                                                                     <td width='100'>审批进度</td>
                                                                 </tr>
-                                                                <?php foreach($declares_arr as $d){?>        
+                                                                <?php foreach($declares_arr as $d){?>
                                                                 <tr>
                                                                     <td><?php echo $d['m']['id'];  ?></td>
-                                                                    <td> 
+                                                                    <td>
                                                                     <a data-toggle="modal" data-remote="true" data-target="#modal_wait" href="#" style="text-decoration:none;" onclick="$('#modal-body').load('/office/<?php echo $d['m']['table_name'];?>_print/<?php echo $d['m']['id'];?>');"><i class='glyphicon glyphicon-print blue'></i> </a>
                                                                     </td>
                                                                     <td><?php echo $d['m']['ctime'];  ?></td>
                                                                     <td><?php echo $d['u']['name']; ?> </td>
                                                                     <td><?php echo  $d['m']['is_calculation'] == 1 ? '是' : '否';  ?></td>
-                                                                    
+
                                                                     <td> <?php echo $attr_arr[$d['m']['id']]['b']['description']; ?> </td>
                                                                     <td> <?php echo $d['m']['total'];  ?> </td>
-                                                                    <?php 
+                                                                    <?php
                                                                     $json_data = json_decode($d['m']['subject'],true);
                                                                     foreach($xizhenglist as $k) {
                                                                     foreach($k as $kk=>$kv) {
@@ -281,11 +281,11 @@
                                                                 <?php }?>
                                                             </tbody>
                                                         </table>
-                                                    </div>                                                
-                                                    
+                                                    </div>
+
                                                    <div id="faq-tab-4" class="tab-pane fade  ">
                                                         <table class="table table-striped table-bordered" style='width:80%;float:left;margin-left:15px;border:1px solid #ccc;font-size:11px;'>
-                                                        
+
                                                         <thead>
                                                             <tr>
                                                                 <th>NO.</th>
@@ -293,10 +293,10 @@
                                                                 <th>文号</th>
                                                                 <th>金额</th>
                                                                 <th>年度</th>
-                                                                
+
                                                                 <?php  //if($depInfo['Department']['user_id'] == $userInfo->id){  ?>
                                                                 <?php  if($is_dailirong_yujing){  ?>
-                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;height:32px;margin-left: 20px;" onclick="$('#modal-body').load('/Department/add_filenumber/<?php echo $d_id;?>');" > <i class="icon-plus arrow blue"></i> </a> 
+                                                    <a data-toggle="modal" data-remote='true'   data-target="#modal_wait" href="#" style="text-decoration:none;height:32px;margin-left: 20px;" onclick="$('#modal-body').load('/Department/add_filenumber/<?php echo $d_id;?>');" > <i class="icon-plus arrow blue"></i> </a>
                                                             <?php  } ?>
                                                             </tr>
                                                         </thead>
@@ -396,7 +396,7 @@ window.jQuery || document.write("<script src='/js/jquery-1.10.2.min.js'>"+"<"+"/
             //有问题，暂时不处理
             window.location = '/homes/index';
         <?php }  ?>
-        
+
         jQuery(function ($) {
             $('.accordion').on('hide', function (e) {
     $(e.target).prev().children(0).addClass('collapsed');
